@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.15% </span>
+                <span class="strong">54.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>246/446</span>
+                <span class='fraction'>235/434</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.61% </span>
+                <span class="strong">50.54% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>48/93</span>
+                <span class='fraction'>46/91</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">51.02% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>28/52</span>
+                <span class='fraction'>25/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.14% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>231/339</span>
+                <span class='fraction'>220/330</span>
             </div>
         
             
@@ -393,16 +393,7 @@
 <a name='L328'></a><a href='#L328'>328</a>
 <a name='L329'></a><a href='#L329'>329</a>
 <a name='L330'></a><a href='#L330'>330</a>
-<a name='L331'></a><a href='#L331'>331</a>
-<a name='L332'></a><a href='#L332'>332</a>
-<a name='L333'></a><a href='#L333'>333</a>
-<a name='L334'></a><a href='#L334'>334</a>
-<a name='L335'></a><a href='#L335'>335</a>
-<a name='L336'></a><a href='#L336'>336</a>
-<a name='L337'></a><a href='#L337'>337</a>
-<a name='L338'></a><a href='#L338'>338</a>
-<a name='L339'></a><a href='#L339'>339</a>
-<a name='L340'></a><a href='#L340'>340</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">132x</span>
+<a name='L331'></a><a href='#L331'>331</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
@@ -421,7 +412,6 @@
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
-<span class="cline-any cline-yes">220x</span>
 <span class="cline-any cline-yes">220x</span>
 <span class="cline-any cline-yes">220x</span>
 <span class="cline-any cline-yes">220x</span>
@@ -442,8 +432,6 @@
 <span class="cline-any cline-yes">215x</span>
 <span class="cline-any cline-yes">215x</span>
 <span class="cline-any cline-yes">215x</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
 <span class="cline-any cline-yes">220x</span>
 <span class="cline-any cline-yes">220x</span>
 <span class="cline-any cline-yes">132x</span>
@@ -494,12 +482,9 @@
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -544,9 +529,6 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -733,11 +715,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -769,21 +751,18 @@ export const fetchNetworks = <span class="fstat-no" title="function not covered"
     isFineGrained,
     networkEntitlements,
   );
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/networks?project=${project}&amp;recursion=1${targetParam}${entitlements}`,
-    )
-      .then(handleResponse)
-      .then((data: LxdApiResponse&lt;LxdNetwork[]&gt;) =&gt; {
-        const filteredNetworks = <span class="cstat-no" title="statement not covered" >data.metadata.filter(</span>
-          // Filter out loopback and unknown networks, both are not useful for the user.
-          // this is in line with the filtering done in the LXD CLI
-<span class="fstat-no" title="function not covered" >          (n</span>etwork) =&gt; <span class="cstat-no" title="statement not covered" >!["loopback", "unknown"].includes(network.type),</span>
-        );
-<span class="cstat-no" title="statement not covered" >        resolve(filteredNetworks);</span>
-      })
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/networks?project=${project}&amp;recursion=1${targetParam}${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse&lt;LxdNetwork[]&gt;) =&gt; {
+      const filteredNetworks = <span class="cstat-no" title="statement not covered" >data.metadata.filter(</span>
+        // Filter out loopback and unknown networks, both are not useful for the user.
+        // this is in line with the filtering done in the LXD CLI
+<span class="fstat-no" title="function not covered" >        (n</span>etwork) =&gt; <span class="cstat-no" title="statement not covered" >!["loopback", "unknown"].includes(network.type),</span>
+      );
+<span class="cstat-no" title="statement not covered" >      return filteredNetworks;</span>
+    });
 };
 &nbsp;
 export const fetchNetworksFromClusterMembers = <span class="fstat-no" title="function not covered" >async (</span>
@@ -828,16 +807,13 @@ export const fetchNetwork = <span class="fstat-no" title="function not covered" 
     isFineGrained,
     networkEntitlements,
   );
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
-    )
-      .then(handleEtagResponse)
-      .then((data) =&gt; {
-<span class="cstat-no" title="statement not covered" >        resolve(data as LxdNetwork);</span>
-      })
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
+  )
+    .then(handleEtagResponse)
+    .then((data) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data as LxdNetwork;</span>
+    });
 };
 &nbsp;
 export const fetchNetworkFromClusterMembers = <span class="fstat-no" title="function not covered" >async (</span>
@@ -877,14 +853,11 @@ export const fetchNetworkState = <span class="fstat-no" title="function not cove
   target?: string,
 ): Promise&lt;LxdNetworkState&gt; =&gt; {
   const targetParam = <span class="cstat-no" title="statement not covered" >target ? `&amp;target=${target}` : "";</span>
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)</span>
-      .then(handleResponse)
-      .then((data: LxdApiResponse&lt;LxdNetworkState&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >        resolve(data.metadata);</span>
-      })
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)</span>
+    .then(handleResponse)
+    .then((data: LxdApiResponse&lt;LxdNetworkState&gt;) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+    });
 };
 &nbsp;
 export const createClusterNetwork = <span class="fstat-no" title="function not covered" >async (</span>
@@ -1072,11 +1045,11 @@ export const deleteNetwork = <span class="fstat-no" title="function not covered"
           const response = <span class="cstat-no" title="statement not covered" >await fetch(</span>
             `/1.0/networks/${name}?project=${project}`,
           );
-<span class="cstat-no" title="statement not covered" >          if (response.status === 404) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          if (response.status === 404) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            resolve();</span></span>
 <span class="cstat-no" title="statement not covered" >          }</span>
         }
-<span class="cstat-no" title="statement not covered" >        reject(e);</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        reject(e);</span></span>
       });
   });
 };
@@ -1087,7 +1060,7 @@ export const deleteNetwork = <span class="fstat-no" title="function not covered"
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-21T14:33:14.956Z
+                at 2025-05-21T15:24:51.989Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

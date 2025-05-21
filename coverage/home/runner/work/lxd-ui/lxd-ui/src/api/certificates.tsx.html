@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.42% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/35</span>
+                <span class='fraction'>15/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">65% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/28</span>
+                <span class='fraction'>13/20</span>
             </div>
         
             
@@ -83,35 +83,19 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-yes">265x</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -124,28 +108,20 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdCertificate } from "types/certificate";
 &nbsp;
 export const fetchCertificates = <span class="fstat-no" title="function not covered" >async (): Promise&lt;LxdCertificate[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch("/1.0/certificates?recursion=1")</span>
-      .then(handleResponse)
-      .then((data: LxdApiResponse&lt;LxdCertificate[]&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >        resolve(data.metadata);</span>
-      })
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch("/1.0/certificates?recursion=1")</span>
+    .then(handleResponse)
+    .then((data: LxdApiResponse&lt;LxdCertificate[]&gt;) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+    });
 };
 &nbsp;
 export const addCertificate = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (t</span>oken: string): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    fetch(`/1.0/auth/identities/tls`, {</span></span>
-<span class="cstat-no" title="statement not covered" >      method: "POST",</span>
-<span class="cstat-no" title="statement not covered" >      body: JSON.stringify({</span>
-<span class="cstat-no" title="statement not covered" >        trust_token: token,</span>
-<span class="cstat-no" title="statement not covered" >      }),</span>
-<span class="cstat-no" title="statement not covered" >    })</span>
-<span class="cstat-no" title="statement not covered" >      .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >      .then(resolve)</span>
-<span class="cstat-no" title="statement not covered" >      .catch(reject);</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identities/tls`, {</span></span>
+<span class="cstat-no" title="statement not covered" >    method: "POST",</span>
+<span class="cstat-no" title="statement not covered" >    body: JSON.stringify({</span>
+<span class="cstat-no" title="statement not covered" >      trust_token: token,</span>
+<span class="cstat-no" title="statement not covered" >    }),</span>
+<span class="cstat-no" title="statement not covered" >  }).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -154,7 +130,7 @@ export const addCertificate = <span class="fstat-no" title="function not covered
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-21T14:33:14.956Z
+                at 2025-05-21T15:24:51.989Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

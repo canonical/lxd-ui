@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.66% </span>
+                <span class="strong">64.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>109/166</span>
+                <span class='fraction'>104/161</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.85% </span>
+                <span class="strong">77.03% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/140</span>
+                <span class='fraction'>104/135</span>
             </div>
         
             
@@ -198,12 +198,7 @@
 <a name='L133'></a><a href='#L133'>133</a>
 <a name='L134'></a><a href='#L134'>134</a>
 <a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a>
-<a name='L137'></a><a href='#L137'>137</a>
-<a name='L138'></a><a href='#L138'>138</a>
-<a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -231,10 +226,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -300,7 +293,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -321,10 +313,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -355,39 +345,37 @@ export const createInstanceSnapshot = <span class="cstat-no" title="statement no
   expiresAt: string | null,
   stateful: boolean,
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name,
-          expires_at: expiresAt,
-          stateful,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        expires_at: expiresAt,
+        stateful,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data;</span>
+    });
 };
 &nbsp;
 export const deleteInstanceSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   instance: LxdInstance,
   snapshot: { name: string },
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
-      {
-        method: "DELETE",
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    {
+      method: "DELETE",
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data;</span>
+    });
 };
 &nbsp;
 export const deleteInstanceSnapshotBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
@@ -428,18 +416,17 @@ export const restoreInstanceSnapshot = <span class="cstat-no" title="statement n
   snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {</span>
-      method: "PUT",
-      body: JSON.stringify({
-        restore: snapshot.name,
-        stateful: snapshot.stateful ? restoreState : false,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {</span>
+    method: "PUT",
+    body: JSON.stringify({
+      restore: snapshot.name,
+      stateful: snapshot.stateful ? restoreState : false,
+    }),
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data;</span>
+    });
 };
 &nbsp;
 export const renameInstanceSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
@@ -447,20 +434,19 @@ export const renameInstanceSnapshot = <span class="cstat-no" title="statement no
   snapshot: LxdInstanceSnapshot,
   newName: string,
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: newName,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data;</span>
+    });
 };
 &nbsp;
 export const updateInstanceSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
@@ -468,20 +454,19 @@ export const updateInstanceSnapshot = <span class="cstat-no" title="statement no
   snapshot: LxdInstanceSnapshot,
   expiresAt: string,
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          expires_at: expiresAt,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        expires_at: expiresAt,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data;</span>
+    });
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -490,7 +475,7 @@ export const updateInstanceSnapshot = <span class="cstat-no" title="statement no
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-21T14:33:14.956Z
+                at 2025-05-21T15:24:51.989Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
