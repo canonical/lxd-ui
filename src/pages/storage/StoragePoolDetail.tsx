@@ -11,6 +11,7 @@ import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
+import { isBucketCompatibleDriver } from "api/storage-buckets";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -56,6 +57,21 @@ const StoragePoolDetail: FC = () => {
       ),
       label: "Volumes",
     },
+    ...(isBucketCompatibleDriver(pool.driver)
+      ? [
+          {
+            component: () => (
+              <Link
+                to={`/ui/project/${project}/storage/buckets?pool=${pool.name}`}
+                className="p-tabs__link"
+              >
+                Buckets <Icon name="external-link" />
+              </Link>
+            ),
+            label: "Buckets",
+          },
+        ]
+      : []),
   ];
 
   return (
