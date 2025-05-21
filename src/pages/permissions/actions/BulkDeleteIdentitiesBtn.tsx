@@ -63,7 +63,6 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
         });
         toastNotify.success(successMessage);
         setLoading(false);
-        close();
       })
       .catch((e) => {
         notify.failure(`Identity deletion failed`, e);
