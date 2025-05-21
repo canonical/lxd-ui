@@ -6,23 +6,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { deleteWarningBulk } from "api/warnings";
 import { pluralize } from "util/instanceBulkActions";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   warningIds: string[];
-  canDeleteWarnings: boolean;
   onStart?: () => void;
   onFinish?: () => void;
 }
 
-const BulkDeleteWarningBtn: FC<Props> = ({
-  warningIds,
-  canDeleteWarnings,
-  onStart,
-  onFinish,
-}) => {
+const BulkDeleteWarningBtn: FC<Props> = ({ warningIds, onStart, onFinish }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
+  const { canEditServerConfiguration } = useServerEntitlements();
+  const canDeleteWarnings = canEditServerConfiguration();
 
   const handleDelete = () => {
     setLoading(true);
@@ -32,7 +29,9 @@ const BulkDeleteWarningBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.warnings],
         });
-        toastNotify.success(<>Warning deleted.</>);
+        toastNotify.success(
+          <>{pluralize("Warning", warningIds.length)} deleted.</>,
+        );
       })
       .catch((e) => {
         toastNotify.failure("Warning deletion failed", e);

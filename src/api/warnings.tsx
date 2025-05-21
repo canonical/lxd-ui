@@ -1,20 +1,9 @@
-import { handleResponse } from "util/helpers";
+import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdWarning } from "types/warning";
 import type { LxdApiResponse } from "types/apiResponse";
-import { withEntitlementsQuery } from "util/entitlements/api";
-import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 
-export const warningEntitlements = ["can_delete"];
-
-export const fetchWarnings = async (
-  isFineGrained: boolean | null,
-): Promise<LxdWarning[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    warningEntitlements,
-  );
-
-  return fetch(`/1.0/warnings?recursion=1${entitlements}`)
+export const fetchWarnings = async (): Promise<LxdWarning[]> => {
+  return fetch(`/1.0/warnings?recursion=1`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdWarning[]>) => {
       return data.metadata;
@@ -29,21 +18,8 @@ export const deleteWarning = async (warningId: string): Promise<unknown> => {
 
 export const deleteWarningBulk = async (
   warningIds: string[],
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      warningIds.map(async (warningId) => {
-        return deleteWarning(warningId)
-          .then(() => {
-            pushSuccess(results);
-            continueOrFinish(results, warningIds.length, resolve);
-          })
-          .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
-            continueOrFinish(results, warningIds.length, resolve);
-          });
-      }),
-    ).catch(reject);
-  });
+): Promise<void> => {
+  return Promise.allSettled(
+    warningIds.map(async (warningId) => deleteWarning(warningId)),
+  ).then(handleSettledResult);
 };
