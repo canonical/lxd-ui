@@ -171,7 +171,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             />
           </>
         )}
-        <NetworkAcls project={project} formik={formik} />
+        {isManagedNetwork && <NetworkAcls project={project} formik={formik} />}
         {!formik.values.isCreating && (
           <NetworkStatistics formik={formik} project={project} />
         )}
