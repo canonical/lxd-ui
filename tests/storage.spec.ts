@@ -189,3 +189,15 @@ test("copy custom storage volume", async ({ page }) => {
   await deletePool(page, pool);
   await deleteProject(page, project);
 });
+
+test("Export a volume backup", async ({ page }) => {
+  await visitVolume(page, volume);
+  const downloadPromise = page.waitForEvent("download");
+
+  await page.getByRole("button", { name: "Export" }).click();
+  await page.getByRole("button", { name: "Export volume" }).click();
+  const download = await downloadPromise;
+  await page.waitForSelector(`text=Volume ${volume} download started`);
+  const VOLUME_FILE = "tests/fixtures/volume.tar.gz";
+  await download.saveAs(VOLUME_FILE);
+});
