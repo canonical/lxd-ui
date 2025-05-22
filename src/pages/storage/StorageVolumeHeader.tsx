@@ -8,15 +8,11 @@ import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
 import { hasLocation, testCopyStorageVolumeName } from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
-import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
-import MigrateVolumeBtn from "./MigrateVolumeBtn";
-import CopyVolumeBtn from "./actions/CopyVolumeBtn";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
-import ResourceLabel from "components/ResourceLabel";
 import { renameStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import StorageVolumeDetailActions from "./StorageVolumeDetailActions";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -28,7 +24,6 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
-  const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
   const { canEditVolume } = useStorageVolumeEntitlements();
 
   const getDisabledReason = (volume: LxdStorageVolume) => {
@@ -90,8 +85,6 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
     },
   });
 
-  const classname = "p-segmented-control__button";
-
   return (
     <RenameHeader
       name={volume.name}
@@ -101,36 +94,9 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         </Link>,
       ]}
       controls={
-        <div className="p-segmented-control">
-          <div className="p-segmented-control__list">
-            <MigrateVolumeBtn
-              volume={volume}
-              project={project}
-              classname={classname}
-            />
-            {hasClusterInternalCustomVolumeCopy && (
-              <CopyVolumeBtn volume={volume} className={classname} />
-            )}
-            <DeleteStorageVolumeBtn
-              label="Delete"
-              volume={volume}
-              project={project}
-              appearance=""
-              hasIcon={true}
-              onFinish={() => {
-                navigate(`/ui/project/${project}/storage/volumes`);
-                toastNotify.success(
-                  <>
-                    Storage volume{" "}
-                    <ResourceLabel bold type="volume" value={volume.name} />{" "}
-                    deleted.
-                  </>,
-                );
-              }}
-              classname={classname}
-            />
-          </div>
-        </div>
+        volume ? (
+          <StorageVolumeDetailActions project={project} volume={volume} />
+        ) : null
       }
       isLoaded={true}
       formik={formik}

@@ -10,6 +10,7 @@ import {
 } from "@canonical/react-components";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { deleteStorageVolume } from "api/storage-volumes";
+import classNames from "classnames";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -104,7 +105,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
         onConfirm: handleDelete,
       }}
       appearance={appearance}
-      className={classname}
+      className={classNames("u-no-margin--bottom has-icon", classname)}
       shiftClickEnabled
       showShiftClickHint
       disabled={!canDeleteVolume(volume) || Boolean(disabledReason)}

@@ -366,7 +366,8 @@ body {
 .copy-instances-modal,
 .copy-volumes-modal,
 .create-image-from-instance-modal,
-.export-instance-modal {
+.export-instance-modal,
+.export-volume-modal {
   .p-modal__dialog {
     @include large {
       width: 35rem;

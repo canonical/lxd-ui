@@ -5,14 +5,15 @@ import type { LxdStorageVolume } from "types/storage";
 import { usePortal } from "@canonical/react-components";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import classNames from "classnames";
 
 interface Props {
   volume: LxdStorageVolume;
   onClose?: () => void;
-  className?: string;
+  classname?: string;
 }
 
-const CopyVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
+const CopyVolumeBtn: FC<Props> = ({ volume, classname, onClose }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canCreateStorageVolumes } = useProjectEntitlements();
   const { data: project } = useProject(volume.project);
@@ -32,7 +33,7 @@ const CopyVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
       <Button
         appearance="default"
         aria-label="Copy volume"
-        className={className}
+        className={classNames("u-no-margin--bottom has-icon", classname)}
         onClick={openPortal}
         title={
           canCreateStorageVolumes(project)
