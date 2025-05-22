@@ -242,9 +242,7 @@ export const getElementAbsoluteHeight = (element: HTMLElement) => {
   }
   const style = window.getComputedStyle(element);
   const margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom);
-  const padding =
-    parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-  return element.offsetHeight + margin + padding + 1;
+  return element.offsetHeight + margin + 1;
 };
 
 export const getAbsoluteHeightBelowById = (belowId: string): number => {
