@@ -6,6 +6,7 @@ import { checkDuplicateName, getFileExtension } from "./helpers";
 import * as Yup from "yup";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
+import type { LxdInstance } from "types/instance";
 
 export const instanceLinkFromOperation = (args: {
   operation?: LxdOperationResponse;
@@ -85,4 +86,8 @@ export const fileToInstanceName = (
   const sanitisedFileName = sanitizeInstanceName(fileName);
   const instanceName = truncateInstanceName(sanitisedFileName, suffix);
   return instanceName;
+};
+
+export const getInstanceKey = (instance: LxdInstance) => {
+  return `${instance.name} ${instance.project}`;
 };

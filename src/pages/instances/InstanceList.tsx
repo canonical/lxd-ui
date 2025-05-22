@@ -58,7 +58,7 @@ import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
-import type { LxdInstance, LxdInstanceStatus } from "types/instance";
+import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
@@ -72,6 +72,7 @@ import { useIsClustered } from "context/useIsClustered";
 import { useProject } from "context/useProjects";
 import InstanceClusterMemberChip from "pages/instances/InstanceClusterMemberChip";
 import InstanceProjectChip from "pages/instances/InstanceProjectChip";
+import { getInstanceKey } from "util/instances";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -214,10 +215,6 @@ const InstanceList: FC = () => {
     return true;
   });
 
-  const getInstanceKey = (instance: LxdInstance) => {
-    return `${instance.name} ${instance.project}`;
-  };
-
   useEffect(() => {
     const validKeys = new Set(filteredInstances.map(getInstanceKey));
     const validSelections = selectedNames.filter((name) => validKeys.has(name));
@@ -229,7 +226,11 @@ const InstanceList: FC = () => {
   useEffect(() => {
     if (panelParams.instance) {
       if (
-        !instances.some((instance) => instance.name === panelParams.instance)
+        !instances.some(
+          (instance) =>
+            instance.name === panelParams.instance &&
+            instance.project === panelParams.project,
+        )
       ) {
         panelParams.clear();
       }
