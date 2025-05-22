@@ -226,7 +226,11 @@ const InstanceList: FC = () => {
   useEffect(() => {
     if (panelParams.instance) {
       if (
-        !instances.some((instance) => instance.name === panelParams.instance)
+        !instances.some(
+          (instance) =>
+            instance.name === panelParams.instance &&
+            instance.project === panelParams.project,
+        )
       ) {
         panelParams.clear();
       }
