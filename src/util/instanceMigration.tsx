@@ -117,7 +117,7 @@ export const useInstanceMigration = ({
 
   const handleFinish = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.instances, instance.name],
+      queryKey: [queryKeys.instances, instance.name, instance.project],
     });
     instanceLoading.setFinish(instance);
   };
