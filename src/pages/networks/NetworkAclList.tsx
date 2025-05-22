@@ -101,6 +101,26 @@ const NetworkAclList: FC = () => {
     return <Loader isMainComponent />;
   }
 
+  const createAclButton = (
+    <Button
+      appearance="positive"
+      className="u-no-margin--bottom"
+      hasIcon
+      onClick={async () =>
+        navigate(`/ui/project/${project}/network-acls/create`)
+      }
+      disabled={!canCreateNetworkAcls(currentProject)}
+      title={
+        canCreateNetworkAcls(currentProject)
+          ? ""
+          : "You do not have permission to create ACLs in this project"
+      }
+    >
+      <Icon name="plus" light />
+      <span>Create ACL</span>
+    </Button>
+  );
+
   return (
     <CustomLayout
       header={
@@ -116,23 +136,7 @@ const NetworkAclList: FC = () => {
             </PageHeader.Title>
           </PageHeader.Left>
           <PageHeader.BaseActions>
-            <Button
-              appearance="positive"
-              className="u-no-margin--bottom"
-              hasIcon
-              onClick={async () =>
-                navigate(`/ui/project/${project}/network-acls/create`)
-              }
-              disabled={!canCreateNetworkAcls(currentProject)}
-              title={
-                canCreateNetworkAcls(currentProject)
-                  ? ""
-                  : "You do not have permission to create ACLs in this project"
-              }
-            >
-              <Icon name="plus" light />
-              <span>Create ACL</span>
-            </Button>
+            {networkAcls.length > 0 && createAclButton}
           </PageHeader.BaseActions>
         </PageHeader>
       }
@@ -165,6 +169,7 @@ const NetworkAclList: FC = () => {
                 <Icon className="external-link-icon" name="external-link" />
               </a>
             </p>
+            {createAclButton}
           </EmptyState>
         )}
       </Row>

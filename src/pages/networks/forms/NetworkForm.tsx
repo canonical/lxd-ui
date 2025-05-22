@@ -254,6 +254,8 @@ const NetworkForm: FC<Props> = ({
     return () => wrapper?.removeEventListener("scroll", scrollListener);
   }, [availableSections]);
 
+  const isUnmanagedNetwork = formik.values.bareNetwork?.managed === false;
+
   return (
     <div className="network-form">
       <ScrollableContainer
@@ -328,8 +330,12 @@ const NetworkForm: FC<Props> = ({
                 ensureEditMode(formik);
                 formik.setFieldValue("yaml", yaml);
               }}
-              readOnly={!!formik.values.editRestriction}
-              readOnlyMessage={formik.values.editRestriction}
+              readOnly={!!formik.values.editRestriction || isUnmanagedNetwork}
+              readOnlyMessage={
+                isUnmanagedNetwork
+                  ? "Unmanaged networks are read only"
+                  : formik.values.editRestriction
+              }
             >
               <YamlNotification
                 entity="network"
