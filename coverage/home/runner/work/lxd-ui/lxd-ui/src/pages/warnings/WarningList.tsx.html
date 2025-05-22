@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.48% </span>
+                <span class="strong">84.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>187/224</span>
+                <span class='fraction'>183/217</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.96% </span>
+                <span class="strong">93.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>185/199</span>
+                <span class='fraction'>181/194</span>
             </div>
         
             
@@ -257,12 +257,7 @@
 <a name='L192'></a><a href='#L192'>192</a>
 <a name='L193'></a><a href='#L193'>193</a>
 <a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a>
-<a name='L199'></a><a href='#L199'>199</a>
-<a name='L200'></a><a href='#L200'>200</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L195'></a><a href='#L195'>195</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -280,10 +275,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -411,7 +402,6 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -473,20 +463,16 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
-import { useAuth } from "context/auth";
 import SelectableMainTable from "components/SelectableMainTable";
 import ScrollableTable from "components/ScrollableTable";
 import PageHeader from "components/PageHeader";
 import CustomLayout from "components/CustomLayout";
-import { useWarningEntitlements } from "util/entitlements/warnings";
 &nbsp;
 const WarningList: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const [selectedNames, setSelectedNames] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
   const [processingNames, setProcessingNames] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
-  const { canDeleteWarning } = <span class="cstat-no" title="statement not covered" >useWarningEntitlements();</span>
 &nbsp;
   const {
     data: warnings = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
@@ -494,7 +480,7 @@ const WarningList: FC = <span class="cstat-no" title="statement not covered" ><s
     isLoading,
   } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
     queryKey: [queryKeys.warnings],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchWarnings(isFineGrained),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchWarnings(),</span>
     retry: false, // the api returns a 403 for users with limited permissions, surface the error right away
   });
 &nbsp;
@@ -612,7 +598,6 @@ const WarningList: FC = <span class="cstat-no" title="statement not covered" ><s
             {selectedNames.length &gt; <span class="branch-0 cbranch-no" title="branch not covered" >0 &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;BulkDeleteWarningBtn</span>
 <span class="cstat-no" title="statement not covered" >                warningIds={selectedNames}</span>
-<span class="cstat-no" title="statement not covered" >                canDeleteWarnings={canDeleteWarning(warnings[0])}</span>
 <span class="cstat-no" title="statement not covered" >                onStart={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  setProcessingNames(selectedNames);</span></span>
 <span class="cstat-no" title="statement not covered" >                }}</span>
@@ -667,7 +652,7 @@ export default WarningList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-21T22:47:06.644Z
+                at 2025-05-22T08:58:47.093Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
