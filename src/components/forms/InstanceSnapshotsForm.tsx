@@ -7,7 +7,7 @@ import type {
 } from "./instanceAndProfileFormValues";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -23,11 +23,11 @@ export interface SnapshotFormValues {
 
 export const snapshotsPayload = (values: InstanceAndProfileFormValues) => {
   return {
-    [getInstanceKey("snapshots_pattern")]: values.snapshots_pattern,
-    [getInstanceKey("snapshots_schedule_stopped")]:
+    [getInstanceField("snapshots_pattern")]: values.snapshots_pattern,
+    [getInstanceField("snapshots_schedule_stopped")]:
       values.snapshots_schedule_stopped,
-    [getInstanceKey("snapshots_schedule")]: values.snapshots_schedule,
-    [getInstanceKey("snapshots_expiry")]: values.snapshots_expiry,
+    [getInstanceField("snapshots_schedule")]: values.snapshots_schedule,
+    [getInstanceField("snapshots_expiry")]: values.snapshots_expiry,
   };
 };
 
