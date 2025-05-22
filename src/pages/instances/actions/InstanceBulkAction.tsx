@@ -11,6 +11,7 @@ import {
   statusLabel,
 } from "util/instanceBulkActions";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
+import { getInstanceKey } from "util/instances";
 
 interface Props {
   action: LxdInstanceAction;
@@ -59,7 +60,7 @@ const InstanceBulkAction: FC<Props> = ({
     const count = instances.filter(
       (instance) =>
         instance.status === currentState &&
-        !restrictedInstances.includes(instance.name),
+        !restrictedInstances.includes(getInstanceKey(instance)),
     ).length;
 
     if (count === 0) {
