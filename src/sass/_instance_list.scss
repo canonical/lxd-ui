@@ -114,4 +114,8 @@
   label {
     margin-left: 1rem;
   }
+
+  .size-hidden > * {
+    opacity: 0.33;
+  }
 }
