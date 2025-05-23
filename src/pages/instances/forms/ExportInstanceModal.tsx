@@ -75,7 +75,9 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
       compression_algorithm: values.compression,
       instance_only: values.instanceOnly,
       optimized_storage: values.optimizedStorage,
-      version: hasBackupMetadataVersion ? values.exportVersion : undefined,
+      version: hasBackupMetadataVersion
+        ? Number(values.exportVersion)
+        : undefined,
     });
 
     createInstanceBackup(instance.name, instance.project, payload)
