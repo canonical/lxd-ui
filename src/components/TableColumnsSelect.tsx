@@ -83,12 +83,14 @@ const TableColumnsSelect = ({
             {wrapTooltip(
               <CheckboxInput
                 aria-label={column}
+                labelClassName={classnames({
+                  "size-hidden": sizeHidden.includes(column),
+                })}
                 checked={!hidden.includes(column)}
                 label={column}
                 onChange={() => {
                   toggleHiddenColumn(column);
                 }}
-                disabled={sizeHidden.includes(column)}
               />,
               column,
             )}

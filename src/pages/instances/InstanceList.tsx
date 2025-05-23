@@ -36,20 +36,20 @@ import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   ACTIONS,
+  CLUSTER_MEMBER,
   COLUMN_WIDTHS,
   CREATION_SPAN_COLUMNS,
   DESCRIPTION,
+  FILESYSTEM,
   IPV4,
   IPV6,
-  CLUSTER_MEMBER,
+  MEMORY,
   NAME,
+  PROJECT,
   SIZE_HIDEABLE_COLUMNS,
   SNAPSHOTS,
   STATUS,
   TYPE,
-  MEMORY,
-  FILESYSTEM,
-  PROJECT,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
@@ -728,7 +728,12 @@ const InstanceList: FC = () => {
                         IPV4,
                         IPV6,
                         SNAPSHOTS,
-                      ]}
+                      ].filter((column) => {
+                        if (column === CLUSTER_MEMBER && !isClustered) {
+                          return false;
+                        }
+                        return true;
+                      })}
                       hidden={userHidden}
                       sizeHidden={sizeHidden}
                       setHidden={setHidden}
