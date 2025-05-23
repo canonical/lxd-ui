@@ -107,7 +107,7 @@ const App: FC = () => {
   }
 
   if (!isAuthenticated && !window.location.href.includes("/ui/login")) {
-    return null;
+    return <Navigate to="/ui/login" replace={true} />;
   }
 
   return (
