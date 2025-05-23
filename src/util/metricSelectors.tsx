@@ -56,10 +56,19 @@ export const getMemoryUsage = (
     return undefined;
   }
 
+  const free = Number.parseFloat(memFree[0].value);
+  const total = Number.parseFloat(memTotal[0].value);
+  const cached = Number.parseFloat(memCached[0].value);
+
+  // sanity check, LXD might report a higher free value than total memory on frozen VMs
+  if (free > total || cached > total) {
+    return undefined;
+  }
+
   return {
-    free: Number.parseFloat(memFree[0].value),
-    total: Number.parseFloat(memTotal[0].value),
-    cached: Number.parseFloat(memCached[0].value),
+    free,
+    total,
+    cached,
   };
 };
 
