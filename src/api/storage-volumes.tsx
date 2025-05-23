@@ -14,6 +14,7 @@ export const volumeEntitlements = [
   "can_delete",
   "can_edit",
   "can_manage_snapshots",
+  "can_manage_backups",
 ];
 
 export const fetchStorageVolumes = async (
@@ -231,4 +232,22 @@ export const copyStorageVolume = async (
 
 export const getTargetParam = (target?: string | null) => {
   return target && target !== "none" ? `&target=${target}` : "";
+};
+
+export const createVolumeBackup = async (
+  volume: LxdStorageVolume,
+  payload: string,
+): Promise<LxdOperationResponse> => {
+  const targetParam = getTargetParam(volume.location);
+  return fetch(
+    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/backups?project=${volume.project}${targetParam}`,
+    {
+      method: "POST",
+      body: payload,
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
