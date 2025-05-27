@@ -15,6 +15,7 @@ import { migrateStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { hasLocation } from "util/storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import classNames from "classnames";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -158,7 +159,7 @@ const MigrateVolumeBtn: FC<Props> = ({
       <ActionButton
         onClick={openPortal}
         type="button"
-        className={classname}
+        className={classNames("u-no-margin--bottom has-icon", classname)}
         loading={isVolumeLoading}
         disabled={!canEditVolume(volume) || isVolumeLoading}
         title={

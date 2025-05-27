@@ -10,6 +10,7 @@ import {
 } from "@canonical/react-components";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { deleteStorageVolume } from "api/storage-volumes";
+import classNames from "classnames";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -19,6 +20,7 @@ interface Props {
   hasIcon?: boolean;
   label?: string;
   classname?: string;
+  onClose?: () => void;
 }
 
 const DeleteStorageVolumeBtn: FC<Props> = ({
@@ -29,6 +31,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   hasIcon = true,
   label,
   classname,
+  onClose,
 }) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
@@ -88,11 +91,11 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
         });
       });
   };
-
   return (
     <ConfirmationButton
       loading={isLoading}
       confirmationModalProps={{
+        close: onClose,
         title: "Confirm delete",
         children: (
           <p>
@@ -104,7 +107,9 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
         onConfirm: handleDelete,
       }}
       appearance={appearance}
-      className={classname}
+      className={classNames("u-no-margin--bottom", classname, {
+        "has-icon": hasIcon,
+      })}
       shiftClickEnabled
       showShiftClickHint
       disabled={!canDeleteVolume(volume) || Boolean(disabledReason)}
