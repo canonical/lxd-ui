@@ -183,7 +183,7 @@
 
   .cloud-init-config {
     .code-editor-wrapper {
-      max-height: 35vh;
+      max-height: 35dvh;
       min-height: 7.5rem;
     }
   }
@@ -366,7 +366,7 @@
   }
 
   .image-list {
-    max-height: calc(100vh - 140px);
+    max-height: calc(100dvh - 140px);
     overflow-y: hidden;
   }
 
@@ -378,13 +378,13 @@
     }
 
     .image-list {
-      max-height: calc(100vh - 220px);
+      max-height: calc(100dvh - 220px);
     }
   }
 
   @include extra-large {
     .image-list {
-      max-height: calc(100vh - 250px);
+      max-height: calc(100dvh - 250px);
     }
   }
 }

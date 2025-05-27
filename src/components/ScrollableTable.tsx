@@ -36,7 +36,7 @@ const ScrollableTable: FC<Props> = ({
     );
     const parentsBottomSpacing = getParentsBottomSpacing(table);
     const offset = Math.ceil(above + below + parentsBottomSpacing);
-    const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
+    const style = `height: calc(100dvh - ${offset}px); min-height: calc(100dvh - ${offset}px)`;
     tBody.setAttribute("style", style);
   };
 

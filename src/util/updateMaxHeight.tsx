@@ -26,6 +26,6 @@ export const updateMaxHeight = (
     0,
   );
   const offset = Math.ceil(above + below + additionalOffset);
-  const style = `${targetProperty}: calc(100vh - ${offset}px)`;
+  const style = `${targetProperty}: calc(100dvh - ${offset}px)`;
   elements[0].setAttribute("style", style);
 };
