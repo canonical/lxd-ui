@@ -11,7 +11,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import type { ChangeEvent, FC } from "react";
 import { useCallback, useState } from "react";
-import { fileToInstanceName, instanceNameValidation } from "util/instances";
+import { instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
@@ -37,6 +37,7 @@ import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { useClusterMembers } from "context/useClusterMembers";
+import { fileToSanitisedName } from "util/helpers";
 
 interface Props {
   close: () => void;
@@ -209,7 +210,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
       await formik.setFieldValue("file", file);
 
       if (!defaultInstanceName) {
-        const instanceName = fileToInstanceName(file.name, "-import");
+        const instanceName = fileToSanitisedName(file.name, "-import");
         await formik.setFieldValue("name", instanceName);
         // validate instance name
         await formik.validateField("name");

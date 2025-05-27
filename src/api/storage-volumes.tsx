@@ -251,3 +251,35 @@ export const createVolumeBackup = async (
       return data;
     });
 };
+
+export const uploadVolume = async (
+  file: File | null,
+  name: string,
+  project: string | undefined,
+  pool: string | undefined,
+  setUploadState: (value: UploadState) => void,
+  uploadController: AbortController,
+  target: string,
+): Promise<LxdOperationResponse> => {
+  const targetParam = target ? `&target=${target}` : "";
+  return axios
+    .post(
+      `/1.0/storage-pools/${pool}/volumes/custom?project=${project}${targetParam}`,
+      file,
+      {
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "X-LXD-name": name,
+        },
+        onUploadProgress: (event) => {
+          setUploadState({
+            percentage: event.progress ? Math.floor(event.progress * 100) : 0,
+            loaded: event.loaded,
+            total: event.total,
+          });
+        },
+        signal: uploadController.signal,
+      },
+    )
+    .then((response: AxiosResponse<LxdOperationResponse>) => response.data);
+};

@@ -14,11 +14,11 @@ import {
 import * as Yup from "yup";
 import { createInstance } from "api/instances";
 import { useNavigate } from "react-router-dom";
-import { instanceNameValidation, truncateInstanceName } from "util/instances";
+import { instanceNameValidation } from "util/instances";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
-import { getUniqueResourceName } from "util/helpers";
+import { getUniqueResourceName, truncateEntityName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "../InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
@@ -82,7 +82,7 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
   };
 
   const getCopiedInstanceName = (instance: LxdInstance): string => {
-    const newInstanceName = truncateInstanceName(instance.name, "-copy");
+    const newInstanceName = truncateEntityName(instance.name, "-copy");
     return getUniqueResourceName(newInstanceName, instances);
   };
 

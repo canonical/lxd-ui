@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { testCopyStorageVolumeName } from "util/storageVolume";
+import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
@@ -19,6 +19,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { createStorageVolume } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import UploadVolumeFileBtn from "../actions/UploadVolumeFileBtn";
 
 const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();
@@ -36,7 +37,9 @@ const CreateStorageVolume: FC = () => {
 
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
-      .test(...testCopyStorageVolumeName(project, "custom", controllerState))
+      .test(
+        ...testDuplicateStorageVolumeName(project, "custom", controllerState),
+      )
       .required("This field is required"),
   });
 
@@ -108,6 +111,7 @@ const CreateStorageVolume: FC = () => {
         >
           Cancel
         </Button>
+        <UploadVolumeFileBtn name={formik.values.name} />
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}

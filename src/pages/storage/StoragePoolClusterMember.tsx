@@ -2,19 +2,19 @@ import ResourceLink from "components/ResourceLink";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { FC } from "react";
 import type { LxdStoragePool } from "types/storage";
-import { hasPoolMemberSpecificSize } from "util/storagePool";
+import { isClusterLocalDriver } from "util/storagePool";
 
 interface Props {
   pool: LxdStoragePool;
 }
 
 export const StoragePoolClusterMember: FC<Props> = ({ pool }) => {
-  const hasMemberSpecificSize = hasPoolMemberSpecificSize(pool.driver);
+  const isClusterLocal = isClusterLocalDriver(pool.driver);
   const { data: clusterMembers = [] } = useClusterMembers();
 
   return (
     <div>
-      {hasMemberSpecificSize ? (
+      {isClusterLocal ? (
         clusterMembers.map((member) => {
           return (
             <div className="clustered-resource-link" key={member.server_name}>

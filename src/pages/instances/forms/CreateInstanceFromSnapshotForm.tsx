@@ -13,7 +13,7 @@ import {
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { createInstance } from "api/instances";
-import { instanceNameValidation, truncateInstanceName } from "util/instances";
+import { instanceNameValidation } from "util/instances";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
@@ -25,6 +25,7 @@ import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useStoragePools } from "context/useStoragePools";
 import { useIsClustered } from "context/useIsClustered";
+import { truncateEntityName } from "util/helpers";
 
 interface Props {
   instance: LxdInstance;
@@ -112,7 +113,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
 
   const getNewInstanceName = (instance: LxdInstance): string => {
     const instanceNames = instances.map((instance) => instance.name);
-    const newInstanceName = truncateInstanceName(
+    const newInstanceName = truncateEntityName(
       instance.name,
       `-${snapshot.name}-copy`,
     );

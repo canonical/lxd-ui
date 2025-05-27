@@ -6,7 +6,7 @@ import { useClusteredStoragePoolResources } from "context/useStoragePools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePoolResources } from "api/storage-pools";
-import { hasPoolMemberSpecificSize } from "util/storagePool";
+import { isClusterLocalDriver } from "util/storagePool";
 import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
@@ -19,7 +19,7 @@ const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
     useClusteredStoragePoolResources(pool.name);
   const isClustered = useIsClustered();
   const hasMemberSpecificSize =
-    hasPoolMemberSpecificSize(pool.driver) && isClustered;
+    isClusterLocalDriver(pool.driver) && isClustered;
 
   const { data: poolResources } = useQuery({
     queryKey: [queryKeys.storage, pool.name, queryKeys.resources],
