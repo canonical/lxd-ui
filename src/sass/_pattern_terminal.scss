@@ -1,15 +1,15 @@
 .p-terminal {
-  height: calc(100vh - 240px);
+  height: calc(100dvh - 240px);
 }
 
 @media screen and (min-width: $breakpoint-small) {
   .p-terminal {
-    height: calc(100vh - 170px);
+    height: calc(100dvh - 170px);
   }
 }
 
 @media screen and (min-width: $breakpoint-large) {
   .p-terminal {
-    height: calc(100vh - 210px);
+    height: calc(100dvh - 210px);
   }
 }

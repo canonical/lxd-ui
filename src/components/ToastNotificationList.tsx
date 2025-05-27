@@ -213,7 +213,7 @@ const ToastNotificationList: FC<Props> = ({
       show={show}
       from={{
         opacity: 0,
-        transform: "translateY(5vh)",
+        transform: "translateY(5dvh)",
       }}
       to={{
         opacity: 1,
