@@ -2,7 +2,7 @@ import type { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
 import type { ReactNode } from "react";
 import type { AbortControllerState } from "./helpers";
-import { checkDuplicateName, getFileExtension } from "./helpers";
+import { checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
@@ -63,30 +63,6 @@ export const instanceNameValidation = (
     .matches(/^[A-Za-z].*$/, {
       message: "Instance name must start with a letter",
     });
-
-export const truncateInstanceName = (name: string, suffix = ""): string => {
-  const instanceNameMaxLength = 63;
-  if (name.length > instanceNameMaxLength - suffix.length) {
-    name = name.slice(0, instanceNameMaxLength - suffix.length);
-  }
-
-  return name + suffix;
-};
-
-export const sanitizeInstanceName = (name: string): string => {
-  return name.replace(/[^A-Za-z0-9-]/g, "-");
-};
-
-export const fileToInstanceName = (
-  fileName: string,
-  suffix?: string,
-): string => {
-  const fileExtension = getFileExtension(fileName);
-  fileName = fileExtension ? fileName.replace(fileExtension, "") : fileName;
-  const sanitisedFileName = sanitizeInstanceName(fileName);
-  const instanceName = truncateInstanceName(sanitisedFileName, suffix);
-  return instanceName;
-};
 
 export const getInstanceKey = (instance: LxdInstance) => {
   return `${instance.name} ${instance.project}`;

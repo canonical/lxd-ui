@@ -48,9 +48,9 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   zfs_pool_name: "zfs.pool_name",
 };
 
-export const hasPoolMemberSpecificSize = (poolDriver: string) => {
-  const sizeSpecificDrivers = [btrfsDriver, dirDriver, lvmDriver, zfsDriver];
-  return sizeSpecificDrivers.includes(poolDriver);
+export const isClusterLocalDriver = (poolDriver: string) => {
+  const clusterLocalDrivers = [btrfsDriver, dirDriver, lvmDriver, zfsDriver];
+  return clusterLocalDrivers.includes(poolDriver);
 };
 
 export const getPoolKey = (formField: string): string => {

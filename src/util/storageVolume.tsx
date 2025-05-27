@@ -4,7 +4,7 @@ import type { AnyObject, TestContext, TestFunction } from "yup";
 import type { LxdStorageVolume } from "types/storage";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
-export const testCopyStorageVolumeName = (
+export const testDuplicateStorageVolumeName = (
   project: string,
   volumeType: string,
   controllerState: AbortControllerState,
