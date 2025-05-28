@@ -6,7 +6,10 @@ import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import { hasLocation, testCopyStorageVolumeName } from "util/storageVolume";
+import {
+  hasLocation,
+  testDuplicateStorageVolumeName,
+} from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
@@ -39,7 +42,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
       .test(
-        ...testCopyStorageVolumeName(
+        ...testDuplicateStorageVolumeName(
           project,
           volume.type,
           controllerState,
