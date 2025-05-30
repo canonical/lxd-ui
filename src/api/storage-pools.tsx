@@ -109,6 +109,7 @@ const getClusterAndMemberPoolPayload = (pool: Partial<LxdStoragePool>) => {
     "zfs.pool_name",
     "lvm.thinpool_name",
     "lvm.vg_name",
+    "volatile.initial_source",
   ]);
   const configKeys = Object.keys(pool.config || {});
   const memberConfig: LxdStoragePool["config"] = {};

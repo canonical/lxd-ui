@@ -42,6 +42,13 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
         }),
         getConfigurationRow({
           formik,
+          label: "RBD disk usage",
+          name: "ceph_rbd_du",
+          defaultValue: "",
+          children: <Select options={optionTrueFalse} />,
+        }),
+        getConfigurationRow({
+          formik,
           label: "Ceph user name",
           name: "ceph_user_name",
           defaultValue: "",

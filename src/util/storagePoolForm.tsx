@@ -53,6 +53,7 @@ export const toStoragePoolFormValues = (
     ceph_cluster_name: pool.config?.["ceph.cluster_name"],
     ceph_osd_pg_num: pool.config?.["ceph.osd.pg_num"],
     ceph_rbd_clone_copy: pool.config?.["ceph.rbd.clone_copy"],
+    ceph_rbd_du: pool.config?.["ceph.rbd.du"],
     ceph_user_name: pool.config?.["ceph.user.name"],
     ceph_rbd_features: pool.config?.["ceph.rbd.features"],
     cephfs_cluster_name: pool.config?.["cephfs.cluster_name"],
