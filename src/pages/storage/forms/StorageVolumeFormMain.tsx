@@ -65,26 +65,30 @@ const StorageVolumeFormMain: FC<Props> = ({
                 : "Use the migrate button in the header to move the volume to a different storage pool.",
             }}
           />
-          {formik.values.clusterMember !== undefined && (
-            <Select
-              id="clusterMember"
-              label="Cluster member"
-              onChange={(e) => {
-                formik.setFieldValue("clusterMember", e.target.value);
-              }}
-              value={formik.values.clusterMember}
-              options={clusterMembers.map((member) => {
-                return { label: member.server_name, value: member.server_name };
-              })}
-              disabled={!formik.values.isCreating}
-              required={formik.values.isCreating}
-              help={
-                formik.values.isCreating
-                  ? undefined
-                  : "Cluster member is immutable after creation."
-              }
-            />
-          )}
+          {formik.values.clusterMember !== undefined &&
+            formik.values.clusterMember !== "none" && (
+              <Select
+                id="clusterMember"
+                label="Cluster member"
+                onChange={(e) => {
+                  formik.setFieldValue("clusterMember", e.target.value);
+                }}
+                value={formik.values.clusterMember}
+                options={clusterMembers.map((member) => {
+                  return {
+                    label: member.server_name,
+                    value: member.server_name,
+                  };
+                })}
+                disabled={!formik.values.isCreating}
+                required={formik.values.isCreating}
+                help={
+                  formik.values.isCreating
+                    ? undefined
+                    : "Cluster member is immutable after creation."
+                }
+              />
+            )}
           <Input
             {...getFormProps(formik, "name")}
             type="text"
