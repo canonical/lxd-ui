@@ -73,7 +73,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      disabled={isDefaultGroup}
+      disabled={isDefaultGroup || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >

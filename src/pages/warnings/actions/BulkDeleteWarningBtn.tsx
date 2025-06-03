@@ -67,7 +67,7 @@ const BulkDeleteWarningBtn: FC<Props> = ({ warningIds, onStart, onFinish }) => {
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
       }}
-      disabled={!canDeleteWarnings}
+      disabled={!canDeleteWarnings || isLoading}
       shiftClickEnabled
       showShiftClickHint
       aria-label="delete"

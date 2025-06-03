@@ -90,7 +90,7 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
         "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
-      disabled={!canDeleteNetworkAcl(networkAcl) || isUsed}
+      disabled={!canDeleteNetworkAcl(networkAcl) || isUsed || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >

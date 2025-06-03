@@ -94,7 +94,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
-      disabled={!canDeleteNetwork(network) || isUsed || !isManaged}
+      disabled={!canDeleteNetwork(network) || isUsed || !isManaged || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >

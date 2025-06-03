@@ -48,6 +48,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
     <ConfirmationButton
       appearance=""
       loading={isLoading}
+      disabled={isLoading}
       confirmationModalProps={{
         title: "Confirm evacuation",
         children: (

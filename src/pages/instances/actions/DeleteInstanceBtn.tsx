@@ -108,7 +108,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
       }}
-      disabled={isDisabled}
+      disabled={isDisabled || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >

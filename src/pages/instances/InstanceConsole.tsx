@@ -141,6 +141,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           <ActionButton
             appearance="positive"
             loading={isLoading}
+            aria-disabled={isLoading}
             onClick={handleStart}
             disabled={!canUpdateInstanceState(instance)}
             title={

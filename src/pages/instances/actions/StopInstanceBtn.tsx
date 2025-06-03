@@ -79,7 +79,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
     <ConfirmationButton
       appearance="base"
       loading={isLoading}
-      disabled={isDisabled || !canUpdateInstanceState(instance)}
+      disabled={isDisabled || !canUpdateInstanceState(instance) || isLoading}
       confirmationModalProps={{
         title: "Confirm stop",
         children: (

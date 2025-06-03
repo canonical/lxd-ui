@@ -46,7 +46,7 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
       }
       className="u-no-margin--bottom"
       loading={isLoading}
-      disabled={!operation.may_cancel}
+      disabled={!operation.may_cancel || isLoading}
       confirmationModalProps={{
         title: "Confirm cancel",
         children: <p>This will cancel the operation.</p>,

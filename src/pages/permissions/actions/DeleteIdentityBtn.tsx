@@ -96,7 +96,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
       shiftClickEnabled
       showShiftClickHint
       loading={isDeleting}
-      disabled={!canDeleteIdentity(identity)}
+      disabled={!canDeleteIdentity(identity) || isDeleting}
     >
       <Icon name="delete" />
     </ConfirmationButton>

@@ -36,7 +36,7 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
         type="button"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         loading={isLoading}
-        disabled={isDisabled || !canEditInstance(instance)}
+        disabled={isDisabled || !canEditInstance(instance) || isLoading}
         title={
           canEditInstance()
             ? "Migrate instance"

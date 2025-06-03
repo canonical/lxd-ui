@@ -178,7 +178,7 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
           className="u-no-margin--bottom"
           onClick={handleDeleteGroups}
           loading={submitting}
-          disabled={disableConfirm}
+          disabled={disableConfirm || submitting}
         >
           {`Permanently delete ${deletableGroups.length} ${pluralize("group", deletableGroups.length)}`}
         </ActionButton>,

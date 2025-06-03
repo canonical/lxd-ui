@@ -185,7 +185,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <ActionButton
           appearance="positive"
           loading={isLoading}
-          disabled={!file || !isValidISOAlias(name)}
+          disabled={!file || !isValidISOAlias(name) || isLoading}
           className="u-no-margin--bottom"
           onClick={importFile}
         >

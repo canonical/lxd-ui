@@ -21,6 +21,7 @@ const RefreshOperationsBtn: FC = () => {
       className="u-no-margin--bottom has-icon"
       onClick={handleRefresh}
       loading={isFetching}
+      disabled={isFetching}
     >
       <Icon name="restart" />
       <span>Refresh</span>

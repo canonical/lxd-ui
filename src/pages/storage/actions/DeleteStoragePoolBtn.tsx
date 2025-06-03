@@ -92,7 +92,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
-      disabled={Boolean(disabledReason())}
+      disabled={Boolean(disabledReason()) || isLoading}
       onHoverText={disabledReason()}
     >
       {(!isSmallScreen || !shouldExpand) && <Icon name="delete" />}

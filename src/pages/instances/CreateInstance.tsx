@@ -560,7 +560,7 @@ const CreateInstance: FC = () => {
         </Button>
         <ActionButton
           loading={formik.isSubmitting}
-          disabled={hasErrors}
+          disabled={hasErrors || formik.isSubmitting}
           appearance={isLocalIsoImage ? "positive" : "default"}
           onClick={() => {
             submit(formik.values, false);
@@ -572,7 +572,7 @@ const CreateInstance: FC = () => {
           <ActionButton
             appearance="positive"
             loading={formik.isSubmitting}
-            disabled={hasErrors}
+            disabled={hasErrors || formik.isSubmitting}
             onClick={() => {
               submit(formik.values);
             }}

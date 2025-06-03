@@ -146,7 +146,7 @@ const CreateNetworkAcl: FC = () => {
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
-          disabled={formik.values.name.length === 0}
+          disabled={formik.values.name.length === 0 || formik.isSubmitting}
           onClick={() => void formik.submitForm()}
         >
           Create

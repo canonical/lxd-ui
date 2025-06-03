@@ -112,7 +112,9 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
       })}
       shiftClickEnabled
       showShiftClickHint
-      disabled={!canDeleteVolume(volume) || Boolean(disabledReason)}
+      disabled={
+        !canDeleteVolume(volume) || Boolean(disabledReason) || isLoading
+      }
       onHoverText={
         canDeleteVolume(volume)
           ? disabledReason

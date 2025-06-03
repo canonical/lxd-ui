@@ -131,7 +131,9 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
-      disabled={!canDeleteProject(project) || isDefaultProject || !isEmpty}
+      disabled={
+        !canDeleteProject(project) || isDefaultProject || !isEmpty || isLoading
+      }
       confirmationModalProps={{
         title: "Confirm delete",
         confirmButtonLabel: "Delete",
