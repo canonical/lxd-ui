@@ -353,3 +353,27 @@ export const constructMemberError = (
   const message = `Error from cluster member ${member}: ${reason.message}`;
   return new Error(message);
 };
+
+export const truncateEntityName = (name: string, suffix = ""): string => {
+  const instanceNameMaxLength = 63;
+  if (name.length > instanceNameMaxLength - suffix.length) {
+    name = name.slice(0, instanceNameMaxLength - suffix.length);
+  }
+
+  return name + suffix;
+};
+
+export const sanitizeEntityName = (name: string): string => {
+  return name.replace(/[^A-Za-z0-9-]/g, "-");
+};
+
+export const fileToSanitisedName = (
+  fileName: string,
+  suffix?: string,
+): string => {
+  const fileExtension = getFileExtension(fileName);
+  fileName = fileExtension ? fileName.replace(fileExtension, "") : fileName;
+  const sanitisedFileName = sanitizeEntityName(fileName);
+  const newName = truncateEntityName(sanitisedFileName, suffix);
+  return newName;
+};
