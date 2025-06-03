@@ -1,6 +1,10 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -20,7 +24,6 @@ import CustomLayout from "components/CustomLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";

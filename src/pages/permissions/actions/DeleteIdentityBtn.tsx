@@ -6,8 +6,8 @@ import {
   ConfirmationButton,
   Icon,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
 import type { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
 import { deleteIdentity } from "api/auth-identities";

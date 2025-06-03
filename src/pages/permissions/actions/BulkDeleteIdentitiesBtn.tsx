@@ -1,10 +1,9 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useNotify } from "@canonical/react-components";
+import { useNotify, useToastNotification } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
 import { useIdentityEntitlements } from "util/entitlements/identities";

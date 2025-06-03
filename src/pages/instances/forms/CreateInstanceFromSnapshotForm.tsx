@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useState } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useFormik } from "formik";
-import { useToastNotification } from "context/toastNotificationProvider";
 import {
   ActionButton,
   Button,
@@ -10,6 +9,7 @@ import {
   Input,
   Modal,
   Select,
+  useToastNotification,
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { createInstance } from "api/instances";

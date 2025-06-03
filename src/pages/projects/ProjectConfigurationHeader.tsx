@@ -12,9 +12,9 @@ import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
 import { useDocs } from "context/useDocs";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   project: LxdProject;

@@ -1,6 +1,11 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,7 +21,6 @@ import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import { POOL } from "../StorageVolumesFilter";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { createStorageVolume } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import UploadVolumeFileBtn from "../actions/UploadVolumeFileBtn";

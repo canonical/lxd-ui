@@ -9,7 +9,6 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import {
   instanceLinkFromOperation,
   instanceNameValidation,
@@ -19,6 +18,7 @@ import InstanceDetailActions from "./InstanceDetailActions";
 import InstanceLinkChip from "./InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   name: string;

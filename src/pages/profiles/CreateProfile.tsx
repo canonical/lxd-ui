@@ -7,6 +7,7 @@ import {
   Form,
   Row,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -64,7 +65,6 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {

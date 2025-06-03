@@ -8,6 +8,7 @@ import {
   Input,
   Row,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -28,7 +29,6 @@ import SelectableMainTable from "components/SelectableMainTable";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
 
 export interface ClusterGroupFormValues {

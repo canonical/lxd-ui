@@ -1,8 +1,11 @@
 import type { FC } from "react";
 import { useState } from "react";
 import type { LxdImage } from "types/image";
-import { ActionButton, Icon } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import {
+  ActionButton,
+  Icon,
+  useToastNotification,
+} from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {

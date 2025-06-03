@@ -9,8 +9,8 @@ import {
   ConfirmationButton,
   Icon,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useSmallScreen } from "context/useSmallScreen";
 import classnames from "classnames";

@@ -1,7 +1,9 @@
 import type { QueuedNotification } from "@canonical/react-components";
-import { NotificationProvider } from "@canonical/react-components";
+import {
+  NotificationProvider,
+  ToastNotificationProvider,
+} from "@canonical/react-components";
 import type { FC, PropsWithChildren } from "react";
-import ToastNotificationProvider from "./toastNotificationProvider";
 
 const CombinedNotificationProvider: FC<
   PropsWithChildren<{ state: QueuedNotification["state"]; pathname?: string }>

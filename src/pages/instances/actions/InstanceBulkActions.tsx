@@ -13,9 +13,9 @@ import {
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { getInstanceKey } from "util/instances";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   instances: LxdInstance[];

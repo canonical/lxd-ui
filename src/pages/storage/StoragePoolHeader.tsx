@@ -9,8 +9,7 @@ import type { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";
-import { useNotify } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {

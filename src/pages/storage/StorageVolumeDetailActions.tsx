@@ -9,8 +9,10 @@ import type { LxdStorageVolume } from "types/storage";
 import CopyVolumeBtn from "./actions/CopyVolumeBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLabel from "components/ResourceLabel";
-import { ContextualMenu } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import {
+  ContextualMenu,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

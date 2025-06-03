@@ -4,8 +4,8 @@ import { useInstanceLoading } from "context/instanceLoading";
 import type { LxdInstance } from "types/instance";
 import { queryKeys } from "./queryKeys";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
+import { useToastNotification } from "@canonical/react-components";
 
 export const useInstanceStart = (instance: LxdInstance) => {
   const eventQueue = useEventQueue();

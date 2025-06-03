@@ -1,10 +1,14 @@
 import type { FC } from "react";
-import { Button, Icon, Modal } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  Modal,
+  useToastNotification,
+} from "@canonical/react-components";
 import UploadCustomIso from "pages/storage/UploadCustomIso";
 import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
 import { useSmallScreen } from "context/useSmallScreen";
 import { useProjectEntitlements } from "util/entitlements/projects";

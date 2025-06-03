@@ -1,6 +1,11 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -34,7 +39,6 @@ import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import { fetchProfile, updateProfile } from "api/profiles";

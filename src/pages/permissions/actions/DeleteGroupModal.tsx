@@ -3,11 +3,11 @@ import {
   Input,
   Modal,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteGroups } from "api/auth-groups";
 import ResourceLabel from "components/ResourceLabel";
-import { useToastNotification } from "context/toastNotificationProvider";
 import type { ChangeEvent, FC } from "react";
 import { useState } from "react";
 import type { LxdGroup } from "types/permissions";

@@ -6,6 +6,7 @@ import {
   SearchBox,
   TablePagination,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import type { LxdInstance } from "types/instance";
@@ -22,7 +23,6 @@ import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigure
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
-import { useToastNotification } from "context/toastNotificationProvider";
 import NotificationRow from "components/NotificationRow";
 
 const collapsedViewMaxWidth = 1250;

@@ -4,6 +4,7 @@ import {
   Form,
   Input,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
@@ -12,7 +13,6 @@ import { useCallback, useState } from "react";
 import { instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";

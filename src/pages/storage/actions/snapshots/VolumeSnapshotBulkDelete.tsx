@@ -7,9 +7,9 @@ import { pluralize } from "util/instanceBulkActions";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
 import type { LxdStorageVolume } from "types/storage";
-import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   volume: LxdStorageVolume;

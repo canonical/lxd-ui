@@ -12,12 +12,12 @@ import {
   Icon,
   List,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
 import { useEventQueue } from "context/eventQueue";
 import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";

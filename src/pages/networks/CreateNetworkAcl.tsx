@@ -5,6 +5,7 @@ import {
   Button,
   Row,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -22,7 +23,6 @@ import {
 } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
 import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
