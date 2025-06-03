@@ -61,7 +61,7 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
       onClick={handleExport}
       className="has-icon"
       appearance="base"
-      disabled={!isUnifiedTarball}
+      disabled={!isUnifiedTarball || isLoading}
     >
       <Icon name="export" />
     </ActionButton>

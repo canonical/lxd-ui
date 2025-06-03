@@ -89,7 +89,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           />
         ),
       }}
-      disabled={isDisabled || !canUpdateInstanceState(instance)}
+      disabled={isDisabled || !canUpdateInstanceState(instance) || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >

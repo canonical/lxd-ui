@@ -129,7 +129,7 @@ const InstanceBulkAction: FC<Props> = ({
   return (
     <ConfirmationButton
       appearance="base"
-      disabled={isDisabled || !hasChangedStates || allRestricted}
+      disabled={isDisabled || !hasChangedStates || allRestricted || isLoading}
       loading={isLoading}
       className="u-no-margin--right u-no-margin--bottom bulk-action has-icon"
       confirmationModalProps={{

@@ -79,7 +79,10 @@ const DeleteProfileBtn: FC<Props> = ({
         "has-icon": !isSmallScreen,
       })}
       disabled={
-        !canDeleteProfile(profile) || isDefaultProfile || !featuresProfiles
+        !canDeleteProfile(profile) ||
+        isDefaultProfile ||
+        !featuresProfiles ||
+        isLoading
       }
       loading={isLoading}
       confirmationModalProps={{

@@ -145,6 +145,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
+            disabled={formik.isSubmitting}
             onClick={() => void formik.submitForm()}
           >
             Export instance

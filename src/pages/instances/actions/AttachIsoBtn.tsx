@@ -142,7 +142,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         loading={isLoading}
         onClick={detachIso}
         className="u-no-margin--bottom"
-        disabled={!!disabledReason}
+        disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
         Detach ISO
@@ -154,7 +154,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         loading={isLoading}
         onClick={openPortal}
         className="u-no-margin--bottom"
-        disabled={!!disabledReason}
+        disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
         Attach ISO

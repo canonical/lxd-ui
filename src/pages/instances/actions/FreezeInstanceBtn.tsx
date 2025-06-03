@@ -89,7 +89,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
           : "You do not have permission to freeze this instance",
       }}
       className="has-icon is-dense"
-      disabled={isDisabled || !canUpdateInstanceState(instance)}
+      disabled={isDisabled || !canUpdateInstanceState(instance) || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >

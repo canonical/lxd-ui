@@ -61,7 +61,7 @@ const HostPathDeviceModal: FC<Props> = ({
             className="u-no-margin--bottom"
             type="button"
             loading={formik.isSubmitting}
-            disabled={!source || !path}
+            disabled={!source || !path || formik.isSubmitting}
             onClick={handleFinish}
           >
             Attach

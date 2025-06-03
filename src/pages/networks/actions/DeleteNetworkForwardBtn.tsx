@@ -70,7 +70,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
-      disabled={!canEditNetwork(network)}
+      disabled={!canEditNetwork(network) || isLoading}
     >
       <Icon name="delete" />
     </ConfirmationButton>

@@ -49,7 +49,7 @@ const GroupSelectionActions: FC<Props> = ({
         appearance="positive"
         onClick={onSubmit}
         className="u-no-margin--bottom"
-        disabled={disabled}
+        disabled={disabled || loading}
         loading={loading}
       >
         {actionText ? "Confirm" : confirmButtonText}

@@ -176,7 +176,9 @@ const CreateNetwork: FC = () => {
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
-          disabled={isNetworkFormInvalid(formik, clusterMembers)}
+          disabled={
+            isNetworkFormInvalid(formik, clusterMembers) || formik.isSubmitting
+          }
           onClick={() => void formik.submitForm()}
         >
           Create

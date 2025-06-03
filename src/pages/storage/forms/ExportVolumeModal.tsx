@@ -145,6 +145,7 @@ const ExportVolumeModal: FC<Props> = ({ volume, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
+            disabled={formik.isSubmitting}
             onClick={() => void formik.submitForm()}
           >
             Export volume
