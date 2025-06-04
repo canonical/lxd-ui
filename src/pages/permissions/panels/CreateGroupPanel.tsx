@@ -1,10 +1,14 @@
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
-import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import type { GroupFormValues } from "../forms/GroupForm";

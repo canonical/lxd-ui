@@ -4,8 +4,11 @@ import type { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import {
+  ConfirmationButton,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 
 interface Props {
   operation: LxdOperation;

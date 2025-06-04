@@ -4,9 +4,12 @@ import { deleteImage } from "api/images";
 import type { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useImageEntitlements } from "util/entitlements/images";
 

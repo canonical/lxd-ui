@@ -1,6 +1,10 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -12,7 +16,6 @@ import {
   YAML_CONFIGURATION,
 } from "pages/networks/forms/NetworkFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";

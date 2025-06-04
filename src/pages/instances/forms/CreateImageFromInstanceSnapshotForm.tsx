@@ -2,7 +2,6 @@ import type { FC } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { createImage, createImageAlias } from "api/images";
 import {
   ActionButton,
@@ -10,6 +9,7 @@ import {
   Form,
   Input,
   Modal,
+  useToastNotification,
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";

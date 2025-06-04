@@ -3,7 +3,10 @@ import { useState } from "react";
 import { updateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useParams } from "react-router-dom";
-import { ActionButton } from "@canonical/react-components";
+import {
+  ActionButton,
+  useToastNotification,
+} from "@canonical/react-components";
 import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
 import type { LxdIsoDevice } from "types/device";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,7 +16,6 @@ import type { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { instanceLinkFromOperation } from "util/instances";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "../InstanceLinkChip";

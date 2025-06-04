@@ -13,9 +13,9 @@ import {
   Icon,
   Tooltip,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import classnames from "classnames";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { filterUsedByType } from "util/usedBy";
 import type { ResourceType } from "util/resourceDetails";
 import ResourceLabel from "components/ResourceLabel";

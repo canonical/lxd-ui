@@ -8,9 +8,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { deletableStatuses } from "util/instanceDelete";
 import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import BulkDeleteButton from "components/BulkDeleteButton";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   instances: LxdInstance[];

@@ -1,6 +1,5 @@
 import type { FC } from "react";
 import { useFormik } from "formik";
-import { useToastNotification } from "context/toastNotificationProvider";
 import {
   ActionButton,
   Button,
@@ -8,6 +7,7 @@ import {
   Input,
   Modal,
   Select,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";

@@ -6,10 +6,10 @@ import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
 import { pluralize } from "util/instanceBulkActions";
-import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useImageEntitlements } from "util/entitlements/images";
 import type { LxdImage } from "types/image";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   images: LxdImage[];

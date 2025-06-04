@@ -13,6 +13,7 @@ import {
   List,
   Tooltip,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
@@ -22,7 +23,6 @@ import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { createInstanceSnapshot } from "api/instance-snapshots";
 import { queryKeys } from "util/queryKeys";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
-import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { getInstanceSnapshotName } from "util/operations";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";

@@ -5,8 +5,11 @@ import ItemName from "components/ItemName";
 import { deleteClusterGroup } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import {
+  ConfirmationButton,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {

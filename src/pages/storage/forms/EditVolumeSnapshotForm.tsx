@@ -14,8 +14,8 @@ import { queryKeys } from "util/queryKeys";
 import type { SnapshotFormValues } from "util/snapshots";
 import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
-import { useToastNotification } from "context/toastNotificationProvider";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   volume: LxdStorageVolume;

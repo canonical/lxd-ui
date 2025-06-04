@@ -10,8 +10,7 @@ import {
   hasLocation,
   testDuplicateStorageVolumeName,
 } from "util/storageVolume";
-import { useNotify } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { renameStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";

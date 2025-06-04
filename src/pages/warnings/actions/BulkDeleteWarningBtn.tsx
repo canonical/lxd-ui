@@ -1,9 +1,12 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useToastNotification,
+} from "@canonical/react-components";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { deleteWarningBulk } from "api/warnings";
 import { pluralize } from "util/instanceBulkActions";
 import { useServerEntitlements } from "util/entitlements/server";

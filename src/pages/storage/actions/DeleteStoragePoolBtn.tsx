@@ -4,6 +4,7 @@ import {
   ConfirmationButton,
   Icon,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteStoragePool } from "api/storage-pools";
@@ -13,7 +14,6 @@ import { useSmallScreen } from "context/useSmallScreen";
 import { useNavigate } from "react-router-dom";
 import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 

@@ -1,6 +1,11 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useNotify, Button, ActionButton } from "@canonical/react-components";
+import {
+  useNotify,
+  Button,
+  ActionButton,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { createClusteredPool, createPool } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
@@ -21,7 +26,6 @@ import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
 import type { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";

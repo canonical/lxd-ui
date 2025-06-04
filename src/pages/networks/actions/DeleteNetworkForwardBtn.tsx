@@ -7,9 +7,9 @@ import {
   ConfirmationButton,
   Icon,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { deleteNetworkForward } from "api/network-forwards";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 
 interface Props {

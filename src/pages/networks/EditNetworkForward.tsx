@@ -2,7 +2,11 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ActionButton, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
 import NetworkForwardForm, {
@@ -18,7 +22,6 @@ import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useNetwork } from "context/useNetworks";
 
 const EditNetworkForward: FC = () => {

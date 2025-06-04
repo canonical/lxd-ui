@@ -1,6 +1,11 @@
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Button, Icon, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { updateClusteredSettings, updateSettings } from "api/server";
 import type { ConfigField } from "types/config";
 import { queryKeys } from "util/queryKeys";
@@ -9,7 +14,6 @@ import { useAuth } from "context/auth";
 import SettingFormCheckbox from "./SettingFormCheckbox";
 import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
-import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";

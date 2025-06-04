@@ -18,9 +18,9 @@ import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
 import type { SnapshotFormValues } from "util/snapshots";
 import { getExpiresAt } from "util/snapshots";
-import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLinkChip from "../InstanceLinkChip";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
+import { useToastNotification } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;

@@ -1,11 +1,14 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { ActionButton, Icon } from "@canonical/react-components";
+import {
+  ActionButton,
+  Icon,
+  useToastNotification,
+} from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import type { LxdStorageVolume } from "types/storage";
 import MigrateVolumeModal from "./MigrateVolumeModal";
 import { useNavigate } from "react-router-dom";

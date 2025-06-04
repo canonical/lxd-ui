@@ -9,8 +9,7 @@ import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
-import { useNotify } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 

@@ -2,8 +2,12 @@ import type { FC } from "react";
 import classnames from "classnames";
 import Version from "./Version";
 import OperationStatus from "./OperationStatus";
-import { useToastNotification } from "context/toastNotificationProvider";
-import { AppStatus, ICONS, Icon } from "@canonical/react-components";
+import {
+  AppStatus,
+  ICONS,
+  Icon,
+  useToastNotification,
+} from "@canonical/react-components";
 import { iconLookup, severityOrder } from "util/notifications";
 import useEventListener from "util/useEventListener";
 import { useAuth } from "context/auth";

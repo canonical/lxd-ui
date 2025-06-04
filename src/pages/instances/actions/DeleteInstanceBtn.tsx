@@ -5,12 +5,15 @@ import type { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useToastNotification,
+} from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceLoading } from "context/instanceLoading";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "../InstanceLinkChip";

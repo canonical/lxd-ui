@@ -4,6 +4,7 @@ import {
   Button,
   Modal,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
@@ -13,7 +14,6 @@ import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeF
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { updateStorageVolume } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 

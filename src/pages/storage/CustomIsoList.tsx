@@ -8,6 +8,7 @@ import {
   Row,
   SearchBox,
   TablePagination,
+  useToastNotification,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
@@ -18,7 +19,6 @@ import ScrollableTable from "components/ScrollableTable";
 import { Link, useParams } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
-import { useToastNotification } from "context/toastNotificationProvider";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";

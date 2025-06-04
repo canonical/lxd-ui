@@ -9,8 +9,7 @@ import { checkDuplicateName } from "util/helpers";
 import type { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
-import { useNotify } from "@canonical/react-components";
-import { useToastNotification } from "context/toastNotificationProvider";
+import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 

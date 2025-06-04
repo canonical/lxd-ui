@@ -1,4 +1,8 @@
-import { ConfirmationModal, useNotify } from "@canonical/react-components";
+import {
+  ConfirmationModal,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import type { FC } from "react";
 import { useState } from "react";
 import type { LxdGroup, LxdIdentity } from "types/permissions";
@@ -11,7 +15,6 @@ import {
 } from "util/permissionGroups";
 import usePanelParams from "util/usePanelParams";
 import { useQueryClient } from "@tanstack/react-query";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { updateIdentities } from "api/auth-identities";
 import { queryKeys } from "util/queryKeys";
 import ResourceLink from "components/ResourceLink";

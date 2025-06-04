@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
-import { useNotify } from "@canonical/react-components";
+import { useNotify, useToastNotification } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { createVolumeSnapshot } from "api/volume-snapshots";
 import { useEventQueue } from "context/eventQueue";
@@ -12,7 +12,6 @@ import { queryKeys } from "util/queryKeys";
 import type { SnapshotFormValues } from "util/snapshots";
 import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { getVolumeSnapshotName } from "util/operations";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";

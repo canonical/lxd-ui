@@ -1,7 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEventQueue } from "context/eventQueue";
 import { useInstanceLoading } from "context/instanceLoading";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
@@ -10,6 +9,7 @@ import { capitalizeFirstLetter } from "./helpers";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import { useNavigate } from "react-router-dom";
+import { useToastNotification } from "@canonical/react-components";
 
 export type MigrationType =
   | "cluster member"

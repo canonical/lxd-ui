@@ -1,10 +1,9 @@
 import type { FC } from "react";
 import classnames from "classnames";
-import { List } from "@canonical/react-components";
+import { List, useToastNotification } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
 import DeleteStorageVolumeBtn from "./DeleteStorageVolumeBtn";
 import VolumeAddSnapshotBtn from "./snapshots/VolumeAddSnapshotBtn";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { isSnapshotsDisabled } from "util/snapshots";
 import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";

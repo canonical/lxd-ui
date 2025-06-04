@@ -1,6 +1,10 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { updateClusteredPool, updatePool } from "api/storage-pools";
 import { useFormik } from "formik";
@@ -19,7 +23,6 @@ import {
   YAML_CONFIGURATION,
 } from "./forms/StoragePoolFormMenu";
 import { slugify } from "util/slugify";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
 import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";

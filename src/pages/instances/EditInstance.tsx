@@ -1,6 +1,12 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Form,
+  Row,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
@@ -50,7 +56,6 @@ import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm from "components/forms/MigrationForm";

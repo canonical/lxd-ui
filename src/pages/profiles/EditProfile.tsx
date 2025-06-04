@@ -7,6 +7,7 @@ import {
   Notification,
   Row,
   useNotify,
+  useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -53,7 +54,6 @@ import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { getProfilePayload } from "util/profileEdit";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
