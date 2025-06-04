@@ -184,6 +184,8 @@ const PermissionGroups: FC = () => {
           hideActions={!!panelParams.panel}
         />
       );
+    } else {
+      return null;
     }
   };
 

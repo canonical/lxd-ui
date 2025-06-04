@@ -151,7 +151,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
     Object.keys(item.device).forEach((key) => {
       if (key === "name") {
-        return null;
+        return;
       }
 
       inheritedRows.push(

@@ -130,7 +130,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
 
     Object.keys(item.gpu).forEach((key) => {
       if (key === "name" || key === "type") {
-        return null;
+        return;
       }
 
       inheritedRows.push(
@@ -189,7 +189,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
 
     Object.keys(device).forEach((key) => {
       if (key === "name" || key === "type" || key === "pci" || key === "id") {
-        return null;
+        return;
       }
 
       customRows.push(

@@ -168,6 +168,8 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       return () => {
         clearTimeout(timeout);
       };
+    } else {
+      return () => {};
     }
   }, [isBooting, version]);
 
@@ -183,6 +185,8 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           });
         });
       };
+    } else {
+      return () => {};
     }
   }, [payload, instance.status, canConnect, canExec]);
 

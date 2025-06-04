@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { slugify } from "util/slugify";

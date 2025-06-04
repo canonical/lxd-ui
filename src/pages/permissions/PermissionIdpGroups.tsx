@@ -191,6 +191,8 @@ const PermissionIdpGroups: FC = () => {
           hideActions={!!panelParams.panel}
         />
       );
+    } else {
+      return null;
     }
   };
 

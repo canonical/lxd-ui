@@ -169,7 +169,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
 
     Object.keys(item.proxy).forEach((key) => {
       if (key === "name" || key === "type") {
-        return null;
+        return;
       }
 
       inheritedRows.push(
