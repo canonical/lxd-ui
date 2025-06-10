@@ -22,7 +22,6 @@ export const postClusterMemberState = async (
     method: "POST",
     body: JSON.stringify({
       action: action,
-      mode: "start",
     }),
   })
     .then(handleResponse)
