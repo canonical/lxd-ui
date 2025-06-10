@@ -69,7 +69,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
   const failure = operationList?.failure ?? [];
   const running = operationList?.running ?? [];
   const success = operationList?.success ?? [];
-  const operations = failure.concat(running).concat(success);
+  const operations = [...failure, ...running, ...success];
 
   const ctx = {
     operations,

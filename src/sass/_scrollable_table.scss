@@ -31,4 +31,24 @@
     table-layout: fixed;
     width: 100%;
   }
+
+  @media screen and (max-width: $breakpoint-large) {
+    .p-table--mobile-card {
+      thead {
+        display: none;
+      }
+
+      td {
+        display: block;
+      }
+
+      tbody tr {
+        display: block;
+      }
+
+      tbody tr:first-child {
+        margin-top: $spv--x-large;
+      }
+    }
+  }
 }

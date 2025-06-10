@@ -4,7 +4,9 @@ import type { LxdApiResponse } from "types/apiResponse";
 
 const sortOperationList = (operations: LxdOperationList) => {
   const newestFirst = (a: LxdOperation, b: LxdOperation) => {
-    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    const aTime = new Date(a.created_at).getTime();
+    const bTime = new Date(b.created_at).getTime();
+    return bTime - aTime;
   };
   operations.failure?.sort(newestFirst);
   operations.success?.sort(newestFirst);
