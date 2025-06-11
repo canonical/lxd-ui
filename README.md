@@ -39,14 +39,34 @@ Future plans and high-priority features and enhancements can be found in the [ro
 
 # Examples
 
-| Create an instance                                                                                  | Instance list                                                                                                  | Instance terminal                                                                                          |
-|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| ![0create](https://github.com/canonical/lxd-ui/assets/1155472/8c4f5eee-9d5a-40ca-93e1-57b1c393dbd9) | ![1instance-overview](https://github.com/canonical/lxd-ui/assets/1155472/af4a92ce-e562-43eb-945f-98b78b4bb03e) | ![2instance-term](https://github.com/canonical/lxd-ui/assets/1155472/14eaaffb-c770-4f34-936f-075ceb6be42e) |
+| Create an instance   | Instance list        |
+|----------------------|----------------------|
+| ![create-instance](https://github.com/user-attachments/assets/832fb6f0-1295-46cd-a969-6ffe30c6eaca) | ![instance-list](https://github.com/user-attachments/assets/705a9846-900c-46c8-bff0-4095e3dfc221) |
 
-| Graphic console                                                                                                | Profile list                                                                                             | Cluster groups                                                                                                        |
-|----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| ![3-instance-console](https://github.com/canonical/lxd-ui/assets/1155472/e3301135-e737-4f7f-8bfb-1297135402a4) | ![profile-list](https://github.com/canonical/lxd-ui/assets/1155472/f19c3d70-5c25-47b0-9c8e-636bfa42fabe) | ![6cluster](https://github.com/canonical/lxd-ui/assets/1155472/85f61ef9-a45f-4b4a-abee-8fa9dfa69bd2) |
+|  Instance terminal   | Graphic console      |
+|----------------------|----------------------|
+| ![instance-terminal](https://github.com/user-attachments/assets/45c2ecb7-7203-4875-a790-89656f3f4579) | ![instance-graphical-console](https://github.com/user-attachments/assets/fb486117-c7a0-47f1-b4f3-604b228687d8) |
 
-| Storage                                                                                               | Operations                                                                                             | Warnings                                                                                             |
-|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| ![5storage](https://github.com/canonical/lxd-ui/assets/1155472/d78759a6-9e54-41d4-b9b9-f9905c550763)  | ![operations](https://github.com/canonical/lxd-ui/assets/1155472/c8dfd5c8-5634-4d2e-9167-204c730df574) | ![warnings](https://github.com/canonical/lxd-ui/assets/1155472/a22334c8-61b8-4f8a-b49e-b4d4ad311285) |
+| Storage pools         | Storage volume       |
+|----------------------|----------------------|
+| ![storage-pool-list](https://github.com/user-attachments/assets/1be59c40-99d5-4f03-80c8-1c0555899564)  | ![storage-volume-snap](https://github.com/user-attachments/assets/065db19f-a076-4d57-8027-32aead069ca5) |
+
+| Network              | Network ACL          | 
+|----------------------|----------------------|
+| ![network-detail](https://github.com/user-attachments/assets/f4f36001-9394-45fc-9730-487db4faf699) | ![network-acl-create](https://github.com/user-attachments/assets/8b20026b-72f0-41ba-9483-f254acaab53a) |
+
+| Create a group       | Assign permissions   |
+|----------------------|----------------------|
+| ![group-create-overview](https://github.com/user-attachments/assets/444187b7-5f0a-49ac-a8de-71159d01cc0a) | ![group-create-permission](https://github.com/user-attachments/assets/b9d631b5-1eda-4645-9883-97208f641c62) |
+
+| Permission groups    | Operations           |
+|----------------------|----------------------|
+| ![group-list](https://github.com/user-attachments/assets/65b348f9-447a-4b30-a795-f1a0f3a17f2a) | ![operations-list](https://github.com/user-attachments/assets/b803df86-f2d0-4fbf-ac8b-a118cc0e1bd7) |
+
+| Profiles             | Warnings             |
+|----------------------|----------------------|
+| ![profile-list](https://github.com/user-attachments/assets/9e87050b-5906-4665-9bc2-065e85ba6564) | ![warnings-list](https://github.com/user-attachments/assets/a2e6eb1b-1418-4cb9-b6c9-e109bc16b3e8) |
+
+| Cluster groups       | Server settings      |
+|----------------------|----------------------|
+| ![cluster-list](https://github.com/user-attachments/assets/25ef384e-6ee8-4548-8e4d-dbe5504b8ee4) | ![server-settings](https://github.com/user-attachments/assets/7d0d1272-6bed-4a24-8b55-19a36150a8d6) |
