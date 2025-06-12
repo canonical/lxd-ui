@@ -38,21 +38,25 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
 
   if (isLinkable && projectName) {
     return (
-      <InstanceLink
-        instance={{
-          name: instanceName,
-          project: projectName,
-        }}
-      />
+      <div className="u-truncate u-text--muted">
+        <InstanceLink
+          instance={{
+            name: instanceName,
+            project: projectName,
+          }}
+        />
+      </div>
     );
   }
 
   return (
-    <ItemName
-      item={{
-        name: instanceName,
-      }}
-    />
+    <div className="u-truncate u-text--muted">
+      <ItemName
+        item={{
+          name: instanceName,
+        }}
+      />
+    </div>
   );
 };
 export default OperationInstanceName;

@@ -14,17 +14,20 @@ const OperationStatus = () => {
     setIsSmallScreen(isWidthBelow(620));
   });
 
-  let operationsStatus = `${runningOperations.length} ${pluralize("operation", runningOperations.length)} in progress...`;
-  if (isSmallScreen) {
-    operationsStatus = `${runningOperations.length} Ops`;
+  if (runningOperations.length === 0) {
+    return null;
   }
 
-  return runningOperations.length ? (
+  const operationsStatus = isSmallScreen
+    ? `${runningOperations.length} ${pluralize("op", runningOperations.length)}...`
+    : `${runningOperations.length} ${pluralize("operation", runningOperations.length)} in progress...`;
+
+  return (
     <div className="operation-status" role="alert">
       <Icon name="status-in-progress-small" className="status-icon" />
       <Link to="/ui/operations">{operationsStatus}</Link>
     </div>
-  ) : null;
+  );
 };
 
 export default OperationStatus;
