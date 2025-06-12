@@ -5,6 +5,7 @@ import type {
   LxdClusterMemberAction,
 } from "types/cluster";
 import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 
 export const fetchClusterMembers = async (): Promise<LxdClusterMember[]> => {
   return fetch("/1.0/cluster/members?recursion=2")
@@ -17,16 +18,18 @@ export const fetchClusterMembers = async (): Promise<LxdClusterMember[]> => {
 export const postClusterMemberState = async (
   member: LxdClusterMember,
   action: LxdClusterMemberAction,
-): Promise<LxdClusterMember[]> => {
+  mode?: string,
+): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/cluster/members/${member.server_name}/state`, {
     method: "POST",
     body: JSON.stringify({
       action: action,
+      mode: mode !== "" ? mode : undefined,
     }),
   })
     .then(handleResponse)
-    .then((data: LxdApiResponse<LxdClusterMember[]>) => {
-      return data.metadata;
+    .then((data: LxdOperationResponse) => {
+      return data;
     });
 };
 

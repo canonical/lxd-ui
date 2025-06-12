@@ -1,7 +1,12 @@
-import type { Page } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
-import { randomNameSuffix } from "./helpers/name";
 import { gotoURL } from "./helpers/navigate";
+import {
+  createClusterGroup,
+  deleteClusterGroup,
+  getFirstClusterMember,
+  randomGroupName,
+  toggleClusterGroupMember,
+} from "./helpers/cluster";
 
 test("cluster group create and delete", async ({ page }) => {
   const group = randomGroupName();
@@ -25,58 +30,30 @@ test("cluster group add and remove members", async ({ page }) => {
   await deleteClusterGroup(page, group);
 });
 
-export const randomGroupName = (): string => {
-  return `playwright-cluster-group-${randomNameSuffix()}`;
-};
+test("cluster member evacuate and restore", async ({ page }) => {
+  const member = await getFirstClusterMember(page);
 
-export const createClusterGroup = async (page: Page, group: string) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
-  await page.getByRole("button", { name: "All cluster groups" }).click();
-  await page.getByRole("button", { name: "Create group" }).click();
-  await page.getByPlaceholder("Enter name").click();
-  await page.getByPlaceholder("Enter name").fill(group);
-  await page.getByRole("button", { name: "Create" }).click();
+  const memberRow = page.getByRole("row").filter({ hasText: member });
 
-  await page.waitForSelector(`text=Cluster group ${group} created.`);
-};
+  await memberRow.hover();
+  const restoreBtn = memberRow.getByRole("button", { name: "Restore" });
+  if (await restoreBtn.isVisible()) {
+    await restoreBtn.click();
+    await page.getByRole("button", { name: "Restore member" }).click();
+    await page.waitForSelector(`text=Member ${member} restore completed.`);
+  }
 
-export const deleteClusterGroup = async (page: Page, group: string) => {
-  await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
-  await page.getByRole("button", { name: "All cluster groups" }).click();
-  await page.getByRole("link", { name: group }).click();
-  await page.getByRole("button", { name: "Delete" }).click();
-  await page.getByText("Delete", { exact: true }).click();
+  await memberRow.hover();
+  await memberRow.getByRole("button", { name: "Evacuate" }).click();
+  await page.getByRole("button", { name: "Evacuate member" }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} deleted.`);
-};
+  await page.waitForSelector(`text=Member ${member} evacuation completed.`);
 
-export const toggleClusterGroupMember = async (
-  page: Page,
-  group: string,
-  member: string,
-) => {
-  await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
-  await page.getByRole("button", { name: "All cluster groups" }).click();
-  await page.getByRole("link", { name: group }).click();
-  await page.getByRole("button", { name: "Edit group" }).click();
-  await page
-    .getByRole("rowheader", { name: `Select ${member}` })
-    .locator("span")
-    .click();
-  await page.getByRole("button", { name: "Save changes" }).click();
+  await memberRow.hover();
+  await memberRow.getByRole("button", { name: "Restore" }).click();
+  await page.getByRole("button", { name: "Restore member" }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} saved.`);
-};
-
-export const getFirstClusterMember = async (page: Page): Promise<string> => {
-  await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
-  const firstCellContent = await page
-    .getByRole("rowheader")
-    .first()
-    .textContent();
-  return firstCellContent?.split("http")[0] ?? "";
-};
+  await page.waitForSelector(`text=Member ${member} restore completed.`);
+});
