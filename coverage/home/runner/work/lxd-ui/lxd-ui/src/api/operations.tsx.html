@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.46% </span>
+                <span class="strong">59.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/43</span>
+                <span class='fraction'>28/47</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.66% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/30</span>
+                <span class='fraction'>28/32</span>
             </div>
         
             
@@ -93,32 +93,36 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">1260x</span>
-<span class="cline-any cline-yes">139x</span>
-<span class="cline-any cline-yes">139x</span>
-<span class="cline-any cline-yes">1260x</span>
-<span class="cline-any cline-yes">1260x</span>
-<span class="cline-any cline-yes">1260x</span>
-<span class="cline-any cline-yes">1260x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">1266x</span>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">136x</span>
+<span class="cline-any cline-yes">136x</span>
+<span class="cline-any cline-yes">136x</span>
+<span class="cline-any cline-yes">136x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">263x</span>
 <span class="cline-any cline-yes">1260x</span>
 <span class="cline-any cline-yes">1260x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">1266x</span>
-<span class="cline-any cline-yes">264x</span>
-<span class="cline-any cline-yes">264x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">1255x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">263x</span>
+<span class="cline-any cline-yes">263x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -129,7 +133,9 @@ import type { LxdApiResponse } from "types/apiResponse";
 &nbsp;
 const sortOperationList = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(o</span>perations: LxdOperationList) =&gt; {</span>
   const newestFirst = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>: LxdOperation, b: LxdOperation) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();</span>
+    const aTime = <span class="cstat-no" title="statement not covered" >new Date(a.created_at).getTime();</span>
+    const bTime = <span class="cstat-no" title="statement not covered" >new Date(b.created_at).getTime();</span>
+<span class="cstat-no" title="statement not covered" >    return bTime - aTime;</span>
   };
 <span class="cstat-no" title="statement not covered" >  operations.<span class="branch-0 cbranch-no" title="branch not covered" >failure?.sort(n</span>ewestFirst);</span>
 <span class="cstat-no" title="statement not covered" >  operations.success?.sort(newestFirst);</span>
@@ -160,7 +166,7 @@ export const cancelOperation = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-12T08:24:40.487Z
+                at 2025-06-12T14:17:14.271Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
