@@ -65,6 +65,19 @@ export interface LxdStorageVolume {
   access_entitlements?: string[];
 }
 
+export interface LxdStorageBucket {
+  name: string;
+  description: string;
+  location: string;
+  s3_url: string;
+  project?: string;
+  config: {
+    size?: string;
+  };
+  access_entitlements?: string[];
+  pool: string;
+}
+
 export interface LxdStorageVolumeState {
   usage: {
     used: number;

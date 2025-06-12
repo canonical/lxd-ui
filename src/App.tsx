@@ -67,6 +67,7 @@ const ProtectedRoute = lazy(async () => import("components/ProtectedRoute"));
 const Settings = lazy(async () => import("pages/settings/Settings"));
 const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
 const StorageVolumes = lazy(async () => import("pages/storage/StorageVolumes"));
+const StorageBuckets = lazy(async () => import("pages/storage/StorageBuckets"));
 const CustomIsoList = lazy(async () => import("pages/storage/CustomIsoList"));
 const StoragePoolDetail = lazy(
   async () => import("pages/storage/StoragePoolDetail"),
@@ -354,6 +355,14 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateStorageVolume />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/storage/buckets"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<StorageBuckets />} />}
             />
           }
         />

@@ -54,6 +54,13 @@ export const useProjectEntitlements = () => {
       project?.access_entitlements,
     );
 
+  const canCreateStorageBuckets = (project?: LxdProject) =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_storage_buckets",
+      project?.access_entitlements,
+    );
+
   const canDeleteProject = (project?: LxdProject) =>
     hasEntitlement(isFineGrained, "can_delete", project?.access_entitlements);
 
@@ -82,6 +89,7 @@ export const useProjectEntitlements = () => {
     canCreateNetworkAcls,
     canCreateProfiles,
     canCreateStorageVolumes,
+    canCreateStorageBuckets,
     canDeleteProject,
     canEditProject,
     canViewEvents,

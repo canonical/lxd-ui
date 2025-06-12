@@ -22,6 +22,7 @@ export interface PanelHelper {
   openCreateIdpGroup: () => void;
   openEditIdpGroup: (group: string) => void;
   openCreateTLSIdentity: () => void;
+  openCreateStorageBucket: (project: string) => void;
 }
 
 export const panels = {
@@ -35,6 +36,7 @@ export const panels = {
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
   createTLSIdentity: "create-tls-identity",
+  createStorageBucket: "create-storage-bucket",
 };
 
 type ParamMap = Record<string, string>;
@@ -141,6 +143,10 @@ const usePanelParams = (): PanelHelper => {
 
     openCreateTLSIdentity: () => {
       setPanelParams(panels.createTLSIdentity);
+    },
+
+    openCreateStorageBucket: () => {
+      setPanelParams(panels.createStorageBucket);
     },
   };
 };
