@@ -67,6 +67,24 @@ export const createStorageBucket = async (
     });
 };
 
+export const updateStorageBucket = async (
+  bucket: LxdStorageBucket,
+  pool: string,
+  project: string,
+): Promise<LxdOperationResponse> => {
+  return fetch(
+    `/1.0/storage-pools/${pool}/buckets/${bucket.name}?project=${project}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(bucket),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
+};
+
 export const deleteStorageBucket = async (
   bucket: string,
   pool: string,
