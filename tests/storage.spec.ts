@@ -24,8 +24,15 @@ import {
   deleteProject,
   randomProjectName,
 } from "./helpers/projects";
+import {
+  createBucket,
+  deleteBucket,
+  editBucket,
+  randomBucketName,
+} from "./helpers/storageBucket";
 
 let volume = randomVolumeName();
+const bucket = randomBucketName();
 
 test.beforeAll(async ({ browser, browserName }) => {
   const page = await browser.newPage();
@@ -200,4 +207,13 @@ test("Export a volume backup", async ({ page }) => {
   await page.waitForSelector(`text=Volume ${volume} download started`);
   const VOLUME_FILE = "tests/fixtures/volume.tar.gz";
   await download.saveAs(VOLUME_FILE);
+});
+
+test("storage bucket create, edit and remove", async ({ page }) => {
+  await createBucket(page, bucket);
+  await editBucket(page, bucket);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await assertTextVisible(page, "size2GiB");
+  await deleteBucket(page, bucket);
 });
