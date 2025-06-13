@@ -16,6 +16,7 @@ export const createVolume = async (
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByRole("button", { name: "Create volume" }).click();
+  await expect(page.getByLabel("Storage pool", { exact: true })).toBeVisible();
   await page.getByPlaceholder("Enter name").fill(volume);
   await page.getByPlaceholder("Enter value").fill("1");
   await page

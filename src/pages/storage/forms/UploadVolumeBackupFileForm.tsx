@@ -152,7 +152,7 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
   const formik = useFormik<UploadVolumeBackupFileFormValues>({
     initialValues: {
       name: defaultVolumeName || "",
-      pool: pools?.[0]?.name,
+      pool: "", // will be set by StoragePoolSelector
       volumeFile: null,
       clusterMember: clusterMembers?.[0]?.server_name ?? "",
     },
