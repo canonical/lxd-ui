@@ -18,11 +18,10 @@ export interface StorageBucketFormValues {
 
 interface Props {
   formik: FormikProps<StorageBucketFormValues>;
-  isEditing?: boolean;
   bucket?: LxdStorageBucket;
 }
 
-const StorageBucketForm: FC<Props> = ({ formik, isEditing = true, bucket }) => {
+const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
   const { canEditBucket } = useStorageBucketEntitlements();
   const getFormProps = (id: "name" | "description") => {
     return {
@@ -35,6 +34,8 @@ const StorageBucketForm: FC<Props> = ({ formik, isEditing = true, bucket }) => {
       placeholder: `Enter ${id.replaceAll("_", " ")}`,
     };
   };
+
+  const isEditing = !!bucket;
 
   const bucketEditRestriction =
     !isEditing || canEditBucket(bucket)
@@ -51,7 +52,8 @@ const StorageBucketForm: FC<Props> = ({ formik, isEditing = true, bucket }) => {
         label="Name"
         required
         autoFocus
-        disabled={!!bucketEditRestriction}
+        disabled={!!bucketEditRestriction || isEditing}
+        help={isEditing && "Storage bucket name can't be changed"}
         title={bucketEditRestriction}
       />
 
@@ -64,8 +66,10 @@ const StorageBucketForm: FC<Props> = ({ formik, isEditing = true, bucket }) => {
         selectProps={{
           id: "bucket-create-pool",
           label: "Storage pool",
-          disabled: !!bucketEditRestriction,
-          help: "Pool must have a Ceph Object driver",
+          disabled: !!bucketEditRestriction || isEditing,
+          help: isEditing
+            ? "Storage bucket pool can't be changed"
+            : "Pool must have a Ceph Object driver",
         }}
       />
       <DiskSizeSelector

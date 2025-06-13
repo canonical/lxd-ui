@@ -23,7 +23,7 @@ import {
   testDuplicateStorageBucketName,
 } from "util/storageBucket";
 
-const CreateBucketPanel: FC = () => {
+const CreateStorageBucketPanel: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -100,7 +100,7 @@ const CreateBucketPanel: FC = () => {
             dependencies={[notify.notification]}
             belowIds={["panel-footer"]}
           >
-            <StorageBucketForm formik={formik} isEditing={false} />
+            <StorageBucketForm formik={formik} />
           </ScrollableContainer>
         </SidePanel.Content>
         <SidePanel.Footer className="u-align--right">
@@ -128,4 +128,4 @@ const CreateBucketPanel: FC = () => {
   );
 };
 
-export default CreateBucketPanel;
+export default CreateStorageBucketPanel;

@@ -9,7 +9,7 @@ interface Props {
   className?: string;
 }
 
-const CreateBucketBtn: FC<Props> = ({ className }) => {
+const CreateStorageBucketBtn: FC<Props> = ({ className }) => {
   const isSmallScreen = useSmallScreen();
   const { canCreateStorageBuckets } = useProjectEntitlements();
   const { project } = useCurrentProject();
@@ -36,4 +36,4 @@ const CreateBucketBtn: FC<Props> = ({ className }) => {
   );
 };
 
-export default CreateBucketBtn;
+export default CreateStorageBucketBtn;

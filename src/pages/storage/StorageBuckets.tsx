@@ -29,14 +29,15 @@ import NotificationRow from "components/NotificationRow";
 import { useLoadBuckets } from "context/useBuckets";
 import type { StorageBucketsFilterType } from "./StorageBucketsFilter";
 import StorageBucketActions from "./actions/StorageBucketActions";
-import CreateBucketBtn from "./actions/CreateBucketBtn";
+import CreateStorageBucketBtn from "./actions/CreateStorageBucketBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import ResourceLink from "components/ResourceLink";
 import usePanelParams, { panels } from "util/usePanelParams";
-import CreateBucketPanel from "./panels/CreateBucketPanel";
 import StorageBucketBulkDelete from "./actions/StorageBucketBulkDelete";
 import type { LxdStorageBucket } from "types/storage";
+import CreateStorageBucketPanel from "./panels/CreateStorageBucketPanel";
+import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 
 const StorageBuckets: FC = () => {
   const docBaseLink = useDocs();
@@ -246,13 +247,21 @@ const StorageBuckets: FC = () => {
           <Icon className="external-link-icon" name="external-link" />
         </a>
       </p>
-      <CreateBucketBtn className="empty-state-button" />
+      <CreateStorageBucketBtn className="empty-state-button" />
     </EmptyState>
   );
 
   const selectedBuckets = buckets.filter((bucket) => {
     const bucketKey = getBucketKey(bucket);
     return selectedNames.includes(bucketKey);
+  });
+
+  const panelBucket = buckets.find((bucket) => {
+    return (
+      bucket.name == panelParams.bucket &&
+      bucket.pool == panelParams.pool &&
+      bucket.location == panelParams.target
+    );
   });
 
   return (
@@ -289,7 +298,7 @@ const StorageBuckets: FC = () => {
             </PageHeader.Left>
             {hasBuckets && (
               <PageHeader.BaseActions>
-                <CreateBucketBtn className="u-float-right u-no-margin--bottom" />
+                <CreateStorageBucketBtn className="u-float-right u-no-margin--bottom" />
               </PageHeader.BaseActions>
             )}
           </PageHeader>
@@ -300,7 +309,10 @@ const StorageBuckets: FC = () => {
       </CustomLayout>
 
       {panelParams.panel === panels.createStorageBucket && (
-        <CreateBucketPanel />
+        <CreateStorageBucketPanel />
+      )}
+      {panelParams.panel === panels.editStorageBucket && panelBucket && (
+        <EditStorageBucketPanel bucket={panelBucket} />
       )}
     </>
   );
