@@ -47,6 +47,10 @@
     margin-bottom: -3px;
   }
 
+  .instance-actions button:hover {
+    background-color: $colors--light-theme--background-active;
+  }
+
   // show actions only on hover if a pointing device is used
   @media screen and (pointer: fine) {
     .instance-actions {

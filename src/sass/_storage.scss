@@ -96,6 +96,10 @@
 
         .storage-volume-actions {
           visibility: visible;
+
+          button:hover {
+            background-color: $colors--light-theme--background-active;
+          }
         }
       }
     }

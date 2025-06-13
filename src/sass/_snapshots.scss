@@ -29,6 +29,10 @@
 
   .u-row:hover {
     background-color: $colors--light-theme--background-hover;
+
+    button:hover {
+      background-color: $colors--light-theme--background-active;
+    }
   }
 
   // show actions only on hover if a pointing device is used
