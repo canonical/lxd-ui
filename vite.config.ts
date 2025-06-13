@@ -23,6 +23,7 @@ export default defineConfig({
   server: {
     port: process.env.VITE_PORT ? Number(process.env.VITE_PORT) : 3000,
     strictPort: true,
+    hmr: process.env.CI ? false : undefined,
     proxy: {
       "/ui/assets": {
         target: "https://localhost:8407/",
