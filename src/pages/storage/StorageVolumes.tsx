@@ -213,7 +213,7 @@ const StorageVolumes: FC = () => {
     const volumeType = renderVolumeType(volume);
     const contentType = renderContentType(volume);
 
-    const key = `${volume.name}-${volume.location}`;
+    const key = `${volume.name}-${volume.pool}-${volume.location}`;
     const snapshotCount = snapshotsPerVolume[key]?.length ?? 0;
 
     return {
