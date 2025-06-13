@@ -51,7 +51,8 @@ const StorageBucketForm: FC<Props> = ({ formik, isEditing = true, bucket }) => {
         label="Name"
         required
         autoFocus
-        disabled={!!bucketEditRestriction}
+        disabled={!!bucketEditRestriction || isEditing}
+        help={isEditing && "Storage bucket name cannot be changed"}
         title={bucketEditRestriction}
       />
 
@@ -64,8 +65,10 @@ const StorageBucketForm: FC<Props> = ({ formik, isEditing = true, bucket }) => {
         selectProps={{
           id: "bucket-create-pool",
           label: "Storage pool",
-          disabled: !!bucketEditRestriction,
-          help: "Pool must have a Ceph Object driver",
+          disabled: !!bucketEditRestriction || isEditing,
+          help: isEditing
+            ? "Storage bucket pool cannot be changed"
+            : "Pool must have a Ceph Object driver",
         }}
       />
       <DiskSizeSelector

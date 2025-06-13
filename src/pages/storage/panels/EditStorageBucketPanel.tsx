@@ -15,12 +15,17 @@ import ScrollableContainer from "components/ScrollableContainer";
 import ResourceLink from "components/ResourceLink";
 import StorageBucketForm from "../forms/StorageBucketForm";
 import type { StorageBucketFormValues } from "../forms/StorageBucketForm";
-import { createStorageBucket } from "api/storage-buckets";
+import { updateStorageBucket } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { testDuplicateStorageBucketName } from "util/storageBucket";
+import type { LxdStorageBucket } from "types/storage";
+import { pluralize } from "util/instanceBulkActions";
 
-const CreateBucketPanel: FC = () => {
+interface Props {
+  bucket: LxdStorageBucket;
+}
+const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -34,7 +39,11 @@ const CreateBucketPanel: FC = () => {
   const bucketSchema = Yup.object().shape({
     name: Yup.string()
       .test(
-        ...testDuplicateStorageBucketName(panelParams.project, controllerState),
+        ...testDuplicateStorageBucketName(
+          panelParams.project,
+          controllerState,
+          panelParams.bucket ?? "",
+        ),
       )
       .required("Bucket name is required"),
   });
@@ -48,30 +57,29 @@ const CreateBucketPanel: FC = () => {
           value={bucketName}
           to={`/ui/project/${panelParams.project}/storage/buckets`}
         />{" "}
-        created.
+        updated.
       </>,
     );
     closePanel();
   };
+
   const formik = useFormik<StorageBucketFormValues>({
     initialValues: {
-      name: "",
-      pool: "",
+      name: bucket?.name,
+      pool: bucket?.pool,
+      size: bucket?.config.size,
+      description: bucket?.description,
     },
+    enableReinitialize: true,
     validationSchema: bucketSchema,
     onSubmit: (values) => {
       const bucketPayload = {
         name: values.name,
         config: { size: values.size },
         description: values.description,
-      };
+      } as LxdStorageBucket;
 
-      createStorageBucket(
-        JSON.stringify(bucketPayload),
-        panelParams.project,
-        values.pool,
-        values.target,
-      )
+      updateStorageBucket(bucketPayload, values.pool, panelParams.project)
         .then(() => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.buckets, panelParams.project],
@@ -80,16 +88,22 @@ const CreateBucketPanel: FC = () => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure(`Bucket creation failed`, e);
+          notify.failure(`Bucket update failed`, e);
         });
     },
   });
+
+  const changeCount =
+    (formik.values.description !== bucket.description ? 1 : 0) +
+    (formik.values.size !== bucket.config.size ? 1 : 0);
 
   return (
     <>
       <SidePanel isOverlay loading={false} hasError={false}>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create storage bucket</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            Edit storage bucket {bucket.name}
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">
@@ -97,7 +111,7 @@ const CreateBucketPanel: FC = () => {
             dependencies={[notify.notification]}
             belowIds={["panel-footer"]}
           >
-            <StorageBucketForm formik={formik} isEditing={false} />
+            <StorageBucketForm formik={formik} isEditing />
           </ScrollableContainer>
         </SidePanel.Content>
         <SidePanel.Footer className="u-align--right">
@@ -114,10 +128,15 @@ const CreateBucketPanel: FC = () => {
             onClick={() => void formik.submitForm()}
             className="u-no-margin--bottom"
             disabled={
-              !formik.isValid || formik.isSubmitting || !formik.values.name
+              !formik.isValid ||
+              formik.isSubmitting ||
+              !formik.values.name ||
+              changeCount === 0
             }
           >
-            Create bucket
+            {changeCount === 0
+              ? "Save changes"
+              : `Save ${changeCount} ${pluralize("change", changeCount)}`}
           </ActionButton>
         </SidePanel.Footer>
       </SidePanel>
@@ -125,4 +144,4 @@ const CreateBucketPanel: FC = () => {
   );
 };
 
-export default CreateBucketPanel;
+export default EditStorageBucketPanel;
