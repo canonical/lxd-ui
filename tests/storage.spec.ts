@@ -24,6 +24,7 @@ import {
   deleteProject,
   randomProjectName,
 } from "./helpers/projects";
+import { gotoURL } from "./helpers/navigate";
 
 let volume = randomVolumeName();
 
@@ -190,7 +191,7 @@ test("copy custom storage volume", async ({ page }) => {
   await deleteProject(page, project);
 });
 
-test("Export a volume backup", async ({ page }) => {
+test("Export and upload a volume backup", async ({ page }) => {
   await visitVolume(page, volume);
   const downloadPromise = page.waitForEvent("download");
 
@@ -200,4 +201,24 @@ test("Export a volume backup", async ({ page }) => {
   await page.waitForSelector(`text=Volume ${volume} download started`);
   const VOLUME_FILE = "tests/fixtures/volume.tar.gz";
   await download.saveAs(VOLUME_FILE);
+
+  //Upload a volume
+  const uploadVolume = randomVolumeName();
+  await gotoURL(page, "/ui/");
+  await page.getByText("Storage").click();
+  await page.getByText("Volumes").click();
+  await page.getByText("Create volume").click();
+  await page.getByRole("button", { name: "Upload volume file" }).click();
+  await expect(
+    page
+      .locator(`section:has-text("Upload volume file")`)
+      .getByLabel("Storage pool", { exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("LXD backup archive").setInputFiles(VOLUME_FILE);
+  await page.getByRole("textbox", { name: "Enter name" }).fill(uploadVolume);
+  await page.getByRole("button", { name: "Upload and create" }).click();
+  await page.waitForSelector(`text=Upload completed. Now creating volume`);
+  await page.waitForSelector(`text=Created volume ${uploadVolume}.`);
+
+  await deleteVolume(page, uploadVolume);
 });
