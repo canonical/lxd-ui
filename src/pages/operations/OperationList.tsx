@@ -11,7 +11,7 @@ import {
 } from "@canonical/react-components";
 import Loader from "components/Loader";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
-import { isoTimeToString } from "util/helpers";
+import { isoTimeToString, nonBreakingSpaces } from "util/helpers";
 import type { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
@@ -68,9 +68,13 @@ const OperationList: FC = () => {
         {
           content: (
             <>
-              <div>Initiated: {isoTimeToString(operation.created_at)}</div>
-              <div className="u-text--muted">
-                Last update: {isoTimeToString(operation.updated_at)}
+              <div className="date-pair">
+                Initiated:{" "}
+                {nonBreakingSpaces(isoTimeToString(operation.created_at))}
+              </div>
+              <div className="date-pair u-text--muted">
+                Last update:{" "}
+                {nonBreakingSpaces(isoTimeToString(operation.updated_at))}
               </div>
             </>
           ),
@@ -144,6 +148,7 @@ const OperationList: FC = () => {
     <>
       <CustomLayout
         mainClassName="operation-list"
+        contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>
             <PageHeader.Left>
