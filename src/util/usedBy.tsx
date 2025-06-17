@@ -41,6 +41,10 @@ export const filterUsedByType = (
           return path.includes("/volumes/");
         }
 
+        if (type === "bucket") {
+          return path.includes("/buckets/");
+        }
+
         return path.startsWith(`/1.0/${type}`);
       })
       .map((path) => {
