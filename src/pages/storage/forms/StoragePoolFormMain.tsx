@@ -68,6 +68,13 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     ? "Cannot rename storage pools"
     : undefined;
 
+  const cephObjectNotice = (
+    <>
+      Rados gateway must be enabled for Ceph Object driver to work. If using
+      microcloud or microceph, run <code>microceph enable rgw</code>.
+    </>
+  );
+
   return (
     <ScrollableForm>
       <Row>
@@ -98,7 +105,9 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 ? "Driver can't be changed"
                 : formik.values.driver === zfsDriver
                   ? "ZFS gives best performance and reliability"
-                  : undefined
+                  : formik.values.driver === cephObject
+                    ? cephObjectNotice
+                    : undefined
             }
             label="Driver"
             options={storageDriverOptions}
