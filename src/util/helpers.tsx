@@ -55,6 +55,10 @@ export const getBrowserFormatDate = (d: Date): string =>
     d.getHours(),
   )}:${pad(d.getMinutes())}`;
 
+export const nonBreakingSpaces = (text: string): string => {
+  return text.replace(/ /g, "\u00A0");
+};
+
 interface ErrorResponse {
   error_code: number;
   error: string;

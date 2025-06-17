@@ -4,10 +4,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
+import { isWidthBelow } from "util/helpers";
+import classnames from "classnames";
 
 const RefreshOperationsBtn: FC = () => {
   const { isFetching } = useOperations();
   const queryClient = useQueryClient();
+  const isSmallScreen = () => isWidthBelow(620);
 
   const handleRefresh = () => {
     queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
@@ -18,12 +21,14 @@ const RefreshOperationsBtn: FC = () => {
 
   return (
     <ActionButton
-      className="u-no-margin--bottom has-icon"
+      className={classnames("u-no-margin--bottom", {
+        "has-icon": !isSmallScreen(),
+      })}
       onClick={handleRefresh}
       loading={isFetching}
       disabled={isFetching}
     >
-      <Icon name="restart" />
+      {!isSmallScreen() && <Icon name="restart" />}
       <span>Refresh</span>
     </ActionButton>
   );

@@ -9,6 +9,10 @@
     }
   }
 
+  .date-pair {
+    text-wrap: auto; // overriding text-wrap-mode: pretty to ensure on small screens the date pair is not cut off
+  }
+
   .status {
     width: 120px;
   }
