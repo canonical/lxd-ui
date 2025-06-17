@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.05% </span>
+                <span class="strong">80.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/39</span>
+                <span class='fraction'>37/46</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>37/37</span>
             </div>
         
             
@@ -95,7 +95,12 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -103,12 +108,17 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -133,10 +143,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
+import { isWidthBelow } from "util/helpers";
+import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 &nbsp;
 const RefreshOperationsBtn: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const { isFetching } = <span class="cstat-no" title="statement not covered" >useOperations();</span>
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
+  const isSmallScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >i</span>sWidthBelow(620);</span></span>
 &nbsp;
   const handleRefresh = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });</span>
@@ -147,12 +160,14 @@ const RefreshOperationsBtn: FC = <span class="cstat-no" title="statement not cov
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ActionButton
-      className="u-no-margin--bottom has-icon"
+      className={classnames("u-no-margin--bottom", {
+        "has-icon": !isSmallScreen(),
+      })}
       onClick={handleRefresh}
       loading={isFetching}
       disabled={isFetching}
     &gt;
-      &lt;Icon name="restart" /&gt;
+      {!isSmallScreen() &amp;&amp; &lt;Icon name="restart" /&gt;}
       &lt;span&gt;Refresh&lt;/span&gt;
     &lt;/ActionButton&gt;
   );
@@ -166,7 +181,7 @@ export default RefreshOperationsBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-13T20:25:25.647Z
+                at 2025-06-17T08:49:55.969Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
