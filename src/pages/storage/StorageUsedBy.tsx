@@ -4,6 +4,7 @@ import type { LxdUsedBy } from "util/usedBy";
 import { filterUsedByType } from "util/usedBy";
 import ExpandableList from "components/ExpandableList";
 import UsedByItem from "components/UsedByItem";
+import { getStorageBucketURL } from "util/storageBucket";
 
 interface Props {
   storage: LxdStoragePool | LxdStorageVolume;
@@ -15,6 +16,7 @@ const PROFILES = "Profiles";
 const IMAGES = "Images";
 const SNAPSHOTS = "Snapshots";
 const CUSTOM_VOLUMES = "Custom volumes";
+const BUCKETS = "Buckets";
 
 const StorageUsedBy: FC<Props> = ({ storage, project }) => {
   const data: Record<string, LxdUsedBy[]> = {
@@ -23,6 +25,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
     [IMAGES]: filterUsedByType("image", storage.used_by),
     [SNAPSHOTS]: filterUsedByType("snapshot", storage.used_by),
     [CUSTOM_VOLUMES]: filterUsedByType("volume", storage.used_by),
+    [BUCKETS]: filterUsedByType("bucket", storage.used_by),
   };
 
   return (
@@ -122,6 +125,22 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   activeProject={project}
                   type="volume"
                   to={`/ui/project/${item.project}/storage/pool/${storage.name}/volumes/custom/${item.name}`}
+                />
+              ))}
+            />
+          </td>
+        </tr>
+        <tr>
+          <th className="u-text--muted">Buckets ({data[BUCKETS].length})</th>
+          <td>
+            <ExpandableList
+              items={data[BUCKETS].map((item) => (
+                <UsedByItem
+                  key={`${item.name}-${item.project}`}
+                  item={item}
+                  activeProject={project}
+                  type="bucket"
+                  to={getStorageBucketURL(item.project)}
                 />
               ))}
             />

@@ -18,7 +18,10 @@ import type { StorageBucketFormValues } from "../forms/StorageBucketForm";
 import { createStorageBucket } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { testDuplicateStorageBucketName } from "util/storageBucket";
+import {
+  getStorageBucketURL,
+  testDuplicateStorageBucketName,
+} from "util/storageBucket";
 
 const CreateBucketPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -46,7 +49,7 @@ const CreateBucketPanel: FC = () => {
         <ResourceLink
           type="bucket"
           value={bucketName}
-          to={`/ui/project/${panelParams.project}/storage/buckets`}
+          to={getStorageBucketURL(panelParams.project)}
         />{" "}
         created.
       </>,
