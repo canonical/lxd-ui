@@ -21,7 +21,7 @@ interface Props {
   classname?: string;
 }
 
-const DeleteStorageBucket: FC<Props> = ({
+const DeleteStorageBucketBtn: FC<Props> = ({
   bucket,
   onFinish,
   appearance = "base",
@@ -82,4 +82,4 @@ const DeleteStorageBucket: FC<Props> = ({
   );
 };
 
-export default DeleteStorageBucket;
+export default DeleteStorageBucketBtn;

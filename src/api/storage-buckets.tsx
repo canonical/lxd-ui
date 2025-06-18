@@ -67,21 +67,33 @@ export const createStorageBucket = async (
     });
 };
 
+export const updateStorageBucket = async (
+  bucket: LxdStorageBucket,
+  pool: string,
+  project: string,
+  target?: string,
+): Promise<void> => {
+  const targetParam = target ? `&target=${target}` : "";
+  await fetch(
+    `/1.0/storage-pools/${pool}/buckets/${bucket.name}?project=${project}${targetParam}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(bucket),
+    },
+  ).then(handleResponse);
+};
+
 export const deleteStorageBucket = async (
   bucket: string,
   pool: string,
   project: string,
-): Promise<LxdOperationResponse> => {
-  return fetch(
+): Promise<void> => {
+  await fetch(
     `/1.0/storage-pools/${pool}/buckets/${bucket}?project=${project}`,
     {
       method: "DELETE",
     },
-  )
-    .then(handleResponse)
-    .then((data: LxdOperationResponse) => {
-      return data;
-    });
+  ).then(handleResponse);
 };
 
 export const deleteStorageBucketBulk = async (

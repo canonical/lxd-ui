@@ -3,7 +3,8 @@ import classnames from "classnames";
 import { List, useToastNotification } from "@canonical/react-components";
 import type { LxdStorageBucket } from "types/storage";
 import ResourceLabel from "components/ResourceLabel";
-import DeleteStorageBucket from "./DeleteStorageBucket";
+import DeleteStorageBucketBtn from "./DeleteStorageBucketBtn";
+import EditStorageBucketBtn from "./EditStorageBucketBtn";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -18,7 +19,13 @@ const StorageBucketActions: FC<Props> = ({ bucket, className }) => {
       inline
       className={classnames(className, "actions-list")}
       items={[
-        <DeleteStorageBucket
+        <EditStorageBucketBtn
+          key="edit"
+          classname="is-dense has-icon"
+          bucket={bucket}
+        />,
+        <DeleteStorageBucketBtn
+          classname="is-dense has-icon"
           key="delete"
           bucket={bucket}
           onFinish={() => {
