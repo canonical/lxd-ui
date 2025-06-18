@@ -25,8 +25,10 @@ import {
   randomProjectName,
 } from "./helpers/projects";
 import { gotoURL } from "./helpers/navigate";
+import { createBucket, randomBucketName } from "./helpers/storageBucket";
 
 let volume = randomVolumeName();
+const bucket = randomBucketName();
 
 test.beforeAll(async ({ browser, browserName }) => {
   const page = await browser.newPage();
@@ -221,4 +223,17 @@ test("Export and upload a volume backup", async ({ page }) => {
   await page.waitForSelector(`text=Created volume ${uploadVolume}.`);
 
   await deleteVolume(page, uploadVolume);
+});
+
+test("storage bucket create", async ({ page }) => {
+  const project = randomProjectName();
+
+  await createProject(page, project);
+  await gotoURL(page, `/ui/project/${project}`);
+  await page.getByRole("button", { name: "Storage" }).click();
+  await page.getByRole("link", { name: "Buckets" }).click();
+  await assertTextVisible(page, "No buckets found in this project");
+
+  await createBucket(page, bucket);
+  await deleteProject(page, project);
 });
