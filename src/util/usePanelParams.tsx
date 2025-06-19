@@ -12,6 +12,7 @@ export interface PanelHelper {
   subForm: GroupSubForm;
   project: string;
   bucket: string | null;
+  bucketKey: string | null;
   pool: string | null;
   target: string | null;
   clear: () => void;
@@ -25,6 +26,7 @@ export interface PanelHelper {
   openEditIdpGroup: (group: string) => void;
   openCreateTLSIdentity: () => void;
   openCreateStorageBucket: (project: string) => void;
+  openCreateStorageBucketKey: (project: string) => void;
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
 }
 
@@ -40,6 +42,7 @@ export const panels = {
   createTLSIdentity: "create-tls-identity",
   createStorageBucket: "create-storage-bucket",
   editStorageBucket: "edit-storage-bucket",
+  createStorageBucketKey: "create-bucket-key",
 };
 
 type ParamMap = Record<string, string>;
@@ -77,6 +80,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("panel-project");
     newParams.delete("sub-form");
     newParams.delete("bucket");
+    newParams.delete("bucketKey");
     newParams.delete("panel-pool");
     newParams.delete("target");
     setParams(newParams);
@@ -93,6 +97,7 @@ const usePanelParams = (): PanelHelper => {
     idpGroup: params.get("idp-group"),
     subForm: params.get("sub-form") as GroupSubForm,
     bucket: params.get("bucket"),
+    bucketKey: params.get("bucket-key"),
     pool: params.get("panel-pool"),
     target: params.get("target") ?? "",
 
@@ -161,6 +166,10 @@ const usePanelParams = (): PanelHelper => {
         target: target || "",
       };
       setPanelParams(panels.editStorageBucket, params);
+    },
+
+    openCreateStorageBucketKey: () => {
+      setPanelParams(panels.createStorageBucketKey);
     },
   };
 };

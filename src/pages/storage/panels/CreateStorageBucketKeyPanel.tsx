@@ -6,84 +6,83 @@ import {
 } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
-import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
 import ResourceLink from "components/ResourceLink";
-import StorageBucketForm from "../forms/StorageBucketForm";
-import type { StorageBucketFormValues } from "../forms/StorageBucketForm";
-import { createStorageBucket } from "api/storage-buckets";
+import { createStorageBucketKey } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  getStorageBucketURL,
-  testDuplicateStorageBucketName,
-} from "util/storageBucket";
+import StorageBucketKeyForm from "../forms/StorageBucketKeyForm";
+import type { StorageBucketKeyFormValues } from "../forms/StorageBucketKeyForm";
+import type { LxdStorageBucket } from "types/storage";
 
-const CreateStorageBucketPanel: FC = () => {
+interface Props {
+  bucket: LxdStorageBucket;
+}
+
+const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
-  const controllerState = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
 
-  const bucketSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        ...testDuplicateStorageBucketName(panelParams.project, controllerState),
-      )
-      .required("Bucket name is required"),
+  const keySchema = Yup.object().shape({
+    name: Yup.string().required("Key name is required"),
   });
 
-  const handleSuccess = (bucketName: string, pool: string) => {
+  const handleSuccess = (keyName: string) => {
     toastNotify.success(
       <>
-        Bucket{" "}
+        Key{" "}
         <ResourceLink
-          type="bucket"
-          value={bucketName}
-          to={getStorageBucketURL(bucketName, pool, panelParams.project)}
+          type="bucket" //Change to what?
+          value={keyName}
+          to={``} //Open edit panel for the identity.
         />{" "}
         created.
       </>,
     );
     closePanel();
   };
-  const formik = useFormik<StorageBucketFormValues>({
+  const formik = useFormik<StorageBucketKeyFormValues>({
     initialValues: {
       name: "",
-      pool: "",
+      role: "read-only",
     },
-    validationSchema: bucketSchema,
+    validationSchema: keySchema,
     onSubmit: (values) => {
-      const bucketPayload = {
+      const keyPayload = {
         name: values.name,
-        config: { size: values.size },
+        role: values.role,
         description: values.description,
       };
 
-      createStorageBucket(
-        JSON.stringify(bucketPayload),
+      createStorageBucketKey(
+        JSON.stringify(keyPayload),
         panelParams.project,
-        values.pool,
-        values.target,
+        bucket.pool,
+        bucket.name,
       )
         .then(() => {
           queryClient.invalidateQueries({
-            queryKey: [queryKeys.buckets, panelParams.project],
+            queryKey: [
+              queryKeys.buckets,
+              panelParams.project,
+              queryKeys.bucketKeys,
+            ],
           });
-          handleSuccess(values.name, values.pool);
+          handleSuccess(values.name);
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure(`Bucket creation failed`, e);
+          notify.failure(`Key creation failed`, e);
         });
     },
   });
@@ -92,7 +91,7 @@ const CreateStorageBucketPanel: FC = () => {
     <>
       <SidePanel isOverlay loading={false} hasError={false}>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create storage bucket</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>Create key</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">
@@ -100,7 +99,7 @@ const CreateStorageBucketPanel: FC = () => {
             dependencies={[notify.notification]}
             belowIds={["panel-footer"]}
           >
-            <StorageBucketForm formik={formik} />
+            <StorageBucketKeyForm formik={formik} />
           </ScrollableContainer>
         </SidePanel.Content>
         <SidePanel.Footer className="u-align--right">
@@ -120,7 +119,7 @@ const CreateStorageBucketPanel: FC = () => {
               !formik.isValid || formik.isSubmitting || !formik.values.name
             }
           >
-            Create bucket
+            Create key
           </ActionButton>
         </SidePanel.Footer>
       </SidePanel>
@@ -128,4 +127,4 @@ const CreateStorageBucketPanel: FC = () => {
   );
 };
 
-export default CreateStorageBucketPanel;
+export default CreateStorageBucketKeyPanel;

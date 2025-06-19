@@ -8,6 +8,12 @@
     width: 2.5rem;
   }
 
+  .empty-state-key {
+    height: 4rem;
+    margin-top: $spv--medium;
+    width: 4rem;
+  }
+
   @include large {
     width: 67%;
   }

@@ -38,6 +38,7 @@ import StorageBucketBulkDelete from "./actions/StorageBucketBulkDelete";
 import type { LxdStorageBucket } from "types/storage";
 import CreateStorageBucketPanel from "./panels/CreateStorageBucketPanel";
 import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
+import StorageBucketLink from "./StorageBucketLink";
 
 const StorageBuckets: FC = () => {
   const docBaseLink = useDocs();
@@ -119,11 +120,7 @@ const StorageBuckets: FC = () => {
       className: "u-row",
       columns: [
         {
-          content: (
-            <div className="u-truncate" title={bucket.name}>
-              {bucket.name}
-            </div>
-          ),
+          content: <StorageBucketLink bucket={bucket} project={project} />,
           role: "rowheader",
           "aria-label": NAME_COL,
         },

@@ -85,8 +85,8 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
 
     const restrictedCount = totalCount - deleteCount;
     return [
-      `${deleteCount} ${pluralize("image", deleteCount)} will be deleted.`,
-      `${restrictedCount} ${pluralize("image", restrictedCount)} that you do not have permission to delete will be ignored.`,
+      `${deleteCount} ${pluralize("bucket", deleteCount)} will be deleted.`,
+      `${restrictedCount} ${pluralize("bucket", restrictedCount)} that you do not have permission to delete will be ignored.`,
     ];
   };
 
