@@ -67,7 +67,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
         }
 
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.buckets, projectName],
+          queryKey: [queryKeys.storage, projectName, queryKeys.buckets],
         });
         setLoading(false);
         onFinish();
