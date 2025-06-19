@@ -4,6 +4,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
+import Loader from "components/Loader";
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -11,102 +12,137 @@ import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
 import ResourceLink from "components/ResourceLink";
-import StorageBucketForm from "../forms/StorageBucketForm";
-import type { StorageBucketFormValues } from "../forms/StorageBucketForm";
-import { updateStorageBucket } from "api/storage-buckets";
+import { updateStorageBucketKey } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import type { LxdStorageBucket } from "types/storage";
+import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import { pluralize } from "util/instanceBulkActions";
-import { useCurrentProject } from "context/useCurrentProject";
+import type { StorageBucketKeyFormValues } from "../forms/StorageBucketKeyForm";
+import { useBucketKey } from "context/useBuckets";
+import StorageBucketKeyForm from "../forms/StorageBucketKeyForm";
+import { getStorageBucketURL } from "util/storageBucket";
 
 interface Props {
   bucket: LxdStorageBucket;
 }
-const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
+const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
   const panelParams = usePanelParams();
+  const { project, key } = panelParams;
   const notify = useNotify();
   const toastNotify = useToastNotification();
-  const { project } = useCurrentProject();
   const queryClient = useQueryClient();
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
 
-  const handleSuccess = (bucketName: string) => {
+  const {
+    data: bucketKey,
+    error,
+    isLoading,
+  } = useBucketKey(bucket, key ?? "", project);
+
+  const handleSuccess = (bucket: LxdStorageBucket) => {
+    const bucketURL = getStorageBucketURL(bucket.name, bucket.pool, project);
     toastNotify.success(
       <>
-        Bucket{" "}
+        Key{" "}
         <ResourceLink
-          type="bucket"
-          value={bucketName}
-          to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/buckets`}
+          type="bucket-key"
+          value={bucketKey?.name ?? ""}
+          to={bucketURL}
         />{" "}
-        updated.
+        updated for bucket{" "}
+        <ResourceLink type="bucket" value={bucket?.name ?? ""} to={bucketURL} />
+        .
       </>,
     );
     closePanel();
   };
 
-  const formik = useFormik<StorageBucketFormValues>({
+  const formik = useFormik<StorageBucketKeyFormValues>({
     initialValues: {
-      name: bucket?.name,
-      pool: bucket?.pool,
-      size: bucket?.config.size,
-      description: bucket?.description,
-      target: bucket?.location,
+      name: bucketKey?.name ?? "",
+      role: bucketKey?.role,
+      description: bucketKey?.description,
+      "access-key": bucketKey?.["access-key"] ?? "",
+      "secret-key": bucketKey?.["secret-key"] ?? "",
     },
     enableReinitialize: true,
     onSubmit: (values) => {
-      const bucketPayload = {
+      const keyPayload = {
         name: values.name,
-        config: { size: values.size },
+        role: values.role,
         description: values.description,
-      } as LxdStorageBucket;
+        "access-key": values["access-key"],
+        "secret-key": values["secret-key"],
+      } as LxdStorageBucketKey;
 
-      updateStorageBucket(
-        bucketPayload,
-        values.pool,
-        project?.name || "",
-        values.target,
+      updateStorageBucketKey(
+        bucket.name,
+        keyPayload,
+        bucket.pool,
+        project || "",
       )
         .then(() => {
           queryClient.invalidateQueries({
             queryKey: [
               queryKeys.storage,
               bucket.pool,
-              project?.name ?? "",
+              project,
               queryKeys.buckets,
               bucket.name,
+              queryKeys.keys,
             ],
           });
           queryClient.invalidateQueries({
             queryKey: [
               queryKeys.storage,
-              project?.name ?? "",
+              bucket.pool,
+              project,
               queryKeys.buckets,
+              bucket.name,
+              queryKeys.keys,
+              bucketKey?.name,
             ],
           });
-          handleSuccess(values.name);
+          handleSuccess(bucket);
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure(`Bucket update failed`, e);
+          notify.failure(`Key update failed`, e);
         });
     },
   });
 
+  if (!project) {
+    return <>Missing project</>;
+  }
+  if (!key) {
+    return <>Missing key</>;
+  }
+
+  if (error) {
+    notify.failure("Loading key failed", error);
+  }
+
+  if (isLoading) {
+    return <Loader isMainComponent />;
+  } else if (!bucketKey) {
+    return <>Loading key failed</>;
+  }
   const changeCount =
-    (formik.values.description !== bucket.description ? 1 : 0) +
-    (formik.values.size !== bucket.config.size ? 1 : 0);
+    (formik.values.description !== bucketKey.description ? 1 : 0) +
+    (formik.values.role !== bucketKey.role ? 1 : 0) +
+    (formik.values["access-key"] !== bucketKey["access-key"] ? 1 : 0) +
+    (formik.values["secret-key"] !== bucketKey["secret-key"] ? 1 : 0);
 
   return (
     <>
       <SidePanel isOverlay loading={false} hasError={false}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
-            Edit storage bucket {bucket.name}
+            Edit key {bucketKey.name}
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
@@ -115,7 +151,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
             dependencies={[notify.notification]}
             belowIds={["panel-footer"]}
           >
-            <StorageBucketForm formik={formik} bucket={bucket} />
+            <StorageBucketKeyForm formik={formik} bucket={bucket} />
           </ScrollableContainer>
         </SidePanel.Content>
         <SidePanel.Footer className="u-align--right">
@@ -145,4 +181,4 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
   );
 };
 
-export default EditStorageBucketPanel;
+export default EditStorageBucketKeyPanel;

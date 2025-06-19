@@ -79,6 +79,9 @@ const CreateStorageVolume = lazy(
 const StorageVolumeDetail = lazy(
   async () => import("pages/storage/StorageVolumeDetail"),
 );
+const StorageBucketDetail = lazy(
+  async () => import("pages/storage/StorageBucketDetail"),
+);
 const WarningList = lazy(async () => import("pages/warnings/WarningList"));
 const PermissionIdentities = lazy(
   async () => import("pages/permissions/PermissionIdentities"),
@@ -422,6 +425,10 @@ const App: FC = () => {
         <Route
           path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab/:section"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/pool/:pool/bucket/:bucket"
+          element={<ProtectedRoute outlet={<StorageBucketDetail />} />}
         />
         <Route
           path="/ui/project/:project/images"

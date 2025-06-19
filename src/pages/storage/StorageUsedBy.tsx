@@ -153,7 +153,11 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="bucket"
-                  to={getStorageBucketURL(item.project)}
+                  to={getStorageBucketURL(
+                    item.name,
+                    storage.name,
+                    item.project,
+                  )}
                 />
               ))}
             />
