@@ -15,19 +15,17 @@ import { useCurrentProject } from "context/useCurrentProject";
 interface Props {
   bucket: LxdStorageBucket;
   onFinish: () => void;
-  appearance?: string;
   hasIcon?: boolean;
-  label?: string;
   classname?: string;
+  isDetailPage?: boolean;
 }
 
 const DeleteStorageBucketBtn: FC<Props> = ({
   bucket,
   onFinish,
-  appearance = "base",
   hasIcon = true,
-  label,
   classname,
+  isDetailPage,
 }) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
@@ -65,7 +63,7 @@ const DeleteStorageBucketBtn: FC<Props> = ({
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      appearance={appearance}
+      appearance={isDetailPage ? "default" : "base"}
       className={classname}
       shiftClickEnabled
       showShiftClickHint
@@ -77,7 +75,7 @@ const DeleteStorageBucketBtn: FC<Props> = ({
       }
     >
       {hasIcon && <Icon name="delete" />}
-      {label && <span>{label}</span>}
+      {isDetailPage && <span>Delete</span>}
     </ConfirmationButton>
   );
 };

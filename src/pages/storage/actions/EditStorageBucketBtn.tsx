@@ -7,9 +7,14 @@ import usePanelParams from "util/usePanelParams";
 interface Props {
   bucket: LxdStorageBucket;
   classname?: string;
+  isDetailPage?: boolean;
 }
 
-const EditStorageBucketBtn: FC<Props> = ({ bucket, classname }) => {
+const EditStorageBucketBtn: FC<Props> = ({
+  bucket,
+  classname,
+  isDetailPage,
+}) => {
   const panelParams = usePanelParams();
   const { canEditBucket } = useStorageBucketEntitlements();
 
@@ -17,7 +22,7 @@ const EditStorageBucketBtn: FC<Props> = ({ bucket, classname }) => {
     <Button
       key={`${bucket.name}-edit`}
       className={classname}
-      appearance="base"
+      appearance={isDetailPage ? "default" : "base"}
       hasIcon
       onClick={() => {
         panelParams.openEditStorageBucket(
@@ -33,6 +38,7 @@ const EditStorageBucketBtn: FC<Props> = ({ bucket, classname }) => {
       }
     >
       <Icon name="edit" />
+      {isDetailPage && <span>Configure</span>}
     </Button>
   );
 };

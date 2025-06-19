@@ -1,11 +1,12 @@
 import { handleResponse } from "util/helpers";
-import type { LxdStorageBucket } from "types/storage";
+import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import { withEntitlementsQuery } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
+import { getTargetParam } from "./storage-volumes";
 
 export const storageBucketEntitlements = ["can_delete", "can_edit"];
 
@@ -44,6 +45,27 @@ export const fetchAllStorageBuckets = async (
 
   const allBuckets = await Promise.all(fetches);
   return allBuckets.flat();
+};
+
+export const fetchStorageBucket = async (
+  pool: string,
+  project: string,
+  bucketName: string,
+  isFineGrained: boolean | null,
+  target?: string | null,
+): Promise<LxdStorageBucket> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageBucketEntitlements,
+  );
+  const targetParam = getTargetParam(target);
+  return fetch(
+    `/1.0/storage-pools/${pool}/buckets/${bucketName}?project=${project}${targetParam}${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageBucket>) => {
+      return { ...data.metadata, pool } as LxdStorageBucket;
+    });
 };
 
 export const createStorageBucket = async (
@@ -116,4 +138,23 @@ export const deleteStorageBucketBulk = async (
       }),
     ).catch(reject);
   });
+};
+
+export const fetchStorageBucketKeys = async (
+  bucket: LxdStorageBucket,
+  isFineGrained: boolean | null,
+  project: string,
+): Promise<LxdStorageBucketKey[]> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageBucketEntitlements,
+  );
+
+  return fetch(
+    `/1.0/storage-pools/${bucket.pool}/buckets/${bucket.name}/keys?project=${project}&recursion=1${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageBucketKey[]>) => {
+      return data.metadata;
+    });
 };
