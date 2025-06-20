@@ -41,32 +41,32 @@ Future plans and high-priority features and enhancements can be found in the [ro
 
 | Create an instance   | Instance list        |
 |----------------------|----------------------|
-| ![create-instance](https://github.com/user-attachments/assets/832fb6f0-1295-46cd-a969-6ffe30c6eaca) | ![instance-list](https://github.com/user-attachments/assets/705a9846-900c-46c8-bff0-4095e3dfc221) |
+| ![create-instance](https://assets.ubuntu.com/v1/7c8e3805-create-instance.png) | ![instance-list](https://assets.ubuntu.com/v1/a45c20d0-instance-list.png) |
 
 |  Instance terminal   | Graphic console      |
 |----------------------|----------------------|
-| ![instance-terminal](https://github.com/user-attachments/assets/45c2ecb7-7203-4875-a790-89656f3f4579) | ![instance-graphical-console](https://github.com/user-attachments/assets/fb486117-c7a0-47f1-b4f3-604b228687d8) |
+| ![instance-terminal](https://assets.ubuntu.com/v1/8b5c1144-instance-terminal.png) | ![instance-graphical-console](https://assets.ubuntu.com/v1/6c9f268f-instance-graphical-console.png) |
 
 | Storage pools         | Storage volume       |
 |----------------------|----------------------|
-| ![storage-pool-list](https://github.com/user-attachments/assets/1be59c40-99d5-4f03-80c8-1c0555899564)  | ![storage-volume-snap](https://github.com/user-attachments/assets/065db19f-a076-4d57-8027-32aead069ca5) |
+| ![storage-pool-list](https://assets.ubuntu.com/v1/697d98b1-storage-pool-list.png)  | ![storage-volume-snap](https://assets.ubuntu.com/v1/0d407301-storage-volume-snap.png) |
 
 | Network              | Network ACL          | 
 |----------------------|----------------------|
-| ![network-detail](https://github.com/user-attachments/assets/f4f36001-9394-45fc-9730-487db4faf699) | ![network-acl-create](https://github.com/user-attachments/assets/8b20026b-72f0-41ba-9483-f254acaab53a) |
+| ![network-detail](https://assets.ubuntu.com/v1/cea32c07-network-detail.png) | ![network-acl-create](https://assets.ubuntu.com/v1/c9e5e114-network-acl-create.png) |
 
 | Create a group       | Assign permissions   |
 |----------------------|----------------------|
-| ![group-create-overview](https://github.com/user-attachments/assets/444187b7-5f0a-49ac-a8de-71159d01cc0a) | ![group-create-permission](https://github.com/user-attachments/assets/b9d631b5-1eda-4645-9883-97208f641c62) |
+| ![group-create-overview](https://assets.ubuntu.com/v1/48d3cea4-group-create-overview.png) | ![group-create-permission](https://assets.ubuntu.com/v1/c92cbd68-group-create-permission.png) |
 
 | Permission groups    | Operations           |
 |----------------------|----------------------|
-| ![group-list](https://github.com/user-attachments/assets/65b348f9-447a-4b30-a795-f1a0f3a17f2a) | ![operations-list](https://github.com/user-attachments/assets/b803df86-f2d0-4fbf-ac8b-a118cc0e1bd7) |
+| ![group-list](https://assets.ubuntu.com/v1/ecab47f6-group-list.png) | ![operations-list](https://assets.ubuntu.com/v1/b5b214ea-operations-list.png) |
 
 | Profiles             | Warnings             |
 |----------------------|----------------------|
-| ![profile-list](https://github.com/user-attachments/assets/9e87050b-5906-4665-9bc2-065e85ba6564) | ![warnings-list](https://github.com/user-attachments/assets/a2e6eb1b-1418-4cb9-b6c9-e109bc16b3e8) |
+| ![profile-list](https://assets.ubuntu.com/v1/acb5f1d6-profile-list.png) | ![warnings-list](https://assets.ubuntu.com/v1/5c7eae10-warnings-list.png) |
 
 | Cluster groups       | Server settings      |
 |----------------------|----------------------|
-| ![cluster-list](https://github.com/user-attachments/assets/25ef384e-6ee8-4548-8e4d-dbe5504b8ee4) | ![server-settings](https://github.com/user-attachments/assets/7d0d1272-6bed-4a24-8b55-19a36150a8d6) |
+| ![cluster-list](https://assets.ubuntu.com/v1/12019e05-cluster-list.png) | ![server-settings](https://assets.ubuntu.com/v1/566fac1a-server-settings.png) |
