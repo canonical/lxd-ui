@@ -16,7 +16,6 @@ export interface PanelHelper {
   target: string | null;
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
-  openImageImport: () => void;
   openProfileSummary: (profile: string, project: string) => void;
   openIdentityGroups: (identity?: string) => void;
   openCreateGroup: () => void;
@@ -31,7 +30,6 @@ export interface PanelHelper {
 
 export const panels = {
   instanceSummary: "instance-summary",
-  imageImport: "image-import",
   profileSummary: "profile-summary",
   identityGroups: "identity-groups",
   createGroup: "create-groups",
@@ -107,10 +105,6 @@ const usePanelParams = (): PanelHelper => {
         instance,
         "panel-project": project,
       });
-    },
-
-    openImageImport: () => {
-      setPanelParams(panels.imageImport);
     },
 
     openProfileSummary: (profile, project) => {
