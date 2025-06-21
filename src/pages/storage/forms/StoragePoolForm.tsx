@@ -54,6 +54,7 @@ export interface StoragePoolFormValues {
   ceph_cluster_name?: string;
   ceph_osd_pg_num?: string;
   ceph_rbd_clone_copy?: string;
+  ceph_rbd_du?: string;
   ceph_user_name?: string;
   ceph_rbd_features?: string;
   cephfs_cluster_name?: string;
@@ -122,6 +123,7 @@ export const toStoragePool = (
         [getPoolKey("ceph_cluster_name")]: values.ceph_cluster_name,
         [getPoolKey("ceph_osd_pg_num")]: values.ceph_osd_pg_num?.toString(),
         [getPoolKey("ceph_rbd_clone_copy")]: values.ceph_rbd_clone_copy,
+        [getPoolKey("ceph_rbd_du")]: values.ceph_rbd_du,
         [getPoolKey("ceph_user_name")]: values.ceph_user_name,
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
         source: values.source,

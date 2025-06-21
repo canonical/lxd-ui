@@ -25,7 +25,7 @@ import {
 import { slugify } from "util/slugify";
 import { yamlToObject } from "util/yaml";
 import { useSettings } from "context/useSettings";
-import { getSupportedStorageDrivers } from "util/storageOptions";
+import { cephDriver, getSupportedStorageDrivers } from "util/storageOptions";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
@@ -125,7 +125,20 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           formik.setSubmitting(false);
           queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
+            predicate: (query) =>
+              query.queryKey[0] === queryKeys.volumes ||
+              query.queryKey[0] === queryKeys.storage,
           });
+          if (pool.driver === cephDriver && values.ceph_rbd_du === "false") {
+            // Clear the storage volume sizes from the cache. The sizes are not available
+            // after disabling `ceph_rbd_du` and the volume state queries will fail. So we
+            // remove the queries to avoid serving the size from a stale cache.
+            queryClient.removeQueries({
+              predicate: (query) =>
+                query.queryKey[0] === queryKeys.storage &&
+                query.queryKey[1] === pool.name,
+            });
+          }
         });
     },
   });
