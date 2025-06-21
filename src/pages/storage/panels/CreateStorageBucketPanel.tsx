@@ -42,14 +42,14 @@ const CreateStorageBucketPanel: FC = () => {
       .required("Bucket name is required"),
   });
 
-  const handleSuccess = (bucketName: string) => {
+  const handleSuccess = (bucketName: string, pool: string) => {
     toastNotify.success(
       <>
         Bucket{" "}
         <ResourceLink
           type="bucket"
           value={bucketName}
-          to={getStorageBucketURL(panelParams.project)}
+          to={getStorageBucketURL(bucketName, pool, panelParams.project)}
         />{" "}
         created.
       </>,
@@ -79,7 +79,7 @@ const CreateStorageBucketPanel: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.buckets, panelParams.project],
           });
-          handleSuccess(values.name);
+          handleSuccess(values.name, values.pool);
         })
         .catch((e) => {
           formik.setSubmitting(false);

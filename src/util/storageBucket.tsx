@@ -28,6 +28,10 @@ export const testDuplicateStorageBucketName = (
   ];
 };
 
-export const getStorageBucketURL = (project?: string) => {
-  return `/ui/project/${project}/storage/buckets`;
+export const getStorageBucketURL = (
+  name: string,
+  pool: string,
+  project?: string,
+) => {
+  return `/ui/project/${project}/storage/pool/${pool}/bucket/${name}`;
 };

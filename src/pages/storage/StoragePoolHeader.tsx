@@ -1,16 +1,8 @@
 import type { FC } from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import type { RenameHeaderValues } from "components/RenameHeader";
+import { Link } from "react-router-dom";
 import RenameHeader from "components/RenameHeader";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import type { LxdStoragePool } from "types/storage";
-import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
-import { testDuplicateStoragePoolName } from "util/storagePool";
-import { useNotify, useToastNotification } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 
 interface Props {
   name: string;
@@ -19,50 +11,6 @@ interface Props {
 }
 
 const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
-  const navigate = useNavigate();
-  const notify = useNotify();
-  const toastNotify = useToastNotification();
-  const controllerState = useState<AbortController | null>(null);
-
-  const RenameSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(...testDuplicateStoragePoolName(project, controllerState))
-      .required("This field is required"),
-  });
-
-  const formik = useFormik<RenameHeaderValues>({
-    initialValues: {
-      name,
-      isRenaming: false,
-    },
-    validationSchema: RenameSchema,
-    onSubmit: (values) => {
-      if (name === values.name) {
-        formik.setFieldValue("isRenaming", false);
-        formik.setSubmitting(false);
-        return;
-      }
-      renameStoragePool(name, values.name)
-        .then(() => {
-          const url = `/ui/project/${project}/storage/pool/${values.name}`;
-          navigate(url);
-          toastNotify.success(
-            <>
-              Storage pool <strong>{name}</strong> renamed to{" "}
-              <ResourceLink type="pool" value={values.name} to={url} />.
-            </>,
-          );
-          formik.setFieldValue("isRenaming", false);
-        })
-        .catch((e) => {
-          notify.failure("Renaming failed", e);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-        });
-    },
-  });
-
   return (
     <RenameHeader
       name={name}
@@ -80,7 +28,6 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
         />,
       ]}
       isLoaded
-      formik={formik}
       renameDisabledReason="Cannot rename storage pools"
     />
   );

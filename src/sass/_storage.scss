@@ -6,6 +6,32 @@
   }
 }
 
+.storage-bucket-key-list {
+  .p-panel__controls {
+    padding-top: 0;
+  }
+
+  .pagination {
+    margin-top: 0;
+  }
+
+  .name .role {
+    min-width: 80px;
+  }
+
+  .description {
+    min-width: 200px;
+  }
+
+  .key-field {
+    width: 280px;
+  }
+
+  .actions {
+    width: 280px;
+  }
+}
+
 .storage-pool-table {
   .size {
     width: 14rem;
