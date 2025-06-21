@@ -28,6 +28,8 @@ export const toNetworkFormValues = (
     bridge_driver: network.config[
       getNetworkKey("bridge_driver")
     ] as LxdNetworkBridgeDriver,
+    bridge_external_interfaces:
+      network.config[getNetworkKey("bridge_external_interfaces")],
     bridge_hwaddr: network.config[getNetworkKey("bridge_hwaddr")],
     bridge_mtu: network.config[getNetworkKey("bridge_mtu")],
     dns_domain: network.config[getNetworkKey("dns_domain")],

@@ -23,6 +23,7 @@ export const networkFormFieldToPayloadName: Record<
   keyof LxdNetworkConfig
 > = {
   bridge_driver: "bridge.driver",
+  bridge_external_interfaces: "bridge.external_interfaces",
   bridge_hwaddr: "bridge.hwaddr",
   bridge_mtu: "bridge.mtu",
   dns_domain: "dns.domain",

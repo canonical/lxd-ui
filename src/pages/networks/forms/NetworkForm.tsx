@@ -45,6 +45,7 @@ export interface NetworkFormValues {
   description?: string;
   networkType: LxdNetworkType;
   bridge_driver?: LxdNetworkBridgeDriver;
+  bridge_external_interfaces?: string;
   bridge_hwaddr?: string;
   bridge_mtu?: string;
   dns_domain?: string;
@@ -118,6 +119,8 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
     config: {
       ...missingConfigFields,
       [getNetworkKey("bridge_driver")]: values.bridge_driver,
+      [getNetworkKey("bridge_external_interfaces")]:
+        values.bridge_external_interfaces,
       [getNetworkKey("bridge_hwaddr")]: values.bridge_hwaddr,
       [getNetworkKey("bridge_mtu")]: values.bridge_mtu,
       [getNetworkKey("dns_domain")]: values.dns_domain,

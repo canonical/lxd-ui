@@ -58,6 +58,13 @@ const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
               />
             ),
           }),
+          getConfigurationRow({
+            formik,
+            name: "bridge_external_interfaces",
+            label: "External interfaces",
+            defaultValue: "",
+            children: <Input type="text" />,
+          }),
         ]
       : []),
   ]);

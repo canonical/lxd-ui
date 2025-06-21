@@ -61,6 +61,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
         if (e.target.value === "ovn") {
           formik.setFieldValue("networkType", "ovn");
           formik.setFieldValue("bridge_driver", undefined);
+          formik.setFieldValue("bridge_external_interfaces", undefined);
           formik.setFieldValue("dns_mode", undefined);
           formik.setFieldValue("parent", undefined);
           formik.setFieldValue("parentPerClusterMember", undefined);
@@ -83,6 +84,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           formik.setFieldValue("networkType", "physical");
           formik.setFieldValue("network", undefined);
           formik.setFieldValue("bridge_driver", undefined);
+          formik.setFieldValue("bridge_external_interfaces", undefined);
           formik.setFieldValue("bridge_hwaddr", undefined);
           formik.setFieldValue("bridge_mtu", undefined);
           formik.setFieldValue("dns_domain", undefined);
