@@ -9,6 +9,7 @@ export const queryKeys = {
   instances: "instances",
   customVolumes: "customVolumes",
   isoVolumes: "isoVolumes",
+  leases: "leases",
   logs: "logs",
   members: "members",
   metrics: "metrics",
