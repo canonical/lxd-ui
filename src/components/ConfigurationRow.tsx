@@ -46,6 +46,7 @@ interface Props {
   help?: string;
   inputHelp?: string;
   readOnlyRenderer?: (value: ReactNode) => string | ReactNode;
+  hideOverrideBtn?: boolean;
 }
 
 export const getConfigurationRow = ({
@@ -59,6 +60,7 @@ export const getConfigurationRow = ({
   help,
   inputHelp,
   readOnlyRenderer = (value: ReactNode) => <>{value}</>,
+  hideOverrideBtn = false,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
   const value = values[name];
@@ -159,25 +161,27 @@ export const getConfigurationRow = ({
       return (
         <>
           {overrideValue}
-          <Button
-            onClick={() => {
-              ensureEditMode(formik);
-              if (!isOverridden) {
-                enableOverride();
-              }
-              focusField(name);
-            }}
-            className="u-no-margin--bottom"
-            type="button"
-            appearance="base"
-            title={getDisabledReasonOrTitle(
-              isOverridden ? "Edit" : "Create override",
-            )}
-            disabled={isDisabled()}
-            hasIcon
-          >
-            <Icon name="edit" />
-          </Button>
+          {hideOverrideBtn === false && (
+            <Button
+              onClick={() => {
+                ensureEditMode(formik);
+                if (!isOverridden) {
+                  enableOverride();
+                }
+                focusField(name);
+              }}
+              className="u-no-margin--bottom"
+              type="button"
+              appearance="base"
+              title={getDisabledReasonOrTitle(
+                isOverridden ? "Edit" : "Create override",
+              )}
+              disabled={isDisabled()}
+              hasIcon
+            >
+              <Icon name="edit" />
+            </Button>
+          )}
         </>
       );
     }

@@ -54,11 +54,12 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const { canEditNetwork } = useNetworkEntitlements();
 
-  const queryEnabled = network.managed && network.type === "physical";
+  const shouldLoadMemberSpecificSettings =
+    network.managed && ["bridge", "physical"].includes(network.type);
   const { data: networkOnMembers = [], error } = useNetworkFromClusterMembers(
     network.name,
     project,
-    queryEnabled,
+    shouldLoadMemberSpecificSettings,
   );
 
   useEffect(() => {
@@ -108,7 +109,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
           return updateClusterNetwork(
             saveNetwork,
             project,
+            clusterMembers,
             values.parentPerClusterMember,
+            values.bridge_external_interfaces_per_member,
           );
         } else {
           return updateNetwork(saveNetwork, project);

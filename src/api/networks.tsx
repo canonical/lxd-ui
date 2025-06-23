@@ -140,6 +140,7 @@ export const createClusterNetwork = async (
   project: string,
   clusterMembers: LxdClusterMember[],
   parentsPerClusterMember?: ClusterSpecificValues,
+  bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
@@ -149,6 +150,8 @@ export const createClusterNetwork = async (
           type: network.type,
           config: {
             parent: parentsPerClusterMember?.[member.server_name],
+            "bridge.external_interfaces":
+              bridgeExternalInterfacesPerClusterMember?.[member.server_name],
           },
         };
         return createNetwork(memberNetwork, project, member.server_name);
@@ -244,17 +247,26 @@ export const updateNetwork = async (
 export const updateClusterNetwork = async (
   network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   project: string,
+  clusterMembers: LxdClusterMember[],
   parentsPerClusterMember: ClusterSpecificValues,
+  bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      Object.keys(parentsPerClusterMember).map(async (memberName) => {
+      clusterMembers.map(async (member) => {
+        const memberName = member.server_name;
+        const config = { ...network.config };
+        if (parentsPerClusterMember?.[memberName]) {
+          config.parent = parentsPerClusterMember[memberName];
+        }
+        if (bridgeExternalInterfacesPerClusterMember?.[memberName]) {
+          config["bridge.external_interfaces"] =
+            bridgeExternalInterfacesPerClusterMember[memberName];
+        }
         const memberNetwork = {
           name: network.name,
           type: network.type,
-          config: {
-            parent: parentsPerClusterMember[memberName],
-          },
+          config,
         };
         return updateNetwork(memberNetwork, project, memberName);
       }),
