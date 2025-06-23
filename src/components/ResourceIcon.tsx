@@ -15,6 +15,7 @@ export type ResourceIconType =
   | "cluster-member"
   | "network"
   | "network-acl"
+  | "network-forward"
   | "pool"
   | "volume"
   | "iso-volume"
@@ -37,6 +38,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   "cluster-member": "single-host",
   network: "exposed",
   "network-acl": "security-tick",
+  "network-forward": "exposed",
   pool: "status-queued-small",
   volume: "status-queued-small",
   "iso-volume": "iso",

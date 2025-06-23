@@ -12,6 +12,7 @@ export const projectSubpages = [
   "instances",
   "profiles",
   "network-acls",
+  "network-ipam",
   "networks",
   "images",
   "storage",

@@ -45,6 +45,10 @@ export const filterUsedByType = (
           return path.includes("/buckets/");
         }
 
+        if (type === "network-forward") {
+          return path.includes("/forwards/");
+        }
+
         return path.startsWith(`/1.0/${type}`);
       })
       .map((path) => {

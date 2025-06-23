@@ -325,6 +325,7 @@ const Navigation: FC = () => {
                                 ignoreUrlMatches={[
                                   "network-acl",
                                   "network-acls",
+                                  "network-ipam",
                                 ]}
                               >
                                 Networks
@@ -340,6 +341,18 @@ const Navigation: FC = () => {
                                 className="accordion-nav-secondary"
                               >
                                 ACLs
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem
+                              key={`/ui/project/${projectName}/network-ipam`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/network-ipam`}
+                                title={`IPAM (${projectName})`}
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                IPAM
                               </NavLink>
                             </SideNavigationItem>,
                           ]}

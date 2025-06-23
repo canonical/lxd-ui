@@ -54,6 +54,7 @@ const NetworkAclList = lazy(
   async () => import("pages/networks/NetworkAclList"),
 );
 const NetworkDetail = lazy(async () => import("pages/networks/NetworkDetail"));
+const NetworkIPAM = lazy(async () => import("pages/networks/NetworkIPAM"));
 const NetworkList = lazy(async () => import("pages/networks/NetworkList"));
 const OperationList = lazy(
   async () => import("pages/operations/OperationList"),
@@ -303,6 +304,14 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkAclDetail />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-ipam"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkIPAM />} />}
             />
           }
         />
