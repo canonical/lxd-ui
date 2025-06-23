@@ -17,8 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
-import { dump as dumpYaml } from "js-yaml";
-import { yamlToObject } from "util/yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import type { Location } from "react-router-dom";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
@@ -453,7 +452,7 @@ const CreateInstance: FC = () => {
       return formik.values.yaml;
     }
     const payload = getPayload(formik.values);
-    return dumpYaml(payload);
+    return objectToYaml(payload);
   }
 
   const diskError = hasDiskError(formik);

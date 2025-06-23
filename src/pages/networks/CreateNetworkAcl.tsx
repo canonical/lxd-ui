@@ -14,8 +14,7 @@ import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
 import NotificationRow from "components/NotificationRow";
-import { yamlToObject } from "util/yaml";
-import { dump as dumpYaml } from "js-yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import BaseLayout from "components/BaseLayout";
 import {
   GENERAL,
@@ -26,8 +25,9 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
 import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
-import { toNetworkAcl } from "pages/networks/forms/NetworkAclForm";
-import NetworkAclForm from "pages/networks/forms/NetworkAclForm";
+import NetworkAclForm, {
+  toNetworkAcl,
+} from "pages/networks/forms/NetworkAclForm";
 import { createNetworkAcl } from "api/network-acls";
 import type { LxdNetworkAcl } from "types/network";
 
@@ -106,7 +106,7 @@ const CreateNetworkAcl: FC = () => {
       ingress: formik.values.ingress,
       egress: formik.values.egress,
     };
-    return dumpYaml(payload);
+    return objectToYaml(payload);
   };
 
   return (

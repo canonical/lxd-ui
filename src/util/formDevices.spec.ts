@@ -1,7 +1,6 @@
 import { formDeviceToPayload, parseDevices } from "./formDevices";
-import { yamlToObject } from "./yaml";
+import { objectToYaml, yamlToObject } from "./yaml";
 import type { LxdInstance } from "types/instance";
-import { dump as dumpYaml } from "js-yaml";
 
 const deviceYaml =
   "devices:\n" +
@@ -51,7 +50,7 @@ describe("parseDevices and formDeviceToPayload", () => {
     expect(matchFormDeviceType("proxy").length).toBe(2);
     expect(matchFormDeviceType("gpu").length).toBe(1);
 
-    const outYaml = dumpYaml({ devices: payload });
+    const outYaml = objectToYaml({ devices: payload });
     expect(outYaml).toBe(deviceYaml);
   });
 });

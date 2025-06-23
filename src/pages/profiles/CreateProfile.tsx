@@ -14,8 +14,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
-import { dump as dumpYaml } from "js-yaml";
-import { yamlToObject } from "util/yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { FormDeviceValues } from "util/formDevices";
 import { formDeviceToPayload } from "util/formDevices";
@@ -42,16 +41,16 @@ import ProfileFormMenu, {
   BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
+  GPU_DEVICES,
   MAIN_CONFIGURATION,
   MIGRATION,
+  NETWORK_DEVICES,
+  OTHER_DEVICES,
+  PROXY_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  NETWORK_DEVICES,
-  GPU_DEVICES,
-  OTHER_DEVICES,
-  PROXY_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm, {
@@ -192,7 +191,7 @@ const CreateProfile: FC = () => {
 
   function getYaml() {
     const payload = getCreationPayload(formik.values);
-    return dumpYaml(payload);
+    return objectToYaml(payload);
   }
 
   return (
