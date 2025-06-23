@@ -17,8 +17,7 @@ import NetworkForm, {
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import type { LxdNetwork } from "types/network";
-import { yamlToObject } from "util/yaml";
-import { dump as dumpYaml } from "js-yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import { toNetworkFormValues } from "util/networkForm";
 import { slugify } from "util/slugify";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -163,7 +162,8 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   });
 
   const getYaml = () => {
-    return dumpYaml(toNetwork(formik.values));
+    const payload = toNetwork(formik.values);
+    return objectToYaml(payload);
   };
 
   useEffect(() => {

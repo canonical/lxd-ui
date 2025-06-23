@@ -11,8 +11,7 @@ import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { dump as dumpYaml } from "js-yaml";
-import { yamlToObject } from "util/yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import type { FormDeviceValues } from "util/formDevices";
@@ -31,16 +30,16 @@ import InstanceFormMenu, {
   BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
+  GPU_DEVICES,
   MAIN_CONFIGURATION,
   MIGRATION,
   NETWORK_DEVICES,
+  OTHER_DEVICES,
+  PROXY_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  GPU_DEVICES,
-  OTHER_DEVICES,
-  PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -199,7 +198,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     const bareInstance = Object.fromEntries(
       Object.entries(instance).filter((e) => !exclude.has(e[0])),
     );
-    return dumpYaml(bareInstance);
+    return objectToYaml(bareInstance);
   };
 
   const readOnly = formik.values.readOnly;

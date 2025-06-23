@@ -36,7 +36,6 @@ import {
 import { getPoolKey } from "util/storagePool";
 import { slugify } from "util/slugify";
 import YamlForm from "components/forms/YamlForm";
-import { dump as dumpYaml } from "js-yaml";
 import { handleConfigKeys } from "util/storagePoolForm";
 import { useDocs } from "context/useDocs";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
@@ -48,6 +47,7 @@ import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import StoragePoolFormPure from "pages/storage/forms/StoragePoolFormPure";
 import StoragePoolFormCephObject from "./StoragePoolFormCephObject";
+import { objectToYaml } from "util/yaml";
 
 export interface StoragePoolFormValues {
   barePool?: LxdStoragePool;
@@ -237,7 +237,10 @@ const StoragePoolForm: FC<Props> = ({
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
-  const getYaml = () => dumpYaml(toStoragePool(formik.values));
+  const getYaml = () => {
+    const payload = toStoragePool(formik.values);
+    return objectToYaml(payload);
+  };
 
   const supportedStorageDrivers = getSupportedStorageDrivers(settings);
   const isSupportedStorageDriver = supportedStorageDrivers.has(

@@ -22,8 +22,7 @@ import NetworkForm, {
 import NotificationRow from "components/NotificationRow";
 import { useSettings } from "context/useSettings";
 import Loader from "components/Loader";
-import { yamlToObject } from "util/yaml";
-import { dump as dumpYaml } from "js-yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
 import BaseLayout from "components/BaseLayout";
 import {
@@ -124,7 +123,7 @@ const CreateNetwork: FC = () => {
 
   const getYaml = () => {
     const payload = toNetwork(formik.values);
-    return dumpYaml(payload);
+    return objectToYaml(payload);
   };
 
   const updateSection = (newSection: string, source: "scroll" | "click") => {

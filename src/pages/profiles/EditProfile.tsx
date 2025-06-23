@@ -13,8 +13,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { dump as dumpYaml } from "js-yaml";
-import { yamlToObject } from "util/yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type { FormDeviceValues } from "util/formDevices";
 import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
@@ -32,16 +31,16 @@ import ProfileFormMenu, {
   BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
+  GPU_DEVICES,
   MAIN_CONFIGURATION,
   MIGRATION,
   NETWORK_DEVICES,
+  OTHER_DEVICES,
+  PROXY_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  GPU_DEVICES,
-  OTHER_DEVICES,
-  PROXY_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { LxdProfile } from "types/profile";
 import useEventListener from "util/useEventListener";
@@ -174,7 +173,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     const bareProfile = Object.fromEntries(
       Object.entries(profilePayload).filter((e) => !exclude.has(e[0])),
     );
-    return dumpYaml(bareProfile);
+    return objectToYaml(bareProfile);
   };
 
   const readOnly = formik.values.readOnly;

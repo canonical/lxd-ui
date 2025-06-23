@@ -20,12 +20,12 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
-import { toNetworkAcl } from "pages/networks/forms/NetworkAclForm";
-import NetworkAclForm from "pages/networks/forms/NetworkAclForm";
+import NetworkAclForm, {
+  toNetworkAcl,
+} from "pages/networks/forms/NetworkAclForm";
 import { updateNetworkAcl } from "api/network-acls";
-import { yamlToObject } from "util/yaml";
+import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
-import { dump as dumpYaml } from "js-yaml";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
@@ -108,7 +108,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
 
   const getYaml = () => {
     const payload = toNetworkAcl(formik.values, networkAcl);
-    return dumpYaml(payload);
+    return objectToYaml(payload);
   };
 
   const readOnly = formik.values.readOnly;
