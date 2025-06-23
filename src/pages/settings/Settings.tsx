@@ -43,7 +43,12 @@ const Settings: FC = () => {
     queryKey: [queryKeys.configOptions],
     queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
-  const { data: clusteredSettings = [] } = useClusteredSettings();
+  const { data: clusteredSettings = [], error: clusterError } =
+    useClusteredSettings();
+
+  if (clusterError) {
+    notify.failure("Loading clustered settings failed", clusterError);
+  }
 
   if (isConfigOptionsLoading || isSettingsLoading) {
     return <Loader isMainComponent />;
