@@ -21,6 +21,7 @@ export type ResourceType =
   | "snapshot"
   | "image"
   | "network"
+  | "network-forward"
   | "bucket"
   | "volume";
 

@@ -160,3 +160,12 @@ export interface LxdNetworkLease {
   project: "string";
   type: "string";
 }
+
+export interface LxdNetworkAllocation {
+  addresses: string;
+  hwaddr: string;
+  nat: string;
+  network: string;
+  type: "instance" | "network" | "network-forward";
+  used_by: string;
+}

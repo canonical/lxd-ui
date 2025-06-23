@@ -5,6 +5,7 @@ import {
 } from "util/helpers";
 import type {
   LxdNetwork,
+  LxdNetworkAllocation,
   LXDNetworkOnClusterMember,
   LxdNetworkState,
 } from "types/network";
@@ -327,4 +328,14 @@ export const deleteNetwork = async (
         reject(e);
       });
   });
+};
+
+export const fetchNetworkAllocations = async (
+  project: string,
+): Promise<LxdNetworkAllocation[]> => {
+  return fetch(`/1.0/network-allocations?project=${project}&recursion=1$`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdNetworkAllocation[]>) => {
+      return data.metadata;
+    });
 };
