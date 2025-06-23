@@ -151,3 +151,12 @@ export interface LxdNetworkAcl {
   used_by?: string[];
   access_entitlements?: string[];
 }
+
+export interface LxdNetworkLease {
+  address: "string";
+  hostname: "string";
+  hwaddr: "string";
+  location: "string";
+  project: "string";
+  type: "string";
+}

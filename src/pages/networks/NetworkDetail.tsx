@@ -10,6 +10,7 @@ import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 import { useNetwork } from "context/useNetworks";
+import NetworkLeases from "pages/networks/NetworkLeases";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -49,7 +50,7 @@ const NetworkDetail: FC = () => {
       return ["Configuration"];
     }
 
-    return ["Configuration", "Forwards"];
+    return ["Configuration", "Forwards", "Leases"];
   };
 
   return (
@@ -74,6 +75,11 @@ const NetworkDetail: FC = () => {
         {activeTab === "forwards" && (
           <div role="tabpanel" aria-labelledby="forwards">
             {network && <NetworkForwards network={network} project={project} />}
+          </div>
+        )}
+        {activeTab === "leases" && (
+          <div role="tabpanel" aria-labelledby="leases">
+            {network && <NetworkLeases network={network} project={project} />}
           </div>
         )}
       </Row>

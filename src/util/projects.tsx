@@ -7,15 +7,11 @@ export const storageTabs: string[] = [
   "Custom ISOs",
   "Buckets",
 ];
-export const storageTabToName: Record<string, string> = {
-  pools: "Pools",
-  volumes: "Volumes",
-  "custom-isos": "Custom ISOs",
-};
 export const storageTabPaths = storageTabs.map((tab) => slugify(tab));
 export const projectSubpages = [
   "instances",
   "profiles",
+  "network-acls",
   "networks",
   "images",
   "storage",
@@ -31,6 +27,14 @@ export const getSubpageFromUrl = (url: string): string | undefined => {
 
   if (mainSubpage === "storage" && storageTabPaths.includes(tabSubpage)) {
     return `${mainSubpage}/${tabSubpage}`;
+  }
+
+  if (mainSubpage === "network") {
+    return "networks";
+  }
+
+  if (mainSubpage === "storage") {
+    return "storage/pools";
   }
 
   if (projectSubpages.includes(mainSubpage)) {
