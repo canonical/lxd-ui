@@ -12,25 +12,19 @@ export const fetchIdentities = async (
     isFineGrained,
     identitiesEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identities?recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdIdentity[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/auth/identities?recursion=1${entitlements}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdIdentity[]>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchCurrentIdentity = async (): Promise<LxdIdentity> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identities/current?recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdIdentity>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/auth/identities/current?recursion=1`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdIdentity>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchIdentity = async (
@@ -42,86 +36,66 @@ export const fetchIdentity = async (
     isFineGrained,
     identitiesEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identities/${authMethod}/${id}?recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdIdentity>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/auth/identities/${authMethod}/${id}?recursion=1${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdIdentity>) => {
+      return data.metadata;
+    });
 };
 
-export const updateIdentity = async (identity: Partial<LxdIdentity>) => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(identity),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+export const updateIdentity = async (
+  identity: Partial<LxdIdentity>,
+): Promise<void> => {
+  await fetch(
+    `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(identity),
+    },
+  ).then(handleResponse);
 };
 
 export const updateIdentities = async (
   identities: Partial<LxdIdentity>[],
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      identities.map(async (identity) => updateIdentity(identity)),
-    )
-      .then(handleSettledResult)
-      .then(resolve)
-      .catch(reject);
-  });
+  return Promise.allSettled(
+    identities.map(async (identity) => updateIdentity(identity)),
+  ).then(handleSettledResult);
 };
 
-export const deleteIdentity = async (identity: LxdIdentity) => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
-      {
-        method: "DELETE",
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+export const deleteIdentity = async (identity: LxdIdentity): Promise<void> => {
+  await fetch(
+    `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };
 
 export const deleteIdentities = async (
   identities: LxdIdentity[],
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      identities.map(async (identity) => deleteIdentity(identity)),
-    )
-      .then(handleSettledResult)
-      .then(resolve)
-      .catch(reject);
-  });
+  return Promise.allSettled(
+    identities.map(async (identity) => deleteIdentity(identity)),
+  ).then(handleSettledResult);
 };
 
 export const createFineGrainedTlsIdentity = async (
-  clientName: string,
+  name: string,
+  groups: string[],
 ): Promise<TlsIdentityTokenDetail> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identities/tls`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: clientName,
-        token: true,
-      }),
-    })
-      .then(handleResponse)
-      .then((data: LxdApiResponse<TlsIdentityTokenDetail>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/auth/identities/tls`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      groups: groups,
+      token: true,
+    }),
+  })
+    .then(handleResponse)
+    .then((data: LxdApiResponse<TlsIdentityTokenDetail>) => {
+      return data.metadata;
+    });
 };

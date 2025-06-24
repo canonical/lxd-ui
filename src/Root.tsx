@@ -15,6 +15,7 @@ import { useLocation } from "react-router-dom";
 import CombinedNotificationProvider from "context/CombinedNotificationProvider";
 import StatusBar from "components/StatusBar";
 import OperationsProvider from "context/operationsProvider";
+import { MetricHistoryProvider } from "context/metricHistory";
 
 const queryClient = new QueryClient();
 
@@ -33,15 +34,17 @@ const Root: FC = () => {
               <InstanceLoadingProvider>
                 <OperationsProvider>
                   <EventQueueProvider>
-                    <Application id="l-application">
-                      <SkipLink mainId="main-content" />
-                      <Navigation />
-                      <ErrorBoundary fallback={ErrorPage}>
-                        <App />
-                        <Events />
-                        <StatusBar />
-                      </ErrorBoundary>
-                    </Application>
+                    <MetricHistoryProvider>
+                      <Application id="l-application">
+                        <SkipLink mainId="main-content" />
+                        <Navigation />
+                        <ErrorBoundary fallback={ErrorPage}>
+                          <App />
+                          <Events />
+                          <StatusBar />
+                        </ErrorBoundary>
+                      </Application>
+                    </MetricHistoryProvider>
                   </EventQueueProvider>
                 </OperationsProvider>
               </InstanceLoadingProvider>

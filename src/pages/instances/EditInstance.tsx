@@ -66,6 +66,7 @@ import BootForm from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
 import { useProfiles } from "context/useProfiles";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -87,6 +88,7 @@ export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 interface Props {
@@ -166,12 +168,13 @@ const EditInstance: FC<Props> = ({ instance }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
+
   const updateSection = (newSection: string) => {
     if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
       formik.setFieldValue("yaml", undefined);
     }
 
-    const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
     } else {
@@ -301,6 +304,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
+              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />

@@ -1,20 +1,18 @@
 import type { FC } from "react";
 import ResourceLink from "components/ResourceLink";
-import type { PartialWithRequired } from "types/partial";
 import type { LxdStorageVolume } from "types/storage";
+import { linkForVolumeDetail } from "util/storageVolume";
 
 interface Props {
   name: string;
-  volume: PartialWithRequired<LxdStorageVolume, "name" | "project" | "pool">;
+  volume: LxdStorageVolume;
 }
 
 const VolumeSnapshotLinkChip: FC<Props> = ({ name, volume }) => {
+  const baseUrl = linkForVolumeDetail(volume);
+
   return (
-    <ResourceLink
-      type="snapshot"
-      value={name}
-      to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}/snapshots`}
-    />
+    <ResourceLink type="snapshot" value={name} to={`${baseUrl}/snapshots`} />
   );
 };
 

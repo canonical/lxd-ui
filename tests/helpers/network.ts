@@ -15,6 +15,7 @@ export const createNetwork = async (
   type: LxdNetworkType = "bridge",
 ) => {
   await gotoURL(page, "/ui/");
+  await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
@@ -42,7 +43,8 @@ export const deleteNetwork = async (page: Page, network: string) => {
 
 export const visitNetwork = async (page: Page, network: string) => {
   await gotoURL(page, "/ui/");
-  await page.getByTitle("Networks (default)").click();
+  await page.getByRole("button", { name: "Networking" }).click();
+  await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("link", { name: network }).first().click();
   await page.getByTestId("tab-link-Configuration").click();
 };
@@ -108,6 +110,7 @@ export const getNetworkLink = async (page: Page, network: string) => {
   // network actions may result in ERR_NETWORK_CHANGED, we should wait for network to settle before checking visibility
   await page.waitForLoadState("networkidle");
   await gotoURL(page, "/ui/");
+  await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   const networkLink = page.getByRole("link", { name: network });
   return networkLink;

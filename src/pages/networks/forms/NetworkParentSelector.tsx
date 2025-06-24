@@ -105,6 +105,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
         </div>
         <div className="general-field-content">
           <ClusterSpecificSelect
+            key={JSON.stringify(formik.values.parentPerClusterMember)}
             id="parent"
             options={options}
             values={formik.values.parentPerClusterMember}
@@ -136,7 +137,10 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
           Parent
         </Label>
       </div>
-      <div className="general-field-content">
+      <div
+        className="general-field-content"
+        key={formik.values.readOnly ? "read" : "edit"}
+      >
         {formik.values.readOnly ? (
           <>
             {formik.values.parent}

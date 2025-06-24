@@ -130,14 +130,21 @@ export const createGroup = async (
   page: Page,
   groupName: string,
   description: string,
+  withPermissions = false,
 ) => {
   await visitGroups(page);
   await page.getByRole("button", { name: "Create group" }).click();
   await page.getByPlaceholder("Enter name").fill(groupName);
   await page.getByPlaceholder("Enter description").click();
   await page.getByPlaceholder("Enter description").fill(description);
+
+  if (withPermissions) {
+    await page.getByRole("button", { name: "Add permissions" }).click();
+    await addPermission(page, "Server", "server", "admin");
+  }
+
   await page
-    .getByLabel("Side panel")
+    .locator("#panel-footer")
     .getByRole("button", { name: "Create group" })
     .click();
   await page.waitForSelector(`text=Group ${groupName} created`);

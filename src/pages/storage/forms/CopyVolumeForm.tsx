@@ -11,60 +11,66 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { duplicateStorageVolume } from "api/storage-pools";
-import { useNavigate } from "react-router-dom";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
 import StoragePoolSelector from "../StoragePoolSelector";
 import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
-import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
+import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import { useStoragePool } from "context/useStoragePools";
+import { isRemoteStorage } from "util/storageOptions";
+import { copyStorageVolume } from "api/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
   close: () => void;
 }
 
-export interface StorageVolumeDuplicate {
+export interface StorageVolumeCopyFormValues {
   name: string;
   project: string;
   pool: string;
   copySnapshots: boolean;
+  location: string;
 }
 
-const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
+const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
-  const navigate = useNavigate();
   const eventQueue = useEventQueue();
 
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
-
+  const { data: pool } = useStoragePool(volume.pool);
   const { data: volumes = [], isLoading: volumesLoading } =
     useLoadCustomVolumes(volume.project);
 
-  const notifySuccess = (volumeName: string, project: string, pool: string) => {
-    const volumeUrl = `/ui/project/${project}/storage/pool/${pool}/volumes/custom/${volumeName}`;
-    const message = (
+  const notifySuccess = (values: StorageVolumeCopyFormValues) => {
+    const newVolume = {
+      ...volume,
+      name: values.name,
+      project: values.project,
+      pool: values.pool,
+      location: values.location,
+    };
+    toastNotify.success(
       <>
-        Created volume{" "}
-        <ResourceLink type="volume" value={volumeName} to={volumeUrl} />.
-      </>
+        Created volume <VolumeLinkChip volume={newVolume} />.
+      </>,
     );
-
-    const actions = [
-      {
-        label: "Configure",
-        onClick: async () => navigate(`${volumeUrl}/configuration`),
-      },
-    ];
-
-    toastNotify.success(message, actions);
   };
 
-  const getDuplicatedVolumeName = (volume: LxdStorageVolume): string => {
-    const newVolumeName = volume.name + "-duplicate";
+  const notifyError = (error: Error) => {
+    toastNotify.failure(
+      "Volume copy failed.",
+      error,
+      <VolumeLinkChip volume={volume} />,
+    );
+  };
+
+  const getCopiedVolumeName = (volume: LxdStorageVolume): string => {
+    const newVolumeName = volume.name + "-copy";
     return getUniqueResourceName(newVolumeName, volumes);
   };
 
@@ -75,14 +81,17 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
       name: Yup.string().required("Volume name is required"),
       project: Yup.string().required(),
       pool: Yup.string().required(),
+      location: Yup.string().optional(),
     })
     .test("deduplicate", "", async function (values) {
-      const { name, project, pool } = values;
+      const { name, project, pool, location } = values;
+      const params = location ? `&target=${location}` : "";
       const notFound = await checkDuplicateName(
         name,
         project || "default",
         controllerState,
         `storage-pools/${pool}/volumes/custom`,
+        params,
       );
 
       if (notFound) {
@@ -96,12 +105,13 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
       });
     });
 
-  const formik = useFormik<StorageVolumeDuplicate>({
+  const formik = useFormik<StorageVolumeCopyFormValues>({
     initialValues: {
-      name: getDuplicatedVolumeName(volume),
+      name: getCopiedVolumeName(volume),
       project: volume.project,
       copySnapshots: true,
       pool: volume.pool,
+      location: isRemoteStorage(pool?.driver ?? "") ? "" : volume.location,
     },
     enableReinitialize: true,
     validationSchema,
@@ -125,42 +135,28 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
         },
       };
 
-      const existingVolumeLink = (
-        <ResourceLink
-          type="volume"
-          value={volume.name}
-          to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-        />
-      );
-
-      const targetProject =
-        values.project === formik.initialValues.project ? "" : values.project;
-
-      duplicateStorageVolume(payload, values.pool, targetProject)
+      copyStorageVolume(payload, values.pool, values.project, values.location)
         .then((operation) => {
           toastNotify.info(
-            <>Duplication of volume {existingVolumeLink} started.</>,
+            <>
+              Copy of volume <VolumeLinkChip volume={volume} /> started.
+            </>,
           );
           eventQueue.set(
             operation.metadata.id,
             () => {
-              notifySuccess(values.name, values.project, values.pool);
+              notifySuccess(values);
             },
-            (msg) =>
-              toastNotify.failure(
-                "Volume duplication failed.",
-                new Error(msg),
-                existingVolumeLink,
-              ),
+            (msg) => {
+              notifyError(new Error(msg));
+            },
           );
-          close();
         })
         .catch((e) => {
-          toastNotify.failure(
-            "Volume duplication failed.",
-            e,
-            existingVolumeLink,
-          );
+          toastNotify.failure("Volume copy failed.", e);
+        })
+        .finally(() => {
+          close();
         });
     },
   });
@@ -168,8 +164,8 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   return (
     <Modal
       close={close}
-      className="duplicate-instances-modal"
-      title="Duplicate volume"
+      className="copy-volumes-modal"
+      title="Copy volume"
       buttonRow={
         <>
           <Button
@@ -184,10 +180,15 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid || projectsLoading || volumesLoading}
+            disabled={
+              !formik.isValid ||
+              formik.isSubmitting ||
+              projectsLoading ||
+              volumesLoading
+            }
             onClick={() => void formik.submitForm()}
           >
-            Duplicate
+            Copy
           </ActionButton>
         </>
       }
@@ -207,6 +208,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
             label: "Storage pool",
           }}
         />
+        {!isRemoteStorage(pool?.driver ?? "") && (
+          <ClusterMemberSelector {...formik.getFieldProps("location")} />
+        )}
         <Select
           {...formik.getFieldProps("project")}
           id="project"
@@ -234,4 +238,4 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   );
 };
 
-export default DuplicateVolumeForm;
+export default CopyVolumeForm;

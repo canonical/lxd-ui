@@ -4,7 +4,7 @@ import { deleteImageBulk } from "api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
-import { getPromiseSettledCounts } from "util/helpers";
+import { getPromiseSettledCounts } from "util/promises";
 import { pluralize } from "util/instanceBulkActions";
 import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";

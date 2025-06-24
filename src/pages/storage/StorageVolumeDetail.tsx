@@ -10,6 +10,7 @@ import TabLinks from "components/TabLinks";
 import CustomLayout from "components/CustomLayout";
 import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
 import { useStorageVolume } from "context/useVolumes";
+import { linkForVolumeDetail } from "util/storageVolume";
 
 const tabs: string[] = ["Overview", "Configuration", "Snapshots"];
 
@@ -18,12 +19,14 @@ const StorageVolumeDetail: FC = () => {
   const {
     pool,
     project,
+    member,
     activeTab,
     type,
     volume: volumeName,
   } = useParams<{
     pool: string;
     project: string;
+    member?: string;
     activeTab?: string;
     type: string;
     volume: string;
@@ -46,14 +49,14 @@ const StorageVolumeDetail: FC = () => {
     data: volume,
     error,
     isLoading,
-  } = useStorageVolume(pool, project, type, volumeName);
+  } = useStorageVolume(pool, project, type, volumeName, member);
 
   if (error) {
     notify.failure("Loading storage volume failed", error);
   }
 
   if (isLoading) {
-    return <Loader text="Loading storage volume..." />;
+    return <Loader isMainComponent />;
   } else if (!volume) {
     return <>Loading storage volume failed</>;
   }
@@ -67,7 +70,7 @@ const StorageVolumeDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/storage/pool/${pool}/volumes/${type}/${volume.name}`}
+          tabUrl={linkForVolumeDetail(volume)}
         />
         <NotificationRow />
         {!activeTab && (

@@ -43,8 +43,9 @@ const EditGroupPermissionsForm: FC<Props> = ({
   const [search, setSearch] = useState("");
   const { canViewPermissions } = useServerEntitlements();
   const { canEditGroup } = useGroupEntitlements();
+
   const getEditRestriction = () => {
-    if (!canEditGroup(group)) {
+    if (group && !canEditGroup(group)) {
       return "You do not have permission to edit this group";
     }
 
@@ -143,7 +144,8 @@ const EditGroupPermissionsForm: FC<Props> = ({
       columns: [
         {
           content: permission.entity_type,
-          role: "cell",
+          title: permission.entity_type,
+          role: "rowheader",
           "aria-label": "Resource type",
           className: "resource-type",
         },

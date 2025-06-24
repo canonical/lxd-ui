@@ -124,10 +124,12 @@ const getDeviceChanges = (formik: ConfigurationRowFormikProps): number => {
   let addCount = 0;
   let removeCount = 0;
 
+  const removedDevices: FormDevice[] = [];
   initNames.forEach((init, initIndex) => {
     const valueIndex = names.indexOf(init);
     if (valueIndex === -1) {
       removeCount++;
+      removedDevices.push(initDevices[initIndex]);
     } else {
       changeCount += getDevicePairFieldChanges(
         initDevices[initIndex],
@@ -139,7 +141,18 @@ const getDeviceChanges = (formik: ConfigurationRowFormikProps): number => {
   names.forEach((init) => {
     const oldIndex = initNames.indexOf(init);
     if (oldIndex === -1) {
-      addCount++;
+      const newDevice = devices.find((device) => device.name === init);
+      const oldDevice = removedDevices.find(
+        (device) => device.type === newDevice?.type,
+      );
+      const wasRenamed = !!oldDevice;
+      if (wasRenamed && newDevice && oldDevice) {
+        // For rename detection, pair an old device if the type is the same and it was removed.
+        // subtract -1, because it was already counted as a removal.
+        changeCount += getDevicePairFieldChanges(oldDevice, newDevice) - 1;
+      } else {
+        addCount++;
+      }
     }
   });
 

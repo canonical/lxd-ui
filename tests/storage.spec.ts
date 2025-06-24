@@ -9,7 +9,7 @@ import {
 import {
   createVolume,
   deleteVolume,
-  duplicateStorageVolume,
+  copyStorageVolume,
   editVolume,
   migrateVolume,
   randomVolumeName,
@@ -84,7 +84,7 @@ test("storage volume edit snapshot configuration", async ({
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByText("See configuration").click();
-  await page.getByText("Edit configuration").click();
+  await page.getByRole("button", { name: "Create override" }).first().click();
 
   await setInput(
     page,
@@ -164,31 +164,26 @@ test("storage volume of type block", async ({ page }) => {
   await deleteVolume(page, volume);
 });
 
-test("duplicate custom storage volume", async ({ page }) => {
+test("copy custom storage volume", async ({ page }) => {
   const project = randomProjectName();
   const pool = randomPoolName();
   await createPool(page, pool);
   await createProject(page, project);
 
-  // duplicate volume in the same project and same pool
-  let duplicateVolume = await duplicateStorageVolume(page, volume);
+  // Copy volume in the same project and same pool
+  let duplicateVolume = await copyStorageVolume(page, volume);
   await deleteVolume(page, duplicateVolume);
 
-  // duplicate volume in the same project and different pool
-  duplicateVolume = await duplicateStorageVolume(page, volume, pool);
+  // Copy volume in the same project and different pool
+  duplicateVolume = await copyStorageVolume(page, volume, pool);
   await deleteVolume(page, duplicateVolume);
 
-  // duplicate volume in a different project and same pool
-  duplicateVolume = await duplicateStorageVolume(
-    page,
-    volume,
-    undefined,
-    project,
-  );
+  // Copy volume in a different project and same pool
+  duplicateVolume = await copyStorageVolume(page, volume, undefined, project);
   await deleteVolume(page, duplicateVolume, project);
 
-  // duplicate volume in a different project and different pool
-  duplicateVolume = await duplicateStorageVolume(page, volume, pool, project);
+  // Copy volume in a different project and different pool
+  duplicateVolume = await copyStorageVolume(page, volume, pool, project);
   await deleteVolume(page, duplicateVolume, project);
 
   await deletePool(page, pool);

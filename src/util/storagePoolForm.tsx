@@ -61,6 +61,11 @@ export const toStoragePoolFormValues = (
     cephfs_osd_pg_num: pool.config?.["cephfs.osd_pg_num"],
     cephfs_path: pool.config?.["cephfs.path"],
     cephfs_user_name: pool.config?.["cephfs.user.name"],
+    cephobject_radosgw_endpoint: pool.config?.["cephobject.radosgw.endpoint"],
+    cephobject_cluster_name: pool.config?.["cephobject.cluster_name"],
+    cephobject_user_name: pool.config?.["cephobject.user.name"],
+    cephobject_bucket_name_prefix:
+      pool.config?.["cephobject.bucket.name_prefix"],
     description: pool.description,
     driver: pool.driver,
     entityType: "storagePool",

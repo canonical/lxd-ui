@@ -45,6 +45,13 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "can_edit", serverEntitlements) ||
     hasEntitlement(isFineGrained, "admin", serverEntitlements);
 
+  const canOverrideClusterTargetRestriction = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_override_cluster_target_restriction",
+      serverEntitlements,
+    ) || hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   const canViewMetrics = () =>
     hasEntitlement(isFineGrained, "can_view_metrics", serverEntitlements) ||
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
@@ -67,6 +74,7 @@ export const useServerEntitlements = () => {
     canCreateProjects,
     canCreateStoragePools,
     canEditServerConfiguration,
+    canOverrideClusterTargetRestriction,
     canViewMetrics,
     canViewPermissions,
     canViewResources,

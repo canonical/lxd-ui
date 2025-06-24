@@ -254,16 +254,16 @@ test("instance yaml edit", async ({ page, lxdVersion }) => {
   await assertTextVisible(page, "DescriptionA-new-description");
 });
 
-test("Duplicate an instance", async ({ page }) => {
+test("Copy an instance", async ({ page }) => {
   await visitInstance(page, instance);
-  await page.getByRole("button", { name: "Duplicate" }).click();
+  await page.getByRole("button", { name: "Copy" }).click();
   await page
-    .getByRole("dialog", { name: "Duplicate Instance" })
-    .getByRole("button", { name: "Duplicate" })
+    .getByRole("dialog", { name: "Copy Instance" })
+    .getByRole("button", { name: "Copy" })
     .click();
 
-  await page.waitForSelector(`text=Created instance ${instance}-duplicate.`);
-  await deleteInstance(page, `${instance}-duplicate`);
+  await page.waitForSelector(`text=Created instance ${instance}-copy.`);
+  await deleteInstance(page, `${instance}-copy`);
 });
 
 test("Create an image from an instance", async ({ page }) => {
@@ -342,6 +342,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
   const downloadPromise = page.waitForEvent("download");
 
   await page.getByRole("button", { name: "Export" }).click();
+  await page.getByRole("button", { name: "Export instance" }).click();
   const download = await downloadPromise;
   await page.waitForSelector(`text=Instance ${instance} download started`);
   const INSTANCE_FILE = "tests/fixtures/instance.tar.gz";
@@ -398,7 +399,7 @@ test("Create instance from external instance file", async ({
   await deleteInstance(page, instanceName);
 });
 
-test("Migrate instance root storage volume to a different pool", async ({
+test("Move instance root storage volume to a different pool", async ({
   page,
 }) => {
   const targetPool = randomPoolName();

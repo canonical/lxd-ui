@@ -18,7 +18,7 @@ const ClusterGroupLoader = ({ outlet }: Props) => {
   });
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (

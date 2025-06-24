@@ -5,8 +5,7 @@ import StoragePoolSize from "pages/storage/StoragePoolSize";
 import classnames from "classnames";
 import { useStoragePools } from "context/useStoragePools";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   onSelect: (pool: string) => void;
@@ -18,8 +17,7 @@ interface Props {
 
 const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
   const { data: pools = [], isLoading } = useStoragePools();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -53,7 +51,7 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
               {pool.name}
             </div>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           onClick: selectPool,
         },

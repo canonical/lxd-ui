@@ -244,4 +244,85 @@ describe("formChangeCount", () => {
 
     expect(result).toBe(1);
   });
+
+  it("counts rename of a device as one", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth1",
+            type: "nic",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(1);
+  });
+
+  it("counts rename and detail change of a device as two", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            network: "foo",
+            type: "nic",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth1",
+            network: "bar",
+            type: "nic",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(2);
+  });
+
+  it("counts rename and removal as two", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+          },
+          {
+            name: "eth1",
+            type: "nic",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth2",
+            type: "nic",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(2);
+  });
 });

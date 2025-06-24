@@ -13,8 +13,6 @@ import {
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { createInstance } from "api/instances";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
 import { useNavigate } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import type { LxdDiskDevice } from "types/device";
@@ -29,26 +27,25 @@ import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useStoragePools } from "context/useStoragePools";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   instance: LxdInstance;
   close: () => void;
 }
 
-export interface LxdInstanceDuplicate {
+export interface LxdInstanceCopy {
   instanceName: string;
   targetProject: string;
   targetClusterMember?: string;
   targetStoragePool: string;
   allowInconsistent: boolean;
   instanceOnly: boolean;
-  stateful: boolean;
 }
 
-const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
+const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
   const toastNotify = useToastNotification();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const controllerState = useState<AbortController | null>(null);
   const navigate = useNavigate();
   const eventQueue = useEventQueue();
@@ -84,18 +81,17 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
     toastNotify.success(message, actions);
   };
 
-  const getDuplicatedInstanceName = (instance: LxdInstance): string => {
-    const newInstanceName = truncateInstanceName(instance.name, "-duplicate");
+  const getCopiedInstanceName = (instance: LxdInstance): string => {
+    const newInstanceName = truncateInstanceName(instance.name, "-copy");
     return getUniqueResourceName(newInstanceName, instances);
   };
 
-  const formik = useFormik<LxdInstanceDuplicate>({
+  const formik = useFormik<LxdInstanceCopy>({
     initialValues: {
-      instanceName: getDuplicatedInstanceName(instance),
+      instanceName: getCopiedInstanceName(instance),
       targetProject: instance.project,
       allowInconsistent: false,
       instanceOnly: false,
-      stateful: false,
       targetClusterMember: isClustered ? instance.location : "",
       targetStoragePool:
         (instance.devices["root"] as LxdDiskDevice)?.pool ??
@@ -122,7 +118,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
             type: "copy",
             project: instance.project,
           },
-          stateful: values.stateful,
           devices: {
             ...instance.devices,
             root: {
@@ -136,9 +131,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
         values.targetClusterMember,
       )
         .then((operation) => {
-          toastNotify.info(
-            <>Duplication of instance {instanceLink} started.</>,
-          );
+          toastNotify.info(<>Copy of instance {instanceLink} started.</>);
           eventQueue.set(
             operation.metadata.id,
             () => {
@@ -150,14 +143,14 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
             },
             (msg) =>
               toastNotify.failure(
-                "Instance duplication failed.",
+                "Instance copy failed.",
                 new Error(msg),
                 instanceLink,
               ),
           );
         })
         .catch((e) => {
-          toastNotify.failure("Instance duplication failed.", e, instanceLink);
+          toastNotify.failure("Instance copy failed.", e, instanceLink);
         })
         .finally(() => {
           close();
@@ -168,8 +161,8 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   return (
     <Modal
       close={close}
-      className="duplicate-instances-modal"
-      title="Duplicate Instance"
+      className="copy-instances-modal"
+      title="Copy Instance"
       buttonRow={
         <>
           <Button
@@ -184,10 +177,15 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid || storagePoolsLoading || projectsLoading}
+            disabled={
+              !formik.isValid ||
+              formik.isSubmitting ||
+              storagePoolsLoading ||
+              projectsLoading
+            }
             onClick={() => void formik.submitForm()}
           >
-            Duplicate
+            Copy
           </ActionButton>
         </>
       }
@@ -245,12 +243,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
             formik.touched.instanceOnly ? formik.errors.instanceOnly : null
           }
         />
-        <Input
-          {...formik.getFieldProps("stateful")}
-          type="checkbox"
-          label="Copy stateful"
-          error={formik.touched.stateful ? formik.errors.stateful : null}
-        />
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
       </Form>
@@ -258,4 +250,4 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   );
 };
 
-export default DuplicateInstanceForm;
+export default CopyInstanceForm;

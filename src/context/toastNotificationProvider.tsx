@@ -4,7 +4,7 @@ import type {
   ValueOf,
 } from "@canonical/react-components";
 import { failure, info } from "@canonical/react-components";
-import { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
+import { NotificationSeverity } from "@canonical/react-components/dist/components/Notifications/Notification/Notification";
 import ToastNotification from "components/ToastNotification";
 import ToastNotificationList from "components/ToastNotificationList";
 import type { FC, PropsWithChildren, ReactNode } from "react";

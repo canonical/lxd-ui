@@ -40,12 +40,17 @@
     padding: 1rem;
     width: 21rem;
 
+    .all-projects {
+      margin-bottom: $spv--small;
+    }
+
     .projects {
       max-height: 20rem;
       overflow-y: auto;
 
       .link {
         padding-bottom: $spv--small;
+        padding-left: 2rem;
         padding-top: $spv--small;
       }
 

@@ -15,6 +15,7 @@ import { unstable_usePrompt as usePrompt } from "react-router-dom";
 import Xterm from "components/Xterm";
 import type { Terminal } from "xterm";
 import { useNotify } from "@canonical/react-components";
+import { isInstanceRunning } from "util/instanceStatus";
 
 interface Props {
   instance: LxdInstance;
@@ -52,7 +53,7 @@ const InstanceTextConsole: FC<Props> = ({
   };
   useEventListener("beforeunload", handleCloseTab);
 
-  const isRunning = instance.status === "Running";
+  const isRunning = isInstanceRunning(instance);
 
   const handleError = (e: object) => {
     onFailure("Error", e);

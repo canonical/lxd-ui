@@ -92,7 +92,7 @@ const CustomIsoList: FC = () => {
       columns: [
         {
           content: image.aliases,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {
@@ -147,7 +147,7 @@ const CustomIsoList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader text="Loading custom ISOs..." />;
+    return <Loader isMainComponent />;
   }
 
   const hasImages = images.length !== 0;
@@ -203,7 +203,7 @@ const CustomIsoList: FC = () => {
 
   return (
     <CustomLayout
-      contentClassName="detail-page"
+      mainClassName="custom-iso-list"
       header={
         <PageHeader>
           <PageHeader.Left>

@@ -62,7 +62,7 @@ const ImageList: FC = () => {
 
   const headers = [
     { content: "Name", sortKey: "name" },
-    { content: "Alias", sortKey: "alias" },
+    { content: "Alias", sortKey: "alias", className: "aliases" },
     {
       content: "Architecture",
       sortKey: "architecture",
@@ -130,7 +130,7 @@ const ImageList: FC = () => {
       columns: [
         {
           content: description,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {
@@ -191,11 +191,12 @@ const ImageList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader text="Loading images..." />;
+    return <Loader isMainComponent />;
   }
 
   return (
     <CustomLayout
+      mainClassName="images-list"
       contentClassName="u-no-padding--bottom"
       header={
         <PageHeader>

@@ -17,16 +17,19 @@ import { getConfigRowMetadata } from "util/configInheritance";
 import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
+import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
 
 export type ConfigurationRowFormikValues =
   | InstanceAndProfileFormValues
   | StorageVolumeFormValues
+  | NetworkAclFormValues
   | NetworkFormValues
   | ProjectFormValues
   | StoragePoolFormValues;
 
 export type ConfigurationRowFormikProps =
   | InstanceAndProfileFormikProps
+  | FormikProps<NetworkAclFormValues>
   | FormikProps<NetworkFormValues>
   | FormikProps<ProjectFormValues>
   | FormikProps<StorageVolumeFormValues>
@@ -227,6 +230,7 @@ export const getConfigurationRow = ({
     ),
     override: renderOverride(),
     name: `${label as string}-${name ?? ""}-${metadata.value}-${metadata.configField?.shortdesc}`,
+    edit: formik.values.readOnly ? "read" : "edit",
   });
 };
 
@@ -236,6 +240,7 @@ interface BaseProps {
   override: ReactNode;
   className?: string;
   name?: string;
+  edit?: string;
 }
 
 export const getConfigurationRowBase = ({
@@ -244,6 +249,7 @@ export const getConfigurationRowBase = ({
   override,
   className,
   name,
+  edit,
 }: BaseProps): MainTableRow => {
   return {
     name,
@@ -251,14 +257,17 @@ export const getConfigurationRowBase = ({
     className,
     columns: [
       {
+        key: `configuration-${name}-${edit}`,
         content: configuration,
         className: "configuration",
       },
       {
+        key: `inherited-${name}-${edit}`,
         content: inherited,
         className: "inherited",
       },
       {
+        key: `override-${name}-${edit}`,
         content: override,
         className: "override",
       },

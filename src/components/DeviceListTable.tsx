@@ -78,7 +78,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
               to={`${configBaseURL}/${isOtherDevice(device) ? "other" : device.type}`}
             />
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {

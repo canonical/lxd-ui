@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Icon, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
@@ -11,6 +11,8 @@ import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
+import classnames from "classnames";
+import { cephObject } from "util/storageOptions";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -29,15 +31,15 @@ const StoragePoolDetail: FC = () => {
   }
 
   const member = clusterMembers[0]?.server_name ?? undefined;
-
   const { data: pool, error, isLoading } = useStoragePool(name, member);
+  const isVolumeCompatible = pool?.driver !== cephObject;
 
   if (error) {
     notify.failure("Loading storage details failed", error);
   }
 
   if (isLoading) {
-    return <Loader text="Loading storage details..." />;
+    return <Loader isMainComponent />;
   } else if (!pool) {
     return <>Loading storage details failed</>;
   }
@@ -46,14 +48,27 @@ const StoragePoolDetail: FC = () => {
     "Overview",
     "Configuration",
     {
-      component: () => (
-        <a
-          href={`/ui/project/${project}/storage/volumes?pool=${pool.name}`}
-          className="p-tabs__link"
-        >
-          Volumes <Icon name="external-link" />
-        </a>
-      ),
+      component: () => {
+        return (
+          <Link
+            to={
+              isVolumeCompatible
+                ? `/ui/project/${project}/storage/volumes?pool=${pool.name}`
+                : "#"
+            }
+            className={classnames("p-tabs__link", {
+              "is-disabled": !isVolumeCompatible,
+            })}
+            title={
+              isVolumeCompatible
+                ? "Volumes"
+                : "Volumes are not supported on this pool"
+            }
+          >
+            Volumes <Icon name="external-link" />
+          </Link>
+        );
+      },
       label: "Volumes",
     },
   ];

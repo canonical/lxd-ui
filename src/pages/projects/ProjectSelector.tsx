@@ -61,6 +61,16 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
               ref={searchRef}
             />
           )}
+          <Button
+            onClick={() => {
+              navigate("/ui/all-projects/instances");
+            }}
+            className="p-contextual-menu__link all-projects"
+            hasIcon
+          >
+            <Icon name="folder" light />
+            <span>All projects</span>
+          </Button>
           <ProjectSelectorList projects={projects} onMount={onChildMount} />
           <hr className="is-dark" />
           <Button

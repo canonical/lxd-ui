@@ -14,7 +14,7 @@ const ProjectConfiguration: FC = () => {
   const { project, isLoading } = useCurrentProject();
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   return project ? (

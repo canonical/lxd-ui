@@ -12,10 +12,10 @@ import type { LxdStorageVolume } from "types/storage";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
-import { updateStorageVolume } from "api/storage-pools";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
-import ResourceLink from "components/ResourceLink";
+import { updateStorageVolume } from "api/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -31,20 +31,20 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
     initialValues: getStorageVolumeEditValues(volume),
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, volume.project);
-      updateStorageVolume(volume.pool, volume.project, {
-        ...saveVolume,
-        etag: volume.etag,
-      })
+      updateStorageVolume(
+        volume.pool,
+        volume.project,
+        {
+          ...saveVolume,
+          etag: volume.etag,
+        },
+        volume.location,
+      )
         .then(() => {
           toastNotify.success(
             <>
               Snapshot configuration updated for volume{" "}
-              <ResourceLink
-                type="volume"
-                value={volume.name}
-                to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-              />
-              .
+              <VolumeLinkChip volume={volume} />.
             </>,
           );
           queryClient.invalidateQueries({
@@ -77,21 +77,12 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
       title="Snapshot configuration"
       buttonRow={
         formik.values.readOnly ? (
-          <div className="u-space-between u-flex-row-reverse">
-            <Button
-              className="u-no-margin--bottom u-no-margin--right"
-              onClick={close}
-            >
-              Close
-            </Button>
-            <Button
-              className="u-no-margin--bottom"
-              type="button"
-              onClick={async () => formik.setFieldValue("readOnly", false)}
-            >
-              Edit configuration
-            </Button>
-          </div>
+          <Button
+            className="u-no-margin--bottom u-no-margin--right"
+            onClick={close}
+          >
+            Close
+          </Button>
         ) : (
           <>
             <Button

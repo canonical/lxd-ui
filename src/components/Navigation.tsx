@@ -1,11 +1,22 @@
 import type { FC, MouseEvent } from "react";
 import { useEffect, useState } from "react";
-import { Button, Icon, SideNavigationItem } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  SideNavigationItem,
+  Step,
+  Stepper,
+} from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
-import { getElementAbsoluteHeight, isWidthBelow, logout } from "util/helpers";
+import {
+  capitalizeFirstLetter,
+  getElementAbsoluteHeight,
+  isWidthBelow,
+  logout,
+} from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
@@ -14,16 +25,19 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { AccordionNavMenu } from "./NavAccordion";
 import NavAccordion from "./NavAccordion";
 import useEventListener from "util/useEventListener";
-import { enablePermissionsFeature } from "util/permissions";
 import type { Location } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
+import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
+import { useSettings } from "context/useSettings";
+import type { LxdProject } from "types/project";
 
 const isSmallScreen = () => isWidthBelow(620);
 
 const initialiseOpenNavMenus = (location: Location) => {
-  const openPermissions = location.pathname.includes("permissions");
-  const openStorage = location.pathname.includes("storage");
+  const openPermissions = location.pathname.includes("/permissions/");
+  const openStorage = location.pathname.includes("/storage/");
+  const openNetwork = location.pathname.includes("/network");
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
     initialOpenMenus.push("permissions");
@@ -33,31 +47,71 @@ const initialiseOpenNavMenus = (location: Location) => {
     initialOpenMenus.push("storage");
   }
 
+  if (openNetwork) {
+    initialOpenMenus.push("networking");
+  }
+
   return initialOpenMenus;
+};
+
+const ALL_PROJECTS = "All projects";
+
+const initializeProjectName = (
+  isAllProjectsFromUrl: boolean,
+  isLoading: boolean,
+  project: LxdProject | undefined,
+) => {
+  if (isAllProjectsFromUrl) {
+    return ALL_PROJECTS;
+  }
+
+  if (project && !isLoading) {
+    return project.name;
+  }
+
+  return "default";
 };
 
 const Navigation: FC = () => {
   const { isRestricted, isOidc } = useAuth();
   const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
-  const { project, isLoading } = useCurrentProject();
+  const {
+    project,
+    isAllProjects: isAllProjectsFromUrl,
+    canViewProject,
+    isLoading,
+  } = useCurrentProject();
   const [projectName, setProjectName] = useState(
-    project && !isLoading ? project.name : "default",
+    initializeProjectName(isAllProjectsFromUrl, isLoading, project),
   );
-  const { hasCustomVolumeIso } = useSupportedFeatures();
+  const isAllProjects = projectName === ALL_PROJECTS;
+  const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
-  const enablePermissions = enablePermissionsFeature();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
   const [openNavMenus, setOpenNavMenus] = useState<AccordionNavMenu[]>(() =>
     initialiseOpenNavMenus(location),
   );
+  const onGenerate = location.pathname.includes("certificate-generate");
+  const onTrustToken = location.pathname.includes("certificate-add");
+  const { data: settings } = useSettings();
+  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasCertificate = settings?.client_certificate;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const isAllProjects = isAllProjectsFromUrl || !canViewProject;
+    if (isAllProjects && projectName !== ALL_PROJECTS) {
+      setProjectName(ALL_PROJECTS);
+      setOpenNavMenus([]);
+      return;
+    }
+
     if (project && project.name !== projectName) {
       setProjectName(project.name);
     }
-  }, [project?.name]);
+  }, [project?.name, isAllProjectsFromUrl, projectName]);
 
   useEffect(() => {
     if (!menuCollapsed) {
@@ -67,10 +121,6 @@ const Navigation: FC = () => {
 
     if (scroll && !menuCollapsed) {
       setScroll(false);
-    }
-
-    if (openNavMenus.length) {
-      setOpenNavMenus([]);
     }
   }, [menuCollapsed, scroll, openNavMenus]);
 
@@ -139,12 +189,25 @@ const Navigation: FC = () => {
 
   useEventListener("resize", adjustNavigationScrollForOverflow);
 
+  const getNavTitle = (title: string) => {
+    if (isAllProjects) {
+      return `Select a project to explore ${title}`;
+    }
+
+    return `${capitalizeFirstLetter(title)} (${projectName})`;
+  };
+
   return (
     <>
       <header className="l-navigation-bar">
-        <div className="p-panel is-dark">
+        <div
+          className={classnames("p-panel", {
+            "is-light": !isAuthenticated,
+            "is-dark": isAuthenticated,
+          })}
+        >
           <div className="p-panel__header">
-            <Logo />
+            <Logo light={!isAuthenticated} />
             <div className="p-panel__controls">
               <Button
                 dense
@@ -166,9 +229,14 @@ const Navigation: FC = () => {
         })}
       >
         <div className="l-navigation__drawer">
-          <div className="p-panel is-dark">
+          <div
+            className={classnames("p-panel", {
+              "is-light": !isAuthenticated,
+              "is-dark": isAuthenticated,
+            })}
+          >
             <div className="p-panel__header is-sticky">
-              <Logo />
+              <Logo light={!isAuthenticated} />
               <div className="p-panel__controls u-hide--medium u-hide--large">
                 <Button
                   appearance="base"
@@ -182,7 +250,12 @@ const Navigation: FC = () => {
               </div>
             </div>
             <div className="p-panel__content">
-              <div className="p-side-navigation--icons is-dark sidenav-top-container">
+              <div
+                className={classnames(
+                  "p-side-navigation--icons sidenav-top-container",
+                  { "is-light": !isAuthenticated },
+                )}
+              >
                 <ul className="p-side-navigation__list sidenav-top-ul">
                   {isAuthenticated && (
                     <>
@@ -198,7 +271,11 @@ const Navigation: FC = () => {
                       </li>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${projectName}/instances`}
+                          to={
+                            isAllProjects
+                              ? "/ui/all-projects/instances"
+                              : `/ui/project/${projectName}/instances`
+                          }
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
                         >
@@ -212,7 +289,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/profiles`}
-                          title={`Profiles (${projectName})`}
+                          title={getNavTitle("profiles")}
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -224,22 +302,54 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
 
                       <SideNavigationItem>
-                        <NavLink
-                          to={`/ui/project/${projectName}/networks`}
-                          title={`Networks (${projectName})`}
-                          onClick={softToggleMenu}
+                        <NavAccordion
+                          baseUrl={`/ui/project/${projectName}/network`}
+                          title={getNavTitle("networking")}
+                          disabled={isAllProjects}
+                          iconName="exposed"
+                          label="Networking"
+                          onOpen={() => {
+                            toggleAccordionNav("networking");
+                          }}
+                          open={openNavMenus.includes("networking")}
                         >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="exposed"
-                          />{" "}
-                          Networks
-                        </NavLink>
+                          {[
+                            <SideNavigationItem
+                              key={`/ui/project/${projectName}/networks`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/networks`}
+                                title={`Networks (${projectName})`}
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                                ignoreUrlMatches={[
+                                  "network-acl",
+                                  "network-acls",
+                                ]}
+                              >
+                                Networks
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem
+                              key={`/ui/project/${projectName}/network-acls`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/network-acls`}
+                                title={`ACLs (${projectName})`}
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                ACLs
+                              </NavLink>
+                            </SideNavigationItem>,
+                          ]}
+                        </NavAccordion>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/storage`}
-                          title={`Storage (${projectName})`}
+                          title={getNavTitle("storage")}
+                          disabled={isAllProjects}
                           iconName="switcher-dashboard"
                           label="Storage"
                           onOpen={() => {
@@ -296,7 +406,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/images`}
-                          title={`Images (${projectName})`}
+                          title={getNavTitle("images")}
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -309,7 +420,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/configuration`}
-                          title={`Configuration (${projectName})`}
+                          title={getNavTitle("configuration")}
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -319,7 +431,11 @@ const Navigation: FC = () => {
                           Configuration
                         </NavLink>
                       </SideNavigationItem>
-                      <hr className="is-dark navigation-hr" />
+                      <hr
+                        className={classnames("navigation-hr", {
+                          "is-light": !isAuthenticated,
+                        })}
+                      />
                       <SideNavigationItem>
                         <NavLink
                           to="/ui/cluster"
@@ -361,7 +477,7 @@ const Navigation: FC = () => {
                           </NavLink>
                         </SideNavigationItem>
                       )}
-                      {enablePermissions && (
+                      {hasAccessManagement && (
                         <SideNavigationItem>
                           <NavAccordion
                             baseUrl="/ui/permissions"
@@ -424,26 +540,60 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                     </>
                   )}
-                  {!isAuthenticated && (
-                    <>
-                      <SideNavigationItem>
-                        <NavLink
-                          to="/ui/login"
-                          title="Login"
-                          onClick={softToggleMenu}
+                  {!isAuthenticated && (onGenerate || onTrustToken) && (
+                    <div
+                      className={classnames("login-navigation", {
+                        "is-collapsed": menuCollapsed,
+                      })}
+                    >
+                      {hasOidc && !menuCollapsed && (
+                        <a
+                          className="p-button has-icon sso-login-button"
+                          href="/oidc/login"
                         >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="profile"
-                          />
-                          Login
-                        </NavLink>
-                      </SideNavigationItem>
-                    </>
+                          <Icon name="security" />
+                          <span>Login with SSO instead</span>
+                        </a>
+                      )}
+                      <Stepper
+                        steps={[
+                          <Step
+                            key="Step 1"
+                            handleClick={() => {
+                              navigate("/ui/login/certificate-generate");
+                            }}
+                            index={1}
+                            title="Browser certificate"
+                            hasProgressLine={false}
+                            enabled
+                            iconName="number"
+                            selected={onGenerate}
+                            iconClassName="stepper-icon"
+                          />,
+                          <Step
+                            key="Step 2"
+                            handleClick={() => {
+                              navigate("/ui/login/certificate-add");
+                            }}
+                            index={2}
+                            title="Trust token"
+                            hasProgressLine={false}
+                            enabled
+                            iconName="number"
+                            selected={onTrustToken}
+                          />,
+                        ]}
+                      />
+                    </div>
                   )}
                 </ul>
               </div>
-              <div className="p-side-navigation--icons is-dark sidenav-bottom-container">
+              <div
+                className={classnames(
+                  "p-side-navigation--icons sidenav-bottom-container",
+                  { "is-light": !isAuthenticated },
+                )}
+              >
                 <ul
                   className={classnames(
                     "p-side-navigation__list sidenav-bottom-ul",
@@ -452,7 +602,11 @@ const Navigation: FC = () => {
                     },
                   )}
                 >
-                  <hr className="is-dark navigation-hr" />
+                  <hr
+                    className={classnames("navigation-hr", {
+                      "is-light": !isAuthenticated,
+                    })}
+                  />
                   {isAuthenticated && (
                     <SideNavigationItem>
                       <div
@@ -473,6 +627,7 @@ const Navigation: FC = () => {
                           <></>
                         )}
                         <div className="u-truncate">{loggedInUserName}</div>
+                        <ProjectPermissionWarning />
                       </div>
                     </SideNavigationItem>
                   )}
@@ -484,7 +639,12 @@ const Navigation: FC = () => {
                       rel="noopener noreferrer"
                       title="Documentation"
                     >
-                      <Icon className="p-side-navigation__icon" name="book" />
+                      <Icon
+                        className={classnames("p-side-navigation__icon", {
+                          "is-light": isAuthenticated,
+                        })}
+                        name="book"
+                      />
                       Documentation
                     </a>
                   </SideNavigationItem>
@@ -497,7 +657,9 @@ const Navigation: FC = () => {
                       title="Discussion"
                     >
                       <Icon
-                        className="is-light p-side-navigation__icon"
+                        className={classnames("p-side-navigation__icon", {
+                          "is-light": isAuthenticated,
+                        })}
                         name="share"
                       />
                       Discussion
@@ -512,7 +674,9 @@ const Navigation: FC = () => {
                       title="Report a bug"
                     >
                       <Icon
-                        className="is-light p-side-navigation__icon"
+                        className={classnames("p-side-navigation__icon", {
+                          "is-light": isAuthenticated,
+                        })}
                         name="submit-bug"
                       />
                       Report a bug
@@ -524,7 +688,8 @@ const Navigation: FC = () => {
                         className="p-side-navigation__link"
                         title="Log out"
                         onClick={() => {
-                          logout();
+                          logout(hasOidc, hasCertificate);
+
                           softToggleMenu();
                         }}
                       >
@@ -540,6 +705,7 @@ const Navigation: FC = () => {
                 <div
                   className={classnames("sidenav-toggle-wrapper", {
                     "authenticated-nav": isAuthenticated,
+                    "is-light": !isAuthenticated,
                   })}
                 >
                   <Button
@@ -549,10 +715,16 @@ const Navigation: FC = () => {
                     } main navigation`}
                     hasIcon
                     dense
-                    className="sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small"
+                    className={classnames(
+                      "sidenav-toggle u-no-margin l-navigation-collapse-toggle u-hide--small",
+                      { "is-light": !isAuthenticated },
+                    )}
                     onClick={hardToggleMenu}
                   >
-                    <Icon light name="sidebar-toggle" />
+                    <Icon
+                      name="sidebar-toggle"
+                      className={classnames({ "is-light": !isAuthenticated })}
+                    />
                   </Button>
                 </div>
               </div>

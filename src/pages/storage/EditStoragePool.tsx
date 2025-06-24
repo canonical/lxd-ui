@@ -127,8 +127,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
+
   const updateSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
     } else {
@@ -170,6 +171,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
+              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={!formik.values.name}
             />

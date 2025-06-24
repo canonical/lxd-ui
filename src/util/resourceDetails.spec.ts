@@ -116,4 +116,15 @@ describe("extractResourceDetailsFromUrl", () => {
       type: "identity",
     });
   });
+
+  it("extracts resource details from network url", () => {
+    const path = "/1.0/networks/bridgy?project=foo";
+    const resourceDetail = extractResourceDetailsFromUrl("network", path);
+    expect(resourceDetail).toEqual({
+      name: "bridgy",
+      path: path,
+      type: "network",
+      project: "foo",
+    });
+  });
 });

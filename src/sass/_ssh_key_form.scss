@@ -1,0 +1,40 @@
+.ssh-key-form {
+  .ssh-key-table {
+    .name {
+      width: 8rem;
+    }
+
+    .user {
+      width: 6rem;
+    }
+
+    .actions {
+      width: 9rem;
+    }
+  }
+}
+
+.ssh-key-add-modal {
+  .p-modal__dialog {
+    @include large {
+      width: 40rem;
+    }
+  }
+
+  .source-input {
+    min-height: 6rem;
+  }
+
+  // the icon type for .pub files in safari looks odd
+  // hide the input to avoid showing the icon
+  .ssh-file-upload::-webkit-file-upload-button {
+    border: 0;
+    font-size: 0;
+    height: 0;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 0;
+  }
+}

@@ -26,7 +26,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchConfigOptions } from "api/server";
 import { toConfigFields } from "util/config";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { useParams } from "react-router-dom";
 import { getProjectKey } from "util/projectConfigFields";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
@@ -62,6 +62,8 @@ export const getConfigRowMetadata = (
       return getNetworkRowMetadata(values, name);
     case "storagePool":
       return getStoragePoolRowMetadata(values, name);
+    case "network-acl":
+      throw new Error("Network ACLs do not have row metadata");
   }
 };
 
@@ -82,7 +84,7 @@ const getInstanceRowMetadata = (
   const configOptions = getConfigOptions();
 
   const configFields = toConfigFields(configOptions?.configs.instance ?? {});
-  const configKey = getInstanceKey(name);
+  const configKey = getInstanceField(name);
   const configField = configFields.find((item) => item.key === configKey);
 
   const { project } = useParams<{ project: string }>();

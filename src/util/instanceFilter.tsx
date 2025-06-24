@@ -6,6 +6,7 @@ export interface InstanceFilters {
   types: string[];
   profiles: string[];
   clusterMembers: string[];
+  projects: string[];
 }
 
 export const instanceStatuses: LxdInstanceStatus[] = [

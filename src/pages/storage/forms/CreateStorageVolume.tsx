@@ -5,10 +5,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { createStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { testDuplicateStorageVolumeName } from "util/storageVolume";
+import { testCopyStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
@@ -18,7 +17,8 @@ import { slugify } from "util/slugify";
 import { POOL } from "../StorageVolumesFilter";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
-import ResourceLink from "components/ResourceLink";
+import { createStorageVolume } from "api/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();
@@ -36,9 +36,7 @@ const CreateStorageVolume: FC = () => {
 
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
-      .test(
-        ...testDuplicateStorageVolumeName(project, "custom", controllerState),
-      )
+      .test(...testCopyStorageVolumeName(project, "custom", controllerState))
       .required("This field is required"),
   });
 
@@ -57,7 +55,8 @@ const CreateStorageVolume: FC = () => {
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const volume = volumeFormToPayload(values, project);
-      createStorageVolume(values.pool, project, volume)
+
+      createStorageVolume(values.pool, project, volume, values.clusterMember)
         .then(() => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
@@ -72,14 +71,13 @@ const CreateStorageVolume: FC = () => {
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
           navigate(`/ui/project/${project}/storage/volumes`);
+          const volumeWithLocation = {
+            ...volume,
+            location: values.clusterMember ?? "none",
+          };
           toastNotify.success(
             <>
-              Storage volume{" "}
-              <ResourceLink
-                type="volume"
-                value={values.name}
-                to={`/ui/project/${project}/storage/pool/${values.pool}/volumes/custom/${values.name}`}
-              />{" "}
+              Storage volume <VolumeLinkChip volume={volumeWithLocation} />{" "}
               created.
             </>,
           );
@@ -113,7 +111,7 @@ const CreateStorageVolume: FC = () => {
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
-          disabled={!formik.isValid}
+          disabled={!formik.isValid || formik.isSubmitting}
           onClick={() => void formik.submitForm()}
         >
           Create

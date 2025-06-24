@@ -7,7 +7,7 @@ import type {
 } from "./instanceAndProfileFormValues";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
 export interface BootFormValues {
@@ -20,14 +20,14 @@ export interface BootFormValues {
 
 export const bootPayload = (values: InstanceAndProfileFormValues) => {
   return {
-    [getInstanceKey("boot_autostart")]: values.boot_autostart?.toString(),
-    [getInstanceKey("boot_autostart_delay")]:
+    [getInstanceField("boot_autostart")]: values.boot_autostart?.toString(),
+    [getInstanceField("boot_autostart_delay")]:
       values.boot_autostart_delay?.toString(),
-    [getInstanceKey("boot_autostart_priority")]:
+    [getInstanceField("boot_autostart_priority")]:
       values.boot_autostart_priority?.toString(),
-    [getInstanceKey("boot_host_shutdown_timeout")]:
+    [getInstanceField("boot_host_shutdown_timeout")]:
       values.boot_host_shutdown_timeout?.toString(),
-    [getInstanceKey("boot_stop_priority")]:
+    [getInstanceField("boot_stop_priority")]:
       values.boot_stop_priority?.toString(),
   };
 };

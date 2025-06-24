@@ -30,10 +30,10 @@
     "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
   },
   "dependencies": {
-    "@canonical/react-components": "2.1.0",
+    "@canonical/react-components": "2.5.0",
     "@monaco-editor/react": "4.6.0",
     "@tanstack/react-query": "5.63.0",
-    "axios": "1.7.9",
+    "axios": "1.8.2",
     "formik": "2.4.6",
     "js-yaml": "4.1.0",
     "lodash.isequal": "4.5.0",
@@ -41,9 +41,9 @@
     "parse-prometheus-text-format": "1.1.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-router-dom": "7.1.1",
+    "react-router-dom": "7.5.2",
     "serve": "14.2.4",
-    "vanilla-framework": "4.21.0",
+    "vanilla-framework": "4.24.0",
     "xterm": "5.3.0",
     "xterm-addon-fit": "0.8.0",
     "yup": "1.6.1"
@@ -89,10 +89,10 @@
     "stylelint-scss": "6.10.0",
     "typescript": "5.7.3",
     "v8-to-istanbul": "9.3.0",
-    "vite": "6.1.0",
+    "vite": "6.3.5",
     "vite-plugin-istanbul": "6.0.2",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "2.1.9"
+    "vitest": "3.0.9"
   },
   "lint-staged": {
     "src/**/*.{json,jsx,ts,tsx}": [

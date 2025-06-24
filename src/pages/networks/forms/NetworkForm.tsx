@@ -30,14 +30,13 @@ import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/instanceEdit";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import type { LxdClusterMember } from "types/cluster";
+import { useIsClustered } from "context/useIsClustered";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -79,6 +78,7 @@ export interface NetworkFormValues {
   ovn_ingress_mode?: string;
   parent?: string;
   parentPerClusterMember?: ClusterSpecificValues;
+  security_acls: string[];
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
@@ -150,6 +150,10 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("network")]: values.network,
       [getNetworkKey("ovn_ingress_mode")]: values.ovn_ingress_mode,
       [getNetworkKey("parent")]: values.parent,
+      [getNetworkKey("security_acls")]:
+        values.security_acls.length > 0
+          ? values.security_acls.join(",")
+          : undefined,
     },
   };
 };
@@ -189,8 +193,7 @@ const NetworkForm: FC<Props> = ({
 }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const [query, setQuery] = useState("");
   const [hasEmptySearchResult, setEmptySearchResult] = useState(false);
 
@@ -250,6 +253,8 @@ const NetworkForm: FC<Props> = ({
 
     return () => wrapper?.removeEventListener("scroll", scrollListener);
   }, [availableSections]);
+
+  const isUnmanagedNetwork = formik.values.bareNetwork?.managed === false;
 
   return (
     <div className="network-form">
@@ -325,8 +330,12 @@ const NetworkForm: FC<Props> = ({
                 ensureEditMode(formik);
                 formik.setFieldValue("yaml", yaml);
               }}
-              readOnly={!!formik.values.editRestriction}
-              readOnlyMessage={formik.values.editRestriction}
+              readOnly={!!formik.values.editRestriction || isUnmanagedNetwork}
+              readOnlyMessage={
+                isUnmanagedNetwork
+                  ? "Unmanaged networks are read only"
+                  : formik.values.editRestriction
+              }
             >
               <YamlNotification
                 entity="network"

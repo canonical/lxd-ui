@@ -10,10 +10,14 @@
   }
 
   .logo-text {
-    color: #fff;
+    color: $colors--dark-theme--text-default;
     left: 47px;
     position: absolute;
     top: $spv--x-small;
+
+    &.is-light {
+      color: $colors--light-theme--text-default;
+    }
   }
 
   @include mobile {
@@ -58,8 +62,16 @@
   text-align: right;
   width: 100%;
 
+  &.is-light {
+    background: $colors--light-theme--background-default;
+  }
+
   .sidenav-toggle {
-    background-color: #444 !important;
+    background-color: $colors--dark-theme--background-default !important;
+
+    &.is-light {
+      background-color: $colors--light-theme--background-default !important;
+    }
   }
 }
 
@@ -192,4 +204,9 @@
       }
     }
   }
+}
+
+.p-side-navigation__link.is-disabled {
+  cursor: default;
+  opacity: 0.5;
 }

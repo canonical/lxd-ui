@@ -2,11 +2,11 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdInstance } from "types/instance";
 import type { LxdProject } from "types/project";
 import type { LxdProfile } from "types/profile";
-import type { LxdNetwork } from "types/network";
+import type { LxdNetwork, LxdNetworkAcl } from "types/network";
 import type { LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
-import { isDiskDevice } from "./devices";
+import { isDiskDevice, isNicDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
@@ -83,7 +83,12 @@ export const handleSettledResult = (
 
 export const handleEtagResponse = async (response: Response) => {
   const data = (await handleResponse(response)) as LxdApiResponse<
-    LxdInstance | LxdProject | LxdProfile | LxdNetwork | LxdStorageVolume
+    | LxdInstance
+    | LxdProject
+    | LxdProfile
+    | LxdNetwork
+    | LxdNetworkAcl
+    | LxdStorageVolume
   >;
   const result = data.metadata;
   result.etag = response.headers.get("etag")?.replace("W/", "") ?? undefined;
@@ -168,7 +173,8 @@ export const checkDuplicateName = async (
   candidate: string | undefined,
   project: string,
   controllerState: AbortControllerState,
-  target: string,
+  basePath: string,
+  params = "",
 ) => {
   if (!candidate) {
     return true;
@@ -178,7 +184,7 @@ export const checkDuplicateName = async (
   const deduplicateController = new AbortController();
   setController(deduplicateController);
   const signal = deduplicateController.signal;
-  return fetch(`/1.0/${target}/${candidate}?project=${project}`, {
+  return fetch(`/1.0/${basePath}/${candidate}?project=${project}${params}`, {
     signal,
   }).then((response) => response.status === 404);
 };
@@ -210,51 +216,22 @@ export const getParentsBottomSpacing = (element: Element): number => {
   return sum;
 };
 
-export const getPromiseSettledCounts = (
-  results: PromiseSettledResult<void>[],
-): { fulfilledCount: number; rejectedCount: number } => {
-  const fulfilledCount = results.filter(
-    (result) => result.status === "fulfilled",
-  ).length;
-  const rejectedCount = results.filter(
-    (result) => result.status === "rejected",
-  ).length;
-  return { fulfilledCount, rejectedCount };
-};
-
-export const pushSuccess = (results: PromiseSettledResult<void>[]): void => {
-  results.push({
-    status: "fulfilled",
-    value: undefined,
-  });
-};
-
-export const pushFailure = (
-  results: PromiseSettledResult<void>[],
-  msg: string,
-): void => {
-  results.push({
-    status: "rejected",
-    reason: msg,
-  });
-};
-
-export const continueOrFinish = (
-  results: PromiseSettledResult<void>[],
-  totalLength: number,
-  resolve: (value: PromiseSettledResult<void>[]) => void,
-): void => {
-  if (totalLength === results.length) {
-    resolve(results);
+export const logout = (hasOidc?: boolean, hasCertificate?: boolean): void => {
+  if (window.location.href.includes("/ui/login")) {
+    return;
   }
-};
-
-export const logout = (): void =>
   void fetch("/oidc/logout").then(() => {
-    if (!window.location.href.includes("/ui/login")) {
-      window.location.href = "/ui/login";
+    if (hasOidc) {
+      window.location.href = "/ui/login/";
+      return;
     }
+    if (hasCertificate) {
+      window.location.href = "/ui/login/certificate-add";
+      return;
+    }
+    window.location.href = "/ui/login/certificate-generate";
   });
+};
 
 export const capitalizeFirstLetter = (val: string): string =>
   val.charAt(0).toUpperCase() + val.slice(1);
@@ -345,6 +322,11 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
       return isRootDisk(device as FormDevice);
     });
   return rootStorage?.pool ?? "";
+};
+
+export const getDefaultNetwork = (profile: LxdProfile) => {
+  const networks = Object.values(profile.devices ?? {}).filter(isNicDevice);
+  return networks[0]?.network ?? "none";
 };
 
 export const isUnrestricted = (identity: LxdIdentity) => {

@@ -43,12 +43,30 @@
     padding-right: 0.5rem;
   }
 
+  .cluster-specific-input {
+    padding-bottom: 0;
+  }
+
   .cluster-specific-value-wrapper {
     align-items: center;
-    display: flex;
 
     .cluster-specific-value {
       flex-grow: 1;
+    }
+  }
+
+  .read-only {
+    .cluster-specific-value-wrapper {
+      display: flex;
+    }
+
+    .cluster-specific-value {
+      flex-grow: 0;
+    }
+
+    .p-button--base {
+      flex-grow: 1;
+      text-align: right;
     }
   }
 }

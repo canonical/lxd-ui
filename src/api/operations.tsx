@@ -12,40 +12,19 @@ const sortOperationList = (operations: LxdOperationList) => {
 };
 
 export const fetchOperations = async (
-  project: string,
+  project: string | null,
 ): Promise<LxdOperationList> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations?project=${project}&recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdOperationList>) => {
-        sortOperationList(data.metadata);
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  const projectParam = project ? `project=${project}` : "all-projects=true";
+  return fetch(`/1.0/operations?${projectParam}&recursion=1`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdOperationList>) => {
+      sortOperationList(data.metadata);
+      return data.metadata;
+    });
 };
 
-export const fetchAllOperations = async (): Promise<LxdOperationList> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations?all-projects=true&recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdOperationList>) => {
-        sortOperationList(data.metadata);
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
-};
-
-export const cancelOperation = async (
-  id: string,
-): Promise<LxdOperationList> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations/${id}`, {
-      method: "DELETE",
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+export const cancelOperation = async (id: string): Promise<void> => {
+  await fetch(`/1.0/operations/${id}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 };

@@ -36,6 +36,7 @@ import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
+import { useClusterMembers } from "context/useClusterMembers";
 
 interface Props {
   close: () => void;
@@ -64,6 +65,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   const eventQueue = useEventQueue();
   const queryClient = useQueryClient();
   const { data: settings } = useSettings();
+  const { data: clusterMembers = [] } = useClusterMembers();
 
   const handleUploadProgress = (
     instanceName: string,
@@ -181,12 +183,13 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     initialValues: {
       name: defaultInstanceName || "",
       pool: "",
-      member: "",
+      member: clusterMembers?.[0]?.server_name,
       file: null,
       formatConversion: true,
       virtioConversion: false,
       architecture: archOptions[0]?.value,
     },
+    enableReinitialize: true,
     validateOnMount: true,
     validationSchema: Yup.object().shape({
       name: instanceNameValidation(
@@ -264,7 +267,6 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           {...formik.getFieldProps("member")}
           id="member"
           label="Target cluster member"
-          setMember={(member) => void formik.setFieldValue("member", member)}
         />
         <StoragePoolSelector
           value={formik.values.pool}
@@ -337,7 +339,12 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           loading={formik.isSubmitting || !!uploadState}
-          disabled={!formik.isValid || isLoading || !formik.values.file}
+          disabled={
+            !formik.isValid ||
+            formik.isSubmitting ||
+            isLoading ||
+            !formik.values.file
+          }
           onClick={() => void formik.submitForm()}
         >
           Upload and create

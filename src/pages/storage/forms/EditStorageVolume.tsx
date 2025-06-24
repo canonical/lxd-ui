@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { updateStorageVolume } from "api/storage-pools";
 import { useNavigate, useParams } from "react-router-dom";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm, {
@@ -17,7 +16,10 @@ import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import ResourceLink from "components/ResourceLink";
+import { updateStorageVolume } from "api/storage-volumes";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import { linkForVolumeDetail } from "util/storageVolume";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -30,6 +32,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
   const queryClient = useQueryClient();
   const { section } = useParams<{ section: string }>();
   const { project } = useParams<{ project: string }>();
+  const { canEditVolume } = useStorageVolumeEntitlements();
 
   if (!project) {
     return <>Missing project</>;
@@ -39,16 +42,25 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     name: Yup.string().required("This field is required"),
   });
 
+  const editRestriction = canEditVolume(volume)
+    ? undefined
+    : "You do not have permission to edit this volume";
+
   const formik = useFormik<StorageVolumeFormValues>({
-    initialValues: getStorageVolumeEditValues(volume),
+    initialValues: getStorageVolumeEditValues(volume, editRestriction),
     validationSchema: StorageVolumeSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, project, volume);
-      updateStorageVolume(values.pool, project, {
-        ...saveVolume,
-        etag: volume.etag,
-      })
+      updateStorageVolume(
+        values.pool,
+        project,
+        {
+          ...saveVolume,
+          etag: volume.etag,
+        },
+        volume.location,
+      )
         .then(() => {
           void formik.setValues(getStorageVolumeEditValues(saveVolume));
           queryClient.invalidateQueries({
@@ -65,13 +77,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
           });
           toastNotify.success(
             <>
-              Storage volume{" "}
-              <ResourceLink
-                type="volume"
-                value={saveVolume.name}
-                to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${saveVolume.name}`}
-              />{" "}
-              updated.
+              Storage volume <VolumeLinkChip volume={volume} /> updated.
             </>,
           );
         })
@@ -84,8 +90,9 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     },
   });
 
+  const baseUrl = `${linkForVolumeDetail(volume)}/configuration`;
+
   const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
     } else {
@@ -111,7 +118,11 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
             >
               Cancel
             </Button>
-            <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
+            <FormSubmitBtn
+              formik={formik}
+              baseUrl={baseUrl}
+              disabled={!formik.values.name}
+            />
           </>
         )}
       </FormFooterLayout>

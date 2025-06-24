@@ -1,6 +1,7 @@
 import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomProjectName = (): string => {
   return `playwright-project-${randomNameSuffix()}`;
@@ -11,10 +12,14 @@ const openProjectCreationForm = async (page: Page) => {
   await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("button", { name: "Create project" }).click();
+
+  await expect(page.getByText("Project name")).toBeVisible();
+  await expect(page.getByText("Loading storage pools")).not.toBeVisible();
+
+  await page.getByLabel("Default profile network").selectOption("No network");
 };
 
 const submitProjectCreationForm = async (page: Page, project: string) => {
-  await page.getByPlaceholder("Enter name").click();
   await page.getByPlaceholder("Enter name").fill(project);
   await page.getByRole("button", { name: "Create" }).click();
   await page.waitForSelector(`text=Project ${project} created.`);
@@ -46,6 +51,7 @@ export const renameProject = async (
 
 export const deleteProject = async (page: Page, project: string) => {
   await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("link", { name: project }).click();
   await page.getByRole("link", { name: "Configuration" }).click();

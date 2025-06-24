@@ -20,7 +20,8 @@ import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
-import ResourceLink from "components/ResourceLink";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -34,14 +35,13 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
+  const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
 
-  const volumeLink = (
-    <ResourceLink
-      type="volume"
-      value={volume.name}
-      to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-    />
-  );
+  const getTitle = (action: string) => {
+    return canManageStorageVolumeSnapshots(volume)
+      ? `${action} snapshot`
+      : `You do not have permission to ${action.toLowerCase()} this snapshot`;
+  };
 
   const handleDelete = () => {
     setDeleting(true);
@@ -57,7 +57,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
-                deleted for volume {volumeLink}.
+                deleted for volume <VolumeLinkChip volume={volume} />.
               </>,
             ),
           (msg) =>
@@ -90,7 +90,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
           <>
             Snapshot{" "}
             <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />{" "}
-            restored for volume {volumeLink}.
+            restored for volume <VolumeLinkChip volume={volume} />.
           </>,
         );
       })
@@ -137,11 +137,15 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Restore",
+              confirmButtonLabel: getTitle("Restore"),
               confirmButtonAppearance: "positive",
               onConfirm: handleRestore,
             }}
-            disabled={isDeleting || isRestoring}
+            disabled={
+              !canManageStorageVolumeSnapshots(volume) ||
+              isDeleting ||
+              isRestoring
+            }
             shiftClickEnabled
             showShiftClickHint
           >
@@ -161,10 +165,14 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Delete snapshot",
+              confirmButtonLabel: getTitle("Delete"),
               onConfirm: handleDelete,
             }}
-            disabled={isDeleting || isRestoring}
+            disabled={
+              !canManageStorageVolumeSnapshots(volume) ||
+              isDeleting ||
+              isRestoring
+            }
             shiftClickEnabled
             showShiftClickHint
           >

@@ -56,7 +56,7 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
               {project.name}
             </div>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           onClick: selectProject,
         },

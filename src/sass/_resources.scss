@@ -13,6 +13,11 @@
   .p-chip__value {
     max-width: 8rem;
   }
+
+  &.p-chip--disabled {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
 }
 
 .l-main .resource-link .p-chip__value {

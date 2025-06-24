@@ -48,7 +48,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
     error: permissionsError,
   } = useQuery({
     queryKey: [queryKeys.permissions, resourceType],
-    queryFn: async () => fetchPermissions({ resourceType }),
+    queryFn: async () => fetchPermissions(resourceType),
     enabled: !!resourceType && !disableReason,
   });
 

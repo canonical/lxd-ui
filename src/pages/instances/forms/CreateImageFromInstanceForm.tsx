@@ -82,7 +82,6 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           toastNotify.info(
             <>Creation of image from instance {instanceLink} started.</>,
           );
-          close();
           eventQueue.set(
             operation.metadata.id,
             (event) => {
@@ -117,6 +116,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
             e,
             instanceLink,
           );
+        })
+        .finally(() => {
+          close();
         });
     },
   });
@@ -140,7 +142,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid}
+            disabled={!formik.isValid || formik.isSubmitting}
             onClick={() => void formik.submitForm()}
           >
             Create image
