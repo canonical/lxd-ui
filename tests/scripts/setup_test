@@ -1,6 +1,12 @@
 #! /usr/bin/env bash
 set -e
 
+# hasNeededAPIExtension: check if LXD supports the needed extension.
+hasNeededAPIExtension() (
+    needed_extension="${1}"
+    lxc info | grep -qxFm1 -- "- ${needed_extension}"
+)
+
 # setup oidc configs
 if [ -f .env.local ]
 then
@@ -8,6 +14,10 @@ then
 fi
 lxc config set oidc.issuer=${LXD_OIDC_ISSUER}
 lxc config set oidc.client.id=${LXD_OIDC_CLIENT_ID}
+if hasNeededAPIExtension "oidc_client_secret"; then
+    lxc config set oidc.client.secret=${LXD_OIDC_CLIENT_SECRET}
+    echo "OIDC client secret is set."
+fi
 lxc config set oidc.audience=${LXD_OIDC_AUDIENCE}
 lxc config set oidc.groups.claim=${LXD_OIDC_GROUPS_CLAIM}
 
