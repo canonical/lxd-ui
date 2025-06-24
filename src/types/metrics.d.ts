@@ -6,11 +6,14 @@ export interface LxdMetricGroup {
 }
 
 export interface LxdMetric {
-  value: number;
   labels: {
-    name: string;
+    cpu?: string;
+    device?: string;
+    mode?: string;
     mountpoint?: string;
+    name: string;
     project: string;
     type: string;
   };
+  value: string;
 }

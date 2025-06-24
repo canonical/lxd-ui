@@ -11,10 +11,11 @@ import {
   pluralize,
 } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
-import { getPromiseSettledCounts } from "util/helpers";
+import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { getInstanceKey } from "util/instances";
 
 interface Props {
   instances: LxdInstance[];
@@ -100,7 +101,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
 
   const restrictedInstances = instances
     .filter((instance) => !canUpdateInstanceState(instance))
-    .map((instance) => instance.name);
+    .map(getInstanceKey);
 
   return (
     <div className="p-segmented-control bulk-actions">

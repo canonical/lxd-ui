@@ -54,7 +54,7 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
               {member.server_name}
             </div>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           onClick: selectMember,
         },

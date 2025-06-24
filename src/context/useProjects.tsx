@@ -17,13 +17,12 @@ export const useProjects = (): UseQueryResult<LxdProject[]> => {
 export const useProject = (
   project: string,
   enabled?: boolean,
-  retry?: boolean,
 ): UseQueryResult<LxdProject> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.projects, project],
     queryFn: async () => fetchProject(project, isFineGrained),
-    retry: retry ?? true,
+    retry: false, // disable for users with limited permissions not going into retry loop with delay
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

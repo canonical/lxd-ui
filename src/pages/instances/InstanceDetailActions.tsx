@@ -4,7 +4,7 @@ import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import type { LxdInstance } from "types/instance";
 import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
 import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
-import DuplicateInstanceBtn from "./actions/DuplicateInstanceBtn";
+import CopyInstanceBtn from "./actions/CopyInstanceBtn";
 import { ContextualMenu } from "@canonical/react-components";
 import { isWidthBelow } from "util/helpers";
 import useEventListener from "util/useEventListener";
@@ -38,8 +38,8 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
       instance={instance}
       classname={classname}
     />,
-    <DuplicateInstanceBtn
-      key="duplicate"
+    <CopyInstanceBtn
+      key="copy"
       instance={instance}
       isLoading={isLoading}
       classname={classname}

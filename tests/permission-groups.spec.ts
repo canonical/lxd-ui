@@ -157,3 +157,12 @@ test("bulk delete groups", async ({ page, lxdVersion }) => {
     .click();
   await page.waitForSelector(`text=2 groups deleted.`);
 });
+
+test("create group with permissions", async ({ page, lxdVersion }) => {
+  skipIfNotSupported(lxdVersion);
+  const group = randomGroupName();
+  await visitGroups(page);
+  const withPermission = true;
+  await createGroup(page, group, `${group}-desc`, withPermission);
+  await deleteGroup(page, group);
+});

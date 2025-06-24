@@ -38,6 +38,7 @@ import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/instanceBulkActions";
 import { getIdentityName } from "util/permissionIdentities";
+import CreateTLSIdentity from "./CreateTLSIdentity";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -68,9 +69,9 @@ const PermissionIdentities: FC = () => {
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
-    { content: "ID", sortKey: "id" },
+    { content: "ID", sortKey: "id", className: "identity-id" },
     { content: "Auth method", sortKey: "authmethod", className: "auth-method" },
-    { content: "Type", sortKey: "type" },
+    { content: "Type", sortKey: "type", className: "identity-type" },
     {
       content: "Groups",
       sortKey: "groups",
@@ -147,7 +148,7 @@ const PermissionIdentities: FC = () => {
               {name} <Tag isVisible={isLoggedInIdentity}>You</Tag>
             </>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "u-truncate",
           title: name,
@@ -156,7 +157,7 @@ const PermissionIdentities: FC = () => {
           content: identity.id,
           role: "cell",
           "aria-label": "ID",
-          className: "u-truncate",
+          className: "u-truncate identity-id",
           title: identity.id,
         },
         {
@@ -169,7 +170,7 @@ const PermissionIdentities: FC = () => {
           content: <IdentityResource identity={identity} truncate={false} />,
           role: "cell",
           "aria-label": "Type",
-          className: "u-truncate",
+          className: "u-truncate identity-type",
         },
         {
           content: getGroupLink(),
@@ -227,7 +228,7 @@ const PermissionIdentities: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading identities" />;
+    return <Loader isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -256,6 +257,7 @@ const PermissionIdentities: FC = () => {
   return (
     <>
       <CustomLayout
+        mainClassName="permission-identities-list"
         contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>
@@ -284,7 +286,9 @@ const PermissionIdentities: FC = () => {
               )}
             </PageHeader.Left>
             <PageHeader.BaseActions>
-              <CreateTlsIdentityBtn />
+              <CreateTlsIdentityBtn
+                openPanel={panelParams.openCreateTLSIdentity}
+              />
             </PageHeader.BaseActions>
           </PageHeader>
         }
@@ -306,7 +310,7 @@ const PermissionIdentities: FC = () => {
             >
               <SelectableMainTable
                 id="identities-table"
-                className="permission-identities"
+                className="permission-identities-table"
                 headers={headers}
                 rows={sortedRows}
                 sortable
@@ -326,6 +330,8 @@ const PermissionIdentities: FC = () => {
           </ScrollableTable>
         </Row>
       </CustomLayout>
+      <CreateTLSIdentity />
+
       {panelParams.panel === panels.identityGroups && (
         <EditIdentityGroupsPanel
           identities={selectedIdentities}

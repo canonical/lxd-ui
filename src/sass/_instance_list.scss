@@ -6,7 +6,6 @@
 
     > .bulk-action-frame {
       border: 1px solid #0000008f;
-      border-radius: 2.25px;
 
       > .bulk-action {
         border-left: 1px solid rgb(0 0 0 / 10%);
@@ -114,5 +113,9 @@
 
   label {
     margin-left: 1rem;
+  }
+
+  .size-hidden > * {
+    opacity: 0.33;
   }
 }

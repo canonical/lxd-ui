@@ -20,16 +20,14 @@ import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useStoragePools } from "context/useStoragePools";
 import classNames from "classnames";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
+import { useIsClustered } from "context/useIsClustered";
 
 const StoragePools: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   if (!project) {
     return <>Missing project</>;
@@ -45,7 +43,7 @@ const StoragePools: FC = () => {
 
   const headers = [
     { content: "Name", sortKey: "name" },
-    { content: "Driver", sortKey: "driver" },
+    { content: "Driver", sortKey: "driver", className: "driver" },
     ...(isClustered
       ? [{ content: "Cluster member", className: "cluster-member" }]
       : []),
@@ -62,7 +60,7 @@ const StoragePools: FC = () => {
         </>
       ),
       sortKey: "projectVolumes",
-      className: "u-align--right",
+      className: "u-align--right volumes-this-project",
     },
     {
       content: (
@@ -73,9 +71,9 @@ const StoragePools: FC = () => {
         </>
       ),
       sortKey: "allVolumes",
-      className: "u-align--right",
+      className: "u-align--right volumes-total",
     },
-    { content: "Status", sortKey: "status" },
+    { content: "Status", sortKey: "status", className: "status" },
     { "aria-label": "Actions", className: "u-align--right actions" },
   ];
 
@@ -98,13 +96,14 @@ const StoragePools: FC = () => {
               {pool.name}
             </Link>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {
           content: pool.driver,
           role: "cell",
           "aria-label": "Driver",
+          className: "driver",
         },
         ...(isClustered
           ? [
@@ -134,19 +133,20 @@ const StoragePools: FC = () => {
             </StorageVolumesInPoolBtn>
           ),
           role: "cell",
-          className: "u-align--right",
+          className: "u-align--right volumes-this-project",
           "aria-label": "Volumes in this projects",
         },
         {
           content: totalVolumeCount,
           role: "cell",
-          className: "u-align--right",
+          className: "u-align--right volumes-total",
           "aria-label": "Volumes in all projects",
         },
         {
           content: pool.status,
           role: "cell",
           "aria-label": "Status",
+          className: "status",
         },
         {
           content: (
@@ -172,7 +172,7 @@ const StoragePools: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading storage pools..." />;
+    return <Loader isMainComponent />;
   }
 
   const content =

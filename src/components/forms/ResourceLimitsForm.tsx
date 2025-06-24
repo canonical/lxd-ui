@@ -13,7 +13,7 @@ import type {
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
 export interface ResourceLimitsFormValues {
@@ -26,14 +26,14 @@ export interface ResourceLimitsFormValues {
 
 export const resourceLimitsPayload = (values: InstanceAndProfileFormValues) => {
   return {
-    [getInstanceKey("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
-    [getInstanceKey("limits_memory")]: memoryLimitToPayload(
+    [getInstanceField("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
+    [getInstanceField("limits_memory")]: memoryLimitToPayload(
       values.limits_memory,
     ),
-    [getInstanceKey("limits_memory_swap")]: values.limits_memory_swap,
-    [getInstanceKey("limits_disk_priority")]:
+    [getInstanceField("limits_memory_swap")]: values.limits_memory_swap,
+    [getInstanceField("limits_disk_priority")]:
       values.limits_disk_priority?.toString(),
-    [getInstanceKey("limits_processes")]: values.limits_processes?.toString(),
+    [getInstanceField("limits_processes")]: values.limits_processes?.toString(),
   };
 };
 

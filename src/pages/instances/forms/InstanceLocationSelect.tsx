@@ -1,14 +1,16 @@
 import type { FC } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { useSettings } from "context/useSettings";
 import { fetchClusterGroups } from "api/cluster";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import { isClusteredServer } from "util/settings";
+import { useIsClustered } from "context/useIsClustered";
+import { useCurrentProject } from "context/useCurrentProject";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -29,8 +31,8 @@ const figureDefaultMember = (target?: string) => {
 };
 
 const InstanceLocationSelect: FC<Props> = ({ formik }) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
+  const { canOverrideClusterTargetRestriction } = useServerEntitlements();
 
   if (!isClustered) {
     return <></>;
@@ -40,15 +42,12 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const [selectedGroup, setSelectedGroup] = useState(defaultGroup);
   const defaultMember = figureDefaultMember(formik.values.target);
   const [selectedMember, setSelectedMember] = useState(defaultMember);
+  const { project } = useCurrentProject();
 
   const { data: clusterGroups = [], isLoading } = useQuery({
     queryKey: [queryKeys.cluster, queryKeys.groups],
     queryFn: fetchClusterGroups,
   });
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   const setGroup = (group: string) => {
     formik.setFieldValue("target", `@${group}`);
@@ -68,8 +67,40 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const availableMembers =
     clusterGroups.find((group) => group.name === selectedGroup)?.members ?? [];
 
+  const isProjectRestricted = project?.config["restricted"] === "true";
+  const clusterTarget = project?.config["restricted.cluster.target"];
+  const isProjectBlockingClusterMemberTargeting =
+    isProjectRestricted &&
+    !canOverrideClusterTargetRestriction() &&
+    (clusterTarget === "block" || clusterTarget === undefined); // the default on restricted projects is to block, so we also check for clusterTarget as undefined
+
   const isPreselected = (formik.values as { targetSelectedByVolume?: boolean })
     .targetSelectedByVolume;
+
+  const availableGroups = clusterGroups.filter((group) => {
+    const restrictedGroups = project?.config["restricted.cluster.groups"];
+    if (isProjectRestricted && restrictedGroups) {
+      return restrictedGroups.includes(group.name);
+    } else {
+      return true;
+    }
+  });
+
+  useEffect(() => {
+    const hasGroups = availableGroups.length > 0;
+    const isSelectedGroupInvalid = !availableGroups
+      .map((group) => group.name)
+      .includes(selectedGroup);
+
+    if (hasGroups && isSelectedGroupInvalid) {
+      const validFirstGroup = availableGroups[0].name;
+      setSelectedGroup(validFirstGroup);
+    }
+  }, [availableGroups, selectedGroup]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (isPreselected) {
     return (
@@ -93,7 +124,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
           setGroup(e.target.value);
         }}
         value={selectedGroup}
-        options={clusterGroups.map((group) => {
+        options={availableGroups.map((group) => {
           return {
             label: group.name,
             value: group.name,
@@ -120,11 +151,15 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
             return { label: member, value: member };
           }),
         ]}
-        disabled={!formik.values.image}
+        disabled={
+          !formik.values.image || isProjectBlockingClusterMemberTargeting
+        }
         title={
-          formik.values.image
-            ? ""
-            : "Please select an image before adding a location member"
+          isProjectBlockingClusterMemberTargeting
+            ? "Cluster member targeting is blocked by project policy"
+            : formik.values.image
+              ? ""
+              : "Please select an image before adding a location member"
         }
       />
     </>

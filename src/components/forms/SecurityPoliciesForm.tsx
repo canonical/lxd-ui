@@ -13,7 +13,7 @@ import type {
 } from "./instanceAndProfileFormValues";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
 export interface SecurityPoliciesFormValues {
@@ -27,25 +27,28 @@ export interface SecurityPoliciesFormValues {
   security_devlxd?: string;
   security_devlxd_images?: string;
   security_secureboot?: string;
+  security_csm?: string;
 }
 
 export const securityPoliciesPayload = (
   values: InstanceAndProfileFormValues,
 ) => {
   return {
-    [getInstanceKey("security_protection_delete")]:
+    [getInstanceField("security_protection_delete")]:
       values.security_protection_delete,
-    [getInstanceKey("security_privileged")]: values.security_privileged,
-    [getInstanceKey("security_nesting")]: values.security_nesting,
-    [getInstanceKey("security_protection_shift")]:
+    [getInstanceField("security_privileged")]: values.security_privileged,
+    [getInstanceField("security_nesting")]: values.security_nesting,
+    [getInstanceField("security_protection_shift")]:
       values.security_protection_shift,
-    [getInstanceKey("security_idmap_base")]: values.security_idmap_base,
-    [getInstanceKey("security_idmap_size")]:
+    [getInstanceField("security_idmap_base")]: values.security_idmap_base,
+    [getInstanceField("security_idmap_size")]:
       values.security_idmap_size?.toString(),
-    [getInstanceKey("security_idmap_isolated")]: values.security_idmap_isolated,
-    [getInstanceKey("security_devlxd")]: values.security_devlxd,
-    [getInstanceKey("security_devlxd_images")]: values.security_devlxd_images,
-    [getInstanceKey("security_secureboot")]: values.security_secureboot,
+    [getInstanceField("security_idmap_isolated")]:
+      values.security_idmap_isolated,
+    [getInstanceField("security_devlxd")]: values.security_devlxd,
+    [getInstanceField("security_devlxd_images")]: values.security_devlxd_images,
+    [getInstanceField("security_secureboot")]: values.security_secureboot,
+    [getInstanceField("security_csm")]: values.security_csm,
   };
 };
 
@@ -219,6 +222,21 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",
+          defaultValue: "",
+          disabled: isVmOnlyDisabled,
+          disabledReason: isVmOnlyDisabled
+            ? "Only available for virtual machines"
+            : undefined,
+          readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
+          children: (
+            <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />
+          ),
+        }),
+
+        getConfigurationRow({
+          formik,
+          label: "Enable CSM (VMs only)",
+          name: "security_csm",
           defaultValue: "",
           disabled: isVmOnlyDisabled,
           disabledReason: isVmOnlyDisabled

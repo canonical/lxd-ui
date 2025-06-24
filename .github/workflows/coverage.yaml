@@ -4,6 +4,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   e2e-coverage:
     name: e2e-test-coverage
@@ -51,7 +54,6 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
           sudo lxc cluster enable local
-          sudo lxc config set user.show_permissions=true
 
       - uses: actions/setup-node@v4
         with:
@@ -89,6 +91,8 @@ jobs:
       runs-on: ubuntu-latest
       needs: e2e-coverage
       continue-on-error: true
+      permissions:
+        contents: write
       steps:
         - uses: actions/checkout@v4
           with:
@@ -136,8 +140,10 @@ jobs:
 
 
   tics-report:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, amd64, tiobe, jammy]
     needs: publish-coverage-report
+    env:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - uses: actions/checkout@v4
 
@@ -155,7 +161,7 @@ jobs:
         shell: bash
         run: |
           set -x
-          export TICSAUTHTOKEN=${{ secrets.TICS_AUTH_TOKEN }}
-          curl --silent --show-error "https://canonical.tiobe.com/tiobeweb/TICS/api/public/v1/fapi/installtics/Script?cfg=default&platform=linux&url=https://canonical.tiobe.com/tiobeweb/TICS/" > install_tics.sh
-          . ./install_tics.sh
+          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }}
+          # need to source .profile, or TICSQServer command won't be found
+          source ~/.profile
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .

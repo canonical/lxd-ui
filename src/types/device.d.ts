@@ -20,6 +20,8 @@ export interface LxdIsoDevice {
 
 export interface LxdNicDevice {
   name?: string;
+  nictype?: string;
+  parent?: string;
   network: string;
   type: "nic";
 }

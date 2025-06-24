@@ -6,16 +6,17 @@ import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import { renameStorageVolume } from "api/storage-pools";
-import { testDuplicateStorageVolumeName } from "util/storageVolume";
+import { hasLocation, testCopyStorageVolumeName } from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import MigrateVolumeBtn from "./MigrateVolumeBtn";
-import DuplicateVolumeBtn from "./actions/DuplicateVolumeBtn";
+import CopyVolumeBtn from "./actions/CopyVolumeBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
+import { renameStorageVolume } from "api/storage-volumes";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -28,15 +29,26 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
+  const { canEditVolume } = useStorageVolumeEntitlements();
+
+  const getDisabledReason = (volume: LxdStorageVolume) => {
+    if ((volume.used_by?.length ?? 0) > 0) {
+      return "Can not rename, volume is currently in use.";
+    }
+    if (!canEditVolume(volume)) {
+      return "You do not have permission to rename this volume";
+    }
+    return undefined;
+  };
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
       .test(
-        ...testDuplicateStorageVolumeName(
+        ...testCopyStorageVolumeName(
           project,
           volume.type,
           controllerState,
-          volume.name,
+          volume,
         ),
       )
       .required("This field is required"),
@@ -46,7 +58,6 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
     initialValues: {
       name: volume.name,
       isRenaming: false,
-      pool: volume.pool,
     } as RenameHeaderValues,
     validationSchema: RenameSchema,
     onSubmit: (values) => {
@@ -55,9 +66,12 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         formik.setSubmitting(false);
         return;
       }
-      renameStorageVolume(project, volume, values.name)
+      renameStorageVolume(project, volume, values.name, volume.location)
         .then(() => {
-          const url = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`;
+          const url = hasLocation(volume)
+            ? `/ui/project/${project}/storage/pool/${volume.pool}/member/${volume.location}/volumes/${volume.type}/${values.name}`
+            : `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`;
+
           navigate(url);
           toastNotify.success(
             <>
@@ -90,12 +104,12 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         <div className="p-segmented-control">
           <div className="p-segmented-control__list">
             <MigrateVolumeBtn
-              storageVolume={volume}
+              volume={volume}
               project={project}
               classname={classname}
             />
             {hasClusterInternalCustomVolumeCopy && (
-              <DuplicateVolumeBtn volume={volume} className={classname} />
+              <CopyVolumeBtn volume={volume} className={classname} />
             )}
             <DeleteStorageVolumeBtn
               label="Delete"
@@ -120,11 +134,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       }
       isLoaded={true}
       formik={formik}
-      renameDisabledReason={
-        (volume.used_by?.length ?? 0) > 0
-          ? "Can not rename, volume is currently in use."
-          : undefined
-      }
+      renameDisabledReason={getDisabledReason(volume)}
     />
   );
 };

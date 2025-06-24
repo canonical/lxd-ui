@@ -59,7 +59,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
   await page.getByText("Clusters").click();
-  await setInput(page, "Cluster groups targeting", "Enter value", "9");
+  await setInput(page, "Cluster groups targeting", "Enter value", "default");
   await setOption(page, "Direct cluster targeting", "allow");
 
   await page
@@ -91,8 +91,8 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
     .getByRole("navigation", { name: "Project form navigation" })
     .getByText("Networks")
     .click();
-  await setTextarea(page, "Available networks", "lxcbr0");
-  await setTextarea(page, "Network uplinks", "lxcbr0");
+  await setTextarea(page, "Available networks", "lxdbr0");
+  await setTextarea(page, "Network uplinks", "lxdbr0");
   await setTextarea(page, "Network zones", "foo,bar");
 
   await page.getByRole("button", { name: "Save 35 changes" }).click();
@@ -121,7 +121,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Max sum of processes", "8");
 
   await page.getByText("Clusters").click();
-  await assertReadMode(page, "Cluster groups targeting", "9");
+  await assertReadMode(page, "Cluster groups targeting", "default");
   await assertReadMode(page, "Direct cluster targeting", "Allow");
 
   await page
@@ -153,9 +153,21 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
     .getByRole("navigation", { name: "Project form navigation" })
     .getByText("Networks")
     .click();
-  await assertReadMode(page, "Available networks", "lxcbr0");
-  await assertReadMode(page, "Network uplinks", "lxcbr0");
+  await assertReadMode(page, "Available networks", "lxdbr0");
+  await assertReadMode(page, "Network uplinks", "lxdbr0");
   await assertReadMode(page, "Network zones", "foo,bar");
 
   await deleteProject(page, project);
+});
+
+test("retain custom project selection on browsing pages for all projects", async ({
+  page,
+}) => {
+  const project = randomProjectName();
+  await createProject(page, project);
+  await page.getByRole("link", { name: "Operations" }).click();
+  await page.getByRole("button", { name: "Refresh" }).click();
+  await page.waitForLoadState("networkidle");
+
+  expect(page.getByText("Project" + project)).toBeVisible();
 });

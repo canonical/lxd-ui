@@ -1,7 +1,7 @@
 import type { ValueOf } from "@canonical/react-components";
 import { Button, Icon, Notification } from "@canonical/react-components";
-import type { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
-import { DefaultTitles } from "@canonical/react-components/dist/components/Notification/Notification";
+import type { NotificationSeverity } from "@canonical/react-components/dist/components/Notifications/Notification/Notification";
+import { DefaultTitles } from "@canonical/react-components/dist/components/Notifications/Notification/Notification";
 import type {
   GroupedNotificationCount,
   ToastNotificationType,

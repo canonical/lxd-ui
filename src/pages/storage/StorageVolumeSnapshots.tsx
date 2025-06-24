@@ -53,14 +53,9 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       volume.project,
       volume.type,
       volume.name,
+      volume.location,
     ],
-    queryFn: async () =>
-      fetchStorageVolumeSnapshots({
-        pool: volume.pool,
-        project: volume.project,
-        type: volume.type,
-        volumeName: volume.name,
-      }),
+    queryFn: async () => fetchStorageVolumeSnapshots(volume),
   });
 
   const snapshotsDisabled = isSnapshotsDisabled(project);
@@ -152,20 +147,20 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           : [
               {
                 content: isoTimeToString(snapshot.created_at),
-                role: "rowheader",
+                role: "cell",
                 "aria-label": "Created at",
                 className: "created",
               },
             ]),
         {
           content: isoTimeToString(snapshot.expires_at ?? ""),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Expires at",
           className: "expiration",
         },
         {
           content: actions,
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Actions",
           className: "u-align--right actions",
         },
@@ -194,7 +189,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   }
 
   if (isSnapshotsLoading || isProjectLoading) {
-    return <Loader text="Loading storage volume snapshots..." />;
+    return <Loader isMainComponent />;
   } else if (!volumeSnapshots) {
     return <>Loading storage volume snapshots failed</>;
   }

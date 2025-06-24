@@ -4,7 +4,6 @@ import {
   Button,
   Icon,
   Input,
-  Select,
   Tooltip,
   useNotify,
 } from "@canonical/react-components";
@@ -23,6 +22,7 @@ import { getExistingDeviceNames } from "util/devices";
 import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
+import NetworkSelector from "pages/projects/forms/NetworkSelector";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -84,22 +84,6 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     focusNetwork(copy.length - 1);
   };
 
-  const getNetworkOptions = () => {
-    const options = managedNetworks.map((network) => {
-      return {
-        label: network.name,
-        value: network.name,
-        disabled: false,
-      };
-    });
-    options.unshift({
-      label: options.length === 0 ? "No networks available" : "Select option",
-      value: "",
-      disabled: true,
-    });
-    return options;
-  };
-
   const inheritedNetworks = getInheritedNetworks(formik.values, profiles);
 
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
@@ -147,6 +131,8 @@ or remove the originating item"
             | CustomNetworkDevice;
 
           return getConfigurationRowBase({
+            name: `devices.${index}.name`,
+            edit: readOnly ? "read" : "edit",
             configuration: (
               <>
                 {readOnly || device.type === "custom-nic" ? (
@@ -188,16 +174,20 @@ or remove the originating item"
                         {(formik.values.devices[index] as LxdNicDevice).network}
                       </div>
                     ) : (
-                      <Select
-                        label="Network"
-                        name={`devices.${index}.network`}
-                        id={`devices.${index}.network`}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
+                      <NetworkSelector
                         value={
                           (formik.values.devices[index] as LxdNicDevice).network
                         }
-                        options={getNetworkOptions()}
+                        project={project}
+                        onBlur={formik.handleBlur}
+                        setValue={(value) =>
+                          void formik.setFieldValue(
+                            `devices.${index}.network`,
+                            value,
+                          )
+                        }
+                        id={`devices.${index}.network`}
+                        name={`devices.${index}.network`}
                       />
                     )}
                   </div>

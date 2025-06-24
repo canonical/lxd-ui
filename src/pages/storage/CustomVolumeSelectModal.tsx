@@ -98,7 +98,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
                     {volume.name}
                   </div>
                 ),
-                role: "cell",
+                role: "rowheader",
                 "aria-label": "Name",
                 onClick: selectVolume,
               },

@@ -13,6 +13,7 @@ import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
   CEPH_CONFIGURATION,
   CEPHFS_CONFIGURATION,
+  CEPHOBJECT_CONFIGURATION,
   MAIN_CONFIGURATION,
   POWERFLEX,
   PURE_STORAGE,
@@ -26,6 +27,7 @@ import {
   btrfsDriver,
   cephDriver,
   cephFSDriver,
+  cephObject,
   getSupportedStorageDrivers,
   powerFlex,
   pureStorage,
@@ -45,6 +47,7 @@ import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import StoragePoolFormPure from "pages/storage/forms/StoragePoolFormPure";
+import StoragePoolFormCephObject from "./StoragePoolFormCephObject";
 
 export interface StoragePoolFormValues {
   barePool?: LxdStoragePool;
@@ -59,6 +62,10 @@ export interface StoragePoolFormValues {
   cephfs_osd_pg_num?: string;
   cephfs_path?: string;
   cephfs_user_name?: string;
+  cephobject_radosgw_endpoint?: string;
+  cephobject_cluster_name?: string;
+  cephobject_user_name?: string;
+  cephobject_bucket_name_prefix?: string;
   description: string;
   driver: string;
   entityType: "storagePool";
@@ -106,6 +113,7 @@ export const toStoragePool = (
   const isPowerFlexDriver = values.driver === powerFlex;
   const isPureDriver = values.driver === pureStorage;
   const isZFSDriver = values.driver === zfsDriver;
+  const isCephObjectDriver = values.driver === cephObject;
   const hasValidSize = values.size?.match(/^\d/);
 
   const getConfig = () => {
@@ -128,6 +136,16 @@ export const toStoragePool = (
         [getPoolKey("cephfs_path")]: values.cephfs_path,
         [getPoolKey("cephfs_user_name")]: values.cephfs_user_name,
         source: values.source,
+      };
+    }
+    if (isCephObjectDriver) {
+      return {
+        [getPoolKey("cephobject_radosgw_endpoint")]:
+          values.cephobject_radosgw_endpoint,
+        [getPoolKey("cephobject_cluster_name")]: values.cephobject_cluster_name,
+        [getPoolKey("cephobject_user_name")]: values.cephobject_user_name,
+        [getPoolKey("cephobject_bucket_name_prefix")]:
+          values.cephobject_bucket_name_prefix,
       };
     }
     if (isPowerFlexDriver) {
@@ -248,6 +266,9 @@ const StoragePoolForm: FC<Props> = ({
           )}
           {section === slugify(CEPHFS_CONFIGURATION) && (
             <StoragePoolFormCephFS formik={formik} />
+          )}
+          {section === slugify(CEPHOBJECT_CONFIGURATION) && (
+            <StoragePoolFormCephObject formik={formik} />
           )}
           {section === slugify(POWERFLEX) && (
             <StoragePoolFormPowerflex formik={formik} />

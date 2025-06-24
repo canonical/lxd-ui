@@ -3,11 +3,11 @@ import { Col, Input, Row, Select } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
 import type { FormikProps } from "formik/dist/types";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
+import SshKeyForm from "components/forms/SshKeyForm";
+import { useIsClustered } from "context/useIsClustered";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
@@ -24,8 +24,7 @@ interface Props {
 }
 
 const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   return (
     <ScrollableForm>
@@ -89,6 +88,10 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         }}
         disabledReason={formik.values.editRestriction}
         initialProfiles={formik.initialValues.profiles}
+      />
+      <SshKeyForm
+        formik={formik}
+        disabledReason={formik.values.editRestriction}
       />
     </ScrollableForm>
   );

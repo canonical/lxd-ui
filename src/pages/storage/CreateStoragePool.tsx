@@ -140,6 +140,7 @@ const CreateStoragePool: FC = () => {
           loading={formik.isSubmitting}
           disabled={
             !formik.isValid ||
+            formik.isSubmitting ||
             !formik.values.name ||
             isPowerflexIncomplete(formik) ||
             isPureStorageIncomplete(formik)

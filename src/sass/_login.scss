@@ -1,5 +1,49 @@
 .login {
-  padding-left: $sph--large;
-  padding-right: $sph--large;
-  width: fit-content;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .login-page {
+    text-align: center;
+    width: fit-content;
+
+    .auth-container {
+      a {
+        display: block;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.login-navigation {
+  &.is-collapsed {
+    .step-content {
+      display: none;
+    }
+
+    .stepper-icon {
+      color: $color-x-dark !important;
+    }
+  }
+
+  .p-list__item {
+    align-items: center;
+    width: 100%;
+  }
+
+  .sso-login-button {
+    margin-left: 1rem;
+    margin-right: 0;
+  }
+
+  .stepper-vertical {
+    .step {
+      border: none;
+      padding: 0.5rem 1rem !important;
+      width: 100%;
+    }
+  }
 }

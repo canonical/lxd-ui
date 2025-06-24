@@ -29,6 +29,7 @@ import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
 import { useGroups } from "context/useGroups";
 import { useServerEntitlements } from "util/entitlements/server";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -38,6 +39,7 @@ const PermissionGroups: FC = () => {
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
   const { canCreateGroups } = useServerEntitlements();
+  const isSmallScreen = useSmallScreen();
 
   if (error) {
     notify.failure("Loading groups failed", error);
@@ -56,7 +58,7 @@ const PermissionGroups: FC = () => {
     if (panelParams.group) {
       setSelectedGroupNames([panelParams.group]);
     }
-  }, [panelParams.group]);
+  }, [panelParams.group, groups]);
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
@@ -100,7 +102,7 @@ const PermissionGroups: FC = () => {
       columns: [
         {
           content: group.name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "u-truncate name",
           title: group.name,
@@ -166,7 +168,7 @@ const PermissionGroups: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading groups" />;
+    return <Loader isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -246,8 +248,10 @@ const PermissionGroups: FC = () => {
         title={
           canCreateGroups() ? "" : "You do not have permission to create groups"
         }
+        hasIcon={!isSmallScreen}
       >
-        Create group
+        {!isSmallScreen && <Icon name="plus" light />}
+        <span>Create group</span>
       </Button>
     </EmptyState>
   );
@@ -255,6 +259,7 @@ const PermissionGroups: FC = () => {
   return (
     <>
       <CustomLayout
+        mainClassName="permission-groups-list"
         contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>
@@ -305,8 +310,10 @@ const PermissionGroups: FC = () => {
                         ? ""
                         : "You do not have permission to create groups"
                     }
+                    hasIcon={!isSmallScreen}
                   >
-                    Create group
+                    {!isSmallScreen && <Icon name="plus" light />}
+                    <span>Create group</span>
                   </Button>
                 )}
               </PageHeader.BaseActions>

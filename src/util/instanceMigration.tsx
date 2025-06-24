@@ -21,12 +21,12 @@ interface Props {
   instance: LxdInstance;
   type: MigrationType;
   target: string;
-  onSuccess: () => void;
+  close: () => void;
 }
 
 export const useInstanceMigration = ({
   instance,
-  onSuccess,
+  close,
   type,
   target,
 }: Props) => {
@@ -52,7 +52,7 @@ export const useInstanceMigration = ({
       successMessage = (
         <>
           Instance <InstanceLinkChip instance={instance} /> root storage
-          successfully migrated to pool{" "}
+          successfully moved to pool{" "}
           <ResourceLink
             type="pool"
             value={target}
@@ -67,7 +67,7 @@ export const useInstanceMigration = ({
         <>
           Instance{" "}
           <InstanceLinkChip instance={{ ...instance, project: target }} />
-          successfully migrated to project{" "}
+          successfully moved to project{" "}
           <ResourceLink
             type="project"
             value={target}
@@ -96,11 +96,11 @@ export const useInstanceMigration = ({
     }
 
     if (type === "root storage pool") {
-      failureMessage = `Root storage migration failed for instance ${instance.name}`;
+      failureMessage = `Root storage move failed for instance ${instance.name}`;
     }
 
     if (type === "project") {
-      failureMessage = `Project migration failed for instance ${instance.name}`;
+      failureMessage = `Project move failed for instance ${instance.name}`;
     }
 
     instanceLoading.setFinish(instance);
@@ -117,7 +117,7 @@ export const useInstanceMigration = ({
 
   const handleFinish = () => {
     queryClient.invalidateQueries({
-      queryKey: [queryKeys.instances, instance.name],
+      queryKey: [queryKeys.instances, instance.name, instance.project],
     });
     instanceLoading.setFinish(instance);
   };
@@ -152,10 +152,12 @@ export const useInstanceMigration = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],
         });
-        onSuccess();
       })
       .catch((e) => {
         notifyFailure(e);
+      })
+      .finally(() => {
+        close();
       });
   };
 

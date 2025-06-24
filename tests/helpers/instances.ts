@@ -186,7 +186,7 @@ export const migrateInstanceRootStorage = async (
   await page.getByRole("button", { name: "Migrate" }).click();
   if (serverClustered) {
     await page
-      .getByRole("button", { name: "Migrate instance root storage" })
+      .getByRole("button", { name: "Move instance root storage" })
       .click();
   }
   await page
@@ -199,6 +199,6 @@ export const migrateInstanceRootStorage = async (
     .getByRole("button", { name: "Migrate", exact: true })
     .click();
   await page.waitForSelector(
-    `text=Instance ${instance} root storage successfully migrated to pool ${pool}`,
+    `text=Instance ${instance} root storage successfully moved to pool ${pool}`,
   );
 };

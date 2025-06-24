@@ -39,5 +39,7 @@ export const useSupportedFeatures = () => {
     hasEntitiesWithEntitlements: apiExtensions.has(
       "entities_with_entitlements",
     ),
+    hasCloudInitSshKeys: apiExtensions.has("cloud_init_ssh_keys"),
+    hasBackupMetadataVersion: apiExtensions.has("backup_metadata_version"),
   };
 };

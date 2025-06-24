@@ -55,7 +55,7 @@ const CreateNetwork: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   const NetworkSchema = Yup.object().shape({
@@ -78,6 +78,7 @@ const CreateNetwork: FC = () => {
       entityType: "network",
       ipv4_address: "auto",
       ipv6_address: "auto",
+      security_acls: [],
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {

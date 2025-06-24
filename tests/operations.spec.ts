@@ -29,7 +29,7 @@ test("instance operations are recognised on the Operations page", async ({
   await checkNotificationExists(page);
   await assertTextVisible(page, "Instance " + instance + " started");
 
-  // click on the “x operations” link in the status bar
+  // click on the 'x operations' link in the status bar
   await dismissNotification(page);
 
   // validate the operation to start the instance is in the operation list

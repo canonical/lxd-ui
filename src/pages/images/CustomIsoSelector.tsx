@@ -48,7 +48,7 @@ const CustomIsoSelector: FC<Props> = ({
               {image.aliases}
             </div>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           onClick: selectIso,
         },

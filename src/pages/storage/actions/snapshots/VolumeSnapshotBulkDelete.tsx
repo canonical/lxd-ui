@@ -5,10 +5,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
 import { useEventQueue } from "context/eventQueue";
-import { getPromiseSettledCounts } from "util/helpers";
+import { getPromiseSettledCounts } from "util/promises";
 import type { LxdStorageVolume } from "types/storage";
 import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -27,6 +28,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
 
   const count = snapshotNames.length;
 
@@ -84,7 +86,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
     <BulkDeleteButton
       confirmationButtonProps={{
         loading: isLoading,
-        disabled: isLoading,
+        disabled: !canManageStorageVolumeSnapshots(volume) || isLoading,
         appearance: "",
       }}
       onDelete={handleDelete}
@@ -92,6 +94,11 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
       entities={snapshotNames}
       deletableEntities={snapshotNames}
       buttonLabel={`Delete ${pluralize("snapshot", snapshotNames.length)}`}
+      disabledReason={
+        canManageStorageVolumeSnapshots(volume)
+          ? undefined
+          : "You do not have permission to manage snapshots for this volume"
+      }
     />
   );
 };

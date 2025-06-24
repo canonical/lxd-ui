@@ -4,10 +4,11 @@ export const TYPE = "Type";
 export const CLUSTER_MEMBER = "Cluster member";
 export const DESCRIPTION = "Description";
 export const MEMORY = "Memory";
-export const DISK = "Disk";
+export const FILESYSTEM = "Root filesystem";
 export const IPV4 = "IPv4";
 export const IPV6 = "IPv6";
 export const SNAPSHOTS = "Snapshots";
+export const PROJECT = "Project";
 export const ACTIONS = "Actions";
 
 export const COLUMN_WIDTHS: Record<string, number> = {
@@ -15,11 +16,12 @@ export const COLUMN_WIDTHS: Record<string, number> = {
   [TYPE]: 130,
   [CLUSTER_MEMBER]: 150,
   [MEMORY]: 150,
-  [DISK]: 150,
+  [FILESYSTEM]: 150,
   [DESCRIPTION]: 150,
   [IPV4]: 150,
   [IPV6]: 330,
   [SNAPSHOTS]: 110,
+  [PROJECT]: 160,
   [STATUS]: 160,
   [ACTIONS]: 210,
 };
@@ -29,8 +31,9 @@ export const SIZE_HIDEABLE_COLUMNS = [
   IPV6,
   IPV4,
   DESCRIPTION,
+  CLUSTER_MEMBER,
+  FILESYSTEM,
   MEMORY,
-  DISK,
   TYPE,
   STATUS,
 ];
@@ -38,7 +41,7 @@ export const SIZE_HIDEABLE_COLUMNS = [
 export const CREATION_SPAN_COLUMNS = [
   TYPE,
   MEMORY,
-  DISK,
+  FILESYSTEM,
   IPV4,
   IPV6,
   SNAPSHOTS,

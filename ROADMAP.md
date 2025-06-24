@@ -1,3 +1,13 @@
+# Roadmap for 25.10 from May 2025 until October 2025
+
+- Storage buckets
+- Export custom volumes
+- Additional storage driver support
+- Documentation for networking and storage in the UI
+- End to end tests for users with limited permissions
+- Automatic workload distribution
+- Cluster links
+
 # Roadmap for 25.05 from October 2024 until April 2025
 
 - Network: improve OVN representation

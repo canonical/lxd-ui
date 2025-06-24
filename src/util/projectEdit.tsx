@@ -12,7 +12,7 @@ import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestric
 import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
 import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
 import { getUnhandledKeyValues } from "util/formFields";
-import { getDefaultStoragePool } from "./helpers";
+import { getDefaultNetwork, getDefaultStoragePool } from "./helpers";
 import type { LxdProfile } from "types/profile";
 
 export const getProjectEditValues = (
@@ -26,6 +26,9 @@ export const getProjectEditValues = (
     description: project.description,
     default_instance_storage_pool: defaultProfile
       ? getDefaultStoragePool(defaultProfile)
+      : "",
+    default_project_network: defaultProfile
+      ? getDefaultNetwork(defaultProfile)
       : "",
     restricted: project.config.restricted === "true",
     features_images: project.config["features.images"] === "true",

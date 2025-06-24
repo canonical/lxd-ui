@@ -1,9 +1,5 @@
-import {
-  continueOrFinish,
-  handleResponse,
-  pushFailure,
-  pushSuccess,
-} from "util/helpers";
+import { handleResponse } from "util/helpers";
+import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
@@ -14,39 +10,37 @@ export const createInstanceSnapshot = async (
   expiresAt: string | null,
   stateful: boolean,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name,
-          expires_at: expiresAt,
-          stateful,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        expires_at: expiresAt,
+        stateful,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: { name: string },
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
-      {
-        method: "DELETE",
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    {
+      method: "DELETE",
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteInstanceSnapshotBulk = async (
@@ -87,18 +81,17 @@ export const restoreInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        restore: snapshot.name,
-        stateful: snapshot.stateful ? restoreState : false,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      restore: snapshot.name,
+      stateful: snapshot.stateful ? restoreState : false,
+    }),
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const renameInstanceSnapshot = async (
@@ -106,20 +99,19 @@ export const renameInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   newName: string,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: newName,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const updateInstanceSnapshot = async (
@@ -127,18 +119,17 @@ export const updateInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   expiresAt: string,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          expires_at: expiresAt,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        expires_at: expiresAt,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };

@@ -7,7 +7,7 @@ import type { RemoteImage } from "types/image";
 import { loadIsoVolumes, loadVolumes } from "./loadIsoVolumes";
 import { loadCustomVolumes } from "./loadCustomVolumes";
 import type { LxdStorageVolume } from "types/storage";
-import { fetchStorageVolume } from "api/storage-pools";
+import { fetchStorageVolume } from "api/storage-volumes";
 
 export const useLoadVolumes = (
   project: string,
@@ -52,11 +52,19 @@ export const useStorageVolume = (
   project: string,
   type: string,
   volume: string,
+  target?: string,
 ): UseQueryResult<LxdStorageVolume> => {
   const { isFineGrained } = useAuth();
   return useQuery({
-    queryKey: [queryKeys.storage, pool, project, type, volume],
+    queryKey: [queryKeys.storage, pool, project, type, volume, target],
     queryFn: async () =>
-      fetchStorageVolume(pool, project, type, volume, isFineGrained),
+      fetchStorageVolume(
+        pool,
+        project,
+        type,
+        volume,
+        target ?? null,
+        isFineGrained,
+      ),
   });
 };

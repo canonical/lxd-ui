@@ -40,17 +40,14 @@ const GroupSelection: FC<Props> = ({
       content: "Group name",
       sortKey: "name",
       className: "name",
-      role: "rowheader",
     },
     {
       content: "Description",
       sortKey: "description",
       className: "description",
-      role: "rowheader",
     },
     {
       content: "",
-      role: "rowheader",
       "aria-label": "Modified status",
       className: "modified-status",
     },
@@ -69,7 +66,7 @@ const GroupSelection: FC<Props> = ({
     const selectedParentsText =
       (parentItems?.length || 0) > 1
         ? `all selected ${pluralize(parentItemName, 2)}`
-        : `${parentItemName} ${parentItems?.[0].name}`;
+        : `${parentItemName} ${parentItems?.[0]?.name}`;
     const modifiedTitle = groupAdded
       ? `Group will be added to ${selectedParentsText}`
       : groupRemoved
@@ -87,8 +84,9 @@ const GroupSelection: FC<Props> = ({
       columns: [
         {
           content: group.name,
+          title: group.name,
           onClick: toggleRow,
-          role: "cell",
+          role: "rowheader",
           className: "name u-truncate clickable-cell",
           "aria-label": "Name",
         },

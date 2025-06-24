@@ -32,6 +32,7 @@ import { useIdpGroups } from "context/useIdpGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { pluralize } from "util/instanceBulkActions";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -44,6 +45,7 @@ const PermissionIdpGroups: FC = () => {
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
   const { canCreateIdpGroups } = useServerEntitlements();
   const { canEditIdpGroup } = useIdpGroupEntitlements();
+  const isSmallScreen = useSmallScreen();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -62,14 +64,14 @@ const PermissionIdpGroups: FC = () => {
     if (panelParams.idpGroup) {
       setSelectedGroupNames([panelParams.idpGroup]);
     }
-  }, [panelParams.idpGroup]);
+  }, [panelParams.idpGroup, groups]);
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
     {
       content: "Mapped groups",
       sortKey: "groups",
-      className: "u-align--right",
+      className: "u-align--right mapped-groups",
     },
     { "aria-label": "Actions", className: "u-align--right actions" },
   ];
@@ -115,7 +117,7 @@ const PermissionIdpGroups: FC = () => {
       columns: [
         {
           content: idpGroup.name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "u-truncate",
           title: idpGroup.name,
@@ -123,7 +125,7 @@ const PermissionIdpGroups: FC = () => {
         {
           content: getGroupLink(),
           role: "cell",
-          className: "u-align--right",
+          className: "u-align--right mapped-groups",
           "aria-label": "Number of mapped groups",
         },
         {
@@ -173,7 +175,7 @@ const PermissionIdpGroups: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader text="Loading identity provider groups" />;
+    return <Loader isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -242,6 +244,7 @@ const PermissionIdpGroups: FC = () => {
         >
           <SelectableMainTable
             id="idp-groups-table"
+            className="permission-idp-group-table"
             headers={headers}
             rows={sortedRows}
             sortable
@@ -275,8 +278,10 @@ const PermissionIdpGroups: FC = () => {
             ? ""
             : "You do not have permission to create IDP groups"
         }
+        hasIcon={!isSmallScreen}
       >
-        Create IDP group
+        {!isSmallScreen && <Icon name="plus" light />}
+        <span>Create IDP group</span>
       </Button>
     </EmptyState>
   );
@@ -284,6 +289,7 @@ const PermissionIdpGroups: FC = () => {
   return (
     <>
       <CustomLayout
+        mainClassName="permission-idp-groups-list"
         contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>
@@ -293,7 +299,7 @@ const PermissionIdpGroups: FC = () => {
                   href={`${docBaseLink}/explanation/authorization`}
                   title="Learn more about permissions"
                 >
-                  Identity&nbsp;provider&nbsp;groups
+                  IDP&nbsp;groups
                 </HelpLink>
               </PageHeader.Title>
               {!selectedGroupNames.length && hasGroups ? (
@@ -324,8 +330,10 @@ const PermissionIdpGroups: FC = () => {
                         ? ""
                         : "You do not have permission to create IDP groups"
                     }
+                    hasIcon={!isSmallScreen}
                   >
-                    Create IDP group
+                    {!isSmallScreen && <Icon name="plus" light />}
+                    <span>Create IDP group</span>
                   </Button>
                 )}
               </PageHeader.BaseActions>
@@ -339,14 +347,15 @@ const PermissionIdpGroups: FC = () => {
 
       {panelParams.panel === panels.createIdpGroup && <CreateIdpGroupPanel />}
 
-      {panelParams.panel === panels.editIdpGroup && selectedGroups.length && (
-        <EditIdpGroupPanel
-          idpGroup={selectedGroups[0]}
-          onClose={() => {
-            setSelectedGroupNames([]);
-          }}
-        />
-      )}
+      {panelParams.panel === panels.editIdpGroup &&
+        selectedGroups.length > 0 && (
+          <EditIdpGroupPanel
+            idpGroup={selectedGroups[0]}
+            onClose={() => {
+              setSelectedGroupNames([]);
+            }}
+          />
+        )}
     </>
   );
 };

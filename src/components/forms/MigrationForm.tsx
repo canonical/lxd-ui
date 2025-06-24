@@ -6,7 +6,7 @@ import type {
 } from "./instanceAndProfileFormValues";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import {
   clusterEvacuationOptions,
@@ -21,8 +21,8 @@ export interface MigrationFormValues {
 
 export const migrationPayload = (values: InstanceAndProfileFormValues) => {
   return {
-    [getInstanceKey("migration_stateful")]: values.migration_stateful,
-    [getInstanceKey("cluster_evacuate")]: values.cluster_evacuate,
+    [getInstanceField("migration_stateful")]: values.migration_stateful,
+    [getInstanceField("cluster_evacuate")]: values.cluster_evacuate,
   };
 };
 

@@ -5,7 +5,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { checkDuplicateName, getDefaultStoragePool } from "util/helpers";
+import {
+  checkDuplicateName,
+  getDefaultNetwork,
+  getDefaultStoragePool,
+} from "util/helpers";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
@@ -101,6 +105,9 @@ const CreateProject: FC = () => {
       default_instance_storage_pool: defaultProjectDefaultProfile
         ? getDefaultStoragePool(defaultProjectDefaultProfile)
         : "",
+      default_project_network: defaultProjectDefaultProfile
+        ? getDefaultNetwork(defaultProjectDefaultProfile)
+        : "",
     },
     enableReinitialize: true,
     validationSchema: ProjectSchema,
@@ -122,6 +129,8 @@ const CreateProject: FC = () => {
         values.features_storage_buckets = undefined;
       }
 
+      const hasNetwork = values.default_project_network !== "none";
+
       createProject(
         JSON.stringify({
           ...projectDetailPayload(values),
@@ -134,7 +143,7 @@ const CreateProject: FC = () => {
       )
         .then(async () => {
           if (
-            !values.default_instance_storage_pool ||
+            (!values.default_instance_storage_pool && !hasNetwork) ||
             values.features_profiles === false
           ) {
             notifySuccess(values);
@@ -151,6 +160,13 @@ const CreateProject: FC = () => {
               pool: values.default_instance_storage_pool,
               type: "disk",
             },
+            ...(hasNetwork && {
+              eth0: {
+                name: "eth0",
+                network: values.default_project_network,
+                type: "nic",
+              },
+            }),
           };
 
           updateProfile(profile, values.name)
@@ -160,7 +176,7 @@ const CreateProject: FC = () => {
             .catch((e: Error) => {
               navigate(`/ui/project/${values.name}/instances`);
               toastNotify.failure(
-                `Successfully created ${profile.name}, Failed to attach storage pool`,
+                `Successfully created ${values.name} project. Failed to attach storage pool${hasNetwork ? " and network" : ""}.`,
                 e,
               );
             });
@@ -194,7 +210,9 @@ const CreateProject: FC = () => {
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
-          disabled={!formik.isValid || !formik.values.name}
+          disabled={
+            !formik.isValid || formik.isSubmitting || !formik.values.name
+          }
           onClick={() => void formik.submitForm()}
         >
           Create

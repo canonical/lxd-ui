@@ -237,6 +237,7 @@ test.describe("OVN type", () => {
     );
 
     await gotoURL(page, "/ui/");
+    await page.getByRole("button", { name: "Networking" }).click();
     await page.getByRole("link", { name: "Networks", exact: true }).click();
     await page.getByRole("button", { name: "Create network" }).click();
     await page.getByRole("heading", { name: "Create a network" }).click();

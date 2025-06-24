@@ -3,6 +3,7 @@ import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeF
 
 export const getStorageVolumeEditValues = (
   volume: LxdStorageVolume,
+  editRestriction?: string,
 ): StorageVolumeFormValues => {
   return {
     name: volume.name,
@@ -28,5 +29,7 @@ export const getStorageVolumeEditValues = (
     readOnly: true,
     isCreating: false,
     entityType: "storageVolume",
+    editRestriction,
+    clusterMember: volume.location,
   };
 };

@@ -1,10 +1,10 @@
 import type { FC } from "react";
-import { fetchStorageVolumeState } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdStorageVolume } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import { useImagesInProject } from "context/useImages";
+import { fetchStorageVolumeState } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -18,6 +18,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
       volume.type,
       volume.name,
       volume.project,
+      volume.location,
     ],
     queryFn: async () =>
       fetchStorageVolumeState(
@@ -25,6 +26,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
         volume.project,
         volume.type,
         volume.name,
+        volume.location,
       ),
     enabled: volume.type !== "image",
   });

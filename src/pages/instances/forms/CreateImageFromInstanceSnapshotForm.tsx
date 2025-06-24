@@ -91,7 +91,6 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
           toastNotify.info(
             <>Creation of image from snapshot {snapshotLink} started.</>,
           );
-          close();
           eventQueue.set(
             operation.metadata.id,
             (event) => {
@@ -126,6 +125,9 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
             e,
             snapshotLink,
           );
+        })
+        .finally(() => {
+          close();
         });
     },
   });
@@ -148,7 +150,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid}
+            disabled={!formik.isValid || formik.isSubmitting}
             onClick={() => void formik.submitForm()}
           >
             Create image

@@ -189,7 +189,9 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
             <ActionButton
               appearance="positive"
               loading={formik.isSubmitting}
-              disabled={!formik.isValid || !formik.values.name}
+              disabled={
+                !formik.isValid || formik.isSubmitting || !formik.values.name
+              }
               onClick={() => void formik.submitForm()}
             >
               {group ? "Save changes" : "Create"}

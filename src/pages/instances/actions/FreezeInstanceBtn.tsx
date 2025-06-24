@@ -10,6 +10,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { isInstanceRunning } from "util/instanceStatus";
 
 interface Props {
   instance: LxdInstance;
@@ -68,7 +69,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
 
   const isDisabled =
     isLoading ||
-    instance.status !== "Running" ||
+    !isInstanceRunning(instance) ||
     instanceLoading.getType(instance) === "Migrating";
 
   return (

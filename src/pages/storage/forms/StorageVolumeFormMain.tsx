@@ -10,13 +10,26 @@ import { optionTrueFalse } from "util/instanceOptions";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
+import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
+import type { LxdStoragePool } from "types/storage";
+import type { LxdSettings } from "types/server";
+import type { LxdClusterMember } from "types/cluster";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
   poolError?: string;
+  clusterMembers?: LxdClusterMember[];
+  pools?: LxdStoragePool[];
+  settings?: LxdSettings;
 }
 
-const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
+const StorageVolumeFormMain: FC<Props> = ({
+  formik,
+  poolError,
+  clusterMembers = [],
+  pools = [],
+  settings,
+}) => {
   return (
     <ScrollableForm>
       <Row>
@@ -29,8 +42,20 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
           </Label>
           <StoragePoolSelector
             value={formik.values.pool}
-            setValue={(val) => void formik.setFieldValue("pool", val)}
-            hidePoolsWithUnsupportedDrivers
+            setValue={(pool) => {
+              void formik.setFieldValue("pool", pool);
+              if (
+                hasMemberLocalVolumes(pool, pools, settings) &&
+                clusterMembers.length > 0
+              ) {
+                formik.setFieldValue(
+                  "clusterMember",
+                  clusterMembers[0].server_name,
+                );
+              } else {
+                formik.setFieldValue("clusterMember", undefined);
+              }
+            }}
             selectProps={{
               id: "storage-pool-selector-volume",
               disabled: !formik.values.isCreating,
@@ -40,6 +65,26 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
                 : "Use the migrate button in the header to move the volume to a different storage pool.",
             }}
           />
+          {formik.values.clusterMember !== undefined && (
+            <Select
+              id="clusterMember"
+              label="Cluster member"
+              onChange={(e) => {
+                formik.setFieldValue("clusterMember", e.target.value);
+              }}
+              value={formik.values.clusterMember}
+              options={clusterMembers.map((member) => {
+                return { label: member.server_name, value: member.server_name };
+              })}
+              disabled={!formik.values.isCreating}
+              required={formik.values.isCreating}
+              help={
+                formik.values.isCreating
+                  ? undefined
+                  : "Cluster member is immutable after creation."
+              }
+            />
+          )}
           <Input
             {...getFormProps(formik, "name")}
             type="text"
@@ -64,7 +109,10 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
               ensureEditMode(formik);
               formik.setFieldValue("size", val);
             }}
-            disabled={formik.values.volumeType !== "custom"}
+            disabled={
+              !!formik.values.editRestriction ||
+              formik.values.volumeType !== "custom"
+            }
           />
           <Select
             {...getFormProps(formik, "content_type")}

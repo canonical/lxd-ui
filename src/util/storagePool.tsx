@@ -25,6 +25,10 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   cephfs_osd_pg_num: "cephfs.osd_pg_num",
   cephfs_path: "cephfs.path",
   cephfs_user_name: "cephfs.user.name",
+  cephobject_radosgw_endpoint: "cephobject.radosgw.endpoint",
+  cephobject_cluster_name: "cephobject.cluster_name",
+  cephobject_user_name: "cephobject.user.name",
+  cephobject_bucket_name_prefix: "cephobject.bucket.name_prefix",
   powerflex_clone_copy: "powerflex.clone_copy",
   powerflex_domain: "powerflex.domain",
   powerflex_gateway: "powerflex.gateway",
@@ -64,6 +68,12 @@ export const getCephPoolFormFields = () => {
   );
 };
 
+export const getCephObjectPoolFormFields = () => {
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
+    item.startsWith("cephobject_"),
+  );
+};
+
 export const getPowerflexPoolFormFields = () => {
   return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
     item.startsWith("powerflex_"),
@@ -91,6 +101,7 @@ const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   cephfs: "storage-cephfs",
   powerflex: "storage-powerflex",
   pure: "storage-pure",
+  cephobject: "storage-cephobject",
 };
 
 export const storagePoolFormDriverToOptionKey = (

@@ -1,6 +1,10 @@
-import { paramsFromSearchData, searchParamsToChips } from "./searchAndFilter";
+import {
+  paramsFromSearchData,
+  searchChipBaseUrl,
+  searchParamsToChips,
+} from "./searchAndFilter";
 
-describe("paramsFromSearchData and searchParamsToChips", () => {
+describe("paramsFromSearchData, searchParamsToChips and searchChipBaseUrl", () => {
   it("translates searchdata to url params", () => {
     const searchData = [
       { quoteValue: true, value: "homer" },
@@ -62,5 +66,29 @@ describe("paramsFromSearchData and searchParamsToChips", () => {
     expect(results[1].value).toBe("simpson");
     expect(results[2].lead).toBe("foo");
     expect(results[2].value).toBe("foo1");
+  });
+
+  it("searchChipBaseUrl preserves query params listed and drops those not listed", () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append("query", "homer");
+    searchParams.append("query", "simpson");
+    searchParams.append("foo", "foo1");
+    searchParams.append("otherValue", "ignoreMe");
+    const queryParams = ["query", "foo", "bar", "baz"];
+
+    const result = searchChipBaseUrl(searchParams, queryParams);
+
+    expect(result).toBe("/?search=1&query=homer&query=simpson&foo=foo1");
+  });
+
+  it("searchChipBaseUrl increments the search id", () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append("search", "3");
+    searchParams.append("foo", "foo1");
+    const queryParams = ["foo"];
+
+    const result = searchChipBaseUrl(searchParams, queryParams);
+
+    expect(result).toBe("/?search=4&foo=foo1");
   });
 });

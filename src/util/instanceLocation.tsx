@@ -2,12 +2,10 @@ import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
+import { useIsClustered } from "context/useIsClustered";
 
 export const getInstanceLocation = (formik: InstanceAndProfileFormikProps) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   if (!isClustered) {
     return undefined;

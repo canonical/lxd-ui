@@ -74,6 +74,9 @@ export const toggleClusterGroupMember = async (
 export const getFirstClusterMember = async (page: Page): Promise<string> => {
   await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
-  const firstCellContent = await page.getByRole("cell").first().textContent();
+  const firstCellContent = await page
+    .getByRole("rowheader")
+    .first()
+    .textContent();
   return firstCellContent?.split("http")[0] ?? "";
 };

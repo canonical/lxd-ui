@@ -25,10 +25,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
     onFailure("Loading networks failed", error);
   }
 
-  const networkDevices = Object.values(devices ?? {})
-    .filter(isNicDevice)
-    .map((network) => network.network);
-
+  const networkDevices = Object.values(devices ?? {}).filter(isNicDevice);
   const instanceHasNetworks = networkDevices.length > 0;
   const userHasNetworks = networks.length > 0;
 
@@ -47,15 +44,21 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
     },
   ];
 
-  const networksRows = networks
-    .filter((network) => networkDevices.includes(network.name))
-    .map((network) => {
-      const interfaceNames = Object.entries(devices ?? {})
-        .filter(
-          ([_key, value]) =>
-            value.type === "nic" && value.network === network.name,
-        )
-        .map(([key]) => key);
+  const networksRows = Object.entries(devices ?? {})
+    .map(([deviceName, networkDevice]) => {
+      if (networkDevice.type !== "nic") {
+        return null;
+      }
+
+      const network = networks.find(
+        (item) =>
+          item.name === networkDevice.network ||
+          item.name === networkDevice.parent,
+      );
+
+      if (!network) {
+        return null;
+      }
 
       return {
         key: network.name,
@@ -68,11 +71,11 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
                 to={`/ui/project/${project}/network/${network.name}`}
               />
             ),
-            role: "cell",
+            role: "rowheader",
             "aria-label": "Name",
           },
           {
-            content: interfaceNames.length > 0 ? interfaceNames.join(" ") : "-",
+            content: deviceName,
             role: "cell",
             "aria-label": "Interface",
           },
@@ -91,10 +94,11 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
           name: network.name.toLowerCase(),
           type: network.type,
           managed: network.managed,
-          interfaceName: interfaceNames.join(" "),
+          interfaceName: deviceName.toLowerCase(),
         },
       };
-    });
+    })
+    .filter((row) => row !== null);
 
   const getContent = () => {
     if (isLoading) {

@@ -8,4 +8,5 @@ export interface LxdWarning {
   last_seen_at: string;
   last_message: string;
   severity: string;
+  access_entitlements?: string[];
 }

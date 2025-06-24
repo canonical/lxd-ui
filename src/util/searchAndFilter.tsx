@@ -45,3 +45,15 @@ export const searchParamsToChips = (
   );
   return searchData;
 };
+
+export const searchChipBaseUrl = (
+  searchParams: URLSearchParams,
+  preserveParams: string[],
+): string => {
+  let url = `${window.location.pathname}?search=${Number(searchParams.get("search")) + 1}`;
+  const appendExistingSearchParams = (field: string) => {
+    searchParams.getAll(field).forEach((item) => (url += `&${field}=${item}`));
+  };
+  preserveParams.forEach(appendExistingSearchParams);
+  return url;
+};

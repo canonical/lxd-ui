@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
 import type { LxdInstance } from "types/instance";
+import { getInstanceKey } from "util/instances";
 
 type LoadingTypes =
   | "Starting"
@@ -33,7 +34,7 @@ export const InstanceLoadingProvider: FC<Props> = ({ children }) => {
   const setLoading = (instance: LxdInstance, loadingType: LoadingTypes) => {
     setInstanceStates((oldMap) => {
       const newMap = new Map(oldMap);
-      newMap.set(instance.name, loadingType);
+      newMap.set(getInstanceKey(instance), loadingType);
       return newMap;
     });
   };
@@ -41,7 +42,7 @@ export const InstanceLoadingProvider: FC<Props> = ({ children }) => {
   const setFinish = (instance: LxdInstance) => {
     setInstanceStates((oldMap) => {
       const newMap = new Map(oldMap);
-      newMap.delete(instance.name);
+      newMap.delete(getInstanceKey(instance));
       return newMap;
     });
   };
@@ -49,7 +50,8 @@ export const InstanceLoadingProvider: FC<Props> = ({ children }) => {
   return (
     <InstanceLoadingContext.Provider
       value={{
-        getType: (instance: LxdInstance) => instanceStates.get(instance.name),
+        getType: (instance: LxdInstance) =>
+          instanceStates.get(getInstanceKey(instance)),
         setLoading,
         setFinish,
       }}

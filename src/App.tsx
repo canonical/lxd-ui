@@ -7,11 +7,10 @@ import ProjectLoader from "pages/projects/ProjectLoader";
 import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
-import CustomLayout from "components/CustomLayout";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
-import NoProject from "components/NoProject";
 import lazy from "util/lazyWithRetry";
+import { useSettings } from "context/useSettings";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -25,6 +24,9 @@ const CreateInstance = lazy(
   async () => import("pages/instances/CreateInstance"),
 );
 const CreateNetwork = lazy(async () => import("pages/networks/CreateNetwork"));
+const CreateNetworkAcl = lazy(
+  async () => import("pages/networks/CreateNetworkAcl"),
+);
 const CreateNetworkForward = lazy(
   async () => import("pages/networks/CreateNetworkForward"),
 );
@@ -45,8 +47,14 @@ const InstanceDetail = lazy(
 );
 const InstanceList = lazy(async () => import("pages/instances/InstanceList"));
 const Login = lazy(async () => import("pages/login/Login"));
+const NetworkAclDetail = lazy(
+  async () => import("pages/networks/NetworkAclDetail"),
+);
+const NetworkAclList = lazy(
+  async () => import("pages/networks/NetworkAclList"),
+);
 const NetworkDetail = lazy(async () => import("pages/networks/NetworkDetail"));
-const NetworkList = lazy(async () => import("./pages/networks/NetworkList"));
+const NetworkList = lazy(async () => import("pages/networks/NetworkList"));
 const OperationList = lazy(
   async () => import("pages/operations/OperationList"),
 );
@@ -85,24 +93,25 @@ const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 const App: FC = () => {
   const { defaultProject, hasNoProjects, isAuthLoading, isAuthenticated } =
     useAuth();
+  const { data: settings } = useSettings();
+  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasCertificate = settings?.client_certificate;
   setTitle();
 
   if (isAuthLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
-  if (!isAuthenticated) {
-    logout();
+  if (!isAuthenticated && hasOidc != undefined && hasCertificate != undefined) {
+    logout(hasOidc, hasCertificate);
+  }
+
+  if (!isAuthenticated && !window.location.href.includes("/ui/login")) {
+    return <Navigate to="/ui/login" replace={true} />;
   }
 
   return (
-    <Suspense
-      fallback={
-        <CustomLayout>
-          <Loader />
-        </CustomLayout>
-      }
-    >
+    <Suspense fallback={<Loader isMainComponent />}>
       <Routes>
         {HOME_REDIRECT_PATHS.map((path) => (
           <Route
@@ -112,7 +121,7 @@ const App: FC = () => {
               <Navigate
                 to={
                   hasNoProjects
-                    ? "/ui/no-project"
+                    ? "/ui/all-projects/instances"
                     : `/ui/project/${defaultProject}/instances`
                 }
                 replace={true}
@@ -120,6 +129,10 @@ const App: FC = () => {
             }
           />
         ))}
+        <Route
+          path="/ui/all-projects/instances"
+          element={<ProtectedRoute outlet={<InstanceList />} />}
+        />
         <Route
           path="/ui/project/:project"
           element={
@@ -146,27 +159,15 @@ const App: FC = () => {
         />
         <Route
           path="/ui/project/:project/instance/:name"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
-            />
-          }
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
           path="/ui/project/:project/instance/:name/:activeTab"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
-            />
-          }
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
           path="/ui/project/:project/instance/:name/:activeTab/:section"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
-            />
-          }
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
           path="/ui/project/:project/profiles"
@@ -273,6 +274,38 @@ const App: FC = () => {
           }
         />
         <Route
+          path="/ui/project/:project/network/:network/member/:memberName/forwards/:forwardAddress/edit"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-acls"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkAclList />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-acls/create"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateNetworkAcl />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-acl/:name"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkAclDetail />} />}
+            />
+          }
+        />
+        <Route
           path="/ui/project/:project/configuration"
           element={
             <ProtectedRoute
@@ -361,6 +394,18 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
+          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab/:section"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
           path="/ui/project/:project/images"
           element={<ProtectedRoute outlet={<ImageList />} />}
         />
@@ -418,7 +463,6 @@ const App: FC = () => {
           element={<CertificateGenerate />}
         />
         <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
-        <Route path="ui/no-project" element={<NoProject />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>

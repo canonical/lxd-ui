@@ -129,7 +129,7 @@ const CreateGroupPanel: FC = () => {
         })}
       >
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle key={subForm ?? "start"}>
             <GroupHeaderTitle subForm={subForm} setSubForm={setSubForm} />
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
@@ -178,7 +178,9 @@ const CreateGroupPanel: FC = () => {
             loading={formik.isSubmitting}
             onClick={() => void formik.submitForm()}
             className="u-no-margin--bottom"
-            disabled={!formik.isValid || !formik.values.name}
+            disabled={
+              !formik.isValid || formik.isSubmitting || !formik.values.name
+            }
           >
             Create group
           </ActionButton>

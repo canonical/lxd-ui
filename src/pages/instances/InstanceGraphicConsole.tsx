@@ -9,6 +9,7 @@ import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
 import { useNotify } from "@canonical/react-components";
+import { isInstanceRunning } from "util/instanceStatus";
 
 declare global {
   interface Window {
@@ -41,7 +42,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
-  const isRunning = instance.status === "Running";
+  const isRunning = isInstanceRunning(instance);
 
   const handleError = (e: object) => {
     onFailure("Error", e);

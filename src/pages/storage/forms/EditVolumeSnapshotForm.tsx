@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
-import { useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   renameVolumeSnapshot,
@@ -26,47 +25,13 @@ interface Props {
 
 const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const notifyUpdateSuccess = (name: string) => {
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        query.queryKey[0] === queryKeys.volumes ||
-        query.queryKey[0] === queryKeys.storage,
-    });
-    toastNotify.success(
-      <>
-        Snapshot <VolumeSnapshotLinkChip name={name} volume={volume} /> saved.
-      </>,
-    );
-    formik.setSubmitting(false);
-    close();
-  };
-
-  const updateExpirationTime = async (expiresAt: string | null) => {
-    await updateVolumeSnapshot({
-      volume,
-      snapshot,
-      expiresAt,
-    }).catch((error: Error) => {
-      notify.failure("Snapshot update failed", error);
-      formik.setSubmitting(false);
-    });
-  };
-
   const rename = async (newName: string): Promise<void> => {
-    const snapshotLink = (
-      <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
-    );
-    return new Promise((resolve) => {
-      renameVolumeSnapshot({
-        volume,
-        snapshot,
-        newName,
-      })
+    return new Promise((resolve, reject) => {
+      renameVolumeSnapshot(volume, snapshot, newName)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
@@ -74,18 +39,12 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
               resolve();
             },
             (msg) => {
-              toastNotify.failure(
-                `Snapshot ${snapshot.name} rename failed`,
-                new Error(msg),
-                snapshotLink,
-              );
-              formik.setSubmitting(false);
+              reject(new Error(msg));
             },
           );
         })
-        .catch((e) => {
-          notify.failure("Snapshot rename failed", e, snapshotLink);
-          formik.setSubmitting(false);
+        .catch((e: Error) => {
+          reject(e);
         });
     });
   };
@@ -109,7 +68,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
       snapshot.name,
     ),
     onSubmit: async (values) => {
-      notify.clear();
+      let shouldShowSuccess = true;
       const expiresAt =
         values.expirationDate && values.expirationTime
           ? stringToIsoTime(
@@ -117,12 +76,34 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
             )
           : null;
       if (expiresAt !== snapshot.expires_at) {
-        await updateExpirationTime(expiresAt);
+        await updateVolumeSnapshot(volume, snapshot, expiresAt).catch(
+          (error: Error) => {
+            toastNotify.failure("Snapshot update failed", error);
+            shouldShowSuccess = false;
+          },
+        );
       }
       if (values.name !== snapshot.name) {
-        await rename(values.name);
+        await rename(values.name).catch((error: Error) => {
+          toastNotify.failure("Snapshot update failed", error);
+          shouldShowSuccess = false;
+        });
       }
-      notifyUpdateSuccess(values.name);
+      if (shouldShowSuccess) {
+        toastNotify.success(
+          <>
+            Snapshot{" "}
+            <VolumeSnapshotLinkChip name={values.name} volume={volume} /> saved.
+          </>,
+        );
+      }
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === queryKeys.volumes ||
+          query.queryKey[0] === queryKeys.storage,
+      });
+      formik.setSubmitting(false);
+      close();
     },
   });
 

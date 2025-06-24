@@ -13,9 +13,8 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { useIsClustered } from "context/useIsClustered";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -40,8 +39,7 @@ const SettingForm: FC<Props> = ({
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { canEditServerConfiguration } = useServerEntitlements();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   const editRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,8 +50,9 @@ const SettingForm: FC<Props> = ({
   const isSecret = isTrustPassword || isLokiAuthPassword;
   const isAddress = configField.key.endsWith("_address");
   const isVolume = configField.key.endsWith("_volume");
+  const isSyslogSocket = configField.key === "core.syslog_socket";
   const isClusteredInput =
-    isClustered && (isMaasMachine || isAddress || isVolume);
+    isClustered && (isMaasMachine || isAddress || isVolume || isSyslogSocket);
 
   const settingLabel = (
     <ResourceLabel bold type="setting" value={configField.key} />
@@ -110,7 +109,7 @@ const SettingForm: FC<Props> = ({
   if (isClusteredInput) {
     return (
       <ClusteredSettingFormInput
-        key={JSON.stringify(clusteredValue)}
+        key={`${JSON.stringify(clusteredValue)}-${isEditMode}`}
         initialValue={clusteredValue ?? {}}
         disableReason={
           canEditServerConfiguration()

@@ -1,0 +1,16 @@
+.permission-idp-groups-list {
+  .permission-idp-group-table {
+    @media screen and (width < 650px) {
+      .select,
+      .mapped-groups {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (width < 500px) {
+    .page-header__search {
+      display: none;
+    }
+  }
+}

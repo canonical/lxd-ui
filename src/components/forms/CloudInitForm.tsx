@@ -7,7 +7,7 @@ import type {
 } from "./instanceAndProfileFormValues";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceKey } from "util/instanceConfigFields";
+import { getInstanceField } from "util/instanceConfigFields";
 import { ensureEditMode } from "util/instanceEdit";
 import classnames from "classnames";
 import { getConfigRowMetadata } from "util/configInheritance";
@@ -20,10 +20,10 @@ export interface CloudInitFormValues {
 
 export const cloudInitPayload = (values: InstanceAndProfileFormValues) => {
   return {
-    [getInstanceKey("cloud_init_network_config")]:
+    [getInstanceField("cloud_init_network_config")]:
       values.cloud_init_network_config,
-    [getInstanceKey("cloud_init_user_data")]: values.cloud_init_user_data,
-    [getInstanceKey("cloud_init_vendor_data")]: values.cloud_init_vendor_data,
+    [getInstanceField("cloud_init_user_data")]: values.cloud_init_user_data,
+    [getInstanceField("cloud_init_vendor_data")]: values.cloud_init_vendor_data,
   };
 };
 

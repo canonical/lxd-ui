@@ -40,6 +40,7 @@ import ProfileFormMenu, {
   YAML_CONFIGURATION,
   GPU_DEVICES,
   OTHER_DEVICES,
+  PROXY_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { LxdProfile } from "types/profile";
 import useEventListener from "util/useEventListener";
@@ -61,13 +62,13 @@ import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
-import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -77,6 +78,7 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 interface Props {
@@ -156,8 +158,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
+
   const updateSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
     } else {
@@ -285,6 +288,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
+              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />

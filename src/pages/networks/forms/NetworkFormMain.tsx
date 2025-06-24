@@ -16,6 +16,7 @@ import NetworkStatistics from "pages/networks/forms/NetworkStatistics";
 import NetworkDescriptionField from "pages/networks/forms/NetworkDescriptionField";
 import { renderNetworkType } from "util/networks";
 import NetworkAddresses from "pages/networks/forms/NetworkAddresses";
+import NetworkAcls from "pages/networks/forms/NetworkAcls";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -107,7 +108,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
               row={getConfigurationRow({
                 formik,
                 name: "ipv4_address",
-                label: "IPv4 address range",
+                label: "IPv4 address",
                 defaultValue: "auto",
                 children: (
                   <IpAddressSelector
@@ -139,7 +140,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
               row={getConfigurationRow({
                 formik,
                 name: "ipv6_address",
-                label: "IPv6 address range",
+                label: "IPv6 address",
                 defaultValue: "auto",
                 children: (
                   <IpAddressSelector
@@ -170,6 +171,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             />
           </>
         )}
+        {isManagedNetwork && <NetworkAcls project={project} formik={formik} />}
         {!formik.values.isCreating && (
           <NetworkStatistics formik={formik} project={project} />
         )}

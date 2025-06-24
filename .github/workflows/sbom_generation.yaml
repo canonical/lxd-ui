@@ -1,6 +1,9 @@
 name: Generate SBOM
 on: [workflow_dispatch]
 
+permissions:
+  contents: read
+
 jobs:
   install-trivy:
     name: Install Trivy

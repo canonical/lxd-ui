@@ -2,8 +2,6 @@ import type { FC, KeyboardEvent } from "react";
 import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import FormLink from "components/FormLink";
 import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
 import BackLink from "components/BackLink";
@@ -11,6 +9,7 @@ import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
 import type { MigrationType } from "util/instanceMigration";
 import { useInstanceMigration } from "util/instanceMigration";
 import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   close: () => void;
@@ -18,12 +17,11 @@ interface Props {
 }
 
 const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const [type, setType] = useState<MigrationType>("");
   const [target, setTarget] = useState("");
   const { handleMigrate } = useInstanceMigration({
-    onSuccess: close,
+    close,
     instance,
     type,
     target,
@@ -69,9 +67,25 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
     <Modal
       close={close}
       className="migrate-instance-modal"
-      title={modalTitle}
       onKeyDown={handleEscKey}
+      aria-labelledby="migrate-title"
     >
+      <header className="p-modal__header">
+        <h2
+          className="p-modal__title"
+          key={type ? (target ? "confirm" : "select") : "start"}
+          id="migrate-title"
+        >
+          {modalTitle}
+        </h2>
+        <button
+          className="p-modal__close"
+          aria-label="Close active modal"
+          onClick={close}
+        >
+          Close
+        </button>
+      </header>
       {!type && (
         <div className="choose-migration-type">
           {isClustered && (
@@ -85,14 +99,14 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
           )}
           <FormLink
             icon="switcher-dashboard"
-            title="Migrate instance root storage to a different pool"
+            title="Move instance root storage to a different pool"
             onClick={() => {
               setType("root storage pool");
             }}
           />
           <FormLink
             icon="folder"
-            title="Migrate instance to a different project"
+            title="Move instance to a different project"
             onClick={() => {
               setType("project");
             }}

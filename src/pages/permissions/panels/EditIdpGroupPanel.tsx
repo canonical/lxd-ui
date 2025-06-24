@@ -13,8 +13,8 @@ import type { IdpGroup } from "types/permissions";
 import { renameIdpGroup, updateIdpGroup } from "api/auth-idp-groups";
 import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
 import useEditHistory from "util/useEditHistory";
-import type { IdpGroupFormValues } from "../forms/IdpGroupForm";
-import IdpGroupForm from "../forms/IdpGroupForm";
+import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
+import NameWithGroupForm from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
@@ -200,48 +200,47 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
     (nameModified && nameIsValid) || (nameIsValid && groupsModified);
 
   return (
-    <>
-      <SidePanel
-        isOverlay
-        loading={isLoading}
-        hasError={!groups}
-        onClose={onClose}
-      >
-        <SidePanel.Header>
-          <SidePanel.HeaderTitle>{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
-        </SidePanel.Header>
-        <NotificationRow className="u-no-padding" />
-        <IdpGroupForm formik={formik} />
-        <p>Map groups to this idp group</p>
-        <SidePanel.Content className="u-no-padding">
-          <GroupSelection
-            groups={groups}
-            modifiedGroups={modifiedGroups}
-            parentItemName="IDP group"
-            parentItems={[idpGroup]}
-            selectedGroups={selectedGroups}
-            setSelectedGroups={modifyGroups}
-            toggleGroup={toggleRow}
-            scrollDependencies={[
-              groups,
-              modifiedGroups.size,
-              notify.notification,
-              formik,
-            ]}
-          />
-        </SidePanel.Content>
-        <SidePanel.Footer className="u-align--right">
-          <GroupSelectionActions
-            modifiedGroups={modifiedGroups}
-            undoChange={undoMappingChanges}
-            closePanel={closePanel}
-            onSubmit={() => void formik.submitForm()}
-            loading={formik.isSubmitting}
-            disabled={!enableSubmission}
-          />
-        </SidePanel.Footer>
-      </SidePanel>
-    </>
+    <SidePanel
+      isOverlay
+      loading={isLoading}
+      hasError={!groups}
+      onClose={onClose}
+    >
+      <SidePanel.Header>
+        <SidePanel.HeaderTitle>{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
+      </SidePanel.Header>
+      <NotificationRow className="u-no-padding" />
+      <NameWithGroupForm formik={formik} />
+      <p>Map groups to this idp group</p>
+      <SidePanel.Content className="u-no-padding">
+        <GroupSelection
+          groups={groups}
+          modifiedGroups={modifiedGroups}
+          parentItemName="IDP group"
+          parentItems={[idpGroup]}
+          selectedGroups={selectedGroups}
+          setSelectedGroups={modifyGroups}
+          toggleGroup={toggleRow}
+          scrollDependencies={[
+            groups,
+            modifiedGroups.size,
+            notify.notification,
+            formik,
+          ]}
+        />
+      </SidePanel.Content>
+      <SidePanel.Footer className="u-align--right">
+        <GroupSelectionActions
+          modifiedGroups={modifiedGroups}
+          undoChange={undoMappingChanges}
+          closePanel={closePanel}
+          onSubmit={() => void formik.submitForm()}
+          loading={formik.isSubmitting}
+          disabled={!enableSubmission}
+          isEdit
+        />
+      </SidePanel.Footer>
+    </SidePanel>
   );
 };
 

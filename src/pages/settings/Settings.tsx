@@ -36,7 +36,6 @@ const Settings: FC = () => {
     settings,
     isSettingsLoading,
     settingsError,
-    hasAccessManagement,
   } = useSupportedFeatures();
   const { canEditServerConfiguration } = useServerEntitlements();
 
@@ -47,7 +46,7 @@ const Settings: FC = () => {
   const { data: clusteredSettings = [] } = useClusteredSettings();
 
   if (isConfigOptionsLoading || isSettingsLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (settingsError) {
@@ -71,12 +70,13 @@ const Settings: FC = () => {
 
   const getClusteredValue = (
     clusteredSettings: LXDSettingOnClusterMember[],
-    configKey: string,
+    configField: ConfigField,
   ): ClusterSpecificValues => {
     const settingPerClusterMember: ClusterSpecificValues = {};
 
     clusteredSettings?.forEach((item) => {
-      settingPerClusterMember[item.memberName] = item.config?.[configKey] ?? "";
+      settingPerClusterMember[item.memberName] =
+        item.config?.[configField.key] ?? configField.default ?? "";
     });
 
     return settingPerClusterMember;
@@ -97,17 +97,6 @@ const Settings: FC = () => {
     shortdesc: "Title for the LXD-UI web page. Shows the hostname when unset.",
     type: "string",
   });
-
-  if (hasAccessManagement) {
-    configFields.push({
-      key: "user.show_permissions",
-      category: "user",
-      default: "false",
-      shortdesc:
-        "Show the permissions feature. If oidc configs are set, the permissions feature is available in the UI independent of this setting.",
-      type: "bool",
-    });
-  }
 
   configFields.push({
     key: "user.grafana_base_url",
@@ -133,10 +122,7 @@ const Settings: FC = () => {
       );
       const value = getValue(configField);
 
-      const clusteredValue = getClusteredValue(
-        clusteredSettings,
-        configField.key,
-      );
+      const clusteredValue = getClusteredValue(clusteredSettings, configField);
 
       const isNewCategory = lastCategory !== configField.category;
       lastCategory = configField.category;
@@ -148,7 +134,7 @@ const Settings: FC = () => {
             content: isNewCategory && (
               <h2 className="p-heading--5">{configField.category}</h2>
             ),
-            role: "cell",
+            role: "rowheader",
             className: "group",
             "aria-label": "Group",
           },
