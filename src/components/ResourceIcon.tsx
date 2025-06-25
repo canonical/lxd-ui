@@ -13,6 +13,7 @@ export type ResourceIconType =
   | "profile"
   | "project"
   | "cluster-group"
+  | "cluster-link"
   | "cluster-member"
   | "network"
   | "network-acl"
@@ -40,6 +41,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   project: "folder",
   "cluster-group": "cluster-host",
   "cluster-member": "single-host",
+  "cluster-link": "applications",
   network: "exposed",
   peering: "exposed",
   "network-acl": "security-tick",
