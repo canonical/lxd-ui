@@ -35,6 +35,9 @@ const ClusterGroupList = lazy(
 const ClusterMemberList = lazy(
   async () => import("pages/cluster/ClusterMemberList"),
 );
+const ClusterLinkList = lazy(
+  async () => import("pages/cluster/ClusterLinkList"),
+);
 const ClusterMemberDetail = lazy(
   async () => import("pages/cluster/ClusterMemberDetail"),
 );
@@ -522,6 +525,10 @@ const App: FC = () => {
         <Route
           path={`${ROOT_PATH}/ui/cluster/groups`}
           element={<ProtectedRoute outlet={<ClusterGroupList />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/cluster/links`}
+          element={<ProtectedRoute outlet={<ClusterLinkList />} />}
         />
         <Route
           path={`${ROOT_PATH}/ui/cluster/members`}
