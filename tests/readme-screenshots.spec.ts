@@ -264,7 +264,7 @@ test("server settings", async ({ page }) => {
 
 // this test assumes a microcloud backend
 test("cluster list", async ({ page }) => {
-  await gotoURL(page, "/ui/cluster");
+  await gotoURL(page, "/ui/cluster/members");
   await page.waitForSelector("text=Showing all 3 cluster members");
   await page.waitForTimeout(3000); // loading network details can take some time
 

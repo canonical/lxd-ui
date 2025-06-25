@@ -20,3 +20,19 @@ export interface LxdClusterGroup {
   members: string[];
   name: string;
 }
+
+export interface LxdClusterLink {
+  description: string;
+  name: string;
+  type?: string;
+  config: Record<string, string>;
+}
+
+export interface LxdClusterLinkCreateResponse {
+  client_name: string;
+  addresses: string[];
+  expires_at: string;
+  fingerprint: string;
+  type: "Client certificate (pending)" | "Client certificate";
+  secret: string;
+}

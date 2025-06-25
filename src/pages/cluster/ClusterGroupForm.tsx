@@ -182,7 +182,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
           <Col size={12}>
             <Button
               appearance="base"
-              onClick={async () => navigate(`/ui/cluster`)}
+              onClick={async () => navigate(`/ui/cluster/groups`)}
             >
               Cancel
             </Button>

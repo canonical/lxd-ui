@@ -462,17 +462,59 @@ const Navigation: FC = () => {
                         })}
                       />
                       <SideNavigationItem>
-                        <NavLink
-                          to="/ui/cluster"
-                          title="Cluster"
-                          onClick={softToggleMenu}
+                        <NavAccordion
+                          baseUrl={`/ui/project/${encodeURIComponent(projectName)}/cluster`}
+                          title={getNavTitle("clustering")}
+                          iconName="cluster-host"
+                          label="Clustering"
+                          onOpen={() => {
+                            toggleAccordionNav("clustering");
+                          }}
+                          open={openNavMenus.includes("clustering")}
                         >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="cluster-host"
-                          />{" "}
-                          Cluster
-                        </NavLink>
+                          {[
+                            <SideNavigationItem key="members">
+                              <NavLink
+                                to="/ui/cluster/members"
+                                title="Members"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Members
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem key="groups">
+                              <NavLink
+                                to="/ui/cluster/groups"
+                                title="Groups"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Groups
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem key="links">
+                              <NavLink
+                                to="/ui/cluster/links"
+                                title="Links"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Links
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem key="replicas">
+                              <NavLink
+                                to="/ui/cluster/replicas"
+                                title="Replicas"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Replicas
+                              </NavLink>
+                            </SideNavigationItem>,
+                          ]}
+                        </NavAccordion>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink

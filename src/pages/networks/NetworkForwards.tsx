@@ -114,7 +114,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                   <ResourceLink
                     type="cluster-member"
                     value={forward.location ?? ""}
-                    to={`/ui/cluster`}
+                    to={`/ui/cluster/members`}
                   />
                 ),
                 role: "cell",

@@ -5,6 +5,7 @@ import type {
   MainTableHeader,
   MainTableRow,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { Link } from "react-router-dom";
 
 export const allClusterGroups = "All cluster groups";
 
@@ -58,7 +59,13 @@ export const getClusterRows = (
         {
           content: (
             <>
-              <div>{member.server_name}</div>
+              <div>
+                <Link
+                  to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
+                >
+                  {member.server_name}
+                </Link>
+              </div>
               <div className="u-text--muted">{member.url}</div>
             </>
           ),

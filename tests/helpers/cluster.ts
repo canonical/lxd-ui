@@ -4,7 +4,8 @@ import { randomNameSuffix } from "./name";
 
 export const isServerClustered = async (page: Page) => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Members" }).click();
   const count = await page.getByText("This server is not clustered").count();
   return count === 0;
 };
@@ -15,7 +16,8 @@ export const randomGroupName = (): string => {
 
 export const createClusterGroup = async (page: Page, group: string) => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Groups" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("button", { name: "Create group" }).click();
   await page.getByPlaceholder("Enter name").click();
@@ -27,7 +29,8 @@ export const createClusterGroup = async (page: Page, group: string) => {
 
 export const deleteClusterGroup = async (page: Page, group: string) => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Groups" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
   await page.getByRole("button", { name: "Delete" }).click();
@@ -42,7 +45,8 @@ export const toggleClusterGroupMember = async (
   member: string,
 ) => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Groups" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
   await page.getByRole("button", { name: "Edit group" }).click();
@@ -57,7 +61,8 @@ export const toggleClusterGroupMember = async (
 
 export const getFirstClusterMember = async (page: Page): Promise<string> => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Members" }).click();
   const firstCellContent = await page
     .getByRole("rowheader")
     .first()

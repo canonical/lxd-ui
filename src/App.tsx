@@ -17,6 +17,12 @@ const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
 );
 const ClusterList = lazy(async () => import("pages/cluster/ClusterList"));
+const ClusterLinkList = lazy(
+  async () => import("pages/cluster/ClusterLinkList"),
+);
+const ClusterMemberDetail = lazy(
+  async () => import("pages/cluster/ClusterMemberDetail"),
+);
 const CreateClusterGroup = lazy(
   async () => import("pages/cluster/CreateClusterGroup"),
 );
@@ -428,8 +434,24 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<ImageList />} />}
         />
         <Route
-          path="/ui/cluster"
+          path="/ui/cluster/members"
           element={<ProtectedRoute outlet={<ClusterList />} />}
+        />
+        <Route
+          path="/ui/cluster/member/:name"
+          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+        />
+        <Route
+          path="/ui/cluster/member/:name/:activeTab"
+          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+        />
+        <Route
+          path="/ui/cluster/groups"
+          element={<ProtectedRoute outlet={<ClusterList />} />}
+        />
+        <Route
+          path="/ui/cluster/links"
+          element={<ProtectedRoute outlet={<ClusterLinkList />} />}
         />
         <Route
           path="/ui/cluster/groups/create"
