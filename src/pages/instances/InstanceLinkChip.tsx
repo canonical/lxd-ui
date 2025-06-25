@@ -15,7 +15,7 @@ const InstanceLinkChip: FC<Props> = ({ instance }) => {
     <ResourceLink
       type={instance.type}
       value={instance.name}
-      to={`/ui/project/${instance.project}/instance/${instance.name}`}
+      to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}`}
     />
   );
 };

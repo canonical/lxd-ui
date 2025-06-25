@@ -56,7 +56,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         <ResourceLink
           type="project"
           value={values.name}
-          to={`/ui/project/${project.name}/configuration`}
+          to={`/ui/project/${encodeURIComponent(project.name)}/configuration`}
         />
       );
       renameProject(project.name, values.name)
@@ -64,7 +64,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
-              const url = `/ui/project/${values.name}/configuration`;
+              const url = `/ui/project/${encodeURIComponent(values.name)}/configuration`;
               navigate(url);
               toastNotify.success(
                 <>

@@ -21,7 +21,7 @@ const ProfileNetworkList: FC<Props> = ({ profile, project }) => {
                 key={device.network}
                 type="network"
                 value={device.network}
-                to={`/ui/project/${project}/network/${device.network}`}
+                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(device.network)}`}
               />
             ))}
         />

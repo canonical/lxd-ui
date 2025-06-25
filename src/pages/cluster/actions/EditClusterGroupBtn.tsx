@@ -12,7 +12,9 @@ const EditClusterGroupBtn: FC<Props> = ({ group }) => {
   return (
     <Button
       className="u-no-margin--bottom"
-      onClick={async () => navigate(`/ui/cluster/group/${group}/edit`)}
+      onClick={async () =>
+        navigate(`/ui/cluster/group/${encodeURIComponent(group)}/edit`)
+      }
     >
       Edit group
     </Button>

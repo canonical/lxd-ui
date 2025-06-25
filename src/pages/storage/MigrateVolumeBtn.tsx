@@ -46,8 +46,8 @@ const MigrateVolumeBtn: FC<Props> = ({
     storageVolume: LxdStorageVolume,
   ) => {
     const memberPath = hasLocation(volume) ? `/member/${volume.location}` : "";
-    const oldVolumeUrl = `/ui/project/${storageVolume.project}/storage/pool/${storageVolume.pool}${memberPath}/volumes/${storageVolume.type}/${storageVolume.name}`;
-    const newVolumeUrl = `/ui/project/${storageVolume.project}/storage/pool/${newTarget}${memberPath}/volumes/${storageVolume.type}/${storageVolume.name}`;
+    const oldVolumeUrl = `/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(storageVolume.pool)}${encodeURIComponent(memberPath)}/volumes/${encodeURIComponent(storageVolume.type)}/${encodeURIComponent(storageVolume.name)}`;
+    const newVolumeUrl = `/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(newTarget)}${encodeURIComponent(memberPath)}/volumes/${encodeURIComponent(storageVolume.type)}/${encodeURIComponent(storageVolume.name)}`;
 
     const volumeLink = (
       <ResourceLink
@@ -60,7 +60,7 @@ const MigrateVolumeBtn: FC<Props> = ({
       <ResourceLink
         type="pool"
         value={newTarget}
-        to={`/ui/project/${storageVolume.project}/storage/pool/${newTarget}`}
+        to={`/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(newTarget)}`}
       />
     );
     toastNotify.success(
@@ -123,7 +123,7 @@ const MigrateVolumeBtn: FC<Props> = ({
           <ResourceLink
             type="pool"
             value={targetPool}
-            to={`/ui/project/${volume.project}/storage/pool/${targetPool}`}
+            to={`/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(targetPool)}`}
           />
         );
         toastNotify.info(

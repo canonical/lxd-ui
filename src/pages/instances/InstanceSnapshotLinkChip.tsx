@@ -13,7 +13,7 @@ const InstanceSnapshotLinkChip: FC<Props> = ({ name, instance }) => {
     <ResourceLink
       type="snapshot"
       value={name}
-      to={`/ui/project/${instance.project}/instance/${instance.name}/snapshots`}
+      to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
     />
   );
 };

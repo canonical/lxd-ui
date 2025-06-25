@@ -35,7 +35,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="project"
             value={item.project}
-            to={`/ui/project/${item.project}/${projectLinkDetailPage}`}
+            to={`/ui/project/${encodeURIComponent(item.project)}/${encodeURIComponent(projectLinkDetailPage)}`}
           />{" "}
           /{" "}
         </>
@@ -45,7 +45,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="instance"
             value={item.instance}
-            to={`/ui/project/${item.project}/instance/${item.instance}`}
+            to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}`}
           />{" "}
           /{" "}
         </>
@@ -55,7 +55,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type={"volume"}
             value={item.volume}
-            to={`/ui/project/${item.project}/storage/pool/${item.pool}/volumes/custom/${item.volume}`}
+            to={`/ui/project/${encodeURIComponent(item.project)}/storage/pool/${encodeURIComponent(item.pool)}/volumes/custom/${encodeURIComponent(item.volume)}`}
           />{" "}
           /{" "}
         </>

@@ -38,7 +38,9 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
 
   const notifySuccess = () => {
     const uploaded = (
-      <Link to={`/ui/project/${projectName}/images`}>uploaded</Link>
+      <Link to={`/ui/project/${encodeURIComponent(projectName)}/images`}>
+        uploaded
+      </Link>
     );
     toastNotify.success(<>Image {uploaded}.</>);
   };

@@ -112,7 +112,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
               <ResourceLink
                 type="pool"
                 value={savedPool.name}
-                to={`/ui/project/${project}/storage/pool/${savedPool.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(savedPool.name)}`}
               />{" "}
               updated.
             </>,
@@ -143,7 +143,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
+  const baseUrl = `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {

@@ -172,7 +172,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
+  const baseUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instance.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
     if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {

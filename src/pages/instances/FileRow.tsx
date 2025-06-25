@@ -15,7 +15,7 @@ interface FileRowProps {
 
 const FileRow: FC<FileRowProps> = ({ instance, path }) => {
   const fileName = path.split("/").at(-1) ?? "";
-  const fileUrl = `/ui/project/${instance.project}/instance/${instance.name}/logs/?file=${fileName}`;
+  const fileUrl = `/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/logs/?file=${encodeURIComponent(fileName)}`;
   const [isOpen, setOpen] = useState(getUrlParam("file") === fileName);
 
   const {

@@ -129,8 +129,8 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                   className="p-button--base u-no-margin--bottom has-icon"
                   to={
                     isClusterMemberSpecific
-                      ? `/ui/project/${project}/network/${network.name}/member/${forward.location}/forwards/${forward.listen_address}/edit`
-                      : `/ui/project/${project}/network/${network.name}/forwards/${forward.listen_address}/edit`
+                      ? `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/member/${encodeURIComponent(forward.location)}/forwards/${encodeURIComponent(forward.listen_address)}/edit`
+                      : `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}/edit`
                   }
                   title="Edit network forward"
                 >
@@ -182,7 +182,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
       {canEditNetwork(network) && (
         <Link
           className="p-button--positive u-no-margin--bottom u-float-right"
-          to={`/ui/project/${project}/network/${network.name}/forwards/create`}
+          to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/create`}
         >
           Create forward
         </Link>

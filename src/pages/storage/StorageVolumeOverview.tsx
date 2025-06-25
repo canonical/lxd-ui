@@ -70,7 +70,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
                   <ResourceLink
                     type="pool"
                     value={volume.pool}
-                    to={`/ui/project/${volume.project}/storage/pool/${volume.pool}`}
+                    to={`/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
                   />
                 </td>
               </tr>

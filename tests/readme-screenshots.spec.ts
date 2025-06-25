@@ -57,7 +57,7 @@ test("instance list screen", async ({ page }) => {
   for (const instance of instances) {
     await createInstance(page, instance, "container", project, "24.04");
   }
-  await gotoURL(page, `/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
   await page
     .getByRole("row", {
       name: "Select comic-glider my-cluster Name Type Description Status Actions",
@@ -131,7 +131,7 @@ test("profile list screen", async ({ page }) => {
   await createProfile(page, "small", project);
   await createProfile(page, "medium", project);
   await createProfile(page, "large", project);
-  await gotoURL(page, `/ui/project/${project}/profiles`);
+  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}/profiles`);
   await page.getByText("Showing all 4 profiles").click();
 
   await page.screenshot({ path: "tests/screenshots/profile-list.png" });

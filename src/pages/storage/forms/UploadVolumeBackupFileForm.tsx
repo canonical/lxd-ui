@@ -139,7 +139,9 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
         );
 
         handleCloseModal();
-        navigate(`/ui/project/${project?.name}/storage/volumes`);
+        navigate(
+          `/ui/project/${encodeURIComponent(project?.name)}/storage/volumes`,
+        );
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);

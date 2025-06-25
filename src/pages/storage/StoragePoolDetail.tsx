@@ -54,7 +54,7 @@ const StoragePoolDetail: FC = () => {
           <Link
             to={
               isVolumeCompatible
-                ? `/ui/project/${project}/storage/volumes?pool=${pool.name}`
+                ? `/ui/project/${encodeURIComponent(project)}/storage/volumes?pool=${encodeURIComponent(pool.name)}`
                 : "#"
             }
             className={classnames("p-tabs__link", {
@@ -77,7 +77,7 @@ const StoragePoolDetail: FC = () => {
         <Link
           to={
             isBucketCompatible
-              ? `/ui/project/${project}/storage/buckets?pool=${pool.name}`
+              ? `/ui/project/${encodeURIComponent(project)}/storage/buckets?pool=${encodeURIComponent(pool.name)}`
               : "#"
           }
           className={classnames("p-tabs__link", {
@@ -106,7 +106,7 @@ const StoragePoolDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/storage/pool/${name}`}
+          tabUrl={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(name)}`}
         />
 
         {!activeTab && (

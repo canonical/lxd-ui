@@ -43,7 +43,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="instance"
-                  to={`/ui/project/${item.project}/instance/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />
@@ -59,7 +59,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="profile"
-                  to={`/ui/project/${item.project}/profile/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />
@@ -75,7 +75,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="image"
-                  to={`/ui/project/${item.project}/images`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/images`}
                 />
               ))}
             />
@@ -95,7 +95,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                       item={item}
                       activeProject={project}
                       type="snapshot"
-                      to={`/ui/project/${item.project}/instance/${item.instance}/snapshots`}
+                      to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}/snapshots`}
                     />
                   )}
                   {item.volume && (
@@ -104,7 +104,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                       item={item}
                       activeProject={project}
                       type="snapshot"
-                      to={`/ui/project/${item.project}/storage/pool/${item.pool}/volumes/custom/${item.volume}/snapshots`}
+                      to={`/ui/project/${encodeURIComponent(item.project)}/storage/pool/${encodeURIComponent(item.pool)}/volumes/custom/${encodeURIComponent(item.volume)}/snapshots`}
                     />
                   )}
                 </>
@@ -124,7 +124,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="volume"
-                  to={`/ui/project/${item.project}/storage/pool/${storage.name}/volumes/custom/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/storage/pool/${encodeURIComponent(storage.name)}/volumes/custom/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />

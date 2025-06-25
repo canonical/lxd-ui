@@ -44,7 +44,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       }
       renameStoragePool(name, values.name)
         .then(() => {
-          const url = `/ui/project/${project}/storage/pool/${values.name}`;
+          const url = `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`;
           navigate(url);
           toastNotify.success(
             <>
@@ -67,7 +67,10 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
     <RenameHeader
       name={name}
       parentItems={[
-        <Link to={`/ui/project/${project}/storage/pools`} key={1}>
+        <Link
+          to={`/ui/project/${encodeURIComponent(project)}/storage/pools`}
+          key={1}
+        >
           Storage pools
         </Link>,
       ]}

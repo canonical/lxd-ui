@@ -12,7 +12,9 @@ export const createInstanceSnapshot = async (
   snapshot: string,
   project?: string,
 ) => {
-  const route = project ? `/ui/project/${project}/instances` : "/ui";
+  const route = project
+    ? `/ui/project/${encodeURIComponent(project)}/instances`
+    : "/ui";
   await gotoURL(page, route);
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);

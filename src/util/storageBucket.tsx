@@ -29,5 +29,5 @@ export const testDuplicateStorageBucketName = (
 };
 
 export const getStorageBucketURL = (project?: string) => {
-  return `/ui/project/${project}/storage/buckets`;
+  return `/ui/project/${encodeURIComponent(project)}/storage/buckets`;
 };

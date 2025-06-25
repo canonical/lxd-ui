@@ -46,7 +46,7 @@ export const visitVolume = async (
   volume: string,
   project?: string,
 ) => {
-  const url = project ? `/ui/project/${project}` : "/ui/";
+  const url = project ? `/ui/project/${encodeURIComponent(project)}` : "/ui/";
   await gotoURL(page, url);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
@@ -91,7 +91,7 @@ export const migrateVolume = async (
   );
 
   await expect(page).toHaveURL(
-    `/ui/project/default/storage/pool/${targetPool}/member/local/volumes/custom/${volume}`,
+    `/ui/project/default/storage/pool/${encodeURIComponent(targetPool)}/member/local/volumes/custom/${encodeURIComponent(volume)}`,
   );
 };
 

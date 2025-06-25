@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 
 export const visitImages = async (page: Page, project: string) => {
-  await gotoURL(page, `/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
   await page.getByRole("link", { name: "Images", exact: true }).first().click();
   await expect(page.getByText("Upload image")).toBeVisible();
 };

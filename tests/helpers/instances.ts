@@ -18,7 +18,7 @@ export const createInstance = async (
   project = "default",
   image = "alpine/3.19/cloud",
 ) => {
-  await gotoURL(page, `/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
   await page
     .getByRole("link", { name: "Instances", exact: true })
     .first()
@@ -54,7 +54,7 @@ export const visitInstance = async (
   instance: string,
   project = "default",
 ) => {
-  await gotoURL(page, `/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();

@@ -98,7 +98,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <th className="u-text--muted">Root storage pool</th>
           <td>
             <Link
-              to={`/ui/project/${instance.project}/storage/pool/${rootPool}`}
+              to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(rootPool)}`}
             >
               {rootPool}
             </Link>
@@ -120,7 +120,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <th>
             <h3 className="p-muted-heading p-heading--5">
               <Link
-                to={`/ui/project/${instance.project}/instance/${instance.name}/configuration`}
+                to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
               >
                 Profiles
               </Link>
@@ -132,7 +132,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               items={instance.profiles.map((name) => (
                 <Link
                   key={name}
-                  to={`/ui/project/${instance.project}/profile/${name}`}
+                  to={`/ui/project/${encodeURIComponent(instance.project)}/profile/${encodeURIComponent(name)}`}
                 >
                   {name}
                 </Link>
@@ -151,7 +151,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                 items={networkDevices.map((item) => (
                   <Link
                     key={item.network}
-                    to={`/ui/project/${instance.project}/network/${item.network}`}
+                    to={`/ui/project/${encodeURIComponent(instance.project)}/network/${encodeURIComponent(item.network)}`}
                   >
                     {item.network}
                   </Link>
@@ -167,7 +167,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                 No networks found.
                 <br />
                 <Link
-                  to={`/ui/project/${instance.project}/instance/${instance.name}/configuration/networks`}
+                  to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration/networks`}
                 >
                   Configure instance networks
                 </Link>
@@ -179,7 +179,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <th colSpan={2} className="snapshots-header">
             <h3 className="p-muted-heading p-heading--5">
               <Link
-                to={`/ui/project/${instance.project}/instance/${instance.name}/snapshots`}
+                to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
               >
                 Snapshots
               </Link>
@@ -213,7 +213,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               <tr>
                 <td colSpan={2}>
                   <Link
-                    to={`/ui/project/${instance.project}/instance/${instance.name}/snapshots`}
+                    to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
                   >
                     {`View all (${instance.snapshots.length})`}
                   </Link>
@@ -228,7 +228,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                 No snapshots found.
                 <br />
                 <Link
-                  to={`/ui/project/${instance.project}/instance/${instance.name}/snapshots`}
+                  to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
                 >
                   Manage instance snapshots
                 </Link>

@@ -54,7 +54,9 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
       {!featuresProfiles && (
         <Notification severity="caution" title="Inherited profile">
           Modifications are only available in the{" "}
-          <Link to={`/ui/project/default/profile/${profile.name}`}>
+          <Link
+            to={`/ui/project/default/profile/${encodeURIComponent(profile.name)}`}
+          >
             default project
           </Link>
           .
@@ -96,7 +98,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
         </Col>
         <Col size={7}>
           <DeviceListTable
-            configBaseURL={`/ui/project/${project}/profile/${profile.name}/configuration`}
+            configBaseURL={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`}
             devices={profile.devices}
           />
         </Col>
@@ -130,9 +132,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
         </Col>
         <Col size={7} className="view-config">
           <Link
-            to={`/ui/project/${project}/profile/${
-              profile.name
-            }/configuration/${slugify(CLOUD_INIT)}`}
+            to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration/${slugify(CLOUD_INIT)}`}
           >
             View configuration
           </Link>

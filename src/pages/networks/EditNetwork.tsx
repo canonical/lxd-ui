@@ -149,7 +149,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
               <ResourceLink
                 type="network"
                 value={network.name}
-                to={`/ui/project/${project}/network/${network.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`}
               />{" "}
               updated.
             </>,
@@ -174,7 +174,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     updateSection(initialSection);
   }, [initialSection]);
 
-  const baseUrl = `/ui/project/${project}/network/${network.name}`;
+  const baseUrl = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
 
   const setSection = (newSection: string, source: "click" | "scroll") => {
     if (source === "scroll" && section === slugify(YAML_CONFIGURATION)) {

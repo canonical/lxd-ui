@@ -16,7 +16,9 @@ const SnapshotDiabledWarningLink: FC<Props> = ({ project }) => {
   ) : (
     <>
       You can change this setting in{" "}
-      <Link to={`/ui/project/${project?.name}/configuration`}>
+      <Link
+        to={`/ui/project/${encodeURIComponent(project?.name)}/configuration`}
+      >
         project configuration
         <Icon className="external-link-icon" name="external-link" />
       </Link>

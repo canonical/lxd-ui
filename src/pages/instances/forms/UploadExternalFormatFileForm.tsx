@@ -87,7 +87,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           <ResourceLabel bold type="instance" value={instanceName} />.
         </>,
       );
-      navigate(`/ui/project/${project?.name}/instances`);
+      navigate(`/ui/project/${encodeURIComponent(project?.name)}/instances`);
     }
   };
 
@@ -104,7 +104,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   };
 
   const handleSuccess = (instanceName: string) => {
-    const instanceUrl = `/ui/project/${project?.name}/instance/${instanceName}`;
+    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name)}/instance/${encodeURIComponent(instanceName)}`;
     const message = (
       <>
         Created instance{" "}

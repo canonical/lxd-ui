@@ -42,7 +42,7 @@ const NetworkAclUsedBy: FC<Props> = ({ networkAcl }) => {
                   item={item}
                   activeProject={project}
                   type="instance"
-                  to={`/ui/project/${item.project}/instance/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />
@@ -58,7 +58,7 @@ const NetworkAclUsedBy: FC<Props> = ({ networkAcl }) => {
                   item={item}
                   activeProject={project}
                   type="profile"
-                  to={`/ui/project/${item.project}/profile/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />
@@ -74,7 +74,7 @@ const NetworkAclUsedBy: FC<Props> = ({ networkAcl }) => {
                   item={item}
                   activeProject={project}
                   type="network"
-                  to={`/ui/project/${item.project}/network/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />

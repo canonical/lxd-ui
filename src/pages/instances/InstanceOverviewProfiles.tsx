@@ -43,7 +43,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
               value={profileName}
               to={
                 profile
-                  ? `/ui/project/${instance.project}/profile/${profileName}`
+                  ? `/ui/project/${encodeURIComponent(instance.project)}/profile/${encodeURIComponent(profileName)}`
                   : ""
               }
             />

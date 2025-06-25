@@ -58,14 +58,16 @@ const ProfileDetailHeader: FC<Props> = ({
       }
       renameProfile(name, values.name, project)
         .then(() => {
-          navigate(`/ui/project/${project}/profile/${values.name}`);
+          navigate(
+            `/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`,
+          );
           toastNotify.success(
             <>
               Profile <strong>{name}</strong> renamed to{" "}
               <ResourceLink
                 type="profile"
                 value={values.name}
-                to={`/ui/project/${project}/profile/${values.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`}
               />
               .
             </>,
@@ -97,7 +99,10 @@ const ProfileDetailHeader: FC<Props> = ({
     <RenameHeader
       name={name}
       parentItems={[
-        <Link to={`/ui/project/${project}/profiles`} key={1}>
+        <Link
+          to={`/ui/project/${encodeURIComponent(project)}/profiles`}
+          key={1}
+        >
           Profiles
         </Link>,
       ]}
