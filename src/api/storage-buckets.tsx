@@ -20,7 +20,7 @@ export const fetchStorageBucketsFromPool = async (
   );
 
   return fetch(
-    `/1.0/storage-pools/${pool}/buckets?project=${project}&recursion=1${entitlements}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?project=${project}&recursion=1${entitlements}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageBucket[]>) => {
@@ -55,7 +55,7 @@ export const createStorageBucket = async (
   const targetParam = target ? `&target=${target}` : "";
 
   return fetch(
-    `/1.0/storage-pools/${pool}/buckets?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?project=${project}${targetParam}`,
     {
       method: "POST",
       headers: {
@@ -78,7 +78,7 @@ export const updateStorageBucket = async (
 ): Promise<void> => {
   const targetParam = target ? `&target=${target}` : "";
   await fetch(
-    `/1.0/storage-pools/${pool}/buckets/${bucket.name}?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?project=${project}${targetParam}`,
     {
       method: "PUT",
       headers: {
@@ -95,7 +95,7 @@ export const deleteStorageBucket = async (
   project: string,
 ): Promise<void> => {
   await fetch(
-    `/1.0/storage-pools/${pool}/buckets/${bucket}?project=${project}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?project=${project}`,
     {
       method: "DELETE",
     },

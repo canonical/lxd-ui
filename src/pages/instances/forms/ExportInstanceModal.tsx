@@ -39,7 +39,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
     settings?.environment?.backup_metadata_version_range ?? [];
 
   const startDownload = (backupName: string) => {
-    const url = `/1.0/instances/${instance.name}/backups/${backupName}/export?project=${instance.project}`;
+    const url = `/1.0/instances/${encodeURIComponent(instance.name)}/backups/${encodeURIComponent(backupName)}/export?project=${instance.project}`;
 
     const a = document.createElement("a");
     a.href = url;

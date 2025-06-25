@@ -37,7 +37,7 @@ export const fetchIdentity = async (
     identitiesEntitlements,
   );
   return fetch(
-    `/1.0/auth/identities/${authMethod}/${id}?recursion=1${entitlements}`,
+    `/1.0/auth/identities/${encodeURIComponent(authMethod)}/${encodeURIComponent(id)}?recursion=1${entitlements}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity>) => {
@@ -49,7 +49,7 @@ export const updateIdentity = async (
   identity: Partial<LxdIdentity>,
 ): Promise<void> => {
   await fetch(
-    `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
+    `/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
     {
       method: "PUT",
       headers: {
@@ -70,7 +70,7 @@ export const updateIdentities = async (
 
 export const deleteIdentity = async (identity: LxdIdentity): Promise<void> => {
   await fetch(
-    `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
+    `/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
     {
       method: "DELETE",
     },

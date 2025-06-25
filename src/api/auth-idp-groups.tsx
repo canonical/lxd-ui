@@ -32,34 +32,41 @@ export const createIdpGroup = async (
 };
 
 export const updateIdpGroup = async (group: IdpGroup): Promise<void> => {
-  await fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {
-    method: "PUT",
-    headers: {
+  await fetch(
+    `/1.0/auth/identity-provider-groups/${encodeURIComponent(group.name)}`,
+    {
+      method: "PUT",
+      headers: {
       "Content-Type": "application/json",
+    },body: JSON.stringify(group),
     },
-    body: JSON.stringify(group),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const renameIdpGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  await fetch(`/1.0/auth/identity-provider-groups/${oldName}`, {
-    method: "POST",
-    headers: {
+  await fetch(
+    `/1.0/auth/identity-provider-groups/${encodeURIComponent(oldName)}`,
+    {
+      method: "POST",
+      headers: {
       "Content-Type": "application/json",
+    },body: JSON.stringify({
+        name: newName,
+      }),
     },
-    body: JSON.stringify({
-      name: newName,
-    }),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const deleteIdpGroup = async (group: string): Promise<void> => {
-  await fetch(`/1.0/auth/identity-provider-groups/${group}`, {
-    method: "DELETE",
-  }).then(handleResponse);
+  await fetch(
+    `/1.0/auth/identity-provider-groups/${encodeURIComponent(group)}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };
 
 export const deleteIdpGroups = async (groups: string[]): Promise<void> => {

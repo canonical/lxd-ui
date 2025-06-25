@@ -84,7 +84,7 @@ export const fetchNetwork = async (
     networkEntitlements,
   );
   return fetch(
-    `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
+    `/1.0/networks/${encodeURIComponent(name)}?project=${project}${targetParam}${entitlements}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -129,7 +129,9 @@ export const fetchNetworkState = async (
   target?: string,
 ): Promise<LxdNetworkState> => {
   const targetParam = target ? `&target=${target}` : "";
-  return fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)
+  return fetch(
+    `/1.0/networks/${encodeURIComponent(name)}/state?project=${project}${targetParam}`,
+  )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkState>) => {
       return data.metadata;
@@ -298,7 +300,7 @@ export const renameNetwork = async (
   project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${oldName}?project=${project}`, {
+    fetch(`/1.0/networks/${encodeURIComponent(oldName)}?project=${project}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -328,7 +330,7 @@ export const deleteNetwork = async (
   project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${name}?project=${project}`, {
+    fetch(`/1.0/networks/${encodeURIComponent(name)}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
@@ -338,7 +340,7 @@ export const deleteNetwork = async (
         // check manually if deletion was successful
         if (e.message === "Failed to fetch") {
           const response = await fetch(
-            `/1.0/networks/${name}?project=${project}`,
+            `/1.0/networks/${encodeURIComponent(name)}?project=${project}`,
           );
           if (response.status === 404) {
             resolve();

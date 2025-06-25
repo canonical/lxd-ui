@@ -7,7 +7,7 @@ export const fetchNetworkForwards = async (
   project: string,
 ): Promise<LxdNetworkForward[]> => {
   return fetch(
-    `/1.0/networks/${network}/forwards?project=${project}&recursion=1`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards?project=${project}&recursion=1`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkForward[]>) => {
@@ -27,7 +27,7 @@ export const fetchNetworkForward = async (
 ): Promise<LxdNetworkForward> => {
   const target = location ? `&target=${location}` : "";
   return fetch(
-    `/1.0/networks/${network}/forwards/${listenAddress}?project=${project}&recursion=1${target}`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(listenAddress)}?project=${project}&recursion=1${target}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkForward>) => {
@@ -42,7 +42,7 @@ export const createNetworkForward = async (
 ): Promise<string> => {
   const target = forward.location ? `&target=${forward.location}` : "";
   return fetch(
-    `/1.0/networks/${network}/forwards?project=${project}${target}`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards?project=${project}${target}`,
     {
       method: "POST",
       headers: {
@@ -66,7 +66,7 @@ export const updateNetworkForward = async (
 ): Promise<void> => {
   const target = forward.location ? `&target=${forward.location}` : "";
   await fetch(
-    `/1.0/networks/${network}/forwards/${forward.listen_address}?project=${project}${target}`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?project=${project}${target}`,
     {
       method: "PUT",
       headers: {
@@ -84,7 +84,7 @@ export const deleteNetworkForward = async (
 ): Promise<void> => {
   const target = forward.location ? `&target=${forward.location}` : "";
   await fetch(
-    `/1.0/networks/${network.name}/forwards/${forward.listen_address}?project=${project}${target}`,
+    `/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?project=${project}${target}`,
     {
       method: "DELETE",
     },

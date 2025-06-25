@@ -188,9 +188,12 @@ export const checkDuplicateName = async (
   const deduplicateController = new AbortController();
   setController(deduplicateController);
   const signal = deduplicateController.signal;
-  return fetch(`/1.0/${basePath}/${candidate}?project=${project}${params}`, {
-    signal,
-  }).then((response) => response.status === 404);
+  return fetch(
+    `/1.0/${encodeURIComponent(basePath)}/${encodeURIComponent(candidate)}?project=${project}${params}`,
+    {
+      signal,
+    },
+  ).then((response) => response.status === 404);
 };
 
 export const getUrlParam = (paramName: string, url?: string): string | null => {

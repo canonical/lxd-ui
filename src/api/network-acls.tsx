@@ -32,7 +32,7 @@ export const fetchNetworkAcl = async (
     networkAclEntitlements,
   );
   return fetch(
-    `/1.0/network-acls/${name}?project=${project}&recursion=1${entitlements}`,
+    `/1.0/network-acls/${encodeURIComponent(name)}?project=${project}&recursion=1${entitlements}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -58,36 +58,44 @@ export const renameNetworkAcl = async (
   newName: string,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/network-acls/${oldName}?project=${project}`, {
-    method: "POST",
-    headers: {
+  await fetch(
+    `/1.0/network-acls/${encodeURIComponent(oldName)}?project=${project}`,
+    {
+      method: "POST",
+      headers: {
       "Content-Type": "application/json",
+    },body: JSON.stringify({
+        name: newName,
+      }),
     },
-    body: JSON.stringify({
-      name: newName,
-    }),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const updateNetworkAcl = async (
   networkAcl: LxdNetworkAcl,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/network-acls/${networkAcl.name}?project=${project}`, {
-    method: "PUT",
-    body: JSON.stringify(networkAcl),
-    headers: {
-      "Content-Type": "application/json",
+  await fetch(
+    `/1.0/network-acls/${encodeURIComponent(networkAcl.name)}?project=${project}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(networkAcl),
+      headers: {
+        "Content-Type": "application/json",
       "If-Match": networkAcl.etag ?? "",
+      },
     },
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const deleteNetworkAcl = async (
   name: string,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/network-acls/${name}?project=${project}`, {
-    method: "DELETE",
-  }).then(handleResponse);
+  await fetch(
+    `/1.0/network-acls/${encodeURIComponent(name)}?project=${project}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };

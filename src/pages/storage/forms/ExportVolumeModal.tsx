@@ -39,7 +39,7 @@ const ExportVolumeModal: FC<Props> = ({ volume, close }) => {
     settings?.environment?.backup_metadata_version_range ?? [];
 
   const startDownload = (backupName: string) => {
-    const url = `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/backups/${backupName}/export?project=${volume.project}${getTargetParam(volume.location)}`;
+    const url = `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?project=${volume.project}${getTargetParam(volume.location)}`;
 
     const a = document.createElement("a");
     a.href = url;

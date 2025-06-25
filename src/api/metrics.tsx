@@ -8,7 +8,7 @@ export const fetchMetrics = async (
   // with instance.location as "none". Handle it, to avoid sending an invalid target
   const params = target === "none" ? "" : `?target=${target}`;
 
-  return fetch(`/1.0/metrics${params}`)
+  return fetch(`/1.0/metrics${encodeURIComponent(params)}`)
     .then(async (response) => {
       return response.text();
     })

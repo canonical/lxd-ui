@@ -17,7 +17,9 @@ export const fetchOperations = async (
   project: string | null,
 ): Promise<LxdOperationList> => {
   const projectParam = project ? `project=${project}` : "all-projects=true";
-  return fetch(`/1.0/operations?${projectParam}&recursion=1`)
+  return fetch(
+    `/1.0/operations?${encodeURIComponent(projectParam)}&recursion=1`,
+  )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdOperationList>) => {
       sortOperationList(data.metadata);
@@ -26,7 +28,7 @@ export const fetchOperations = async (
 };
 
 export const cancelOperation = async (id: string): Promise<void> => {
-  await fetch(`/1.0/operations/${id}`, {
+  await fetch(`/1.0/operations/${encodeURIComponent(id)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

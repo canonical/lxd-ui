@@ -26,7 +26,7 @@ export const fetchStoragePool = async (
   );
   const targetParam = target ? `&target=${target}` : "";
   return fetch(
-    `/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}?recursion=1${targetParam}${entitlements}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePool>) => {
@@ -53,7 +53,9 @@ export const fetchStoragePoolResources = async (
   target?: string,
 ): Promise<LxdStoragePoolResources> => {
   const targetParam = target ? `?target=${target}` : "";
-  return fetch(`/1.0/storage-pools/${pool}/resources${targetParam}`)
+  return fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/resources${targetParam}`,
+  )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePoolResources>) => {
       return data.metadata;
@@ -168,13 +170,15 @@ export const updatePool = async (
   target?: string,
 ): Promise<void> => {
   const targetParam = target ? `?target=${target}` : "";
-  await fetch(`/1.0/storage-pools/${pool.name}${targetParam}`, {
-    method: "PATCH",
-    headers: {
+  await fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool.name)}${targetParam}`,
+    {
+      method: "PATCH",
+      headers: {
       "Content-Type": "application/json",
+    },body: JSON.stringify(pool),
     },
-    body: JSON.stringify(pool),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const updateClusteredPool = async (
@@ -204,7 +208,7 @@ export const renameStoragePool = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  await fetch(`/1.0/storage-pools/${oldName}`, {
+  await fetch(`/1.0/storage-pools/${encodeURIComponent(oldName)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -216,7 +220,7 @@ export const renameStoragePool = async (
 };
 
 export const deleteStoragePool = async (pool: string): Promise<void> => {
-  await fetch(`/1.0/storage-pools/${pool}`, {
+  await fetch(`/1.0/storage-pools/${encodeURIComponent(pool)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

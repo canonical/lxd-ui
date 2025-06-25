@@ -11,7 +11,7 @@ export const createInstanceSnapshot = async (
   stateful: boolean,
 ): Promise<LxdOperationResponse> => {
   return fetch(
-    `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots?project=${instance.project}`,
     {
       method: "POST",
       headers: {
@@ -35,7 +35,7 @@ export const deleteInstanceSnapshot = async (
   snapshot: { name: string },
 ): Promise<LxdOperationResponse> => {
   return fetch(
-    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?project=${instance.project}`,
     {
       method: "DELETE",
     },
@@ -84,16 +84,18 @@ export const restoreInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
-    method: "PUT",
-    headers: {
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(instance.name)}?project=${instance.project}`,
+    {
+      method: "PUT",
+      headers: {
       "Content-Type": "application/json",
+    },body: JSON.stringify({
+        restore: snapshot.name,
+        stateful: snapshot.stateful ? restoreState : false,
+      }),
     },
-    body: JSON.stringify({
-      restore: snapshot.name,
-      stateful: snapshot.stateful ? restoreState : false,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -106,7 +108,7 @@ export const renameInstanceSnapshot = async (
   newName: string,
 ): Promise<LxdOperationResponse> => {
   return fetch(
-    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?project=${instance.project}`,
     {
       method: "POST",
       headers: {
@@ -129,7 +131,7 @@ export const updateInstanceSnapshot = async (
   expiresAt: string,
 ): Promise<LxdOperationResponse> => {
   return fetch(
-    `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?project=${instance.project}`,
     {
       method: "PUT",
       headers: {

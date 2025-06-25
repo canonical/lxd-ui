@@ -39,9 +39,12 @@ export const deleteImage = async (
   image: LxdImage,
   project: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/images/${image.fingerprint}?project=${project}`, {
-    method: "DELETE",
-  })
+  return fetch(
+    `/1.0/images/${encodeURIComponent(image.fingerprint)}?project=${project}`,
+    {
+      method: "DELETE",
+    },
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;

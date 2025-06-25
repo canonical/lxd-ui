@@ -44,7 +44,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
     return (
       downStreamCandidate.config.network === formik.values.name ||
       downStreamCandidate.config.parent === formik.values.name ||
-      network.used_by?.includes(`/1.0/networks/${downStreamCandidate.name}`)
+      network.used_by?.includes(
+        `/1.0/networks/${encodeURIComponent(downStreamCandidate.name)}`,
+      )
     );
   });
 

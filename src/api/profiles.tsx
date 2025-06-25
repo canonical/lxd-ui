@@ -15,7 +15,7 @@ export const fetchProfile = async (
     profileEntitlements,
   );
   return fetch(
-    `/1.0/profiles/${name}?project=${project}&recursion=1${entitlements}`,
+    `/1.0/profiles/${encodeURIComponent(name)}?project=${project}&recursion=1${entitlements}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -55,14 +55,17 @@ export const updateProfile = async (
   profile: LxdProfile,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
-    method: "PUT",
-    body: JSON.stringify(profile),
-    headers: {
-      "Content-Type": "application/json",
+  await fetch(
+    `/1.0/profiles/${encodeURIComponent(profile.name)}?project=${project}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(profile),
+      headers: {
+        "Content-Type": "application/json",
       "If-Match": profile.etag ?? "invalid-etag",
+      },
     },
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const renameProfile = async (
@@ -70,22 +73,24 @@ export const renameProfile = async (
   newName: string,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/profiles/${oldName}?project=${project}`, {
-    method: "POST",
-    headers: {
+  await fetch(
+    `/1.0/profiles/${encodeURIComponent(oldName)}?project=${project}`,
+    {
+      method: "POST",
+      headers: {
       "Content-Type": "application/json",
+    },body: JSON.stringify({
+        name: newName,
+      }),
     },
-    body: JSON.stringify({
-      name: newName,
-    }),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const deleteProfile = async (
   name: string,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/profiles/${name}?project=${project}`, {
+  await fetch(`/1.0/profiles/${encodeURIComponent(name)}?project=${project}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

@@ -42,7 +42,9 @@ export const fetchProject = async (
     projectEntitlements,
     "?",
   );
-  return fetch(`/1.0/projects/${name}${entitlements}`)
+  return fetch(
+    `/1.0/projects/${encodeURIComponent(name)}${encodeURIComponent(entitlements)}`,
+  )
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdProject;
@@ -60,7 +62,7 @@ export const createProject = async (body: string): Promise<void> => {
 };
 
 export const updateProject = async (project: LxdProject): Promise<void> => {
-  await fetch(`/1.0/projects/${project.name}`, {
+  await fetch(`/1.0/projects/${encodeURIComponent(project.name)}`, {
     method: "PUT",
     body: JSON.stringify(project),
     headers: {
@@ -74,7 +76,7 @@ export const renameProject = async (
   oldName: string,
   newName: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/projects/${oldName}`, {
+  return fetch(`/1.0/projects/${encodeURIComponent(oldName)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -90,7 +92,7 @@ export const renameProject = async (
 };
 
 export const deleteProject = async (project: LxdProject): Promise<void> => {
-  await fetch(`/1.0/projects/${project.name}`, {
+  await fetch(`/1.0/projects/${encodeURIComponent(project.name)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };
