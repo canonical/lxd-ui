@@ -1,40 +1,39 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
-import { deleteClusterGroup } from "api/cluster";
+import { deleteClusterLink } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
+  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
+import type { LxdClusterLink } from "types/cluster";
 
 interface Props {
-  group: string;
+  clusterLink: LxdClusterLink;
 }
 
-const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
+const DeleteClusterLinksBtn: FC<Props> = ({ clusterLink }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteClusterGroup(group)
+    deleteClusterLink(clusterLink.name)
       .then(() => {
-        navigate(`/ui/cluster`);
         toastNotify.success(
           <>
-            Cluster group{" "}
+            Cluster link{" "}
             <ResourceLink
-              type="cluster-group"
-              value={group}
-              to={`/ui/cluster`}
+              type="cluster-link"
+              value={clusterLink.name}
+              to="/ui/cluster/links"
             />{" "}
             deleted.
           </>,
@@ -42,46 +41,37 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Cluster group deletion failed", e);
+        notify.failure("Cluster link deletion failed", e);
       })
       .finally(() => {
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.cluster, queryKeys.groups],
+          queryKey: [queryKeys.cluster, queryKeys.links],
         });
       });
   };
 
-  const isDefaultGroup = group === "default";
-  const getHoverText = () => {
-    if (isDefaultGroup) {
-      return "The default cluster group cannot be deleted";
-    }
-    return "Delete cluster group";
-  };
-
   return (
     <ConfirmationButton
-      onHoverText={getHoverText()}
-      appearance=""
+      appearance="base"
+      title="Delete cluster link"
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete cluster group{" "}
-            <ItemName item={{ name: group }} bold />.
+            This will permanently delete cluster link{" "}
+            <ItemName item={{ name: clusterLink.name }} bold />.
           </p>
         ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      disabled={isDefaultGroup || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >
-      <span>Delete cluster group</span>
+      <Icon name="delete" />
     </ConfirmationButton>
   );
 };
 
-export default DeleteClusterGroupBtn;
+export default DeleteClusterLinksBtn;

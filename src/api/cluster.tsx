@@ -1,6 +1,8 @@
 import { handleResponse } from "util/helpers";
 import type {
   LxdClusterGroup,
+  LxdClusterLink,
+  LxdClusterLinkCreateResponse,
   LxdClusterMember,
   LxdClusterMemberAction,
 } from "types/cluster";
@@ -71,6 +73,33 @@ export const createClusterGroup = async (
 
 export const deleteClusterGroup = async (group: string): Promise<void> => {
   await fetch(`/1.0/cluster/groups/${group}`, {
+    method: "DELETE",
+  }).then(handleResponse);
+};
+
+export const fetchClusterLinks = async (): Promise<LxdClusterLink[]> => {
+  return fetch("/1.0/cluster/links?recursion=2")
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdClusterLink[]>) => {
+      return data.metadata;
+    });
+};
+
+export const createClusterLink = async (
+  body: string,
+): Promise<LxdClusterLinkCreateResponse> => {
+  return fetch(`/1.0/cluster/links`, {
+    method: "POST",
+    body,
+  })
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdClusterLinkCreateResponse>) => {
+      return data.metadata;
+    });
+};
+
+export const deleteClusterLink = async (group: string): Promise<void> => {
+  await fetch(`/1.0/cluster/links/${group}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

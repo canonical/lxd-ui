@@ -17,6 +17,9 @@ const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
 );
 const ClusterList = lazy(async () => import("pages/cluster/ClusterList"));
+const ClusterLinkList = lazy(
+  async () => import("pages/cluster/ClusterLinkList"),
+);
 const CreateClusterGroup = lazy(
   async () => import("pages/cluster/CreateClusterGroup"),
 );
@@ -430,6 +433,10 @@ const App: FC = () => {
         <Route
           path="/ui/cluster"
           element={<ProtectedRoute outlet={<ClusterList />} />}
+        />
+        <Route
+          path="/ui/cluster/links"
+          element={<ProtectedRoute outlet={<ClusterLinkList />} />}
         />
         <Route
           path="/ui/cluster/groups/create"
