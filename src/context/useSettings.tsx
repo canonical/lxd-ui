@@ -21,5 +21,6 @@ export const useClusteredSettings = (): UseQueryResult<
     queryKey: [queryKeys.settings, queryKeys.cluster],
     queryFn: async () => fetchSettingsFromClusterMembers(clusterMembers),
     enabled: clusterMembers.length > 0,
+    retry: false,
   });
 };
