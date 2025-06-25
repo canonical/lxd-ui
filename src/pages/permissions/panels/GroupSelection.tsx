@@ -133,7 +133,9 @@ const GroupSelection: FC<Props> = ({
       belowIds={["panel-footer"]}
       className="group-selection"
     >
-      <PermissionGroupsFilter onChange={setSearch} value={search} />
+      {groups.length > 5 && (
+        <PermissionGroupsFilter onChange={setSearch} value={search} />
+      )}
       {groups.length ? (
         <ScrollableTable
           dependencies={[...scrollDependencies, search]}
