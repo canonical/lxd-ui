@@ -11,6 +11,7 @@ export const queryKeys = {
   customVolumes: "customVolumes",
   isoVolumes: "isoVolumes",
   leases: "leases",
+  links: "links",
   logs: "logs",
   members: "members",
   metrics: "metrics",
