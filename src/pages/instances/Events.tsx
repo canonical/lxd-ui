@@ -7,10 +7,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useOperations } from "context/operationsProvider";
 import { useNotify } from "@canonical/react-components";
+import useEventListener from "util/useEventListener";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
 const MAX_WS_CONNECTION_RETRIES = 5;
+const EVENT_WS_STALE_TIMEOUT_MS = 3_600_000;
 
 const Events: FC = () => {
   const { isAuthenticated } = useAuth();
@@ -18,7 +20,34 @@ const Events: FC = () => {
   const queryClient = useQueryClient();
   const notify = useNotify();
   const [eventWs, setEventWs] = useState<WebSocket | null>(null);
+  const [reconnectWsId, setReconnectWsId] = useState(0);
+  const [wsOpenTime, setWsOpenTime] = useState(0);
   const { refetchOperations } = useOperations();
+
+  const getCurrentTime = () => {
+    return new Date().getTime();
+  };
+
+  const reconnectWsOnFocusTab = () => {
+    if (document.visibilityState !== "visible") {
+      return;
+    }
+    // Force reconnect if the ws is not open.
+    if (!eventWs) {
+      setReconnectWsId((prevId) => prevId + 1);
+      return;
+    }
+    // If the ws was open for more than EVENT_WS_STALE_TIMEOUT_MS, close it to
+    // trigger a reconnect. In some proxy setups, the ws connection can
+    // become stale and stop receiving messages, but the browser still thinks
+    // the connection is open. This time based reconnect is a workaround.
+    const timeSinceOpen = getCurrentTime() - wsOpenTime;
+    const isStale = timeSinceOpen > EVENT_WS_STALE_TIMEOUT_MS;
+    if (isStale && eventWs) {
+      eventWs.close();
+    }
+  };
+  useEventListener("visibilitychange", reconnectWsOnFocusTab);
 
   const handleEvent = (event: LxdEvent) => {
     const eventCallback = eventQueue.get(event.metadata.id);
@@ -77,8 +106,12 @@ const Events: FC = () => {
       const ws = new WebSocket(wsUrl);
       ws.onopen = () => {
         setEventWs(ws);
+        setWsOpenTime(getCurrentTime());
       };
       ws.onclose = () => {
+        setEventWs(null);
+      };
+      ws.onerror = () => {
         setEventWs(null);
       };
       ws.onmessage = (message: MessageEvent<Blob | string | null>) => {
@@ -125,7 +158,7 @@ const Events: FC = () => {
         eventWs.close();
       }
     };
-  }, [eventWs, isAuthenticated]);
+  }, [eventWs, isAuthenticated, reconnectWsId]);
   return <></>;
 };
 
