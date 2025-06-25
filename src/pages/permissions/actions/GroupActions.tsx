@@ -1,13 +1,13 @@
 import type { FC } from "react";
 import { Button, Icon, List } from "@canonical/react-components";
-import type { LxdGroup } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { usePortal } from "@canonical/react-components";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {
-  group: LxdGroup;
+  group: LxdAuthGroup;
 }
 
 const GroupActions: FC<Props> = ({ group }) => {

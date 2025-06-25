@@ -27,13 +27,13 @@ import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import EditGroupIdentitiesBtn from "./actions/EditGroupIdentitiesBtn";
 import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
-import { useGroups } from "context/useGroups";
+import { useAuthGroups } from "context/useAuthGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
-  const { data: groups = [], error, isLoading } = useGroups();
+  const { data: groups = [], error, isLoading } = useAuthGroups();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
@@ -271,7 +271,7 @@ const PermissionGroups: FC = () => {
                   href={`${docBaseLink}/explanation/authorization`}
                   title="Learn more about permissions"
                 >
-                  Groups
+                  Auth groups
                 </HelpLink>
               </PageHeader.Title>
               {!selectedGroupNames.length && hasGroups && (

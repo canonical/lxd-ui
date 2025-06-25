@@ -5,7 +5,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
-import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import NoMatch from "components/NoMatch";
@@ -21,9 +20,17 @@ const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
 );
-const ClusterList = lazy(async () => import("pages/cluster/ClusterList"));
-const CreateClusterGroup = lazy(
-  async () => import("pages/cluster/CreateClusterGroup"),
+const ClusterGroupList = lazy(
+  async () => import("pages/cluster/ClusterGroupList"),
+);
+const ClusterMemberList = lazy(
+  async () => import("pages/cluster/ClusterMemberList"),
+);
+const ClusterLinkList = lazy(
+  async () => import("pages/cluster/ClusterLinkList"),
+);
+const ClusterMemberDetail = lazy(
+  async () => import("pages/cluster/ClusterMemberDetail"),
 );
 const CreateInstance = lazy(
   async () => import("pages/instances/CreateInstance"),
@@ -40,12 +47,10 @@ const CreateProject = lazy(async () => import("pages/projects/CreateProject"));
 const CreateStoragePool = lazy(
   async () => import("pages/storage/CreateStoragePool"),
 );
-const EditClusterGroup = lazy(
-  async () => import("pages/cluster/EditClusterGroup"),
-);
 const EditNetworkForward = lazy(
   async () => import("pages/networks/EditNetworkForward"),
 );
+const HostResources = lazy(async () => import("pages/cluster/HostResources"));
 const ImageList = lazy(async () => import("pages/images/ImageList"));
 const InstanceDetail = lazy(
   async () => import("pages/instances/InstanceDetail"),
@@ -472,27 +477,33 @@ const App: FC = () => {
         />
         <Route
           path="/ui/cluster"
-          element={<ProtectedRoute outlet={<ClusterList />} />}
+          element={<ProtectedRoute outlet={<HostResources />} />}
         />
         <Route
-          path="/ui/cluster/groups/create"
-          element={<ProtectedRoute outlet={<CreateClusterGroup />} />}
-        />
-        <Route
-          path="/ui/cluster/group/:group"
+          path="/ui/cluster/host-resources"
           element={
-            <ProtectedRoute
-              outlet={<ClusterGroupLoader outlet={<ClusterList />} />}
-            />
+            <ProtectedRoute outlet={<HostResources activeTab="resources" />} />
           }
         />
         <Route
-          path="/ui/cluster/group/:group/edit"
-          element={
-            <ProtectedRoute
-              outlet={<ClusterGroupLoader outlet={<EditClusterGroup />} />}
-            />
-          }
+          path="/ui/cluster/groups"
+          element={<ProtectedRoute outlet={<ClusterGroupList />} />}
+        />
+        <Route
+          path="/ui/cluster/links"
+          element={<ProtectedRoute outlet={<ClusterLinkList />} />}
+        />
+        <Route
+          path="/ui/cluster/members"
+          element={<ProtectedRoute outlet={<ClusterMemberList />} />}
+        />
+        <Route
+          path="/ui/cluster/member/:name"
+          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+        />
+        <Route
+          path="/ui/cluster/member/:name/:activeTab"
+          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
         />
         <Route
           path="/ui/operations"

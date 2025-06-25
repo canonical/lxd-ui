@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useSortTableData from "util/useSortTableData";
 import type { PermissionIdentitiesFilterType } from "./PermissionIdentitiesFilter";
+import { MANAGED_IDENTITIES } from "./PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
   QUERY,
@@ -32,13 +33,14 @@ import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted } from "util/helpers";
-import IdentityResource from "components/IdentityResource";
 import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/instanceBulkActions";
 import { getIdentityName } from "util/permissionIdentities";
 import CreateTLSIdentity from "./CreateTLSIdentity";
+import ResourceLabel from "components/ResourceLabel";
+import type { ResourceIconType } from "components/ResourceIcon";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -83,9 +85,17 @@ const PermissionIdentities: FC = () => {
   const filters: PermissionIdentitiesFilterType = {
     queries: searchParams.getAll(QUERY),
     authMethod: searchParams.getAll(AUTH_METHOD),
+    managedIdentities: searchParams.get(MANAGED_IDENTITIES),
   };
 
   const filteredIdentities = identities.filter((identity) => {
+    const isManagedByLXD =
+      identity.type.startsWith("Server certificate") ||
+      identity.type.startsWith("Metrics certificate");
+    if (filters.managedIdentities === "hide" && isManagedByLXD) {
+      return false;
+    }
+
     if (
       !filters.queries.every(
         (q) =>
@@ -137,6 +147,25 @@ const PermissionIdentities: FC = () => {
     };
     const name = getIdentityName(identity);
 
+    const getType = (): ResourceIconType => {
+      if (identity.type.startsWith("Client certificate")) {
+        return "certificate";
+      }
+      if (identity.type.startsWith("Cluster link certificate")) {
+        return "cluster-link";
+      }
+      if (identity.type.startsWith("OIDC client")) {
+        return "oidc-identity";
+      }
+      if (identity.type.startsWith("Server certificate")) {
+        return "cluster-member";
+      }
+      if (identity.type.startsWith("Metrics certificate")) {
+        return "metric";
+      }
+      return "certificate";
+    };
+
     return {
       key: identity.id,
       name: isUnrestricted(identity) ? "" : identity.id,
@@ -145,7 +174,8 @@ const PermissionIdentities: FC = () => {
         {
           content: (
             <>
-              {name} <Tag isVisible={isLoggedInIdentity}>You</Tag>
+              <ResourceLabel type={getType()} value={name} />{" "}
+              <Tag isVisible={isLoggedInIdentity}>You</Tag>
             </>
           ),
           role: "rowheader",
@@ -167,7 +197,7 @@ const PermissionIdentities: FC = () => {
           className: "auth-method",
         },
         {
-          content: <IdentityResource identity={identity} truncate={false} />,
+          content: identity.type,
           role: "cell",
           "aria-label": "Type",
           className: "u-truncate identity-type",

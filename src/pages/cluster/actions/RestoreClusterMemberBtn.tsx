@@ -8,17 +8,25 @@ import type { LxdClusterMember } from "types/cluster";
 import {
   CheckboxInput,
   ConfirmationButton,
+  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
+import classnames from "classnames";
 
 interface Props {
   member: LxdClusterMember;
+  hasLabel?: boolean;
+  className?: string;
 }
 
-const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
+const RestoreClusterMemberBtn: FC<Props> = ({
+  member,
+  hasLabel = false,
+  className,
+}) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
@@ -42,7 +50,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
         <ResourceLink
           type="cluster-member"
           value={member.server_name}
-          to="/ui/cluster"
+          to="/ui/cluster/members"
         />{" "}
         restore completed.
       </>,
@@ -56,7 +64,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
       <ResourceLink
         type="cluster-member"
         value={member.server_name}
-        to="/ui/cluster"
+        to="/ui/cluster/members"
       />,
     );
   };
@@ -69,7 +77,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
           <>
             Member{" "}
             <ResourceLink
-              to="/ui/cluster"
+              to="/ui/cluster/members"
               type="cluster-member"
               value={member.server_name}
             />{" "}
@@ -92,7 +100,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
 
   return (
     <ConfirmationButton
-      appearance=""
+      appearance={hasLabel ? "" : "base"}
       loading={isLoading}
       disabled={isLoading}
       confirmationModalProps={{
@@ -120,8 +128,11 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
         confirmButtonAppearance: "positive",
       }}
       shiftClickEnabled
+      title="Restore cluster member"
+      className={classnames(className, "has-icon u-no-margin--bottom")}
     >
-      <span>Restore</span>
+      <Icon name="change-version" />
+      {hasLabel && <span>Restore</span>}
     </ConfirmationButton>
   );
 };

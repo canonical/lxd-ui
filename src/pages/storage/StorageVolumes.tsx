@@ -263,14 +263,14 @@ const StorageVolumes: FC = () => {
                 content: volume.location ? (
                   <ResourceLink
                     type="cluster-member"
-                    to="/ui/cluster"
+                    to="/ui/cluster/members"
                     value={volume.location}
                   />
                 ) : (
                   <ResourceLink
                     type="cluster-group"
                     value="Cluster wide"
-                    to="/ui/cluster"
+                    to="/ui/cluster/members"
                   />
                 ),
                 role: "cell",

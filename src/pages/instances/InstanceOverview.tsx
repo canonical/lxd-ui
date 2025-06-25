@@ -91,7 +91,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                     <ResourceLink
                       type="cluster-member"
                       value={instance.location}
-                      to="/ui/cluster"
+                      to="/ui/cluster/members"
                     />
                   ) : (
                     "-"

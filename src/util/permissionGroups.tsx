@@ -1,7 +1,7 @@
 import type * as Yup from "yup";
 import type { AbortControllerState } from "./helpers";
 import { checkDuplicateName } from "./helpers";
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import type { ChangeSummary } from "./permissionIdentities";
 import { getIdentityName } from "./permissionIdentities";
 
@@ -22,7 +22,7 @@ export const testDuplicateGroupName = (
 };
 
 export const getCurrentIdentitiesForGroups = (
-  groups: LxdGroup[],
+  groups: LxdAuthGroup[],
   identities: LxdIdentity[],
 ): {
   identityIdsInAllGroups: string[];
@@ -84,7 +84,7 @@ export const getAddedOrRemovedIdentities = (
 export const generateGroupAllocationsForIdentities = (
   addedIdentities: Set<string>,
   removedIdentities: Set<string>,
-  selectedGroups: LxdGroup[],
+  selectedGroups: LxdAuthGroup[],
   addedOrRemovedIdentities: LxdIdentity[],
 ): Record<string, string[]> => {
   const addedIdentitiesLookup = new Set(addedIdentities);
@@ -123,7 +123,7 @@ export const generateGroupAllocationsForIdentities = (
 
 export const getChangesInGroupsForIdentities = (
   allIdentities: LxdIdentity[],
-  selectedGroups: LxdGroup[],
+  selectedGroups: LxdAuthGroup[],
   addedIdentities: Set<string>,
   removedIdentities: Set<string>,
 ): ChangeSummary => {

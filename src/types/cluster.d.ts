@@ -15,8 +15,32 @@ export interface LxdClusterMember {
   url: string;
 }
 
+export interface LxdClusterMemberCreateResponse {
+  serverName: string;
+  fingerprint: string;
+  addresses: string;
+  secret: string;
+  expiresAt: string;
+}
+
 export interface LxdClusterGroup {
   description: string;
   members: string[];
   name: string;
+}
+
+export interface LxdClusterLink {
+  description: string;
+  name: string;
+  type: string;
+  config: Record<string, string>;
+}
+
+export interface LxdClusterLinkCreateResponse {
+  client_name: string;
+  addresses: string[];
+  expires_at: string;
+  fingerprint: string;
+  type: "Client certificate (pending)" | "Client certificate";
+  secret: string;
 }

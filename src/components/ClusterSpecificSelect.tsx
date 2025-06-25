@@ -43,7 +43,7 @@ const ClusterSpecificSelect: FC<Props> = ({
   toggleReadOnly,
   canToggleSpecific = true,
   isDefaultSpecific = false,
-  clusterMemberLinkTarget = () => "/ui/cluster",
+  clusterMemberLinkTarget = () => "/ui/cluster/members",
   disableReason,
   helpText,
 }) => {

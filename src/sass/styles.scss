@@ -51,6 +51,7 @@
 @include vf-p-icon-settings;
 @include vf-p-icon-single-host;
 @include vf-p-icon-snapshot;
+@include vf-p-icon-statistics;
 @include vf-p-icon-status-failed-small;
 @include vf-p-icon-status-in-progress-small;
 @include vf-p-icon-status-queued-small;
@@ -377,7 +378,8 @@ body {
 }
 
 .host-path-device-modal,
-.create-tls-identity {
+.create-tls-identity,
+.create-cluster-link {
   .p-modal__dialog {
     @include large {
       width: 40rem;
@@ -394,4 +396,8 @@ body {
 
 .u-break-all {
   word-break: break-all;
+}
+
+.u-border-bottom {
+  border-bottom: $border-thin;
 }
