@@ -49,3 +49,29 @@ export interface LxdClusterGroup {
   name: string;
   used_by?: string[];
 }
+
+export interface LxdClusterLink {
+  description: string;
+  name: string;
+  type: string;
+  config: Record<string, string>;
+}
+
+export interface LxdClusterLinkState {
+  cluster_link_members: LxdClusterLinkMemberState[];
+}
+
+export interface LxdClusterLinkMemberState {
+  address: string;
+  server_name: string;
+  status: "ACTIVE" | "UNREACHABLE";
+}
+
+export interface LxdClusterLinkCreateResponse {
+  client_name: string;
+  addresses: string[];
+  expires_at: string;
+  fingerprint: string;
+  type: "Client certificate (pending)" | "Client certificate";
+  secret: string;
+}

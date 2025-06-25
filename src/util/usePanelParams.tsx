@@ -28,6 +28,8 @@ export interface PanelHelper {
   openCreateTLSIdentity: () => void;
   openCreateStorageBucket: (project: string) => void;
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
+  openCreateClusterLink: () => void;
+  openEditClusterLink: (link: string) => void;
   openAddClusterMember: () => void;
   openCreateClusterGroup: () => void;
   openEditMember: (name: string) => void;
@@ -52,6 +54,8 @@ export const panels = {
   editStorageBucketKey: "edit-bucket-key",
   createClusterGroup: "create-cluster-group",
   editClusterGroups: "edit-cluster-group",
+  createClusterLink: "create-cluster-link",
+  editClusterLink: "edit-cluster-link",
   addClusterMember: "add-cluster-member",
   editClusterMember: "edit-cluster-member",
 };
@@ -183,6 +187,17 @@ const usePanelParams = (): PanelHelper => {
         target: target || "",
       };
       setPanelParams(panels.editStorageBucket, params);
+    },
+
+    openCreateClusterLink: () => {
+      setPanelParams(panels.createClusterLink);
+    },
+
+    openEditClusterLink: (identity: string) => {
+      const params: ParamMap = {
+        identity,
+      };
+      setPanelParams(panels.editClusterLink, params);
     },
 
     openAddClusterMember: () => {

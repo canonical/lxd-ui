@@ -129,7 +129,7 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
               label="Failure domain"
               placeholder="Enter failure domain"
             />
-            <p>Groups</p>
+            <p className="u-sv-1">Groups</p>
             <GroupSelection
               groups={clusterGroups}
               modifiedGroups={modifiedGroups}
