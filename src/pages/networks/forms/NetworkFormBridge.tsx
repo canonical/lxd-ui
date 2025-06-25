@@ -7,6 +7,8 @@ import ConfigurationTable from "components/ConfigurationTable";
 import { BRIDGE } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { useIsClustered } from "context/useIsClustered";
+import ClusteredBridgeInterfaceInput from "pages/networks/forms/ClusteredBridgeInterfaceInput";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
+  const isClustered = useIsClustered();
+
   const rows = filterRows([
     getConfigurationRow({
       formik,
@@ -63,7 +67,28 @@ const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
             name: "bridge_external_interfaces",
             label: "External interfaces",
             defaultValue: "",
-            children: <Input type="text" />,
+            hideOverrideBtn:
+              isClustered && formik.values.bridge_external_interfaces === "set",
+            children: isClustered ? (
+              <ClusteredBridgeInterfaceInput
+                formik={formik}
+                placeholder="Enter interface name"
+              />
+            ) : (
+              <Input type="text" />
+            ),
+            readOnlyRenderer: (value) =>
+              isClustered && value !== "-" && value !== undefined ? (
+                <ClusteredBridgeInterfaceInput
+                  key={JSON.stringify(
+                    formik.values.bridge_external_interfaces_per_member ?? {},
+                  )}
+                  formik={formik}
+                  placeholder="Enter interface name"
+                />
+              ) : (
+                <>{value}</>
+              ),
           }),
         ]
       : []),

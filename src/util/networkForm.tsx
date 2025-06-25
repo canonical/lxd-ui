@@ -19,6 +19,16 @@ export const toNetworkFormValues = (
       (parentPerClusterMember[item.memberName] = item.config.parent ?? ""),
   );
 
+  const bridge_external_interfaces_per_member: ClusterSpecificValues = {};
+  networkOnMembers?.forEach(
+    (item) =>
+      (bridge_external_interfaces_per_member[item.memberName] =
+        item.config[getNetworkKey("bridge_external_interfaces")] ?? ""),
+  );
+  const hasBridgeExternalInterfacesPerMember = Object.values(
+    bridge_external_interfaces_per_member,
+  ).find((item) => item.length > 0);
+
   return {
     readOnly: true,
     isCreating: false,
@@ -28,8 +38,10 @@ export const toNetworkFormValues = (
     bridge_driver: network.config[
       getNetworkKey("bridge_driver")
     ] as LxdNetworkBridgeDriver,
-    bridge_external_interfaces:
-      network.config[getNetworkKey("bridge_external_interfaces")],
+    bridge_external_interfaces: hasBridgeExternalInterfacesPerMember
+      ? "set"
+      : network.config[getNetworkKey("bridge_external_interfaces")],
+    bridge_external_interfaces_per_member,
     bridge_hwaddr: network.config[getNetworkKey("bridge_hwaddr")],
     bridge_mtu: network.config[getNetworkKey("bridge_mtu")],
     dns_domain: network.config[getNetworkKey("dns_domain")],

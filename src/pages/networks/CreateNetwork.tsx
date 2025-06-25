@@ -93,6 +93,7 @@ const CreateNetwork: FC = () => {
                 project,
                 clusterMembers,
                 values.parentPerClusterMember,
+                values.bridge_external_interfaces_per_member,
               )
           : async () => createNetwork(network, project);
 
