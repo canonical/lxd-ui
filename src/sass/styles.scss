@@ -82,6 +82,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "certificates";
 @import "cloud_init_form";
 @import "cluster_group_form";
+@import "cluster_link";
 @import "cluster_list";
 @import "cluster_specific_input";
 @import "code_snippet_with_copy";
@@ -210,6 +211,10 @@ body {
 
 .status-icon {
   margin-right: $sph--x-small;
+}
+
+.status-spinner {
+  margin-left: 1.25rem;
 }
 
 .external-link-icon {
@@ -417,7 +422,8 @@ body.is-dark .lxd-icon {
 }
 
 .host-path-device-modal,
-.create-tls-identity {
+.create-tls-identity,
+.create-cluster-link {
   .p-modal__dialog {
     @include large {
       width: 40rem;
