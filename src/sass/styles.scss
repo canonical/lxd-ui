@@ -416,7 +416,8 @@ body.is-dark .lxd-icon {
 }
 
 .host-path-device-modal,
-.create-tls-identity {
+.create-tls-identity,
+.create-cluster-link {
   .p-modal__dialog {
     @include large {
       width: 40rem;
