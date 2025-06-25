@@ -11,7 +11,8 @@ import type {
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdClusterMember } from "types/cluster";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
+import { addTarget } from "util/target";
 
 export const storagePoolEntitlements = ["can_edit", "can_delete"];
 
@@ -20,13 +21,13 @@ export const fetchStoragePool = async (
   isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdStoragePool> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    storagePoolEntitlements,
-  );
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addTarget(params, target);
+  addEntitlements(params, isFineGrained, storagePoolEntitlements);
+
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}?recursion=1${targetParam}${entitlements}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePool>) => {
@@ -37,11 +38,11 @@ export const fetchStoragePool = async (
 export const fetchStoragePools = async (
   isFineGrained: boolean | null,
 ): Promise<LxdStoragePool[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    storagePoolEntitlements,
-  );
-  return fetch(`/1.0/storage-pools?recursion=1${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, storagePoolEntitlements);
+
+  return fetch(`/1.0/storage-pools?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePool[]>) => {
       return data.metadata;
@@ -52,9 +53,11 @@ export const fetchStoragePoolResources = async (
   pool: string,
   target?: string,
 ): Promise<LxdStoragePoolResources> => {
-  const targetParam = target ? `?target=${target}` : "";
+  const params = new URLSearchParams();
+  addTarget(params, target);
+
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/resources${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/resources?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePoolResources>) => {
@@ -97,8 +100,10 @@ export const createPool = async (
   pool: Partial<LxdStoragePool>,
   target?: string,
 ): Promise<void> => {
-  const targetParam = target ? `?target=${target}` : "";
-  await fetch(`/1.0/storage-pools${targetParam}`, {
+  const params = new URLSearchParams();
+  addTarget(params, target);
+
+  await fetch(`/1.0/storage-pools?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -107,7 +112,7 @@ export const createPool = async (
   }).then(handleResponse);
 };
 
-const getClusterAndMemberPoolPayload = (pool: Partial<LxdStoragePool>) => {
+const getClusterAndMemberPoolPayload = (pool: LxdStoragePool) => {
   const memberSpecificConfigKeys = new Set([
     "source",
     "size",
@@ -166,24 +171,29 @@ export const createClusteredPool = async (
 };
 
 export const updatePool = async (
-  pool: Partial<LxdStoragePool>,
+  pool: LxdStoragePool,
   target?: string,
 ): Promise<void> => {
-  const targetParam = target ? `?target=${target}` : "";
+  const params = new URLSearchParams();
+  addTarget(params, target);
+
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool.name)}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool.name)}?${params.toString()}`,
     {
       method: "PATCH",
       headers: {
-      "Content-Type": "application/json",
-    },body: JSON.stringify(pool),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pool),
     },
   ).then(handleResponse);
 };
 
 export const updateClusteredPool = async (
-  pool: Partial<LxdStoragePool>,
+  pool: LxdStoragePool,
   clusterMembers: LxdClusterMember[],
+  sourcePerClusterMember?: ClusterSpecificValues,
+  zfsPoolNamePerClusterMember?: ClusterSpecificValues,
   sizePerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   const { memberPoolPayload, clusterPoolPayload } =
@@ -194,9 +204,20 @@ export const updateClusteredPool = async (
         ...memberPoolPayload,
         config: {
           ...memberPoolPayload.config,
-          size: sizePerClusterMember?.[item.server_name],
         },
       };
+      if (sizePerClusterMember?.[item.server_name]) {
+        clusteredMemberPool.config.size =
+          sizePerClusterMember[item.server_name];
+      }
+      if (sourcePerClusterMember?.[item.server_name]) {
+        clusteredMemberPool.config.source =
+          sourcePerClusterMember[item.server_name];
+      }
+      if (zfsPoolNamePerClusterMember?.[item.server_name]) {
+        clusteredMemberPool.config["zfs.pool_name"] =
+          zfsPoolNamePerClusterMember[item.server_name];
+      }
       return updatePool(clusteredMemberPool, item.server_name);
     }),
   )

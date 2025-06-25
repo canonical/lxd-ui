@@ -41,7 +41,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
         <ResourceLink
           type="bucket"
           value={bucketName}
-          to={`/ui/project/${encodeURIComponent(project?.name)}/storage/buckets`}
+          to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/buckets`}
         />{" "}
         updated.
       </>,

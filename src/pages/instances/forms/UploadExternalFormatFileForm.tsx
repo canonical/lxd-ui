@@ -87,7 +87,9 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           <ResourceLabel bold type="instance" value={instanceName} />.
         </>,
       );
-      navigate(`/ui/project/${encodeURIComponent(project?.name)}/instances`);
+      navigate(
+        `/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
+      );
     }
   };
 
@@ -104,7 +106,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   };
 
   const handleSuccess = (instanceName: string) => {
-    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name)}/instance/${encodeURIComponent(instanceName)}`;
+    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
     const message = (
       <>
         Created instance{" "}
@@ -143,11 +145,11 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     )
       .then((operation) => {
         const operationId = operation.metadata.id;
-        const operationSecret = operation.metadata.metadata?.fs;
+        const operationSecret = operation.metadata.metadata?.fs ?? "";
         const instanceName = getInstanceName(operation.metadata);
 
         // establish websocket connection based on the instance creation operation
-        const wsUrl = `wss://${location.host}/1.0/operations/${encodeURIComponent(operationId)}/websocket?secret=${operationSecret}`;
+        const wsUrl = `wss://${location.host}/1.0/operations/${encodeURIComponent(operationId)}/websocket?secret=${encodeURIComponent(operationSecret)}`;
 
         const ws = sendFileByWebSocket(
           wsUrl,

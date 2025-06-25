@@ -1,13 +1,18 @@
 import { handleRawResponse, handleResponse } from "util/helpers";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
+import { addTarget } from "util/target";
 
 export const fetchNetworkForwards = async (
   network: string,
   project: string,
 ): Promise<LxdNetworkForward[]> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards?project=${project}&recursion=1`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkForward[]>) => {
@@ -23,11 +28,15 @@ export const fetchNetworkForward = async (
   network: string,
   listenAddress: string,
   project: string,
-  location?: string,
+  target?: string,
 ): Promise<LxdNetworkForward> => {
-  const target = location ? `&target=${location}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+  addTarget(params, target);
+
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(listenAddress)}?project=${project}&recursion=1${target}`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(listenAddress)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkForward>) => {
@@ -40,9 +49,12 @@ export const createNetworkForward = async (
   forward: Partial<LxdNetworkForward>,
   project: string,
 ): Promise<string> => {
-  const target = forward.location ? `&target=${forward.location}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, forward.location);
+
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards?project=${project}${target}`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -61,12 +73,15 @@ export const createNetworkForward = async (
 
 export const updateNetworkForward = async (
   network: string,
-  forward: Partial<LxdNetworkForward>,
+  forward: LxdNetworkForward,
   project: string,
 ): Promise<void> => {
-  const target = forward.location ? `&target=${forward.location}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, forward.location);
+
   await fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?project=${project}${target}`,
+    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -82,9 +97,12 @@ export const deleteNetworkForward = async (
   forward: LxdNetworkForward,
   project: string,
 ): Promise<void> => {
-  const target = forward.location ? `&target=${forward.location}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, forward.location);
+
   await fetch(
-    `/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?project=${project}${target}`,
+    `/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "DELETE",
     },

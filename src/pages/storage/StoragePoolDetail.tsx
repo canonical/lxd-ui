@@ -7,7 +7,6 @@ import NotificationRow from "components/NotificationRow";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
 import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
-import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
@@ -16,7 +15,6 @@ import { cephObject, isBucketCompatibleDriver } from "util/storageOptions";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
-  const { data: clusterMembers = [] } = useClusterMembers();
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -30,8 +28,7 @@ const StoragePoolDetail: FC = () => {
     return <>Missing project</>;
   }
 
-  const member = clusterMembers[0]?.server_name ?? undefined;
-  const { data: pool, error, isLoading } = useStoragePool(name, member);
+  const { data: pool, error, isLoading } = useStoragePool(name);
   const isVolumeCompatible = pool?.driver !== cephObject;
   const isBucketCompatible = isBucketCompatibleDriver(pool?.driver || "");
 

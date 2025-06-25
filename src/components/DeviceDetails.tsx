@@ -19,7 +19,7 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
           <ResourceLink
             type={"pool"}
             value={device.pool || ""}
-            to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool)}`}
+            to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
           />
         </>
       );
@@ -35,13 +35,13 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
         <ResourceLink
           type={"volume"}
           value={device.source as string}
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool)}/volumes/custom/${encodeURIComponent(device.source)}`}
+          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}/volumes/custom/${encodeURIComponent(device.source ?? "")}`}
         />{" "}
         on pool{" "}
         <ResourceLink
           type={"pool"}
           value={device.pool || ""}
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool)}`}
+          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
         />
       </>
     );

@@ -1,11 +1,12 @@
 import { handleResponse } from "util/helpers";
 import type { LxdStorageBucket } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
+import { addTarget } from "util/target";
 
 export const storageBucketEntitlements = ["can_delete", "can_edit"];
 
@@ -14,13 +15,13 @@ export const fetchStorageBucketsFromPool = async (
   isFineGrained: boolean | null,
   project: string,
 ): Promise<LxdStorageBucket[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    storageBucketEntitlements,
-  );
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, storageBucketEntitlements);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?project=${project}&recursion=1${entitlements}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageBucket[]>) => {
@@ -52,10 +53,12 @@ export const createStorageBucket = async (
   pool: string,
   target?: string,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -76,9 +79,12 @@ export const updateStorageBucket = async (
   project: string,
   target?: string,
 ): Promise<void> => {
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -94,8 +100,11 @@ export const deleteStorageBucket = async (
   pool: string,
   project: string,
 ): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?project=${project}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,
     {
       method: "DELETE",
     },

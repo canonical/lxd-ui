@@ -20,8 +20,6 @@ export const testDuplicateStorageVolumeName = (
       const pool = parent.pool;
 
       const location = parent.clusterMember ?? volume?.location ?? "none";
-      const params =
-        location !== "none" && location.length > 0 ? `&target=${location}` : "";
 
       return (
         value === originalName ||
@@ -29,8 +27,8 @@ export const testDuplicateStorageVolumeName = (
           value,
           project,
           controllerState,
-          `storage-pools/${pool}/volumes/${volumeType}`,
-          params,
+          `storage-pools/${encodeURIComponent(pool)}/volumes/${encodeURIComponent(volumeType)}`,
+          location,
         )
       );
     },

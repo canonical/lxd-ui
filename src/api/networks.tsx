@@ -13,7 +13,8 @@ import type { LxdApiResponse } from "types/apiResponse";
 import { areNetworksEqual } from "util/networks";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import type { LxdClusterMember } from "types/cluster";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
+import { addTarget } from "util/target";
 
 const networkEntitlements = ["can_edit", "can_delete"];
 
@@ -22,14 +23,13 @@ export const fetchNetworks = async (
   isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdNetwork[]> => {
-  const targetParam = target ? `&target=${target}` : "";
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    networkEntitlements,
-  );
-  return fetch(
-    `/1.0/networks?project=${project}&recursion=1${targetParam}${entitlements}`,
-  )
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+  addTarget(params, target);
+  addEntitlements(params, isFineGrained, networkEntitlements);
+
+  return fetch(`/1.0/networks?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetwork[]>) => {
       const filteredNetworks = data.metadata.filter(
@@ -78,14 +78,12 @@ export const fetchNetwork = async (
   isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdNetwork> => {
-  const targetParam = target ? `&target=${target}` : "";
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    networkEntitlements,
-  );
-  return fetch(
-    `/1.0/networks/${encodeURIComponent(name)}?project=${project}${targetParam}${entitlements}`,
-  )
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+  addEntitlements(params, isFineGrained, networkEntitlements);
+
+  return fetch(`/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`)
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdNetwork;
@@ -128,9 +126,12 @@ export const fetchNetworkState = async (
   project: string,
   target?: string,
 ): Promise<LxdNetworkState> => {
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   return fetch(
-    `/1.0/networks/${encodeURIComponent(name)}/state?project=${project}${targetParam}`,
+    `/1.0/networks/${encodeURIComponent(name)}/state?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkState>) => {
@@ -182,9 +183,12 @@ export const createNetwork = async (
   project: string,
   target?: string,
 ): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   return new Promise((resolve, reject) => {
-    const targetParam = target ? `&target=${target}` : "";
-    fetch(`/1.0/networks?project=${project}${targetParam}`, {
+    fetch(`/1.0/networks?${params.toString()}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -213,14 +217,17 @@ export const createNetwork = async (
 };
 
 export const updateNetwork = async (
-  network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
+  network: LxdNetwork,
   project: string,
   target?: string,
 ): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   return new Promise((resolve, reject) => {
-    const targetParam = target ? `&target=${target}` : "";
     fetch(
-      `/1.0/networks/${network.name ?? ""}?project=${project}${targetParam}`,
+      `/1.0/networks/${encodeURIComponent(network.name)}?${params.toString()}`,
       {
         method: "PUT",
         body: JSON.stringify(network),
@@ -252,7 +259,7 @@ export const updateNetwork = async (
 };
 
 export const updateClusterNetwork = async (
-  network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
+  network: LxdNetwork,
   project: string,
   clusterMembers: LxdClusterMember[],
   parentsPerClusterMember: ClusterSpecificValues,
@@ -299,8 +306,11 @@ export const renameNetwork = async (
   newName: string,
   project: string,
 ): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${encodeURIComponent(oldName)}?project=${project}`, {
+    fetch(`/1.0/networks/${encodeURIComponent(oldName)}?${params.toString()}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -329,8 +339,11 @@ export const deleteNetwork = async (
   name: string,
   project: string,
 ): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${encodeURIComponent(name)}?project=${project}`, {
+    fetch(`/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`, {
       method: "DELETE",
     })
       .then(handleResponse)
@@ -340,7 +353,7 @@ export const deleteNetwork = async (
         // check manually if deletion was successful
         if (e.message === "Failed to fetch") {
           const response = await fetch(
-            `/1.0/networks/${encodeURIComponent(name)}?project=${project}`,
+            `/1.0/networks/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
           );
           if (response.status === 404) {
             resolve();
@@ -354,7 +367,11 @@ export const deleteNetwork = async (
 export const fetchNetworkAllocations = async (
   project: string,
 ): Promise<LxdNetworkAllocation[]> => {
-  return fetch(`/1.0/network-allocations?project=${project}&recursion=1$`)
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+
+  return fetch(`/1.0/network-allocations?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkAllocation[]>) => {
       return data.metadata;

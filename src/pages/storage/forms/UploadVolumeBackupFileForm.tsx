@@ -115,7 +115,7 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
     uploadVolume(
       values.volumeFile,
       values.name,
-      project?.name,
+      project?.name ?? "",
       values.pool,
       setUploadState,
       uploadController,
@@ -140,7 +140,7 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
 
         handleCloseModal();
         navigate(
-          `/ui/project/${encodeURIComponent(project?.name)}/storage/volumes`,
+          `/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/volumes`,
         );
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {

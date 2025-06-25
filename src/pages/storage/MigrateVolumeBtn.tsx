@@ -45,9 +45,11 @@ const MigrateVolumeBtn: FC<Props> = ({
     newTarget: string,
     storageVolume: LxdStorageVolume,
   ) => {
-    const memberPath = hasLocation(volume) ? `/member/${volume.location}` : "";
-    const oldVolumeUrl = `/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(storageVolume.pool)}${encodeURIComponent(memberPath)}/volumes/${encodeURIComponent(storageVolume.type)}/${encodeURIComponent(storageVolume.name)}`;
-    const newVolumeUrl = `/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(newTarget)}${encodeURIComponent(memberPath)}/volumes/${encodeURIComponent(storageVolume.type)}/${encodeURIComponent(storageVolume.name)}`;
+    const memberPath = hasLocation(volume)
+      ? `/member/${encodeURIComponent(volume.location)}`
+      : "";
+    const oldVolumeUrl = `/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(storageVolume.pool)}${memberPath}/volumes/${encodeURIComponent(storageVolume.type)}/${encodeURIComponent(storageVolume.name)}`;
+    const newVolumeUrl = `/ui/project/${encodeURIComponent(storageVolume.project)}/storage/pool/${encodeURIComponent(newTarget)}${memberPath}/volumes/${encodeURIComponent(storageVolume.type)}/${encodeURIComponent(storageVolume.name)}`;
 
     const volumeLink = (
       <ResourceLink

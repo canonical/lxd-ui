@@ -10,8 +10,11 @@ export const createInstanceSnapshot = async (
   expiresAt: string | null,
   stateful: boolean,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -34,8 +37,11 @@ export const deleteInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: { name: string },
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -84,13 +90,17 @@ export const restoreInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
-      "Content-Type": "application/json",
-    },body: JSON.stringify({
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         restore: snapshot.name,
         stateful: snapshot.stateful ? restoreState : false,
       }),
@@ -107,8 +117,11 @@ export const renameInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   newName: string,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -130,8 +143,11 @@ export const updateInstanceSnapshot = async (
   snapshot: LxdInstanceSnapshot,
   expiresAt: string,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?project=${instance.project}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {

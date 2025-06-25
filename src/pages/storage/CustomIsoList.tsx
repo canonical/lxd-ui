@@ -99,7 +99,7 @@ const CustomIsoList: FC = () => {
           content: (
             <div className="u-truncate" title={image.pool}>
               <Link
-                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(image.pool)}`}
+                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(image.pool ?? "")}`}
               >
                 {image.pool}
               </Link>

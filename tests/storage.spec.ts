@@ -229,7 +229,7 @@ test("storage bucket create", async ({ page }) => {
   const project = randomProjectName();
 
   await createProject(page, project);
-  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Buckets" }).click();
   await assertTextVisible(page, "No buckets found in this project");

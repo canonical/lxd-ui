@@ -14,7 +14,8 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useSettings } from "context/useSettings";
 import type { LxdStorageVolume } from "types/storage";
 import VolumeLinkChip from "../VolumeLinkChip";
-import { createVolumeBackup, getTargetParam } from "api/storage-volumes";
+import { createVolumeBackup } from "api/storage-volumes";
+import { addTarget } from "util/target";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -39,7 +40,11 @@ const ExportVolumeModal: FC<Props> = ({ volume, close }) => {
     settings?.environment?.backup_metadata_version_range ?? [];
 
   const startDownload = (backupName: string) => {
-    const url = `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?project=${volume.project}${getTargetParam(volume.location)}`;
+    const params = new URLSearchParams();
+    params.set("project", volume.project);
+    addTarget(params, volume.location);
+
+    const url = `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?${params.toString()}`;
 
     const a = document.createElement("a");
     a.href = url;

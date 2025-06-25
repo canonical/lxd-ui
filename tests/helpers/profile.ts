@@ -21,7 +21,7 @@ export const startProfileCreation = async (
   profile: string,
   project = "default",
 ) => {
-  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
   await page.getByRole("button", { name: "Create profile" }).click();
   await page.getByLabel("Profile name").fill(profile);
@@ -51,7 +51,7 @@ export const visitProfile = async (
   profile: string,
   project = "default",
 ) => {
-  await gotoURL(page, `/ui/project/${encodeURIComponent(project)}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
   await expect(page.getByText("Create profile")).toBeVisible();
   await page.getByPlaceholder("Search").click();

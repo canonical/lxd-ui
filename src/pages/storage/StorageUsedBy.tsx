@@ -5,6 +5,7 @@ import { filterUsedByType } from "util/usedBy";
 import ExpandableList from "components/ExpandableList";
 import UsedByItem from "components/UsedByItem";
 import { getStorageBucketURL } from "util/storageBucket";
+import { linkForVolumeDetail } from "util/storageVolume";
 
 interface Props {
   storage: LxdStoragePool | LxdStorageVolume;
@@ -100,11 +101,17 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   )}
                   {item.volume && (
                     <UsedByItem
-                      key={`${item.volume}-${item.name}-${item.project}-${item.pool}`}
+                      key={`${item.volume}-${item.name}-${item.project}-${item.target}`}
                       item={item}
                       activeProject={project}
                       type="snapshot"
-                      to={`/ui/project/${encodeURIComponent(item.project)}/storage/pool/${encodeURIComponent(item.pool)}/volumes/custom/${encodeURIComponent(item.volume)}/snapshots`}
+                      to={`${linkForVolumeDetail({
+                        name: item.volume,
+                        project: item.project,
+                        pool: storage.name,
+                        type: "custom",
+                        location: item.target ?? "",
+                      } as LxdStorageVolume)}/snapshots`}
                     />
                   )}
                 </>
@@ -120,11 +127,17 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             <ExpandableList
               items={data[CUSTOM_VOLUMES].map((item) => (
                 <UsedByItem
-                  key={`${item.name}-${item.project}`}
+                  key={`${item.name}-${item.project}-${item.target}`}
                   item={item}
                   activeProject={project}
                   type="volume"
-                  to={`/ui/project/${encodeURIComponent(item.project)}/storage/pool/${encodeURIComponent(storage.name)}/volumes/custom/${encodeURIComponent(item.name)}`}
+                  to={linkForVolumeDetail({
+                    name: item.name,
+                    project: item.project,
+                    pool: storage.name,
+                    type: "custom",
+                    location: item.target ?? "",
+                  } as LxdStorageVolume)}
                 />
               ))}
             />

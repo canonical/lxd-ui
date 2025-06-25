@@ -21,13 +21,13 @@ export const testDuplicateStorageBucketName = (
           value,
           project,
           controllerState,
-          `storage-pools/${pool}/buckets`,
+          `storage-pools/${encodeURIComponent(pool)}/buckets`,
         )
       );
     },
   ];
 };
 
-export const getStorageBucketURL = (project?: string) => {
+export const getStorageBucketURL = (project: string) => {
   return `/ui/project/${encodeURIComponent(project)}/storage/buckets`;
 };

@@ -16,10 +16,15 @@ const sortOperationList = (operations: LxdOperationList) => {
 export const fetchOperations = async (
   project: string | null,
 ): Promise<LxdOperationList> => {
-  const projectParam = project ? `project=${project}` : "all-projects=true";
-  return fetch(
-    `/1.0/operations?${encodeURIComponent(projectParam)}&recursion=1`,
-  )
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  if (project) {
+    params.append("project", project);
+  } else {
+    params.append("all-projects", "true");
+  }
+
+  return fetch(`/1.0/operations?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdOperationList>) => {
       sortOperationList(data.metadata);

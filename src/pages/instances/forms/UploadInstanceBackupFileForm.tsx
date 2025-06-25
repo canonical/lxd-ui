@@ -63,7 +63,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
   const { hasInstanceImportConversion } = useSupportedFeatures();
 
   const handleSuccess = (instanceName: string) => {
-    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name)}/instance/${encodeURIComponent(instanceName)}`;
+    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
     const message = (
       <>
         Created instance{" "}
@@ -123,7 +123,9 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
         );
 
         handleCloseModal();
-        navigate(`/ui/project/${encodeURIComponent(project?.name)}/instances`);
+        navigate(
+          `/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
+        );
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);

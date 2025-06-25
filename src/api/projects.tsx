@@ -2,7 +2,7 @@ import { handleEtagResponse, handleResponse } from "util/helpers";
 import type { LxdProject } from "types/project";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 
 const projectEntitlements = [
   "can_create_image_aliases",
@@ -22,11 +22,11 @@ const projectEntitlements = [
 export const fetchProjects = async (
   isFineGrained: boolean | null,
 ): Promise<LxdProject[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    projectEntitlements,
-  );
-  return fetch(`/1.0/projects?recursion=1${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, projectEntitlements);
+
+  return fetch(`/1.0/projects?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdProject[]>) => {
       return data.metadata;
@@ -37,14 +37,10 @@ export const fetchProject = async (
   name: string,
   isFineGrained: boolean | null,
 ): Promise<LxdProject> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    projectEntitlements,
-    "?",
-  );
-  return fetch(
-    `/1.0/projects/${encodeURIComponent(name)}${encodeURIComponent(entitlements)}`,
-  )
+  const params = new URLSearchParams();
+  addEntitlements(params, isFineGrained, projectEntitlements);
+
+  return fetch(`/1.0/projects/${encodeURIComponent(name)}?${params.toString()}`)
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdProject;

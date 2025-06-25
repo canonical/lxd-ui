@@ -100,6 +100,8 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
               updateClusteredPool(
                 savedPool,
                 clusterMembers,
+                values.sourcePerClusterMember,
+                values.zfsPoolNamePerClusterMember,
                 values.sizePerClusterMember,
               )
           : async () => updatePool(savedPool);

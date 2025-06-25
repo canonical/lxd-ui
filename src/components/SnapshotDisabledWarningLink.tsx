@@ -8,24 +8,22 @@ interface Props {
   project?: LxdProject;
 }
 
-const SnapshotDiabledWarningLink: FC<Props> = ({ project }) => {
+const SnapshotDisabledWarningLink: FC<Props> = ({ project }) => {
   const { isRestricted } = useAuth();
 
-  const snapshotDisabledWarningLink = isRestricted ? (
+  return isRestricted ? (
     <>Please ask your project administrator to change this setting.</>
   ) : (
     <>
       You can change this setting in{" "}
       <Link
-        to={`/ui/project/${encodeURIComponent(project?.name)}/configuration`}
+        to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/configuration`}
       >
         project configuration
         <Icon className="external-link-icon" name="external-link" />
       </Link>
     </>
   );
-
-  return snapshotDisabledWarningLink;
 };
 
-export default SnapshotDiabledWarningLink;
+export default SnapshotDisabledWarningLink;

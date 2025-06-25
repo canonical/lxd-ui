@@ -177,7 +177,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   <ResourceLink
                     type="profile"
                     value="default"
-                    to={`/ui/project/${encodeURIComponent(project?.name)}/profile/default`}
+                    to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/profile/default`}
                   />{" "}
                   {" profile"}
                 </>
@@ -202,7 +202,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   <ResourceLink
                     type="profile"
                     value="default"
-                    to={`/ui/project/${encodeURIComponent(project?.name)}/profile/default`}
+                    to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/profile/default`}
                   />{" "}
                   profile
                 </>

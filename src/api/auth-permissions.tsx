@@ -5,7 +5,10 @@ import type { LxdPermission } from "types/permissions";
 export const fetchPermissions = async (
   resourceType: string,
 ): Promise<LxdPermission[]> => {
-  return fetch(`/1.0/auth/permissions?entity-type=${resourceType}`)
+  const params = new URLSearchParams();
+  params.set("entity-type", resourceType);
+
+  return fetch(`/1.0/auth/permissions?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdPermission[]>) => {
       return (

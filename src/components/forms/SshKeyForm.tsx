@@ -179,7 +179,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               {
                 content: (
                   <ResourceLink
-                    to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(inheritedKey.source)}/configuration`}
+                    to={`/ui/project/${encodeURIComponent(project ?? "")}/profile/${encodeURIComponent(inheritedKey.source)}/configuration`}
                     type="profile"
                     value={inheritedKey.source}
                     disabled={isDetached}

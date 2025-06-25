@@ -1,18 +1,18 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { IdpGroup } from "types/permissions";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 
 const idpGroupEntitlements = ["can_delete", "can_edit"];
 
 export const fetchIdpGroups = async (
   isFineGrained: boolean | null,
 ): Promise<IdpGroup[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    idpGroupEntitlements,
-  );
-  return fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, idpGroupEntitlements);
+
+  return fetch(`/1.0/auth/identity-provider-groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<IdpGroup[]>) => {
       return data.metadata;
@@ -37,8 +37,9 @@ export const updateIdpGroup = async (group: IdpGroup): Promise<void> => {
     {
       method: "PUT",
       headers: {
-      "Content-Type": "application/json",
-    },body: JSON.stringify(group),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(group),
     },
   ).then(handleResponse);
 };
@@ -52,8 +53,9 @@ export const renameIdpGroup = async (
     {
       method: "POST",
       headers: {
-      "Content-Type": "application/json",
-    },body: JSON.stringify({
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         name: newName,
       }),
     },
