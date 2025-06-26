@@ -44,6 +44,9 @@ export const createProfile = async (
 ): Promise<void> => {
   await fetch(`/1.0/profiles?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: body,
   }).then(handleResponse);
 };
@@ -56,6 +59,7 @@ export const updateProfile = async (
     method: "PUT",
     body: JSON.stringify(profile),
     headers: {
+      "Content-Type": "application/json",
       "If-Match": profile.etag ?? "invalid-etag",
     },
   }).then(handleResponse);
@@ -68,6 +72,9 @@ export const renameProfile = async (
 ): Promise<void> => {
   await fetch(`/1.0/profiles/${oldName}?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),

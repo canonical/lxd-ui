@@ -46,6 +46,9 @@ export const createNetworkAcl = async (
 ): Promise<void> => {
   await fetch(`/1.0/network-acls?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(networkAcl),
   }).then(handleResponse);
 };
@@ -57,6 +60,9 @@ export const renameNetworkAcl = async (
 ): Promise<void> => {
   await fetch(`/1.0/network-acls/${oldName}?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),
@@ -71,6 +77,7 @@ export const updateNetworkAcl = async (
     method: "PUT",
     body: JSON.stringify(networkAcl),
     headers: {
+      "Content-Type": "application/json",
       "If-Match": networkAcl.etag ?? "",
     },
   }).then(handleResponse);

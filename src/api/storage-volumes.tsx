@@ -93,6 +93,9 @@ export const renameStorageVolume = async (
     `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),
@@ -142,6 +145,9 @@ export const createStorageVolume = async (
     `/1.0/storage-pools/${pool}/volumes?project=${project}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(volume),
     },
   ).then(handleResponse);
@@ -160,6 +166,7 @@ export const updateStorageVolume = async (
       method: "PUT",
       body: JSON.stringify(volume),
       headers: {
+        "Content-Type": "application/json",
         "If-Match": volume.etag ?? "invalid-etag",
       },
     },
@@ -192,6 +199,9 @@ export const migrateStorageVolume = async (
     `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}?project=${targetProject}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: volume.name,
         pool: targetPool,
@@ -222,6 +232,9 @@ export const copyStorageVolume = async (
   const queryString = params.toString();
   return fetch(`/1.0/storage-pools/${pool}/volumes/custom?${queryString}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(volume),
   })
     .then(handleResponse)
@@ -243,6 +256,9 @@ export const createVolumeBackup = async (
     `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/backups?project=${volume.project}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: payload,
     },
   )

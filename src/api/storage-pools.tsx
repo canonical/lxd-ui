@@ -98,6 +98,9 @@ export const createPool = async (
   const targetParam = target ? `?target=${target}` : "";
   await fetch(`/1.0/storage-pools${targetParam}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(pool),
   }).then(handleResponse);
 };
@@ -167,6 +170,9 @@ export const updatePool = async (
   const targetParam = target ? `?target=${target}` : "";
   await fetch(`/1.0/storage-pools/${pool.name}${targetParam}`, {
     method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(pool),
   }).then(handleResponse);
 };
@@ -200,6 +206,9 @@ export const renameStoragePool = async (
 ): Promise<void> => {
   await fetch(`/1.0/storage-pools/${oldName}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),
