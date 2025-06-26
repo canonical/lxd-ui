@@ -40,7 +40,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
     },
     { content: "Type", sortKey: "type", className: "u-text--muted" },
     {
-      content: "Mac Address",
+      content: "MAC address",
       sortKey: "macAddress",
       className: "u-text--muted u-hide--small u-hide--medium",
     },
@@ -96,7 +96,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
           {
             content: instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
             role: "cell",
-            "aria-label": "Mac Address",
+            "aria-label": "MAC address",
           },
         ],
         sortData: {
