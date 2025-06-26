@@ -69,7 +69,7 @@ const ProfileDetail: FC = () => {
           <TabLinks
             tabs={tabs}
             activeTab={activeTab}
-            tabUrl={`/ui/project/${projectName}/profile/${name}`}
+            tabUrl={`/ui/project/${encodeURIComponent(projectName)}/profile/${encodeURIComponent(name)}`}
           />
 
           {!activeTab && (

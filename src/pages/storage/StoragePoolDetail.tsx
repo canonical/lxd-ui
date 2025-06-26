@@ -7,7 +7,6 @@ import NotificationRow from "components/NotificationRow";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
 import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
-import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
@@ -16,7 +15,6 @@ import { cephObject, isBucketCompatibleDriver } from "util/storageOptions";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
-  const { data: clusterMembers = [] } = useClusterMembers();
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -30,8 +28,7 @@ const StoragePoolDetail: FC = () => {
     return <>Missing project</>;
   }
 
-  const member = clusterMembers[0]?.server_name ?? undefined;
-  const { data: pool, error, isLoading } = useStoragePool(name, member);
+  const { data: pool, error, isLoading } = useStoragePool(name);
   const isVolumeCompatible = pool?.driver !== cephObject;
   const isBucketCompatible = isBucketCompatibleDriver(pool?.driver || "");
 
@@ -54,7 +51,7 @@ const StoragePoolDetail: FC = () => {
           <Link
             to={
               isVolumeCompatible
-                ? `/ui/project/${project}/storage/volumes?pool=${pool.name}`
+                ? `/ui/project/${encodeURIComponent(project)}/storage/volumes?pool=${encodeURIComponent(pool.name)}`
                 : "#"
             }
             className={classnames("p-tabs__link", {
@@ -77,7 +74,7 @@ const StoragePoolDetail: FC = () => {
         <Link
           to={
             isBucketCompatible
-              ? `/ui/project/${project}/storage/buckets?pool=${pool.name}`
+              ? `/ui/project/${encodeURIComponent(project)}/storage/buckets?pool=${encodeURIComponent(pool.name)}`
               : "#"
           }
           className={classnames("p-tabs__link", {
@@ -106,7 +103,7 @@ const StoragePoolDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/storage/pool/${name}`}
+          tabUrl={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(name)}`}
         />
 
         {!activeTab && (

@@ -43,7 +43,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
-        navigate(`/ui/project/${project}/storage/pools`);
+        navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);
         toastNotify.success(
           <>
             Storage pool <ResourceLabel bold type="pool" value={pool.name} />{" "}

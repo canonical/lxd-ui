@@ -7,7 +7,7 @@ import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import { useDocs } from "context/useDocs";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isSnapshotsDisabled } from "util/snapshots";
-import SnapshotDiabledWarningLink from "components/SnapshotDiabledWarningLink";
+import SnapshotDisabledWarningLink from "components/SnapshotDisabledWarningLink";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {
@@ -26,7 +26,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           severity="caution"
           title={`Snapshot creation has been disabled for volumes in the project ${project?.name}`}
         >
-          <SnapshotDiabledWarningLink project={project} />
+          <SnapshotDisabledWarningLink project={project} />
         </Notification>
       )}
       <ScrollableConfigurationTable

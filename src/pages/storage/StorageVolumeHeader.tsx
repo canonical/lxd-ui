@@ -66,8 +66,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       renameStorageVolume(project, volume, values.name, volume.location)
         .then(() => {
           const url = hasLocation(volume)
-            ? `/ui/project/${project}/storage/pool/${volume.pool}/member/${volume.location}/volumes/${volume.type}/${values.name}`
-            : `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`;
+            ? `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/member/${encodeURIComponent(volume.location)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`
+            : `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`;
 
           navigate(url);
           toastNotify.success(
@@ -91,7 +91,10 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
     <RenameHeader
       name={volume.name}
       parentItems={[
-        <Link to={`/ui/project/${project}/storage/volumes`} key={1}>
+        <Link
+          to={`/ui/project/${encodeURIComponent(project)}/storage/volumes`}
+          key={1}
+        >
           Storage volumes
         </Link>,
       ]}

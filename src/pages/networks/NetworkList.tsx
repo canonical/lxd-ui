@@ -158,8 +158,8 @@ const NetworkList: FC = () => {
     .map((network) => {
       const href =
         network.memberName === "Cluster-wide"
-          ? `/ui/project/${project}/network/${network.name}`
-          : `/ui/project/${project}/member/${network.memberName}/network/${network.name}`;
+          ? `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`
+          : `/ui/project/${encodeURIComponent(project)}/member/${encodeURIComponent(network.memberName)}/network/${encodeURIComponent(network.name)}`;
 
       return {
         key: network.name + network.memberName,
@@ -270,7 +270,9 @@ const NetworkList: FC = () => {
               appearance="positive"
               className="u-no-margin--bottom"
               onClick={async () =>
-                navigate(`/ui/project/${project}/networks/create`)
+                navigate(
+                  `/ui/project/${encodeURIComponent(project)}/networks/create`,
+                )
               }
               hasIcon={!isSmallScreen}
               disabled={!canCreateNetworks(currentProject)}

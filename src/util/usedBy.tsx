@@ -7,6 +7,7 @@ export interface LxdUsedBy {
   instance?: string;
   volume?: string;
   pool?: string;
+  target?: string;
 }
 
 /**
@@ -17,6 +18,7 @@ export interface LxdUsedBy {
  * "/1.0/instances/relaxed-basilisk/snapshots/ff?project=foo"
  * "/1.0/profiles/default?project=foo"
  * "/1.0/storage-pools/pool-dir/volumes/custom/test/snapshots/snap1?project=bar"
+ * "/1.0/storage-pools/local/volumes/custom/abb?project=robots&target=micro2"
  */
 export const filterUsedByType = (
   type: ResourceType,
@@ -60,6 +62,7 @@ export const filterUsedByType = (
           instance: resource.instance,
           volume: resource.volume,
           pool: resource.pool,
+          target: resource.target,
         };
       })
       .sort((a, b) => {

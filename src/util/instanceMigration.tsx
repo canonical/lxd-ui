@@ -56,7 +56,7 @@ export const useInstanceMigration = ({
           <ResourceLink
             type="pool"
             value={target}
-            to={`/ui/project/${instance.project}/storage/pool/${target}`}
+            to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(target)}`}
           />
         </>
       );
@@ -71,7 +71,7 @@ export const useInstanceMigration = ({
           <ResourceLink
             type="project"
             value={target}
-            to={`/ui/project/${target}`}
+            to={`/ui/project/${encodeURIComponent(target)}`}
           />
         </>
       );

@@ -25,7 +25,9 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
           : "You do not have permission to create storage pools"
       }
       onClick={async () =>
-        navigate(`/ui/project/${project}/storage/pools/create`)
+        navigate(
+          `/ui/project/${encodeURIComponent(project)}/storage/pools/create`,
+        )
       }
       disabled={!canCreateStoragePools()}
     >

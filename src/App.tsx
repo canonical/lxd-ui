@@ -124,7 +124,7 @@ const App: FC = () => {
                 to={
                   hasNoProjects
                     ? "/ui/all-projects/instances"
-                    : `/ui/project/${defaultProject}/instances`
+                    : `/ui/project/${encodeURIComponent(defaultProject)}/instances`
                 }
                 replace={true}
               />

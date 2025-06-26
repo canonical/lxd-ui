@@ -263,7 +263,7 @@ const CreateInstance: FC = () => {
       return;
     }
 
-    const consoleUrl = `/ui/project/${project}/instance/${instanceName}/console`;
+    const consoleUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instanceName)}/console`;
     const message = isIsoImage && (
       <>
         <p>Continue the installation process from its console.</p>
@@ -295,7 +295,7 @@ const CreateInstance: FC = () => {
     }
 
     const formUrl = location.pathname + location.search;
-    navigate(`/ui/project/${project}/instances`);
+    navigate(`/ui/project/${encodeURIComponent(project)}/instances`);
 
     // NOTE: for lxd version that has the instance_create_start api extension
     // we can create and start the instance in one go by setting the 'start' property to true
@@ -551,7 +551,7 @@ const CreateInstance: FC = () => {
           onClick={async () =>
             navigate(
               location.state?.cancelLocation ??
-                `/ui/project/${project}/instances`,
+                `/ui/project/${encodeURIComponent(project)}/instances`,
             )
           }
         >

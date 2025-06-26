@@ -28,7 +28,7 @@ const ClusterGroupSelectorList: FC<Props> = ({ clusterGroups }) => {
             to={
               group.name === allClusterGroups
                 ? "/ui/cluster"
-                : `/ui/cluster/group/${group.name}`
+                : `/ui/cluster/group/${encodeURIComponent(group.name)}`
             }
             className="p-contextual-menu__link link"
           >

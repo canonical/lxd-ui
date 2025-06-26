@@ -53,7 +53,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       }
       renameNetwork(name, values.name, project)
         .then(() => {
-          const url = `/ui/project/${project}/network/${values.name}`;
+          const url = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`;
           navigate(url);
           toastNotify.success(
             <>
@@ -99,12 +99,15 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
           <ResourceLink
             type="cluster-member"
             value={member}
-            to={`/ui/project/${project}/networks?member=${member}`}
+            to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(member)}`}
           />
         )
       }
       parentItems={[
-        <Link to={`/ui/project/${project}/networks`} key={1}>
+        <Link
+          to={`/ui/project/${encodeURIComponent(project)}/networks`}
+          key={1}
+        >
           Networks
         </Link>,
       ]}

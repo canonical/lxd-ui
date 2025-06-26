@@ -30,7 +30,7 @@ const NetworkProfiles: FC<Props> = ({ formik, project }) => {
                 item={item}
                 activeProject={project}
                 type="profile"
-                to={`/ui/project/${item.project}/profile/${item.name}`}
+                to={`/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
                 projectLinkDetailPage="profiles"
               />
             ))}

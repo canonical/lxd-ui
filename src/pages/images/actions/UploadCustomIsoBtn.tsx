@@ -36,7 +36,7 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
       <>
         Custom ISO{" "}
         <ResourceLink
-          to={`/ui/project/${projectName}/storage/custom-isos`}
+          to={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
           type="iso-volume"
           value={name}
         />{" "}

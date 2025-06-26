@@ -22,7 +22,7 @@ const Logo: FC<Props> = ({ light }) => {
     if (isLoading || !project) {
       return "/ui/";
     }
-    return `/ui/project/${project.name}`;
+    return `/ui/project/${encodeURIComponent(project.name)}`;
   };
 
   return (

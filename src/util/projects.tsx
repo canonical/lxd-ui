@@ -27,7 +27,7 @@ export const getSubpageFromUrl = (url: string): string | undefined => {
   const tabSubpage = parts[5];
 
   if (mainSubpage === "storage" && storageTabPaths.includes(tabSubpage)) {
-    return `${mainSubpage}/${tabSubpage}`;
+    return `${encodeURIComponent(mainSubpage)}/${encodeURIComponent(tabSubpage)}`;
   }
 
   if (mainSubpage === "network") {
@@ -39,7 +39,7 @@ export const getSubpageFromUrl = (url: string): string | undefined => {
   }
 
   if (projectSubpages.includes(mainSubpage)) {
-    return mainSubpage;
+    return encodeURIComponent(mainSubpage);
   }
 
   return undefined;

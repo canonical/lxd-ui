@@ -9,7 +9,7 @@ interface Props {
 
 const CustomIsoBtn: FC<Props> = ({ project }) => {
   const navigate = useNavigate();
-  const href = `/ui/project/${project}/storage/custom-isos`;
+  const href = `/ui/project/${encodeURIComponent(project)}/storage/custom-isos`;
   const isSmallScreen = useSmallScreen();
 
   const handleClick = () => (e: MouseEvent) => {

@@ -20,8 +20,6 @@ export const testDuplicateStorageVolumeName = (
       const pool = parent.pool;
 
       const location = parent.clusterMember ?? volume?.location ?? "none";
-      const params =
-        location !== "none" && location.length > 0 ? `&target=${location}` : "";
 
       return (
         value === originalName ||
@@ -29,8 +27,8 @@ export const testDuplicateStorageVolumeName = (
           value,
           project,
           controllerState,
-          `storage-pools/${pool}/volumes/${volumeType}`,
-          params,
+          `storage-pools/${encodeURIComponent(pool)}/volumes/${encodeURIComponent(volumeType)}`,
+          location,
         )
       );
     },
@@ -131,22 +129,22 @@ export const figureCollapsedScreen = (): boolean =>
 export const linkForVolumeDetail = (volume: LxdStorageVolume): string => {
   // NOTE: name of a volume created from an instance is exactly the same as the instance name
   if (volume.type === "container" || volume.type === "virtual-machine") {
-    return `/ui/project/${volume.project}/instance/${volume.name}`;
+    return `/ui/project/${encodeURIComponent(volume.project)}/instance/${encodeURIComponent(volume.name)}`;
   }
 
   if (volume.type === "image") {
-    return `/ui/project/${volume.project}/images`;
+    return `/ui/project/${encodeURIComponent(volume.project)}/images`;
   }
 
   if (volume.type === "custom" && volume.content_type === "iso") {
-    return `/ui/project/${volume.project}/storage/custom-isos`;
+    return `/ui/project/${encodeURIComponent(volume.project)}/storage/custom-isos`;
   }
 
   if (hasLocation(volume)) {
-    return `/ui/project/${volume.project}/storage/pool/${volume.pool}/member/${volume.location}/volumes/${volume.type}/${volume.name}`;
+    return `/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(volume.pool)}/member/${encodeURIComponent(volume.location)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}`;
   }
 
-  return `/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}`;
+  return `/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}`;
 };
 
 export const hasLocation = (volume?: LxdStorageVolume): boolean => {

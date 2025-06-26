@@ -138,14 +138,14 @@ const CreateProfile: FC = () => {
 
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          navigate(`/ui/project/${project}/profiles`);
+          navigate(`/ui/project/${encodeURIComponent(project)}/profiles`);
           toastNotify.success(
             <>
               Profile{" "}
               <ResourceLink
                 type="profile"
                 value={values.name}
-                to={`/ui/project/${project}/profile/${values.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`}
               />{" "}
               created.
             </>,
@@ -277,7 +277,9 @@ const CreateProfile: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={async () => navigate(`/ui/project/${project}/profiles`)}
+          onClick={async () =>
+            navigate(`/ui/project/${encodeURIComponent(project)}/profiles`)
+          }
         >
           Cancel
         </Button>

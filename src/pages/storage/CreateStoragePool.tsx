@@ -85,14 +85,14 @@ const CreateStoragePool: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          navigate(`/ui/project/${project}/storage/pools`);
+          navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);
           toastNotify.success(
             <>
               Storage pool{" "}
               <ResourceLink
                 type="pool"
                 value={storagePool.name}
-                to={`/ui/project/${project}/storage/pool/${values.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`}
               />{" "}
               created.
             </>,
@@ -135,7 +135,9 @@ const CreateStoragePool: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={async () => navigate(`/ui/project/${project}/storage/pools`)}
+          onClick={async () =>
+            navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`)
+          }
         >
           Cancel
         </Button>

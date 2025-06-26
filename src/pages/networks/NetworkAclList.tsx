@@ -56,7 +56,9 @@ const NetworkAclList: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/project/${project}/network-acl/${acl.name}`}>
+            <Link
+              to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(acl.name)}`}
+            >
               {acl.name}
             </Link>
           ),
@@ -107,7 +109,9 @@ const NetworkAclList: FC = () => {
       className="u-no-margin--bottom"
       hasIcon
       onClick={async () =>
-        navigate(`/ui/project/${project}/network-acls/create`)
+        navigate(
+          `/ui/project/${encodeURIComponent(project)}/network-acls/create`,
+        )
       }
       disabled={!canCreateNetworkAcls(currentProject)}
       title={

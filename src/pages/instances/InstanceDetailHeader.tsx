@@ -72,7 +72,9 @@ const InstanceDetailHeader: FC<Props> = ({
           eventQueue.set(
             operation.metadata.id,
             () => {
-              navigate(`/ui/project/${project}/instance/${values.name}`);
+              navigate(
+                `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(values.name)}`,
+              );
               toastNotify.success(
                 <>
                   Instance{" "}
@@ -133,7 +135,7 @@ const InstanceDetailHeader: FC<Props> = ({
           <Link
             to={
               canViewProject
-                ? `/ui/project/${project}/instances`
+                ? `/ui/project/${encodeURIComponent(project)}/instances`
                 : "/ui/all-projects/instances"
             }
             key={1}

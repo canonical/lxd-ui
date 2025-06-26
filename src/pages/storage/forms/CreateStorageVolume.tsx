@@ -77,7 +77,9 @@ const CreateStorageVolume: FC = () => {
           queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
-          navigate(`/ui/project/${project}/storage/volumes`);
+          navigate(
+            `/ui/project/${encodeURIComponent(project)}/storage/volumes`,
+          );
           const volumeWithLocation = {
             ...volume,
             location: values.clusterMember ?? "none",
@@ -110,7 +112,9 @@ const CreateStorageVolume: FC = () => {
         <Button
           appearance="base"
           onClick={async () =>
-            navigate(`/ui/project/${project}/storage/volumes`)
+            navigate(
+              `/ui/project/${encodeURIComponent(project)}/storage/volumes`,
+            )
           }
         >
           Cancel

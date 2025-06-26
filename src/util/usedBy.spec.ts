@@ -62,4 +62,31 @@ describe("filterUsedByType", () => {
     expect(results[0].volume).toBe("volumeName");
     expect(results[0].pool).toBe("poolName");
   });
+
+  it("finds volume target", () => {
+    const paths = [
+      "/1.0/storage-pools/local/volumes/custom/abb?project=robots&target=micro2",
+    ];
+    const results = filterUsedByType("volume", paths);
+
+    expect(results[0].name).toBe("abb");
+    expect(results[0].project).toBe("robots");
+    expect(results[0].instance).toBe(undefined);
+    expect(results[0].volume).toBe(undefined);
+    expect(results[0].target).toBe("micro2");
+  });
+
+  it("finds volume snapshot target", () => {
+    const paths = [
+      "/1.0/storage-pools/dirydir/volumes/custom/abb/snapshots/snap03?target=micro2",
+    ];
+    const results = filterUsedByType("snapshot", paths);
+
+    expect(results[0].name).toBe("snap03");
+    expect(results[0].project).toBe("default");
+    expect(results[0].pool).toBe("dirydir");
+    expect(results[0].instance).toBe(undefined);
+    expect(results[0].volume).toBe("abb");
+    expect(results[0].target).toBe("micro2");
+  });
 });

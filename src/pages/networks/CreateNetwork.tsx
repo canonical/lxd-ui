@@ -102,14 +102,14 @@ const CreateNetwork: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
-          navigate(`/ui/project/${project}/networks`);
+          navigate(`/ui/project/${encodeURIComponent(project)}/networks`);
           toastNotify.success(
             <>
               Network{" "}
               <ResourceLink
                 type="network"
                 value={values.name}
-                to={`/ui/project/${project}/network/${values.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
               />{" "}
               created.
             </>,
@@ -169,7 +169,9 @@ const CreateNetwork: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={async () => navigate(`/ui/project/${project}/networks`)}
+          onClick={async () =>
+            navigate(`/ui/project/${encodeURIComponent(project)}/networks`)
+          }
         >
           Cancel
         </Button>

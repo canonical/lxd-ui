@@ -75,14 +75,14 @@ const CreateNetworkAcl: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networkAcls],
           });
-          navigate(`/ui/project/${project}/network-acls`);
+          navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);
           toastNotify.success(
             <>
               Network ACL{" "}
               <ResourceLink
                 type="network-acl"
                 value={values.name}
-                to={`/ui/project/${project}/network-acl/${values.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`}
               />{" "}
               created.
             </>,
@@ -139,7 +139,9 @@ const CreateNetworkAcl: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={async () => navigate(`/ui/project/${project}/network-acls`)}
+          onClick={async () =>
+            navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`)
+          }
         >
           Cancel
         </Button>

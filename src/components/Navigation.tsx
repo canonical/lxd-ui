@@ -274,7 +274,7 @@ const Navigation: FC = () => {
                           to={
                             isAllProjects
                               ? "/ui/all-projects/instances"
-                              : `/ui/project/${projectName}/instances`
+                              : `/ui/project/${encodeURIComponent(projectName)}/instances`
                           }
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
@@ -288,7 +288,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${projectName}/profiles`}
+                          to={`/ui/project/${encodeURIComponent(projectName)}/profiles`}
                           title={getNavTitle("profiles")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
@@ -303,7 +303,7 @@ const Navigation: FC = () => {
 
                       <SideNavigationItem>
                         <NavAccordion
-                          baseUrl={`/ui/project/${projectName}/network`}
+                          baseUrl={`/ui/project/${encodeURIComponent(projectName)}/network`}
                           title={getNavTitle("networking")}
                           disabled={isAllProjects}
                           iconName="exposed"
@@ -315,10 +315,10 @@ const Navigation: FC = () => {
                         >
                           {[
                             <SideNavigationItem
-                              key={`/ui/project/${projectName}/networks`}
+                              key={`/ui/project/${encodeURIComponent(projectName)}/networks`}
                             >
                               <NavLink
-                                to={`/ui/project/${projectName}/networks`}
+                                to={`/ui/project/${encodeURIComponent(projectName)}/networks`}
                                 title={`Networks (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -332,10 +332,10 @@ const Navigation: FC = () => {
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem
-                              key={`/ui/project/${projectName}/network-acls`}
+                              key={`/ui/project/${encodeURIComponent(projectName)}/network-acls`}
                             >
                               <NavLink
-                                to={`/ui/project/${projectName}/network-acls`}
+                                to={`/ui/project/${encodeURIComponent(projectName)}/network-acls`}
                                 title={`ACLs (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -344,10 +344,10 @@ const Navigation: FC = () => {
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem
-                              key={`/ui/project/${projectName}/network-ipam`}
+                              key={`/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
                             >
                               <NavLink
-                                to={`/ui/project/${projectName}/network-ipam`}
+                                to={`/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
                                 title={`IPAM (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -360,7 +360,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavAccordion
-                          baseUrl={`/ui/project/${projectName}/storage`}
+                          baseUrl={`/ui/project/${encodeURIComponent(projectName)}/storage`}
                           title={getNavTitle("storage")}
                           disabled={isAllProjects}
                           iconName="switcher-dashboard"
@@ -372,10 +372,10 @@ const Navigation: FC = () => {
                         >
                           {[
                             <SideNavigationItem
-                              key={`/ui/project/${projectName}/storage/pools`}
+                              key={`/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
                             >
                               <NavLink
-                                to={`/ui/project/${projectName}/storage/pools`}
+                                to={`/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
                                 title="Pools"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -385,10 +385,10 @@ const Navigation: FC = () => {
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem
-                              key={`/ui/project/${projectName}/storage/volumes`}
+                              key={`/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
                             >
                               <NavLink
-                                to={`/ui/project/${projectName}/storage/volumes`}
+                                to={`/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
                                 title="Volumes"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -400,10 +400,10 @@ const Navigation: FC = () => {
                             ...(hasCustomVolumeIso
                               ? [
                                   <SideNavigationItem
-                                    key={`/ui/project/${projectName}/storage/custom-isos`}
+                                    key={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
                                   >
                                     <NavLink
-                                      to={`/ui/project/${projectName}/storage/custom-isos`}
+                                      to={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
                                       title="Custom ISOs"
                                       onClick={softToggleMenu}
                                       className="accordion-nav-secondary"
@@ -414,10 +414,10 @@ const Navigation: FC = () => {
                                 ]
                               : []),
                             <SideNavigationItem
-                              key={`/ui/project/${projectName}/storage/buckets`}
+                              key={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
                             >
                               <NavLink
-                                to={`/ui/project/${projectName}/storage/buckets`}
+                                to={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
                                 title="Buckets"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -430,7 +430,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${projectName}/images`}
+                          to={`/ui/project/${encodeURIComponent(projectName)}/images`}
                           title={getNavTitle("images")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
@@ -444,7 +444,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${projectName}/configuration`}
+                          to={`/ui/project/${encodeURIComponent(projectName)}/configuration`}
                           title={getNavTitle("configuration")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}

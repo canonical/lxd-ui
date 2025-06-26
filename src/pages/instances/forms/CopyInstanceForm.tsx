@@ -63,7 +63,7 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
     project: string,
     type: InstanceIconType,
   ) => {
-    const instanceUrl = `/ui/project/${project}/instance/${name}`;
+    const instanceUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`;
     const message = (
       <>
         Created instance{" "}

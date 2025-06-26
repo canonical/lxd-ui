@@ -6,7 +6,13 @@ export const fetchNetworkLeases = async (
   network: string,
   project: string,
 ): Promise<LxdNetworkLease[]> => {
-  return fetch(`/1.0/networks/${network}/leases?project=${project}&recursion=1`)
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+
+  return fetch(
+    `/1.0/networks/${encodeURIComponent(network)}/leases?${params.toString()}`,
+  )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkLease[]>) => {
       return data.metadata;

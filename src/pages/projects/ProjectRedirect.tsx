@@ -8,7 +8,12 @@ const ProjectRedirect: FC = () => {
     return <>Missing project</>;
   }
 
-  return <Navigate to={`/ui/project/${project}/instances`} replace={true} />;
+  return (
+    <Navigate
+      to={`/ui/project/${encodeURIComponent(project)}/instances`}
+      replace={true}
+    />
+  );
 };
 
 export default ProjectRedirect;

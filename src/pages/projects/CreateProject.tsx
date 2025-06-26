@@ -86,14 +86,14 @@ const CreateProject: FC = () => {
   useEventListener("resize", updateFormHeight);
 
   const notifySuccess = (values: ProjectFormValues) => {
-    navigate(`/ui/project/${values.name}/instances`);
+    navigate(`/ui/project/${encodeURIComponent(values.name)}/instances`);
     toastNotify.success(
       <>
         Project{" "}
         <ResourceLink
           type="project"
           value={values.name}
-          to={`/ui/project/${values.name}/instances`}
+          to={`/ui/project/${encodeURIComponent(values.name)}/instances`}
         />{" "}
         created.
       </>,
@@ -178,7 +178,9 @@ const CreateProject: FC = () => {
               notifySuccess(values);
             })
             .catch((e: Error) => {
-              navigate(`/ui/project/${values.name}/instances`);
+              navigate(
+                `/ui/project/${encodeURIComponent(values.name)}/instances`,
+              );
               toastNotify.failure(
                 `Successfully created ${values.name} project. Failed to attach storage pool${hasNetwork ? " and network" : ""}.`,
                 e,

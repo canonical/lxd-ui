@@ -12,7 +12,7 @@ import { optionRenderer } from "util/formFields";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isSnapshotsDisabled } from "util/snapshots";
-import SnapshotDiabledWarningLink from "components/SnapshotDiabledWarningLink";
+import SnapshotDisabledWarningLink from "components/SnapshotDisabledWarningLink";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -47,7 +47,7 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
           severity="caution"
           title={`Snapshot creation has been disabled for instances in the project ${project?.name}`}
         >
-          <SnapshotDiabledWarningLink project={project} />
+          <SnapshotDisabledWarningLink project={project} />
         </Notification>
       )}
       <ScrollableConfigurationTable

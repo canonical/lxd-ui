@@ -5,6 +5,7 @@ import { filterUsedByType } from "util/usedBy";
 import ExpandableList from "components/ExpandableList";
 import UsedByItem from "components/UsedByItem";
 import { getStorageBucketURL } from "util/storageBucket";
+import { linkForVolumeDetail } from "util/storageVolume";
 
 interface Props {
   storage: LxdStoragePool | LxdStorageVolume;
@@ -43,7 +44,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="instance"
-                  to={`/ui/project/${item.project}/instance/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />
@@ -59,7 +60,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="profile"
-                  to={`/ui/project/${item.project}/profile/${item.name}`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
                 />
               ))}
             />
@@ -75,7 +76,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                   item={item}
                   activeProject={project}
                   type="image"
-                  to={`/ui/project/${item.project}/images`}
+                  to={`/ui/project/${encodeURIComponent(item.project)}/images`}
                 />
               ))}
             />
@@ -95,16 +96,22 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
                       item={item}
                       activeProject={project}
                       type="snapshot"
-                      to={`/ui/project/${item.project}/instance/${item.instance}/snapshots`}
+                      to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}/snapshots`}
                     />
                   )}
                   {item.volume && (
                     <UsedByItem
-                      key={`${item.volume}-${item.name}-${item.project}-${item.pool}`}
+                      key={`${item.volume}-${item.name}-${item.project}-${item.target}`}
                       item={item}
                       activeProject={project}
                       type="snapshot"
-                      to={`/ui/project/${item.project}/storage/pool/${item.pool}/volumes/custom/${item.volume}/snapshots`}
+                      to={`${linkForVolumeDetail({
+                        name: item.volume,
+                        project: item.project,
+                        pool: storage.name,
+                        type: "custom",
+                        location: item.target ?? "",
+                      } as LxdStorageVolume)}/snapshots`}
                     />
                   )}
                 </>
@@ -120,11 +127,17 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             <ExpandableList
               items={data[CUSTOM_VOLUMES].map((item) => (
                 <UsedByItem
-                  key={`${item.name}-${item.project}`}
+                  key={`${item.name}-${item.project}-${item.target}`}
                   item={item}
                   activeProject={project}
                   type="volume"
-                  to={`/ui/project/${item.project}/storage/pool/${storage.name}/volumes/custom/${item.name}`}
+                  to={linkForVolumeDetail({
+                    name: item.name,
+                    project: item.project,
+                    pool: storage.name,
+                    type: "custom",
+                    location: item.target ?? "",
+                  } as LxdStorageVolume)}
                 />
               ))}
             />

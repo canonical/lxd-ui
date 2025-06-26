@@ -3,6 +3,8 @@ import ResourceLink from "./ResourceLink";
 import type { LxdUsedBy } from "util/usedBy";
 import type { ResourceIconType } from "./ResourceIcon";
 import { useImagesInProject } from "context/useImages";
+import { linkForVolumeDetail } from "util/storageVolume";
+import type { LxdStorageVolume } from "types/storage";
 
 interface Props {
   item: LxdUsedBy;
@@ -35,7 +37,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="project"
             value={item.project}
-            to={`/ui/project/${item.project}/${projectLinkDetailPage}`}
+            to={`/ui/project/${encodeURIComponent(item.project)}/${encodeURIComponent(projectLinkDetailPage)}`}
           />{" "}
           /{" "}
         </>
@@ -45,7 +47,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="instance"
             value={item.instance}
-            to={`/ui/project/${item.project}/instance/${item.instance}`}
+            to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}`}
           />{" "}
           /{" "}
         </>
@@ -55,7 +57,13 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type={"volume"}
             value={item.volume}
-            to={`/ui/project/${item.project}/storage/pool/${item.pool}/volumes/custom/${item.volume}`}
+            to={linkForVolumeDetail({
+              name: item.volume,
+              project: item.project,
+              pool: item.pool,
+              type: "custom",
+              location: item.target ?? "",
+            } as LxdStorageVolume)}
           />{" "}
           /{" "}
         </>

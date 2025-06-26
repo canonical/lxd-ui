@@ -23,9 +23,7 @@ const CreateVolumeBtn: FC<Props> = ({
 
   const handleAdd = () => {
     navigate(
-      `/ui/project/${projectName}/storage/volumes/create${
-        defaultPool ? `?pool=${defaultPool}` : ""
-      }`,
+      `/ui/project/${encodeURIComponent(projectName)}/storage/volumes/create${defaultPool ? `?pool=${encodeURIComponent(defaultPool)}` : ""}`,
     );
   };
 

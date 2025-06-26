@@ -52,7 +52,7 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
       }
       renameNetworkAcl(name, values.name, project)
         .then(() => {
-          const url = `/ui/project/${project}/network-acl/${values.name}`;
+          const url = `/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`;
           navigate(url);
           toastNotify.success(
             <>
@@ -89,7 +89,10 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
     <RenameHeader
       name={name}
       parentItems={[
-        <Link to={`/ui/project/${project}/network-acls`} key={1}>
+        <Link
+          to={`/ui/project/${encodeURIComponent(project)}/network-acls`}
+          key={1}
+        >
           Network ACLs
         </Link>,
       ]}

@@ -672,7 +672,7 @@ const InstanceList: FC = () => {
                   className="u-float-right u-no-margin--bottom"
                   onClick={async () =>
                     navigate(
-                      `/ui/project/${projectForCreationName}/instances/create`,
+                      `/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
                     )
                   }
                   hasIcon={!isSmallScreen}
@@ -805,7 +805,7 @@ const InstanceList: FC = () => {
                   appearance="positive"
                   onClick={async () =>
                     navigate(
-                      `/ui/project/${projectForCreationName}/instances/create`,
+                      `/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
                     )
                   }
                   disabled={!!createInstanceRestriction}

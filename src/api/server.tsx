@@ -9,10 +9,13 @@ import type { LxdMetadata, LxdConfigPair } from "types/config";
 import type { LxdResources } from "types/resources";
 import type { LxdClusterMember } from "types/cluster";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { addTarget } from "util/target";
 
 export const fetchSettings = async (target?: string): Promise<LxdSettings> => {
-  const targetQueryParam = target ? `?target=${target}` : "";
-  return fetch(`/1.0${targetQueryParam}`)
+  const params = new URLSearchParams();
+  addTarget(params, target);
+
+  return fetch(`/1.0?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdSettings>) => {
       return data.metadata;
@@ -53,8 +56,10 @@ export const updateSettings = async (
   config: LxdConfigPair,
   target?: string,
 ): Promise<void> => {
-  const targetQueryParam = target ? `?target=${target}` : "";
-  await fetch(`/1.0${targetQueryParam}`, {
+  const params = new URLSearchParams();
+  addTarget(params, target);
+
+  await fetch(`/1.0?${params.toString()}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

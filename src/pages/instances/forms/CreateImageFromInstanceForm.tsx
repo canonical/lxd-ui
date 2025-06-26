@@ -34,7 +34,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
 
   const notifySuccess = () => {
     const created = (
-      <Link to={`/ui/project/${instance.project}/images`}>created</Link>
+      <Link to={`/ui/project/${encodeURIComponent(instance.project)}/images`}>
+        created
+      </Link>
     );
     toastNotify.success(
       <>

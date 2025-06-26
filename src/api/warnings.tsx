@@ -11,7 +11,7 @@ export const fetchWarnings = async (): Promise<LxdWarning[]> => {
 };
 
 export const deleteWarning = async (warningId: string): Promise<unknown> => {
-  return fetch(`/1.0/warnings/${warningId}`, {
+  return fetch(`/1.0/warnings/${encodeURIComponent(warningId)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

@@ -58,13 +58,13 @@ const NetworkIPAM: FC = () => {
 
     const getUsedByUrl = (item: LxdUsedBy) => {
       if (allocation.type === "instance") {
-        return `/ui/project/${item.project}/instance/${item.name}`;
+        return `/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
       }
       if (allocation.type === "network") {
-        return `/ui/project/${item.project}/network/${item.name}`;
+        return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`;
       }
       if (allocation.type === "network-forward") {
-        return `/ui/project/${item.project}/network/${item.name}/forward`;
+        return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}/forward`;
       }
 
       return "";

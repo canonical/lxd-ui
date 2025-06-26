@@ -132,7 +132,7 @@ const StorageBuckets: FC = () => {
             <ResourceLink
               type="pool"
               value={bucket.pool}
-              to={`/ui/project/${project}/storage/pool/${bucket.pool}`}
+              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(bucket.pool)}`}
             />
           ),
           role: "cell",

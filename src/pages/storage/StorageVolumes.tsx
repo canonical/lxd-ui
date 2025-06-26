@@ -231,7 +231,7 @@ const StorageVolumes: FC = () => {
             <ResourceLink
               type="pool"
               value={volume.pool}
-              to={`/ui/project/${project}/storage/pool/${volume.pool}`}
+              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
             />
           ),
           role: "cell",

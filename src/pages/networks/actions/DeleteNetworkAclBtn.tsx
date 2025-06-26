@@ -41,7 +41,7 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
             query.queryKey[1] === project &&
             query.queryKey[2] === queryKeys.networkAcls,
         });
-        navigate(`/ui/project/${project}/network-acls`);
+        navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);
         toastNotify.success(
           <>
             Network ACL{" "}

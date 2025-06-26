@@ -86,14 +86,14 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       })
         .then(() => {
           const verb = group ? "saved" : "created";
-          navigate(`/ui/cluster/group/${values.name}`);
+          navigate(`/ui/cluster/group/${encodeURIComponent(values.name)}`);
           toastNotify.success(
             <>
               Cluster group{" "}
               <ResourceLink
                 type="cluster-group"
                 value={values.name}
-                to={`/ui/cluster/group/${values.name}`}
+                to={`/ui/cluster/group/${encodeURIComponent(values.name)}`}
               />{" "}
               {verb}.
             </>,

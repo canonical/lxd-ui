@@ -31,7 +31,7 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
                     key={aclName}
                     type="network-acl"
                     value={aclName}
-                    to={`/ui/project/${project}/network-acl/${aclName}`}
+                    to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(aclName)}`}
                   />
                 ))}
               />
