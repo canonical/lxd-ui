@@ -17,6 +17,9 @@ export const createVolumeSnapshot = async (
     `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots?project=${volume.project}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name,
         expires_at: expiresAt,
@@ -89,6 +92,9 @@ export const restoreVolumeSnapshot = async (
     `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${volume.project}${targetParam}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         restore: snapshot.name,
       }),
@@ -106,6 +112,9 @@ export const renameVolumeSnapshot = async (
     `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),
@@ -128,6 +137,9 @@ export const updateVolumeSnapshot = async (
     `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         expires_at: expiresAt,
       }),

@@ -45,6 +45,9 @@ export const createNetworkForward = async (
     `/1.0/networks/${network}/forwards?project=${project}${target}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(forward),
     },
   )
@@ -66,6 +69,9 @@ export const updateNetworkForward = async (
     `/1.0/networks/${network}/forwards/${forward.listen_address}?project=${project}${target}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(forward),
     },
   ).then(handleResponse);

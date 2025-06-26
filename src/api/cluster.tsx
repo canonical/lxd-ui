@@ -20,6 +20,9 @@ export const postClusterMemberState = async (
 ): Promise<LxdClusterMember[]> => {
   return fetch(`/1.0/cluster/members/${member.server_name}/state`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       action: action,
     }),
@@ -53,6 +56,9 @@ export const updateClusterGroup = async (
 ): Promise<void> => {
   await fetch(`/1.0/cluster/groups/${group.name}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(group),
   }).then(handleResponse);
 };
@@ -62,6 +68,9 @@ export const createClusterGroup = async (
 ): Promise<void> => {
   await fetch(`/1.0/cluster/groups`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(group),
   }).then(handleResponse);
 };

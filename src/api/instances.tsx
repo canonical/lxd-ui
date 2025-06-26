@@ -65,6 +65,9 @@ export const createInstance = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/instances?project=${project}&target=${target ?? ""}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: body,
   })
     .then(handleResponse)
@@ -81,6 +84,7 @@ export const updateInstance = async (
     method: "PUT",
     body: JSON.stringify(instance),
     headers: {
+      "Content-Type": "application/json",
       "If-Match": instance.etag ?? "invalid-etag",
     },
   })
@@ -97,6 +101,9 @@ export const renameInstance = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/instances/${oldName}?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),
@@ -121,6 +128,9 @@ export const migrateInstance = async (
 
   return fetch(url, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       migration: true,
       pool,
@@ -173,6 +183,9 @@ const putInstanceAction = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/instances/${instance}/state?project=${project}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       action: action,
       force: isForce,
@@ -274,6 +287,9 @@ export const connectInstanceExec = async (
 ): Promise<LxdTerminal> => {
   return fetch(`/1.0/instances/${name}/exec?project=${project}&wait=10`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       command: [payload.command],
       "wait-for-websocket": true,
@@ -298,6 +314,9 @@ export const connectInstanceVga = async (
 ): Promise<LxdTerminal> => {
   return fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       type: "vga",
       width: 0,
@@ -316,6 +335,9 @@ export const connectInstanceConsole = async (
 ): Promise<LxdTerminal> => {
   return fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       "wait-for-websocket": true,
       type: "console",
@@ -331,9 +353,7 @@ export const fetchInstanceConsoleBuffer = async (
   name: string,
   project: string,
 ): Promise<string> => {
-  return fetch(`/1.0/instances/${name}/console?project=${project}`, {
-    method: "GET",
-  })
+  return fetch(`/1.0/instances/${name}/console?project=${project}`)
     .then(handleTextResponse)
     .then((data: string) => {
       return data;
@@ -344,9 +364,7 @@ export const fetchInstanceLogs = async (
   name: string,
   project: string,
 ): Promise<string[]> => {
-  return fetch(`/1.0/instances/${name}/logs?project=${project}`, {
-    method: "GET",
-  })
+  return fetch(`/1.0/instances/${name}/logs?project=${project}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<string[]>) => {
       return data.metadata;
@@ -358,9 +376,7 @@ export const fetchInstanceLogFile = async (
   project: string,
   file: string,
 ): Promise<string> => {
-  return fetch(`/1.0/instances/${name}/logs/${file}?project=${project}`, {
-    method: "GET",
-  })
+  return fetch(`/1.0/instances/${name}/logs/${file}?project=${project}`)
     .then(handleTextResponse)
     .then((data: string) => {
       return data;
@@ -401,6 +417,9 @@ export const createInstanceBackup = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/instances/${instanceName}/backups?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: payload,
   })
     .then(handleResponse)

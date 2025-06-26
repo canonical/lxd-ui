@@ -19,6 +19,9 @@ export const fetchGroups = async (
 export const createGroup = async (group: Partial<LxdGroup>): Promise<void> => {
   await fetch(`/1.0/auth/groups`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(group),
   }).then(handleResponse);
 };
@@ -38,6 +41,9 @@ export const deleteGroups = async (groups: string[]): Promise<void> => {
 export const updateGroup = async (group: Partial<LxdGroup>): Promise<void> => {
   await fetch(`/1.0/auth/groups/${group.name}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(group),
   }).then(handleResponse);
 };
@@ -48,6 +54,9 @@ export const renameGroup = async (
 ): Promise<void> => {
   await fetch(`/1.0/auth/groups/${oldName}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),
