@@ -19,6 +19,9 @@ export const createSnapshot = (
       `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name,
           expires_at: expiresAt,
@@ -79,6 +82,9 @@ export const restoreSnapshot = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         restore: snapshot.name,
         stateful: snapshot.stateful ? restoreState : false,
@@ -100,6 +106,9 @@ export const renameSnapshot = (
       `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name: newName,
         }),
@@ -121,6 +130,9 @@ export const updateSnapshot = (
       `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
       {
         method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           expires_at: expiresAt,
         }),

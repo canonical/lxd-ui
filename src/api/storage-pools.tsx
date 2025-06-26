@@ -64,6 +64,9 @@ export const createPool = (
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools?project=${project}${targetParam}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(pool),
     })
       .then(handleResponse)
@@ -106,6 +109,9 @@ export const updatePool = (
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools/${pool.name}?project=${project}${targetParam}`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(pool),
     })
       .then(handleResponse)
@@ -140,6 +146,9 @@ export const renameStoragePool = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${oldName}?project=${project}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),
@@ -219,6 +228,9 @@ export const renameStorageVolume = (
       `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name: newName,
         }),
@@ -273,6 +285,9 @@ export const createStorageVolume = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(volume),
     })
       .then(handleResponse)
@@ -295,6 +310,7 @@ export const updateStorageVolume = (
         method: "PUT",
         body: JSON.stringify(volume),
         headers: {
+          "Content-Type": "application/json",
           "If-Match": volume.etag ?? "invalid-etag",
         },
       },

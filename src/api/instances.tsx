@@ -42,6 +42,9 @@ export const createInstance = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances?project=${project}&target=${target ?? ""}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: body,
     })
       .then(handleResponse)
@@ -59,6 +62,7 @@ export const updateInstance = (
       method: "PUT",
       body: JSON.stringify(instance),
       headers: {
+        "Content-Type": "application/json",
         "If-Match": instance.etag ?? "invalid-etag",
       },
     })
@@ -76,6 +80,9 @@ export const renameInstance = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${oldName}?project=${project}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),
@@ -94,6 +101,9 @@ export const migrateInstance = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}?project=${project}&target=${target}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         migration: true,
       }),
@@ -133,6 +143,9 @@ const putInstanceAction = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance}/state?project=${project}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         action: action,
         force: isForce,
@@ -216,6 +229,9 @@ export const connectInstanceExec = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/exec?project=${project}&wait=10`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         command: [payload.command],
         "wait-for-websocket": true,
@@ -241,6 +257,9 @@ export const connectInstanceVga = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         type: "vga",
         width: 0,
@@ -260,6 +279,9 @@ export const connectInstanceConsole = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         "wait-for-websocket": true,
         type: "console",
@@ -276,9 +298,7 @@ export const fetchInstanceConsoleBuffer = (
   project: string,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${name}/console?project=${project}`, {
-      method: "GET",
-    })
+    fetch(`/1.0/instances/${name}/console?project=${project}`)
       .then(handleTextResponse)
       .then((data: string) => resolve(data))
       .catch(reject);
@@ -290,9 +310,7 @@ export const fetchInstanceLogs = (
   project: string,
 ): Promise<string[]> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${name}/logs?project=${project}`, {
-      method: "GET",
-    })
+    fetch(`/1.0/instances/${name}/logs?project=${project}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<string[]>) => resolve(data.metadata))
       .catch(reject);

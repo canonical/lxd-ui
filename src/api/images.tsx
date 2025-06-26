@@ -44,6 +44,9 @@ export const importImage = (
   return new Promise((resolve, reject) => {
     fetch("/1.0/images", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         auto_update: true,
         source: {
@@ -52,6 +55,9 @@ export const importImage = (
           protocol: "simplestreams",
           type: "image",
           server: remoteImage.server,
+        },
+        headers: {
+          "Content-Type": "application/json",
         },
       }),
     })

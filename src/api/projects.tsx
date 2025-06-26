@@ -25,6 +25,9 @@ export const createProject = (body: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: body,
     })
       .then(handleResponse)
@@ -39,6 +42,7 @@ export const updateProject = (project: LxdProject) => {
       method: "PUT",
       body: JSON.stringify(project),
       headers: {
+        "Content-Type": "application/json",
         "If-Match": project.etag ?? "invalid-etag",
       },
     })
@@ -55,6 +59,9 @@ export const renameProject = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${oldName}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),

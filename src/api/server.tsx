@@ -17,6 +17,9 @@ export const updateSettings = (config: LxdConfigPair) => {
   return new Promise((resolve, reject) => {
     fetch("/1.0", {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         config,
       }),
