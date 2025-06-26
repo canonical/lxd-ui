@@ -55,11 +55,8 @@ export const createClusterBridge = (
       }),
     )
       .then((results) => {
-        const error = (
-          results.find((res) => res.status === "rejected") as
-            | PromiseRejectedResult
-            | undefined
-        )?.reason as Error | undefined;
+        const error = results.find((res) => res.status === "rejected")
+          ?.reason as Error | undefined;
 
         if (error) {
           reject(error);
@@ -80,6 +77,9 @@ export const createNetwork = (
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/networks?project=${project}${targetParam}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(network),
     })
       .then(handleResponse)
@@ -107,6 +107,7 @@ export const updateNetwork = (
       method: "PUT",
       body: JSON.stringify(network),
       headers: {
+        "Content-Type": "application/json",
         "If-Match": network.etag ?? "invalid-etag",
       },
     })
@@ -134,6 +135,9 @@ export const renameNetwork = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${oldName}?project=${project}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),

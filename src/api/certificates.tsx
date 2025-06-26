@@ -15,6 +15,9 @@ export const addCertificate = (token: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/certificates`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         type: "client",
         password: token,

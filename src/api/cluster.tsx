@@ -24,6 +24,9 @@ export const postClusterMemberState = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/members/${member.server_name}/state`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         action: action,
         mode: "start",
@@ -61,6 +64,9 @@ export const updateClusterGroup = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group.name}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(group),
     })
       .then(handleResponse)
@@ -75,6 +81,9 @@ export const createClusterGroup = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(group),
     })
       .then(handleResponse)
