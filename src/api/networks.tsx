@@ -180,6 +180,9 @@ export const createNetwork = async (
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/networks?project=${project}${targetParam}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(network),
     })
       .then(handleResponse)
@@ -216,6 +219,7 @@ export const updateNetwork = async (
         method: "PUT",
         body: JSON.stringify(network),
         headers: {
+          "Content-Type": "application/json",
           "If-Match": network.etag ?? "",
         },
       },
@@ -283,6 +287,9 @@ export const renameNetwork = async (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${oldName}?project=${project}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),
