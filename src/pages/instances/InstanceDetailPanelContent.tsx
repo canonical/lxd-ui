@@ -12,6 +12,7 @@ import { useSettings } from "context/useSettings";
 import { isNicDevice } from "util/devices";
 import { getIpAddresses } from "util/networks";
 import { useInstanceLoading } from "context/instanceLoading";
+import InstanceMACAddresses from "pages/instances/InstaceMACAddresses";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -82,6 +83,12 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <th className="u-text--muted">IPv6</th>
           <td key={getIpAddresses(instance, "inet6").length}>
             <InstanceIps instance={instance} family="inet6" />
+          </td>
+        </tr>
+        <tr>
+          <th className="u-text--muted">MAC addresses</th>
+          <td key={getIpAddresses(instance, "inet6").length}>
+            <InstanceMACAddresses instance={instance} />
           </td>
         </tr>
         <tr>
