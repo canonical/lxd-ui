@@ -6,13 +6,15 @@ import ResourceLink from "components/ResourceLink";
 import { useParams } from "react-router-dom";
 import type { LxdDevices } from "types/device";
 import { useNetworks } from "context/useNetworks";
+import type { LxdInstance } from "types/instance";
 
 interface Props {
   onFailure: (title: string, e: unknown) => void;
   devices: LxdDevices;
+  instance?: LxdInstance;
 }
 
-const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
+const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
   const { project } = useParams<{ project: string }>();
 
   const {
@@ -38,8 +40,8 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
     },
     { content: "Type", sortKey: "type", className: "u-text--muted" },
     {
-      content: "Managed",
-      sortKey: "managed",
+      content: "Mac Address",
+      sortKey: "macAddress",
       className: "u-text--muted u-hide--small u-hide--medium",
     },
   ];
@@ -80,21 +82,29 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
             "aria-label": "Interface",
           },
           {
-            content: network.type,
+            content: (
+              <>
+                {network.type}
+                <span className="u-text--muted">
+                  , {network.managed ? "managed" : "unmanaged"}
+                </span>
+              </>
+            ),
             role: "cell",
             "aria-label": "Type",
           },
           {
-            content: network.managed ? "Yes" : "No",
+            content: instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
             role: "cell",
-            "aria-label": "Managed",
+            "aria-label": "Mac Address",
           },
         ],
         sortData: {
           name: network.name.toLowerCase(),
-          type: network.type,
-          managed: network.managed,
+          type: network.type + network.managed ? "managed" : "unmanaged",
           interfaceName: deviceName.toLowerCase(),
+          macAddress:
+            instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
         },
       };
     })
