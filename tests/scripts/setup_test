@@ -8,6 +8,7 @@ then
 fi
 lxc config set oidc.issuer=${LXD_OIDC_ISSUER}
 lxc config set oidc.client.id=${LXD_OIDC_CLIENT_ID}
+lxc config set oidc.client.secret=${LXD_OIDC_CLIENT_SECRET} || true # Make compatible with LXD 5.21 and 5.0
 lxc config set oidc.audience=${LXD_OIDC_AUDIENCE}
 lxc config set oidc.groups.claim=${LXD_OIDC_GROUPS_CLAIM}
 
