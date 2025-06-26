@@ -52,6 +52,9 @@ export const fetchProject = async (
 export const createProject = async (body: string): Promise<void> => {
   await fetch(`/1.0/projects`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: body,
   }).then(handleResponse);
 };
@@ -61,6 +64,7 @@ export const updateProject = async (project: LxdProject): Promise<void> => {
     method: "PUT",
     body: JSON.stringify(project),
     headers: {
+      "Content-Type": "application/json",
       "If-Match": project.etag ?? "invalid-etag",
     },
   }).then(handleResponse);
@@ -72,6 +76,9 @@ export const renameProject = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/projects/${oldName}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),

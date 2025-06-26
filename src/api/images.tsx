@@ -89,6 +89,9 @@ export const createImageAlias = async (
 ): Promise<void> => {
   await fetch(`/1.0/images/aliases?project=${project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       target: fingerprint,
       name: alias,
@@ -102,6 +105,9 @@ export const createImage = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/images?project=${instance.project}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: body,
   })
     .then(handleResponse)
@@ -119,6 +125,7 @@ export const uploadImage = async (
   return axios
     .post(`/1.0/images?project=${project}`, body, {
       headers: {
+        "Content-Type": "application/octet-stream",
         "X-LXD-public": JSON.stringify(isPublic),
       },
       onUploadProgress: (event) => {

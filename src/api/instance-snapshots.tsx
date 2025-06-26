@@ -14,6 +14,9 @@ export const createInstanceSnapshot = async (
     `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name,
         expires_at: expiresAt,
@@ -83,6 +86,9 @@ export const restoreInstanceSnapshot = async (
 ): Promise<LxdOperationResponse> => {
   return fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       restore: snapshot.name,
       stateful: snapshot.stateful ? restoreState : false,
@@ -103,6 +109,9 @@ export const renameInstanceSnapshot = async (
     `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: newName,
       }),
@@ -123,6 +132,9 @@ export const updateInstanceSnapshot = async (
     `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         expires_at: expiresAt,
       }),

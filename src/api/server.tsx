@@ -56,6 +56,9 @@ export const updateSettings = async (
   const targetQueryParam = target ? `?target=${target}` : "";
   await fetch(`/1.0${targetQueryParam}`, {
     method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       config,
     }),

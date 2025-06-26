@@ -58,6 +58,9 @@ export const createStorageBucket = async (
     `/1.0/storage-pools/${pool}/buckets?project=${project}${targetParam}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: body,
     },
   )
@@ -78,6 +81,9 @@ export const updateStorageBucket = async (
     `/1.0/storage-pools/${pool}/buckets/${bucket.name}?project=${project}${targetParam}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(bucket),
     },
   ).then(handleResponse);

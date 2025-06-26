@@ -52,6 +52,9 @@ export const updateIdentity = async (
     `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(identity),
     },
   ).then(handleResponse);
@@ -88,6 +91,9 @@ export const createFineGrainedTlsIdentity = async (
 ): Promise<TlsIdentityTokenDetail> => {
   return fetch(`/1.0/auth/identities/tls`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: name,
       groups: groups,

@@ -24,6 +24,9 @@ export const createIdpGroup = async (
 ): Promise<void> => {
   await fetch(`/1.0/auth/identity-provider-groups`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ name: group.name, groups: group.groups }),
   }).then(handleResponse);
 };
@@ -31,6 +34,9 @@ export const createIdpGroup = async (
 export const updateIdpGroup = async (group: IdpGroup): Promise<void> => {
   await fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(group),
   }).then(handleResponse);
 };
@@ -41,6 +47,9 @@ export const renameIdpGroup = async (
 ): Promise<void> => {
   await fetch(`/1.0/auth/identity-provider-groups/${oldName}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       name: newName,
     }),
