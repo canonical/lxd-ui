@@ -476,6 +476,19 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
+                          to="/ui/cluster/links"
+                          title="Cluster links"
+                          onClick={softToggleMenu}
+                        >
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="applications"
+                          />{" "}
+                          Cluster links
+                        </NavLink>
+                      </SideNavigationItem>
+                      <SideNavigationItem>
+                        <NavLink
                           to={`/ui/operations`}
                           title={`Operations (${projectName})`}
                           onClick={softToggleMenu}
