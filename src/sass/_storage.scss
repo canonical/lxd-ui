@@ -1,3 +1,4 @@
+.storage-buckets,
 .storage-volumes,
 .custom-iso-list {
   .search-wrapper {
@@ -64,6 +65,7 @@
   }
 }
 
+.storage-bucket-list,
 .storage-volume-list {
   .storage-volume-table {
     .used_by {
@@ -86,24 +88,6 @@
       padding: 0;
     }
 
-    @media screen and (pointer: fine) {
-      .storage-volume-actions {
-        visibility: hidden;
-      }
-
-      .u-row:hover {
-        background-color: $colors--light-theme--background-hover;
-
-        .storage-volume-actions {
-          visibility: visible;
-
-          button:hover {
-            background-color: $colors--light-theme--background-active;
-          }
-        }
-      }
-    }
-
     @media screen and (width < 1000px) {
       .pool,
       .size,
@@ -115,6 +99,26 @@
     @media screen and (width < 500px) {
       .actions {
         display: none;
+      }
+    }
+  }
+
+  @media screen and (pointer: fine) {
+    .storage-bucket-actions,
+    .storage-volume-actions {
+      visibility: hidden;
+    }
+
+    .u-row:hover {
+      background-color: $colors--light-theme--background-hover;
+
+      .storage-bucket-actions,
+      .storage-volume-actions {
+        visibility: visible;
+
+        button:hover {
+          background-color: $colors--light-theme--background-active;
+        }
       }
     }
   }

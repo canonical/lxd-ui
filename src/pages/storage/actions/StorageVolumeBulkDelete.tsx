@@ -5,38 +5,38 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useToastNotification } from "@canonical/react-components";
-import type { LxdStorageBucket } from "types/storage";
-import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
-import { deleteStorageBucketBulk } from "api/storage-buckets";
+import type { LxdStorageVolume } from "types/storage";
 import { getPromiseSettledCounts } from "util/promises";
 import { useCurrentProject } from "context/useCurrentProject";
+import { deleteStorageVolumeBulk } from "api/storage-volumes";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
-  buckets: LxdStorageBucket[];
+  volumes: LxdStorageVolume[];
   onStart: () => void;
   onFinish: () => void;
 }
 
-const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
+const StorageVolumeBulkDelete: FC<Props> = ({ volumes, onStart, onFinish }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
-  const { canDeleteBucket } = useStorageBucketEntitlements();
+  const { canDeleteVolume } = useStorageVolumeEntitlements();
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
 
-  const deleteableBuckets = buckets.filter((bucket) => canDeleteBucket(bucket));
-  const totalCount = buckets.length;
-  const deleteCount = deleteableBuckets.length;
+  const deletableVolumes = volumes.filter((volume) => canDeleteVolume(volume));
+  const totalCount = volumes.length;
+  const deleteCount = deletableVolumes.length;
 
-  const buttonText = `Delete ${buckets.length} ${pluralize("bucket", buckets.length)}`;
+  const buttonText = `Delete ${volumes.length} ${pluralize("volume", volumes.length)}`;
 
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    const successMessage = `${deleteableBuckets.length} ${pluralize("bucket", deleteableBuckets.length)} successfully deleted`;
+    const successMessage = `${deletableVolumes.length} ${pluralize("volume", deletableVolumes.length)} successfully deleted`;
 
-    deleteStorageBucketBulk(deleteableBuckets, projectName)
+    deleteStorageVolumeBulk(deletableVolumes, projectName)
       .then((results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
@@ -45,36 +45,45 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
           toastNotify.success(successMessage);
         } else if (rejectedCount === deleteCount) {
           toastNotify.failure(
-            "Bucket bulk deletion failed",
+            "Volume bulk deletion failed",
             undefined,
             <>
-              <b>{deleteCount}</b> {pluralize("bucket", deleteCount)} could not
+              <b>{deleteCount}</b> {pluralize("volume", deleteCount)} could not
               be deleted.
             </>,
           );
         } else {
           toastNotify.failure(
-            "Bucket bulk deletion partially failed",
+            "Volume bulk deletion partially failed",
             undefined,
             <>
-              <b>{fulfilledCount}</b> {pluralize("bucket", fulfilledCount)}{" "}
+              <b>{fulfilledCount}</b> {pluralize("volume", fulfilledCount)}{" "}
               deleted.
               <br />
-              <b>{rejectedCount}</b> {pluralize("bucket", rejectedCount)} could
+              <b>{rejectedCount}</b> {pluralize("volume", rejectedCount)} could
               not be deleted.
             </>,
           );
         }
 
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.buckets, projectName],
+          queryKey: [queryKeys.volumes, projectName],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.isoVolumes],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.projects, project],
+        });
+        queryClient.invalidateQueries({
+          predicate: (query) => query.queryKey[0] === queryKeys.volumes,
         });
         setLoading(false);
         onFinish();
       })
       .catch((e) => {
         setLoading(false);
-        toastNotify.failure("Bucket bulk deletion failed", e);
+        toastNotify.failure("Volume bulk deletion failed", e);
       });
   };
 
@@ -85,20 +94,20 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
 
     const restrictedCount = totalCount - deleteCount;
     return [
-      `${deleteCount} ${pluralize("bucket", deleteCount)} will be deleted.`,
-      `${restrictedCount} ${pluralize("bucket", restrictedCount)} that you do not have permission to delete will be ignored.`,
+      `${deleteCount} ${pluralize("volume", deleteCount)} will be deleted.`,
+      `${restrictedCount} ${pluralize("volume", restrictedCount)} that you do not have permission to delete will be ignored.`,
     ];
   };
 
   return (
     <BulkDeleteButton
-      entities={buckets}
-      deletableEntities={deleteableBuckets}
-      entityType="bucket"
+      entities={volumes}
+      deletableEntities={deletableVolumes}
+      entityType="volume"
       onDelete={handleDelete}
       disabledReason={
         deleteCount === 0
-          ? `You do not have permission to delete the selected ${pluralize("bucket", buckets.length)}`
+          ? `You do not have permission to delete the selected ${pluralize("volume", volumes.length)}`
           : undefined
       }
       confirmationButtonProps={{
@@ -112,4 +121,4 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
   );
 };
 
-export default StorageBucketBulkDelete;
+export default StorageVolumeBulkDelete;

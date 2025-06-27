@@ -185,7 +185,7 @@ const StorageBuckets: FC = () => {
   const hasBuckets = buckets.length !== 0;
 
   const content = hasBuckets ? (
-    <div className="storage-volumes">
+    <div className="storage-buckets">
       <ScrollableTable
         dependencies={[filteredBuckets]}
         tableId="bucket-table"
@@ -267,7 +267,7 @@ const StorageBuckets: FC = () => {
   return (
     <>
       <CustomLayout
-        mainClassName="storage-volume-list"
+        mainClassName="storage-bucket-list"
         header={
           <PageHeader>
             <PageHeader.Left>

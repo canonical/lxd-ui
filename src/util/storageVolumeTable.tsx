@@ -9,13 +9,13 @@ export const SNAPSHOTS_COL = "Snapshots";
 export const ACTIONS_COL = "Actions";
 
 export const COLUMN_WIDTHS: Record<string, string> = {
-  [NAME_COL]: "19%",
-  [POOL_COL]: "9%",
-  [CLUSTER_MEMBER_COL]: "15%",
-  [TYPE_COL]: "10%",
-  [CONTENT_TYPE_COL]: "10%",
-  [SIZE_COL]: "7%",
-  [USED_BY_COL]: "7%",
-  [SNAPSHOTS_COL]: "9%",
-  [ACTIONS_COL]: "14%",
+  [NAME_COL]: "10rem",
+  [POOL_COL]: "6rem",
+  [CLUSTER_MEMBER_COL]: "10rem",
+  [TYPE_COL]: "6rem",
+  [CONTENT_TYPE_COL]: "6rem",
+  [SIZE_COL]: "5rem",
+  [USED_BY_COL]: "5rem",
+  [SNAPSHOTS_COL]: "6rem",
+  [ACTIONS_COL]: "8rem",
 };

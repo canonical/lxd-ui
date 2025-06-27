@@ -1,10 +1,9 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
   EmptyState,
   Icon,
-  MainTable,
   Row,
   TablePagination,
   useNotify,
@@ -53,6 +52,10 @@ import NotificationRow from "components/NotificationRow";
 import { useLoadVolumes } from "context/useVolumes";
 import { useIsClustered } from "context/useIsClustered";
 import ResourceLink from "components/ResourceLink";
+import SelectableMainTable from "components/SelectableMainTable";
+import SelectedTableNotification from "components/SelectedTableNotification";
+import type { LxdStorageVolume } from "types/storage";
+import StorageVolumeBulkDelete from "./actions/StorageVolumeBulkDelete";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -86,9 +89,23 @@ const StorageVolumes: FC = () => {
 
   const { data: volumes = [], error, isLoading } = useLoadVolumes(project);
 
+  const getVolumeKey = (volume: LxdStorageVolume) => {
+    return `${volume.name}-${volume.pool}-${volume.location || ""}`;
+  };
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [processingVolumes, setProcessingVolumes] = useState<string[]>([]);
+
   if (error) {
     notify.failure("Loading storage volumes failed", error);
   }
+
+  useEffect(() => {
+    const validKeys = new Set(volumes.map(getVolumeKey));
+    const validSelections = selectedNames.filter((name) => validKeys.has(name));
+    if (validSelections.length !== selectedNames.length) {
+      setSelectedNames(validSelections);
+    }
+  }, [volumes]);
 
   const headers = [
     {
@@ -210,14 +227,15 @@ const StorageVolumes: FC = () => {
 
   const snapshotsPerVolume = getSnapshotsPerVolume(volumes);
   const rows = filteredVolumes.map((volume) => {
+    const key = getVolumeKey(volume);
     const volumeType = renderVolumeType(volume);
     const contentType = renderContentType(volume);
-
-    const key = `${volume.name}-${volume.pool}-${volume.location}`;
     const snapshotCount = snapshotsPerVolume[key]?.length ?? 0;
+    const canSelect = hasVolumeDetailPage(volume);
 
     return {
       key,
+      name: canSelect ? key : undefined,
       className: "u-row",
       columns: [
         {
@@ -402,19 +420,51 @@ const StorageVolumes: FC = () => {
           itemName="volume"
           className="u-no-margin--top"
           aria-label="Table pagination control"
+          description={
+            selectedNames.length > 0 && (
+              <SelectedTableNotification
+                totalCount={
+                  volumes.filter(
+                    (volume) =>
+                      !isSnapshot(volume) && hasVolumeDetailPage(volume),
+                  ).length
+                }
+                itemName="volume"
+                parentName="project"
+                selectedNames={selectedNames}
+                setSelectedNames={setSelectedNames}
+                filteredNames={filteredVolumes
+                  .filter(hasVolumeDetailPage)
+                  .map(getVolumeKey)}
+              />
+            )
+          }
         >
-          <MainTable
+          <SelectableMainTable
+            className="storage-volume-table"
             id="volume-table"
             headers={headers}
+            rows={sortedRows}
             sortable
             emptyStateMsg="No volumes found matching this search"
-            className="storage-volume-table"
+            itemName="volume"
+            parentName="project"
+            selectedNames={selectedNames}
+            setSelectedNames={setSelectedNames}
+            disabledNames={processingVolumes}
+            filteredNames={filteredVolumes.map(getVolumeKey)}
             onUpdateSort={updateSort}
+            defaultSortDirection="descending"
           />
         </TablePagination>
       </ScrollableTable>
     </div>
   );
+
+  const selectedVolumes = volumes.filter((volume) => {
+    const volumeKey = getVolumeKey(volume);
+    return selectedNames.includes(volumeKey);
+  });
 
   return (
     <CustomLayout
@@ -430,10 +480,21 @@ const StorageVolumes: FC = () => {
                 Volumes
               </HelpLink>
             </PageHeader.Title>
-            {hasVolumes && (
+            {!selectedNames.length && hasVolumes && (
               <PageHeader.Search>
                 <StorageVolumesFilter key={project} volumes={volumes} />
               </PageHeader.Search>
+            )}
+            {!!selectedNames.length && (
+              <StorageVolumeBulkDelete
+                volumes={selectedVolumes}
+                onStart={() => {
+                  setProcessingVolumes(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingVolumes([]);
+                }}
+              />
             )}
           </PageHeader.Left>
           {hasVolumes && (
