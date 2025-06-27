@@ -329,17 +329,17 @@
     prop-types "15.8.1"
     react-table "7.8.0"
 
-"@canonical/typescript-config-base@^0.4.0-experimental.0":
-  version "0.4.0-experimental.0"
-  resolved "https://registry.yarnpkg.com/@canonical/typescript-config-base/-/typescript-config-base-0.4.0-experimental.0.tgz#91373dccb30a79a6f31270f3cd4d015ab8f3b9df"
-  integrity sha512-cmA0YBRkFCS5/envqwTcr+ROgBtaMUH0utMBpdSu+3+N5f4R93RWxlUXQ0uUSu5P9uW+GHAwAG3dKlo81hLgrw==
+"@canonical/typescript-config-base@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@canonical/typescript-config-base/-/typescript-config-base-0.9.0.tgz#96de6785dead93428d2a87f9f96e6eb87f1e9ec9"
+  integrity sha512-tvyi2gbxmZKR2TCRFnemn2h1GihuprR3wQxcGXfNquv5tqC6SRRILP6Vzle5zN7sz2pney9LWrBFm2mXzZuSbg==
 
-"@canonical/typescript-config-react@0.4.0-experimental.0":
-  version "0.4.0-experimental.0"
-  resolved "https://registry.yarnpkg.com/@canonical/typescript-config-react/-/typescript-config-react-0.4.0-experimental.0.tgz#d3b43c14bed84a193f9ebd52051f409dee775f7d"
-  integrity sha512-IBJcc1gRbd9xZ9X0HJAXvTTYKxxLYFyp2zgBaYQvgRNj5heU/C7t8H6/VFjE8ulE0ECxoYU6UIwo8uJkOau6Yg==
+"@canonical/typescript-config-react@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@canonical/typescript-config-react/-/typescript-config-react-0.9.0.tgz#d1f92003213658d1eb9876e57c4f99b19d5b5326"
+  integrity sha512-nlrHDtTUNTYvpMhOly7gnwtYJewQOG4PdwfWMCMGKfbeAMWQBD98bE6CGtJdJVExOssEUKrL9bCJY4GCHB7/Kw==
   dependencies:
-    "@canonical/typescript-config-base" "^0.4.0-experimental.0"
+    "@canonical/typescript-config-base" "^0.9.0"
 
 "@csstools/css-parser-algorithms@^3.0.4":
   version "3.0.4"
