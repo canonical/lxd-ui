@@ -78,6 +78,14 @@ export interface LxdStorageBucket {
   pool: string;
 }
 
+export interface LxdStorageBucketKey {
+  name: string;
+  description: string;
+  role: string;
+  "access-key": string;
+  "secret-key": string;
+}
+
 export interface LxdStorageVolumeState {
   usage: {
     used: number;

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import type { LxdStorageBucket } from "types/storage";
+import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -9,19 +9,21 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
-import { deleteStorageBucket } from "api/storage-buckets";
+import { deleteStorageBucketKey } from "api/storage-buckets";
 import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   bucket: LxdStorageBucket;
+  bucketKey: LxdStorageBucketKey;
   onFinish: () => void;
   hasIcon?: boolean;
   classname?: string;
   isDetailPage?: boolean;
 }
 
-const DeleteStorageBucketBtn: FC<Props> = ({
+const DeleteStorageBucketKeyBtn: FC<Props> = ({
   bucket,
+  bucketKey,
   onFinish,
   hasIcon = true,
   classname,
@@ -30,21 +32,26 @@ const DeleteStorageBucketBtn: FC<Props> = ({
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const { canDeleteBucket } = useStorageBucketEntitlements();
+  const { canEditBucket } = useStorageBucketEntitlements();
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
 
   const handleDelete = () => {
     setLoading(true);
-    deleteStorageBucket(bucket.name, bucket.pool, projectName)
+    deleteStorageBucketKey(
+      bucket.name,
+      bucketKey.name,
+      bucket.pool,
+      projectName,
+    )
       .then(onFinish)
       .catch((e) => {
-        notify.failure("Storage bucket deletion failed", e);
+        notify.failure("Bucket key deletion failed", e);
       })
       .finally(() => {
         setLoading(false);
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.buckets, projectName],
+          queryKey: [queryKeys.buckets, project, queryKeys.bucketKeys],
         });
       });
   };
@@ -56,7 +63,7 @@ const DeleteStorageBucketBtn: FC<Props> = ({
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete bucket <b>{bucket.name}</b>.<br />
+            This will permanently delete key <b>{bucketKey.name}</b>.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),
@@ -67,11 +74,11 @@ const DeleteStorageBucketBtn: FC<Props> = ({
       className={classname}
       shiftClickEnabled
       showShiftClickHint
-      disabled={!canDeleteBucket(bucket)}
+      disabled={!canEditBucket(bucket)}
       onHoverText={
-        canDeleteBucket(bucket)
-          ? "Delete bucket"
-          : "You do not have permission to delete this bucket."
+        canEditBucket(bucket)
+          ? "Delete key"
+          : "You do not have permission to delete this key."
       }
     >
       {hasIcon && <Icon name="delete" />}
@@ -80,4 +87,4 @@ const DeleteStorageBucketBtn: FC<Props> = ({
   );
 };
 
-export default DeleteStorageBucketBtn;
+export default DeleteStorageBucketKeyBtn;
