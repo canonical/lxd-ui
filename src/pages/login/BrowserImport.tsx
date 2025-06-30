@@ -10,8 +10,28 @@ const EDGE = "Microsoft Edge";
 const MACOS = "macOS";
 const TABS: string[] = [FIREFOX, CHROME_LINUX, CHROME_WINDOWS, EDGE, MACOS];
 
+const getDefaultTab = (): string => {
+  const ua = navigator.userAgent.toLowerCase();
+
+  const isMac = ua.includes("macintosh") || ua.includes("mac os");
+  const isWindows = ua.includes("windows");
+  const isLinux = ua.includes("linux");
+
+  const isEdge = ua.includes("edg/");
+  const isFirefox = ua.includes("firefox");
+  const isChrome = ua.includes("chrome");
+
+  if (isFirefox) return FIREFOX;
+  if (isMac) return MACOS;
+  if (isEdge) return EDGE;
+  if (isChrome && isWindows) return CHROME_WINDOWS;
+  if (isChrome && isLinux) return CHROME_LINUX;
+
+  return FIREFOX;
+};
+
 const BrowserImport: FC = () => {
-  const [activeTab, handleTabChange] = useState(FIREFOX);
+  const [activeTab, handleTabChange] = useState(getDefaultTab());
 
   const windowsDialogSteps = (
     <>
