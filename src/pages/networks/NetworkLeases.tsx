@@ -46,7 +46,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
 
   const headers = [
     { content: "Hostname", sortKey: "hostname" },
-    { content: "Mac Address", sortKey: "mac_address" },
+    { content: "MAC address", sortKey: "mac_address" },
     { content: "IP Address", sortKey: "address" },
     { content: "Type", sortKey: "type" },
   ];
