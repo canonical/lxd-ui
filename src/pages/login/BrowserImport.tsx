@@ -90,8 +90,8 @@ const BrowserImport: FC = () => {
                 click Import
               </li>
               <li className="p-list__item">
-                Select the file you just downloaded (ending in .pfx). If you
-                created a password for the certificate, type it in now.
+                Select the .pfx file you just downloaded. If you created a
+                password for the certificate, type it in now.
               </li>
               <li className="p-list__item">
                 <b>Restart the browser.</b>
@@ -105,17 +105,21 @@ const BrowserImport: FC = () => {
             <ul className="p-list--divided u-no-margin--bottom">
               {downloadPfx}
               <li className="p-list__item">
-                Go to Chrome&apos;s certificate settings:
+                Go to Chrome&apos;s certificate manager:
                 <pre className="p-code-snippet__block u-no-margin--bottom">
-                  <code>chrome://settings/certificates</code>
+                  <code>chrome://certificate-manager</code>
                 </pre>
               </li>
               <li className="p-list__item">
-                Click <b>Import</b>
+                Click <b>Your certificates</b>
               </li>
               <li className="p-list__item">
-                Select the file you just downloaded (ending in .pfx). If you
-                created a password for the certificate, type it in now.
+                Go to <b>View imported certificates from Linux</b>
+              </li>
+              <li className="p-list__item">
+                Select <b>Import</b> and choose the .pfx file you just
+                downloaded. If you created a password for the certificate, type
+                it in now.
               </li>
               <li className="p-list__item">
                 <b>Restart the browser.</b>
