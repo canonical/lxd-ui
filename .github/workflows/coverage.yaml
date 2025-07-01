@@ -14,8 +14,8 @@ jobs:
     env:
       LXD_OIDC_CLIENT_ID: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
       LXD_OIDC_CLIENT_SECRET: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
-      LXD_OIDC_ISSUER: "https://dev-xjrvvfikbsv4jxn7.us.auth0.com/"
-      LXD_OIDC_AUDIENCE: "https://dev-xjrvvfikbsv4jxn7.us.auth0.com/api/v2/"
+      LXD_OIDC_ISSUER: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
+      LXD_OIDC_AUDIENCE: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
       LXD_OIDC_USER: "lxd-ui-e2e-tests@example.org"
       LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
       LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
