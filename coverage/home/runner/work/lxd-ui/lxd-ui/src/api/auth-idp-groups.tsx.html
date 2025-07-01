@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.35% </span>
+                <span class="strong">82.29% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>70/85</span>
+                <span class='fraction'>79/96</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>69/69</span>
+                <span class='fraction'>78/78</span>
             </div>
         
             
@@ -132,7 +132,16 @@
 <a name='L67'></a><a href='#L67'>67</a>
 <a name='L68'></a><a href='#L68'>68</a>
 <a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -174,23 +183,32 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -204,18 +222,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { IdpGroup } from "types/permissions";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 &nbsp;
 const idpGroupEntitlements = <span class="cstat-no" title="statement not covered" >["can_delete", "can_edit"];</span>
 &nbsp;
 export const fetchIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   isFineGrained: boolean | null,
 ): Promise&lt;IdpGroup[]&gt; =&gt; {
-  const entitlements = <span class="cstat-no" title="statement not covered" >withEntitlementsQuery(</span>
-    isFineGrained,
-    idpGroupEntitlements,
-  );
-<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)</span>
+  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
+<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, idpGroupEntitlements);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/auth/identity-provider-groups?${params.toString()}`)</span>
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;IdpGroup[]&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
@@ -235,34 +253,43 @@ export const createIdpGroup = <span class="cstat-no" title="statement not covere
 };
 &nbsp;
 export const updateIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roup: IdpGroup): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {</span>
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+    `/1.0/auth/identity-provider-groups/${encodeURIComponent(group.name)}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(group),
     },
-    body: JSON.stringify(group),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 &nbsp;
 export const renameIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   oldName: string,
   newName: string,
 ): Promise&lt;void&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identity-provider-groups/${oldName}`, {</span>
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+    `/1.0/auth/identity-provider-groups/${encodeURIComponent(oldName)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newName,
+      }),
     },
-    body: JSON.stringify({
-      name: newName,
-    }),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 &nbsp;
 export const deleteIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roup: string): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identity-provider-groups/${group}`, {</span>
-    method: "DELETE",
-  }).then(handleResponse);
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+    `/1.0/auth/identity-provider-groups/${encodeURIComponent(group)}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };
 &nbsp;
 export const deleteIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roups: string[]): Promise&lt;void&gt; =&gt; {</span>
@@ -277,7 +304,7 @@ export const deleteIdpGroups = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-01T09:39:03.021Z
+                at 2025-07-01T14:24:38.876Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

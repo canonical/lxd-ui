@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.88% </span>
+                <span class="strong">4.76% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/17</span>
+                <span class='fraction'>1/21</span>
             </div>
         
             
@@ -236,34 +236,34 @@
 <a name='L171'></a><a href='#L171'>171</a>
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
+<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -407,8 +407,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useState } from "react";
 import { updateInstance } from "api/instances";
@@ -469,7 +469,7 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >                ISO{" "}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >                  to={`/ui/project/${project}/storage/custom-isos`}</span>
+<span class="cstat-no" title="statement not covered" >                  to={`/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}</span>
 <span class="cstat-no" title="statement not covered" >                  type="iso-volume"</span>
 <span class="cstat-no" title="statement not covered" >                  value={attachedIso?.source ?? ""}</span>
 <span class="cstat-no" title="statement not covered" >                /&gt;{" "}</span>
@@ -517,7 +517,7 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >                ISO{" "}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >                  to={`/ui/project/${project}/storage/custom-isos`}</span>
+<span class="cstat-no" title="statement not covered" >                  to={`/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}</span>
 <span class="cstat-no" title="statement not covered" >                  type="iso-volume"</span>
 <span class="cstat-no" title="statement not covered" >                  value={image.aliases}</span>
 <span class="cstat-no" title="statement not covered" >                /&gt;{" "}</span>
@@ -589,7 +589,7 @@ export default AttachIsoBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-01T09:39:03.021Z
+                at 2025-07-01T14:24:38.876Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -279,38 +279,38 @@
 <a name='L214'></a><a href='#L214'>214</a>
 <a name='L215'></a><a href='#L215'>215</a>
 <a name='L216'></a><a href='#L216'>216</a>
-<a name='L217'></a><a href='#L217'>217</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
+<a name='L217'></a><a href='#L217'>217</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -493,8 +493,8 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
@@ -536,7 +536,7 @@ const ExportInstanceModal: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" >    settings?.environment?.<span class="branch-0 cbranch-no" title="branch not covered" >backup_metadata_version_range ?? [];</span></span>
 &nbsp;
   const startDownload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(b</span>ackupName: string) =&gt; {</span>
-    const url = <span class="cstat-no" title="statement not covered" >`/1.0/instances/${instance.name}/backups/${backupName}/export?project=${instance.project}`;</span>
+    const url = <span class="cstat-no" title="statement not covered" >`/1.0/instances/${encodeURIComponent(instance.name)}/backups/${encodeURIComponent(backupName)}/export?project=${encodeURIComponent(instance.project)}`;</span>
 &nbsp;
     const a = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span>
 <span class="cstat-no" title="statement not covered" >    a.href = url;</span>
@@ -718,7 +718,7 @@ export default ExportInstanceModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-01T09:39:03.021Z
+                at 2025-07-01T14:24:38.876Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

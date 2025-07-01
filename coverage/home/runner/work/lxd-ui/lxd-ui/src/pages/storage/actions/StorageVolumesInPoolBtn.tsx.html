@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.5% </span>
+                <span class="strong">78.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/40</span>
+                <span class='fraction'>33/42</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.28% </span>
+                <span class="strong">89.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/35</span>
+                <span class='fraction'>33/37</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -98,7 +98,9 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -114,23 +116,25 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
-<span class="cline-any cline-yes">88x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">89x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, ReactNode } from "react";
@@ -157,7 +161,9 @@ const StorageVolumesInPoolBtn: FC&lt;Props&gt; = <span class="cstat-no" title="s
   const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
 &nbsp;
   const handleClick = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    navigate(`/ui/project/${project}/storage/volumes?pool=${pool}`);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    navigate(</span></span>
+<span class="cstat-no" title="statement not covered" >      `/ui/project/${encodeURIComponent(project)}/storage/volumes?pool=${encodeURIComponent(pool)}`,</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
@@ -175,7 +181,7 @@ export default StorageVolumesInPoolBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-01T09:39:03.021Z
+                at 2025-07-01T14:24:38.876Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/slugify.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/target.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> slugify.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> target.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -61,16 +61,22 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
-<a name='L4'></a><a href='#L4'>4</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">96524x</span>
-<span class="cline-any cline-yes">96524x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const slugify = (name: string): string =&gt; {
-  return name.replace(" ", "-").toLowerCase();
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">268x</span>
+<span class="cline-any cline-yes">3777x</span>
+<span class="cline-any cline-yes">538x</span>
+<span class="cline-any cline-yes">538x</span>
+<span class="cline-any cline-yes">3777x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const addTarget = <span class="fstat-no" title="function not covered" >(p</span>arams: URLSearchParams, target?: string | null) =&gt; {
+<span class="cstat-no" title="statement not covered" >  if (target &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >target.length &gt; 0 &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >t</span>arget !== "none") {</span></span>
+<span class="cstat-no" title="statement not covered" >    params.set("target", target);</span>
+  }
 };
 &nbsp;</pre></td></tr></table></pre>
 

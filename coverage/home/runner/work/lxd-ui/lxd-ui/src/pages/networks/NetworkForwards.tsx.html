@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.27% </span>
+                <span class="strong">22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/47</span>
+                <span class='fraction'>11/50</span>
             </div>
         
             
@@ -308,36 +308,36 @@
 <a name='L243'></a><a href='#L243'>243</a>
 <a name='L244'></a><a href='#L244'>244</a>
 <a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<a name='L246'></a><a href='#L246'>246</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -551,8 +551,8 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import {
   Button,
@@ -684,8 +684,8 @@ const NetworkForwards: FC&lt;Props&gt; = <span class="cstat-no" title="statement
                   className="p-button--base u-no-margin--bottom has-icon"
                   to={
                     isClusterMemberSpecific
-                      ? `/ui/project/${project}/network/${network.name}/member/${forward.location}/forwards/${forward.listen_address<span class="branch-0 cbranch-no" title="branch not covered" >}/edit`</span>
-<span class="cstat-no" title="statement not covered" >                      : `/ui/project/${project}/network/${network.name}/forwards/${forward.listen_address}/edit`</span>
+                      ? `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/member/${encodeURIComponent(forward.<span class="branch-0 cbranch-no" title="branch not covered" >location ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}/forwards/${encodeURIComponent(forward.listen_address)<span class="branch-0 cbranch-no" title="branch not covered" >}/edit`</span>
+<span class="cstat-no" title="statement not covered" >                      : `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}/edit`</span>
                   }
                   title="Edit network forward"
                 &gt;
@@ -737,7 +737,7 @@ const NetworkForwards: FC&lt;Props&gt; = <span class="cstat-no" title="statement
       {canEditNetwork(network) &amp;&amp; (
         &lt;Link
           className="p-button--positive u-no-margin--bottom u-float-right"
-          to={`/ui/project/${project}/network/${network.name}/forwards/create`}
+          to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/create`}
         &gt;
           Create forward
         &lt;/Link&gt;
@@ -805,7 +805,7 @@ export default NetworkForwards;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-01T09:39:03.021Z
+                at 2025-07-01T14:24:38.876Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -121,29 +121,29 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">265x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">268x</span>
 <span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">274x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
@@ -167,18 +167,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">449x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">459x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">449x</span>
-<span class="cline-any cline-yes">449x</span>
-<span class="cline-any cline-yes">449x</span>
-<span class="cline-any cline-yes">449x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">804x</span>
+<span class="cline-any cline-yes">459x</span>
+<span class="cline-any cline-yes">459x</span>
+<span class="cline-any cline-yes">459x</span>
+<span class="cline-any cline-yes">459x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">810x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdProject } from "types/project";
 import { slugify } from "./slugify";
 &nbsp;
@@ -208,7 +208,7 @@ export const getSubpageFromUrl = <span class="fstat-no" title="function not cove
   const tabSubpage = <span class="cstat-no" title="statement not covered" >parts[5];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (mainSubpage === "storage" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >storageTabPaths.includes(tabSubpage)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return `${mainSubpage}/${tabSubpage}`;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return `${encodeURIComponent(mainSubpage)}/${encodeURIComponent(tabSubpage)}`;</span></span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (mainSubpage === "network") {</span>
@@ -220,7 +220,7 @@ export const getSubpageFromUrl = <span class="fstat-no" title="function not cove
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (projectSubpages.includes(mainSubpage)) {</span>
-<span class="cstat-no" title="statement not covered" >    return mainSubpage;</span>
+<span class="cstat-no" title="statement not covered" >    return encodeURIComponent(mainSubpage);</span>
   }
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return undefined;</span></span>
@@ -244,7 +244,7 @@ export const isProjectWithProfiles = (project?: LxdProject): boolean =&gt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-01T09:39:03.021Z
+                at 2025-07-01T14:24:38.876Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
