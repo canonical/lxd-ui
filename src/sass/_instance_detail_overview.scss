@@ -1,11 +1,6 @@
 .instance-overview-tab {
   overflow: auto;
 
-  .p-muted-heading {
-    color: #757575;
-    font-weight: 500;
-  }
-
   .row {
     margin-top: $spv--x-large;
   }
@@ -13,7 +8,7 @@
   .general,
   .usage,
   .networks {
-    border-bottom: 1px solid $color-mid-light;
+    border-bottom: $border-thin;
 
     table {
       margin-bottom: $spv--large;

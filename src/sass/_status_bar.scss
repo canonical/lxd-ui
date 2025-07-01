@@ -1,6 +1,6 @@
 .status-bar {
   align-items: center;
-  background-color: white;
+  background-color: $colors--theme--background-default;
   display: flex;
   height: 2.5rem;
   justify-content: space-between;
@@ -9,7 +9,7 @@
   z-index: 103;
 
   .server-version {
-    color: $color-mid-dark;
+    color: $colors--theme--text-muted;
     margin-bottom: 0;
     padding-top: 0;
   }
@@ -45,7 +45,7 @@
   }
 
   .button-active {
-    background-color: #ebebeb;
+    background-color: $colors--theme--background-active;
   }
 
   @include desktop {

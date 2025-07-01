@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useEffect } from "react";
 import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
@@ -11,6 +12,7 @@ import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
 import lazy from "util/lazyWithRetry";
 import { useSettings } from "context/useSettings";
+import { applyTheme, loadTheme } from "pages/settings/SettingThemeSwitcher";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -99,6 +101,11 @@ const App: FC = () => {
   const hasOidc = settings?.auth_methods?.includes("oidc");
   const hasCertificate = settings?.client_certificate;
   setTitle();
+
+  useEffect(() => {
+    const theme = loadTheme();
+    applyTheme(theme);
+  }, []);
 
   if (isAuthLoading) {
     return <Loader isMainComponent />;
