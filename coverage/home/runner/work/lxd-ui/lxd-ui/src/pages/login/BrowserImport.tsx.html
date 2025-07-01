@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>0/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>0/27</span>
             </div>
         
             
@@ -242,7 +242,27 @@
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -253,6 +273,26 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -433,8 +473,28 @@ const EDGE = <span class="cstat-no" title="statement not covered" >"Microsoft Ed
 const MACOS = <span class="cstat-no" title="statement not covered" >"macOS";</span>
 const TABS: string[] = <span class="cstat-no" title="statement not covered" >[FIREFOX, CHROME_LINUX, CHROME_WINDOWS, EDGE, MACOS];</span>
 &nbsp;
+const getDefaultTab = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): string =&gt; {</span></span>
+  const ua = <span class="cstat-no" title="statement not covered" >navigator.userAgent.toLowerCase();</span>
+&nbsp;
+  const isMac = <span class="cstat-no" title="statement not covered" >ua.includes("macintosh") || ua.includes("mac os");</span>
+  const isWindows = <span class="cstat-no" title="statement not covered" >ua.includes("windows");</span>
+  const isLinux = <span class="cstat-no" title="statement not covered" >ua.includes("linux");</span>
+&nbsp;
+  const isEdge = <span class="cstat-no" title="statement not covered" >ua.includes("edg/");</span>
+  const isFirefox = <span class="cstat-no" title="statement not covered" >ua.includes("firefox");</span>
+  const isChrome = <span class="cstat-no" title="statement not covered" >ua.includes("chrome");</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (isFirefox) <span class="cstat-no" title="statement not covered" >return FIREFOX;</span></span>
+<span class="cstat-no" title="statement not covered" >  if (isMac) <span class="cstat-no" title="statement not covered" >return MACOS;</span></span>
+<span class="cstat-no" title="statement not covered" >  if (isEdge) <span class="cstat-no" title="statement not covered" >return EDGE;</span></span>
+<span class="cstat-no" title="statement not covered" >  if (isChrome &amp;&amp; isWindows) <span class="cstat-no" title="statement not covered" >return CHROME_WINDOWS;</span></span>
+<span class="cstat-no" title="statement not covered" >  if (isChrome &amp;&amp; isLinux) <span class="cstat-no" title="statement not covered" >return CHROME_LINUX;</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return FIREFOX;</span>
+};
+&nbsp;
 const BrowserImport: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const [activeTab, handleTabChange] = <span class="cstat-no" title="statement not covered" >useState(FIREFOX);</span>
+  const [activeTab, handleTabChange] = <span class="cstat-no" title="statement not covered" >useState(getDefaultTab());</span>
 &nbsp;
   const windowsDialogSteps = (
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
@@ -607,7 +667,7 @@ export default BrowserImport;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-30T21:11:34.614Z
+                at 2025-07-01T09:39:03.021Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
