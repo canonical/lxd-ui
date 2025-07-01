@@ -40,7 +40,7 @@
   }
 
   .clear-configuration-icon {
-    @include vf-icon-close($color-link);
+    @include vf-icon-close-themed;
   }
 
   .mono-font {
@@ -50,7 +50,7 @@
   .configuration-help {
     @extend %small-text;
 
-    color: $color-mid-dark;
+    color: $colors--theme--text-muted;
     margin-top: $sp-unit;
   }
 }

@@ -31,6 +31,7 @@ import { useLoggedInUser } from "context/useLoggedInUser";
 import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
 import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
+import { isDarkTheme, loadTheme } from "pages/settings/SettingThemeSwitcher";
 
 const isSmallScreen = () => isWidthBelow(620);
 
@@ -197,17 +198,20 @@ const Navigation: FC = () => {
     return `${capitalizeFirstLetter(title)} (${projectName})`;
   };
 
+  const isDark = isAuthenticated || isDarkTheme(loadTheme());
+  const isLight = !isDark;
+
   return (
     <>
       <header className="l-navigation-bar">
         <div
           className={classnames("p-panel", {
-            "is-light": !isAuthenticated,
-            "is-dark": isAuthenticated,
+            "is-light": isLight,
+            "is-dark": isDark,
           })}
         >
           <div className="p-panel__header">
-            <Logo light={!isAuthenticated} />
+            <Logo light={isLight} />
             <div className="p-panel__controls">
               <Button
                 dense
@@ -231,12 +235,12 @@ const Navigation: FC = () => {
         <div className="l-navigation__drawer">
           <div
             className={classnames("p-panel", {
-              "is-light": !isAuthenticated,
-              "is-dark": isAuthenticated,
+              "is-light": isLight,
+              "is-dark": isDark,
             })}
           >
             <div className="p-panel__header is-sticky">
-              <Logo light={!isAuthenticated} />
+              <Logo light={isLight} />
               <div className="p-panel__controls u-hide--medium u-hide--large">
                 <Button
                   appearance="base"
@@ -253,7 +257,7 @@ const Navigation: FC = () => {
               <div
                 className={classnames(
                   "p-side-navigation--icons sidenav-top-container",
-                  { "is-light": !isAuthenticated },
+                  { "is-light": isLight },
                 )}
               >
                 <ul className="p-side-navigation__list sidenav-top-ul">
@@ -458,7 +462,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <hr
                         className={classnames("navigation-hr", {
-                          "is-light": !isAuthenticated,
+                          "is-light": isLight,
                         })}
                       />
                       <SideNavigationItem>
@@ -616,7 +620,7 @@ const Navigation: FC = () => {
               <div
                 className={classnames(
                   "p-side-navigation--icons sidenav-bottom-container",
-                  { "is-light": !isAuthenticated },
+                  { "is-light": isLight },
                 )}
               >
                 <ul
@@ -629,7 +633,7 @@ const Navigation: FC = () => {
                 >
                   <hr
                     className={classnames("navigation-hr", {
-                      "is-light": !isAuthenticated,
+                      "is-light": isLight,
                     })}
                   />
                   {isAuthenticated && (
@@ -730,7 +734,7 @@ const Navigation: FC = () => {
                 <div
                   className={classnames("sidenav-toggle-wrapper", {
                     "authenticated-nav": isAuthenticated,
-                    "is-light": !isAuthenticated,
+                    "is-light": isLight,
                   })}
                 >
                   <Button
@@ -742,13 +746,13 @@ const Navigation: FC = () => {
                     dense
                     className={classnames(
                       "sidenav-toggle u-no-margin l-navigation-collapse-toggle u-hide--small",
-                      { "is-light": !isAuthenticated },
+                      { "is-light": isLight },
                     )}
                     onClick={hardToggleMenu}
                   >
                     <Icon
                       name="sidebar-toggle"
-                      className={classnames({ "is-light": !isAuthenticated })}
+                      className={classnames({ "is-light": isLight })}
                     />
                   </Button>
                 </div>

@@ -1,5 +1,6 @@
 .p-meter {
-  background-color: #d3e4ed;
+  background-color: $colors--theme--background-alt;
+  border: $border-thin;
   border-radius: 0.75rem;
   display: flex;
   height: 0.75rem;
@@ -8,7 +9,7 @@
   div {
     background-color: #06c;
     border-radius: 0.75rem;
-    border-right: 1px solid #f7f7f7;
+    border-right: $border-thin;
     height: 100%;
   }
 

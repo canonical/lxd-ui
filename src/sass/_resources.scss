@@ -1,5 +1,7 @@
 .resource-link {
   i {
+    background-size: contain !important;
+    margin-left: 0 !important;
     margin-right: $sph--x-small;
   }
 
@@ -26,6 +28,7 @@
 
 .resource-label {
   i {
+    background-size: contain !important;
     margin-right: $sph--x-small;
   }
 }
