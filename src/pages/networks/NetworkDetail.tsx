@@ -64,7 +64,7 @@ const NetworkDetail: FC = () => {
         <TabLinks
           tabs={getTabs()}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/network/${name}`}
+          tabUrl={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`}
         />
         <NotificationRow />
         {!activeTab && (

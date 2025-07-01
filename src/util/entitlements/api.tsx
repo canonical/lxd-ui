@@ -1,8 +1,8 @@
-export const withEntitlementsQuery = (
+export const addEntitlements = (
+  params: URLSearchParams,
   isFineGrained: boolean | null,
   entitlements: string[],
-  queryPrefix = "&",
-): string => {
+) => {
   if (isFineGrained === null) {
     throw new Error("Resource API fetch disabled if isFineGrained is null");
   }
@@ -11,5 +11,5 @@ export const withEntitlementsQuery = (
     return "";
   }
 
-  return `${queryPrefix}with-access-entitlements=${entitlements.join(",")}`;
+  params.set("with-access-entitlements", entitlements.join(","));
 };

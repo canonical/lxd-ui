@@ -10,6 +10,7 @@ import { isDiskDevice, isNicDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
+import { addTarget } from "util/target";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -178,7 +179,7 @@ export const checkDuplicateName = async (
   project: string,
   controllerState: AbortControllerState,
   basePath: string,
-  params = "",
+  target = "",
 ) => {
   if (!candidate) {
     return true;
@@ -188,9 +189,16 @@ export const checkDuplicateName = async (
   const deduplicateController = new AbortController();
   setController(deduplicateController);
   const signal = deduplicateController.signal;
-  return fetch(`/1.0/${basePath}/${candidate}?project=${project}${params}`, {
-    signal,
-  }).then((response) => response.status === 404);
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
+  return fetch(
+    `/1.0/${basePath}/${encodeURIComponent(candidate)}?${params.toString()}`,
+    {
+      signal,
+    },
+  ).then((response) => response.status === 404);
 };
 
 export const getUrlParam = (paramName: string, url?: string): string | null => {

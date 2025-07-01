@@ -121,7 +121,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
               (item) => item !== currentValues[0],
             )}
             clusterMemberLinkTarget={(member) =>
-              `/ui/project/${project}/networks?member=${member}`
+              `/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(member)}`
             }
             disableReason={formik.values.editRestriction}
           />

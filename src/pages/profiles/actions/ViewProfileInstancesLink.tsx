@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ViewProfileInstancesLink: FC<Props> = ({ profile, project }) => {
-  const href = `/ui/project/${project}/instances?profile=${profile}`;
+  const href = `/ui/project/${encodeURIComponent(project)}/instances?profile=${encodeURIComponent(profile)}`;
 
   return (
     <Link className="u-no-margin u-no-padding" to={href}>

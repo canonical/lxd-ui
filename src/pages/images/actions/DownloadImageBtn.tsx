@@ -18,13 +18,13 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
   const [isLoading, setLoading] = useState(false);
   const description = image.properties?.description ?? image.fingerprint;
   const isUnifiedTarball = image.update_source == null; //Only Split Tarballs have an update_source.
-  const url = `/1.0/images/${image.fingerprint}/export?project=${project}`;
+  const url = `/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;
 
   const handleExport = () => {
     setLoading(true);
     const imageLink = (
       <ResourceLink
-        to={`/ui/project/${project}/images`}
+        to={`/ui/project/${encodeURIComponent(project)}/images`}
         type="image"
         value={description}
       />

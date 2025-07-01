@@ -1,18 +1,18 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 
 export const identitiesEntitlements = ["can_delete", "can_edit"];
 
 export const fetchIdentities = async (
   isFineGrained: boolean | null,
 ): Promise<LxdIdentity[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    identitiesEntitlements,
-  );
-  return fetch(`/1.0/auth/identities?recursion=1${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, identitiesEntitlements);
+
+  return fetch(`/1.0/auth/identities?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity[]>) => {
       return data.metadata;
@@ -32,12 +32,12 @@ export const fetchIdentity = async (
   authMethod: string,
   isFineGrained: boolean | null,
 ): Promise<LxdIdentity> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    identitiesEntitlements,
-  );
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, identitiesEntitlements);
+
   return fetch(
-    `/1.0/auth/identities/${authMethod}/${id}?recursion=1${entitlements}`,
+    `/1.0/auth/identities/${encodeURIComponent(authMethod)}/${encodeURIComponent(id)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity>) => {
@@ -45,11 +45,9 @@ export const fetchIdentity = async (
     });
 };
 
-export const updateIdentity = async (
-  identity: Partial<LxdIdentity>,
-): Promise<void> => {
+export const updateIdentity = async (identity: LxdIdentity): Promise<void> => {
   await fetch(
-    `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
+    `/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
     {
       method: "PUT",
       headers: {
@@ -61,7 +59,7 @@ export const updateIdentity = async (
 };
 
 export const updateIdentities = async (
-  identities: Partial<LxdIdentity>[],
+  identities: LxdIdentity[],
 ): Promise<void> => {
   return Promise.allSettled(
     identities.map(async (identity) => updateIdentity(identity)),
@@ -70,7 +68,7 @@ export const updateIdentities = async (
 
 export const deleteIdentity = async (identity: LxdIdentity): Promise<void> => {
   await fetch(
-    `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
+    `/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
     {
       method: "DELETE",
     },

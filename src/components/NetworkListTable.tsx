@@ -70,7 +70,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
               <ResourceLink
                 type="network"
                 value={network.name}
-                to={`/ui/project/${project}/network/${network.name}`}
+                to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`}
               />
             ),
             role: "rowheader",

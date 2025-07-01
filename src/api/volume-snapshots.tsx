@@ -5,16 +5,19 @@ import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
-import { getTargetParam } from "api/storage-volumes";
+import { addTarget } from "util/target";
 
 export const createVolumeSnapshot = async (
   volume: LxdStorageVolume,
   name: string,
   expiresAt: string | null,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  addTarget(params, volume.location);
+
   return fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots?project=${volume.project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/custom/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -36,9 +39,12 @@ export const deleteVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: Pick<LxdVolumeSnapshot, "name">,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  addTarget(params, volume.location);
+
   return fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}&${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -87,9 +93,12 @@ export const restoreVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
 ): Promise<void> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  addTarget(params, volume.location);
+
   await fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${volume.project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -107,9 +116,12 @@ export const renameVolumeSnapshot = async (
   snapshot: LxdVolumeSnapshot,
   newName: string,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  addTarget(params, volume.location);
+
   return fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -132,9 +144,12 @@ export const updateVolumeSnapshot = async (
   snapshot: LxdVolumeSnapshot,
   expiresAt: string | null,
 ): Promise<void> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  addTarget(params, volume.location);
+
   await fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -150,9 +165,13 @@ export const updateVolumeSnapshot = async (
 export const fetchStorageVolumeSnapshots = async (
   volume: LxdStorageVolume,
 ): Promise<LxdVolumeSnapshot[]> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  params.set("recursion", "2");
+  addTarget(params, volume.location);
+
   return fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots?project=${volume.project}${targetParam}&recursion=2`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) => {

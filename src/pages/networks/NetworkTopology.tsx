@@ -44,7 +44,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
     return (
       downStreamCandidate.config.network === formik.values.name ||
       downStreamCandidate.config.parent === formik.values.name ||
-      network.used_by?.includes(`/1.0/networks/${downStreamCandidate.name}`)
+      network.used_by?.includes(
+        `/1.0/networks/${encodeURIComponent(downStreamCandidate.name)}`,
+      )
     );
   });
 
@@ -66,13 +68,13 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
           <ResourceLink
             type="cluster-member"
             value={clusterMember}
-            to={`/ui/project/${project}/networks?member=${clusterMember}`}
+            to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(clusterMember)}`}
           />
         </span>
         <ResourceLink
           type="network"
           value={memberUplink}
-          to={`/ui/project/${project}/member/${clusterMember}/network/${memberUplink}`}
+          to={`/ui/project/${encodeURIComponent(project)}/member/${encodeURIComponent(clusterMember)}/network/${encodeURIComponent(memberUplink)}`}
         />
       </div>
     );
@@ -96,7 +98,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
                     <ResourceLink
                       type="network"
                       value={uplink}
-                      to={`/ui/project/default/network/${uplink}`}
+                      to={`/ui/project/default/network/${encodeURIComponent(uplink)}`}
                     />
                   </div>
                 )}
@@ -114,7 +116,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
               <ResourceLink
                 type="cluster-member"
                 value={member}
-                to={`/ui/project/${project}/networks?member=${member}`}
+                to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(member)}`}
               />
             </span>
           )}
@@ -132,7 +134,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
           {downstreamNetworks
             .slice(0, isNetworksCollapsed ? 5 : downstreamNetworks.length)
             .map((item) => {
-              const networkUrl = `/ui/project/default/network/${item.name}`;
+              const networkUrl = `/ui/project/default/network/${encodeURIComponent(item.name)}`;
               return (
                 <div
                   key={networkUrl}
@@ -164,8 +166,8 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
           {instances
             .slice(0, isInstancesCollapsed ? 5 : instances.length)
             .map((item) => {
-              const instanceUrl = `/ui/project/${item.project}/instance/${item.name}`;
-              const projectUrl = `/ui/project/${item.project}`;
+              const instanceUrl = `/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
+              const projectUrl = `/ui/project/${encodeURIComponent(item.project)}`;
               const isExternalProject = item.project !== project;
               return (
                 <div key={instanceUrl} className="downstream-item">

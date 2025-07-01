@@ -85,13 +85,12 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
     })
     .test("deduplicate", "", async function (values) {
       const { name, project, pool, location } = values;
-      const params = location ? `&target=${location}` : "";
       const notFound = await checkDuplicateName(
         name,
         project || "default",
         controllerState,
-        `storage-pools/${pool}/volumes/custom`,
-        params,
+        `storage-pools/${encodeURIComponent(pool)}/volumes/custom`,
+        location,
       );
 
       if (notFound) {

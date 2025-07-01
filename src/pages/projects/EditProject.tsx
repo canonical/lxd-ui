@@ -86,7 +86,7 @@ const EditProject: FC<Props> = ({ project }) => {
               <ResourceLink
                 type="project"
                 value={project.name}
-                to={`/ui/project/${project.name}/instances`}
+                to={`/ui/project/${encodeURIComponent(project.name)}/instances`}
               />{" "}
               updated.
             </>,
@@ -105,7 +105,7 @@ const EditProject: FC<Props> = ({ project }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${project.name}/configuration`;
+  const baseUrl = `/ui/project/${encodeURIComponent(project.name)}/configuration`;
 
   const setSection = (newSection: string) => {
     if (newSection === PROJECT_DETAILS) {

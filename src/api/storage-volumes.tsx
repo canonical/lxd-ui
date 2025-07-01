@@ -8,7 +8,8 @@ import type { LxdOperationResponse } from "types/operation";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
 import type { LxdApiResponse } from "types/apiResponse";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
+import { addTarget } from "util/target";
 
 export const volumeEntitlements = [
   "can_delete",
@@ -22,9 +23,13 @@ export const fetchStorageVolumes = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
-  const entitlements = withEntitlementsQuery(isFineGrained, volumeEntitlements);
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  params.set("project", project);
+  addEntitlements(params, isFineGrained, volumeEntitlements);
+
   return fetch(
-    `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
@@ -36,10 +41,12 @@ export const fetchAllStorageVolumes = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
-  const entitlements = withEntitlementsQuery(isFineGrained, volumeEntitlements);
-  return fetch(
-    `/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`,
-  )
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  params.set("project", project);
+  addEntitlements(params, isFineGrained, volumeEntitlements);
+
+  return fetch(`/1.0/storage-volumes?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
       return data.metadata;
@@ -54,10 +61,14 @@ export const fetchStorageVolume = async (
   target: string | null,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume> => {
-  const entitlements = withEntitlementsQuery(isFineGrained, volumeEntitlements);
-  const targetParam = getTargetParam(target);
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  params.set("project", project);
+  addTarget(params, target);
+  addEntitlements(params, isFineGrained, volumeEntitlements);
+
   return fetch(
-    `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}${targetParam}&recursion=1${entitlements}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/${encodeURIComponent(type)}/${encodeURIComponent(volume)}?${params.toString()}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -72,9 +83,13 @@ export const fetchStorageVolumeState = async (
   volume: string,
   target?: string,
 ): Promise<LxdStorageVolumeState> => {
-  const targetParam = getTargetParam(target);
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+  addTarget(params, target);
+
   return fetch(
-    `/1.0/storage-pools/${pool}/volumes/${type}/${volume}/state?project=${project}${targetParam}&recursion=1`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/${encodeURIComponent(type)}/${encodeURIComponent(volume)}/state?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageVolumeState>) => {
@@ -88,9 +103,12 @@ export const renameStorageVolume = async (
   newName: string,
   target: string | null = null,
 ): Promise<void> => {
-  const targetParam = getTargetParam(target);
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   await fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -111,9 +129,12 @@ export const createIsoStorageVolume = async (
   setUploadState: (value: UploadState) => void,
   uploadController: AbortController,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
   return axios
     .post(
-      `/1.0/storage-pools/${pool}/volumes/custom?project=${project}`,
+      `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/custom?${params.toString()}`,
       isoFile,
       {
         headers: {
@@ -140,9 +161,12 @@ export const createStorageVolume = async (
   volume: Partial<LxdStorageVolume>,
   target?: string,
 ): Promise<void> => {
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   await fetch(
-    `/1.0/storage-pools/${pool}/volumes?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -159,9 +183,12 @@ export const updateStorageVolume = async (
   volume: LxdStorageVolume,
   target?: string,
 ): Promise<void> => {
-  const targetParam = getTargetParam(target);
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   await fetch(
-    `/1.0/storage-pools/${pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "PUT",
       body: JSON.stringify(volume),
@@ -179,9 +206,12 @@ export const deleteStorageVolume = async (
   project: string,
   target?: string,
 ): Promise<void> => {
-  const targetParam = getTargetParam(target);
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   await fetch(
-    `/1.0/storage-pools/${pool}/volumes/custom/${volume}?project=${project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/custom/${encodeURIComponent(volume)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -189,14 +219,17 @@ export const deleteStorageVolume = async (
 };
 
 export const migrateStorageVolume = async (
-  volume: Partial<LxdStorageVolume>,
+  volume: LxdStorageVolume,
   targetPool: string,
   targetProject: string,
   target?: string,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = getTargetParam(target);
+  const params = new URLSearchParams();
+  params.set("project", targetProject);
+  addTarget(params, target);
+
   return fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}?project=${targetProject}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/custom/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -226,34 +259,34 @@ export const copyStorageVolume = async (
   if (project) {
     params.append("project", project);
   }
-  if (target) {
-    params.append("target", target);
-  }
-  const queryString = params.toString();
-  return fetch(`/1.0/storage-pools/${pool}/volumes/custom?${queryString}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  addTarget(params, target);
+
+  return fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/custom?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(volume),
     },
-    body: JSON.stringify(volume),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
     });
 };
 
-export const getTargetParam = (target?: string | null) => {
-  return target && target !== "none" ? `&target=${target}` : "";
-};
-
 export const createVolumeBackup = async (
   volume: LxdStorageVolume,
   payload: string,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = getTargetParam(volume.location);
+  const params = new URLSearchParams();
+  params.set("project", volume.project);
+  addTarget(params, volume.location);
+
   return fetch(
-    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/backups?project=${volume.project}${targetParam}`,
+    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -271,16 +304,19 @@ export const createVolumeBackup = async (
 export const uploadVolume = async (
   file: File | null,
   name: string,
-  project: string | undefined,
-  pool: string | undefined,
+  project: string,
+  pool: string,
   setUploadState: (value: UploadState) => void,
   uploadController: AbortController,
   target: string,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
   return axios
     .post(
-      `/1.0/storage-pools/${pool}/volumes/custom?project=${project}${targetParam}`,
+      `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/custom?${params.toString()}`,
       file,
       {
         headers: {

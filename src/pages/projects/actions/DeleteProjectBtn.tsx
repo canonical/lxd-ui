@@ -30,19 +30,19 @@ const generateProjectUsedByTooltip = (project: LxdProject) => {
     {
       instance: {
         label: "Instances",
-        link: `/ui/project/${project.name}/instances`,
+        link: `/ui/project/${encodeURIComponent(project.name)}/instances`,
       },
       profile: {
         label: "Profiles",
-        link: `/ui/project/${project.name}/profiles`,
+        link: `/ui/project/${encodeURIComponent(project.name)}/profiles`,
       },
       image: {
         label: "Images",
-        link: `/ui/project/${project.name}/images`,
+        link: `/ui/project/${encodeURIComponent(project.name)}/images`,
       },
       volume: {
         label: "Custom volumes",
-        link: `/ui/project/${project.name}/storage/volumes`,
+        link: `/ui/project/${encodeURIComponent(project.name)}/storage/volumes`,
       },
     };
 

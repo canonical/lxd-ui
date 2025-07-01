@@ -53,7 +53,7 @@ const StorageVolumeDetailActions: FC<Props> = ({ volume, project }) => {
       appearance=""
       hasIcon
       onFinish={() => {
-        navigate(`/ui/project/${project}/storage/volumes`);
+        navigate(`/ui/project/${encodeURIComponent(project)}/storage/volumes`);
         toastNotify.success(
           <>
             Storage volume{" "}

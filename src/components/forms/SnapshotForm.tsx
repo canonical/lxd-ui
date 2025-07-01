@@ -65,7 +65,7 @@ const SnapshotForm: FC<Props> = (props) => {
           value={formik.values.name}
           error={
             (formik.touched.name || isEdit) && formik.errors.name ? (
-              <div className="name-error">{formik.errors.name}</div>
+              <span className="name-error">{formik.errors.name}</span>
             ) : null
           }
           takeFocus

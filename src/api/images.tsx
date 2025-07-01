@@ -8,7 +8,7 @@ import type { LxdInstance } from "types/instance";
 import type { UploadState } from "types/storage";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 
 const imageEntitlements = ["can_delete"];
 
@@ -16,8 +16,12 @@ export const fetchImagesInProject = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {
-  const entitlements = withEntitlementsQuery(isFineGrained, imageEntitlements);
-  return fetch(`/1.0/images?recursion=1&project=${project}${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  params.set("project", project);
+  addEntitlements(params, isFineGrained, imageEntitlements);
+
+  return fetch(`/1.0/images?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdImage[]>) => {
       return data.metadata;
@@ -27,8 +31,12 @@ export const fetchImagesInProject = async (
 export const fetchImagesInAllProjects = async (
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {
-  const entitlements = withEntitlementsQuery(isFineGrained, imageEntitlements);
-  return fetch(`/1.0/images?recursion=1&all-projects=1${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  params.set("all-projects", "1");
+  addEntitlements(params, isFineGrained, imageEntitlements);
+
+  return fetch(`/1.0/images?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdImage[]>) => {
       return data.metadata;
@@ -39,9 +47,15 @@ export const deleteImage = async (
   image: LxdImage,
   project: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/images/${image.fingerprint}?project=${project}`, {
-    method: "DELETE",
-  })
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/images/${encodeURIComponent(image.fingerprint)}?${params.toString()}`,
+    {
+      method: "DELETE",
+    },
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -87,7 +101,10 @@ export const createImageAlias = async (
   alias: string,
   project: string,
 ): Promise<void> => {
-  await fetch(`/1.0/images/aliases?project=${project}`, {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  await fetch(`/1.0/images/aliases?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -103,7 +120,10 @@ export const createImage = async (
   body: string,
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/images?project=${instance.project}`, {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
+  return fetch(`/1.0/images?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -122,8 +142,11 @@ export const uploadImage = async (
   setUploadState: (value: UploadState) => void,
   project: string,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
   return axios
-    .post(`/1.0/images?project=${project}`, body, {
+    .post(`/1.0/images?${params.toString()}`, body, {
       headers: {
         "Content-Type": "application/octet-stream",
         "X-LXD-public": JSON.stringify(isPublic),

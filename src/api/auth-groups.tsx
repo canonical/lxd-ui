@@ -1,15 +1,18 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdGroup } from "types/permissions";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
 
 export const groupEntitlements = ["can_delete", "can_edit"];
 
 export const fetchGroups = async (
   isFineGrained: boolean | null,
 ): Promise<LxdGroup[]> => {
-  const entitlements = withEntitlementsQuery(isFineGrained, groupEntitlements);
-  return fetch(`/1.0/auth/groups?recursion=1${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, groupEntitlements);
+
+  return fetch(`/1.0/auth/groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdGroup[]>) => {
       return data.metadata;
@@ -27,7 +30,7 @@ export const createGroup = async (group: Partial<LxdGroup>): Promise<void> => {
 };
 
 export const deleteGroup = async (group: string): Promise<void> => {
-  await fetch(`/1.0/auth/groups/${group}`, {
+  await fetch(`/1.0/auth/groups/${encodeURIComponent(group)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };
@@ -38,8 +41,8 @@ export const deleteGroups = async (groups: string[]): Promise<void> => {
   ).then(handleSettledResult);
 };
 
-export const updateGroup = async (group: Partial<LxdGroup>): Promise<void> => {
-  await fetch(`/1.0/auth/groups/${group.name}`, {
+export const updateGroup = async (group: LxdGroup): Promise<void> => {
+  await fetch(`/1.0/auth/groups/${encodeURIComponent(group.name)}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +55,7 @@ export const renameGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  await fetch(`/1.0/auth/groups/${oldName}`, {
+  await fetch(`/1.0/auth/groups/${encodeURIComponent(oldName)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

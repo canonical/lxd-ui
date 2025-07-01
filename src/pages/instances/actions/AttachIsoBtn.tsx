@@ -58,7 +58,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               <>
                 ISO{" "}
                 <ResourceLink
-                  to={`/ui/project/${project}/storage/custom-isos`}
+                  to={`/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
                   type="iso-volume"
                   value={attachedIso?.source ?? ""}
                 />{" "}
@@ -106,7 +106,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               <>
                 ISO{" "}
                 <ResourceLink
-                  to={`/ui/project/${project}/storage/custom-isos`}
+                  to={`/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
                   type="iso-volume"
                   value={image.aliases}
                 />{" "}

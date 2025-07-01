@@ -12,7 +12,8 @@ import type { EventQueue } from "context/eventQueue";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
 import type { UploadState } from "types/storage";
-import { withEntitlementsQuery } from "util/entitlements/api";
+import { addEntitlements } from "util/entitlements/api";
+import { addTarget } from "util/target";
 
 export const instanceEntitlements = [
   "can_access_console",
@@ -29,12 +30,13 @@ export const fetchInstance = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdInstance> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    instanceEntitlements,
-  );
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "2");
+  addEntitlements(params, isFineGrained, instanceEntitlements);
+
   return fetch(
-    `/1.0/instances/${name}?project=${project}&recursion=2${entitlements}`,
+    `/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -46,12 +48,16 @@ export const fetchInstances = async (
   project: string | null,
   isFineGrained: boolean | null,
 ): Promise<LxdInstance[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    instanceEntitlements,
-  );
-  const projectParam = project ? `project=${project}` : "all-projects=true";
-  return fetch(`/1.0/instances?${projectParam}&recursion=2${entitlements}`)
+  const params = new URLSearchParams();
+  params.set("recursion", "2");
+  if (project) {
+    params.set("project", project);
+  } else {
+    params.set("all-projects", "true");
+  }
+  addEntitlements(params, isFineGrained, instanceEntitlements);
+
+  return fetch(`/1.0/instances?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdInstance[]>) => {
       return data.metadata;
@@ -63,7 +69,11 @@ export const createInstance = async (
   project: string,
   target?: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances?project=${project}&target=${target ?? ""}`, {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
+  return fetch(`/1.0/instances?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -80,14 +90,20 @@ export const updateInstance = async (
   instance: LxdInstance,
   project: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances/${instance.name}?project=${project}`, {
-    method: "PUT",
-    body: JSON.stringify(instance),
-    headers: {
-      "Content-Type": "application/json",
-      "If-Match": instance.etag ?? "invalid-etag",
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(instance),
+      headers: {
+        "Content-Type": "application/json",
+        "If-Match": instance.etag ?? "invalid-etag",
+      },
     },
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -99,15 +115,21 @@ export const renameInstance = async (
   newName: string,
   project: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances/${oldName}?project=${project}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(oldName)}?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newName,
+      }),
     },
-    body: JSON.stringify({
-      name: newName,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -121,19 +143,24 @@ export const migrateInstance = async (
   pool?: string,
   targetProject?: string,
 ): Promise<LxdOperationResponse> => {
-  const targetParam = target ? `&target=${target}` : "";
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
 
-  return fetch(`/1.0/instances/${name}?project=${project}${targetParam}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        migration: true,
+        pool,
+        project: targetProject,
+      }),
     },
-    body: JSON.stringify({
-      migration: true,
-      pool,
-      project: targetProject,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -178,16 +205,22 @@ const putInstanceAction = async (
   action: LxdInstanceAction,
   isForce?: boolean,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances/${instance}/state?project=${project}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(instance)}/state?${params.toString()}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        action: action,
+        force: isForce,
+      }),
     },
-    body: JSON.stringify({
-      action: action,
-      force: isForce,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -236,9 +269,15 @@ export const updateInstanceBulkAction = async (
 export const deleteInstance = async (
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
-    method: "DELETE",
-  })
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
+    {
+      method: "DELETE",
+    },
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -282,23 +321,30 @@ export const connectInstanceExec = async (
   project: string,
   payload: TerminalConnectPayload,
 ): Promise<LxdTerminal> => {
-  return fetch(`/1.0/instances/${name}/exec?project=${project}&wait=10`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("wait", "10");
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}/exec?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        command: [payload.command],
+        "wait-for-websocket": true,
+        environment: payload.environment.reduce(
+          (a, v) => ({ ...a, [v.key]: v.value }),
+          {},
+        ),
+        interactive: true,
+        group: payload.group,
+        user: payload.user,
+      }),
     },
-    body: JSON.stringify({
-      command: [payload.command],
-      "wait-for-websocket": true,
-      environment: payload.environment.reduce(
-        (a, v) => ({ ...a, [v.key]: v.value }),
-        {},
-      ),
-      interactive: true,
-      group: payload.group,
-      user: payload.user,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdTerminal) => {
       return data;
@@ -309,17 +355,24 @@ export const connectInstanceVga = async (
   name: string,
   project: string,
 ): Promise<LxdTerminal> => {
-  return fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("wait", "10");
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: "vga",
+        width: 0,
+        height: 0,
+      }),
     },
-    body: JSON.stringify({
-      type: "vga",
-      width: 0,
-      height: 0,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdTerminal) => {
       return data;
@@ -330,16 +383,23 @@ export const connectInstanceConsole = async (
   name: string,
   project: string,
 ): Promise<LxdTerminal> => {
-  return fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("wait", "10");
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "wait-for-websocket": true,
+        type: "console",
+      }),
     },
-    body: JSON.stringify({
-      "wait-for-websocket": true,
-      type: "console",
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdTerminal) => {
       return data;
@@ -350,7 +410,12 @@ export const fetchInstanceConsoleBuffer = async (
   name: string,
   project: string,
 ): Promise<string> => {
-  return fetch(`/1.0/instances/${name}/console?project=${project}`)
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
+  )
     .then(handleTextResponse)
     .then((data: string) => {
       return data;
@@ -361,7 +426,12 @@ export const fetchInstanceLogs = async (
   name: string,
   project: string,
 ): Promise<string[]> => {
-  return fetch(`/1.0/instances/${name}/logs?project=${project}`)
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}/logs?${params.toString()}`,
+  )
     .then(handleResponse)
     .then((data: LxdApiResponse<string[]>) => {
       return data.metadata;
@@ -373,7 +443,12 @@ export const fetchInstanceLogFile = async (
   project: string,
   file: string,
 ): Promise<string> => {
-  return fetch(`/1.0/instances/${name}/logs/${file}?project=${project}`)
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(name)}/logs/${encodeURIComponent(file)}?${params.toString()}`,
+  )
     .then(handleTextResponse)
     .then((data: string) => {
       return data;
@@ -388,8 +463,13 @@ export const uploadInstance = async (
   setUploadState: (value: UploadState) => void,
   uploadController: AbortController,
 ): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  if (project) {
+    params.set("project", project);
+  }
+
   return axios
-    .post(`/1.0/instances?project=${project}`, file, {
+    .post(`/1.0/instances?${params.toString()}`, file, {
       headers: {
         "Content-Type": "application/octet-stream",
         "X-LXD-name": name,
@@ -412,13 +492,19 @@ export const createInstanceBackup = async (
   project: string,
   payload: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/instances/${instanceName}/backups?project=${project}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/instances/${encodeURIComponent(instanceName)}/backups?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: payload,
     },
-    body: payload,
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;

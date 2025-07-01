@@ -138,7 +138,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
               <ResourceLink
                 type="profile"
                 value={profile.name}
-                to={`/ui/project/${project}/profile/${profile.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}`}
               />{" "}
               updated.
             </>,
@@ -157,7 +157,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
+  const baseUrl = `/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {
@@ -184,7 +184,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
         <Notification severity="caution" title="Inherited profile">
           Modifications are only available in the{" "}
           <Link
-            to={`/ui/project/default/profile/${profile.name}/configuration`}
+            to={`/ui/project/default/profile/${encodeURIComponent(profile.name)}/configuration`}
           >
             default project
           </Link>

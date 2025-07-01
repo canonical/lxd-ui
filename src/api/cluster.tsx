@@ -20,16 +20,19 @@ export const postClusterMemberState = async (
   action: LxdClusterMemberAction,
   mode?: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/cluster/members/${member.server_name}/state`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  return fetch(
+    `/1.0/cluster/members/${encodeURIComponent(member.server_name)}/state`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        action: action,
+        mode: mode !== "" ? mode : undefined,
+      }),
     },
-    body: JSON.stringify({
-      action: action,
-      mode: mode !== "" ? mode : undefined,
-    }),
-  })
+  )
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {
       return data;
@@ -47,7 +50,7 @@ export const fetchClusterGroups = async (): Promise<LxdClusterGroup[]> => {
 export const fetchClusterGroup = async (
   group: string,
 ): Promise<LxdClusterGroup> => {
-  return fetch(`/1.0/cluster/groups/${group}`)
+  return fetch(`/1.0/cluster/groups/${encodeURIComponent(group)}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdClusterGroup>) => {
       return data.metadata;
@@ -57,7 +60,7 @@ export const fetchClusterGroup = async (
 export const updateClusterGroup = async (
   group: LxdClusterGroup,
 ): Promise<void> => {
-  await fetch(`/1.0/cluster/groups/${group.name}`, {
+  await fetch(`/1.0/cluster/groups/${encodeURIComponent(group.name)}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -79,7 +82,7 @@ export const createClusterGroup = async (
 };
 
 export const deleteClusterGroup = async (group: string): Promise<void> => {
-  await fetch(`/1.0/cluster/groups/${group}`, {
+  await fetch(`/1.0/cluster/groups/${encodeURIComponent(group)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

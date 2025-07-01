@@ -59,7 +59,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       <ResourceLink
         type="image"
         value={imageDescription}
-        to={`/ui/project/${instance.project}/images`}
+        to={`/ui/project/${encodeURIComponent(instance.project)}/images`}
       />
     );
   };
@@ -165,7 +165,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
         </Col>
         <Col size={7}>
           <DeviceListTable
-            configBaseURL={`/ui/project/${instance.project}/instance/${instance.name}/configuration`}
+            configBaseURL={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
             devices={instance.expanded_devices as LxdDevices}
           />
         </Col>

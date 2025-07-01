@@ -80,7 +80,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
               <ResourceLink
                 type="network-acl"
                 value={networkAcl.name}
-                to={`/ui/project/${project}/network-acl/${networkAcl.name}`}
+                to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`}
               />{" "}
               updated.
             </>,
@@ -95,7 +95,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${project}/network-acl/${networkAcl.name}`;
+  const baseUrl = `/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`;
 
   const setSection = (newSection: string) => {
     if (newSection === GENERAL) {

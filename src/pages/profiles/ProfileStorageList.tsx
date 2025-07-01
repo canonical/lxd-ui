@@ -21,7 +21,7 @@ const ProfileStorageList: FC<Props> = ({ profile, project }) => {
                 key={device.path}
                 type="pool"
                 value={device.pool || ""}
-                to={`/ui/project/${project}/storage/pool/${device.pool}`}
+                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
               />
             ))}
         />

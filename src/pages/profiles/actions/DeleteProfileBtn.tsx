@@ -43,7 +43,7 @@ const DeleteProfileBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, project],
         });
-        navigate(`/ui/project/${project}/profiles`);
+        navigate(`/ui/project/${encodeURIComponent(project)}/profiles`);
         toastNotify.success(
           <>
             Profile <ResourceLabel bold type="profile" value={profile.name} />{" "}

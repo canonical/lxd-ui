@@ -24,7 +24,7 @@ export const testDuplicateInstanceSnapshotName = (
           value,
           instance.project,
           controllerState,
-          `instances/${instance.name}/snapshots`,
+          `instances/${encodeURIComponent(instance.name)}/snapshots`,
         )
       );
     },
