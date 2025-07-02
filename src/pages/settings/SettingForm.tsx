@@ -50,13 +50,8 @@ const SettingForm: FC<Props> = ({
   // Special cases
   const isTrustPassword = configField.key === "core.trust_password";
   const isLokiAuthPassword = configField.key === "loki.auth.password";
-  const isMaasMachine = configField.key === "maas.machine";
   const isSecret = isTrustPassword || isLokiAuthPassword;
-  const isAddress = configField.key.endsWith("_address");
-  const isVolume = configField.key.endsWith("_volume");
-  const isSyslogSocket = configField.key === "core.syslog_socket";
-  const isClusteredInput =
-    isClustered && (isMaasMachine || isAddress || isVolume || isSyslogSocket);
+  const isClusteredInput = isClustered && configField.scope === "local";
 
   const settingLabel = (
     <ResourceLabel bold type="setting" value={configField.key} />
