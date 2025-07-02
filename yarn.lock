@@ -313,10 +313,10 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
-"@canonical/react-components@2.7.7":
-  version "2.7.7"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-2.7.7.tgz#06d231fb52a20d507584749644a3616c4ac800f1"
-  integrity sha512-mnq0llAXrR0oVRV90Yan+PrIUcjp/cVcRzRrt/s8jdg2jDv5IhBsckwW4LjRBwGzzJBbkFhqPAMhEDgFjnS+ag==
+"@canonical/react-components@2.7.8":
+  version "2.7.8"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-2.7.8.tgz#60062a59154eec5c56d007407221b8b3cdb91ccc"
+  integrity sha512-fA6MXen6pXU48DrwBf0sshUtZ4EVaE+ek28hHoXSpYKr4WLh3POvTf0vc7ecktjfEMJoJxixqrzWyWdWvQV9Jw==
   dependencies:
     "@types/jest" "29.5.14"
     "@types/node" "20.17.19"
@@ -5856,10 +5856,10 @@ v8-to-istanbul@9.3.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-vanilla-framework@4.24.1:
-  version "4.24.1"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.24.1.tgz#cd1f24ef3d048d410fda252aeafc015c44adc8cf"
-  integrity sha512-mX2kugxhMtoo1IbvRDyA0WY8IJ/z7Q3MO4k8LMz0Plc/ZnPTuOcUYretx/e/TmgLrCko0rmTLjrSiEkWJWySxA==
+vanilla-framework@4.25.0:
+  version "4.25.0"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.25.0.tgz#605bdeb3c9db68bced2ee8a03e3c03ebc241f2cb"
+  integrity sha512-+DGlEiZHNVfsXJIwBBVPg1zgAkR5BZ4WXpLsOAJyuyHHYI4YbVGR49t4nl/w44RuUGjIvOs5CUzmSA5SnHMI2g==
 
 vary@~1.1.2:
   version "1.1.2"
