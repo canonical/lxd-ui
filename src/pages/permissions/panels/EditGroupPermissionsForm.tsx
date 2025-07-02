@@ -254,6 +254,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
           id="permissions-table"
           headers={headers}
           sortable
+          responsive
           emptyStateMsg={"No permissions match the search criteria."}
           rows={rows}
           className="permissions-table"
