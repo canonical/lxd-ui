@@ -99,7 +99,7 @@ const StorageVolumesFilter: FC<Props> = ({ volumes }) => {
   };
 
   return (
-    <div className="search-wrapper margin-right u-sv3">
+    <div className="search-wrapper margin-right">
       <h2 className="u-off-screen">Search and filter</h2>
       <SearchAndFilter
         existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}

@@ -10,6 +10,7 @@ import axios from "axios";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
+import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 
 export const volumeEntitlements = [
   "can_delete",
@@ -216,6 +217,33 @@ export const deleteStorageVolume = async (
       method: "DELETE",
     },
   ).then(handleResponse);
+};
+
+export const deleteStorageVolumeBulk = async (
+  volumes: LxdStorageVolume[],
+  project: string,
+): Promise<PromiseSettledResult<void>[]> => {
+  const results: PromiseSettledResult<void>[] = [];
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      volumes.map(async (volume) => {
+        return deleteStorageVolume(
+          volume.name,
+          volume.pool,
+          project,
+          volume.location,
+        )
+          .then(() => {
+            pushSuccess(results);
+            continueOrFinish(results, volumes.length, resolve);
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, volumes.length, resolve);
+          });
+      }),
+    ).catch(reject);
+  });
 };
 
 export const migrateStorageVolume = async (
