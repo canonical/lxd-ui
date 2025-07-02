@@ -78,7 +78,7 @@
 }
 
 .edit-permissions-panel {
-  width: 46rem !important;
+  width: min(100%, 46rem) !important;
 
   .p-card__title {
     font-size: #{map-get($font-sizes, h3)}rem;
@@ -89,6 +89,16 @@
     display: flex;
     gap: 1rem;
     justify-content: space-evenly;
+
+    // wrap the permission input to columnar on small screens
+    @media screen and (width < 730px) {
+      align-items: inherit;
+      flex-direction: column;
+
+      .p-form__group {
+        width: inherit !important;
+      }
+    }
 
     &:focus {
       outline: none;
@@ -186,14 +196,27 @@
     .entitlement-description {
       width: 25rem;
     }
+  }
 
-    @include mobile-and-tablet {
+  // only show first column in dropdown selections for resources and entitlements in small screens
+  @include mobile {
+    .header,
+    .label {
       .entitlement {
-        width: 8rem;
+        width: 100%;
       }
 
       .entitlement-description {
-        width: 15rem;
+        display: none;
+      }
+
+      .resource {
+        display: none;
+      }
+
+      .resource:first-child {
+        display: block;
+        width: 100%;
       }
     }
   }
