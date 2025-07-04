@@ -17,7 +17,7 @@ export const testDuplicateIdpGroupName = (
 ): [string, string, Yup.TestFunction<string | undefined, Yup.AnyObject>] => {
   return [
     "deduplicate",
-    "A identity provider group with this name already exists",
+    "An identity provider group with this name already exists",
     async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||

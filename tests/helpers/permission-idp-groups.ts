@@ -1,6 +1,5 @@
 import type { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
-import { pluralize } from "util/instanceBulkActions";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 
@@ -31,7 +30,10 @@ export const createIdpGroup = async (
       .locator("span")
       .click();
   }
-  await page.getByRole("button", { name: "Confirm" }).click();
+  await page
+    .getByLabel("Side panel")
+    .getByRole("button", { name: "Create IDP group" })
+    .click();
   await page.waitForSelector(`text=IDP group ${idpGroup} created`);
 };
 
@@ -62,15 +64,7 @@ export const editIdpGroup = async (
       .locator("span")
       .click();
   }
-  await expect(
-    page.getByText(
-      `${groups.length} ${pluralize("group", groups.length)} will be modified`,
-    ),
-  ).toBeVisible();
-  await page
-    .getByRole("button", {
-      name: `Apply ${groups.length} group ${pluralize("change", groups.length)}`,
-    })
-    .click();
+  await expect(page.getByText("2 groups will be modified")).toBeVisible();
+  await page.getByRole("button", { name: "Save 2 group changes" }).click();
   await page.waitForSelector(`text=IDP group ${newIdpGroupName} updated.`);
 };

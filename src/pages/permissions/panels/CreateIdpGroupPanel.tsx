@@ -1,4 +1,9 @@
-import { useNotify, useToastNotification } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
@@ -13,7 +18,6 @@ import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
 import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
-import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
 import { useGroups } from "context/useGroups";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
@@ -31,15 +35,12 @@ const CreateIdpGroupPanel: FC = () => {
 
   const { data: groups = [], error, isLoading } = useGroups();
 
-  const {
-    desiredState,
-    save: saveToPanelHistory,
-    undo: undoMappingChanges,
-  } = useEditHistory<GroupEditHistory>({
-    initialState: {
-      groupsAdded: new Set(),
-    },
-  });
+  const { desiredState, save: saveToPanelHistory } =
+    useEditHistory<GroupEditHistory>({
+      initialState: {
+        groupsAdded: new Set(),
+      },
+    });
 
   if (error) {
     notify.failure("Loading panel details failed", error);
@@ -142,21 +143,24 @@ const CreateIdpGroupPanel: FC = () => {
         />
       </SidePanel.Content>
       <SidePanel.Footer className="u-align--right">
-        <GroupSelectionActions
-          modifiedGroups={desiredState.groupsAdded}
-          undoChange={undoMappingChanges}
-          closePanel={closePanel}
-          onSubmit={() => void formik.submitForm()}
-          actionText="mapped"
-          loading={formik.isSubmitting}
+        <Button
+          appearance="base"
+          onClick={closePanel}
+          className="u-no-margin--bottom"
+        >
+          Cancel
+        </Button>
+        <ActionButton
+          appearance="positive"
+          onClick={() => void formik.submitForm()}
+          className="u-no-margin--bottom"
           disabled={
-            !formik.isValid ||
-            formik.isSubmitting ||
-            (!formik.values.name &&
-              !desiredState.groupsAdded.size &&
-              !formik.touched.name)
+            !formik.isValid || formik.isSubmitting || !formik.values.name
           }
-        />
+          loading={formik.isSubmitting}
+        >
+          Create IDP group
+        </ActionButton>
       </SidePanel.Footer>
     </SidePanel>
   );

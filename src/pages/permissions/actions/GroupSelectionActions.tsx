@@ -25,8 +25,8 @@ const GroupSelectionActions: FC<Props> = ({
   isEdit = false,
 }) => {
   const confirmButtonText = modifiedGroups.size
-    ? `Apply ${modifiedGroups.size} group ${pluralize("change", modifiedGroups.size)}`
-    : "Modify groups";
+    ? `Save ${modifiedGroups.size} group ${pluralize("change", modifiedGroups.size)}`
+    : "Save changes";
 
   return (
     <>
