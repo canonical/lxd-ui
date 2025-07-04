@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79% </span>
+                <span class="strong">79.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>158/200</span>
+                <span class='fraction'>162/204</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.42% </span>
+                <span class="strong">47.82% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/28</span>
+                <span class='fraction'>11/23</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.75% </span>
+                <span class="strong">95.85% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>158/165</span>
+                <span class='fraction'>162/169</span>
             </div>
         
             
@@ -228,7 +228,11 @@
 <a name='L163'></a><a href='#L163'>163</a>
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
-<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -253,9 +257,10 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -382,9 +387,12 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -393,7 +401,12 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useNotify, useToastNotification } from <span class="branch-0 cbranch-no" title="branch not covered" >"@canonical/react-components";</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  ActionButton,
+  Button,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
@@ -408,7 +421,6 @@ import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
 import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
-import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
 import { useGroups } from "context/useGroups";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
@@ -426,15 +438,12 @@ const CreateIdpGroupPanel: FC = <span class="cstat-no" title="statement not cove
 &nbsp;
   const { data: groups = [], error, isLoading } = <span class="cstat-no" title="statement not covered" >useGroups();</span>
 &nbsp;
-  const {
-    desiredState,
-    save: saveToPanelHistory,
-    undo: undoMappingChanges,
-  } = <span class="cstat-no" title="statement not covered" >useEditHistory&lt;GroupEditHistory&gt;({</span>
-    initialState: {
-      groupsAdded: new Set(),
-    },
-  });
+  const { desiredState, save: saveToPanelHistory } =
+<span class="cstat-no" title="statement not covered" >    useEditHistory&lt;GroupEditHistory&gt;({</span>
+      initialState: {
+        groupsAdded: new Set(),
+      },
+    });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading panel details failed", error);</span></span>
@@ -537,21 +546,24 @@ const CreateIdpGroupPanel: FC = <span class="cstat-no" title="statement not cove
         /&gt;
       &lt;/SidePanel.Content&gt;
       &lt;SidePanel.Footer className="u-align--right"&gt;
-        &lt;GroupSelectionActions
-          modifiedGroups={desiredState.groupsAdded}
-          undoChange={undoMappingChanges}
-          closePanel={closePanel}
-          onSubmit={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
-          actionText="mapped"
-          loading={formik.isSubmitting}
+        &lt;Button
+          appearance="base"
+          onClick={closePanel}
+          className="u-no-margin--bottom"
+        &gt;
+          Cancel
+        &lt;/Button&gt;
+        &lt;ActionButton
+          appearance="positive"
+          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          className="u-no-margin--bottom"
           disabled={
-            !formik.isValid ||
-            formik.isSubmitting ||
-            (!formik.values.name &amp;&amp;
-              !desiredState.groupsAdded.size &amp;&amp;
-              !formik.touched.name)
+            !formik.isValid || formik.isSubmitting || !formik.values.name
           }
-        /&gt;
+          loading={formik.isSubmitting}
+        &gt;
+          Create IDP group
+        &lt;/ActionButton&gt;
       &lt;/SidePanel.Footer&gt;
     &lt;/SidePanel&gt;
   );
@@ -565,7 +577,7 @@ export default CreateIdpGroupPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-04T14:16:06.017Z
+                at 2025-07-04T17:35:23.795Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

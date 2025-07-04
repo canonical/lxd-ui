@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.84% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/183</span>
+                <span class='fraction'>28/182</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">8.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>1/12</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.07% </span>
+                <span class="strong">18.54% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/152</span>
+                <span class='fraction'>28/151</span>
             </div>
         
             
@@ -214,8 +214,7 @@
 <a name='L149'></a><a href='#L149'>149</a>
 <a name='L150'></a><a href='#L150'>150</a>
 <a name='L151'></a><a href='#L151'>151</a>
-<a name='L152'></a><a href='#L152'>152</a>
-<a name='L153'></a><a href='#L153'>153</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L152'></a><a href='#L152'>152</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -241,7 +240,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -367,7 +365,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useNotify } from "@canonical/react-components";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ActionButton, Button, useNotify } from <span class="branch-0 cbranch-no" title="branch not covered" >"@canonical/react-components";</span>
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -377,7 +375,6 @@ import NotificationRow from "components/NotificationRow";
 import type { TLSIdentityFormValues } from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
-import GroupSelectionActions from "../actions/GroupSelectionActions";
 import { useGroups } from "context/useGroups";
 import { createFineGrainedTlsIdentity } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
@@ -400,15 +397,12 @@ const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const { data: groups = <span class="branch-0 cbranch-no" title="branch not covered" >[], e</span>rror, isLoading } = <span class="cstat-no" title="statement not covered" >useGroups();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const {</span>
-<span class="cstat-no" title="statement not covered" >    desiredState,</span>
-<span class="cstat-no" title="statement not covered" >    save: saveToPanelHistory,</span>
-<span class="cstat-no" title="statement not covered" >    undo: undoMappingChanges,</span>
-<span class="cstat-no" title="statement not covered" >  } = <span class="cstat-no" title="statement not covered" >useEditHistory&lt;GroupEditHistory&gt;({</span></span>
-<span class="cstat-no" title="statement not covered" >    initialState: {</span>
-<span class="cstat-no" title="statement not covered" >      groupsAdded: new Set(),</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  const { desiredState, save: saveToPanelHistory } =</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    useEditHistory&lt;GroupEditHistory&gt;({</span></span>
+<span class="cstat-no" title="statement not covered" >      initialState: {</span>
+<span class="cstat-no" title="statement not covered" >        groupsAdded: new Set(),</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
+<span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (error) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading panel details failed", error);</span></span>
@@ -497,21 +491,24 @@ const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/SidePanel.Content&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;SidePanel.Footer className="u-align--right"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;GroupSelectionActions</span>
-<span class="cstat-no" title="statement not covered" >            modifiedGroups={desiredState.groupsAdded}</span>
-<span class="cstat-no" title="statement not covered" >            undoChange={undoMappingChanges}</span>
-<span class="cstat-no" title="statement not covered" >            closePanel={closePanel}</span>
-<span class="cstat-no" title="statement not covered" >            onSubmit={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span></span>
-<span class="cstat-no" title="statement not covered" >            actionText="mapped"</span>
-<span class="cstat-no" title="statement not covered" >            loading={formik.isSubmitting}</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >            appearance="base"</span>
+<span class="cstat-no" title="statement not covered" >            onClick={closePanel}</span>
+<span class="cstat-no" title="statement not covered" >            className="u-no-margin--bottom"</span>
+<span class="cstat-no" title="statement not covered" >          &gt;</span>
+<span class="cstat-no" title="statement not covered" >            Cancel</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;ActionButton</span>
+<span class="cstat-no" title="statement not covered" >            appearance="positive"</span>
+<span class="cstat-no" title="statement not covered" >            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span></span>
+<span class="cstat-no" title="statement not covered" >            className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >            disabled={</span>
-<span class="cstat-no" title="statement not covered" >              !formik.isValid ||</span>
-<span class="cstat-no" title="statement not covered" >              formik.isSubmitting ||</span>
-<span class="cstat-no" title="statement not covered" >              (!formik.values.name &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >                !desiredState.groupsAdded.size &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >                !formik.touched.name)</span>
+<span class="cstat-no" title="statement not covered" >              !formik.isValid || formik.isSubmitting || !formik.values.name</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >            loading={formik.isSubmitting}</span>
+<span class="cstat-no" title="statement not covered" >          &gt;</span>
+<span class="cstat-no" title="statement not covered" >            Create identity</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/ActionButton&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/SidePanel.Footer&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/SidePanel&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
@@ -526,7 +523,7 @@ export default CreateTLSIdentityPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-04T14:16:06.017Z
+                at 2025-07-04T17:35:23.795Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
