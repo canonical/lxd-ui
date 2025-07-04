@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.23% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/26</span>
+                <span class='fraction'>20/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/20</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -83,46 +83,46 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { handleResponse } from "util/helpers";
 import type { LxdNetworkLease } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 &nbsp;
-export const fetchNetworkLeases = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
-<span class="cstat-no" title="statement not covered" >  network: string,</span>
-<span class="cstat-no" title="statement not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): Promise&lt;LxdNetworkLease[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/networks/${encodeURIComponent(network)}/leases?${params.toString()}`,</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
-<span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdNetworkLease[]&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return data.metadata;</span></span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+export const fetchNetworkLeases = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+  network: string,
+  project: string,
+): Promise&lt;LxdNetworkLease[]&gt; =&gt; {
+  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+    `/1.0/networks/${encodeURIComponent(network)}/leases?${params.toString()}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse&lt;LxdNetworkLease[]&gt;) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+    });
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -130,7 +130,7 @@ export const fetchNetworkLeases = <span class="cstat-no" title="statement not co
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-04T11:09:54.301Z
+                at 2025-07-04T14:16:06.017Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
