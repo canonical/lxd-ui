@@ -71,7 +71,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const cephObjectNotice = (
     <>
       Rados gateway must be enabled for Ceph Object driver to work. If using
-      microcloud or microceph, run <code>microceph enable rgw</code>.
+      microcloud or microceph, run <code>microceph enable rgw --port 8080</code>
+      .
     </>
   );
 
