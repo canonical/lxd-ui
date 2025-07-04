@@ -103,6 +103,33 @@ export const createNetworkForward = async (page: Page, network: string) => {
     .getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`)
     .click();
 
+  await page.getByRole("link", { name: "Edit network forward" }).click();
+  await expect(page.getByText("Edit a network forward")).toBeVisible();
+  await page.getByLabel("Description").fill("My forward description");
+  await page.getByRole("button", { name: "Update" }).click();
+
+  await page.getByText(`Network forward ${listenAddress} updated.`).click();
+  await expect(page.getByText(`My forward description`)).toBeVisible();
+
+  await page.getByTestId("tab-link-Leases").click();
+  await expect(page.getByText(`${network}.gw`).first()).toBeVisible();
+
+  await page.getByRole("link", { name: "IPAM", exact: true }).click();
+  await expect(page.getByText(`network-forward`).first()).toBeVisible();
+
+  await visitNetwork(page, network);
+  await page.getByTestId("tab-link-Forwards").click();
+  await page.getByRole("button", { name: "Delete network forward" }).click();
+  await page
+    .getByRole("dialog", { name: "Confirm delete" })
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await expect(
+    page.getByText(
+      `Network forward with listen address ${listenAddress} deleted.`,
+    ),
+  ).toBeVisible();
+
   await deleteNetwork(page, network);
 };
 
