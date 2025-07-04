@@ -1,35 +1,25 @@
 import type { FC } from "react";
-import type { LxdStorageBucket } from "types/storage";
+import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import { Button, Icon } from "@canonical/react-components";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
 import usePanelParams from "util/usePanelParams";
 
 interface Props {
+  bucketKey: LxdStorageBucketKey;
   bucket: LxdStorageBucket;
-  classname?: string;
-  isDetailPage?: boolean;
 }
 
-const EditStorageBucketBtn: FC<Props> = ({
-  bucket,
-  classname,
-  isDetailPage,
-}) => {
+const EditStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
   const panelParams = usePanelParams();
   const { canEditBucket } = useStorageBucketEntitlements();
 
   return (
     <Button
-      key={`${bucket.name}-edit`}
-      className={classname}
-      appearance={isDetailPage ? "default" : "base"}
+      className="has-icon"
+      appearance="base"
       hasIcon
       onClick={() => {
-        panelParams.openEditStorageBucket(
-          bucket.name,
-          bucket.pool,
-          bucket.location,
-        );
+        panelParams.openEditStorageBucketKey(bucketKey.name);
       }}
       title={
         canEditBucket(bucket)
@@ -38,9 +28,8 @@ const EditStorageBucketBtn: FC<Props> = ({
       }
     >
       <Icon name="edit" />
-      {isDetailPage && <span>Configure</span>}
     </Button>
   );
 };
 
-export default EditStorageBucketBtn;
+export default EditStorageBucketKeyBtn;

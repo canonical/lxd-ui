@@ -5,6 +5,7 @@ export type InstanceIconType = "container" | "virtual-machine" | "instance";
 
 export type ResourceIconType =
   | "bucket"
+  | "bucket-key"
   | "container"
   | "virtual-machine"
   | "instance"
@@ -50,6 +51,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   device: "units",
   setting: "settings",
   bucket: "status-queued-small",
+  "bucket-key": "private-key",
 };
 
 interface Props {

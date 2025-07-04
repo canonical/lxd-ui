@@ -7,6 +7,40 @@
   }
 }
 
+.storage-bucket-key-list {
+  .actions {
+    min-width: 5rem;
+  }
+
+  .description {
+    width: 15rem;
+  }
+
+  .name,
+  .role {
+    width: 10rem;
+  }
+
+  .p-panel__controls {
+    padding-top: 0;
+  }
+
+  .pagination {
+    margin-top: 0;
+  }
+
+  .key-field {
+    min-width: 15rem;
+  }
+
+  @media screen and (width > 1090px) and (width < 1400px) {
+    .description,
+    .role {
+      display: none;
+    }
+  }
+}
+
 .storage-pool-table {
   .size {
     width: 14rem;
@@ -98,6 +132,15 @@
 
     @media screen and (width < 500px) {
       .actions {
+        display: none;
+      }
+    }
+  }
+
+  .storage-buckets-table {
+    @media screen and (width > 1090px) and (width < 1400px) {
+      .description,
+      .keys {
         display: none;
       }
     }

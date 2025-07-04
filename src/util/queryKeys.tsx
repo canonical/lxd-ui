@@ -1,5 +1,6 @@
 export const queryKeys = {
   buckets: "buckets",
+  keys: "keys",
   certificates: "certificates",
   cluster: "cluster",
   configOptions: "configOptions",
