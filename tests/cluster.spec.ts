@@ -21,7 +21,8 @@ test("cluster group add and remove members", async ({ page }) => {
   await toggleClusterGroupMember(page, group, member);
 
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Groups" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
   await page.waitForSelector(`text=${member}`);
@@ -34,7 +35,8 @@ test("cluster member evacuate and restore", async ({ page }) => {
   const member = await getFirstClusterMember(page);
 
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Cluster" }).click();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Members" }).click();
   const memberRow = page.getByRole("row").filter({ hasText: member });
 
   await memberRow.hover();

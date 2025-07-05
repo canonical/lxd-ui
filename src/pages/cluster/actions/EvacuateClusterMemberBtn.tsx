@@ -42,7 +42,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
         <ResourceLink
           type="cluster-member"
           value={member.server_name}
-          to="/ui/cluster"
+          to="/ui/cluster/groups"
         />{" "}
         evacuation completed.
       </>,
@@ -56,7 +56,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
       <ResourceLink
         type="cluster-member"
         value={member.server_name}
-        to="/ui/cluster"
+        to="/ui/cluster/groups"
       />,
     );
   };
@@ -71,7 +71,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
             <ResourceLink
               type="cluster-member"
               value={member.server_name}
-              to="/ui/cluster"
+              to="/ui/cluster/groups"
             />{" "}
             evacuation started.
           </>,

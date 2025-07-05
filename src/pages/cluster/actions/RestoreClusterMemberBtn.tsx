@@ -42,7 +42,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
         <ResourceLink
           type="cluster-member"
           value={member.server_name}
-          to="/ui/cluster"
+          to="/ui/cluster/members"
         />{" "}
         restore completed.
       </>,
@@ -56,7 +56,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
       <ResourceLink
         type="cluster-member"
         value={member.server_name}
-        to="/ui/cluster"
+        to="/ui/cluster/members"
       />,
     );
   };
@@ -69,7 +69,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
           <>
             Member{" "}
             <ResourceLink
-              to="/ui/cluster"
+              to="/ui/cluster/members"
               type="cluster-member"
               value={member.server_name}
             />{" "}

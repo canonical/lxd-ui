@@ -26,6 +26,7 @@ export interface PanelHelper {
   openCreateTLSIdentity: () => void;
   openCreateStorageBucket: (project: string) => void;
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
+  openCreateClusterLink: () => void;
 }
 
 export const panels = {
@@ -40,6 +41,7 @@ export const panels = {
   createTLSIdentity: "create-tls-identity",
   createStorageBucket: "create-storage-bucket",
   editStorageBucket: "edit-storage-bucket",
+  createClusterLink: "create-cluster-link",
 };
 
 type ParamMap = Record<string, string>;
@@ -161,6 +163,10 @@ const usePanelParams = (): PanelHelper => {
         target: target || "",
       };
       setPanelParams(panels.editStorageBucket, params);
+    },
+
+    openCreateClusterLink: () => {
+      setPanelParams(panels.createClusterLink);
     },
   };
 };
