@@ -1,7 +1,7 @@
 .tag {
-  border: 1px solid #666;
+  border: 1px solid $colors--theme--border-high-contrast;
   border-radius: 4px;
-  color: #666;
+  color: $colors--theme--text-muted;
   display: inline-block;
   font-size: calc($sp-unit * 1.875);
   font-weight: 500;

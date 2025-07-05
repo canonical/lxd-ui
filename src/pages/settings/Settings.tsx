@@ -113,13 +113,25 @@ const Settings: FC = () => {
     type: "string",
   });
 
+  configFields.push({
+    key: "user.ui_theme",
+    category: "user",
+    default: "",
+    shortdesc:
+      "Set UI to dark theme, light theme, or to match the system theme.",
+    type: "string",
+  });
+
   let lastCategory = "";
   const rows = configFields
     .filter((configField) => {
       if (!query) {
         return true;
       }
-      return configField.key.toLowerCase().includes(query.toLowerCase());
+      return (
+        configField.key.toLowerCase().includes(query.toLowerCase()) ||
+        configField.shortdesc?.toLowerCase().includes(query.toLowerCase())
+      );
     })
     .map((configField, index, { length }) => {
       const isDefault = !Object.keys(settings?.config ?? {}).some(

@@ -1,6 +1,6 @@
 .detail-panel {
   .sticky-wrapper {
-    background: white;
+    background: $colors--theme--background-default;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -37,6 +37,5 @@
 
   tr {
     border-bottom: $border-thin;
-    border-color: $color-mid-x-light;
   }
 }

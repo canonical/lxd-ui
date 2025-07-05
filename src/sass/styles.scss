@@ -68,7 +68,7 @@
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
 
-$border-thin: 1px solid $color-mid-light !default;
+$border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
 @import "certificates";
 @import "cluster_group_form";
@@ -177,7 +177,7 @@ body {
 }
 
 .p-bottom-controls {
-  background-color: white;
+  background-color: $colors--theme--background-default;
   bottom: 0;
   position: sticky;
 }
@@ -348,12 +348,12 @@ body {
 
 .u-selectable-table-rows {
   .u-row:hover {
-    background-color: $colors--light-theme--background-hover;
+    background-color: $colors--theme--background-hover;
     cursor: pointer;
   }
 
   .u-row--disabled:hover {
-    background-color: white;
+    background-color: $colors--theme--background-default;
     cursor: auto;
   }
 }

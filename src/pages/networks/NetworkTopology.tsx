@@ -124,10 +124,8 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             className="p-chip is-inline is-dense resource-link active-chip"
             title={network.name}
           >
-            <span className="p-chip__value">
-              <Icon name="exposed" light />
-              {network.name}
-            </span>
+            <Icon name="exposed" light />
+            <span className="p-chip__value">{network.name}</span>
           </div>
         </div>
         <div className="downstream">

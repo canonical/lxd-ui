@@ -5,7 +5,7 @@
     margin-right: $sph--large;
 
     > .bulk-action-frame {
-      border: 1px solid #0000008f;
+      border: 1px solid $colors--theme--border-high-contrast;
 
       > .bulk-action {
         border-left: 1px solid rgb(0 0 0 / 10%);
@@ -40,7 +40,7 @@
 
   .u-row:hover,
   .u-row-selected {
-    background-color: $colors--light-theme--background-hover;
+    background-color: $colors--theme--background-hover;
   }
 
   .instance-actions button {
@@ -48,7 +48,7 @@
   }
 
   .instance-actions button:hover {
-    background-color: $colors--light-theme--background-active;
+    background-color: $colors--theme--background-active;
   }
 
   // show actions only on hover if a pointing device is used

@@ -27,7 +27,7 @@
   }
 
   .u-row:hover {
-    background-color: $colors--light-theme--background-hover;
+    background-color: $colors--theme--background-hover;
   }
 
   .empty-state {
@@ -71,8 +71,8 @@
 
   .cluster-group-select {
     .toggle {
-      background-color: $colors--light-theme--background-hover;
-      border-bottom: 1px solid $colors--light-theme--border-high-contrast;
+      background-color: $colors--theme--background-hover;
+      border-bottom: 1px solid $colors--theme--border-high-contrast;
       font-size: #{map.get($font-sizes, h4-mobile)}rem;
       margin-bottom: $spv--small;
       width: 15rem;
