@@ -227,6 +227,17 @@ const ProfileList: FC = () => {
                   {!isSmallScreen && <Icon name="plus" light />}
                   <span>Create profile</span>
                 </Button>
+                <Button
+                  appearance=""
+                  className="u-no-margin--bottom u-float-right"
+                  onClick={async () =>
+                    navigate(
+                      `/ui/project/${encodeURIComponent(projectName)}/placement-groups`,
+                    )
+                  }
+                >
+                  <span>Placement groups</span>
+                </Button>
               </PageHeader.BaseActions>
             )}
           </PageHeader>
