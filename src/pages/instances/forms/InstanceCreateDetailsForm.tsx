@@ -19,7 +19,7 @@ import { instanceCreationTypes } from "util/instanceOptions";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import type { LxdImageType, RemoteImage } from "types/image";
-import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
+import InstanceTargetSelect from "pages/instances/forms/InstanceTargetSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
@@ -35,6 +35,7 @@ export interface InstanceDetailsFormValues {
   instanceType: InstanceIconType;
   profiles: string[];
   target?: string;
+  placementGroup?: string;
   entityType: "instance";
   isCreating: boolean;
   readOnly: boolean;
@@ -175,7 +176,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                 : ""
             }
           />
-          <InstanceLocationSelect formik={formik} />
+          <InstanceTargetSelect formik={formik} />
         </Col>
       </Row>
       <ProfileSelector

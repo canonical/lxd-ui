@@ -1,5 +1,8 @@
 import { getProfileConfigKeys } from "util/instanceConfigFields";
-import { profileDetailPayload } from "pages/profiles/forms/ProfileDetailsForm";
+import {
+  profileDetailConfigPayload,
+  profileDetailPayload,
+} from "pages/profiles/forms/ProfileDetailsForm";
 import { formDeviceToPayload } from "util/formDevices";
 import { resourceLimitsPayload } from "components/forms/ResourceLimitsForm";
 import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
@@ -26,6 +29,7 @@ export const getProfilePayload = (
     ...profileDetailPayload(values),
     devices: formDeviceToPayload(values.devices),
     config: {
+      ...profileDetailConfigPayload(values),
       ...resourceLimitsPayload(values),
       ...securityPoliciesPayload(values),
       ...snapshotsPayload(values),
