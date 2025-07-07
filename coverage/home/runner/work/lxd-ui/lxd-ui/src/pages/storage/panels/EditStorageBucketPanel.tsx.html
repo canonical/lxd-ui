@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.83% </span>
+                <span class="strong">16.37% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/157</span>
+                <span class='fraction'>28/171</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.14% </span>
+                <span class="strong">5.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/14</span>
+                <span class='fraction'>1/18</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.74% </span>
+                <span class="strong">18.91% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/135</span>
+                <span class='fraction'>28/148</span>
             </div>
         
             
@@ -198,7 +198,20 @@
 <a name='L133'></a><a href='#L133'>133</a>
 <a name='L134'></a><a href='#L134'>134</a>
 <a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -224,6 +237,19 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -408,7 +434,20 @@ const EditStorageBucketPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >      )</span>
 <span class="cstat-no" title="statement not covered" >        .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span></span>
-<span class="cstat-no" title="statement not covered" >            queryKey: [queryKeys.buckets, project?.name],</span>
+<span class="cstat-no" title="statement not covered" >            queryKey: [</span>
+<span class="cstat-no" title="statement not covered" >              queryKeys.storage,</span>
+<span class="cstat-no" title="statement not covered" >              bucket.pool,</span>
+<span class="cstat-no" title="statement not covered" >              project?.name ?? "",</span>
+<span class="cstat-no" title="statement not covered" >              queryKeys.buckets,</span>
+<span class="cstat-no" title="statement not covered" >              bucket.name,</span>
+<span class="cstat-no" title="statement not covered" >            ],</span>
+<span class="cstat-no" title="statement not covered" >          });</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >            queryKey: [</span>
+<span class="cstat-no" title="statement not covered" >              queryKeys.storage,</span>
+<span class="cstat-no" title="statement not covered" >              project?.name ?? "",</span>
+<span class="cstat-no" title="statement not covered" >              queryKeys.buckets,</span>
+<span class="cstat-no" title="statement not covered" >            ],</span>
 <span class="cstat-no" title="statement not covered" >          });</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          handleSuccess(values.name);</span></span>
 <span class="cstat-no" title="statement not covered" >        })</span>
@@ -475,7 +514,7 @@ export default EditStorageBucketPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-07T15:21:37.211Z
+                at 2025-07-07T21:50:09.728Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
