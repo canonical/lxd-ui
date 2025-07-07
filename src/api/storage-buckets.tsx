@@ -1,5 +1,5 @@
 import { handleResponse } from "util/helpers";
-import type { LxdStorageBucket } from "types/storage";
+import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
@@ -45,6 +45,27 @@ export const fetchAllStorageBuckets = async (
 
   const allBuckets = await Promise.all(fetches);
   return allBuckets.flat();
+};
+
+export const fetchStorageBucket = async (
+  pool: string,
+  project: string,
+  bucketName: string,
+  isFineGrained: boolean | null,
+  target?: string | null,
+): Promise<LxdStorageBucket> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+  addEntitlements(params, isFineGrained, storageBucketEntitlements);
+
+  return fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucketName)}?${params.toString()}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageBucket>) => {
+      return { ...data.metadata, pool } as LxdStorageBucket;
+    });
 };
 
 export const createStorageBucket = async (
@@ -127,6 +148,131 @@ export const deleteStorageBucketBulk = async (
           .catch((e) => {
             pushFailure(results, e instanceof Error ? e.message : "");
             continueOrFinish(results, buckets.length, resolve);
+          });
+      }),
+    ).catch(reject);
+  });
+};
+
+export const fetchStorageBucketKeys = async (
+  bucket: LxdStorageBucket,
+  isFineGrained: boolean | null,
+  project: string,
+): Promise<LxdStorageBucketKey[]> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, storageBucketEntitlements);
+
+  return fetch(
+    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys?${params.toString()}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageBucketKey[]>) => {
+      return data.metadata;
+    });
+};
+
+export const fetchStorageBucketKey = async (
+  bucket: LxdStorageBucket,
+  keyName: string,
+  isFineGrained: boolean | null,
+  project: string,
+): Promise<LxdStorageBucketKey[]> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addEntitlements(params, isFineGrained, storageBucketEntitlements);
+
+  return fetch(
+    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageBucketKey[]>) => {
+      return data.metadata;
+    });
+};
+
+export const createStorageBucketKey = async (
+  body: string,
+  project: string,
+  pool: string,
+  bucket: string,
+): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,
+    {
+      method: "POST",
+      body: body,
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
+};
+
+export const updateStorageBucketKey = async (
+  bucket: string,
+  key: LxdStorageBucketKey,
+  pool: string,
+  project: string,
+  target?: string,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, target);
+
+  await fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(key),
+    },
+  ).then(handleResponse);
+};
+
+export const deleteStorageBucketKey = async (
+  bucket: string,
+  key: string,
+  pool: string,
+  project: string,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  await fetch(
+    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
+};
+
+export const deleteStorageBucketKeyBulk = async (
+  bucket: LxdStorageBucket,
+  keys: LxdStorageBucketKey[],
+  project: string,
+): Promise<PromiseSettledResult<void>[]> => {
+  const results: PromiseSettledResult<void>[] = [];
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      keys.map(async (key) => {
+        return deleteStorageBucketKey(
+          bucket.name,
+          key.name,
+          bucket.pool,
+          project,
+        )
+          .then(() => {
+            pushSuccess(results);
+            continueOrFinish(results, keys.length, resolve);
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, keys.length, resolve);
           });
       }),
     ).catch(reject);

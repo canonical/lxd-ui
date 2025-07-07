@@ -20,13 +20,16 @@ import {
   NAME_COL,
   SIZE_COL,
   URL_COL,
+  DESCRIPTION_COL,
+  COLUMN_WIDTHS,
+  KEY_COL,
 } from "util/storageBucketTable";
 import useSortTableData from "util/useSortTableData";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
-import { useLoadBuckets } from "context/useBuckets";
+import { useBuckets } from "context/useBuckets";
 import type { StorageBucketsFilterType } from "./StorageBucketsFilter";
 import StorageBucketActions from "./actions/StorageBucketActions";
 import CreateStorageBucketBtn from "./actions/CreateStorageBucketBtn";
@@ -38,6 +41,8 @@ import StorageBucketBulkDelete from "./actions/StorageBucketBulkDelete";
 import type { LxdStorageBucket } from "types/storage";
 import CreateStorageBucketPanel from "./panels/CreateStorageBucketPanel";
 import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
+import StorageBucketLink from "./StorageBucketLink";
+import StorageBucketKeyCount from "./StorageBucketKeyCount";
 
 const StorageBuckets: FC = () => {
   const docBaseLink = useDocs();
@@ -58,7 +63,7 @@ const StorageBuckets: FC = () => {
     return <>Missing project</>;
   }
 
-  const { data: buckets = [], error, isLoading } = useLoadBuckets(project);
+  const { data: buckets = [], error, isLoading } = useBuckets(project);
 
   const getBucketKey = (bucket: LxdStorageBucket) => {
     return `${bucket.name}-${bucket.pool}-${bucket.location || ""}`;
@@ -81,24 +86,39 @@ const StorageBuckets: FC = () => {
       content: NAME_COL,
       sortKey: "name",
       className: "name",
+      style: { width: COLUMN_WIDTHS[NAME_COL] },
     },
     {
       content: POOL_COL,
       sortKey: "pool",
       className: "pool",
+      style: { width: COLUMN_WIDTHS[POOL_COL] },
     },
     {
       content: SIZE_COL,
       sortKey: "size",
       className: "size",
+      style: { width: COLUMN_WIDTHS[SIZE_COL] },
+    },
+    {
+      content: DESCRIPTION_COL,
+      className: "description",
+      style: { width: COLUMN_WIDTHS[DESCRIPTION_COL] },
     },
     {
       content: URL_COL,
       sortKey: "s3_url",
+      style: { width: COLUMN_WIDTHS[URL_COL] },
+    },
+    {
+      content: KEY_COL,
+      style: { width: COLUMN_WIDTHS[KEY_COL] },
+      className: "keys",
     },
     {
       className: "actions u-align--right",
       "aria-label": "Actions",
+      style: { width: COLUMN_WIDTHS[ACTIONS_COL] },
     },
   ];
 
@@ -119,13 +139,10 @@ const StorageBuckets: FC = () => {
       className: "u-row",
       columns: [
         {
-          content: (
-            <div className="u-truncate" title={bucket.name}>
-              {bucket.name}
-            </div>
-          ),
+          content: <StorageBucketLink bucket={bucket} project={project} />,
           role: "rowheader",
           "aria-label": NAME_COL,
+          style: { width: COLUMN_WIDTHS[NAME_COL] },
         },
         {
           content: (
@@ -137,11 +154,20 @@ const StorageBuckets: FC = () => {
           ),
           role: "cell",
           "aria-label": POOL_COL,
+          style: { width: COLUMN_WIDTHS[POOL_COL] },
         },
         {
           content: bucket.config?.size ?? "-",
           role: "cell",
           "aria-label": SIZE_COL,
+          style: { width: COLUMN_WIDTHS[SIZE_COL] },
+        },
+        {
+          content: bucket.description || "-",
+          role: "cell",
+          "aria-label": DESCRIPTION_COL,
+          style: { width: COLUMN_WIDTHS[DESCRIPTION_COL] },
+          className: "description u-truncate",
         },
         {
           content: (
@@ -151,6 +177,14 @@ const StorageBuckets: FC = () => {
           ),
           role: "cell",
           "aria-label": URL_COL,
+          style: { width: COLUMN_WIDTHS[URL_COL] },
+        },
+        {
+          content: <StorageBucketKeyCount bucket={bucket} />,
+          role: "cell",
+          "aria-label": KEY_COL,
+          style: { width: COLUMN_WIDTHS[KEY_COL] },
+          className: "keys",
         },
         {
           className: "actions u-align--right",
@@ -162,6 +196,7 @@ const StorageBuckets: FC = () => {
           ),
           role: "cell",
           "aria-label": ACTIONS_COL,
+          style: { width: COLUMN_WIDTHS[ACTIONS_COL] },
         },
       ],
       sortData: {
@@ -214,6 +249,7 @@ const StorageBuckets: FC = () => {
         >
           <SelectableMainTable
             id="bucket-table"
+            className="storage-buckets-table"
             headers={headers}
             rows={sortedRows}
             sortable
@@ -226,6 +262,7 @@ const StorageBuckets: FC = () => {
             filteredNames={filteredBuckets.map(getBucketKey)}
             onUpdateSort={updateSort}
             defaultSortDirection="descending"
+            responsive
           />
         </TablePagination>
       </ScrollableTable>

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import type { LxdStorageBucket } from "types/storage";
+import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -10,52 +10,57 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
-import { deleteStorageBucket } from "api/storage-buckets";
+import { deleteStorageBucketKey } from "api/storage-buckets";
 import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   bucket: LxdStorageBucket;
-  classname?: string;
-  isDetailPage?: boolean;
+  bucketKey: LxdStorageBucketKey;
 }
 
-const DeleteStorageBucketBtn: FC<Props> = ({
-  bucket,
-  classname,
-  isDetailPage,
-}) => {
+const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const { canDeleteBucket } = useStorageBucketEntitlements();
+  const { canEditBucket } = useStorageBucketEntitlements();
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
-  const navigate = useNavigate();
   const toastNotify = useToastNotification();
 
   const onFinish = () => {
-    navigate(`/ui/project/${project?.name}/storage/buckets`);
     toastNotify.success(
       <>
-        Storage bucket <ResourceLabel bold type="bucket" value={bucket.name} />{" "}
-        deleted.
+        Bucket key{" "}
+        <ResourceLabel bold type="bucket-key" value={bucketKey.name} /> deleted
+        for bucket <ResourceLabel bold type="bucket" value={bucket.name} />.
       </>,
     );
   };
 
   const handleDelete = () => {
     setLoading(true);
-    deleteStorageBucket(bucket.name, bucket.pool, projectName)
+    deleteStorageBucketKey(
+      bucket.name,
+      bucketKey.name,
+      bucket.pool,
+      projectName,
+    )
       .then(onFinish)
       .catch((e) => {
-        notify.failure("Storage bucket deletion failed", e);
+        notify.failure("Bucket key deletion failed", e);
       })
       .finally(() => {
         setLoading(false);
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.storage, projectName, queryKeys.buckets],
+          queryKey: [
+            queryKeys.storage,
+            bucket.pool,
+            project?.name ?? "",
+            queryKeys.buckets,
+            bucket.name,
+            queryKeys.keys,
+          ],
         });
       });
   };
@@ -67,28 +72,27 @@ const DeleteStorageBucketBtn: FC<Props> = ({
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete bucket <b>{bucket.name}</b>.<br />
+            This will permanently delete key <b>{bucketKey.name}</b>.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      appearance={isDetailPage ? "default" : "base"}
-      className={classname}
+      appearance="base"
+      className="has-icon"
       shiftClickEnabled
       showShiftClickHint
-      disabled={!canDeleteBucket(bucket)}
+      disabled={!canEditBucket(bucket)}
       onHoverText={
-        canDeleteBucket(bucket)
-          ? "Delete bucket"
-          : "You do not have permission to delete this bucket."
+        canEditBucket(bucket)
+          ? "Delete key"
+          : "You do not have permission to delete this key."
       }
     >
       <Icon name="delete" />
-      {isDetailPage && <span>Delete</span>}
     </ConfirmationButton>
   );
 };
 
-export default DeleteStorageBucketBtn;
+export default DeleteStorageBucketKeyBtn;

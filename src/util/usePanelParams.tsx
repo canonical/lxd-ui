@@ -12,6 +12,7 @@ export interface PanelHelper {
   subForm: GroupSubForm;
   project: string;
   bucket: string | null;
+  key: string | null;
   pool: string | null;
   target: string | null;
   clear: () => void;
@@ -26,6 +27,8 @@ export interface PanelHelper {
   openCreateTLSIdentity: () => void;
   openCreateStorageBucket: (project: string) => void;
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
+  openCreateStorageBucketKey: (project: string) => void;
+  openEditStorageBucketKey: (key: string) => void;
 }
 
 export const panels = {
@@ -38,8 +41,10 @@ export const panels = {
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
   createTLSIdentity: "create-tls-identity",
-  createStorageBucket: "create-storage-bucket",
-  editStorageBucket: "edit-storage-bucket",
+  createStorageBucket: "create-bucket",
+  editStorageBucket: "edit-bucket",
+  createStorageBucketKey: "create-bucket-key",
+  editStorageBucketKey: "edit-bucket-key",
 };
 
 type ParamMap = Record<string, string>;
@@ -77,6 +82,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("panel-project");
     newParams.delete("sub-form");
     newParams.delete("bucket");
+    newParams.delete("bucket-key");
     newParams.delete("panel-pool");
     newParams.delete("target");
     setParams(newParams);
@@ -93,6 +99,7 @@ const usePanelParams = (): PanelHelper => {
     idpGroup: params.get("idp-group"),
     subForm: params.get("sub-form") as GroupSubForm,
     bucket: params.get("bucket"),
+    key: params.get("bucket-key"),
     pool: params.get("panel-pool"),
     target: params.get("target") ?? "",
 
@@ -161,6 +168,17 @@ const usePanelParams = (): PanelHelper => {
         target: target || "",
       };
       setPanelParams(panels.editStorageBucket, params);
+    },
+
+    openCreateStorageBucketKey: () => {
+      setPanelParams(panels.createStorageBucketKey);
+    },
+
+    openEditStorageBucketKey: (key) => {
+      const params: ParamMap = {
+        "bucket-key": key || "",
+      };
+      setPanelParams(panels.editStorageBucketKey, params);
     },
   };
 };

@@ -1,15 +1,14 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import type { RenameHeaderValues } from "components/RenameHeader";
 import RenameHeader from "components/RenameHeader";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import type { RenameHeaderValues } from "components/RenameHeader";
 import type { LxdStoragePool } from "types/storage";
-import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
-import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useNotify, useToastNotification } from "@canonical/react-components";
+import * as Yup from "yup";
+import { testDuplicateStoragePoolName } from "util/storagePool";
+import { useFormik } from "formik";
+import { renameStoragePool } from "api/storage-pools";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {
@@ -83,7 +82,6 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
         />,
       ]}
       isLoaded
-      formik={formik}
       renameDisabledReason="Cannot rename storage pools"
     />
   );
