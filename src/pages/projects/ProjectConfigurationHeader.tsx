@@ -14,7 +14,8 @@ import { useEventQueue } from "context/eventQueue";
 import { useDocs } from "context/useDocs";
 import ResourceLink from "components/ResourceLink";
 import { useProjectEntitlements } from "util/entitlements/projects";
-import { useToastNotification } from "@canonical/react-components";
+import { Button, useToastNotification } from "@canonical/react-components";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   project: LxdProject;
@@ -23,6 +24,7 @@ interface Props {
 const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
   const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
+  const isClustered = useIsClustered();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
@@ -121,7 +123,24 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         </HelpLink>,
       ]}
       renameDisabledReason={getRenameDisabledReason()}
-      controls={<DeleteProjectBtn project={project} />}
+      controls={
+        <>
+          {isClustered && (
+            <Button
+              appearance=""
+              className="u-no-margin--bottom"
+              onClick={async () =>
+                navigate(
+                  `/ui/project/${encodeURIComponent(project.name)}/placement-groups`,
+                )
+              }
+            >
+              <span>Placement groups</span>
+            </Button>
+          )}
+          <DeleteProjectBtn project={project} />
+        </>
+      }
       isLoaded={Boolean(project)}
       formik={formik}
     />

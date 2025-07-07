@@ -463,6 +463,7 @@ const Navigation: FC = () => {
                           title={getNavTitle("configuration")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
+                          activeUrlMatches={["/placement-groups"]}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
