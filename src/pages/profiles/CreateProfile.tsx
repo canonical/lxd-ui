@@ -54,6 +54,7 @@ import ProfileFormMenu, {
   YAML_CONFIGURATION,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
+import { profileDetailConfigPayload } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm, {
   profileDetailPayload,
 } from "pages/profiles/forms/ProfileDetailsForm";
@@ -169,6 +170,7 @@ const CreateProfile: FC = () => {
       ...profileDetailPayload(values),
       devices: formDeviceToPayload(values.devices),
       config: {
+        ...profileDetailConfigPayload(values),
         ...resourceLimitsPayload(values),
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
@@ -207,7 +209,11 @@ const CreateProfile: FC = () => {
           <Col size={12}>
             <NotificationRow />
             {section === MAIN_CONFIGURATION && (
-              <ProfileDetailsForm formik={formik} isEdit={false} />
+              <ProfileDetailsForm
+                formik={formik}
+                isEdit={false}
+                project={project}
+              />
             )}
 
             {section === DISK_DEVICES && (

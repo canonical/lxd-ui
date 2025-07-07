@@ -6,11 +6,16 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import SshKeyForm from "components/forms/SshKeyForm";
+import { useIsClustered } from "context/useIsClustered";
+import { usePlacementGroups } from "context/usePlacementGroups";
+import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
+import { getInstanceField } from "util/instanceConfigFields";
 
 export interface ProfileDetailsFormValues {
   name: string;
   description?: string;
   entityType: "profile";
+  placement_group?: string;
   readOnly: boolean;
   editRestriction?: string;
 }
@@ -22,13 +27,22 @@ export const profileDetailPayload = (values: CreateProfileFormValues) => {
   };
 };
 
+export const profileDetailConfigPayload = (values: CreateProfileFormValues) => {
+  return {
+    [getInstanceField("placement_group")]: values.placement_group,
+  };
+};
+
 interface Props {
   formik: FormikProps<CreateProfileFormValues>;
   isEdit: boolean;
+  project: string;
 }
 
-const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
+const ProfileDetailsForm: FC<Props> = ({ formik, isEdit, project }) => {
   const isDefaultProfile = formik.values.name === "default";
+  const isClustered = useIsClustered();
+  const { data: placementGroups = [] } = usePlacementGroups(project);
 
   return (
     <ScrollableForm>
@@ -68,6 +82,22 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             disabled={!!formik.values.editRestriction}
             title={formik.values.editRestriction}
           />
+          {isClustered && (
+            <PlacementGroupSelect
+              value={formik.values.placement_group}
+              setValue={(value) => {
+                ensureEditMode(formik);
+                formik.setFieldValue("placement_group", value || undefined);
+              }}
+              project={project}
+              hasNoneOption
+              help={
+                placementGroups.length === 0
+                  ? "No placement groups found for this project. "
+                  : "Update does not move instances. Changed placement policy applies only to future LXD scheduling events such as evacuation. "
+              }
+            />
+          )}
           <SshKeyForm formik={formik} />
         </Col>
       </Row>

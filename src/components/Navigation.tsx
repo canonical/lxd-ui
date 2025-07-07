@@ -39,7 +39,9 @@ const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
   const openStorage = location.pathname.includes("/storage/");
   const openNetwork = location.pathname.includes("/network");
-  const openCluster = location.pathname.includes("/cluster/");
+  const openCluster =
+    location.pathname.includes("/cluster/") ||
+    location.pathname.includes("/placement-groups");
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
     initialOpenMenus.push("permissions");
@@ -506,6 +508,16 @@ const Navigation: FC = () => {
                                   className="accordion-nav-secondary"
                                 >
                                   Groups
+                                </NavLink>
+                              </SideNavigationItem>,
+                              <SideNavigationItem key="placement">
+                                <NavLink
+                                  to={`/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
+                                  title={`Placement groups (${projectName})`}
+                                  onClick={softToggleMenu}
+                                  className="accordion-nav-secondary"
+                                >
+                                  Placement
                                 </NavLink>
                               </SideNavigationItem>,
                             ]}

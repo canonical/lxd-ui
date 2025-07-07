@@ -97,6 +97,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "instance_detail_panel";
 @import "instance_detail_terminal";
 @import "instance_list";
+@import "instance_target_selector";
 @import "ip_address";
 @import "login";
 @import "meter";
