@@ -9,6 +9,7 @@ import { slugify } from "util/slugify";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { useIsClustered } from "context/useIsClustered";
 import ClusteredBridgeInterfaceInput from "pages/networks/forms/ClusteredBridgeInterfaceInput";
+import { bridgeType } from "util/networks";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -35,7 +36,7 @@ const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
       children: <Input type="text" />,
     }),
 
-    ...(formik.values.networkType === "bridge"
+    ...(formik.values.networkType === bridgeType
       ? [
           getConfigurationRow({
             formik,

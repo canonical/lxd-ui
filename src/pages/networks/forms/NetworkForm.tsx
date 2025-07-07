@@ -37,6 +37,13 @@ import type { MainTableRow } from "@canonical/react-components/dist/components/M
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import type { LxdClusterMember } from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
+import {
+  typesWithParent,
+  macvlanType,
+  ovnType,
+  physicalType,
+  sriovType,
+} from "util/networks";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -53,6 +60,7 @@ export interface NetworkFormValues {
   dns_mode?: LxdNetworkDnsMode;
   dns_nameservers?: string;
   dns_search?: string;
+  gvrp?: string;
   ipv4_address?: string;
   ipv4_dhcp?: string;
   ipv4_dhcp_expiry?: string;
@@ -76,11 +84,13 @@ export interface NetworkFormValues {
   ipv6_gateway?: string;
   ipv6_routes?: string;
   ipv6_routes_anycast?: string;
+  mtu?: string;
   network?: string;
   ovn_ingress_mode?: string;
   parent?: string;
   parentPerClusterMember?: ClusterSpecificValues;
   security_acls: string[];
+  vlan?: string;
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
@@ -131,6 +141,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("dns_mode")]: values.dns_mode,
       [getNetworkKey("dns_nameservers")]: values.dns_nameservers,
       [getNetworkKey("dns_search")]: values.dns_search,
+      [getNetworkKey("gvrp")]: values.gvrp,
       [getNetworkKey("ipv4_address")]: values.ipv4_address,
       [getNetworkKey("ipv4_dhcp")]: values.ipv4_dhcp,
       [getNetworkKey("ipv4_dhcp_expiry")]: values.ipv4_dhcp_expiry,
@@ -154,6 +165,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("ipv6_gateway")]: values.ipv6_gateway,
       [getNetworkKey("ipv6_routes")]: values.ipv6_routes,
       [getNetworkKey("ipv6_routes_anycast")]: values.ipv6_routes_anycast,
+      [getNetworkKey("mtu")]: values.mtu ? values.mtu.toString() : undefined,
       [getNetworkKey("network")]: values.network,
       [getNetworkKey("ovn_ingress_mode")]: values.ovn_ingress_mode,
       [getNetworkKey("parent")]: values.parent,
@@ -161,6 +173,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
         values.security_acls.length > 0
           ? values.security_acls.join(",")
           : undefined,
+      [getNetworkKey("vlan")]: values.vlan ? values.vlan.toString() : undefined,
     },
   };
 };
@@ -172,8 +185,8 @@ export const isNetworkFormInvalid = (
   return (
     !formik.isValid ||
     !formik.values.name ||
-    (formik.values.networkType === "ovn" && !formik.values.network) ||
-    (formik.values.networkType === "physical" &&
+    (formik.values.networkType === ovnType && !formik.values.network) ||
+    (typesWithParent.includes(formik.values.networkType) &&
       !formik.values.parent &&
       Object.values(formik.values.parentPerClusterMember ?? {}).filter(
         (item) => item.length > 0,
@@ -217,24 +230,31 @@ const NetworkForm: FC<Props> = ({
     return filteredRows;
   };
 
-  const isManagedNetwork = formik.values.bareNetwork?.managed ?? true;
+  const isManageed = formik.values.bareNetwork?.managed ?? true;
 
   // see https://documentation.ubuntu.com/lxd/en/latest/reference/networks/
   // for details on available sections per type
   const availableSections = [GENERAL];
-  if (formik.values.networkType !== "physical" && isManagedNetwork) {
+
+  const hasIpV4 = formik.values.ipv4_address !== "none";
+  const hasIpV6 = formik.values.ipv6_address !== "none";
+  const isMacvlan = formik.values.networkType === macvlanType;
+  const isPhysical = formik.values.networkType === physicalType;
+  const isSriov = formik.values.networkType === sriovType;
+
+  if (isManageed && !isPhysical && !isMacvlan && !isSriov) {
     availableSections.push(BRIDGE);
   }
-  if (formik.values.ipv4_address !== "none" && isManagedNetwork) {
+  if (isManageed && hasIpV4 && !isMacvlan && !isSriov) {
     availableSections.push(IPV4);
   }
-  if (formik.values.ipv6_address !== "none" && isManagedNetwork) {
+  if (isManageed && hasIpV6 && !isMacvlan && !isSriov) {
     availableSections.push(IPV6);
   }
-  if (isManagedNetwork) {
+  if (isManageed && !isMacvlan && !isSriov) {
     availableSections.push(DNS);
   }
-  if (formik.values.networkType === "physical" && isManagedNetwork) {
+  if (isManageed && isPhysical) {
     availableSections.push(OVN);
   }
 
@@ -355,28 +375,29 @@ const NetworkForm: FC<Props> = ({
           )}
         </Form>
       </ScrollableContainer>
-      {section !== slugify(YAML_CONFIGURATION) && isManagedNetwork && (
-        <div className="aside">
-          <SearchBox
-            onChange={(inputValue) => {
-              setQuery(inputValue);
-              setEmptySearchResult(true);
-            }}
-            value={query}
-            name="search-setting"
-            type="text"
-            placeholder="Search for key"
-          />
-          <NetworkFormMenu
-            active={section}
-            setActive={(section) => {
-              setSection(section, "click");
-            }}
-            formik={formik}
-            availableSections={availableSections}
-          />
-        </div>
-      )}
+      {section !== slugify(YAML_CONFIGURATION) &&
+        availableSections.length > 1 && (
+          <div className="aside">
+            <SearchBox
+              onChange={(inputValue) => {
+                setQuery(inputValue);
+                setEmptySearchResult(true);
+              }}
+              value={query}
+              name="search-setting"
+              type="text"
+              placeholder="Search for key"
+            />
+            <NetworkFormMenu
+              active={section}
+              setActive={(section) => {
+                setSection(section, "click");
+              }}
+              formik={formik}
+              availableSections={availableSections}
+            />
+          </div>
+        )}
     </div>
   );
 };

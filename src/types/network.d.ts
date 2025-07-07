@@ -23,6 +23,7 @@ export interface LxdNetworkConfig {
   "fan.type"?: LxdNetworkFanType;
   "fan.overlay_subnet"?: string;
   "fan.underlay_subnet"?: string;
+  gvrp?: string;
   "ipv4.address"?: string;
   "ipv4.dhcp"?: string;
   "ipv4.dhcp.expiry"?: string;
@@ -53,10 +54,12 @@ export interface LxdNetworkConfig {
   "ipv6.routes"?: string;
   "ipv6.routes.anycast"?: string;
   "ipv6.routing"?: string;
+  mtu?: string;
   "ovn.ingress_mode"?: string;
   "security.acls"?: string;
   network?: string;
   parent?: string;
+  vlan?: string;
   [key: `user.${string}`]: string;
   [key: `volatile.${string}`]: string;
 }

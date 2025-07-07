@@ -35,6 +35,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
+import { bridgeType, ovnType } from "util/networks";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const CreateNetwork: FC = () => {
       readOnly: false,
       isCreating: true,
       name: "",
-      networkType: hasOvn ? "ovn" : "bridge",
+      networkType: hasOvn ? ovnType : bridgeType,
       entityType: "network",
       ipv4_address: "auto",
       ipv6_address: "auto",
@@ -86,7 +87,7 @@ const CreateNetwork: FC = () => {
         : toNetwork(values);
 
       const mutation =
-        isClustered && values.networkType !== "ovn"
+        isClustered && values.networkType !== ovnType
           ? async () =>
               createClusterNetwork(
                 network,

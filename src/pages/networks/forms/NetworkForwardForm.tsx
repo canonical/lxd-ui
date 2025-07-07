@@ -25,6 +25,7 @@ import ScrollableForm from "components/ScrollableForm";
 import { focusField } from "util/formFields";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useClusterMembers } from "context/useClusterMembers";
+import { bridgeType, ovnType } from "util/networks";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -83,7 +84,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
   const notify = useNotify();
   const { data: members = [] } = useClusterMembers();
   const isClusterMemberSpecific =
-    members.length > 0 && network?.type === "bridge";
+    members.length > 0 && network?.type === bridgeType;
 
   useEffect(() => {
     if (isClusterMemberSpecific && !formik.values.location) {
@@ -109,7 +110,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
     focusField(name);
   };
 
-  const isOvnNetwork = network?.type === "ovn";
+  const isOvnNetwork = network?.type === ovnType;
   const isManualListenAddress =
     !isOvnNetwork || !["0.0.0.0", "::"].includes(formik.values.listenAddress);
 

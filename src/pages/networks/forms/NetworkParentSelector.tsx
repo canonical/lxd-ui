@@ -20,6 +20,7 @@ import {
   useNetworks,
   useNetworksFromClusterMembers,
 } from "context/useNetworks";
+import { macvlanType, sriovType } from "util/networks";
 
 interface Props {
   props?: Record<string, unknown>;
@@ -77,6 +78,26 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
   if (isNetworkLoading || isClusterNetworksLoading) {
     return <Loader />;
   }
+
+  const getHelpText = () => {
+    if (formik.values.networkType === macvlanType) {
+      return (
+        <>
+          Parent interface to create <code>Macvlan</code> NICs on
+        </>
+      );
+    }
+
+    if (formik.values.networkType === sriovType) {
+      return (
+        <>
+          Parent interface to create <code>SR-IOV</code> NICs on
+        </>
+      );
+    }
+
+    return "Existing interface to use for network";
+  };
 
   if (isClustered) {
     const currentValues = Object.values(
@@ -160,11 +181,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
             </Button>
           </>
         ) : (
-          <Select
-            help="Existing interface to use for network"
-            options={options}
-            {...props}
-          />
+          <Select help={getHelpText()} options={options} {...props} />
         )}
       </div>
     </div>

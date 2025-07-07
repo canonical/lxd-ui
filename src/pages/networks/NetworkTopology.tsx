@@ -11,6 +11,7 @@ import classNames from "classnames";
 import classnames from "classnames";
 import { useParams } from "react-router-dom";
 import { useNetworks } from "context/useNetworks";
+import { clusteredTypes } from "util/networks";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -30,7 +31,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
   }
 
   const hasClusteredUplinks =
-    isServerClustered && ["physical", "bridge"].includes(network.type);
+    isServerClustered && clusteredTypes.includes(network.type);
 
   const { data: networks = [], error } = useNetworks(project);
 

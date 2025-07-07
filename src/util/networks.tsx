@@ -3,6 +3,26 @@ import type { LxdNetwork, LxdNetworkConfig } from "types/network";
 import type { LxdConfigOptionsKeys } from "types/config";
 import { capitalizeFirstLetter } from "util/helpers";
 
+export const bridgeType = "bridge";
+export const macvlanType = "macvlan";
+export const ovnType = "ovn";
+export const physicalType = "physical";
+export const sriovType = "sriov";
+
+export const clusteredTypes = [
+  bridgeType,
+  macvlanType,
+  physicalType,
+  sriovType,
+];
+
+export const typesForUplink = [bridgeType, physicalType];
+
+export const typesWithAcls = [bridgeType, ovnType];
+export const typesWithForwards = [bridgeType, ovnType];
+export const typesWithParent = [physicalType, sriovType, macvlanType];
+export const typesWithStatistics = [bridgeType, ovnType, physicalType];
+
 export const getIpAddresses = (
   instance: LxdInstance,
   family: "inet" | "inet6",
@@ -30,6 +50,7 @@ export const networkFormFieldToPayloadName: Record<
   dns_mode: "dns.mode",
   dns_nameservers: "dns.nameservers",
   dns_search: "dns.search",
+  gvrp: "gvrp",
   ipv4_address: "ipv4.address",
   ipv4_dhcp: "ipv4.dhcp",
   ipv4_dhcp_expiry: "ipv4.dhcp.expiry",
@@ -53,10 +74,12 @@ export const networkFormFieldToPayloadName: Record<
   ipv6_gateway: "ipv6.gateway",
   ipv6_routes: "ipv6.routes",
   ipv6_routes_anycast: "ipv6.routes.anycast",
+  mtu: "mtu",
   network: "network",
   ovn_ingress_mode: "ovn.ingress_mode",
   parent: "parent",
   security_acls: "security.acls",
+  vlan: "vlan",
 };
 
 export const getHandledNetworkConfigKeys = () => {
@@ -139,8 +162,10 @@ export const testValidPort = (port: string | null | undefined): boolean => {
 
 export const renderNetworkType = (type: LxdNetwork["type"]) => {
   switch (type) {
-    case "ovn":
+    case ovnType:
       return "OVN";
+    case sriovType:
+      return "SR-IOV";
     default:
       return capitalizeFirstLetter(type);
   }

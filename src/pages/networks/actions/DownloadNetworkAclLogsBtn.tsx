@@ -14,7 +14,7 @@ interface Props {
   project: string;
 }
 
-const DownloadNetworkAclLogBtn: FC<Props> = ({ networkAcl, project }) => {
+const DownloadNetworkAclLogsBtn: FC<Props> = ({ networkAcl, project }) => {
   const isSmallScreen = useSmallScreen();
   const toastNotify = useToastNotification();
 
@@ -37,7 +37,7 @@ const DownloadNetworkAclLogBtn: FC<Props> = ({ networkAcl, project }) => {
 
         toastNotify.success(
           <>
-            Log download for ACL{" "}
+            Logs download for ACL{" "}
             <ResourceLabel bold type="network-acl" value={networkAcl.name} />{" "}
             started.
           </>,
@@ -45,7 +45,7 @@ const DownloadNetworkAclLogBtn: FC<Props> = ({ networkAcl, project }) => {
       })
       .catch((error) => {
         toastNotify.failure(
-          `Failed to download log for ACL ${networkAcl.name}`,
+          `Failed to download logs for ACL ${networkAcl.name}`,
           error,
         );
       });
@@ -54,9 +54,9 @@ const DownloadNetworkAclLogBtn: FC<Props> = ({ networkAcl, project }) => {
   return (
     <Button appearance="" type="button" onClick={startDownload} hasIcon>
       {!isSmallScreen && <Icon name="begin-downloading" />}
-      <span>Download log</span>
+      <span>Download logs</span>
     </Button>
   );
 };
 
-export default DownloadNetworkAclLogBtn;
+export default DownloadNetworkAclLogsBtn;

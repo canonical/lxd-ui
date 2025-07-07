@@ -7,6 +7,7 @@ import ConfigurationTable from "components/ConfigurationTable";
 import { DNS } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { bridgeType, physicalType } from "util/networks";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -15,7 +16,7 @@ interface Props {
 
 const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
   const rows = filterRows([
-    ...(formik.values.networkType !== "physical"
+    ...(formik.values.networkType !== physicalType
       ? [
           getConfigurationRow({
             formik,
@@ -27,7 +28,7 @@ const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType === "bridge"
+    ...(formik.values.networkType === bridgeType
       ? [
           getConfigurationRow({
             formik,
@@ -61,7 +62,7 @@ const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType === "physical"
+    ...(formik.values.networkType === physicalType
       ? [
           getConfigurationRow({
             formik,

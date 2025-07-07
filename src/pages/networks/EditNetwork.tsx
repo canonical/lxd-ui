@@ -34,6 +34,7 @@ import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
+import { clusteredTypes, ovnType } from "util/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -55,7 +56,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const { canEditNetwork } = useNetworkEntitlements();
 
   const shouldLoadMemberSpecificSettings =
-    network.managed && ["bridge", "physical"].includes(network.type);
+    network.managed && clusteredTypes.includes(network.type);
   const { data: networkOnMembers = [], error } = useNetworkFromClusterMembers(
     network.name,
     project,
@@ -82,7 +83,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       "required",
       "Uplink network is required",
       (value, context) =>
-        (context.parent as NetworkFormValues).networkType !== "ovn" ||
+        (context.parent as NetworkFormValues).networkType !== ovnType ||
         Boolean(value),
     ),
   });
@@ -105,7 +106,10 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       const saveNetwork = { ...yamlNetwork, etag: network.etag };
 
       const mutation = async (values: NetworkFormValues) => {
-        if (values.parentPerClusterMember) {
+        if (
+          values.parentPerClusterMember &&
+          Object.keys(values.parentPerClusterMember).length > 0
+        ) {
           return updateClusterNetwork(
             saveNetwork,
             project,
