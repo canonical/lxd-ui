@@ -7,12 +7,14 @@ import InstanceIps from "./InstanceIps";
 import { getRootPool, isoTimeToString } from "util/helpers";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
-import ItemName from "components/ItemName";
 import { useSettings } from "context/useSettings";
 import { isNicDevice } from "util/devices";
 import { getIpAddresses } from "util/networks";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceMACAddresses from "pages/instances/InstaceMACAddresses";
+import ResourceLink from "components/ResourceLink";
+import InstanceClusterMemberChip from "./InstanceClusterMemberChip";
+import { getImageLink } from "util/instances";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -49,7 +51,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               className="u-truncate base-image"
               title={instance.config["image.description"]}
             >
-              {instance.config["image.description"] ?? "-"}
+              {getImageLink(instance)}
             </div>
           </td>
         </tr>
@@ -98,17 +100,21 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         <tr>
           <th className="u-text--muted">Cluster member</th>
           <td>
-            {settings?.environment?.server_clustered ? instance.location : "-"}
+            {settings?.environment?.server_clustered ? (
+              <InstanceClusterMemberChip instance={instance} />
+            ) : (
+              "-"
+            )}
           </td>
         </tr>
         <tr>
           <th className="u-text--muted">Root storage pool</th>
           <td>
-            <Link
+            <ResourceLink
+              type="pool"
+              value={rootPool}
               to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(rootPool)}`}
-            >
-              {rootPool}
-            </Link>
+            />
           </td>
         </tr>
         <tr>
@@ -137,12 +143,12 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
             <List
               className="list"
               items={instance.profiles.map((name) => (
-                <Link
+                <ResourceLink
                   key={name}
+                  type="profile"
+                  value={name}
                   to={`/ui/project/${encodeURIComponent(instance.project)}/profile/${encodeURIComponent(name)}`}
-                >
-                  {name}
-                </Link>
+                />
               ))}
             />
           </td>
@@ -156,12 +162,12 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               <List
                 className="list"
                 items={networkDevices.map((item) => (
-                  <Link
+                  <ResourceLink
                     key={item.network}
+                    type="network"
+                    value={item.network}
                     to={`/ui/project/${encodeURIComponent(instance.project)}/network/${encodeURIComponent(item.network)}`}
-                  >
-                    {item.network}
-                  </Link>
+                  />
                 ))}
               />
             </td>
@@ -205,11 +211,13 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               .slice(0, RECENT_SNAPSHOT_LIMIT)
               .map((snapshot) => (
                 <tr key={snapshot.name} className="u-no-border">
-                  <th
-                    title={snapshot.name}
-                    className="snapshot-name u-truncate"
-                  >
-                    <ItemName item={snapshot} />
+                  <th>
+                    <ResourceLink
+                      key={snapshot.name}
+                      type="snapshot"
+                      value={snapshot.name}
+                      to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
+                    />
                   </th>
                   <td className="u-text--muted">
                     <i>{isoTimeToString(snapshot.created_at)}</i>

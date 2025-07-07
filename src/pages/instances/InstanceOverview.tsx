@@ -15,9 +15,8 @@ import DeviceListTable from "components/DeviceListTable";
 import NetworkListTable from "components/NetworkListTable";
 import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
-import ResourceLabel from "components/ResourceLabel";
-import { useImagesInProject } from "context/useImages";
 import { getIpAddresses } from "util/networks";
+import { getImageLink } from "util/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -26,7 +25,6 @@ interface Props {
 const InstanceOverview: FC<Props> = ({ instance }) => {
   const notify = useNotify();
   const { data: settings } = useSettings();
-  const { data: images = [] } = useImagesInProject(instance.project);
 
   const onFailure = (title: string, e: unknown) => {
     notify.failure(title, e);
@@ -41,29 +39,6 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
 
-  const getImageLink = () => {
-    const imageDescription = instance.config["image.description"];
-    const imageFound = images?.some(
-      (image) => image.properties?.description === imageDescription,
-    );
-
-    if (!imageDescription) {
-      return "-";
-    }
-
-    if (!imageFound) {
-      return <ResourceLabel type="image" value={imageDescription} />;
-    }
-
-    return (
-      <ResourceLink
-        type="image"
-        value={imageDescription}
-        to={`/ui/project/${encodeURIComponent(instance.project)}/images`}
-      />
-    );
-  };
-
   return (
     <div className="instance-overview-tab">
       <NotificationRow />
@@ -76,7 +51,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
             <tbody>
               <tr>
                 <th className="u-text--muted">Base image</th>
-                <td>{getImageLink()}</td>
+                <td>{getImageLink(instance)}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">Description</th>

@@ -7,6 +7,9 @@ import * as Yup from "yup";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
 import type { LxdInstance } from "types/instance";
+import { useImagesInProject } from "context/useImages";
+import ResourceLabel from "components/ResourceLabel";
+import ResourceLink from "components/ResourceLink";
 
 export const instanceLinkFromOperation = (args: {
   operation?: LxdOperationResponse;
@@ -66,4 +69,28 @@ export const instanceNameValidation = (
 
 export const getInstanceKey = (instance: LxdInstance) => {
   return `${instance.name} ${instance.project}`;
+};
+
+export const getImageLink = (instance: LxdInstance) => {
+  const { data: images = [] } = useImagesInProject(instance.project);
+  const imageDescription = instance.config["image.description"];
+  const imageFound = images?.some(
+    (image) => image.properties?.description === imageDescription,
+  );
+
+  if (!imageDescription) {
+    return "-";
+  }
+
+  if (!imageFound) {
+    return <ResourceLabel type="image" value={imageDescription} />;
+  }
+
+  return (
+    <ResourceLink
+      type="image"
+      value={imageDescription}
+      to={`/ui/project/${encodeURIComponent(instance.project)}/images`}
+    />
+  );
 };
