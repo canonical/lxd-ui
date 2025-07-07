@@ -18,6 +18,7 @@ export const queryKeys = {
   networkAcls: "network-acls",
   networkAllocations: "network-allocations",
   operations: "operations",
+  placementGroups: "placement-groups",
   profiles: "profiles",
   projects: "projects",
   resources: "resources",
