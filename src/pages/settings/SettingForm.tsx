@@ -19,6 +19,7 @@ import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useIsClustered } from "context/useIsClustered";
+import SettingThemeSwitcher from "pages/settings/SettingThemeSwitcher";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -52,6 +53,7 @@ const SettingForm: FC<Props> = ({
   const isLokiAuthPassword = configField.key === "loki.auth.password";
   const isSecret = isTrustPassword || isLokiAuthPassword;
   const isClusteredInput = isClustered && configField.scope === "local";
+  const isThemeSelector = configField.key === "user.ui_theme";
 
   const settingLabel = (
     <ResourceLabel bold type="setting" value={configField.key} />
@@ -124,6 +126,10 @@ const SettingForm: FC<Props> = ({
         }}
       />
     );
+  }
+
+  if (isThemeSelector) {
+    return <SettingThemeSwitcher />;
   }
 
   return (

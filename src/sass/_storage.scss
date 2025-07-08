@@ -153,14 +153,14 @@
     }
 
     .u-row:hover {
-      background-color: $colors--light-theme--background-hover;
+      background-color: $colors--theme--background-hover;
 
       .storage-bucket-actions,
       .storage-volume-actions {
         visibility: visible;
 
         button:hover {
-          background-color: $colors--light-theme--background-active;
+          background-color: $colors--theme--background-active;
         }
       }
     }

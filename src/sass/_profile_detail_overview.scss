@@ -7,11 +7,6 @@
     padding-left: $spv--large;
   }
 
-  .p-muted-heading {
-    color: #757575;
-    font-weight: 500;
-  }
-
   .row:first-of-type {
     margin-top: $spv--x-large;
   }
@@ -21,7 +16,7 @@
   }
 
   .section {
-    border-bottom: 1px solid $color-mid-light;
+    border-bottom: $border-thin;
 
     table {
       margin-bottom: $spv--large;
@@ -52,11 +47,11 @@
   }
 
   .devices {
-    border-bottom: 1px solid $color-mid-light;
+    border-bottom: $border-thin;
   }
 
   .networks {
-    border-bottom: 1px solid $color-mid-light;
+    border-bottom: $border-thin;
   }
 
   .view-config {
@@ -69,7 +64,7 @@
   }
 
   .instances-by-project:not(:last-of-type) {
-    border-bottom: 1px solid $color-mid-light !important;
+    border-bottom: $border-thin !important;
   }
 
   .non-default-project-item:first-of-type {

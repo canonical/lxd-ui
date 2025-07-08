@@ -20,10 +20,8 @@ const ResourceLink: FC<Props> = ({ type, value, to, disabled }) => {
       to={to}
       title={value}
     >
-      <span className="p-chip__value">
-        <ResourceIcon type={type} />
-        {value}
-      </span>
+      <ResourceIcon type={type} />
+      <span className="p-chip__value">{value}</span>
     </Link>
   );
 };
