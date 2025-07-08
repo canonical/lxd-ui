@@ -3,7 +3,14 @@ import { Input, Label } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import UplinkSelector from "pages/networks/forms/UplinkSelector";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
+import {
+  typesWithAcls,
+  typesWithParent,
+  typesWithStatistics,
+  macvlanType,
+  ovnType,
+  sriovType,
+} from "util/networks";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 import { ensureEditMode } from "util/instanceEdit";
 import { GENERAL } from "pages/networks/forms/NetworkFormMenu";
@@ -17,6 +24,10 @@ import NetworkDescriptionField from "pages/networks/forms/NetworkDescriptionFiel
 import { renderNetworkType } from "util/networks";
 import NetworkAddresses from "pages/networks/forms/NetworkAddresses";
 import NetworkAcls from "pages/networks/forms/NetworkAcls";
+import NetworkVlanField from "pages/networks/forms/NetworkVlanField";
+import NetworkMTUField from "pages/networks/forms/NetworkMTUField";
+import NetworkGVRPField from "pages/networks/forms/NetworkGVRPField";
+import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -41,6 +52,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
   };
 
   const isManagedNetwork = formik.values.bareNetwork?.managed ?? true;
+  const hasParent = typesWithParent.includes(formik.values.networkType);
 
   return (
     <>
@@ -88,21 +100,34 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             props={getFormProps("description")}
           />
         )}
-        {formik.values.networkType === "ovn" && isManagedNetwork && (
+        {formik.values.networkType === ovnType && isManagedNetwork && (
           <UplinkSelector
             props={getFormProps("network")}
             project={project}
             formik={formik}
           />
         )}
-        {formik.values.networkType === "physical" && isManagedNetwork && (
+        {hasParent && isManagedNetwork && (
           <NetworkParentSelector
             props={getFormProps("parent")}
             formik={formik}
             isClustered={isClustered}
           />
         )}
-        {formik.values.networkType !== "physical" && isManagedNetwork && (
+        {formik.values.networkType === macvlanType && (
+          <>
+            <NetworkMTUField formik={formik} />
+            <NetworkVlanField formik={formik} />
+            <NetworkGVRPField formik={formik} />
+          </>
+        )}
+        {formik.values.networkType === sriovType && (
+          <>
+            <NetworkMTUField formik={formik} />
+            <NetworkVlanField formik={formik} />
+          </>
+        )}
+        {!hasParent && isManagedNetwork && (
           <>
             <IpAddress
               row={getConfigurationRow({
@@ -171,10 +196,12 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             />
           </>
         )}
-        {isManagedNetwork && <NetworkAcls project={project} formik={formik} />}
-        {!formik.values.isCreating && (
-          <NetworkStatistics formik={formik} project={project} />
-        )}
+        {typesWithAcls.includes(formik.values.networkType) &&
+          isManagedNetwork && <NetworkAcls project={project} formik={formik} />}
+        {!formik.values.isCreating &&
+          typesWithStatistics.includes(formik.values.networkType) && (
+            <NetworkStatistics formik={formik} project={project} />
+          )}
         {!isManagedNetwork && (
           <NetworkAddresses formik={formik} project={project} />
         )}

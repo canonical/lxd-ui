@@ -12,7 +12,7 @@ import ResourceLink from "components/ResourceLink";
 import DeleteNetworkAclBtn from "pages/networks/actions/DeleteNetworkAclBtn";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { renameNetworkAcl } from "api/network-acls";
-import DownloadNetworkAclLogBtn from "pages/networks/actions/DownloadNetworkAclLogBtn";
+import DownloadNetworkAclLogsBtn from "pages/networks/actions/DownloadNetworkAclLogsBtn";
 
 interface Props {
   name: string;
@@ -101,7 +101,7 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
       controls={
         networkAcl && (
           <>
-            <DownloadNetworkAclLogBtn
+            <DownloadNetworkAclLogsBtn
               networkAcl={networkAcl}
               project={project}
             />

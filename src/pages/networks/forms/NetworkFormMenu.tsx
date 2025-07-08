@@ -2,6 +2,7 @@ import type { FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { typesWithParent } from "util/networks";
 
 export const CONNECTIONS = "Connections";
 export const GENERAL = "General";
@@ -31,13 +32,13 @@ const NetworkFormMenu: FC<Props> = ({
   };
 
   const hasName = formik.values.name.length > 0;
-  const isPhysicalWithoutParent =
-    formik.values.networkType === "physical" &&
+  const isMissingParent =
+    typesWithParent.includes(formik.values.networkType) &&
     !formik.values.parent &&
     formik.values.isCreating;
 
   const disableReason = hasName
-    ? isPhysicalWithoutParent
+    ? isMissingParent
       ? "Please select a parent network to enable this section"
       : ""
     : "Please enter a network name to enable this section";
@@ -67,11 +68,13 @@ const NetworkFormMenu: FC<Props> = ({
             disableReason={disableReason}
           />
         )}
-        <MenuItem
-          label={DNS}
-          {...menuItemProps}
-          disableReason={disableReason}
-        />
+        {availableSections.includes(DNS) && (
+          <MenuItem
+            label={DNS}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
+        )}
         {availableSections.includes(OVN) && (
           <MenuItem
             label={OVN}

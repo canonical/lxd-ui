@@ -8,6 +8,7 @@ import ConfigurationTable from "components/ConfigurationTable";
 import { IPV6 } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { bridgeType, ovnType, physicalType } from "util/networks";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -18,7 +19,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
   const hasDhcp = formik.values.ipv6_dhcp !== "false";
 
   const rows = filterRows([
-    ...(formik.values.networkType !== "physical"
+    ...(formik.values.networkType !== physicalType
       ? [
           getConfigurationRow({
             formik,
@@ -32,7 +33,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType !== "physical"
+    ...(formik.values.networkType !== physicalType
       ? [
           getConfigurationRow({
             formik,
@@ -44,8 +45,8 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType !== "ovn" &&
-    formik.values.networkType !== "physical"
+    ...(formik.values.networkType !== ovnType &&
+    formik.values.networkType !== physicalType
       ? [
           getConfigurationRow({
             formik,
@@ -69,7 +70,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType !== "physical"
+    ...(formik.values.networkType !== physicalType
       ? [
           getConfigurationRow({
             formik,
@@ -83,7 +84,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType === "ovn"
+    ...(formik.values.networkType === ovnType
       ? [
           getConfigurationRow({
             formik,
@@ -95,7 +96,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType !== "ovn"
+    ...(formik.values.networkType !== ovnType
       ? [
           getConfigurationRow({
             formik,
@@ -107,7 +108,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(["bridge", "physical"].includes(formik.values.networkType)
+    ...([bridgeType, physicalType].includes(formik.values.networkType)
       ? [
           getConfigurationRow({
             formik,
@@ -119,7 +120,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         ]
       : []),
 
-    ...(formik.values.networkType === "physical"
+    ...(formik.values.networkType === physicalType
       ? [
           getConfigurationRow({
             formik,

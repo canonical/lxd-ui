@@ -14,8 +14,7 @@ import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useProject } from "context/useProjects";
 import { useNetworks } from "context/useNetworks";
-
-const UPLINK_NETWORK_TYPES = ["bridge", "physical"];
+import { typesForUplink } from "util/networks";
 
 interface Props {
   project: string;
@@ -54,8 +53,7 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
     project?.config?.["restricted.networks.uplinks"]?.split(",") ||
     networks
       .filter(
-        (network) =>
-          UPLINK_NETWORK_TYPES.includes(network.type) && network.managed,
+        (network) => typesForUplink.includes(network.type) && network.managed,
       )
       .map((network) => network.name);
 

@@ -21,6 +21,7 @@ import ScrollableTable from "components/ScrollableTable";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useIsClustered } from "context/useIsClustered";
 import ResourceLink from "components/ResourceLink";
+import { bridgeType } from "util/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -32,7 +33,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   const notify = useNotify();
   const { canEditNetwork } = useNetworkEntitlements();
   const isClustered = useIsClustered();
-  const isClusterMemberSpecific = isClustered && network?.type === "bridge";
+  const isClusterMemberSpecific = isClustered && network?.type === bridgeType;
 
   const {
     data: forwards = [],

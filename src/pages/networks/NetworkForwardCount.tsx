@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
 import { fetchNetworkForwards } from "api/network-forwards";
+import { typesWithForwards } from "util/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const NetworkForwardCount: FC<Props> = ({ network, project }) => {
-  if (network.managed === false || network.type === "physical") {
+  if (network.managed === false || !typesWithForwards.includes(network.type)) {
     return <>-</>;
   }
 

@@ -6,6 +6,7 @@ import {
 import type {
   LxdNetwork,
   LxdNetworkAllocation,
+  LxdNetworkConfig,
   LXDNetworkOnClusterMember,
   LxdNetworkState,
 } from "types/network";
@@ -269,7 +270,7 @@ export const updateClusterNetwork = async (
     Promise.allSettled(
       clusterMembers.map(async (member) => {
         const memberName = member.server_name;
-        const config = { ...network.config };
+        const config: LxdNetworkConfig = {};
         if (parentsPerClusterMember?.[memberName]) {
           config.parent = parentsPerClusterMember[memberName];
         }

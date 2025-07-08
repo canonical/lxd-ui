@@ -11,6 +11,7 @@ import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 import { useNetwork } from "context/useNetworks";
 import NetworkLeases from "pages/networks/NetworkLeases";
+import { typesWithForwards } from "util/networks";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -46,7 +47,7 @@ const NetworkDetail: FC = () => {
 
   const getTabs = () => {
     const type = network?.type ?? "";
-    if (type === "physical" || !isManagedNetwork) {
+    if (!typesWithForwards.includes(type) || !isManagedNetwork) {
       return ["Configuration"];
     }
 
