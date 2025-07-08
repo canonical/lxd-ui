@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import ItemName from "components/ItemName";
 import type { LxdOperation } from "types/operation";
-import InstanceLink from "pages/instances/InstanceLink";
+import ResourceLink from "components/ResourceLink";
 import { getInstanceName, getProjectName } from "util/operations";
 
 interface Props {
@@ -38,14 +38,11 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
 
   if (isLinkable && projectName) {
     return (
-      <div className="u-truncate u-text--muted">
-        <InstanceLink
-          instance={{
-            name: instanceName,
-            project: projectName,
-          }}
-        />
-      </div>
+      <ResourceLink
+        type="instance"
+        value={instanceName}
+        to={`/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}`}
+      />
     );
   }
 
