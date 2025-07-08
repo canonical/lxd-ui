@@ -1,4 +1,8 @@
-import { handleEtagResponse, handleResponse } from "util/helpers";
+import {
+  handleEtagResponse,
+  handleResponse,
+  handleTextResponse,
+} from "util/helpers";
 import type { LxdNetworkAcl } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
@@ -37,6 +41,22 @@ export const fetchNetworkAcl = async (
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdNetworkAcl;
+    });
+};
+
+export const fetchNetworkAclLog = async (
+  name: string,
+  project: string,
+): Promise<string> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+
+  return fetch(
+    `/1.0/network-acls/${encodeURIComponent(name)}/log?${params.toString()}`,
+  )
+    .then(handleTextResponse)
+    .then((data: string) => {
+      return data;
     });
 };
 
