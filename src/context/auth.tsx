@@ -10,6 +10,7 @@ import { useSupportedFeatures } from "./useSupportedFeatures";
 interface ContextProps {
   isAuthenticated: boolean;
   isAuthLoading: boolean;
+  authError: Error | null;
   isOidc: boolean;
   isRestricted: boolean;
   defaultProject: string;
@@ -21,6 +22,7 @@ interface ContextProps {
 const initialState: ContextProps = {
   isAuthenticated: false,
   isAuthLoading: true,
+  authError: null,
   isOidc: false,
   isRestricted: false,
   defaultProject: "default",
@@ -36,14 +38,27 @@ interface ProviderProps {
 }
 
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
-  const { hasEntitiesWithEntitlements, isSettingsLoading, settings } =
-    useSupportedFeatures();
+  const {
+    hasEntitiesWithEntitlements,
+    isSettingsLoading,
+    settings,
+    settingsError,
+  } = useSupportedFeatures();
 
-  const { data: currentIdentity, isLoading: isIdentityLoading } = useQuery({
+  const {
+    data: currentIdentity,
+    isLoading: isIdentityLoading,
+    error: identityError,
+  } = useQuery({
     queryKey: [queryKeys.currentIdentity],
     queryFn: fetchCurrentIdentity,
     retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
-    enabled: !isSettingsLoading && settings && settings.auth !== "untrusted",
+    enabled:
+      !isSettingsLoading &&
+      settings &&
+      settings.auth !== "untrusted" &&
+      !settingsError &&
+      settings.api_extensions?.includes("access_management_tls"),
   });
 
   const isFineGrained = () => {
@@ -94,6 +109,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         isOidc: settings?.auth_user_method === "oidc",
         isAuthLoading:
           isSettingsLoading || isIdentityLoading || isProjectsLoading,
+        authError: settingsError ?? identityError,
         isRestricted,
         defaultProject,
         hasNoProjects: projects.length === 0 && !isProjectsLoading,
