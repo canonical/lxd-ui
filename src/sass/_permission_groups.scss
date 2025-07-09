@@ -139,17 +139,25 @@
     }
 
     tr.strikeout {
-      td {
-        position: relative;
+      td:not(.actions) {
+        opacity: 0.6;
+        text-decoration: line-through;
       }
 
-      td:not(.actions)::before {
-        border-bottom: 1px solid black;
-        content: "";
-        left: 0;
-        position: absolute;
-        top: 1.2rem;
-        width: 100%;
+      @media screen and (width > $breakpoint-large) {
+        td {
+          position: relative;
+          text-decoration: none;
+        }
+
+        td:not(.actions)::before {
+          border-bottom: 1px solid $colors--theme--border-high-contrast;
+          content: "";
+          left: 0;
+          position: absolute;
+          top: 1rem;
+          width: 100%;
+        }
       }
     }
   }
