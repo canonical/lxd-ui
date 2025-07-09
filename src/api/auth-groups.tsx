@@ -15,6 +15,9 @@ export const fetchGroups = async (
   return fetch(`/1.0/auth/groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdGroup[]>) => {
+      data.metadata.map((group) => {
+        group.access_entitlements?.sort();
+      });
       return data.metadata;
     });
 };
