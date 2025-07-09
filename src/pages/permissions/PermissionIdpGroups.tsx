@@ -32,7 +32,7 @@ import { useIdpGroups } from "context/useIdpGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { pluralize } from "util/instanceBulkActions";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -45,7 +45,7 @@ const PermissionIdpGroups: FC = () => {
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
   const { canCreateIdpGroups } = useServerEntitlements();
   const { canEditIdpGroup } = useIdpGroupEntitlements();
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);

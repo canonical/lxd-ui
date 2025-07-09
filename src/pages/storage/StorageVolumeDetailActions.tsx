@@ -1,7 +1,5 @@
 import type { FC } from "react";
-import { cloneElement, useState } from "react";
-import { isWidthBelow } from "util/helpers";
-import useEventListener from "util/useEventListener";
+import { cloneElement } from "react";
 import MigrateVolumeBtn from "./MigrateVolumeBtn";
 import ExportVolumeBtn from "./ExportVolumeBtn";
 import DeleteStorageVolumeBtn from "./actions/DeleteStorageVolumeBtn";
@@ -14,6 +12,10 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
+import {
+  largeScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -21,14 +23,10 @@ interface Props {
 }
 
 const StorageVolumeDetailActions: FC<Props> = ({ volume, project }) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(isWidthBelow(1200));
+  const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
   const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
-
-  useEventListener("resize", () => {
-    setIsSmallScreen(isWidthBelow(1200));
-  });
 
   const classname = isSmallScreen
     ? "p-contextual-menu__link"

@@ -1,11 +1,13 @@
-import { cloneElement, useState, type FC } from "react";
+import { cloneElement, type FC } from "react";
 import classnames from "classnames";
 import { ContextualMenu, List } from "@canonical/react-components";
 import type { LxdStorageBucket } from "types/storage";
 import DeleteStorageBucketBtn from "./DeleteStorageBucketBtn";
 import EditStorageBucketBtn from "./EditStorageBucketBtn";
-import { isWidthBelow } from "util/helpers";
-import useEventListener from "util/useEventListener";
+import {
+  largeScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -18,11 +20,7 @@ const StorageBucketActions: FC<Props> = ({
   className,
   isDetailPage,
 }) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(isWidthBelow(1200));
-
-  useEventListener("resize", () => {
-    setIsSmallScreen(isWidthBelow(1200));
-  });
+  const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
 
   const classname = isDetailPage
     ? isSmallScreen

@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import UploadImageForm from "./forms/UploadImageForm";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 
@@ -12,7 +12,7 @@ interface Props {
 
 const UploadImageBtn: FC<Props> = ({ projectName }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const { data: project } = useProject(projectName);
   const { canCreateImages } = useProjectEntitlements();
 

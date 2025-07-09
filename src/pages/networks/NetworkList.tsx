@@ -19,7 +19,7 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import NetworkForwardCount from "pages/networks/NetworkForwardCount";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { renderNetworkType } from "util/networks";
 import { useClusterMembers } from "context/useClusterMembers";
 import PageHeader from "components/PageHeader";
@@ -46,7 +46,7 @@ const NetworkList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const { data: clusterMembers = [] } = useClusterMembers();
   const isClustered = clusterMembers.length > 0;
   const [searchParams] = useSearchParams();

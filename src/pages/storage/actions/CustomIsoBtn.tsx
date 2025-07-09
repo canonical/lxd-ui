@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 interface Props {
   project: string;
@@ -10,7 +10,7 @@ interface Props {
 const CustomIsoBtn: FC<Props> = ({ project }) => {
   const navigate = useNavigate();
   const href = `/ui/project/${encodeURIComponent(project)}/storage/custom-isos`;
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
 
   const handleClick = () => (e: MouseEvent) => {
     e.preventDefault();

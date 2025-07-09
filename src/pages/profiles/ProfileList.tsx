@@ -28,7 +28,7 @@ import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import ProfileDetailPanel from "./ProfileDetailPanel";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProfiles } from "context/useProfiles";
 
@@ -39,7 +39,7 @@ const ProfileList: FC = () => {
   const panelParams = usePanelParams();
   const { project: projectName } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
 
   if (!projectName) {
     return <>Missing project</>;
