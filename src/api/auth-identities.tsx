@@ -15,6 +15,9 @@ export const fetchIdentities = async (
   return fetch(`/1.0/auth/identities?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity[]>) => {
+      data.metadata.map((identity) => {
+        identity.access_entitlements?.sort();
+      });
       return data.metadata;
     });
 };
