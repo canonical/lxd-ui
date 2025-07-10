@@ -127,6 +127,8 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             <NetworkVlanField formik={formik} />
           </>
         )}
+        {typesWithAcls.includes(formik.values.networkType) &&
+          isManagedNetwork && <NetworkAcls project={project} formik={formik} />}
         {!hasParent && isManagedNetwork && (
           <>
             <IpAddress
@@ -196,8 +198,6 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             />
           </>
         )}
-        {typesWithAcls.includes(formik.values.networkType) &&
-          isManagedNetwork && <NetworkAcls project={project} formik={formik} />}
         {!formik.values.isCreating &&
           typesWithStatistics.includes(formik.values.networkType) && (
             <NetworkStatistics formik={formik} project={project} />

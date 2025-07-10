@@ -20,6 +20,8 @@ import { fetchNetworkAllocations } from "api/networks";
 import type { LxdUsedBy } from "util/usedBy";
 import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
+import ResourceLink from "components/ResourceLink";
+import ScrollableTable from "components/ScrollableTable";
 
 const NetworkIPAM: FC = () => {
   const docBaseLink = useDocs();
@@ -49,8 +51,9 @@ const NetworkIPAM: FC = () => {
     { content: "Type", sortKey: "type", className: "type" },
     { content: "Used by", sortKey: "usedBy", className: "usedBy" },
     { content: "Address", sortKey: "address", className: "address" },
+    { content: "Network", sortKey: "network", className: "network" },
     { content: "NAT", sortKey: "nat", className: "nat" },
-    { content: "Hardware Address", sortKey: "hwaddress", className: "hwaddr" },
+    { content: "MAC address", sortKey: "hwaddress", className: "hwaddr" },
   ];
 
   const rows = allocations.map((allocation) => {
@@ -101,6 +104,17 @@ const NetworkIPAM: FC = () => {
           className: "address",
         },
         {
+          content: (
+            <ResourceLink
+              type="network"
+              value={allocation.network}
+              to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(allocation.network)}`}
+            />
+          ),
+          role: "cell",
+          className: "network",
+        },
+        {
           content: allocation.nat ? "Yes" : "No",
           role: "cell",
           className: "nat",
@@ -117,6 +131,7 @@ const NetworkIPAM: FC = () => {
         type: allocation.type,
         nat: allocation.nat,
         hwaddress: allocation.hwaddr,
+        network: allocation.network?.toLowerCase(),
       },
     };
   });
@@ -145,14 +160,21 @@ const NetworkIPAM: FC = () => {
       <NotificationRow />
       <Row>
         {allocations.length > 0 && (
-          <MainTable
-            className="network-ipam-table"
-            headers={headers}
-            rows={rows}
-            responsive
-            sortable
-            emptyStateMsg="No data to display"
-          />
+          <ScrollableTable
+            dependencies={allocations}
+            tableId="network-ipam-table"
+            belowIds={["status-bar"]}
+          >
+            <MainTable
+              className="network-ipam-table"
+              id="network-ipam-table"
+              headers={headers}
+              rows={rows}
+              responsive
+              sortable
+              emptyStateMsg="No data to display"
+            />
+          </ScrollableTable>
         )}
         {!isLoading && allocations.length === 0 && (
           <EmptyState

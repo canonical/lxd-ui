@@ -13,6 +13,8 @@ import Loader from "components/Loader";
 import { useDocs } from "context/useDocs";
 import ScrollableTable from "components/ScrollableTable";
 import { fetchNetworkLeases } from "api/network-leases";
+import ResourceLink from "components/ResourceLink";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   network: LxdNetwork;
@@ -22,6 +24,7 @@ interface Props {
 const NetworkLeases: FC<Props> = ({ network, project }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
+  const isClustered = useIsClustered();
 
   const {
     data: leases = [],
@@ -45,10 +48,14 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   const hasNetworkLeases = leases.length > 0;
 
   const headers = [
-    { content: "Hostname", sortKey: "hostname" },
-    { content: "MAC address", sortKey: "mac_address" },
-    { content: "IP Address", sortKey: "address" },
     { content: "Type", sortKey: "type" },
+    { content: "Hostname", sortKey: "hostname" },
+    { content: "IP Address", sortKey: "address" },
+    { content: "Project", sortKey: "project" },
+    ...(isClustered
+      ? [{ content: "Cluster member", sortKey: "clusterMember" }]
+      : []),
+    { content: "MAC address", sortKey: "macAddress" },
   ];
 
   const rows = leases.map((lease) => {
@@ -56,31 +63,59 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
       key: lease.address,
       columns: [
         {
+          content: lease.type,
+          role: "cell",
+          "aria-label": "Type",
+        },
+        {
           content: lease.hostname,
           role: "rowheader",
-          "aria-label": "Listen address",
+          "aria-label": "Hostname",
         },
+        {
+          content: lease.address,
+          role: "cell",
+          "aria-label": "MAC address",
+        },
+        {
+          content: lease.project && (
+            <ResourceLink
+              type="project"
+              value={lease.project}
+              to={`/ui/project/${encodeURIComponent(lease.project)}`}
+            />
+          ),
+          role: "cell",
+          "aria-label": "project",
+        },
+        ...(isClustered
+          ? [
+              {
+                content: lease.location && (
+                  <ResourceLink
+                    type="cluster-member"
+                    value={lease.location}
+                    to="/ui/cluster"
+                  />
+                ),
+                role: "cell",
+                "aria-label": "Cluster member",
+              },
+            ]
+          : []),
         {
           content: lease.hwaddr,
           role: "cell",
           "aria-label": "Description",
         },
-        {
-          content: lease.address,
-          role: "cell",
-          "aria-label": "Default target address",
-        },
-        {
-          content: lease.type,
-          role: "cell",
-          "aria-label": "Default target address",
-        },
       ],
       sortData: {
-        hostname: lease.hostname,
-        mac_address: lease.hwaddr,
+        hostname: lease.hostname.toLowerCase(),
+        macAddress: lease.hwaddr,
         address: lease.address,
         type: lease.type,
+        project: lease.project?.toLowerCase(),
+        clusterMember: lease.location?.toLowerCase(),
       },
     };
   });
@@ -102,7 +137,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
             headers={headers}
             expanding
             rows={rows}
-            paginate={30}
+            responsive
             sortable
             className="u-table-layout--auto"
             emptyStateMsg="No data to display"
