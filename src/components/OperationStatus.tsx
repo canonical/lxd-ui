@@ -1,18 +1,12 @@
 import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
-import { useState } from "react";
-import { isWidthBelow } from "util/helpers";
-import useEventListener from "util/useEventListener";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 const OperationStatus = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const isSmallScreen = useIsScreenBelow();
   const { runningOperations } = useOperations();
-
-  useEventListener("resize", () => {
-    setIsSmallScreen(isWidthBelow(620));
-  });
 
   if (runningOperations.length === 0) {
     return null;

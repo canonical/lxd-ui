@@ -1,14 +1,16 @@
 import type { FC } from "react";
-import { cloneElement, useState } from "react";
+import { cloneElement } from "react";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import type { LxdInstance } from "types/instance";
 import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
 import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
 import CopyInstanceBtn from "./actions/CopyInstanceBtn";
 import { ContextualMenu } from "@canonical/react-components";
-import { isWidthBelow } from "util/helpers";
-import useEventListener from "util/useEventListener";
 import ExportInstanceBtn from "pages/instances/actions/ExportInstanceBtn";
+import {
+  largeScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 
 interface Props {
   instance: LxdInstance;
@@ -17,11 +19,8 @@ interface Props {
 }
 
 const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(isWidthBelow(1200));
+  const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
 
-  useEventListener("resize", () => {
-    setIsSmallScreen(isWidthBelow(1200));
-  });
   const classname = isSmallScreen
     ? "p-contextual-menu__link"
     : "p-segmented-control__button";

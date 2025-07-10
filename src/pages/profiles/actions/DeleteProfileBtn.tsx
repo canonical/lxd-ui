@@ -4,7 +4,7 @@ import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";
 import ItemName from "components/ItemName";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
   ConfirmationButton,
   Icon,
@@ -28,7 +28,7 @@ const DeleteProfileBtn: FC<Props> = ({
   project,
   featuresProfiles,
 }) => {
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();

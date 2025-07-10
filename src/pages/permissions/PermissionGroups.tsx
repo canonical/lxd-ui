@@ -29,7 +29,7 @@ import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
 import { useGroups } from "context/useGroups";
 import { useServerEntitlements } from "util/entitlements/server";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -39,7 +39,7 @@ const PermissionGroups: FC = () => {
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
   const { canCreateGroups } = useServerEntitlements();
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
 
   if (error) {
     notify.failure("Loading groups failed", error);

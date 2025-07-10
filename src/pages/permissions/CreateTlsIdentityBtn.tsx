@@ -1,5 +1,5 @@
 import { Button, Icon } from "@canonical/react-components";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import type { FC } from "react";
 import { useServerEntitlements } from "util/entitlements/server";
 
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const CreateTlsIdentityBtn: FC<Props> = ({ openPanel }) => {
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const { canCreateIdentities } = useServerEntitlements();
 
   return (

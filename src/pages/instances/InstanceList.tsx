@@ -30,7 +30,6 @@ import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
 import type { InstanceFilters } from "util/instanceFilter";
 import { enrichStatuses } from "util/instanceFilter";
-import { isWidthBelow } from "util/helpers";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -62,7 +61,10 @@ import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
-import { useSmallScreen } from "context/useSmallScreen";
+import {
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import InstanceUsageMainMemory from "pages/instances/InstanceUsageMainMemory";
 import InstanceUsageRootFilesystem from "pages/instances/InstanceUsageRootFilesystem";
 import { useInstances } from "context/useInstances";
@@ -82,8 +84,6 @@ const loadHidden = () => {
 const saveHidden = (columns: string[]) => {
   localStorage.setItem("instanceListHiddenColumns", JSON.stringify(columns));
 };
-
-const isMediumScreen = () => isWidthBelow(820);
 
 const InstanceList: FC = () => {
   const docBaseLink = useDocs();
@@ -115,7 +115,8 @@ const InstanceList: FC = () => {
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
+  const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
 
   if (!project && !isAllProjects) {
     return <>Missing project</>;
@@ -132,7 +133,7 @@ const InstanceList: FC = () => {
   }
 
   const setCreateButtonLabel = () => {
-    _setCreateButtonLabel(isMediumScreen() ? "Create" : "Create instance");
+    _setCreateButtonLabel(isMediumScreen ? "Create" : "Create instance");
   };
   useEventListener("resize", setCreateButtonLabel);
 

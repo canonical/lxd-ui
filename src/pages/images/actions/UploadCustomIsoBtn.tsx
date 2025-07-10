@@ -10,7 +10,7 @@ import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ResourceLink from "components/ResourceLink";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 
@@ -23,7 +23,7 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
   const toastNotify = useToastNotification();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const { data: project } = useProject(projectName);
   const { canCreateStorageVolumes } = useProjectEntitlements();
 

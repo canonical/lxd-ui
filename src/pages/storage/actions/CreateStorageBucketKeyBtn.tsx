@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import usePanelParams from "util/usePanelParams";
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const CreateStorageBucketKeyBtn: FC<Props> = ({ className }) => {
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const { canCreateStorageBuckets } = useProjectEntitlements();
   const { project } = useCurrentProject();
   const panelParams = usePanelParams();

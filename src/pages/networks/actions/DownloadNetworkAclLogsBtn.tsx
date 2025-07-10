@@ -6,7 +6,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { fetchNetworkAclLog } from "api/network-acls";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const DownloadNetworkAclLogsBtn: FC<Props> = ({ networkAcl, project }) => {
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const toastNotify = useToastNotification();
 
   const startDownload = () => {

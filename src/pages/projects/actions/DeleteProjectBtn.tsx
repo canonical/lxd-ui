@@ -7,7 +7,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import ItemName from "components/ItemName";
 import { isProjectEmpty } from "util/projects";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
   ConfirmationButton,
   Icon,
@@ -78,7 +78,7 @@ const generateProjectUsedByTooltip = (project: LxdProject) => {
 };
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();

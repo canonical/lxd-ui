@@ -14,7 +14,6 @@ import ProjectSelector from "pages/projects/ProjectSelector";
 import {
   capitalizeFirstLetter,
   getElementAbsoluteHeight,
-  isWidthBelow,
   logout,
 } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -32,8 +31,7 @@ import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
 import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
 import { isDarkTheme, loadTheme } from "pages/settings/SettingThemeSwitcher";
-
-const isSmallScreen = () => isWidthBelow(620);
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -83,6 +81,7 @@ const Navigation: FC = () => {
     canViewProject,
     isLoading,
   } = useCurrentProject();
+  const isSmallScreen = useIsScreenBelow();
   const [projectName, setProjectName] = useState(
     initializeProjectName(isAllProjectsFromUrl, isLoading, project),
   );
@@ -138,7 +137,7 @@ const Navigation: FC = () => {
   ]);
 
   const softToggleMenu = () => {
-    if (isSmallScreen()) {
+    if (isSmallScreen) {
       setMenuCollapsed((prev) => !prev);
     }
   };

@@ -12,7 +12,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
-import { useSmallScreen } from "context/useSmallScreen";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import classnames from "classnames";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { deleteNetworkAcl } from "api/network-acls";
@@ -28,7 +28,7 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const isSmallScreen = useSmallScreen();
+  const isSmallScreen = useIsScreenBelow();
   const { canDeleteNetworkAcl } = useNetworkAclEntitlements();
 
   const handleDelete = () => {
