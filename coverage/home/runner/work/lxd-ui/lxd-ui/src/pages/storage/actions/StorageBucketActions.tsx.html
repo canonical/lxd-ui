@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.35% </span>
+                <span class="strong">22.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/93</span>
+                <span class='fraction'>20/89</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.42% </span>
+                <span class="strong">24.39% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/84</span>
+                <span class='fraction'>20/82</span>
             </div>
         
             
@@ -145,9 +145,7 @@
 <a name='L80'></a><a href='#L80'>80</a>
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -163,10 +161,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -231,14 +227,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { cloneElement, useState, type FC } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { cloneElement, type FC } from "react";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import { ContextualMenu, List } from "@canonical/react-components";
 import type { LxdStorageBucket } from "types/storage";
 import DeleteStorageBucketBtn from "./DeleteStorageBucketBtn";
 import EditStorageBucketBtn from "./EditStorageBucketBtn";
-import { isWidthBelow } from "util/helpers";
-import useEventListener from "util/useEventListener";
+import {
+  largeScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 &nbsp;
 interface Props {
   bucket: LxdStorageBucket;
@@ -251,11 +249,7 @@ const StorageBucketActions: FC&lt;Props&gt; = <span class="cstat-no" title="stat
 <span class="cstat-no" title="statement not covered" >  className,</span>
 <span class="cstat-no" title="statement not covered" >  isDetailPage,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [isSmallScreen, setIsSmallScreen] = <span class="cstat-no" title="statement not covered" >useState(isWidthBelow(1200));</span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEventListener("resize", <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setIsSmallScreen(isWidthBelow(1200));</span></span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow(largeScreenBreakpoint);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const classname = <span class="cstat-no" title="statement not covered" >isDetailPage</span></span>
 <span class="cstat-no" title="statement not covered" >    ? isSmallScreen</span>
@@ -322,7 +316,7 @@ export default StorageBucketActions;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-10T15:26:56.731Z
+                at 2025-07-10T23:46:00.929Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

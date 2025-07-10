@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/context/useSmallScreen.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/context/useIsScreenBelow.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/context</a> useSmallScreen.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/context</a> useIsScreenBelow.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.52% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/23</span>
+                <span class='fraction'>20/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>3/7</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.66% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/15</span>
+                <span class='fraction'>20/22</span>
             </div>
         
             
@@ -78,35 +78,56 @@
 <a name='L13'></a><a href='#L13'>13</a>
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
-<a name='L16'></a><a href='#L16'>16</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">2813x</span>
-<span class="cline-any cline-yes">2813x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">277x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">1048x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">2813x</span>
-<span class="cline-any cline-yes">2813x</span>
-<span class="cline-any cline-yes">2813x</span>
+<span class="cline-any cline-yes">1048x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
+<span class="cline-any cline-yes">16184x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import useEventListener from "util/useEventListener"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
 import { useState } from "react";
 import { isWidthBelow } from "util/helpers";
 &nbsp;
-export const useSmallScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): boolean =&gt; {</span></span>
-  const [isSmallScreen, setIsSmallScreen] = <span class="cstat-no" title="statement not covered" >useState(isWidthBelow(620));</span>
-  const handleResize = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const newSmall = <span class="cstat-no" title="statement not covered" >isWidthBelow(620);</span>
-<span class="cstat-no" title="statement not covered" >    if (newSmall !== isSmallScreen) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setIsSmallScreen(newSmall);</span></span>
+export const smallScreenBreakpoint = <span class="cstat-no" title="statement not covered" >620;</span>
+export const mediumScreenBreakpoint = <span class="cstat-no" title="statement not covered" >820;</span>
+export const largeScreenBreakpoint = <span class="cstat-no" title="statement not covered" >1200;</span>
+&nbsp;
+export const useIsScreenBelow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+  breakpoint = <span class="branch-0 cbranch-no" title="branch not covered" >smallScreenBreakpoint,</span>
+): boolean =&gt; {
+  const [isScreenBelow, setScreenBelow] = <span class="cstat-no" title="statement not covered" >useState(isWidthBelow(breakpoint));</span>
+&nbsp;
+  const updateIsBelow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (isWidthBelow(breakpoint) !== isScreenBelow) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setScreenBelow(!isScreenBelow);</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
   };
-<span class="cstat-no" title="statement not covered" >  useEventListener("resize", handleResize);</span>
-<span class="cstat-no" title="statement not covered" >  return isSmallScreen;</span>
+<span class="cstat-no" title="statement not covered" >  useEventListener("resize", updateIsBelow);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return isScreenBelow;</span>
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -115,7 +136,7 @@ export const useSmallScreen = <span class="cstat-no" title="statement not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-10T15:26:56.731Z
+                at 2025-07-10T23:46:00.929Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
