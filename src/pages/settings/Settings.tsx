@@ -107,9 +107,10 @@ const Settings: FC = () => {
     key: "user.grafana_base_url",
     category: "user",
     default: "",
-    longdesc: "e.g. https://192.0.2.1:3000/d/bGY-LSB7k/lxd?orgId=1",
+    longdesc:
+      "e.g. https://example.org/dashboard?project={project}&name={instance}\n or https://192.0.2.1:3000/d/bGY-LSB7k/lxd?orgId=1",
     shortdesc:
-      " See {ref}`grafana` for more information. Pages link to metrics, when set.",
+      "LXD will replace `{instance}` and `{project}` with project and instance names for deep-linking to individual grafana pages.\nSee {ref}`grafana` for more information.",
     type: "string",
   });
 
