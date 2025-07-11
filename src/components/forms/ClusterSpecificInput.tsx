@@ -33,7 +33,7 @@ const ClusterSpecificInput: FC<Props> = ({
   toggleReadOnly = () => {},
   canToggleSpecific = true,
   isDefaultSpecific = null,
-  clusterMemberLinkTarget = () => "/ui/cluster",
+  clusterMemberLinkTarget = () => "/ui/cluster/members",
   disabled = false,
   helpText,
   placeholder,

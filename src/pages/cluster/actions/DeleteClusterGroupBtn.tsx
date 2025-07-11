@@ -7,17 +7,16 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  useNotify,
+  Icon,
   useToastNotification,
 } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   group: string;
 }
 
 const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
-  const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -27,22 +26,17 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     setLoading(true);
     deleteClusterGroup(group)
       .then(() => {
-        navigate(`/ui/cluster`);
+        navigate(`/ui/cluster/groups`);
         toastNotify.success(
           <>
-            Cluster group{" "}
-            <ResourceLink
-              type="cluster-group"
-              value={group}
-              to={`/ui/cluster`}
-            />{" "}
+            Cluster group <ResourceLabel type="cluster-group" value={group} />{" "}
             deleted.
           </>,
         );
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Cluster group deletion failed", e);
+        toastNotify.failure("Cluster group deletion failed", e);
       })
       .finally(() => {
         queryClient.invalidateQueries({
@@ -56,21 +50,20 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     if (isDefaultGroup) {
       return "The default cluster group cannot be deleted";
     }
-    return "Delete cluster group";
+    return "Delete group";
   };
 
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      appearance=""
+      appearance="base"
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
-        confirmMessage: (
+        children: (
           <p>
             This will permanently delete cluster group{" "}
-            <ItemName item={{ name: group }} bold />. <br />
-            This action cannot be undone, and can result in data loss.
+            <ItemName item={{ name: group }} bold />.
           </p>
         ),
         confirmButtonLabel: "Delete",
@@ -79,8 +72,10 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       disabled={isDefaultGroup || isLoading}
       shiftClickEnabled
       showShiftClickHint
+      title="Delete group"
+      className="has-icon"
     >
-      <span>Delete cluster group</span>
+      <Icon name="delete" />
     </ConfirmationButton>
   );
 };

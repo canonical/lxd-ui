@@ -7,18 +7,26 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { LxdClusterMember } from "types/cluster";
 import {
   ConfirmationButton,
+  Icon,
   Select,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
+import classnames from "classnames";
 
 interface Props {
   member: LxdClusterMember;
+  hasLabel?: boolean;
+  className?: string;
 }
 
-const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
+const EvacuateClusterMemberBtn: FC<Props> = ({
+  member,
+  hasLabel = false,
+  className,
+}) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
@@ -42,7 +50,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
         <ResourceLink
           type="cluster-member"
           value={member.server_name}
-          to="/ui/cluster"
+          to="/ui/cluster/groups"
         />{" "}
         evacuation completed.
       </>,
@@ -56,7 +64,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
       <ResourceLink
         type="cluster-member"
         value={member.server_name}
-        to="/ui/cluster"
+        to="/ui/cluster/groups"
       />,
     );
   };
@@ -71,7 +79,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
             <ResourceLink
               type="cluster-member"
               value={member.server_name}
-              to="/ui/cluster"
+              to="/ui/cluster/groups"
             />{" "}
             evacuation started.
           </>,
@@ -92,7 +100,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
 
   return (
     <ConfirmationButton
-      appearance=""
+      appearance={hasLabel ? "" : "base"}
       loading={isLoading}
       disabled={isLoading}
       confirmationModalProps={{
@@ -132,8 +140,11 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
         onConfirm: handleEvacuate,
       }}
       shiftClickEnabled
+      title="Evacuate cluster member"
+      className={classnames(className, "has-icon u-no-margin--bottom")}
     >
-      <span>Evacuate</span>
+      <Icon name="change-version" />
+      {hasLabel && <span>Evacuate</span>}
     </ConfirmationButton>
   );
 };

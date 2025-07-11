@@ -26,6 +26,10 @@
     width: 8rem;
   }
 
+  .actions-list {
+    min-width: 5rem;
+  }
+
   .u-row:hover {
     background-color: $colors--theme--background-hover;
   }
@@ -35,19 +39,6 @@
 
     .empty-state-icon {
       opacity: 0.5;
-    }
-  }
-
-  // show actions only on hover if a pointing device is used
-  @media screen and (pointer: fine) {
-    .cluster-actions {
-      visibility: hidden;
-    }
-
-    .u-row:hover {
-      .cluster-actions {
-        visibility: visible;
-      }
     }
   }
 
@@ -114,5 +105,43 @@
   .description {
     color: $color-mid;
     width: 12rem;
+  }
+}
+
+.cluster-member-details {
+  .row {
+    padding-right: 0;
+  }
+
+  th {
+    width: 33%;
+  }
+
+  .aside {
+    min-width: 12rem;
+    position: absolute;
+    right: 1rem;
+    top: 154px;
+
+    ul {
+      border-left: $border-thin;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .p-side-navigation__link {
+      background: $colors--theme--background-default;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      padding-left: 0.5rem;
+
+      &[aria-current="page"] {
+        font-weight: bold;
+      }
+
+      &::before {
+        width: 0;
+      }
+    }
   }
 }

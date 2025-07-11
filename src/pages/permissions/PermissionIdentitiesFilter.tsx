@@ -14,12 +14,14 @@ import {
 export interface PermissionIdentitiesFilterType {
   queries: string[];
   authMethod: string[];
+  managedIdentities: string | null;
 }
 export const QUERY = "query";
 export const AUTH_METHOD = "auth-method";
+export const MANAGED_IDENTITIES = "managed-identities";
 
 const authMethods: string[] = ["tls", "oidc"];
-const QUERY_PARAMS = [QUERY, AUTH_METHOD];
+const QUERY_PARAMS = [QUERY, AUTH_METHOD, MANAGED_IDENTITIES];
 
 const PermissionIdentitiesFilter: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,6 +33,11 @@ const PermissionIdentitiesFilter: FC = () => {
       chips: authMethods.map((method) => {
         return { lead: AUTH_METHOD, value: method };
       }),
+    },
+    {
+      id: 2,
+      heading: "LXD managed identities",
+      chips: [{ lead: MANAGED_IDENTITIES, value: "hide" }],
     },
   ];
 
