@@ -25,6 +25,8 @@ export interface PanelHelper {
   openCreateIdpGroup: () => void;
   openEditIdpGroup: (group: string) => void;
   openCreateTLSIdentity: () => void;
+  openCreatePlacementGroup: () => void;
+  openEditPlacementGroup: (placementGroup: string) => void;
   openCreateStorageBucket: (project: string) => void;
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
   openCreateStorageBucketKey: (project: string) => void;
@@ -41,6 +43,8 @@ export const panels = {
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
   createTLSIdentity: "create-tls-identity",
+  createPlacementGroup: "create-placement-group",
+  editPlacementGroup: "edit-placement-group",
   createStorageBucket: "create-bucket",
   editStorageBucket: "edit-bucket",
   createStorageBucketKey: "create-bucket-key",
@@ -159,6 +163,16 @@ const usePanelParams = (): PanelHelper => {
 
     openCreateStorageBucket: () => {
       setPanelParams(panels.createStorageBucket);
+    },
+
+    openCreatePlacementGroup: () => {
+      setPanelParams(panels.createPlacementGroup);
+    },
+
+    openEditPlacementGroup: (placementGroup: string) => {
+      setPanelParams(panels.editPlacementGroup, {
+        group: placementGroup || "",
+      });
     },
 
     openEditStorageBucket: (bucket, pool, target) => {

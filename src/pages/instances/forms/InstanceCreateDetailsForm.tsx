@@ -35,6 +35,7 @@ export interface InstanceDetailsFormValues {
   instanceType: InstanceIconType;
   profiles: string[];
   target?: string;
+  placementGroup?: string;
   entityType: "instance";
   isCreating: boolean;
   readOnly: boolean;
