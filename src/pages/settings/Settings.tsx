@@ -107,9 +107,10 @@ const Settings: FC = () => {
     key: "user.grafana_base_url",
     category: "user",
     default: "",
-    longdesc: "e.g. https://192.0.2.1:3000/d/bGY-LSB7k/lxd?orgId=1",
+    longdesc:
+      "Placeholders `{instance}` and `{project}` are available for templating and will be replaced automatically.\ne.g. https://192.0.2.1:3000/d/bGY-LSB7k/lxd?orgId=1\nor https://grafana.example.org/d/dashboard?project={project}&name={instance}",
     shortdesc:
-      " See {ref}`grafana` for more information. Pages link to metrics, when set.",
+      "Instances will have an additional Metrics tab, deep linking to the grafana dashboard.\nSee {ref}`grafana` for more information.",
     type: "string",
   });
 
