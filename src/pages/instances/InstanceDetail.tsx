@@ -14,6 +14,7 @@ import TabLinks from "components/TabLinks";
 import { useSettings } from "context/useSettings";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useInstance } from "context/useInstances";
+import { buildGrafanaUrl } from "util/grafanaUrl";
 
 const tabs: string[] = [
   "Overview",
@@ -49,15 +50,15 @@ const InstanceDetail: FC = () => {
 
   const renderTabs: (string | TabLink)[] = [...tabs];
 
-  const grafanaBaseUrl = settings?.config?.["user.grafana_base_url"] ?? "";
-  if (grafanaBaseUrl) {
+  const grafanaUrl = buildGrafanaUrl(name, project, settings);
+  if (grafanaUrl) {
     renderTabs.push({
       label: (
         <div>
           <Icon name="external-link" /> Metrics
         </div>
       ) as unknown as string,
-      href: `${grafanaBaseUrl}&var-job=lxd&var-project=${project}&var-name=${instance?.name}&var-top=5`,
+      href: grafanaUrl,
       target: "_blank",
       rel: "noopener noreferrer",
     });
