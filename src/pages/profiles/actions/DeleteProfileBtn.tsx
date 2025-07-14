@@ -3,7 +3,6 @@ import { useState } from "react";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";
-import ItemName from "components/ItemName";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
   ConfirmationButton,
@@ -92,7 +91,7 @@ const DeleteProfileBtn: FC<Props> = ({
         children: (
           <p>
             This will permanently delete profile{" "}
-            <ItemName item={profile} bold />.<br />
+            <ResourceLabel type="profile" value={profile.name} bold />.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

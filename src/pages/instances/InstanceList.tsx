@@ -418,7 +418,7 @@ const InstanceList: FC = () => {
             content: <InstanceLink instance={instance} />,
             className: "u-truncate",
             title: `Instance ${instance.name}`,
-            role: "cell",
+            role: "rowheader",
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
             "aria-label": NAME,
             onClick: openSummary,

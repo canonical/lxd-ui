@@ -11,6 +11,7 @@ import {
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { deleteStorageVolume } from "api/storage-volumes";
 import classNames from "classnames";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -99,7 +100,8 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete volume <b>{volume.name}</b>.<br />
+            This will permanently delete volume{" "}
+            <ResourceLabel type="volume" value={volume.name} bold />.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

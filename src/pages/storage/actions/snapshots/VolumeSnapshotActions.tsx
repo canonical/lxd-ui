@@ -15,7 +15,6 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import classnames from "classnames";
-import ItemName from "components/ItemName";
 import { useEventQueue } from "context/eventQueue";
 import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 import ResourceLabel from "components/ResourceLabel";
@@ -132,7 +131,8 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
               title: "Confirm restore",
               children: (
                 <p>
-                  This will restore snapshot <ItemName item={snapshot} bold />.
+                  This will restore snapshot{" "}
+                  <ResourceLabel type="snapshot" value={snapshot.name} bold />.
                   <br />
                   This action cannot be undone, and can result in data loss.
                 </p>
@@ -161,7 +161,8 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
               children: (
                 <p>
                   This will permanently delete snapshot{" "}
-                  <ItemName item={snapshot} bold />.<br />
+                  <ResourceLabel type="snapshot" value={snapshot.name} bold />.
+                  <br />
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),

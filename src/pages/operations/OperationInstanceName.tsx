@@ -1,8 +1,8 @@
 import type { FC } from "react";
-import ItemName from "components/ItemName";
 import type { LxdOperation } from "types/operation";
 import ResourceLink from "components/ResourceLink";
 import { getInstanceName, getProjectName } from "util/operations";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   operation: LxdOperation;
@@ -48,11 +48,7 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
 
   return (
     <div className="u-truncate u-text--muted">
-      <ItemName
-        item={{
-          name: instanceName,
-        }}
-      />
+      <ResourceLabel type="instance" value={instanceName} />
     </div>
   );
 };

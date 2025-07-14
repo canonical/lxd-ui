@@ -245,7 +245,9 @@ const PermissionGroups: FC = () => {
       <Button
         className="empty-state-button"
         appearance="positive"
-        onClick={panelParams.openCreateGroup}
+        onClick={() => {
+          panelParams.openCreateGroup();
+        }}
         disabled={!canCreateGroups()}
         title={
           canCreateGroups() ? "" : "You do not have permission to create groups"
@@ -305,7 +307,9 @@ const PermissionGroups: FC = () => {
                   <Button
                     appearance="positive"
                     className="u-no-margin--bottom u-float-right"
-                    onClick={panelParams.openCreateGroup}
+                    onClick={() => {
+                      panelParams.openCreateGroup();
+                    }}
                     disabled={!canCreateGroups()}
                     title={
                       canCreateGroups()

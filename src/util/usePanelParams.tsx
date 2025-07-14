@@ -19,7 +19,7 @@ export interface PanelHelper {
   openInstanceSummary: (instance: string, project: string) => void;
   openProfileSummary: (profile: string, project: string) => void;
   openIdentityGroups: (identity?: string) => void;
-  openCreateGroup: () => void;
+  openCreateGroup: (subForm?: GroupSubForm) => void;
   openEditGroup: (group: string, subForm?: GroupSubForm) => void;
   openGroupIdentities: (group?: string) => void;
   openCreateIdpGroup: () => void;
@@ -127,8 +127,12 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.identityGroups, Object.fromEntries(newParams));
     },
 
-    openCreateGroup: () => {
-      setPanelParams(panels.createGroup);
+    openCreateGroup: (subForm) => {
+      const params: ParamMap = {};
+      if (subForm) {
+        params["sub-form"] = subForm;
+      }
+      setPanelParams(panels.createGroup, params);
     },
 
     openEditGroup: (group, subForm) => {

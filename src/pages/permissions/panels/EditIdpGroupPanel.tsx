@@ -206,7 +206,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
       onClose={onClose}
     >
       <SidePanel.Header>
-        <SidePanel.HeaderTitle>{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
+        <SidePanel.HeaderTitle className="u-truncate">{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />
       <NameWithGroupForm formik={formik} />

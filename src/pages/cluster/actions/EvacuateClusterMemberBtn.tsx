@@ -1,6 +1,5 @@
 import type { FC } from "react";
 import { useState } from "react";
-import ItemName from "components/ItemName";
 import { postClusterMemberState } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import {
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   member: LxdClusterMember;
@@ -124,7 +124,12 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
             />
             <p>
               This will evacuate cluster member{" "}
-              <ItemName item={{ name: member.server_name }} bold />.
+              <ResourceLabel
+                type="cluster-member"
+                value={member.server_name}
+                bold
+              />
+              .
             </p>
           </>
         ),

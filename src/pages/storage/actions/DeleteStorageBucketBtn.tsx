@@ -67,7 +67,8 @@ const DeleteStorageBucketBtn: FC<Props> = ({
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete bucket <b>{bucket.name}</b>.<br />
+            This will permanently delete bucket{" "}
+            <ResourceLabel type="bucket" value={bucket.name} bold />.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

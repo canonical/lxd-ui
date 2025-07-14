@@ -5,9 +5,10 @@ import ResourceLabel from "./ResourceLabel";
 interface Props {
   identity: LxdIdentity;
   truncate?: boolean;
+  bold?: boolean;
 }
 
-const IdentityResource: FC<Props> = ({ identity, truncate }) => {
+const IdentityResource: FC<Props> = ({ identity, truncate, bold }) => {
   const identityIconType =
     identity.authentication_method == "tls" ? "certificate" : "oidc-identity";
 
@@ -16,6 +17,7 @@ const IdentityResource: FC<Props> = ({ identity, truncate }) => {
       type={identityIconType}
       value={identity.type}
       truncate={truncate}
+      bold={bold}
     />
   );
 };

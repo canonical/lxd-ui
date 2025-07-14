@@ -12,9 +12,9 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   instance: LxdInstance;
@@ -75,7 +75,8 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
         title: "Confirm restart",
         children: (
           <p>
-            This will restart instance <ItemName item={instance} bold />.
+            This will restart instance{" "}
+            <ResourceLabel type="instance" value={instance.name} bold />.
           </p>
         ),
         onConfirm: handleRestart,

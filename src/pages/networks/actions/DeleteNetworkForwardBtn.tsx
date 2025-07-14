@@ -11,6 +11,7 @@ import {
 } from "@canonical/react-components";
 import { deleteNetworkForward } from "api/network-forwards";
 import { useNetworkEntitlements } from "util/entitlements/networks";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   network: LxdNetwork;
@@ -30,7 +31,15 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
     deleteNetworkForward(network, forward, project)
       .then(() => {
         toastNotify.success(
-          `Network forward with listen address ${forward.listen_address} deleted.`,
+          <>
+            Network forward with listen address{" "}
+            <ResourceLabel
+              type="network-forward"
+              value={forward.listen_address}
+              bold
+            />{" "}
+            deleted.
+          </>,
         );
         queryClient.invalidateQueries({
           predicate: (query) =>
@@ -61,7 +70,13 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
         children: (
           <p>
             Are you sure you want to delete the network forward with listen
-            address {forward.listen_address}?<br />
+            address{" "}
+            <ResourceLabel
+              type="network-forward"
+              value={forward.listen_address}
+              bold
+            />
+            ?<br />
           </p>
         ),
         onConfirm: handleDelete,

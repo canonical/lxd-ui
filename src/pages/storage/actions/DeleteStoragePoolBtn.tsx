@@ -9,7 +9,6 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteStoragePool } from "api/storage-pools";
 import classnames from "classnames";
-import ItemName from "components/ItemName";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useNavigate } from "react-router-dom";
 import type { LxdStoragePool } from "types/storage";
@@ -75,7 +74,8 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete storage <ItemName item={pool} bold />.
+            This will permanently delete storage pool{" "}
+            <ResourceLabel type="pool" value={pool.name} bold />.
             <br />
             This action cannot be undone, and can result in data loss.
           </p>

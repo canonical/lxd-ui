@@ -12,9 +12,9 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   instance: LxdInstance;
@@ -87,7 +87,8 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
         title: "Confirm stop",
         children: (
           <p>
-            This will stop instance <ItemName item={instance} bold />.
+            This will stop instance{" "}
+            <ResourceLabel type={instance.type} value={instance.name} bold />.
           </p>
         ),
         confirmExtra: (
