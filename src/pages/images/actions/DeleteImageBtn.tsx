@@ -71,7 +71,8 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete image <b>{description}</b>.<br />
+            This will permanently delete image{" "}
+            <ResourceLabel type="image" value={description} bold />.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

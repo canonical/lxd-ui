@@ -62,7 +62,10 @@ const BulkDeleteWarningBtn: FC<Props> = ({ warningIds, onStart, onFinish }) => {
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete the warning.
+            This will permanently delete{" "}
+            <strong>
+              {warningIds.length} {pluralize("warning", warningIds.length)}
+            </strong>
             <br />
             This action cannot be undone, and can result in data loss.
           </p>

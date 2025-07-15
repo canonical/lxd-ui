@@ -35,9 +35,13 @@ const CreateGroupPanel: FC = () => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [subForm, setSubForm] = useState<GroupSubForm>(null);
   const [identities, setIdentities] = useState<FormIdentity[]>([]);
   const [permissions, setPermissions] = useState<FormPermission[]>([]);
+
+  const subForm = panelParams.subForm;
+  const setSubForm = (newSubForm: GroupSubForm) => {
+    panelParams.openCreateGroup(newSubForm);
+  };
 
   const closePanel = () => {
     panelParams.clear();

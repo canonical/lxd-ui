@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ItemName from "components/ItemName";
 import type { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
@@ -84,7 +83,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         children: (
           <p>
             Are you sure you want to delete the network{" "}
-            <ItemName item={network} bold />?<br />
+            <ResourceLabel type="network" value={network.name} bold />?<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

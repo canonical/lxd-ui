@@ -3,7 +3,6 @@ import { useState } from "react";
 import { deleteInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
-import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
 import {
   ConfirmationButton,
@@ -106,7 +105,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
         children: (
           <p>
             This will permanently delete instance{" "}
-            <ItemName item={instance} bold />.<br />
+            <ResourceLabel type={instance.type} value={instance.name} bold />.
+            <br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

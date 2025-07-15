@@ -27,6 +27,11 @@
 }
 
 .resource-label {
+  // truncate resource label text
+  display: inline-block;
+  max-width: 50%;
+  vertical-align: bottom;
+
   i {
     background-size: contain !important;
     margin-right: $sph--x-small;

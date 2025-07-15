@@ -54,7 +54,6 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [subForm, setSubForm] = useState<GroupSubForm>(panelParams.subForm);
   const [confirming, setConfirming] = useState(false);
   const [identities, setIdentities] = useState<FormIdentity[]>(
     getIdentityIdsForGroup(group).map((id) => ({ id: id })) as FormIdentity[],
@@ -65,6 +64,11 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
   const { data: settings } = useSettings();
   const loggedInIdentityID = settings?.auth_user_name ?? "";
   const { canEditGroup } = useGroupEntitlements();
+
+  const subForm = panelParams.subForm;
+  const setSubForm = (newSubForm: GroupSubForm) => {
+    panelParams.openEditGroup(panelParams.group ?? "", newSubForm);
+  };
 
   // We initialize the identities state with id only,
   // to get the correct counts on initial render.
@@ -251,7 +255,10 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         onClose={closePanel}
       >
         <SidePanel.Header>
-          <SidePanel.HeaderTitle key={subForm ?? "start"}>
+          <SidePanel.HeaderTitle
+            key={subForm ?? "start"}
+            className="u-truncate"
+          >
             <GroupHeaderTitle
               subForm={subForm}
               setSubForm={setSubForm}

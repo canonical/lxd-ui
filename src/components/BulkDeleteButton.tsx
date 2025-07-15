@@ -54,9 +54,11 @@ const BulkDeleteButton: FC<Props> = ({
         </>
       )}
       <p className={breakdown.length > 0 ? "u-no-padding--top" : ""}>
-        This will permanently delete <b>{deleteCount}</b>{" "}
-        {pluralize(entityType, deleteCount)}.{"\n"}This action cannot be undone,
-        and can result in data loss.
+        This will permanently delete{" "}
+        <strong>
+          {deleteCount} {pluralize(entityType, deleteCount)}
+        </strong>
+        .{"\n"}This action cannot be undone, and can result in data loss.
       </p>
     </>
   );

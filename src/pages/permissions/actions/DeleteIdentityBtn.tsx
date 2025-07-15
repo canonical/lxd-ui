@@ -9,13 +9,12 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
-import ItemName from "components/ItemName";
 import { deleteIdentity } from "api/auth-identities";
-import IdentityResource from "components/IdentityResource";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
 import { logout } from "util/helpers";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   identity: LxdIdentity;
@@ -52,7 +51,14 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         });
         toastNotify.success(
           <>
-            Identity <IdentityResource identity={identity} /> deleted.
+            Identity{" "}
+            <ResourceLabel
+              type="certificate"
+              value={identity.name}
+              bold
+              truncate
+            />{" "}
+            deleted.
           </>,
         );
         setDeleting(false);
@@ -63,7 +69,12 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         notify.failure(
           `Identity deletion failed`,
           e,
-          <IdentityResource identity={identity} />,
+          <ResourceLabel
+            type="certificate"
+            value={identity.name}
+            bold
+            truncate
+          />,
         );
       });
   };
@@ -84,7 +95,9 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
           <>
             <LoggedInUserNotification isVisible={isSelf} />
             <p>
-              This will permanently delete <ItemName item={identity} bold />.
+              This will permanently delete identity{" "}
+              <ResourceLabel type="certificate" value={identity.name} bold />
+              .
               <br />
               This action cannot be undone, and can result in data loss.
             </p>

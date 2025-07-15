@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Button, Icon, Modal } from "@canonical/react-components";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   onClose: () => void;
@@ -30,7 +31,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
     <Modal
       close={onClose}
       className="create-tls-identity"
-      title={`Identity ${identityName} created`}
+      title="Identity created"
       buttonRow={
         <>
           {token && (
@@ -66,7 +67,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
         <>
           <p>
             The trust token below can be used to log in with the newly created
-            identity.{" "}
+            identity <ResourceLabel type="certificate" value={identityName} /> .{" "}
             <b>
               Once this modal is closed, the trust token can&rsquo;t be
               generated again.

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ItemName from "components/ItemName";
 import { deleteClusterGroup } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -10,7 +9,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   group: string;
@@ -30,12 +29,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         navigate(`/ui/cluster`);
         toastNotify.success(
           <>
-            Cluster group{" "}
-            <ResourceLink
-              type="cluster-group"
-              value={group}
-              to={`/ui/cluster`}
-            />{" "}
+            Cluster group <ResourceLabel type="cluster-group" value={group} />{" "}
             deleted.
           </>,
         );
@@ -69,7 +63,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         confirmMessage: (
           <p>
             This will permanently delete cluster group{" "}
-            <ItemName item={{ name: group }} bold />. <br />
+            <ResourceLabel type="cluster-group" value={group} bold />. <br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

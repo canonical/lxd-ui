@@ -24,6 +24,7 @@ import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
+import ResourceLink from "components/ResourceLink";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -299,7 +300,12 @@ const InstanceSnapshots = (props: Props) => {
             {project && snapshotsDisabled ? (
               <>
                 Snapshots are disabled for project{" "}
-                <ItemName item={project} bold />.
+                <ResourceLink
+                  type="project"
+                  value={project.name}
+                  to={`/ui/project/${project.name}/configuration`}
+                />
+                .
               </>
             ) : (
               "There are no snapshots of this instance."

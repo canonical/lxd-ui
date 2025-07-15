@@ -72,7 +72,9 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete key <b>{bucketKey.name}</b>.<br />
+            This will permanently delete key{" "}
+            <ResourceLabel type="bucket-key" value={bucketKey.name} bold />.
+            <br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

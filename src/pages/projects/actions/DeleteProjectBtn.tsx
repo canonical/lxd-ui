@@ -5,7 +5,6 @@ import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import ItemName from "components/ItemName";
 import { isProjectEmpty } from "util/projects";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
@@ -141,7 +140,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         children: (
           <p>
             This will permanently delete project{" "}
-            <ItemName item={project} bold />.<br />
+            <ResourceLabel type="project" value={project.name} bold />.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

@@ -10,10 +10,10 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   instance: LxdInstance;
@@ -83,7 +83,8 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
         title: "Confirm freeze",
         children: (
           <p>
-            This will freeze instance <ItemName item={instance} bold />.
+            This will freeze instance{" "}
+            {<ResourceLabel type={instance.type} value={instance.name} bold />}.
           </p>
         ),
         onConfirm: handleFreeze,

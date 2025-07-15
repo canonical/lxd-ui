@@ -166,7 +166,9 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
         onClose={closePanel}
       >
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>{panelTitle}</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle className="u-truncate">
+            {panelTitle}
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

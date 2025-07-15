@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ItemName from "components/ItemName";
 import type { LxdNetworkAcl } from "types/network";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -80,7 +79,8 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
         children: (
           <p>
             Are you sure you want to delete the ACL{" "}
-            <ItemName item={networkAcl} bold />?<br />
+            <ResourceLabel type="network-acl" value={networkAcl.name} bold />?
+            <br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

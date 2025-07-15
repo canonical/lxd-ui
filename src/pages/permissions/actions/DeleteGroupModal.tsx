@@ -117,10 +117,14 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
     ) : null;
 
     const deleteText = hasOneGroup ? (
-      <b>{deletableGroups[0].name}</b>
+      <>
+        {" "}
+        the group{" "}
+        <ResourceLabel type="auth-group" value={deletableGroups[0].name} bold />
+      </>
     ) : (
       <>
-        <b>{deletableGroups.length}</b>{" "}
+        <strong>{deletableGroups.length}</strong>{" "}
         {pluralize("group", deletableGroups.length)}
       </>
     );

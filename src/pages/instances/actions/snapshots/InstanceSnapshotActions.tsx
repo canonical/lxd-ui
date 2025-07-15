@@ -9,7 +9,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ConfirmationButton, Icon, List } from "@canonical/react-components";
 import classnames from "classnames";
-import ItemName from "components/ItemName";
 import ConfirmationForce from "components/ConfirmationForce";
 import { useEventQueue } from "context/eventQueue";
 import InstanceEditSnapshotBtn from "./InstanceEditSnapshotBtn";
@@ -137,7 +136,8 @@ const InstanceSnapshotActions: FC<Props> = ({
               title: "Confirm restore",
               children: (
                 <p>
-                  This will restore snapshot <ItemName item={snapshot} bold />.
+                  This will restore snapshot{" "}
+                  <ResourceLabel type="snapshot" value={snapshot.name} bold />.
                   <br />
                   This action cannot be undone, and can result in data loss.
                 </p>
@@ -185,7 +185,8 @@ const InstanceSnapshotActions: FC<Props> = ({
               children: (
                 <p>
                   This will permanently delete snapshot{" "}
-                  <ItemName item={snapshot} bold />.<br />
+                  <ResourceLabel type="snapshot" value={snapshot.name} bold />.
+                  <br />
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
