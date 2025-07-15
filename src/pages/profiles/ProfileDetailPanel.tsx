@@ -31,33 +31,31 @@ const ProfileDetailPanel: FC = () => {
     <SidePanel
       loading={isLoading}
       hasError={!profile || !project}
-      className="u-hide--medium u-hide--small"
+      className="u-hide--medium u-hide--small detail-panel profile-detail-panel"
       width="narrow"
       pinned
     >
-      <SidePanel.Container className="detail-panel profile-detail-panel">
-        <SidePanel.Sticky>
-          <SidePanel.Header>
-            <SidePanel.HeaderTitle>Profile summary</SidePanel.HeaderTitle>
-            <SidePanel.HeaderControls>
-              <Button
-                appearance="base"
-                className="u-no-margin--bottom"
-                hasIcon
-                onClick={panelParams.clear}
-                aria-label="Close"
-              >
-                <Icon name="close" />
-              </Button>
-            </SidePanel.HeaderControls>
-          </SidePanel.Header>
-        </SidePanel.Sticky>
-        <SidePanel.Content>
-          {!!(profile && project) && (
-            <ProfileDetailPanelContent profile={profile} project={project} />
-          )}
-        </SidePanel.Content>
-      </SidePanel.Container>
+      <SidePanel.Sticky>
+        <SidePanel.Header>
+          <SidePanel.HeaderTitle>Profile summary</SidePanel.HeaderTitle>
+          <SidePanel.HeaderControls>
+            <Button
+              appearance="base"
+              className="u-no-margin--bottom"
+              hasIcon
+              onClick={panelParams.clear}
+              aria-label="Close"
+            >
+              <Icon name="close" />
+            </Button>
+          </SidePanel.HeaderControls>
+        </SidePanel.Header>
+      </SidePanel.Sticky>
+      <SidePanel.Content>
+        {!!(profile && project) && (
+          <ProfileDetailPanelContent profile={profile} project={project} />
+        )}
+      </SidePanel.Content>
     </SidePanel>
   );
 };
