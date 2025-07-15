@@ -2,6 +2,8 @@ import { expect, test } from "./fixtures/lxd-test";
 import { gotoURL } from "./helpers/navigate";
 import { deleteInstance, visitInstance } from "./helpers/instances";
 import { createPool, deletePool } from "./helpers/storagePool";
+import { deleteNetwork, visitNetwork } from "./helpers/network";
+import { createVolume, deleteVolume } from "./helpers/storageVolume";
 
 test.beforeEach(() => {
   test.skip(
@@ -21,11 +23,15 @@ const getClipPosition = (x: number, y: number, xx: number, yy: number) => {
   };
 };
 
+//Run in a non-clustered backend
+
 test("instances", async ({ page }) => {
   const pool = "other-pool";
+  const volume = "CustomVol";
   await createPool(page, pool, "dir");
 
   const instance = "comic-glider";
+  await createVolume(page, volume);
   await gotoURL(page, "/ui/");
   await page.getByText("Instances", { exact: true }).click();
   await page.getByText("Create instance").click();
@@ -38,8 +44,13 @@ test("instances", async ({ page }) => {
     .getByRole("button")
     .click();
   await page.getByText("Disk").click();
+  await page.waitForTimeout(1000);
   await page.screenshot({
     path: "tests/screenshots/doc/images/instances/create_instance_form_disk_devices.png",
+    clip: getClipPosition(240, 0, 1280, 675),
+  });
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_attach_to_instance_1.png",
     clip: getClipPosition(240, 0, 1280, 675),
   });
 
@@ -48,6 +59,19 @@ test("instances", async ({ page }) => {
     path: "tests/screenshots/doc/images/instances/create_instance_form.png",
     clip: getClipPosition(240, 0, 1280, 675),
   });
+
+  await page.getByRole("button", { name: "Attach disk device" }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_attach_to_instance_2.png",
+    clip: getClipPosition(310, 230, 900, 480),
+  });
+
+  await page.getByRole("button", { name: "Attach custom volume" }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_attach_to_instance_3.png",
+    clip: getClipPosition(20, 20, 1300, 680),
+  });
+  await page.getByLabel("Close active modal").click();
 
   await page.getByText("Network", { exact: true }).click();
   await expect(page.getByText("Attach network")).toBeVisible();
@@ -74,15 +98,16 @@ test("instances", async ({ page }) => {
   await page.getByRole("button", { name: "Migrate", exact: true }).click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/instances/move_instance_modal.png",
-    clip: getClipPosition(305, 228, 974, 492),
+    clip: getClipPosition(305, 210, 974, 500),
   });
 
   await page
     .getByText("Move instance root storage to a different pool")
     .click();
+  await page.waitForTimeout(1000);
   await page.screenshot({
     path: "tests/screenshots/doc/images/instances/move_instance_modal_2.png",
-    clip: getClipPosition(17, 80, 1262, 640),
+    clip: getClipPosition(17, 80, 1262, 630),
   });
 
   await page.getByText(pool).click();
@@ -91,20 +116,217 @@ test("instances", async ({ page }) => {
     clip: getClipPosition(264, 262, 1015, 458),
   });
 
+  await deleteVolume(page, volume.toLowerCase());
   await deleteInstance(page, instance);
   await deletePool(page, pool);
 });
 
 test("networks", async ({ page }) => {
-  page.setViewportSize({ width: 1440, height: 750 });
-  const network = "lxdbr1";
+  const network = "BridgeNetwork";
+  const networkACL = network + "-ACL";
   await gotoURL(page, "/ui/");
   await page.getByText("Networking").click();
   await page.getByText("Networks").click();
   await page.getByText("Create network").click();
   await page.getByPlaceholder("Enter name").fill(network);
+  await page.getByLabel("Type").selectOption("bridge");
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_create.png",
-    clip: getClipPosition(240, 0, 1420, 710),
+    clip: getClipPosition(240, 0, 1420, 750),
   });
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForSelector(`text=Network ${network} created.`);
+
+  await visitNetwork(page, network);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_configuration.png",
+    clip: getClipPosition(240, 0, 1130, 750),
+  });
+
+  await page.getByTestId("tab-link-Leases").click();
+  await page.waitForSelector(`text=Hostname`);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_view_leases.png",
+    clip: getClipPosition(240, 0, 850, 250),
+  });
+
+  //Network ACLs
+  await page.getByText("ACLs").click();
+  await page.getByText("Create ACL").click();
+  await page.waitForSelector('[placeholder="Enter name"]', {
+    state: "visible",
+  });
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_ACL_create.png",
+    clip: getClipPosition(240, 0, 880, 360),
+  });
+
+  await page.getByPlaceholder("Enter name").fill(networkACL);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.getByTestId("notification-close-button").click();
+  await page.getByRole("link", { name: networkACL }).click();
+  await page.waitForSelector(`text=Click the ACL name`);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_ACLs.png",
+    clip: getClipPosition(240, 0, 850, 590),
+  });
+
+  await page.setViewportSize({ width: 1440, height: 2000 });
+  await page
+    .getByRole("button", { name: "Add ingress rule", exact: true })
+    .click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_ACL_addrule.png",
+    clip: getClipPosition(430, 450, 1010, 1555),
+  });
+  await page.getByText("Add rule").click();
+  await page.getByText("Save 1 change").click();
+
+  await page.setViewportSize({ width: 1200, height: 800 });
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_ACL_remove_edit.png",
+    clip: getClipPosition(250, 300, 1160, 560),
+  });
+
+  await page.getByText("Delete ACL").click();
+  await page.getByRole("button", { name: "Delete", exact: true }).click();
+  await deleteNetwork(page, network);
+});
+
+test("storage pools", async ({ page }) => {
+  const poolName = "pool1";
+  page.setViewportSize({ width: 1440, height: 800 });
+  await gotoURL(page, "/ui/");
+  await page.getByText("Storage").click();
+  await page.getByRole("link", { name: "Pools" }).click();
+  await page.getByText("Create pool").click();
+
+  await page.getByPlaceholder("Enter name").fill(poolName);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_pools_create.png",
+    clip: getClipPosition(240, 0, 1420, 750),
+  });
+
+  await page
+    .getByLabel("Storage pool form navigation")
+    .getByText("ZFS")
+    .click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_pools_create_ZFS_driver.png",
+    clip: getClipPosition(240, 0, 1420, 750),
+  });
+});
+
+test("storage volumes", async ({ page }) => {
+  const poolName = "pool1";
+  const volumeName = "CustomVol1";
+  page.setViewportSize({ width: 1440, height: 800 });
+  await createPool(page, poolName);
+
+  await page.getByRole("link", { name: "Volumes", exact: true }).click();
+  await page.getByText("Create volume").click();
+
+  await page.getByRole("button", { name: "Upload volume file" }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_import.png",
+    clip: getClipPosition(445, 200, 1000, 605),
+  });
+  await page.getByLabel("Close active modal").click();
+
+  await page.getByPlaceholder("Enter name").fill(volumeName);
+  await page.getByLabel("Storage pool", { exact: true }).click();
+  await page.getByLabel("submenu").getByText("pool1").click();
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_create.png",
+    clip: getClipPosition(240, 0, 1420, 750),
+  });
+
+  await page.getByPlaceholder("Enter value").fill("100");
+  await page.getByLabel("Select disk size unit").selectOption("MB");
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.getByTestId("notification-close-button").click();
+  await page.getByRole("link", { name: volumeName }).click();
+  await page.waitForSelector(`text=Overview`);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_overview.png",
+    clip: getClipPosition(240, 0, 1420, 550),
+  });
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_rename.png",
+    clip: getClipPosition(230, 0, 630, 40),
+  });
+
+  await page.getByLabel("Copy volume").click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_copy_modal.png",
+    clip: getClipPosition(445, 130, 1000, 680),
+  });
+  await page.getByLabel("Close active modal").click();
+
+  await page.getByRole("button", { name: "Export" }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_export.png",
+    clip: getClipPosition(445, 100, 1000, 710),
+  });
+  await page.getByLabel("Close active modal").click();
+
+  await deleteVolume(page, volumeName.toLowerCase());
+  await deletePool(page, poolName);
+});
+
+test("storage volume snapshots", async ({ page }) => {
+  const poolName = "pool1";
+  const volumeName = "CustomVol1";
+  const snapshot = "snapshot1";
+
+  page.setViewportSize({ width: 1440, height: 800 });
+  await createPool(page, poolName);
+  await createVolume(page, volumeName);
+
+  await page.getByRole("link", { name: "Volumes", exact: true }).click();
+  await page.getByRole("link", { name: volumeName }).click();
+  await page.getByTestId("tab-link-Snapshots").click();
+  await expect(
+    page.getByText("There are no snapshots for this volume."),
+  ).toBeVisible();
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_snapshots_tab.png",
+    clip: getClipPosition(240, 0, 1420, 350),
+  });
+
+  await page.getByRole("button", { name: "Create snapshot" }).click();
+  await page.getByLabel("Snapshot name").click();
+  await page.getByLabel("Snapshot name").fill(snapshot);
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_snapshots_create.png",
+    clip: getClipPosition(480, 250, 950, 560),
+  });
+
+  await page.getByRole("button", { name: "Create snapshot" }).last().click();
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} created for volume ${volumeName}.`,
+  );
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_snapshots_list.png",
+    clip: getClipPosition(240, 0, 1420, 320),
+  });
+
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .hover();
+  await page.getByLabel("Edit snapshot").click();
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/storage/storage_volumes_snapshots_configuration.png",
+    clip: getClipPosition(480, 250, 950, 560),
+  });
+
+  await deleteVolume(page, volumeName.toLowerCase());
+  await deletePool(page, poolName);
 });
