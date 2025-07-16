@@ -27,47 +27,45 @@ const InstanceDetailPanel: FC = () => {
     <SidePanel
       loading={isLoading}
       hasError={!instance}
-      className="u-hide--medium u-hide--small"
+      className="u-hide--medium u-hide--small detail-panel instance-detail-panel"
       width="narrow"
       pinned
     >
-      <SidePanel.Container className="detail-panel instance-detail-panel">
-        <SidePanel.Sticky>
-          <SidePanel.Header>
-            <SidePanel.HeaderTitle>Instance summary</SidePanel.HeaderTitle>
-            <SidePanel.HeaderControls>
-              <Button
-                appearance="base"
-                className="u-no-margin--bottom"
-                hasIcon
-                onClick={panelParams.clear}
-                aria-label="Close"
-              >
-                <Icon name="close" />
-              </Button>
-            </SidePanel.HeaderControls>
-          </SidePanel.Header>
-          {instance && (
-            <div className="actions">
-              <List
-                inline
-                className="primary actions-list"
-                items={[
-                  <OpenTerminalBtn key="terminal" instance={instance} />,
-                  <OpenConsoleBtn key="console" instance={instance} />,
-                ]}
-              />
-              <div className="state">
-                <InstanceStateActions instance={instance} />
-              </div>
+      <SidePanel.Sticky>
+        <SidePanel.Header>
+          <SidePanel.HeaderTitle>Instance summary</SidePanel.HeaderTitle>
+          <SidePanel.HeaderControls>
+            <Button
+              appearance="base"
+              className="u-no-margin--bottom"
+              hasIcon
+              onClick={panelParams.clear}
+              aria-label="Close"
+            >
+              <Icon name="close" />
+            </Button>
+          </SidePanel.HeaderControls>
+        </SidePanel.Header>
+        {instance && (
+          <div className="actions">
+            <List
+              inline
+              className="primary actions-list"
+              items={[
+                <OpenTerminalBtn key="terminal" instance={instance} />,
+                <OpenConsoleBtn key="console" instance={instance} />,
+              ]}
+            />
+            <div className="state">
+              <InstanceStateActions instance={instance} />
             </div>
-          )}
-        </SidePanel.Sticky>
+          </div>
+        )}
+      </SidePanel.Sticky>
 
-        <SidePanel.Content>
-          {instance && <InstanceDetailPanelContent instance={instance} />}
-        </SidePanel.Content>
-      </SidePanel.Container>
+      <SidePanel.Content>
+        {instance && <InstanceDetailPanelContent instance={instance} />}
+      </SidePanel.Content>
     </SidePanel>
   );
 };
