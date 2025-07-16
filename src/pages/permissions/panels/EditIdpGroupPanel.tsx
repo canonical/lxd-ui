@@ -20,7 +20,7 @@ import NameWithGroupForm from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
-import { useGroups } from "context/useGroups";
+import { useAuthGroups } from "context/useAuthGroups";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -39,7 +39,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const { data: groups = [], error, isLoading } = useGroups();
+  const { data: groups = [], error, isLoading } = useAuthGroups();
 
   const {
     desiredState,

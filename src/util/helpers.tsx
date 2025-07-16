@@ -343,7 +343,10 @@ export const getDefaultNetwork = (profile: LxdProfile) => {
 
 export const isUnrestricted = (identity: LxdIdentity) => {
   // matches both "Client certificate (unrestricted)" and "Metrics certificate (unrestricted)"
-  return identity.type.endsWith("(unrestricted)");
+  return (
+    identity.type.endsWith("(unrestricted)") ||
+    identity.type.startsWith("Server certificate")
+  );
 };
 
 export const isFineGrainedTls = (identity: LxdIdentity) => {

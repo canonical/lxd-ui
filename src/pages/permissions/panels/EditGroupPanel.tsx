@@ -18,7 +18,7 @@ import { renameGroup, updateGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
 import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
@@ -44,7 +44,7 @@ import { useIdentities } from "context/useIdentities";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {
-  group: LxdGroup;
+  group: LxdAuthGroup;
   onClose?: () => void;
 }
 
@@ -188,7 +188,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         closePanel();
         toastNotify.success(
           <>
-            Group{" "}
+            Auth group{" "}
             <ResourceLink
               type="auth-group"
               value={values.name}

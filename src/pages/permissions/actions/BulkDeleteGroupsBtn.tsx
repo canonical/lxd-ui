@@ -1,13 +1,13 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import type { LxdGroup } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { pluralize } from "util/instanceBulkActions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {
-  groups: LxdGroup[];
+  groups: LxdAuthGroup[];
   onDelete: () => void;
   className?: string;
 }

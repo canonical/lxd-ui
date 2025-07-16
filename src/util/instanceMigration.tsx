@@ -43,7 +43,11 @@ export const useInstanceMigration = ({
         <>
           Instance <InstanceLinkChip instance={instance} /> successfully
           migrated to cluster member{" "}
-          <ResourceLink type="cluster-member" value={target} to="/ui/cluster" />
+          <ResourceLink
+            type="cluster-member"
+            value={target}
+            to={`/ui/cluster/member/${encodeURIComponent(target)}`}
+          />
         </>
       );
     }

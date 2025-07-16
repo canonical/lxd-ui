@@ -12,7 +12,7 @@ import NotificationRow from "components/NotificationRow";
 import type { TLSIdentityFormValues } from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
-import { useGroups } from "context/useGroups";
+import { useAuthGroups } from "context/useAuthGroups";
 import { createFineGrainedTlsIdentity } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -32,7 +32,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
 
-  const { data: groups = [], error, isLoading } = useGroups();
+  const { data: groups = [], error, isLoading } = useAuthGroups();
 
   const { desiredState, save: saveToPanelHistory } =
     useEditHistory<GroupEditHistory>({
@@ -102,7 +102,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <NameWithGroupForm formik={formik} />
-        <p>Groups</p>
+        <p>Auth groups</p>
         <SidePanel.Content className="u-no-padding">
           <GroupSelection
             groups={groups}

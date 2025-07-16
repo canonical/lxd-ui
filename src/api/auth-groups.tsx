@@ -1,20 +1,20 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
-import type { LxdGroup } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
 
 export const groupEntitlements = ["can_delete", "can_edit"];
 
 export const fetchGroups = async (
   isFineGrained: boolean | null,
-): Promise<LxdGroup[]> => {
+): Promise<LxdAuthGroup[]> => {
   const params = new URLSearchParams();
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, groupEntitlements);
 
   return fetch(`/1.0/auth/groups?${params.toString()}`)
     .then(handleResponse)
-    .then((data: LxdApiResponse<LxdGroup[]>) => {
+    .then((data: LxdApiResponse<LxdAuthGroup[]>) => {
       data.metadata.map((group) => {
         group.access_entitlements?.sort();
       });
@@ -22,7 +22,9 @@ export const fetchGroups = async (
     });
 };
 
-export const createGroup = async (group: Partial<LxdGroup>): Promise<void> => {
+export const createGroup = async (
+  group: Partial<LxdAuthGroup>,
+): Promise<void> => {
   await fetch(`/1.0/auth/groups`, {
     method: "POST",
     headers: {
@@ -44,7 +46,7 @@ export const deleteGroups = async (groups: string[]): Promise<void> => {
   ).then(handleSettledResult);
 };
 
-export const updateGroup = async (group: LxdGroup): Promise<void> => {
+export const updateGroup = async (group: LxdAuthGroup): Promise<void> => {
   await fetch(`/1.0/auth/groups/${encodeURIComponent(group.name)}`, {
     method: "PUT",
     headers: {

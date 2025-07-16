@@ -28,7 +28,6 @@ interface Props {
   values?: ClusterSpecificValues;
   canToggleSpecific?: boolean;
   isDefaultSpecific?: boolean;
-  clusterMemberLinkTarget?: (member: string) => string;
   disableReason?: string;
   helpText?: string | ReactNode;
 }
@@ -43,7 +42,6 @@ const ClusterSpecificSelect: FC<Props> = ({
   toggleReadOnly,
   canToggleSpecific = true,
   isDefaultSpecific = false,
-  clusterMemberLinkTarget = () => "/ui/cluster",
   disableReason,
   helpText,
 }) => {
@@ -130,7 +128,7 @@ const ClusterSpecificSelect: FC<Props> = ({
                   <ResourceLink
                     type="cluster-member"
                     value={item.memberName}
-                    to={clusterMemberLinkTarget(item.memberName)}
+                    to={`/ui/cluster/member/${encodeURIComponent(item.memberName)}`}
                   />
                 </div>
                 <div className="cluster-specific-value">

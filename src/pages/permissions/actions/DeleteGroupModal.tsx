@@ -10,7 +10,7 @@ import { deleteGroups } from "api/auth-groups";
 import ResourceLabel from "components/ResourceLabel";
 import type { ChangeEvent, FC } from "react";
 import { useState } from "react";
-import type { LxdGroup } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
@@ -18,7 +18,7 @@ import LoggedInUserNotification from "../panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
 
 interface Props {
-  groups: LxdGroup[];
+  groups: LxdAuthGroup[];
   close: () => void;
 }
 
@@ -34,8 +34,8 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   const { data: settings } = useSettings();
   const loggedInIdentityID = settings?.auth_user_name ?? "";
 
-  const restrictedGroups: LxdGroup[] = [];
-  const deletableGroups: LxdGroup[] = [];
+  const restrictedGroups: LxdAuthGroup[] = [];
+  const deletableGroups: LxdAuthGroup[] = [];
   let hasGroupsForLoggedInUser = false;
   groups.forEach((group) => {
     if (canDeleteGroup(group)) {

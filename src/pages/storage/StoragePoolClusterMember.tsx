@@ -19,16 +19,16 @@ export const StoragePoolClusterMember: FC<Props> = ({ pool }) => {
           return (
             <div className="clustered-resource-link" key={member.server_name}>
               <ResourceLink
-                to="/ui/cluster"
                 type="cluster-member"
                 value={member.server_name}
+                to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
               />
             </div>
           );
         })
       ) : (
         <ResourceLink
-          to="/ui/cluster"
+          to="/ui/cluster/members"
           type="cluster-group"
           value="Cluster wide"
         />
