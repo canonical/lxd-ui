@@ -3,6 +3,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { NavLink } from "react-router-dom";
 import { useSettings } from "context/useSettings";
 import classNames from "classnames";
+import { hasMicroCloudFlag } from "util/settings";
 
 interface Props {
   light?: boolean;
@@ -11,8 +12,8 @@ interface Props {
 const Logo: FC<Props> = ({ light }) => {
   const { project, isLoading } = useCurrentProject();
   const { data: settings } = useSettings();
+  const isMicroCloud = hasMicroCloudFlag(settings);
 
-  const isMicroCloud = Boolean(settings?.config?.["user.microcloud"]);
   const src = isMicroCloud
     ? "/ui/assets/img/microCloud-logo.svg"
     : "/ui/assets/img/lxd-logo.svg";

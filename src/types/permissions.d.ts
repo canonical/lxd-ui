@@ -5,7 +5,8 @@ export interface LxdIdentity {
     | "Client certificate (pending)"
     | "Client certificate (unrestricted)"
     | "Metrics certificate (unrestricted)"
-    | "OIDC client";
+    | "OIDC client"
+    | "Server certificate";
   name: string;
   authentication_method: "tls" | "oidc";
   tls_certificate: string;
@@ -16,7 +17,7 @@ export interface LxdIdentity {
   access_entitlements?: string[];
 }
 
-export interface LxdGroup {
+export interface LxdAuthGroup {
   name: string;
   description: string;
   permissions?: LxdPermission[];
@@ -32,7 +33,7 @@ export interface LxdPermission {
   entity_type: string;
   url: string;
   entitlement: string;
-  groups?: LxdGroup[];
+  groups?: LxdAuthGroup[];
 }
 
 export interface IdpGroup {

@@ -13,3 +13,7 @@ export const isClusteredServer = (
 ): boolean => {
   return settings?.environment?.server_clustered ?? false;
 };
+
+export const hasMicroCloudFlag = (settings?: LxdSettings): boolean => {
+  return Boolean(settings?.config?.["user.microcloud"]);
+};

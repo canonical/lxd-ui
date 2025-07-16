@@ -99,9 +99,15 @@ export interface Memory {
   hugepages_size: number;
   hugepages_total: number;
   hugepages_used: number;
-  nodes?: null;
+  nodes?: MemoryNode[];
   total: number;
   used: number;
+}
+
+export interface MemoryNode {
+  numa_node?: string;
+  used: number;
+  total: number;
 }
 
 export interface Network {
@@ -185,6 +191,7 @@ export interface Disks {
   firmware_version: string;
   id: string;
   model: string;
+  mounted: boolean;
   numa_node: number;
   partitions?: Partitions[] | null;
   pci_address: string;
@@ -200,7 +207,9 @@ export interface Disks {
 
 export interface Partitions {
   device: string;
+  device_fs_uuid?: string;
   id: string;
+  mounted: boolean;
   partition: number;
   read_only: boolean;
   size: number;
@@ -251,6 +260,7 @@ export interface UsbDevices {
   interfaces?: Interfaces[] | null;
   product: string;
   product_id: string;
+  serial?: string;
   speed: number;
   vendor: string;
   vendor_id: string;
@@ -262,6 +272,7 @@ export interface Interfaces {
   driver: string;
   driver_version: string;
   number: number;
+  protocol?: string;
   subclass: string;
   subclass_id: number;
 }

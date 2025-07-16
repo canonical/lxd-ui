@@ -1,10 +1,8 @@
 import type { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchClusterMembers } from "api/cluster";
 import classnames from "classnames";
+import { useClusterMembers } from "context/useClusterMembers";
 
 interface Props {
   onSelect: (member: string) => void;
@@ -15,10 +13,7 @@ interface Props {
 }
 
 const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
-  const { data: members = [], isLoading } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.members],
-    queryFn: fetchClusterMembers,
-  });
+  const { data: members = [], isLoading } = useClusterMembers();
 
   const headers = [
     { content: "Name", sortKey: "name" },
