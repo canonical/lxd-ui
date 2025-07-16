@@ -1,7 +1,7 @@
 import type { FC } from "react";
-import { useState } from "react";
-import { Button, Icon, Modal } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
+import { Button, Modal } from "@canonical/react-components";
+import CopyTextBtn from "components/CopyTextBtn";
 
 interface Props {
   onClose: () => void;
@@ -10,23 +10,6 @@ interface Props {
 }
 
 const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    if (token) {
-      try {
-        await navigator.clipboard.writeText(token);
-        setCopied(true);
-
-        setTimeout(() => {
-          setCopied(false);
-        }, 5000);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
   return (
     <Modal
       close={onClose}
@@ -36,20 +19,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
         <>
           {token && (
             <>
-              <Button
-                aria-label={
-                  copied ? "Copied to clipboard" : "Copy to clipboard"
-                }
-                title="Copy token"
-                className="u-no-margin--bottom"
-                onClick={async () => handleCopy()}
-                type="button"
-                hasIcon
-              >
-                <Icon name={copied ? "task-outstanding" : "copy"} />
-                <span>Copy trust token</span>
-              </Button>
-
+              <CopyTextBtn label="Copy trust token" text={token} />
               <Button
                 aria-label="Close"
                 className="u-no-margin--bottom"

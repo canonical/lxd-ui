@@ -5,7 +5,7 @@ import {
 } from "@canonical/react-components";
 import type { FC } from "react";
 import { useState } from "react";
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import { pivotIdentityGroupsChangeSummary } from "util/permissionIdentities";
 import GroupsOrIdentityChangesTable from "./GroupOrIdentityChangesTable";
 import {
@@ -24,7 +24,7 @@ interface Props {
   close: () => void;
   addedIdentities: Set<string>;
   removedIdentities: Set<string>;
-  selectedGroups: LxdGroup[];
+  selectedGroups: LxdAuthGroup[];
   allIdentities: LxdIdentity[];
 }
 

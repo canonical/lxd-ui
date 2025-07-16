@@ -25,7 +25,7 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
     setLoading(true);
     cancelOperation(operation.id)
       .then(() => {
-        toastNotify.success(`Operation ${operation.description} cancelled`);
+        toastNotify.success("Operation cancelled");
       })
       .catch((e) => {
         notify.failure("Operation cancellation failed", e);

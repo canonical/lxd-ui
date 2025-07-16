@@ -1,205 +1,157 @@
 import type { FC } from "react";
-import { useEffect, useState } from "react";
-import {
-  ActionButton,
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  useListener,
-  useNotify,
-  useToastNotification,
-} from "@canonical/react-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import {
-  createClusterGroup,
-  fetchClusterMembers,
-  updateClusterGroup,
-} from "api/cluster";
+import { Form, Icon, Input } from "@canonical/react-components";
 import type { LxdClusterGroup } from "types/cluster";
-import * as Yup from "yup";
-import { checkDuplicateName } from "util/helpers";
-import { useFormik } from "formik";
-import { updateMaxHeight } from "util/updateMaxHeight";
-import { useNavigate, useParams } from "react-router-dom";
-import { getClusterHeaders, getClusterRows } from "util/clusterGroups";
+import type { FormikProps } from "formik/dist/types";
+import { useClusterMembers } from "context/useClusterMembers";
 import SelectableMainTable from "components/SelectableMainTable";
-import NotificationRow from "components/NotificationRow";
-import BaseLayout from "components/BaseLayout";
-import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import ResourceLink from "components/ResourceLink";
 
 export interface ClusterGroupFormValues {
+  name: string;
   description: string;
   members: string[];
-  name: string;
+  bareGroup?: LxdClusterGroup;
 }
 
-interface Props {
-  group?: LxdClusterGroup;
+export interface Props {
+  formik: FormikProps<ClusterGroupFormValues>;
 }
 
-const ClusterGroupForm: FC<Props> = ({ group }) => {
-  const navigate = useNavigate();
-  const notify = useNotify();
-  const toastNotify = useToastNotification();
-  const { group: activeGroup } = useParams<{ group: string }>();
-  const queryClient = useQueryClient();
-  const controllerState = useState<AbortController | null>(null);
+const ClusterGroupForm: FC<Props> = ({ formik }) => {
+  const { data: members = [] } = useClusterMembers();
 
-  const { data: members = [], error } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.members],
-    queryFn: fetchClusterMembers,
+  const previousMembers = formik.values.bareGroup?.members ?? [];
+  const addedMembers = formik.values.members.filter(
+    (member) => !previousMembers.includes(member),
+  );
+  const removedMembers = previousMembers.filter(
+    (members) => !formik.values.members.includes(members),
+  );
+  const modifiedMembers = [...addedMembers, ...removedMembers];
+  const preselectedMembers = new Set(formik.values.bareGroup?.members ?? []);
+
+  const sortedMembers = members.sort((a, b) => {
+    if (preselectedMembers.has(a.server_name)) {
+      return -1;
+    }
+    if (preselectedMembers.has(b.server_name)) {
+      return 1;
+    }
+    return 0;
   });
-
-  if (error) {
-    notify.failure("Loading cluster members failed", error);
-  }
-
-  const ClusterGroupSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "A cluster group with this name already exists",
-        async (value) =>
-          group?.name === value ||
-          checkDuplicateName(value, "", controllerState, "cluster/groups"),
-      )
-      .required(),
-  });
-
-  const formik = useFormik<ClusterGroupFormValues>({
-    initialValues: {
-      description: group?.description ?? "",
-      members: group?.members ?? [],
-      name: group?.name ?? "",
-    },
-    validationSchema: ClusterGroupSchema,
-    onSubmit: (values) => {
-      const mutation = group ? updateClusterGroup : createClusterGroup;
-      mutation({
-        name: values.name,
-        description: values.description,
-        members: values.members,
-      })
-        .then(() => {
-          const verb = group ? "saved" : "created";
-          navigate(`/ui/cluster/group/${encodeURIComponent(values.name)}`);
-          toastNotify.success(
-            <>
-              Cluster group{" "}
-              <ResourceLink
-                type="cluster-group"
-                value={values.name}
-                to={`/ui/cluster/group/${encodeURIComponent(values.name)}`}
-              />{" "}
-              {verb}.
-            </>,
-          );
-        })
-        .catch((e: Error) => {
-          formik.setSubmitting(false);
-          const verb = group ? "save" : "creation";
-          notify.failure(`Cluster group ${verb} failed`, e);
-        })
-        .finally(() => {
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.cluster, queryKeys.groups],
-          });
-        });
-    },
-  });
-
-  const updateFormHeight = () => {
-    updateMaxHeight("form-contents", "p-bottom-controls");
-  };
-  useEffect(updateFormHeight, [notify.notification?.message]);
-  useListener(window, updateFormHeight, "resize", true);
 
   return (
-    <BaseLayout
-      title={group ? "Edit cluster group" : "Create cluster group"}
-      contentClassName="cluster-group-form"
-    >
-      <Form onSubmit={formik.handleSubmit} className="form">
-        <Row className="form-contents">
-          <Col size={12}>
-            <NotificationRow />
-            <div className="cluster-group-metadata">
-              <Input
-                id="name"
-                type="text"
-                label="Group name"
-                placeholder="Enter name"
-                required
-                disabled={Boolean(group)}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                error={formik.touched.name ? formik.errors.name : null}
-              />
-              <AutoExpandingTextArea
-                id="description"
-                name="description"
-                label="Description"
-                placeholder="Enter description"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.description}
-                error={
-                  formik.touched.description ? formik.errors.description : null
-                }
-              />
-            </div>
-            <div className="choose-label">
-              Choose members from the list{" "}
-              <span className="u-text--muted">
-                ({formik.values.members.length} selected)
-              </span>{" "}
-            </div>
-            <SelectableMainTable
-              headers={getClusterHeaders()}
-              rows={getClusterRows(members, activeGroup)}
-              sortable
-              className="cluster-group-select-members"
-              filteredNames={members.map((member) => member.server_name)}
-              itemName="member"
-              parentName="cluster"
-              selectedNames={formik.values.members}
-              setSelectedNames={(newMembers: string[]) =>
-                void formik.setFieldValue("members", newMembers)
+    <Form onSubmit={formik.handleSubmit}>
+      {/* hidden submit to enable enter key in inputs */}
+      <Input type="submit" hidden value="Hidden input" />
+      {!formik.values.bareGroup && (
+        <Input
+          {...formik.getFieldProps("name")}
+          type="text"
+          label="Name"
+          placeholder="Enter name"
+          required
+          autoFocus
+          error={formik.touched.name ? formik.errors.name : null}
+        />
+      )}
+      <Input
+        {...formik.getFieldProps("description")}
+        type="text"
+        label="Description"
+        placeholder="Enter description"
+      />
+      <p className="u-sv-1">Cluster members</p>
+      <SelectableMainTable
+        itemName="member"
+        parentName="cluster group"
+        className="member-selection-table"
+        filteredNames={members?.map((member) => member.server_name) ?? []}
+        selectedNames={formik.values.members}
+        hideContextualMenu
+        setSelectedNames={(val, isUnselectAll) => {
+          if (isUnselectAll) {
+            formik.setFieldValue("members", []);
+            return;
+          }
+          formik.setFieldValue("members", val);
+        }}
+        disabledNames={[]}
+        headers={[
+          {
+            content: "Name",
+            sortKey: "name",
+            className: "name",
+          },
+          {
+            content: "Groups",
+            className: "groups u-align--right",
+          },
+          {
+            content: "",
+            "aria-label": "Modified status",
+            className: "modified-status",
+          },
+        ]}
+        rows={
+          sortedMembers.map((member) => {
+            const name = member.server_name;
+            const groups = (member.groups ?? []).length;
+
+            const toggleRow = () => {
+              if (formik.values.members.includes(name)) {
+                formik.setFieldValue(
+                  "members",
+                  formik.values.members.filter((m) => m !== name),
+                );
+              } else {
+                formik.setFieldValue("members", [
+                  ...formik.values.members,
+                  name,
+                ]);
               }
-              disabledNames={[]}
-            />
-          </Col>
-        </Row>
-      </Form>
-      <div className="p-bottom-controls" id="form-footer">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={async () => navigate(`/ui/cluster`)}
-            >
-              Cancel
-            </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              disabled={
-                !formik.isValid || formik.isSubmitting || !formik.values.name
-              }
-              onClick={() => void formik.submitForm()}
-            >
-              {group ? "Save changes" : "Create"}
-            </ActionButton>
-          </Col>
-        </Row>
-      </div>
-    </BaseLayout>
+            };
+            const isModified = modifiedMembers.includes(name);
+
+            return {
+              key: name,
+              name: name,
+              columns: [
+                {
+                  content: name,
+                  title: name,
+                  onClick: toggleRow,
+                  role: "rowheader",
+                  className: "name u-truncate clickable-cell",
+                  "aria-label": "Name",
+                },
+                {
+                  content: groups,
+                  onClick: toggleRow,
+                  role: "cell",
+                  className: "groups u-truncate clickable-cell u-align--right",
+                  "aria-label": "groups",
+                },
+                {
+                  content: isModified && (
+                    <Icon
+                      name="status-in-progress-small"
+                      aria-label={
+                        addedMembers.includes(name)
+                          ? "was added"
+                          : "was removed"
+                      }
+                    />
+                  ),
+                  role: "cell",
+                  "aria-label": "Modified status",
+                  className: "modified-status u-align--right",
+                },
+              ],
+            };
+          }) ?? []
+        }
+      />
+    </Form>
   );
 };
 

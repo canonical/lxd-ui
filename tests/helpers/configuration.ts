@@ -7,6 +7,18 @@ export const setOption = async (page: Page, field: string, value: string) => {
   await page.getByRole("combobox", { name: field }).selectOption(value);
 };
 
+export const setMultiselectOption = async (
+  page: Page,
+  field: string,
+  value: string,
+) => {
+  await activateOverride(page, field);
+  const row = page.getByRole("row", { name: field }).first();
+  await row.getByLabel("Select items").click();
+  await page.getByText(value).click();
+  await row.getByLabel("Select items").click();
+};
+
 export const setInput = async (
   page: Page,
   field: string,
@@ -139,11 +151,12 @@ export const assertReadMode = async (
   field: string,
   value: string,
 ) => {
-  await page
-    .getByRole("row", { name: field })
-    .getByRole("gridcell", { name: value, exact: true })
-    .getByText(value)
-    .click();
+  await expect(
+    page
+      .getByRole("row", { name: field })
+      .getByRole("gridcell", { name: value, exact: true })
+      .getByText(value),
+  ).toBeVisible();
 };
 
 export const activateAllTableOverrides = async (page: Page) => {

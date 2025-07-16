@@ -8,7 +8,6 @@ import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";
 import { useSettings } from "context/useSettings";
-import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {
@@ -54,9 +53,10 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
                 <td>
                   {settings?.environment?.server_clustered &&
                   volume.location ? (
-                    <ResourceLabel
+                    <ResourceLink
                       type="cluster-member"
                       value={volume.location}
+                      to={`/ui/cluster/member/${encodeURIComponent(volume.location)}`}
                     />
                   ) : (
                     "-"

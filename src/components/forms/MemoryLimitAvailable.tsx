@@ -23,7 +23,7 @@ const MemoryLimitAvailable: FC<Props> = ({ project }) => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.resources],
-    queryFn: fetchResources,
+    queryFn: async () => fetchResources(),
     enabled: canViewResources(),
   });
 

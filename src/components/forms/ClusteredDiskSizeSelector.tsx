@@ -77,7 +77,7 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
                   <ResourceLink
                     type="cluster-member"
                     value={item}
-                    to={"/ui/cluster"}
+                    to={`/ui/cluster/member/${encodeURIComponent(item)}`}
                   />
                 </div>
 

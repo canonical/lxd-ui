@@ -5,7 +5,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
-import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import NoMatch from "components/NoMatch";
@@ -21,9 +20,14 @@ const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
 );
-const ClusterList = lazy(async () => import("pages/cluster/ClusterList"));
-const CreateClusterGroup = lazy(
-  async () => import("pages/cluster/CreateClusterGroup"),
+const ClusterGroupList = lazy(
+  async () => import("pages/cluster/ClusterGroupList"),
+);
+const ClusterMemberList = lazy(
+  async () => import("pages/cluster/ClusterMemberList"),
+);
+const ClusterMemberDetail = lazy(
+  async () => import("pages/cluster/ClusterMemberDetail"),
 );
 const CreateInstance = lazy(
   async () => import("pages/instances/CreateInstance"),
@@ -39,9 +43,6 @@ const CreateProfile = lazy(async () => import("pages/profiles/CreateProfile"));
 const CreateProject = lazy(async () => import("pages/projects/CreateProject"));
 const CreateStoragePool = lazy(
   async () => import("pages/storage/CreateStoragePool"),
-);
-const EditClusterGroup = lazy(
-  async () => import("pages/cluster/EditClusterGroup"),
 );
 const EditNetworkForward = lazy(
   async () => import("pages/networks/EditNetworkForward"),
@@ -70,6 +71,7 @@ const ProjectConfig = lazy(
   async () => import("pages/projects/ProjectConfiguration"),
 );
 const ProtectedRoute = lazy(async () => import("components/ProtectedRoute"));
+const Server = lazy(async () => import("pages/cluster/Server"));
 const Settings = lazy(async () => import("pages/settings/Settings"));
 const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
 const StorageVolumes = lazy(async () => import("pages/storage/StorageVolumes"));
@@ -471,28 +473,30 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<ImageList />} />}
         />
         <Route
-          path="/ui/cluster"
-          element={<ProtectedRoute outlet={<ClusterList />} />}
+          path="/ui/server"
+          element={<ProtectedRoute outlet={<Server />} />}
         />
         <Route
-          path="/ui/cluster/groups/create"
-          element={<ProtectedRoute outlet={<CreateClusterGroup />} />}
-        />
-        <Route
-          path="/ui/cluster/group/:group"
+          path="/ui/server/clustering"
           element={
-            <ProtectedRoute
-              outlet={<ClusterGroupLoader outlet={<ClusterList />} />}
-            />
+            <ProtectedRoute outlet={<Server activeTab="clustering" />} />
           }
         />
         <Route
-          path="/ui/cluster/group/:group/edit"
-          element={
-            <ProtectedRoute
-              outlet={<ClusterGroupLoader outlet={<EditClusterGroup />} />}
-            />
-          }
+          path="/ui/cluster/groups"
+          element={<ProtectedRoute outlet={<ClusterGroupList />} />}
+        />
+        <Route
+          path="/ui/cluster/members"
+          element={<ProtectedRoute outlet={<ClusterMemberList />} />}
+        />
+        <Route
+          path="/ui/cluster/member/:name"
+          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+        />
+        <Route
+          path="/ui/cluster/member/:name/:activeTab"
+          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
         />
         <Route
           path="/ui/operations"

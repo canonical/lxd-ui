@@ -95,7 +95,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
                   <ResourceLink
                     type="cluster-member"
                     value={lease.location}
-                    to="/ui/cluster"
+                    to={`/ui/cluster/member/${encodeURIComponent(lease.location)}`}
                   />
                 ),
                 role: "cell",

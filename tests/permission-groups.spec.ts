@@ -45,7 +45,7 @@ test("add new permissions to group", async ({ page, lxdVersion }) => {
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit permissions" }).click();
   await addPermission(page, "Server", "server", "admin");
-  await page.getByText("Edit group").click();
+  await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
@@ -59,7 +59,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit permissions" }).click();
   await addPermission(page, "Server", "server", "admin");
-  await page.getByText("Edit group").click();
+  await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
@@ -69,7 +69,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await restorePermission(page, "server", "server", "admin");
   await removePermission(page, "server", "server", "admin");
   await addPermission(page, "Project", "default", "can_view");
-  await page.getByText("Edit group").click();
+  await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
@@ -83,13 +83,13 @@ test("manage identities for single group", async ({ page, lxdVersion }) => {
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit identities" }).click();
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
-  await page.getByText("Edit group").click();
+  await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit identities" }).click();
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
-  await page.getByText("Edit group").click();
+  await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
   await deleteGroup(page, group);

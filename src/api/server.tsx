@@ -97,8 +97,13 @@ export const updateClusteredSettings = async (
   });
 };
 
-export const fetchResources = async (): Promise<LxdResources> => {
-  return fetch("/1.0/resources")
+export const fetchResources = async (
+  target?: string,
+): Promise<LxdResources> => {
+  const params = new URLSearchParams();
+  addTarget(params, target);
+
+  return fetch(`/1.0/resources?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdResources>) => {
       return data.metadata;

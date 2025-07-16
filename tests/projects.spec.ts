@@ -2,6 +2,7 @@ import { test, expect } from "./fixtures/lxd-test";
 import {
   assertReadMode,
   setInput,
+  setMultiselectOption,
   setOption,
   setTextarea,
 } from "./helpers/configuration";
@@ -59,7 +60,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
   await page.getByText("Clusters").click();
-  await setInput(page, "Cluster groups targeting", "Enter value", "default");
+  await setMultiselectOption(page, "Cluster groups", "default");
   await setOption(page, "Direct cluster targeting", "allow");
 
   await page

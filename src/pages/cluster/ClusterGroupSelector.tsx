@@ -1,62 +1,47 @@
 import type { FC } from "react";
-import {
-  Button,
-  ContextualMenu,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { useNavigate } from "react-router-dom";
-import { defaultFirst } from "util/helpers";
-import { fetchClusterGroups } from "api/cluster";
-import ClusterGroupSelectorList from "pages/cluster/ClusterGroupSelectorList";
+import { MultiSelect } from "@canonical/react-components";
+import { useClusterGroups } from "context/useClusterGroups";
+import type { FormikProps } from "formik/dist/types";
+import type { ProjectFormValues } from "pages/projects/CreateProject";
 
 interface Props {
-  activeGroup?: string;
+  formik: FormikProps<ProjectFormValues>;
 }
 
-const ClusterGroupSelector: FC<Props> = ({
-  activeGroup,
-}): React.JSX.Element => {
-  const navigate = useNavigate();
-  const notify = useNotify();
+const ClusterGroupSelector: FC<Props> = ({ formik }) => {
+  const { data: groups = [] } = useClusterGroups();
 
-  const { data: clusterGroups = [], error } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.groups],
-    queryFn: fetchClusterGroups,
-  });
+  const selectedValues =
+    formik.values.restricted_cluster_groups?.split(",").filter(Boolean) ?? [];
 
-  if (error) {
-    notify.failure("Loading cluster groups failed", error);
-  }
-
-  clusterGroups.sort(defaultFirst);
+  const setValues = (values: string[]) => {
+    formik.setFieldValue(
+      "restricted_cluster_groups",
+      values.filter(Boolean).join(","),
+    );
+  };
 
   return (
-    <ContextualMenu
-      dropdownProps={{ "aria-label": "select cluster group" }}
-      toggleClassName="toggle"
-      position="left"
-      toggleLabel={activeGroup}
-      toggleAppearance="base"
-      className="u-no-margin--bottom cluster-group-select"
-      hasToggleIcon
-      title={"Select group"}
-    >
-      <div className="cluster-group-list" key="my-div">
-        <ClusterGroupSelectorList clusterGroups={clusterGroups} />
-        <hr />
-        <Button
-          onClick={async () => navigate("/ui/cluster/groups/create")}
-          className="p-contextual-menu__link"
-          hasIcon
-        >
-          <Icon name="plus" />
-          <span>Create group</span>
-        </Button>
-      </div>
-    </ContextualMenu>
+    <div className="restricted-cluster-groups">
+      <MultiSelect
+        items={groups.map((group) => {
+          return { label: group.name, value: group.name };
+        })}
+        selectedItems={selectedValues.map((value) => {
+          return { value: value, label: value };
+        })}
+        onDeselectItem={(item) => {
+          setValues(selectedValues.filter((value) => value !== item.value));
+        }}
+        onSelectItem={(item) => {
+          setValues(selectedValues.concat([item.value as string]));
+        }}
+        onItemsUpdate={(items) => {
+          setValues(items.map((item) => item.value as string));
+        }}
+        variant="condensed"
+      />
+    </div>
   );
 };
 

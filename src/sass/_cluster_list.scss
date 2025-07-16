@@ -1,17 +1,8 @@
 @use "sass:map";
 
 .cluster-list {
-  .cluster-content {
-    margin-top: -$spv--large;
-    padding-bottom: 0;
-
-    @media screen and (width <= 860px) {
-      margin-top: 0;
-    }
-  }
-
-  .p-panel {
-    min-height: auto;
+  .status-header {
+    padding-left: 1.33rem;
   }
 
   .name {
@@ -23,96 +14,87 @@
   }
 
   .actions {
-    width: 8rem;
+    width: 10rem;
   }
 
-  .u-row:hover {
-    background-color: $colors--theme--background-hover;
+  .groups {
+    width: 6rem;
   }
 
-  .empty-state {
-    text-align: left;
-
-    .empty-state-icon {
-      opacity: 0.5;
-    }
+  .members {
+    width: 6rem;
   }
 
-  // show actions only on hover if a pointing device is used
-  @media screen and (pointer: fine) {
-    .cluster-actions {
-      visibility: hidden;
-    }
-
-    .u-row:hover {
-      .cluster-actions {
-        visibility: visible;
-      }
-    }
+  .actions-list {
+    min-width: 5rem;
   }
 
   @media screen and (width <= 1300px) {
-    .architecture {
+    .failure-domain {
       display: none;
-    }
-  }
-
-  @media screen and (width <= 1100px) {
-    .description {
-      display: none;
-    }
-  }
-
-  @media screen and (width <= 1000px) {
-    .roles {
-      display: none;
-    }
-  }
-
-  .cluster-group-select {
-    .toggle {
-      background-color: $colors--theme--background-hover;
-      border-bottom: 1px solid $colors--theme--border-high-contrast;
-      font-size: #{map.get($font-sizes, h4-mobile)}rem;
-      margin-bottom: $spv--small;
-      width: 15rem;
-
-      span {
-        display: inline-block;
-        font-size: 1rem;
-        overflow: hidden !important;
-        text-align: left;
-        text-overflow: ellipsis !important;
-        vertical-align: top;
-        white-space: nowrap !important;
-        width: 11rem;
-      }
     }
   }
 }
 
-.cluster-group-list {
-  box-shadow: 0 $sp-unit $sp-unit 0 rgb(0 0 0 / 25%);
-  padding: 1rem;
-  width: 21rem;
-
-  .link {
-    padding-bottom: $spv--small;
-    padding-top: $spv--small;
+.cluster-member-details {
+  .row {
+    padding-right: 0;
   }
 
-  .name {
-    display: inline-block;
-    vertical-align: top;
-    width: 10rem;
+  th {
+    width: 33%;
   }
 
-  .count {
-    color: $color-mid;
+  .aside {
+    display: none;
+    min-width: 12rem;
+    position: absolute;
+    right: 1rem;
+    top: 154px;
+
+    ul {
+      border-left: $border-thin;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .p-side-navigation__link {
+      background: $colors--theme--background-default;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      padding-left: 0.5rem;
+
+      &[aria-current="page"] {
+        font-weight: bold;
+      }
+
+      &::before {
+        width: 0;
+      }
+    }
   }
 
-  .description {
-    color: $color-mid;
-    width: 12rem;
+  .hardware-section {
+    border-bottom: $border-thin;
+  }
+
+  .usb {
+    margin-bottom: 100dvh;
+  }
+
+  @media screen and (width > 1150px) {
+    .hardware-section {
+      max-width: 42rem !important;
+    }
+
+    .aside {
+      display: block;
+    }
+  }
+
+  @include extra-large {
+    .hardware-section {
+      max-width: 60rem !important;
+    }
   }
 }
