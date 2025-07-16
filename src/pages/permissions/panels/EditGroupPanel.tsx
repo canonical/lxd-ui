@@ -293,6 +293,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
               selected={identities}
               setSelected={setIdentities}
               groupName={group.name}
+              group={group}
             />
           )}
           {subForm === "permission" && (

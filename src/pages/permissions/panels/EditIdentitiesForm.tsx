@@ -4,11 +4,14 @@ import { useState } from "react";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";
-import type { LxdIdentity } from "types/permissions";
+import type { LxdGroup, LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { getIdentityName } from "util/permissionIdentities";
+import {
+  getIdentityIdsForGroup,
+  getIdentityName,
+} from "util/permissionIdentities";
 
 export type FormIdentity = LxdIdentity & {
   isRemoved?: boolean;
@@ -19,12 +22,14 @@ interface Props {
   selected: FormIdentity[];
   setSelected: (list: FormIdentity[]) => void;
   groupName: string;
+  group?: LxdGroup;
 }
 
 const EditIdentitiesForm: FC<Props> = ({
   selected,
   setSelected,
   groupName,
+  group,
 }) => {
   const notify = useNotify();
   const [filter, setFilter] = useState<string | null>(null);
@@ -42,6 +47,9 @@ const EditIdentitiesForm: FC<Props> = ({
   const fineGrainedIdentities = identities.filter(
     (identity) => !isUnrestricted(identity),
   );
+
+  const preselectedIdentities = new Set(getIdentityIdsForGroup(group));
+  const hasPreselectedIdentities = preselectedIdentities.size > 0;
 
   const toggleRow = (id: string) => {
     if (restrictedIdentityNames.includes(id)) {
@@ -151,13 +159,15 @@ const EditIdentitiesForm: FC<Props> = ({
       ],
       sortData: {
         name: name.toLowerCase(),
+        isPreselected: preselectedIdentities.has(identity.id),
       },
     };
   });
 
   const { rows: sortedRows } = useSortTableData({
     rows,
-    defaultSort: "name",
+    defaultSort: hasPreselectedIdentities ? "isPreselected" : "name",
+    defaultSortDirection: hasPreselectedIdentities ? "descending" : "ascending",
   });
 
   return (

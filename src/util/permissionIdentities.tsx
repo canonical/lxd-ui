@@ -5,11 +5,10 @@ export type ChangeSummary = Record<
   { added: Set<string>; removed: Set<string>; name: string }
 >;
 
-export const getIdentityIdsForGroup = (group: LxdGroup): string[] => {
+export const getIdentityIdsForGroup = (group?: LxdGroup): string[] => {
   const oidcIdentityIds = group?.identities?.oidc || [];
   const tlsIdentityIds = group?.identities?.tls || [];
-  const allIdentityIds = oidcIdentityIds.concat(tlsIdentityIds);
-  return allIdentityIds;
+  return [...oidcIdentityIds, ...tlsIdentityIds];
 };
 
 // Given a set of lxd groups and some identities
