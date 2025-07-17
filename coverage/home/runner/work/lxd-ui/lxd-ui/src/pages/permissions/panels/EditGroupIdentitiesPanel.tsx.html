@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.99% </span>
+                <span class="strong">72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>311/432</span>
+                <span class='fraction'>324/450</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.2% </span>
+                <span class="strong">39.58% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>32/86</span>
+                <span class='fraction'>38/96</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/25</span>
+                <span class='fraction'>12/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.53% </span>
+                <span class="strong">88.95% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>309/349</span>
+                <span class='fraction'>322/362</span>
             </div>
         
             
@@ -412,7 +412,23 @@
 <a name='L347'></a><a href='#L347'>347</a>
 <a name='L348'></a><a href='#L348'>348</a>
 <a name='L349'></a><a href='#L349'>349</a>
-<a name='L350'></a><a href='#L350'>350</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
@@ -509,6 +525,14 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -661,6 +685,8 @@
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -791,7 +817,10 @@ import useSortTableData from "util/useSortTableData";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { getIdentityName } from "util/permissionIdentities";
+import {
+  getIdentityIdsForGroup,
+  getIdentityName,
+} from "util/permissionIdentities";
 &nbsp;
 interface IdentityEditHistory {
   identitiesAdded: Set&lt;string&gt;;
@@ -860,6 +889,14 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        !selectedIdentities.has(id) &amp;&amp; !desiredState.identitiesRemoved.has(id),</span></span>
     ),
   );
+&nbsp;
+  const preselectedIdentities = <span class="cstat-no" title="statement not covered" >new Set();</span>
+<span class="cstat-no" title="statement not covered" >  groups.forEach((group) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    getIdentityIdsForGroup(group).forEach(<span class="fstat-no" title="function not covered" >(i</span>d) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      preselectedIdentities.add(id),</span>
+    );
+  });
+  const hasPreselectedIdentities = <span class="cstat-no" title="statement not covered" >preselectedIdentities.size &gt; 0;</span>
 &nbsp;
   const calculatedModifiedIdentities = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const modifiedIdentities = <span class="cstat-no" title="statement not covered" >new Set&lt;string&gt;();</span>
@@ -1008,13 +1045,15 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = <span class="cstat-no" title="
       ],
       sortData: {
         name: name.toLowerCase(),
+        isPreselected: preselectedIdentities.has(identity.id),
       },
     };
   });
 &nbsp;
   const { rows: sortedRows } = <span class="cstat-no" title="statement not covered" >useSortTableData({</span>
     rows,
-    defaultSort: "name",
+    defaultSort: hasPreselectedIdentities ? "isPreselected" : "name",
+    defaultSortDirection: hasPreselectedIdentities ? "descending" : "ascending",
   });
 &nbsp;
   const content = (
@@ -1117,7 +1156,7 @@ export default EditGroupIdentitiesPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-16T08:28:00.911Z
+                at 2025-07-17T09:56:55.339Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
