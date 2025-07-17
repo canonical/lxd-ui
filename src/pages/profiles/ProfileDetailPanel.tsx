@@ -1,8 +1,12 @@
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useCurrentProject } from "context/useCurrentProject";
-import { Button, Icon, useNotify } from "@canonical/react-components";
-import SidePanel from "components/SidePanel";
+import {
+  Button,
+  Icon,
+  useNotify,
+  SidePanel,
+} from "@canonical/react-components";
 import ProfileDetailPanelContent from "./ProfileDetailPanelContent";
 import { useProfile } from "context/useProfiles";
 
@@ -32,7 +36,6 @@ const ProfileDetailPanel: FC = () => {
       loading={isLoading}
       hasError={!profile || !project}
       className="u-hide--medium u-hide--small detail-panel profile-detail-panel"
-      width="narrow"
       pinned
     >
       <SidePanel.Sticky>

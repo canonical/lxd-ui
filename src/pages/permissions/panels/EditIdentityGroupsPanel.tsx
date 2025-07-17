@@ -1,5 +1,4 @@
-import { useNotify } from "@canonical/react-components";
-import SidePanel from "components/SidePanel";
+import { SidePanel, useNotify } from "@canonical/react-components";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -159,12 +158,7 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
 
   return (
     <>
-      <SidePanel
-        isOverlay
-        loading={isLoading}
-        hasError={!groups}
-        onClose={closePanel}
-      >
+      <SidePanel loading={isLoading} hasError={!groups}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle className="u-truncate">
             {panelTitle}

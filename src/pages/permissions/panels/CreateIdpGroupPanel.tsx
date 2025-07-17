@@ -1,11 +1,11 @@
 import {
   ActionButton,
   Button,
+  SidePanel,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -111,7 +111,7 @@ const CreateIdpGroupPanel: FC = () => {
   });
 
   return (
-    <SidePanel isOverlay loading={isLoading} hasError={!groups}>
+    <SidePanel loading={isLoading} hasError={!groups}>
       <SidePanel.Header>
         <SidePanel.HeaderTitle>Create IDP group</SidePanel.HeaderTitle>
       </SidePanel.Header>
