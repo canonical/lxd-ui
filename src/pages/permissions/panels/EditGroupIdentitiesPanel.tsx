@@ -28,7 +28,10 @@ import useSortTableData from "util/useSortTableData";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { getIdentityName } from "util/permissionIdentities";
+import {
+  getIdentityIdsForGroup,
+  getIdentityName,
+} from "util/permissionIdentities";
 
 interface IdentityEditHistory {
   identitiesAdded: Set<string>;
@@ -97,6 +100,14 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         !selectedIdentities.has(id) && !desiredState.identitiesRemoved.has(id),
     ),
   );
+
+  const preselectedIdentities = new Set();
+  groups.forEach((group) => {
+    getIdentityIdsForGroup(group).forEach((id) =>
+      preselectedIdentities.add(id),
+    );
+  });
+  const hasPreselectedIdentities = preselectedIdentities.size > 0;
 
   const calculatedModifiedIdentities = () => {
     const modifiedIdentities = new Set<string>();
@@ -245,13 +256,15 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
       ],
       sortData: {
         name: name.toLowerCase(),
+        isPreselected: preselectedIdentities.has(identity.id),
       },
     };
   });
 
   const { rows: sortedRows } = useSortTableData({
     rows,
-    defaultSort: "name",
+    defaultSort: hasPreselectedIdentities ? "isPreselected" : "name",
+    defaultSortDirection: hasPreselectedIdentities ? "descending" : "ascending",
   });
 
   const content = (
