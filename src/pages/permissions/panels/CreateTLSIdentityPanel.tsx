@@ -1,5 +1,9 @@
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
-import SidePanel from "components/SidePanel";
+import {
+  ActionButton,
+  Button,
+  SidePanel,
+  useNotify,
+} from "@canonical/react-components";
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
@@ -92,7 +96,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
 
   return (
     <>
-      <SidePanel isOverlay loading={isLoading} hasError={!groups}>
+      <SidePanel loading={isLoading} hasError={!groups}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>Create identity</SidePanel.HeaderTitle>
         </SidePanel.Header>

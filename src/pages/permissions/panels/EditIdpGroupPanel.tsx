@@ -1,6 +1,9 @@
-import { useNotify, useToastNotification } from "@canonical/react-components";
+import {
+  SidePanel,
+  useNotify,
+  useToastNotification,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -199,12 +202,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
     (nameModified && nameIsValid) || (nameIsValid && groupsModified);
 
   return (
-    <SidePanel
-      isOverlay
-      loading={isLoading}
-      hasError={!groups}
-      onClose={onClose}
-    >
+    <SidePanel loading={isLoading} hasError={!groups}>
       <SidePanel.Header>
         <SidePanel.HeaderTitle className="u-truncate">{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
       </SidePanel.Header>

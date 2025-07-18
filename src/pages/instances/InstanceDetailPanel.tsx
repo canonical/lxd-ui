@@ -1,10 +1,15 @@
 import type { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
-import { Button, Icon, List, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  List,
+  SidePanel,
+  useNotify,
+} from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
-import SidePanel from "components/SidePanel";
 import InstanceDetailPanelContent from "./InstanceDetailPanelContent";
 import { useInstance } from "context/useInstances";
 
@@ -28,7 +33,6 @@ const InstanceDetailPanel: FC = () => {
       loading={isLoading}
       hasError={!instance}
       className="u-hide--medium u-hide--small detail-panel instance-detail-panel"
-      width="narrow"
       pinned
     >
       <SidePanel.Sticky>

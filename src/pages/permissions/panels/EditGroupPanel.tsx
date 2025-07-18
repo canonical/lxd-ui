@@ -2,11 +2,11 @@ import {
   ActionButton,
   Button,
   ConfirmationModal,
+  SidePanel,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -231,7 +231,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     },
   });
 
-  const closePanel = () => {
+  const closePanel = (): void => {
     panelParams.clear();
     notify.clear();
     onClose?.();
@@ -246,13 +246,9 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
   return (
     <>
       <SidePanel
-        isOverlay
-        loading={false}
-        hasError={false}
         className={classnames({
           "edit-permissions-panel": subForm === "permission",
         })}
-        onClose={closePanel}
       >
         <SidePanel.Header>
           <SidePanel.HeaderTitle

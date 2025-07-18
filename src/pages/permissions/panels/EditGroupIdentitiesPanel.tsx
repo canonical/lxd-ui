@@ -2,9 +2,9 @@ import {
   ActionButton,
   Button,
   Icon,
+  SidePanel,
   useNotify,
 } from "@canonical/react-components";
-import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -304,7 +304,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
 
   return (
     <>
-      <SidePanel isOverlay loading={isLoading} hasError={!identities}>
+      <SidePanel loading={isLoading} hasError={!identities}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>{panelTitle}</SidePanel.HeaderTitle>
         </SidePanel.Header>

@@ -1,10 +1,10 @@
 import {
   ActionButton,
   Button,
+  SidePanel,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import SidePanel from "components/SidePanel";
 import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
@@ -110,7 +110,7 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
 
   return (
     <>
-      <SidePanel isOverlay loading={false} hasError={false}>
+      <SidePanel>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>Create key</SidePanel.HeaderTitle>
         </SidePanel.Header>

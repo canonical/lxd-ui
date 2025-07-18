@@ -1,11 +1,11 @@
 import {
   ActionButton,
   Button,
+  SidePanel,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import Loader from "components/Loader";
-import SidePanel from "components/SidePanel";
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
@@ -139,7 +139,7 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
 
   return (
     <>
-      <SidePanel isOverlay loading={false} hasError={false}>
+      <SidePanel>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
             Edit key {bucketKey.name}
