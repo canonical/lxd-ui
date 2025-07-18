@@ -32,11 +32,13 @@ import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
 import { isDarkTheme, loadTheme } from "pages/settings/SettingThemeSwitcher";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import { useIsClustered } from "context/useIsClustered";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
   const openStorage = location.pathname.includes("/storage/");
   const openNetwork = location.pathname.includes("/network");
+  const openCluster = location.pathname.includes("/cluster/");
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
     initialOpenMenus.push("permissions");
@@ -48,6 +50,10 @@ const initialiseOpenNavMenus = (location: Location) => {
 
   if (openNetwork) {
     initialOpenMenus.push("networking");
+  }
+
+  if (openCluster) {
+    initialOpenMenus.push("clustering");
   }
 
   return initialOpenMenus;
@@ -99,6 +105,7 @@ const Navigation: FC = () => {
   const hasOidc = settings?.auth_methods?.includes("oidc");
   const hasCertificate = settings?.client_certificate;
   const navigate = useNavigate();
+  const isClustered = useIsClustered();
 
   useEffect(() => {
     const isAllProjects = isAllProjectsFromUrl || !canViewProject;
@@ -464,19 +471,58 @@ const Navigation: FC = () => {
                           "is-light": isLight,
                         })}
                       />
-                      <SideNavigationItem>
-                        <NavLink
-                          to="/ui/cluster"
-                          title="Cluster"
-                          onClick={softToggleMenu}
-                        >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="cluster-host"
-                          />{" "}
-                          Cluster
-                        </NavLink>
-                      </SideNavigationItem>
+                      {isClustered && (
+                        <SideNavigationItem>
+                          <NavAccordion
+                            baseUrl="/ui/cluster"
+                            title={getNavTitle("clustering")}
+                            iconName="cluster-host"
+                            label="Clustering"
+                            onOpen={() => {
+                              toggleAccordionNav("clustering");
+                            }}
+                            open={openNavMenus.includes("clustering")}
+                          >
+                            {[
+                              <SideNavigationItem key="members">
+                                <NavLink
+                                  to="/ui/cluster/members"
+                                  title="Members"
+                                  onClick={softToggleMenu}
+                                  className="accordion-nav-secondary"
+                                >
+                                  Members
+                                </NavLink>
+                              </SideNavigationItem>,
+                              <SideNavigationItem key="groups">
+                                <NavLink
+                                  to="/ui/cluster/groups"
+                                  title="Groups"
+                                  onClick={softToggleMenu}
+                                  className="accordion-nav-secondary"
+                                >
+                                  Groups
+                                </NavLink>
+                              </SideNavigationItem>,
+                            ]}
+                          </NavAccordion>
+                        </SideNavigationItem>
+                      )}
+                      {!isClustered && (
+                        <SideNavigationItem>
+                          <NavLink
+                            to="/ui/server"
+                            title="Server"
+                            onClick={softToggleMenu}
+                          >
+                            <Icon
+                              className="is-light p-side-navigation__icon"
+                              name="cluster-host"
+                            />{" "}
+                            Server
+                          </NavLink>
+                        </SideNavigationItem>
+                      )}
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/operations`}
@@ -520,10 +566,12 @@ const Navigation: FC = () => {
                             {[
                               <SideNavigationItem key="/ui/permissions/identities">
                                 <NavLink
-                                  to="/ui/permissions/identities"
+                                  to="/ui/permissions/identities?system-identities=hide"
                                   title="Identities"
                                   onClick={softToggleMenu}
-                                  activeUrlMatches={["permissions/identity"]}
+                                  activeUrlMatches={[
+                                    "/ui/permissions/identities",
+                                  ]}
                                   className="accordion-nav-secondary"
                                 >
                                   Identities

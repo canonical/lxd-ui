@@ -1,29 +1,36 @@
-import { Input } from "@canonical/react-components";
-import type { ChangeEvent, FC } from "react";
+import { SearchBox } from "@canonical/react-components";
+import type { FC } from "react";
 
 interface Props {
   onChange: (val: string) => void;
   value: string;
   disabled?: boolean;
+  className?: string;
 }
 
-const PermissionGroupsFilter: FC<Props> = ({ onChange, value, disabled }) => {
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value.toLowerCase());
+const PermissionGroupsFilter: FC<Props> = ({
+  onChange,
+  value,
+  disabled,
+  className,
+}) => {
+  const handleSearchChange = (value: string) => {
+    onChange(value.toLowerCase());
   };
 
   return (
     <div className="permission-groups-filter">
-      <Input
+      <SearchBox
         id="search-groups"
         label="Search groups"
-        labelClassName="u-off-screen"
         name="search-groups"
         type="text"
+        onSearch={handleSearchChange}
         onChange={handleSearchChange}
         value={value}
         placeholder="Search groups"
         disabled={disabled}
+        className={className}
       />
     </div>
   );

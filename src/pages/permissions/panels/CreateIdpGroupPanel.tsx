@@ -19,7 +19,7 @@ import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
 import ResourceLink from "components/ResourceLink";
-import { useGroups } from "context/useGroups";
+import { useAuthGroups } from "context/useAuthGroups";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
 
 interface GroupEditHistory {
@@ -33,7 +33,7 @@ const CreateIdpGroupPanel: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const { data: groups = [], error, isLoading } = useGroups();
+  const { data: groups = [], error, isLoading } = useAuthGroups();
 
   const { desiredState, save: saveToPanelHistory } =
     useEditHistory<GroupEditHistory>({

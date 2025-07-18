@@ -2,15 +2,13 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { fetchClusterGroups } from "api/cluster";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { useIsClustered } from "context/useIsClustered";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useServerEntitlements } from "util/entitlements/server";
+import { useClusterGroups } from "context/useClusterGroups";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -43,11 +41,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const defaultMember = figureDefaultMember(formik.values.target);
   const [selectedMember, setSelectedMember] = useState(defaultMember);
   const { project } = useCurrentProject();
-
-  const { data: clusterGroups = [], isLoading } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.groups],
-    queryFn: fetchClusterGroups,
-  });
+  const { data: clusterGroups = [], isLoading } = useClusterGroups();
 
   const setGroup = (group: string) => {
     formik.setFieldValue("target", `@${group}`);

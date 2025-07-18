@@ -17,7 +17,7 @@ import {
 } from "util/permissions";
 import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
-import type { LxdGroup, LxdPermission } from "types/permissions";
+import type { LxdAuthGroup, LxdPermission } from "types/permissions";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
@@ -31,7 +31,7 @@ export type FormPermission = LxdPermission & {
 interface Props {
   permissions: FormPermission[];
   setPermissions: (permissions: FormPermission[]) => void;
-  group?: LxdGroup;
+  group?: LxdAuthGroup;
 }
 
 const EditGroupPermissionsForm: FC<Props> = ({

@@ -1,23 +1,31 @@
 import type { FC } from "react";
-import { Button } from "@canonical/react-components";
-import { useNavigate } from "react-router-dom";
+import { Button, Icon } from "@canonical/react-components";
+import usePanelParams, { panels } from "util/usePanelParams";
+import EditClusterGroupPanel from "pages/cluster/panels/EditClusterGroupPanel";
 
 interface Props {
   group: string;
 }
 
 const EditClusterGroupBtn: FC<Props> = ({ group }) => {
-  const navigate = useNavigate();
+  const panelParams = usePanelParams();
 
   return (
-    <Button
-      className="u-no-margin--bottom"
-      onClick={async () =>
-        navigate(`/ui/cluster/group/${encodeURIComponent(group)}/edit`)
-      }
-    >
-      Edit group
-    </Button>
+    <>
+      <Button
+        appearance="base"
+        className="u-no-margin--bottom"
+        onClick={() => {
+          panelParams.openEditClusterGroup(group);
+        }}
+        title="Edit group"
+        hasIcon
+      >
+        <Icon name="edit" />
+      </Button>
+      {panelParams.panel === panels.editClusterGroups &&
+        panelParams.group === group && <EditClusterGroupPanel />}
+    </>
   );
 };
 
