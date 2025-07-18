@@ -1,10 +1,9 @@
 import type { FC } from "react";
-import { ActionButton } from "@canonical/react-components";
+import { ActionButton, useListener } from "@canonical/react-components";
 import { pluralize } from "util/instanceBulkActions";
 import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
 import { getFormChangeCount } from "util/formChangeCount";
 import { unstable_usePrompt as usePrompt } from "react-router";
-import useEventListener from "util/useEventListener";
 
 interface Props {
   formik: ConfigurationRowFormikProps;
@@ -33,7 +32,7 @@ const FormSubmitBtn: FC<Props> = ({
       e.returnValue = "Changes you made have not been saved.";
     }
   };
-  useEventListener("beforeunload", handleCloseTab);
+  useListener(window, handleCloseTab, "beforeunload");
 
   return (
     <ActionButton

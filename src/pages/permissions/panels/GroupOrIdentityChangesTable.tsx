@@ -1,4 +1,4 @@
-import { Button, Icon } from "@canonical/react-components";
+import { Button, Icon, useListener } from "@canonical/react-components";
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { ChangeSummary } from "util/permissionIdentities";
@@ -12,7 +12,6 @@ import {
   getAbsoluteHeightBelowBySelector,
   getElementAbsoluteHeight,
 } from "util/helpers";
-import useEventListener from "util/useEventListener";
 
 interface Props {
   identityGroupsChangeSummary: ChangeSummary;
@@ -158,7 +157,7 @@ const GroupsOrIdentityChangesTable: FC<Props> = ({
     }
   };
 
-  useEventListener("resize", updateModalTableHeight);
+  useListener(window, updateModalTableHeight, "resize", true);
   useEffect(updateModalTableHeight, [groupBy]);
 
   const handleChangeGroupBy = () => {

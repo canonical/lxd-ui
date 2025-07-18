@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import useEventListener from "util/useEventListener";
+import { useListener } from "@canonical/react-components";
 
 interface EditHistoryState<T = unknown> {
   currentState: T;
@@ -82,18 +82,22 @@ function useEditHistory<T>(props: EditHistoryProps<T>) {
     save(initialState);
   }, []);
 
-  useEventListener<"keydown">("keydown", (event) => {
-    const ctrlOrCmdKey = event.ctrlKey || event.metaKey;
-    if (ctrlOrCmdKey && !event.shiftKey && event.key.toLowerCase() === "z") {
-      event.preventDefault();
-      undo();
-    }
+  useListener(
+    window,
+    (event: KeyboardEvent) => {
+      const ctrlOrCmdKey = event.ctrlKey || event.metaKey;
+      if (ctrlOrCmdKey && !event.shiftKey && event.key.toLowerCase() === "z") {
+        event.preventDefault();
+        undo();
+      }
 
-    if (ctrlOrCmdKey && event.shiftKey && event.key.toLowerCase() === "z") {
-      event.preventDefault();
-      redo();
-    }
-  });
+      if (ctrlOrCmdKey && event.shiftKey && event.key.toLowerCase() === "z") {
+        event.preventDefault();
+        redo();
+      }
+    },
+    "keydown",
+  );
 
   const save = (payload: T) => {
     dispatch({ type: "save", payload });

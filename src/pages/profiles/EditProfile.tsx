@@ -6,6 +6,7 @@ import {
   Form,
   Notification,
   Row,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -43,7 +44,6 @@ import ProfileFormMenu, {
   YAML_CONFIGURATION,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { LxdProfile } from "types/profile";
-import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
@@ -106,7 +106,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const ProfileSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),

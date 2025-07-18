@@ -1,6 +1,11 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  useListener,
+  useNotify,
+} from "@canonical/react-components";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
@@ -9,7 +14,6 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { useSettings } from "context/useSettings";
@@ -95,7 +99,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
     updateMaxHeight("volume-create-form", "p-modal__footer", 32, undefined, []);
   };
   useEffect(updateFormHeight, [notify.notification?.message]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   return (
     <>

@@ -2,10 +2,10 @@ import type { FC, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Editor, loader } from "@monaco-editor/react";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import classnames from "classnames";
+import { useListener } from "@canonical/react-components";
 
 export interface YamlFormValues {
   yaml?: string;
@@ -46,7 +46,7 @@ const YamlForm: FC<Props> = ({
     }
     editor.layout();
   };
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
   useEffect(updateFormHeight, [editor, containerRef.current, yaml]);
 
   return (

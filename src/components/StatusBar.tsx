@@ -7,9 +7,9 @@ import {
   ICONS,
   Icon,
   useToastNotification,
+  useListener,
 } from "@canonical/react-components";
 import { iconLookup, severityOrder } from "util/notifications";
-import useEventListener from "util/useEventListener";
 import { useAuth } from "context/auth";
 
 interface Props {
@@ -21,12 +21,16 @@ const StatusBar: FC<Props> = ({ className }) => {
   const { toggleListView, notifications, countBySeverity, isListView } =
     useToastNotification();
 
-  useEventListener("keydown", (e: KeyboardEvent) => {
-    // Close notifications list if Escape pressed
-    if (e.code === "Escape" && isListView) {
-      toggleListView();
-    }
-  });
+  useListener(
+    window,
+    (e: KeyboardEvent) => {
+      // Close notifications list if Escape pressed
+      if (e.code === "Escape" && isListView) {
+        toggleListView();
+      }
+    },
+    "keydown",
+  );
 
   if (isAuthLoading || !isAuthenticated) {
     return null;

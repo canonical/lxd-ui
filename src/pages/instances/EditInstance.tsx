@@ -5,6 +5,7 @@ import {
   Col,
   Form,
   Row,
+  useListener,
   useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -41,7 +42,6 @@ import InstanceFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
-import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
@@ -122,7 +122,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const editRestriction = canEditInstance(instance)
     ? undefined

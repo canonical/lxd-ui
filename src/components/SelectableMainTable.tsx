@@ -1,4 +1,4 @@
-import type { FC, PointerEvent } from "react";
+import type { FC, MouseEvent, PointerEvent } from "react";
 import { useState } from "react";
 import type {
   MainTableRow,
@@ -9,9 +9,9 @@ import {
   ContextualMenu,
   Icon,
   MainTable,
+  useListener,
 } from "@canonical/react-components";
 import classnames from "classnames";
-import useEventListener from "util/useEventListener";
 import { pluralize } from "util/instanceBulkActions";
 
 interface SelectableMainTableProps {
@@ -59,11 +59,15 @@ const SelectableMainTable: FC<Props> = ({
   };
 
   // This is required to prevent default behaviour of text selection for the SHIFT + click mouse event
-  useEventListener<"mousedown">("mousedown", (event) => {
-    if (event.shiftKey && isCheckBoxTarget(event.target as HTMLElement)) {
-      event.preventDefault();
-    }
-  });
+  useListener(
+    window,
+    (event: MouseEvent) => {
+      if (event.shiftKey && isCheckBoxTarget(event.target as HTMLElement)) {
+        event.preventDefault();
+      }
+    },
+    "mousedown",
+  );
 
   const selectAll = () => {
     setSelectedNames(filteredNames);

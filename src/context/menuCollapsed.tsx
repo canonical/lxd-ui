@@ -1,10 +1,10 @@
 import { useState } from "react";
-import useEventListener from "util/useEventListener";
 import { isWidthBelow } from "util/helpers";
 import {
   mediumScreenBreakpoint,
   smallScreenBreakpoint,
 } from "./useIsScreenBelow";
+import { useListener } from "@canonical/react-components";
 
 const isSmallScreen = () => isWidthBelow(smallScreenBreakpoint);
 const isMediumScreen = () => isWidthBelow(mediumScreenBreakpoint);
@@ -23,7 +23,7 @@ export const useMenuCollapsed = () => {
     }
   };
 
-  useEventListener("resize", collapseOnMediumScreen);
+  useListener(window, collapseOnMediumScreen, "resize", true);
 
   const onSearchFilterPanelToggle = () => {
     if (!menuCollapsed && isSmallScreen()) {
@@ -31,7 +31,7 @@ export const useMenuCollapsed = () => {
     }
   };
 
-  useEventListener("sfp-toggle", onSearchFilterPanelToggle);
+  useListener(window, onSearchFilterPanelToggle, "sfp-toggle");
 
   return { menuCollapsed, setMenuCollapsed };
 };

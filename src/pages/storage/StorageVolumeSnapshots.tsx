@@ -5,11 +5,11 @@ import {
   Icon,
   SearchBox,
   TablePagination,
+  useListener,
   useNotify,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
-import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import Loader from "components/Loader";
@@ -183,7 +183,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
   };
-  useEventListener("resize", resize);
+  useListener(window, resize, "resize", true);
 
   if (error) {
     notify.failure("Loading storage volume snapshots failed", error);

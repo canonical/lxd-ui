@@ -1,9 +1,15 @@
 import type { FC, ReactNode } from "react";
 import { useEffect } from "react";
-import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
+import {
+  Col,
+  Form,
+  Input,
+  Row,
+  useListener,
+  useNotify,
+} from "@canonical/react-components";
 import { useParams } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import StorageVolumeFormMenu, {
   FILESYSTEM,
   MAIN_CONFIGURATION,
@@ -153,7 +159,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
     updateMaxHeight("form", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const poolDriver =
     pools.find((item) => item.name === formik.values.pool)?.driver ?? "";
