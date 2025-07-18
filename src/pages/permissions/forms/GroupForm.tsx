@@ -5,7 +5,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import FormLink from "components/FormLink";
 import { pluralize } from "util/instanceBulkActions";
-import type { LxdGroup } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
 export interface GroupFormValues {
@@ -21,7 +21,7 @@ interface Props {
   permissionCount: number;
   permissionModifyCount: number;
   isEditing?: boolean;
-  group?: LxdGroup;
+  group?: LxdAuthGroup;
 }
 
 const GroupForm: FC<Props> = ({

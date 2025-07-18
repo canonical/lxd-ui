@@ -1,4 +1,4 @@
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import {
   getCurrentIdentitiesForGroups,
   generateGroupAllocationsForIdentities,
@@ -17,7 +17,7 @@ describe("Permissions util functions for groups page", () => {
       {
         name: "group-3",
       },
-    ] as LxdGroup[];
+    ] as LxdAuthGroup[];
 
     const identities = [
       {
@@ -55,7 +55,7 @@ describe("Permissions util functions for groups page", () => {
       {
         name: "group-2",
       },
-    ] as LxdGroup[];
+    ] as LxdAuthGroup[];
     const addedOrRemovedIdentities = [
       {
         id: "user-1",
@@ -117,7 +117,7 @@ describe("Permissions util functions for groups page", () => {
       {
         name: "group-2",
       },
-    ] as LxdGroup[];
+    ] as LxdAuthGroup[];
 
     const identityGroupsChangeSummary = getChangesInGroupsForIdentities(
       allIdentities,

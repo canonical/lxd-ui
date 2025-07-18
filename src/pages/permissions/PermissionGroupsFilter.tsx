@@ -5,9 +5,15 @@ interface Props {
   onChange: (val: string) => void;
   value: string;
   disabled?: boolean;
+  className?: string;
 }
 
-const PermissionGroupsFilter: FC<Props> = ({ onChange, value, disabled }) => {
+const PermissionGroupsFilter: FC<Props> = ({
+  onChange,
+  value,
+  disabled,
+  className,
+}) => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value.toLowerCase());
   };
@@ -24,6 +30,7 @@ const PermissionGroupsFilter: FC<Props> = ({ onChange, value, disabled }) => {
         value={value}
         placeholder="Search groups"
         disabled={disabled}
+        className={className}
       />
     </div>
   );

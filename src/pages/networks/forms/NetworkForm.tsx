@@ -44,6 +44,7 @@ import {
   physicalType,
   sriovType,
 } from "util/networks";
+import { getFirstVisibleSection } from "util/scroll";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -262,16 +263,9 @@ const NetworkForm: FC<Props> = ({
     const wrapper = document.getElementById("content-details");
 
     const activateSectionOnScroll = () => {
-      const scrollTop = wrapper ? wrapper.scrollTop : 0;
-      for (const candidate of availableSections) {
-        const candidateSlug = slugify(candidate);
-        const element = document.getElementById(candidateSlug);
-        const elementOffset = element?.offsetTop ?? 0;
-        if (elementOffset > scrollTop) {
-          setSection(candidateSlug, "scroll");
-          return;
-        }
-      }
+      const sections = availableSections.map(slugify);
+      const activeSection = getFirstVisibleSection(sections, wrapper);
+      setSection(activeSection, "scroll");
     };
     const scrollListener = () => {
       debounce(activateSectionOnScroll, 20);
