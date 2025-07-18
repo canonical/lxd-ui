@@ -5,13 +5,13 @@ import {
   Icon,
   SearchBox,
   TablePagination,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import type { LxdInstance } from "types/instance";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
-import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
@@ -189,7 +189,7 @@ const InstanceSnapshots = (props: Props) => {
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
   };
-  useEventListener("resize", resize);
+  useListener(window, resize, "resize", true);
 
   return (
     <div className="snapshot-list">

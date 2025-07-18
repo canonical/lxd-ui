@@ -6,6 +6,7 @@ import {
   SideNavigationItem,
   Step,
   Stepper,
+  useListener,
 } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
@@ -23,7 +24,6 @@ import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { AccordionNavMenu } from "./NavAccordion";
 import NavAccordion from "./NavAccordion";
-import useEventListener from "util/useEventListener";
 import type { Location } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
@@ -187,7 +187,7 @@ const Navigation: FC = () => {
     setOpenNavMenus(newOpenMenus);
   };
 
-  useEventListener("resize", adjustNavigationScrollForOverflow);
+  useListener(window, adjustNavigationScrollForOverflow, "resize", true);
 
   const getNavTitle = (title: string) => {
     if (isAllProjects) {

@@ -5,9 +5,9 @@ import {
   CodeSnippetBlockAppearance,
   Notification,
   Strip,
+  useListener,
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { UI_VERSION } from "util/version";
 
 interface Props {
@@ -39,7 +39,7 @@ ${error?.stack ?? "No stack trace"}
     updateMaxHeight("error-info", undefined, 0, "max-height");
   };
   useEffect(updateHeight, []);
-  useEventListener("resize", updateHeight);
+  useListener(window, updateHeight, "resize", true);
 
   const errorBlocks = [];
   if (error?.message) {

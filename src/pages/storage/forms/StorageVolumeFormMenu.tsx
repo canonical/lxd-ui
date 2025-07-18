@@ -1,9 +1,8 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { useNotify } from "@canonical/react-components";
+import { useListener, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import type { FormikProps } from "formik/dist/types";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import type { LxdStorageVolumeContentType } from "types/storage";
@@ -44,7 +43,7 @@ const StorageVolumeFormMenu: FC<Props> = ({
     updateMaxHeight("form-navigation", "p-bottom-controls");
   };
   useEffect(resize, [notify.notification?.message]);
-  useEventListener("resize", resize);
+  useListener(window, resize, "resize", true);
   return (
     <div className="p-side-navigation--accordion form-navigation">
       <nav aria-label="Storage volume form navigation">

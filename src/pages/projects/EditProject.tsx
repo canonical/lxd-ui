@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import {
   Button,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -14,7 +15,6 @@ import type { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
 import type { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { getProjectEditValues, getProjectPayload } from "util/projectEdit";
 import type { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
@@ -50,7 +50,7 @@ const EditProject: FC<Props> = ({ project }) => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string().required(),

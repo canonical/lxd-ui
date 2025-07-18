@@ -7,9 +7,9 @@ import {
   Icon,
   Input,
   Modal,
+  useListener,
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import type { TerminalConnectPayload } from "types/terminal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -62,7 +62,7 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
   const updateContentHeight = () => {
     updateMaxHeight("content-wrapper", "p-modal__footer", 64, "max-height");
   };
-  useEventListener("resize", updateContentHeight);
+  useListener(window, updateContentHeight, "resize", true);
   useEffect(updateContentHeight, []);
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import {
   Form,
   Icon,
   Row,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -60,7 +61,6 @@ import InstanceFormMenu, {
   OTHER_DEVICES,
   PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
-import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
@@ -139,7 +139,7 @@ const CreateInstance: FC = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const clearCache = () => {
     queryClient.invalidateQueries({

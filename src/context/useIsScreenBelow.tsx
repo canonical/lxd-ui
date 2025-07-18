@@ -1,6 +1,6 @@
-import useEventListener from "util/useEventListener";
 import { useState } from "react";
 import { isWidthBelow } from "util/helpers";
+import { useListener } from "@canonical/react-components";
 
 export const smallScreenBreakpoint = 620;
 export const mediumScreenBreakpoint = 820;
@@ -16,7 +16,7 @@ export const useIsScreenBelow = (
       setScreenBelow(!isScreenBelow);
     }
   };
-  useEventListener("resize", updateIsBelow);
+  useListener(window, updateIsBelow, "resize", true);
 
   return isScreenBelow;
 };
