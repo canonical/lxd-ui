@@ -10,13 +10,13 @@ import {
   Notification,
   RadioInput,
   Row,
+  useListener,
   useNotify,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import * as Yup from "yup";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { testValidIp, testValidPort } from "util/networks";
 import NotificationRow from "components/NotificationRow";
 import type { NetworkForwardPortFormValues } from "pages/networks/forms/NetworkForwardFormPorts";
@@ -96,7 +96,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const addPort = () => {
     formik.setFieldValue("ports", [

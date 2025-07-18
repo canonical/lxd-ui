@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Row,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -22,7 +23,6 @@ import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useFormik } from "formik";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { useNavigate, useParams } from "react-router-dom";
 import { getClusterHeaders, getClusterRows } from "util/clusterGroups";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -116,7 +116,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   return (
     <BaseLayout

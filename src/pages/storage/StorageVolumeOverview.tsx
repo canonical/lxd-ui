@@ -1,9 +1,8 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { Col, Row } from "@canonical/react-components";
+import { Col, Row, useListener } from "@canonical/react-components";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import type { LxdStorageVolume } from "types/storage";
 import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
@@ -22,7 +21,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
     updateMaxHeight("storage-overview-tab");
   };
   useEffect(updateContentHeight, [volume]);
-  useEventListener("resize", updateContentHeight);
+  useListener(window, updateContentHeight, "resize", true);
   const { data: settings } = useSettings();
 
   return (

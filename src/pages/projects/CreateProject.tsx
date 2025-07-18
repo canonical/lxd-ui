@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -17,7 +18,6 @@ import {
 } from "util/helpers";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { createProject } from "api/projects";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import type { ProjectDetailsFormValues } from "pages/projects/forms/ProjectDetailsForm";
@@ -83,7 +83,7 @@ const CreateProject: FC = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const notifySuccess = (values: ProjectFormValues) => {
     navigate(`/ui/project/${encodeURIComponent(values.name)}/instances`);
