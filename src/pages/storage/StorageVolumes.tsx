@@ -70,7 +70,7 @@ const StorageVolumes: FC = () => {
   useEventListener("resize", resize);
 
   const filters: StorageVolumesFilterType = {
-    queries: searchParams.getAll(QUERY),
+    queries: searchParams.getAll(QUERY).map((query) => query.toLowerCase()),
     pools: searchParams.getAll(POOL),
     volumeTypes: searchParams
       .getAll(VOLUME_TYPE)
