@@ -13,7 +13,6 @@ interface Props {
 }
 
 const InstanceUsageCpu: FC<Props> = ({ instance }) => {
-  const isVm = instance.type === "virtual-machine";
   const { getMetricHistory } = useMetricHistory();
   const metricHistory = getMetricHistory();
   const [loadingSeconds, setLoadingSeconds] = useState(15);
@@ -50,19 +49,38 @@ const InstanceUsageCpu: FC<Props> = ({ instance }) => {
       return null;
     }
 
-    const totalDiff = nowCpu.cpuSecondsTotal - prevCpu.cpuSecondsTotal;
-    const idleDiff = nowCpu.cpuSecondsIdle - prevCpu.cpuSecondsIdle;
+    const getSecondsBusy = () => {
+      const nowSeconds = nowCpu.cpuSecondsTotal - nowCpu.cpuSecondsIdle;
+      const prevSeconds = prevCpu.cpuSecondsTotal - prevCpu.cpuSecondsIdle;
+      return nowSeconds - prevSeconds;
+    };
 
-    if (isVm && totalDiff === 0) {
+    const getCoreCount = () => {
+      if (nowCpu.coreCount > 0) {
+        return nowCpu.coreCount;
+      }
+
+      // fall back to instance config for VMs, which often have a 0 value for cores in metrics
+      const cpuLimit = instance.expanded_config["limits.cpu"];
+      if (cpuLimit) {
+        const limit = parseInt(cpuLimit);
+        return limit > 0 ? limit : 1;
+      }
+
+      // fall back to single core
+      return 1;
+    };
+
+    const busySeconds = getSecondsBusy();
+    const cores = getCoreCount();
+    const totalSeconds = (nowCpu.time - prevCpu.time) * cores;
+    const result = (100 * busySeconds) / totalSeconds;
+
+    if (result < 0) {
       return null;
     }
 
-    if (isVm) {
-      return (100 * (totalDiff - idleDiff)) / totalDiff;
-    } else {
-      const timeDiff = (nowCpu.time - prevCpu.time) * nowCpu.coreCount;
-      return (100 * totalDiff) / timeDiff;
-    }
+    return Math.min(result, 100);
   };
 
   const cpuUsage = calculateCpuUsage();
