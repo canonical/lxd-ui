@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.47% </span>
+                <span class="strong">64.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/19</span>
+                <span class='fraction'>20/31</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>18/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -79,26 +79,44 @@
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">268x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
-<span class="cline-any cline-yes">5401x</span>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">5542x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
 import { queryKeys } from "util/queryKeys";
 import type { UseQueryResult } from "@tanstack/react-query";
-import { fetchClusterMembers } from "api/cluster";
+import { fetchClusterMember, fetchClusterMembers } from "api/cluster-members";
 import type { LxdClusterMember } from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
 &nbsp;
@@ -111,6 +129,15 @@ export const useClusterMembers = <span class="fstat-no" title="function not cove
     enabled: isClustered,
   });
 };
+&nbsp;
+export const useClusterMember = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+<span class="cstat-no" title="statement not covered" >  name: string,</span>
+<span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdClusterMember&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.cluster, queryKeys.members, name],</span>
+<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchClusterMember(name),</span></span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -118,7 +145,7 @@ export const useClusterMembers = <span class="fstat-no" title="function not cove
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:38:02.813Z
+                at 2025-07-21T13:07:48.028Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

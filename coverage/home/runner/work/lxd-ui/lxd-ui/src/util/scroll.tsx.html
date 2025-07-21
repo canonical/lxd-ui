@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">64.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>24/37</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>10/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>22/24</span>
             </div>
         
             
@@ -61,17 +61,80 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
-<a name='L4'></a><a href='#L4'>4</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">172x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">179x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">179x</span>
+<span class="cline-any cline-yes">179x</span>
+<span class="cline-any cline-yes">179x</span>
+<span class="cline-any cline-yes">179x</span>
+<span class="cline-any cline-yes">179x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">444x</span>
+<span class="cline-any cline-yes">444x</span>
+<span class="cline-any cline-yes">444x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">119x</span>
+<span class="cline-any cline-yes">325x</span>
+<span class="cline-any cline-yes">325x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const scrollToElement = <span class="fstat-no" title="function not covered" >(i</span>d: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >  document.getElementById(id)?.scrollIntoView();</span>
 };
+&nbsp;
+/**
+ * Returns the first section that is in the viewport.
+ */
+export const getFirstVisibleSection = <span class="fstat-no" title="function not covered" >(</span>
+  sections: string[],
+  wrapper: HTMLElement | null,
+) =&gt; {
+  const scrollTop = <span class="cstat-no" title="statement not covered" >wrapper ? wrapper.scrollTop : 0;</span>
+  const offsetTop = <span class="cstat-no" title="statement not covered" >wrapper ? wrapper.offsetTop : 0;</span>
+  let previousCandidate = <span class="cstat-no" title="statement not covered" >sections[0];</span>
+<span class="cstat-no" title="statement not covered" >  for (const candidate of sections) {</span>
+    const element = <span class="cstat-no" title="statement not covered" >document.getElementById(candidate.toLowerCase());</span>
+    const elementOffset = <span class="cstat-no" title="statement not covered" >element?.offsetTop ?? 0;</span>
+<span class="cstat-no" title="statement not covered" >    if (elementOffset &gt; scrollTop + offsetTop) {</span>
+<span class="cstat-no" title="statement not covered" >      return previousCandidate;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    previousCandidate = candidate;</span>
+  }
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return previousCandidate;</span></span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -79,7 +142,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:38:02.813Z
+                at 2025-07-21T13:07:48.028Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

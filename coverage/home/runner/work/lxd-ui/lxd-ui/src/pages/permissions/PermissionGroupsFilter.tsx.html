@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">86.04% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/36</span>
+                <span class='fraction'>37/43</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.75% </span>
+                <span class="strong">94.87% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>30/32</span>
+                <span class='fraction'>37/39</span>
             </div>
         
             
@@ -95,64 +95,85 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">262x</span>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Input } from "@canonical/react-components";
-import type { ChangeEvent, FC } from "react";
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">261x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { SearchBox } from "@canonical/react-components";
+import type { FC } from "react";
 &nbsp;
 interface Props {
   onChange: (val: string) =&gt; void;
   value: string;
   disabled?: boolean;
+  className?: string;
 }
 &nbsp;
-const PermissionGroupsFilter: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> onChange, value, disabled }) =&gt; {</span>
-  const handleSearchChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onChange(e.target.value.toLowerCase());</span></span>
+const PermissionGroupsFilter: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+  onChange,
+  value,
+  disabled,
+  className,
+}) =&gt; {
+  const handleSearchChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue: string) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onChange(value.toLowerCase());</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div className="permission-groups-filter"&gt;
-      &lt;Input
+      &lt;SearchBox
         id="search-groups"
         label="Search groups"
-        labelClassName="u-off-screen"
         name="search-groups"
         type="text"
+        onSearch={handleSearchChange}
         onChange={handleSearchChange}
         value={value}
         placeholder="Search groups"
         disabled={disabled}
+        className={className}
       /&gt;
     &lt;/div&gt;
   );
@@ -166,7 +187,7 @@ export default PermissionGroupsFilter;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:38:02.813Z
+                at 2025-07-21T13:07:48.028Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

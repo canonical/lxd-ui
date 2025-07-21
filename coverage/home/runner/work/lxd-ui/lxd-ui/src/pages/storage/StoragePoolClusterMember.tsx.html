@@ -101,44 +101,44 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">98x</span>
-<span class="cline-any cline-yes">150x</span>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
-<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import ResourceLink from "components/ResourceLink";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { FC } from "react";
@@ -160,16 +160,16 @@ export const StoragePoolClusterMember: FC&lt;Props&gt; = <span class="cstat-no" 
 <span class="cstat-no" title="statement not covered" >          return (</span>
             &lt;div className="clustered-resource-link" key={member.server_name}&gt;
               &lt;ResourceLink
-                to="/ui/cluster"
                 type="cluster-member"
                 value={member.server_name}
+                to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
               /&gt;
             &lt;/div&gt;
           );
         }<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
 <span class="cstat-no" title="statement not covered" >      ) : (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >          to="/ui/cluster"</span>
+<span class="cstat-no" title="statement not covered" >          to="/ui/cluster/members"</span>
 <span class="cstat-no" title="statement not covered" >          type="cluster-group"</span>
 <span class="cstat-no" title="statement not covered" >          value="Cluster wide"</span>
         /&gt;
@@ -184,7 +184,7 @@ export const StoragePoolClusterMember: FC&lt;Props&gt; = <span class="cstat-no" 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:38:02.813Z
+                at 2025-07-21T13:07:48.028Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
