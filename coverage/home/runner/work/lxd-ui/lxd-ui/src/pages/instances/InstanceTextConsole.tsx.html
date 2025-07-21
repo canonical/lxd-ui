@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.14% </span>
+                <span class="strong">9.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/276</span>
+                <span class='fraction'>27/280</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.58% </span>
+                <span class="strong">13.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/192</span>
+                <span class='fraction'>27/196</span>
             </div>
         
             
@@ -255,7 +255,11 @@
 <a name='L190'></a><a href='#L190'>190</a>
 <a name='L191'></a><a href='#L191'>191</a>
 <a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -280,7 +284,11 @@
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -457,13 +465,12 @@ import {
 } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import Loader from "components/Loader";
-import useEventListener from "util/useEventListener";
 import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
 import Xterm from "components/Xterm";
 import type { Terminal } from "xterm";
-import { useNotify } from "@canonical/react-components";
+import { useListener, useNotify } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 &nbsp;
 interface Props {
@@ -500,7 +507,7 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      e.returnValue = "Are you sure you want to leave this page?";</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEventListener("beforeunload", handleCloseTab);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(window, handleCloseTab, "beforeunload");</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const isRunning = <span class="cstat-no" title="statement not covered" >isInstanceRunning(instance);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -613,10 +620,15 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  // calling handleResize again after a timeout to fix a race condition</span>
 <span class="cstat-no" title="statement not covered" >  // between updateMaxHeight and fitAddon.fit</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEventListener("resize", <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    handleResize();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setTimeout(handleResize, 500);</span></span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(</span></span>
+<span class="cstat-no" title="statement not covered" >    window,</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    () =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      handleResize();</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setTimeout(handleResize, 500);</span></span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "resize",</span>
+<span class="cstat-no" title="statement not covered" >    true,</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
@@ -646,7 +658,7 @@ export default InstanceTextConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:31:33.577Z
+                at 2025-07-21T12:38:02.813Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

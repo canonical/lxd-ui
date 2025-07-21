@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.4% </span>
+                <span class="strong">13.8% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/236</span>
+                <span class='fraction'>33/239</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">19.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/170</span>
+                <span class='fraction'>33/173</span>
             </div>
         
             
@@ -233,7 +233,10 @@
 <a name='L168'></a><a href='#L168'>168</a>
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -264,7 +267,10 @@
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -409,11 +415,10 @@ import { useParams } from "react-router-dom";
 import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import useEventListener from "util/useEventListener";
 import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
-import { useNotify } from "@canonical/react-components";
+import { useListener, useNotify } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 &nbsp;
 declare global {
@@ -518,19 +523,23 @@ const InstanceGraphicConsole: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return control;</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEventListener("resize", handleResize);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(window, handleResize, "resize", true);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(handleResize, [notify.notification?.message]);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEventListener("spice-wheel", <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!spiceRef.current?.parentElement || !("detail" in e)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    const wheelEvent = (<span class="cstat-no" title="statement not covered" >e as unknown as SpiceWheelEvent).detail.wheelEvent;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    spiceRef.current.parentElement.scrollBy(</span></span>
-<span class="cstat-no" title="statement not covered" >      wheelEvent.deltaX,</span>
-<span class="cstat-no" title="statement not covered" >      wheelEvent.deltaY,</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(</span></span>
+<span class="cstat-no" title="statement not covered" >    window,</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (e</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (!spiceRef.current?.parentElement || !("detail" in e)) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >      const wheelEvent = (<span class="cstat-no" title="statement not covered" >e as unknown as SpiceWheelEvent).detail.wheelEvent;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      spiceRef.current.parentElement.scrollBy(</span></span>
+<span class="cstat-no" title="statement not covered" >        wheelEvent.deltaX,</span>
+<span class="cstat-no" title="statement not covered" >        wheelEvent.deltaY,</span>
+<span class="cstat-no" title="statement not covered" >      );</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "spice-wheel",</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
@@ -580,7 +589,7 @@ export default InstanceGraphicConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:31:33.577Z
+                at 2025-07-21T12:38:02.813Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

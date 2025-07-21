@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.52% </span>
+                <span class="strong">73.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>158/234</span>
+                <span class='fraction'>173/234</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.1% </span>
+                <span class="strong">43.58% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>16/38</span>
+                <span class='fraction'>17/39</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.44% </span>
+                <span class="strong">89.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>158/194</span>
+                <span class='fraction'>173/194</span>
             </div>
         
             
@@ -359,21 +359,21 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -553,21 +553,21 @@ const CreateNetwork: FC = <span class="cstat-no" title="statement not covered" >
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      mutation()</span>
         .then(() =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span></span>
-<span class="cstat-no" title="statement not covered" >            queryKey: [queryKeys.projects, project, queryKeys.networks],</span>
-<span class="cstat-no" title="statement not covered" >          });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          navigate(`/ui/project/${encodeURIComponent(project)}/networks`);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.success(</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >              Network{" "}</span>
-<span class="cstat-no" title="statement not covered" >              &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >                type="network"</span>
-<span class="cstat-no" title="statement not covered" >                value={values.name}</span>
-<span class="cstat-no" title="statement not covered" >                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}</span>
-<span class="cstat-no" title="statement not covered" >              /&gt;{" "}</span>
-<span class="cstat-no" title="statement not covered" >              created.</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
-<span class="cstat-no" title="statement not covered" >          );</span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
+            queryKey: [queryKeys.projects, project, queryKeys.networks],
+          });
+<span class="cstat-no" title="statement not covered" >          navigate(`/ui/project/${encodeURIComponent(project)}/networks`);</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
+            &lt;&gt;
+              Network{" "}
+              &lt;ResourceLink
+                type="network"
+                value={values.name}
+                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
+              /&gt;{" "}
+              created.
+            &lt;/&gt;,
+          );
         })
         .catch((e) =&gt; {
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span></span>
@@ -652,7 +652,7 @@ export default CreateNetwork;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-21T12:31:33.577Z
+                at 2025-07-21T12:38:02.813Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
