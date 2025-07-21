@@ -1,11 +1,11 @@
 import type { DependencyList, FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
-import useEventListener from "util/useEventListener";
 import {
   getAbsoluteHeightBelowById,
   getParentsBottomSpacing,
 } from "util/helpers";
 import classnames from "classnames";
+import { useListener } from "@canonical/react-components";
 
 interface Props {
   children: ReactNode;
@@ -39,7 +39,7 @@ const ScrollableContainer: FC<Props> = ({
     childContainer.setAttribute("style", style);
   };
 
-  useEventListener("resize", updateChildContainerHeight);
+  useListener(window, updateChildContainerHeight, "resize", true);
   useEffect(updateChildContainerHeight, [...dependencies, ref]);
 
   return (

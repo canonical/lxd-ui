@@ -1,10 +1,9 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { Col, Row } from "@canonical/react-components";
+import { Col, Row, useListener } from "@canonical/react-components";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import type { LxdStoragePool } from "types/storage";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
 import { isClusterLocalDriver } from "util/storagePool";
@@ -20,7 +19,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
     updateMaxHeight("storage-overview-tab");
   };
   useEffect(updateContentHeight, [project, pool]);
-  useEventListener("resize", updateContentHeight);
+  useListener(window, updateContentHeight, "resize", true);
   const isClustered = useIsClustered();
   const hasMemberSpecificSize = isClusterLocalDriver(pool.driver);
 

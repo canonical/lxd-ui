@@ -6,6 +6,7 @@ import {
   Icon,
   Row,
   TablePagination,
+  useListener,
   useNotify,
 } from "@canonical/react-components";
 import Loader from "components/Loader";
@@ -43,7 +44,6 @@ import {
 } from "util/storageVolumeTable";
 import StorageVolumeNameLink from "./StorageVolumeNameLink";
 import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
-import useEventListener from "util/useEventListener";
 import useSortTableData from "util/useSortTableData";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
@@ -67,7 +67,7 @@ const StorageVolumes: FC = () => {
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
   };
-  useEventListener("resize", resize);
+  useListener(window, resize, "resize", true);
 
   const filters: StorageVolumesFilterType = {
     queries: searchParams.getAll(QUERY).map((query) => query.toLowerCase()),

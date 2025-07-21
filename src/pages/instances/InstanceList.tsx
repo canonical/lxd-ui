@@ -8,6 +8,7 @@ import {
   Row,
   Spinner,
   TablePagination,
+  useListener,
   useNotify,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
@@ -18,7 +19,6 @@ import Loader from "components/Loader";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import TableColumnsSelect from "components/TableColumnsSelect";
-import useEventListener from "util/useEventListener";
 import classnames from "classnames";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useInstanceLoading } from "context/instanceLoading";
@@ -135,7 +135,7 @@ const InstanceList: FC = () => {
   const setCreateButtonLabel = () => {
     _setCreateButtonLabel(isMediumScreen ? "Create" : "Create instance");
   };
-  useEventListener("resize", setCreateButtonLabel);
+  useListener(window, setCreateButtonLabel, "resize", true);
 
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
@@ -595,7 +595,7 @@ const InstanceList: FC = () => {
       setSizeHidden(sizeHiddenNew);
     }
   };
-  useEventListener("resize", figureSizeHidden);
+  useListener(window, figureSizeHidden, "resize", true);
   useEffect(figureSizeHidden, [
     panelParams.instance,
     userHidden,

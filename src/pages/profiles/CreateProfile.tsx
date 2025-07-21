@@ -6,6 +6,7 @@ import {
   Col,
   Form,
   Row,
+  useListener,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -57,7 +58,6 @@ import ProfileDetailsForm, {
   profileDetailPayload,
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";
@@ -120,7 +120,7 @@ const CreateProfile: FC = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const formik = useFormik<CreateProfileFormValues>({
     initialValues: {

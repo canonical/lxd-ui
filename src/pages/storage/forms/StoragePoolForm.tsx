@@ -6,6 +6,7 @@ import {
   Input,
   Notification,
   Row,
+  useListener,
   useNotify,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik";
@@ -20,7 +21,6 @@ import StoragePoolFormMenu, {
   YAML_CONFIGURATION,
   ZFS_CONFIGURATION,
 } from "./StoragePoolFormMenu";
-import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdStoragePool } from "types/storage";
 import {
@@ -237,7 +237,7 @@ const StoragePoolForm: FC<Props> = ({
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+  useListener(window, updateFormHeight, "resize", true);
 
   const getYaml = () => {
     const payload = toStoragePool(formik.values);

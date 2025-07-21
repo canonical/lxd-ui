@@ -4,7 +4,6 @@ import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { FitAddon } from "xterm-addon-fit";
 import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import useEventListener from "util/useEventListener";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import type { TerminalConnectPayload } from "types/terminal";
 import Loader from "components/Loader";
@@ -18,6 +17,7 @@ import {
   EmptyState,
   Icon,
   Notification,
+  useListener,
   useNotify,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
@@ -87,7 +87,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       e.returnValue = "Are you sure you want to leave this page?";
     }
   };
-  useEventListener("beforeunload", handleCloseTab);
+  useListener(window, handleCloseTab, "beforeunload");
 
   const openWebsockets = async (payload: TerminalConnectPayload) => {
     if (!name) {
@@ -224,10 +224,15 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
 
   // calling handleResize again after a timeout to fix a race condition
   // between updateMaxHeight and fitAddon.fit
-  useEventListener("resize", () => {
-    handleResize();
-    setTimeout(handleResize, 500);
-  });
+  useListener(
+    window,
+    () => {
+      handleResize();
+      setTimeout(handleResize, 500);
+    },
+    "resize",
+    true,
+  );
 
   const handleTerminalOpen = () => {
     handleResize();

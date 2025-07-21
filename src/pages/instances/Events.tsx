@@ -6,8 +6,7 @@ import { useAuth } from "context/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useOperations } from "context/operationsProvider";
-import { useNotify } from "@canonical/react-components";
-import useEventListener from "util/useEventListener";
+import { useListener, useNotify } from "@canonical/react-components";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
@@ -47,7 +46,7 @@ const Events: FC = () => {
       eventWs.close();
     }
   };
-  useEventListener("visibilitychange", reconnectWsOnFocusTab);
+  useListener(window, reconnectWsOnFocusTab, "visibilitychange");
 
   const handleEvent = (event: LxdEvent) => {
     const eventCallback = eventQueue.get(event.metadata.id);

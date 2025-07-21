@@ -1,10 +1,9 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { isoTimeToString } from "util/helpers";
-import { Col, Row, useNotify } from "@canonical/react-components";
+import { Col, Row, useListener, useNotify } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
-import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
@@ -34,7 +33,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
     updateMaxHeight("instance-overview-tab");
   };
   useEffect(updateContentHeight, [notify.notification?.message]);
-  useEventListener("resize", updateContentHeight);
+  useListener(window, updateContentHeight, "resize", true);
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;

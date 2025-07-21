@@ -4,11 +4,10 @@ import { useParams } from "react-router-dom";
 import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import useEventListener from "util/useEventListener";
 import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
-import { useNotify } from "@canonical/react-components";
+import { useListener, useNotify } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 
 declare global {
@@ -113,19 +112,23 @@ const InstanceGraphicConsole: FC<Props> = ({
     return control;
   };
 
-  useEventListener("resize", handleResize);
+  useListener(window, handleResize, "resize", true);
   useEffect(handleResize, [notify.notification?.message]);
 
-  useEventListener("spice-wheel", (e) => {
-    if (!spiceRef.current?.parentElement || !("detail" in e)) {
-      return;
-    }
-    const wheelEvent = (e as unknown as SpiceWheelEvent).detail.wheelEvent;
-    spiceRef.current.parentElement.scrollBy(
-      wheelEvent.deltaX,
-      wheelEvent.deltaY,
-    );
-  });
+  useListener(
+    window,
+    (e) => {
+      if (!spiceRef.current?.parentElement || !("detail" in e)) {
+        return;
+      }
+      const wheelEvent = (e as unknown as SpiceWheelEvent).detail.wheelEvent;
+      spiceRef.current.parentElement.scrollBy(
+        wheelEvent.deltaX,
+        wheelEvent.deltaY,
+      );
+    },
+    "spice-wheel",
+  );
 
   useEffect(() => {
     notify.clear();

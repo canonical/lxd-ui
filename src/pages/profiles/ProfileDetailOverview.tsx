@@ -1,9 +1,14 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Notification, Row, useNotify } from "@canonical/react-components";
+import {
+  Col,
+  Notification,
+  Row,
+  useListener,
+  useNotify,
+} from "@canonical/react-components";
 import type { LxdProfile } from "types/profile";
-import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ProfileInstances from "./ProfileInstances";
 import ItemName from "components/ItemName";
@@ -35,7 +40,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
     updateMaxHeight("profile-overview-tab");
   };
   useEffect(updateContentHeight, []);
-  useEventListener("resize", updateContentHeight);
+  useListener(window, updateContentHeight, "resize", true);
 
   const hasCloudInit =
     profile.config["cloud-init.user-data"] ||

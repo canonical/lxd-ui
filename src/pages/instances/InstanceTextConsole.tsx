@@ -8,13 +8,12 @@ import {
 } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import Loader from "components/Loader";
-import useEventListener from "util/useEventListener";
 import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
 import Xterm from "components/Xterm";
 import type { Terminal } from "xterm";
-import { useNotify } from "@canonical/react-components";
+import { useListener, useNotify } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 
 interface Props {
@@ -51,7 +50,7 @@ const InstanceTextConsole: FC<Props> = ({
       e.returnValue = "Are you sure you want to leave this page?";
     }
   };
-  useEventListener("beforeunload", handleCloseTab);
+  useListener(window, handleCloseTab, "beforeunload");
 
   const isRunning = isInstanceRunning(instance);
 
@@ -164,10 +163,15 @@ const InstanceTextConsole: FC<Props> = ({
 
   // calling handleResize again after a timeout to fix a race condition
   // between updateMaxHeight and fitAddon.fit
-  useEventListener("resize", () => {
-    handleResize();
-    setTimeout(handleResize, 500);
-  });
+  useListener(
+    window,
+    () => {
+      handleResize();
+      setTimeout(handleResize, 500);
+    },
+    "resize",
+    true,
+  );
 
   return (
     <>
