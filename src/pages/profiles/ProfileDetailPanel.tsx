@@ -37,6 +37,7 @@ const ProfileDetailPanel: FC = () => {
       hasError={!profile || !project}
       className="u-hide--medium u-hide--small detail-panel profile-detail-panel"
       pinned
+      width="narrow"
     >
       <SidePanel.Sticky>
         <SidePanel.Header>
