@@ -1,4 +1,4 @@
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import {
   getGroupsForIdentities,
   generateGroupAllocationsForIdentities,
@@ -30,7 +30,7 @@ describe("Permissions util functions for identities page", () => {
           tls: [],
         },
       },
-    ] as LxdGroup[];
+    ] as LxdAuthGroup[];
 
     const identities = [
       {

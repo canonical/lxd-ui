@@ -1,5 +1,5 @@
-import type { FC } from "react";
-import { Input, Select } from "@canonical/react-components";
+import type { FC, ReactNode } from "react";
+import { Select } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import type { ProjectFormValues } from "pages/projects/CreateProject";
@@ -8,6 +8,8 @@ import { optionAllowBlock } from "util/projectOptions";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
+import ResourceLink from "components/ResourceLink";
+import ClusterGroupSelector from "pages/cluster/ClusterGroupSelector";
 
 export interface ClusterRestrictionFormValues {
   restricted_cluster_groups?: string;
@@ -38,7 +40,26 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_cluster_groups",
           label: "Cluster groups targeting",
           defaultValue: "",
-          children: <Input placeholder="Enter value" type="text" />,
+          children: <ClusterGroupSelector formik={formik} />,
+          readOnlyRenderer: (val): ReactNode => {
+            if (val === "-" || typeof val !== "string") {
+              return val;
+            }
+
+            const groups = val.split(",").filter(Boolean);
+            return (
+              <span className="restricted-cluster-groups">
+                {groups?.map((group) => (
+                  <ResourceLink
+                    key={group}
+                    type="cluster-group"
+                    value={group}
+                    to="/ui/cluster/groups"
+                  />
+                ))}
+              </span>
+            );
+          },
         }),
 
         getConfigurationRow({

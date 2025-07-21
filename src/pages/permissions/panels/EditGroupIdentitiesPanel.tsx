@@ -14,12 +14,14 @@ import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
 import { pluralize } from "util/instanceBulkActions";
-import type { LxdGroup } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
 import type { PermissionIdentitiesFilterType } from "../PermissionIdentitiesFilter";
+import { isSystemIdentity } from "../PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
+  SYSTEM_IDENTITIES,
   QUERY,
 } from "../PermissionIdentitiesFilter";
 import NotificationRow from "components/NotificationRow";
@@ -39,7 +41,7 @@ interface IdentityEditHistory {
 }
 
 interface Props {
-  groups: LxdGroup[];
+  groups: LxdAuthGroup[];
 }
 
 const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
@@ -198,9 +200,14 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
   const filters: PermissionIdentitiesFilterType = {
     queries: searchParams.getAll(QUERY),
     authMethod: searchParams.getAll(AUTH_METHOD),
+    systemIdentities: searchParams.get(SYSTEM_IDENTITIES),
   };
 
   const filteredIdentities = fineGrainedIdentities.filter((identity) => {
+    if (filters.systemIdentities === "hide" && isSystemIdentity(identity)) {
+      return false;
+    }
+
     if (
       !filters.queries.every(
         (q) =>

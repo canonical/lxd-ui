@@ -1,24 +1,34 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { postClusterMemberState } from "api/cluster";
+import { postClusterMemberState } from "api/cluster-members";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdClusterMember } from "types/cluster";
 import {
   ConfirmationButton,
+  Icon,
   Select,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
+import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   member: LxdClusterMember;
+  hasLabel?: boolean;
+  className?: string;
+  onClose?: () => void;
 }
 
-const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
+const EvacuateClusterMemberBtn: FC<Props> = ({
+  member,
+  hasLabel = false,
+  className,
+  onClose,
+}) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
@@ -42,7 +52,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
         <ResourceLink
           type="cluster-member"
           value={member.server_name}
-          to="/ui/cluster"
+          to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
         />{" "}
         evacuation completed.
       </>,
@@ -56,7 +66,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
       <ResourceLink
         type="cluster-member"
         value={member.server_name}
-        to="/ui/cluster"
+        to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
       />,
     );
   };
@@ -71,7 +81,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
             <ResourceLink
               type="cluster-member"
               value={member.server_name}
-              to="/ui/cluster"
+              to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
             />{" "}
             evacuation started.
           </>,
@@ -82,6 +92,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
           handleFailure,
           invalidateCache,
         );
+        onClose?.();
       })
       .catch((e) => notify.failure("Member evacuation failed", e))
       .finally(() => {
@@ -92,9 +103,9 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
 
   return (
     <ConfirmationButton
-      appearance=""
+      appearance={hasLabel ? "" : "base"}
       loading={isLoading}
-      disabled={isLoading}
+      disabled={isLoading || member.status !== "Online"}
       confirmationModalProps={{
         title: "Confirm evacuation",
         children: (
@@ -137,8 +148,11 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
         onConfirm: handleEvacuate,
       }}
       shiftClickEnabled
+      title="Evacuate cluster member"
+      className={classnames(className, "has-icon u-no-margin--bottom")}
     >
-      <span>Evacuate</span>
+      <Icon name="stop" />
+      {hasLabel && <span>Evacuate</span>}
     </ConfirmationButton>
   );
 };

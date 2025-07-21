@@ -9,6 +9,7 @@ export interface PanelHelper {
   group: string | null;
   idpGroup: string | null;
   identity: string | null;
+  member: string | null;
   subForm: GroupSubForm;
   project: string;
   bucket: string | null;
@@ -27,6 +28,10 @@ export interface PanelHelper {
   openCreateTLSIdentity: () => void;
   openCreateStorageBucket: (project: string) => void;
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
+  openAddClusterMember: () => void;
+  openCreateClusterGroup: () => void;
+  openEditMember: (name: string) => void;
+  openEditClusterGroup: (group: string) => void;
   openCreateStorageBucketKey: (project: string) => void;
   openEditStorageBucketKey: (key: string) => void;
 }
@@ -45,6 +50,10 @@ export const panels = {
   editStorageBucket: "edit-bucket",
   createStorageBucketKey: "create-bucket-key",
   editStorageBucketKey: "edit-bucket-key",
+  createClusterGroup: "create-cluster-group",
+  editClusterGroups: "edit-cluster-group",
+  addClusterMember: "add-cluster-member",
+  editClusterMember: "edit-cluster-member",
 };
 
 type ParamMap = Record<string, string>;
@@ -77,6 +86,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("identity");
     newParams.delete("idp-group");
     newParams.delete("instance");
+    newParams.delete("member");
     newParams.delete("panel");
     newParams.delete("profile");
     newParams.delete("panel-project");
@@ -97,6 +107,7 @@ const usePanelParams = (): PanelHelper => {
     identity: params.get("identity"),
     group: params.get("group"),
     idpGroup: params.get("idp-group"),
+    member: params.get("member"),
     subForm: params.get("sub-form") as GroupSubForm,
     bucket: params.get("bucket"),
     key: params.get("bucket-key"),
@@ -172,6 +183,22 @@ const usePanelParams = (): PanelHelper => {
         target: target || "",
       };
       setPanelParams(panels.editStorageBucket, params);
+    },
+
+    openAddClusterMember: () => {
+      setPanelParams(panels.addClusterMember);
+    },
+
+    openCreateClusterGroup: () => {
+      setPanelParams(panels.createClusterGroup);
+    },
+
+    openEditMember: (member) => {
+      setPanelParams(panels.editClusterMember, { member });
+    },
+
+    openEditClusterGroup: (group) => {
+      setPanelParams(panels.editClusterGroups, { group });
     },
 
     openCreateStorageBucketKey: () => {

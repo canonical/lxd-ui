@@ -21,6 +21,7 @@ export type ResourceIconType =
   | "volume"
   | "iso-volume"
   | "image"
+  | "metric"
   | "oidc-identity"
   | "certificate"
   | "auth-group"
@@ -52,6 +53,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   setting: "settings",
   bucket: "status-queued-small",
   "bucket-key": "private-key",
+  metric: "statistics",
 };
 
 interface Props {

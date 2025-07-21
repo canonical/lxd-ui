@@ -9,7 +9,7 @@ import type { LxdIdentity } from "types/permissions";
 import NotificationRow from "components/NotificationRow";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
-import { useGroups } from "context/useGroups";
+import { useAuthGroups } from "context/useAuthGroups";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -26,7 +26,7 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
   const notify = useNotify();
   const [confirming, setConfirming] = useState(false);
 
-  const { data: groups = [], error, isLoading } = useGroups();
+  const { data: groups = [], error, isLoading } = useAuthGroups();
 
   const {
     desiredState,
@@ -153,8 +153,8 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
 
   const panelTitle =
     identities.length > 1
-      ? `Change groups for ${identities.length} identities`
-      : `Change groups for ${identities[0]?.name}`;
+      ? `Change auth groups for ${identities.length} identities`
+      : `Change auth groups for ${identities[0]?.name}`;
 
   return (
     <>

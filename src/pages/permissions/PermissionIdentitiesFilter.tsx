@@ -10,16 +10,26 @@ import {
   paramsFromSearchData,
   searchParamsToChips,
 } from "util/searchAndFilter";
+import type { LxdIdentity } from "types/permissions";
 
 export interface PermissionIdentitiesFilterType {
   queries: string[];
   authMethod: string[];
+  systemIdentities: string | null;
 }
 export const QUERY = "query";
 export const AUTH_METHOD = "auth-method";
+export const SYSTEM_IDENTITIES = "system-identities";
 
 const authMethods: string[] = ["tls", "oidc"];
-const QUERY_PARAMS = [QUERY, AUTH_METHOD];
+const QUERY_PARAMS = [QUERY, AUTH_METHOD, SYSTEM_IDENTITIES];
+
+export const isSystemIdentity = (identity: LxdIdentity) => {
+  return (
+    identity.type.startsWith("Server certificate") ||
+    identity.type.startsWith("Metrics certificate")
+  );
+};
 
 const PermissionIdentitiesFilter: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,6 +41,11 @@ const PermissionIdentitiesFilter: FC = () => {
       chips: authMethods.map((method) => {
         return { lead: AUTH_METHOD, value: method };
       }),
+    },
+    {
+      id: 2,
+      heading: "System identities",
+      chips: [{ lead: SYSTEM_IDENTITIES, value: "hide" }],
     },
   ];
 

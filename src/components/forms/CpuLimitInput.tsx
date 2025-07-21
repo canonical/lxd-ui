@@ -23,7 +23,7 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.resources],
-    queryFn: fetchResources,
+    queryFn: async () => fetchResources(),
     enabled: canViewResources(),
   });
 

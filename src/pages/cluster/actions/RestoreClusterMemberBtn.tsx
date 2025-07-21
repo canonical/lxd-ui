@@ -1,24 +1,34 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { postClusterMemberState } from "api/cluster";
+import { postClusterMemberState } from "api/cluster-members";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdClusterMember } from "types/cluster";
 import {
   CheckboxInput,
   ConfirmationButton,
+  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
+import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   member: LxdClusterMember;
+  hasLabel?: boolean;
+  className?: string;
+  onClose?: () => void;
 }
 
-const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
+const RestoreClusterMemberBtn: FC<Props> = ({
+  member,
+  hasLabel = false,
+  className,
+  onClose,
+}) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
@@ -42,7 +52,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
         <ResourceLink
           type="cluster-member"
           value={member.server_name}
-          to="/ui/cluster"
+          to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
         />{" "}
         restore completed.
       </>,
@@ -56,7 +66,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
       <ResourceLink
         type="cluster-member"
         value={member.server_name}
-        to="/ui/cluster"
+        to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
       />,
     );
   };
@@ -69,7 +79,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
           <>
             Member{" "}
             <ResourceLink
-              to="/ui/cluster"
+              to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
               type="cluster-member"
               value={member.server_name}
             />{" "}
@@ -82,6 +92,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
           handleFailure,
           invalidateCache,
         );
+        onClose?.();
       })
       .catch((e) => notify.failure("Member restore failed", e))
       .finally(() => {
@@ -92,9 +103,9 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
 
   return (
     <ConfirmationButton
-      appearance=""
+      appearance={hasLabel ? "" : "base"}
       loading={isLoading}
-      disabled={isLoading}
+      disabled={isLoading || member.status !== "Evacuated"}
       confirmationModalProps={{
         title: "Confirm restore",
         children: (
@@ -125,8 +136,11 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
         confirmButtonAppearance: "positive",
       }}
       shiftClickEnabled
+      title="Restore cluster member"
+      className={classnames(className, "has-icon u-no-margin--bottom")}
     >
-      <span>Restore</span>
+      <Icon name="play" />
+      {hasLabel && <span>Restore</span>}
     </ConfirmationButton>
   );
 };

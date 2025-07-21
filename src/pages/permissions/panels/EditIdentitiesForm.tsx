@@ -4,7 +4,7 @@ import { useState } from "react";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
@@ -22,7 +22,7 @@ interface Props {
   selected: FormIdentity[];
   setSelected: (list: FormIdentity[]) => void;
   groupName: string;
-  group?: LxdGroup;
+  group?: LxdAuthGroup;
 }
 
 const EditIdentitiesForm: FC<Props> = ({

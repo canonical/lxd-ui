@@ -3,7 +3,11 @@ import type { FC, ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import classnames from "classnames";
 
-export type AccordionNavMenu = "permissions" | "storage" | "networking";
+export type AccordionNavMenu =
+  | "permissions"
+  | "storage"
+  | "networking"
+  | "clustering";
 
 interface Props {
   baseUrl: string;

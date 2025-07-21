@@ -1,11 +1,11 @@
-import type { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 
 export type ChangeSummary = Record<
   string,
   { added: Set<string>; removed: Set<string>; name: string }
 >;
 
-export const getIdentityIdsForGroup = (group?: LxdGroup): string[] => {
+export const getIdentityIdsForGroup = (group?: LxdAuthGroup): string[] => {
   const oidcIdentityIds = group?.identities?.oidc || [];
   const tlsIdentityIds = group?.identities?.tls || [];
   return [...oidcIdentityIds, ...tlsIdentityIds];
@@ -15,7 +15,7 @@ export const getIdentityIdsForGroup = (group?: LxdGroup): string[] => {
 // Generate a subset of those groups that's allocated to all identities
 // Generate a subset of those groups that's allocated to some identities
 export const getGroupsForIdentities = (
-  groups: LxdGroup[],
+  groups: LxdAuthGroup[],
   identities: LxdIdentity[],
 ): {
   groupsForAllIdentities: string[];

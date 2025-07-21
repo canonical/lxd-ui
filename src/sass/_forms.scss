@@ -458,3 +458,13 @@
     padding-left: 0;
   }
 }
+
+.restricted-cluster-groups {
+  .multi-select__condensed-text {
+    text-align: left;
+  }
+
+  .p-chip {
+    margin-right: $sph--x-small;
+  }
+}

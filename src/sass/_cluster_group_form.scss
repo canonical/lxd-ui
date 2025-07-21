@@ -1,50 +1,17 @@
-.cluster-group-form {
-  .cluster-group-metadata {
-    max-width: 30rem;
+.member-selection-table {
+  .selected-row {
+    background-color: $colors--theme--background-default;
   }
 
-  .choose-label {
-    margin-bottom: $spv--large;
-    margin-top: $spv--large;
+  .select {
+    max-width: 50px;
   }
 
-  .name {
-    width: 15rem;
+  .groups {
+    max-width: 90px;
   }
 
-  .status {
-    width: 10rem;
-  }
-
-  .actions {
-    display: none !important;
-  }
-
-  .cluster-group-select-members {
-    .multiselect-checkbox {
-      margin-top: $spv--large;
-    }
-
-    .select-context-menu {
-      display: none;
-    }
-
-    thead tr,
-    tbody tr {
-      display: table;
-      table-layout: fixed;
-      width: 100%;
-    }
-
-    th,
-    td {
-      display: table-cell;
-      vertical-align: top;
-    }
-
-    th:last-child,
-    td:last-child {
-      display: none !important;
-    }
+  .modified-status {
+    max-width: 50px;
   }
 }
