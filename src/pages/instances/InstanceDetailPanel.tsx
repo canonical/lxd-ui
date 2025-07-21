@@ -34,6 +34,7 @@ const InstanceDetailPanel: FC = () => {
       hasError={!instance}
       className="u-hide--medium u-hide--small detail-panel instance-detail-panel"
       pinned
+      width="narrow"
     >
       <SidePanel.Sticky>
         <SidePanel.Header>
