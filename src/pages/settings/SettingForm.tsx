@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Icon,
+  ThemeSwitcher,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -19,7 +20,6 @@ import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useIsClustered } from "context/useIsClustered";
-import SettingThemeSwitcher from "pages/settings/SettingThemeSwitcher";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -129,7 +129,7 @@ const SettingForm: FC<Props> = ({
   }
 
   if (isThemeSelector) {
-    return <SettingThemeSwitcher />;
+    return <ThemeSwitcher />;
   }
 
   return (

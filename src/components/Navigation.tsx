@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Icon,
+  isDarkTheme,
+  loadTheme,
   SideNavigationItem,
   Step,
   Stepper,
@@ -30,7 +32,6 @@ import { useLoggedInUser } from "context/useLoggedInUser";
 import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
 import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
-import { isDarkTheme, loadTheme } from "pages/settings/SettingThemeSwitcher";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
 

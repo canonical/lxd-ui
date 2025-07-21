@@ -12,9 +12,8 @@ import { logout } from "util/helpers";
 import lazy from "util/lazyWithRetry";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
-import { useNotify } from "@canonical/react-components";
+import { applyTheme, loadTheme, useNotify } from "@canonical/react-components";
 import CustomLayout from "components/CustomLayout";
-import { applyTheme, loadTheme } from "pages/settings/SettingThemeSwitcher";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
