@@ -2,7 +2,6 @@ import { handleResponse } from "util/helpers";
 import type {
   LxdClusterMember,
   LxdClusterMemberAction,
-  LxdClusterMemberAdded,
   LxdClusterMemberState,
 } from "types/cluster";
 import type { LxdApiResponse } from "types/apiResponse";
@@ -33,22 +32,6 @@ export const fetchClusterMemberState = async (
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdClusterMemberState>) => {
       return data.metadata;
-    });
-};
-
-export const createClusterMember = async (
-  member: string,
-): Promise<LxdClusterMemberAdded> => {
-  return fetch("/1.0/cluster/members", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: member,
-  })
-    .then(handleResponse)
-    .then((data: LxdApiResponse<LxdOperationResponse>) => {
-      return data.metadata.metadata as unknown as LxdClusterMemberAdded;
     });
 };
 

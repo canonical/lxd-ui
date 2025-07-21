@@ -35,14 +35,6 @@ export interface LxdClusterMemberState {
   storage_pools: string[];
 }
 
-export interface LxdClusterMemberAdded {
-  serverName: string;
-  fingerprint: string;
-  addresses: string;
-  secret: string;
-  expiresAt: string;
-}
-
 export interface LxdClusterGroup {
   description: string;
   members: string[];

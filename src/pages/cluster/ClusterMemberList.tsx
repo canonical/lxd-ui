@@ -15,7 +15,6 @@ import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import { Link } from "react-router-dom";
 import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
-import AddClusterMemberBtn from "pages/cluster/actions/AddClusterMemberBtn";
 import { useClusterMembers } from "context/useClusterMembers";
 import usePanelParams from "util/usePanelParams";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
@@ -161,7 +160,6 @@ const ClusterMemberList: FC = () => {
           Cluster members
         </HelpLink>
       }
-      controls={<AddClusterMemberBtn />}
     >
       <NotificationRow />
       <Row>
