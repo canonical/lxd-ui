@@ -15,6 +15,8 @@ import { useEventQueue } from "context/eventQueue";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useSettings } from "context/useSettings";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   instance: LxdInstance;
@@ -34,6 +36,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
   const toastNotify = useToastNotification();
   const instanceLink = <InstanceLinkChip instance={instance} />;
   const { hasBackupMetadataVersion } = useSupportedFeatures();
+  const queryClient = useQueryClient();
   const { data: settings } = useSettings();
   const backupMetadataVersionRange =
     settings?.environment?.backup_metadata_version_range ?? [];
@@ -109,6 +112,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
         ),
       )
       .finally(() => {
+        queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
         close();
       });
   };
