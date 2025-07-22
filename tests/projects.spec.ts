@@ -35,6 +35,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await createProject(page, project);
 
   await page.getByRole("link", { name: "Configuration" }).click();
+  await page.waitForLoadState("networkidle");
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await page
     .getByRole("combobox", { name: "Features" })
