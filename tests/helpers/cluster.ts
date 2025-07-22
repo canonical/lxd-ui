@@ -1,6 +1,15 @@
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
+import type { LxdVersions } from "../fixtures/lxd-test";
+import { test } from "../fixtures/lxd-test";
+
+export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "Cluster tests not supported for lxd 5.0",
+  );
+};
 
 export const isServerClustered = async (page: Page) => {
   await gotoURL(page, "/ui/");
