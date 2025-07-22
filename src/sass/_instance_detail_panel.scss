@@ -1,7 +1,8 @@
 .instance-detail-panel {
+  padding-top: 0 !important;
+
   .actions {
     display: flex;
-    margin-left: $sph--x-large;
     margin-right: $sph--x-large;
     padding-top: $spv--x-large;
 
@@ -11,6 +12,7 @@
   }
 
   .p-panel__content {
+    margin-left: 0;
     padding-top: 0;
   }
 
