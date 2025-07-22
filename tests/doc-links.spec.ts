@@ -58,17 +58,13 @@ test("Ensure the documentation link text and link targets are present: Server Se
   await openServerSetting(page, "core.storage_buckets_address");
   await validateLink(
     page,
-    lxdVersion === "5.21-edge"
-      ? "How to manage storage buckets and keys"
-      : "How to manage storage buckets",
+    "How to manage storage buckets",
     "/documentation/howto/storage_buckets/#howto-storage-buckets",
   );
 
   await openServerSetting(page, "instances.placement.scriptlet");
   const scriptletLink =
-    lxdVersion === "5.0-edge"
-      ? "/documentation/explanation/clustering/#clustering-instance-placement-scriptlet"
-      : "/documentation/explanation/clusters/#clustering-instance-placement-scriptlet";
+    "/documentation/explanation/clusters/#clustering-instance-placement-scriptlet";
   await validateLink(page, "Instance placement scriptlet", scriptletLink);
 });
 
