@@ -1,5 +1,6 @@
 import type { Page } from "@playwright/test";
 import { visitProfile } from "./profile";
+import { expect } from "../fixtures/lxd-test";
 
 export const attachVolume = async (
   page: Page,
@@ -22,6 +23,7 @@ export const attachHostPath = async (
 ) => {
   await page.getByRole("button", { name: "Attach disk device" }).click();
   await page.getByRole("button", { name: "Mount host path" }).click();
+  await expect(page.getByLabel("Mount point", { exact: true })).toBeVisible();
   await page.getByLabel("Host path", { exact: true }).click();
   await page.getByLabel("Host path", { exact: true }).fill(source);
   const hostPathModal = page.getByLabel("Choose disk type /");

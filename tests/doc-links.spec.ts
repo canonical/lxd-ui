@@ -58,7 +58,7 @@ test("Ensure the documentation link text and link targets are present: Server Se
   await openServerSetting(page, "core.storage_buckets_address");
   await validateLink(
     page,
-    lxdVersion === "5.21-edge"
+    lxdVersion === "5.0-edge"
       ? "How to manage storage buckets and keys"
       : "How to manage storage buckets",
     "/documentation/howto/storage_buckets/#howto-storage-buckets",

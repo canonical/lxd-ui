@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test";
+import type { LxdVersions } from "../fixtures/lxd-test";
 import { expect } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
@@ -63,6 +64,12 @@ export const addPermission = async (
     .locator("tr")
     .filter({ hasText: `${resourceType}${resource}${entitlement}` });
   await expect(permissionRow).toBeVisible();
+};
+
+export const clickEditGroup = async (page: Page, lxdVersion: LxdVersions) => {
+  const btnCaption =
+    lxdVersion === "latest-edge" ? "Edit auth group" : "Edit group";
+  await page.getByText(btnCaption).click();
 };
 
 export const removePermission = async (

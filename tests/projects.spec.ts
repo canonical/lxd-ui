@@ -60,7 +60,11 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
   await page.getByText("Clusters").click();
-  await setMultiselectOption(page, "Cluster groups", "default");
+  if (lxdVersion === "latest-edge") {
+    await setMultiselectOption(page, "Cluster groups", "default");
+  } else {
+    await setInput(page, "Cluster groups targeting", "Enter value", "default");
+  }
   await setOption(page, "Direct cluster targeting", "allow");
 
   await page

@@ -1,11 +1,27 @@
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
+import type { LxdVersions } from "../fixtures/lxd-test";
+import { test } from "../fixtures/lxd-test";
 
-export const isServerClustered = async (page: Page) => {
+export const skipClusterSuiteIfUnsupported = (lxdVersion: LxdVersions) => {
+  test.skip(
+    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
+    "Clustering tests are incompatible with lxd 5.0 and 5.21",
+  );
+};
+
+export const isServerClustered = async (
+  page: Page,
+  lxdVersion: LxdVersions,
+) => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Members" }).click();
+  if (lxdVersion === "latest-edge") {
+    await page.getByRole("button", { name: "Clustering" }).click();
+    await page.getByRole("link", { name: "Members" }).click();
+  } else {
+    await page.getByRole("link", { name: "Cluster" }).click();
+  }
   const count = await page.getByText("This server is not clustered").count();
   return count === 0;
 };

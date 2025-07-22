@@ -401,10 +401,11 @@ test("Create instance from external instance file", async ({
 
 test("Move instance root storage volume to a different pool", async ({
   page,
+  lxdVersion,
 }) => {
   const targetPool = randomPoolName();
   await createPool(page, targetPool);
-  const serverClustered = await isServerClustered(page);
+  const serverClustered = await isServerClustered(page, lxdVersion);
   await migrateInstanceRootStorage(page, instance, targetPool, serverClustered);
   // Migrate back to default so that the Pool can be deleted
   await migrateInstanceRootStorage(page, instance, "default", serverClustered);
