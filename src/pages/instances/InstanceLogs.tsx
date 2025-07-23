@@ -12,12 +12,7 @@ interface Props {
 
 const InstanceLogs: FC<Props> = ({ instance }) => {
   const { data: logs = [], isLoading } = useQuery({
-    queryKey: [
-      queryKeys.instances,
-      instance.name,
-      instance.project,
-      queryKeys.logs,
-    ],
+    queryKey: [queryKeys.logs, instance.name, instance.project],
     queryFn: async () => fetchInstanceLogs(instance.name, instance.project),
   });
 
