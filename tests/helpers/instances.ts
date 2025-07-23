@@ -20,14 +20,12 @@ export const createInstance = async (
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "Browse images" }).click();
-  await page.getByPlaceholder("Search an image").click();
-  await page.getByPlaceholder("Search an image").fill("alpine");
   await page
     .getByRole("row", {
       name: "Distribution Release Variant Type Alias Source Action",
     })
     .getByRole("button", { name: "Select" })
-    .last()
+    .first()
     .click();
   if (type !== "container") {
     await page
