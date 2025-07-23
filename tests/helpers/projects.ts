@@ -54,6 +54,7 @@ export const deleteProject = async (page: Page, project: string) => {
   await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("link", { name: project }).click();
+  await page.waitForLoadState("networkidle");
   await page.getByRole("link", { name: "Configuration" }).click();
   await page.getByRole("button", { name: "Delete" }).click();
   await page
