@@ -13,10 +13,6 @@ export const getProjectEditValues = (
     features_images: project.config["features.images"] === "true",
     features_profiles: isProjectWithProfiles(project),
     features_networks: project.config["features.networks"] === "true",
-    features_networks_zones:
-      project.config["features.networks.zones"] === "true",
-    features_storage_buckets:
-      project.config["features.storage.buckets"] === "true",
     features_storage_volumes:
       project.config["features.storage.volumes"] === "true",
     type: "project",

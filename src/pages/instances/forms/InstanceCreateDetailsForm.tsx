@@ -15,7 +15,6 @@ import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { LxdImageType, RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
-import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 export interface InstanceDetailsFormValues {
@@ -125,7 +124,6 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             {!formik.values.image && (
               <>
                 <SelectImageBtn onSelect={onSelectImage} />
-                <UseCustomIsoBtn onSelect={onSelectImage} />
               </>
             )}
           </div>

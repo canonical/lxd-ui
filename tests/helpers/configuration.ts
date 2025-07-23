@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 
 export const setOption = async (page: Page, field: string, value: string) => {
   await activateOverride(page, field);
@@ -79,6 +79,9 @@ export const setMemLimit = async (
   await page.getByText("Resource limits").click();
   await page.getByRole("button", { name: "Edit" }).click();
   await activateOverride(page, "Memory limit");
+  const row = page.getByRole("row", { name: "Memory limit" });
+  await expect(row).toBeVisible();
+  await row.getByText(type).click();
   const text = type === "percentage" ? "Enter percentage" : "Enter value";
   await page.getByPlaceholder(text).click();
   await page.getByPlaceholder(text).press("Control+a");
@@ -86,10 +89,7 @@ export const setMemLimit = async (
 };
 
 export const setSchedule = async (page: Page, value: string) => {
-  await activateOverride(
-    page,
-    "Schedule - From: LXD",
-  );
+  await activateOverride(page, "Schedule - From: LXD");
   await page
     .getByRole("row", {
       name: "Schedule - From: LXD",

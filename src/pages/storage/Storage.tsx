@@ -3,14 +3,13 @@ import { Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { useParams } from "react-router-dom";
-import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
 import TabLinks from "components/TabLinks";
 import { useDocs } from "context/useDocs";
 
-export const tabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
+export const tabs: string[] = ["Pools", "Volumes"];
 
 const Storage: FC = () => {
   const docBaseLink = useDocs();
@@ -51,12 +50,6 @@ const Storage: FC = () => {
         {activeTab === "volumes" && (
           <div role="volumes">
             <StorageVolumes />
-          </div>
-        )}
-
-        {activeTab === "custom-isos" && (
-          <div role="tabpanel">
-            <CustomIsoList project={project} />
           </div>
         )}
       </Row>

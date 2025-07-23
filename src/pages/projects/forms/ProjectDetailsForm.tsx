@@ -54,12 +54,6 @@ export const projectDetailRestrictionPayload = (
     [getProjectKey("features_networks")]: boolToPayload(
       values.features_networks,
     ),
-    [getProjectKey("features_networks_zones")]: boolToPayload(
-      values.features_networks_zones,
-    ),
-    [getProjectKey("features_storage_buckets")]: boolToPayload(
-      values.features_storage_buckets,
-    ),
     [getProjectKey("features_storage_volumes")]: boolToPayload(
       values.features_storage_volumes,
     ),
@@ -147,7 +141,6 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               void formik.setFieldValue("features_profiles", true);
               void formik.setFieldValue("features_networks", false);
               void formik.setFieldValue("features_networks_zones", false);
-              void formik.setFieldValue("features_storage_buckets", true);
               void formik.setFieldValue("features_storage_volumes", true);
             }}
             value={features}
@@ -219,36 +212,6 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   )
                 }
                 checked={formik.values.features_networks}
-                disabled={isReadOnly || isDefaultProject || isNonEmpty}
-              />
-              <CheckboxInput
-                id="features_networks_zones"
-                name="features_networks_zones"
-                label="Network zones"
-                onChange={() =>
-                  void formik.setFieldValue(
-                    "features_networks_zones",
-                    !formik.values.features_networks_zones,
-                  )
-                }
-                checked={formik.values.features_networks_zones}
-                disabled={
-                  isReadOnly ||
-                  isDefaultProject ||
-                  (isNonEmpty && hadFeaturesNetworkZones)
-                }
-              />
-              <CheckboxInput
-                id="features_storage_buckets"
-                name="features_storage_buckets"
-                label="Storage buckets"
-                onChange={() =>
-                  void formik.setFieldValue(
-                    "features_storage_buckets",
-                    !formik.values.features_storage_buckets,
-                  )
-                }
-                checked={formik.values.features_storage_buckets}
                 disabled={isReadOnly || isDefaultProject || isNonEmpty}
               />
               <CheckboxInput
