@@ -88,11 +88,11 @@ export const setMemLimit = async (
 export const setSchedule = async (page: Page, value: string) => {
   await activateOverride(
     page,
-    "Schedule Schedule for automatic instance snapshots - From: LXD",
+    "Schedule - From: LXD",
   );
   await page
     .getByRole("row", {
-      name: "Schedule Schedule for automatic instance snapshots - From: LXD",
+      name: "Schedule - From: LXD",
     })
     .getByText("Cron syntax")
     .click();
