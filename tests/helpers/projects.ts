@@ -47,6 +47,7 @@ export const renameProject = async (
   await page.getByRole("textbox").first().press("Control+a");
   await page.getByRole("textbox").first().fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
+  await page.waitForSelector(`text=Project ${oldName} renamed to ${newName}.`);
 };
 
 export const deleteProject = async (page: Page, project: string) => {
