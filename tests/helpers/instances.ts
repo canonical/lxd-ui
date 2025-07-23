@@ -29,9 +29,11 @@ export const createInstance = async (
     .getByRole("button", { name: "Select" })
     .last()
     .click();
-  await page
-    .getByRole("combobox", { name: "Instance type" })
-    .selectOption(type);
+  if (type !== "container") {
+    await page
+      .getByRole("combobox", { name: "Instance type" })
+      .selectOption(type);
+  }
   await page.getByRole("button", { name: "Create" }).first().click();
 
   await page.waitForSelector(`text=Created instance ${instance}.`, TIMEOUT);
