@@ -1,4 +1,10 @@
 .profile-detail-panel {
+  padding-top: 0 !important;
+
+  .p-panel__content {
+    margin-left: 0;
+  }
+
   .last-of-section {
     padding-bottom: 1.25rem !important;
   }

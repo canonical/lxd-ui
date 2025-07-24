@@ -53,6 +53,7 @@ test("storage pool create, edit and remove", async ({ page }) => {
   await savePool(page, pool);
 
   await page.getByTestId("tab-link-Overview").click();
+  await page.waitForTimeout(1000); // Wait for the tab to change
   await assertTextVisible(page, "DescriptionA-new-description");
   await assertTextVisible(page, "StatusCreated");
 

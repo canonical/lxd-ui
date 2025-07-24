@@ -105,6 +105,7 @@ export const createNetworkForward = async (page: Page, network: string) => {
 
   await page.getByRole("link", { name: "Edit network forward" }).click();
   await expect(page.getByText("Edit a network forward")).toBeVisible();
+  await page.waitForLoadState("networkidle");
   await page.getByLabel("Description").fill("My forward description");
   await page.getByRole("button", { name: "Update" }).click();
 

@@ -5,16 +5,19 @@ import {
   deleteClusterGroup,
   getFirstClusterMember,
   randomGroupName,
+  skipIfNotSupported,
   toggleClusterGroupMember,
 } from "./helpers/cluster";
 
-test("cluster group create and delete", async ({ page }) => {
+test("cluster group create and delete", async ({ page, lxdVersion }) => {
+  skipIfNotSupported(lxdVersion);
   const group = randomGroupName();
   await createClusterGroup(page, group);
   await deleteClusterGroup(page, group);
 });
 
-test("cluster group add and remove members", async ({ page }) => {
+test("cluster group add and remove members", async ({ page, lxdVersion }) => {
+  skipIfNotSupported(lxdVersion);
   const group = randomGroupName();
   const member = await getFirstClusterMember(page);
   await createClusterGroup(page, group);
@@ -33,7 +36,8 @@ test("cluster group add and remove members", async ({ page }) => {
   await deleteClusterGroup(page, group);
 });
 
-test("cluster member evacuate and restore", async ({ page }) => {
+test("cluster member evacuate and restore", async ({ page, lxdVersion }) => {
+  skipIfNotSupported(lxdVersion);
   const member = await getFirstClusterMember(page);
 
   await gotoURL(page, "/ui/");

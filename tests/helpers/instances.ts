@@ -19,6 +19,7 @@ export const createInstance = async (
   image = "alpine/3.19/cloud",
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
+  await page.waitForLoadState("networkidle");
   await page
     .getByRole("link", { name: "Instances", exact: true })
     .first()

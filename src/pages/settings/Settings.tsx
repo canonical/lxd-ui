@@ -104,7 +104,7 @@ const Settings: FC = () => {
   });
 
   configFields.push({
-    key: "user.grafana_base_url",
+    key: "user.ui_grafana_base_url",
     category: "user",
     default: "",
     longdesc:
