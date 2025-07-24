@@ -2,15 +2,18 @@ import type { FC, ReactNode } from "react";
 import type { MainTableProps } from "@canonical/react-components";
 import { MainTable } from "@canonical/react-components";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import classnames from "classnames";
 
 interface Props {
   rows: MainTableRow[];
+  className?: string;
   configurationExtra?: ReactNode;
   emptyStateMsg?: string;
 }
 
 const ConfigurationTable: FC<Props & MainTableProps> = ({
   rows,
+  className,
   configurationExtra,
   emptyStateMsg,
   ...props
@@ -26,7 +29,7 @@ const ConfigurationTable: FC<Props & MainTableProps> = ({
 
   return (
     <MainTable
-      className="configuration-table"
+      className={classnames("configuration-table", className)}
       emptyStateMsg={emptyStateMsg}
       headers={headers}
       rows={rows}
