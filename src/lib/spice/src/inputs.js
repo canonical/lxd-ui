@@ -212,8 +212,11 @@ function sendCtrlAltDel(sc)
         update_modifier(true, KeyNames.KEY_LCtrl, sc);
         update_modifier(true, KeyNames.KEY_Alt, sc);
         send_key(sc, KeyNames.KEY_KP_Decimal);
-        if(Ctrl_state == false) update_modifier(false, KeyNames.KEY_LCtrl, sc);
-        if(Alt_state == false) update_modifier(false, KeyNames.KEY_Alt, sc);
+        const release = () => {
+            update_modifier(false, KeyNames.KEY_LCtrl, sc);
+            update_modifier(false, KeyNames.KEY_Alt, sc);
+        }
+        setTimeout(release, 100);
     }
 }
 
@@ -222,7 +225,10 @@ function sendAltF4(sc)
     if (sc && sc.inputs && sc.inputs.state === "ready"){
         update_modifier(true, KeyNames.KEY_Alt, sc);
         send_key(sc, KeyNames.KEY_F4);
-        if(Alt_state == false) update_modifier(false, KeyNames.KEY_Alt, sc);
+        const release = () => {
+            update_modifier(false, KeyNames.KEY_Alt, sc);
+        }
+        setTimeout(release, 100);
     }
 }
 
@@ -231,7 +237,10 @@ function sendAltTab(sc)
     if (sc && sc.inputs && sc.inputs.state === "ready"){
         update_modifier(true, KeyNames.KEY_Alt, sc);
         send_key(sc, KeyNames.KEY_Tab);
-        if(Alt_state == false) update_modifier(false, KeyNames.KEY_Alt, sc);
+        const release = () => {
+            update_modifier(false, KeyNames.KEY_Alt, sc);
+        }
+        setTimeout(release, 100);
     }
 }
 
