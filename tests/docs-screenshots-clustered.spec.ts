@@ -1,6 +1,6 @@
 import { test } from "./fixtures/lxd-test";
 import { gotoURL } from "./helpers/navigate";
-import { deletePool } from "./helpers/storagePool";
+import { createPool, deletePool } from "./helpers/storagePool";
 
 test.beforeEach(() => {
   test.skip(
@@ -49,7 +49,8 @@ test("Clustered storage volumes", async ({ page }) => {
   const poolName = "pool1";
   const volumeName = "CustomVol1";
   page.setViewportSize({ width: 1440, height: 800 });
-  await page.getByTestId("notification-close-button").click();
+  await createPool(page, poolName);
+
   await page.getByRole("link", { name: "Volumes", exact: true }).click();
   await page.getByText("Create volume").click();
   await page.getByPlaceholder("Enter name").fill(volumeName);
