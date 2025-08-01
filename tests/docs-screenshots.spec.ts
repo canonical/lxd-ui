@@ -330,3 +330,164 @@ test("storage volume snapshots", async ({ page }) => {
   await deleteVolume(page, volumeName.toLowerCase());
   await deletePool(page, poolName);
 });
+
+test("LXD - tutorial", async ({ page }) => {
+  page.setViewportSize({ width: 1440, height: 800 });
+
+  const instance = "Instance1";
+  await gotoURL(page, "/ui/");
+  await page.waitForTimeout(1000);
+  await page.getByRole("button", { name: "default", exact: true }).click();
+  await page.getByRole("button", { name: "Create project" }).click();
+  await page.waitForSelector(`text=Project name`);
+  await page.getByRole("button", { name: "default", exact: true }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/create_project.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await page.getByRole("button", { name: "default", exact: true }).click();
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
+  await page.getByText("Create instance").click();
+  await page.getByPlaceholder("Enter name").fill("Ubuntu-vm");
+  await page.getByRole("button", { name: "Browse images" }).click();
+  await page
+    .locator("tr")
+    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuSelect" })
+    .getByRole("button")
+    .click();
+
+  await page.getByLabel("Instance type").click();
+  await page.getByLabel("Instance type").selectOption("VM");
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/create_vm.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await page.getByLabel("Instance type").click();
+  await page.getByLabel("Instance type").selectOption("Container");
+  await page.getByPlaceholder("Enter name").fill(instance);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/create_instance.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await page.getByText("Resource limits").click();
+  await page
+    .getByRole("row", { name: "Exposed CPU limit Which CPUs" })
+    .getByRole("button")
+    .click();
+  await page.getByPlaceholder("Number of exposed cores").fill("1");
+  await page
+    .getByRole("row", { name: "Memory limit Usage limit for" })
+    .getByRole("button")
+    .click();
+  await page.getByPlaceholder("Enter value").fill("4");
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/resource_limits.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await page.getByRole("button", { name: "Create and start" }).click();
+  await page.getByTestId("notification-close-button").click();
+
+  await page
+    .getByRole("row", {
+      name: "Select Instance1 default Name Type Description IPv4 Status Actions",
+    })
+    .getByLabel("Name")
+    .click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/instance_summary.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await visitInstance(page, instance);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Disk").click();
+  await page.getByRole("button", { name: "Attach disk device" }).click();
+  await page.getByRole("button", { name: "Mount host path" }).click();
+  await page
+    .getByPlaceholder("Enter full path (e.g. /home)")
+    .fill("default/tutorial_volume");
+  await page.getByPlaceholder("Enter full path (e.g. /data)").fill("/data");
+  await page.getByRole("button", { name: "Attach", exact: true }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/add_disk_device.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await page.locator("#form-footer span").first().click();
+  await page.waitForTimeout(1000);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/yaml_configuration.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+  await page.getByRole("button", { name: "Cancel" }).click();
+
+  // Add broken terminal screenshot
+  await page.getByTestId("tab-link-Terminal").click();
+  await page.waitForTimeout(5000);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/broken_terminal.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  // -----------------------------------------------------
+  // Desktop vm
+
+  const vminstance = "Ubuntu-desktop";
+  await gotoURL(page, "/ui/");
+  await page.getByText("Instances", { exact: true }).click();
+  await page.getByText("Create instance").click();
+  await page.getByPlaceholder("Enter name").fill(vminstance);
+  await page.getByRole("button", { name: "Browse images" }).click();
+  await page
+    .locator("tr")
+    .filter({
+      hasText: "Ubuntunobledesktopvirtual-machineubuntu/noble/desktopLXD",
+    })
+    .getByRole("button")
+    .click();
+
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/create_desktop_vm.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+  await page.getByRole("button", { name: "Create and start" }).click();
+
+  await visitInstance(page, vminstance);
+  await page.getByTestId("tab-link-Configuration").click();
+
+  await page.getByText("Disk").click();
+  await page.getByRole("button", { name: "Create override" }).click();
+  await page.getByPlaceholder("Enter value").fill("30");
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/root_disk_size.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+  await page.getByRole("button", { name: "Cancel" }).click();
+
+  //desktop console
+  await page.getByTestId("tab-link-Console").click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/desktop_console.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  //hello world desktop
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/hello_world_desktop.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await gotoURL(page, "/ui/");
+  await page.getByText("Instances", { exact: true }).click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/tutorial/instances.png",
+    clip: getClipPosition(0, 0, 1440, 760),
+  });
+
+  await deleteInstance(page, instance);
+  await deleteInstance(page, vminstance);
+});
