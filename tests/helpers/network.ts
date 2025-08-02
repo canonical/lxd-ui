@@ -25,6 +25,9 @@ export const createNetwork = async (
   if (["physical", "sriov", "macvlan"].includes(type)) {
     await page.getByLabel("Parent").selectOption({ index: 1 });
   }
+  if (type === "ovn") {
+    await page.getByLabel("Uplink").selectOption({ index: 1 });
+  }
   await page.getByRole("button", { name: "Create", exact: true }).click();
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
@@ -140,6 +143,6 @@ export const getNetworkLink = async (page: Page, network: string) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
-  const networkLink = page.getByRole("link", { name: network });
+  const networkLink = page.getByRole("link", { name: network, exact: true });
   return networkLink;
 };
