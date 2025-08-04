@@ -5,8 +5,8 @@ import {
   Row,
   TablePagination,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
@@ -182,7 +182,12 @@ const ClusterMemberList: FC = () => {
               responsive
               onUpdateSort={updateSort}
               emptyStateMsg={
-                isLoading && <Loader text="Loading cluster members..." />
+                isLoading && (
+                  <Spinner
+                    className="u-loader"
+                    text="Loading cluster members..."
+                  />
+                )
               }
             />
           </TablePagination>

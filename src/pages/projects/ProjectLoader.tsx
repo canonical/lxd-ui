@@ -1,4 +1,4 @@
-import Loader from "components/Loader";
+import { Spinner } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import ProjectNotFound from "components/ProjectNotFound";
 
@@ -10,7 +10,7 @@ const ProjectLoader = ({ outlet }: Props) => {
   const { project, isLoading } = useCurrentProject();
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (!project) {

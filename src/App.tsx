@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
 import { useAuth } from "context/auth";
@@ -12,8 +11,13 @@ import { logout } from "util/helpers";
 import lazy from "util/lazyWithRetry";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
-import { applyTheme, loadTheme, useNotify } from "@canonical/react-components";
-import CustomLayout from "components/CustomLayout";
+import {
+  applyTheme,
+  loadTheme,
+  useNotify,
+  CustomLayout,
+  Spinner,
+} from "@canonical/react-components";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -121,7 +125,7 @@ const App: FC = () => {
   }, []);
 
   if (isAuthLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (authError) {
@@ -153,7 +157,11 @@ const App: FC = () => {
   }
 
   return (
-    <Suspense fallback={<Loader isMainComponent />}>
+    <Suspense
+      fallback={
+        <Spinner className="u-loader" text="Loading..." isMainComponent />
+      }
+    >
       <Routes>
         {HOME_REDIRECT_PATHS.map((path) => (
           <Route

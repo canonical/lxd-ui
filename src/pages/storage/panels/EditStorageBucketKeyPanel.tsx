@@ -4,8 +4,8 @@ import {
   SidePanel,
   useNotify,
   useToastNotification,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
@@ -127,7 +127,7 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
   }
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!bucketKey) {
     return <>Loading key failed</>;
   }

@@ -2,9 +2,12 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
-import Loader from "components/Loader";
-import { Row, useNotify } from "@canonical/react-components";
-import CustomLayout from "components/CustomLayout";
+import {
+  Row,
+  useNotify,
+  CustomLayout,
+  Spinner,
+} from "@canonical/react-components";
 import NetworkAclDetailHeader from "pages/networks/NetworkAclDetailHeader";
 import EditNetworkAcl from "pages/networks/forms/EditNetworkAcl";
 import { useNetworkAcl } from "context/useNetworkAcls";
@@ -34,7 +37,7 @@ const NetworkAclDetail: FC = () => {
   }, [error]);
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (

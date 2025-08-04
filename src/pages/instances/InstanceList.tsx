@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Col,
+  CustomLayout,
   EmptyState,
   Icon,
   Row,
@@ -15,7 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Loader from "components/Loader";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import TableColumnsSelect from "components/TableColumnsSelect";
@@ -54,7 +54,6 @@ import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import type { LxdInstanceStatus } from "types/instance";
@@ -749,7 +748,10 @@ const InstanceList: FC = () => {
                       sortable
                       emptyStateMsg={
                         isLoading ? (
-                          <Loader text="Loading instances..." />
+                          <Spinner
+                            className="u-loader"
+                            text="Loading instances..."
+                          />
                         ) : (
                           <>No instance found matching this search</>
                         )

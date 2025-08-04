@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { Tabs } from "@canonical/react-components";
-import { useNotify } from "@canonical/react-components";
+import { Tabs, useNotify } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { slugify } from "util/slugify";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";

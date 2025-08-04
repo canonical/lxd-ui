@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { ActionButton, Icon } from "@canonical/react-components";
-import { usePortal } from "@canonical/react-components";
+import { ActionButton, Icon, usePortal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
 import MigrateInstanceModal from "../MigrateInstanceModal";

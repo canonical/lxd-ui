@@ -5,9 +5,9 @@ import {
   Icon,
   Label,
   Select,
+  Spinner,
   useNotify,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
@@ -76,7 +76,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
   });
 
   if (isNetworkLoading || isClusterNetworksLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   const getHelpText = () => {

@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { Button } from "@canonical/react-components";
-import { usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import type { LxdImageType, RemoteImage } from "types/image";
 import ImageSelector from "pages/images/ImageSelector";
 

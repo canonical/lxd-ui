@@ -1,13 +1,12 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { getInstanceMetricReport } from "util/metricSelectors";
-import Loader from "components/Loader";
+import { Spinner, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useAuth } from "context/auth";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageFilesystem from "pages/instances/InstanceUsageFilesystem";
 import { useMetrics } from "context/useMetrics";
-import { Button } from "@canonical/react-components";
 import InstanceUsageCpu from "pages/instances/InstanceUsageCpu";
 
 interface Props {
@@ -44,7 +43,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   return (
     <>
       {isLoading ? (
-        <Loader text="Loading metrics..." />
+        <Spinner className="u-loader" text="Loading metrics..." />
       ) : (
         <table>
           <tbody>

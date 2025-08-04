@@ -9,17 +9,17 @@ import {
   SearchBox,
   TablePagination,
   useToastNotification,
+  CustomLayout,
+  Spinner,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
-import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
 import ScrollableTable from "components/ScrollableTable";
 import { Link, useParams } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
@@ -149,7 +149,7 @@ const CustomIsoList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const hasImages = images.length !== 0;

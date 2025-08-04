@@ -1,10 +1,14 @@
 import type { FC } from "react";
-import { Col, Notification, Row } from "@canonical/react-components";
+import {
+  Col,
+  Notification,
+  Row,
+  Spinner,
+  CustomLayout,
+} from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
-import Loader from "components/Loader";
-import CustomLayout from "components/CustomLayout";
 import { useSettings } from "context/useSettings";
 
 const CertificateGenerate: FC = () => {
@@ -14,7 +18,7 @@ const CertificateGenerate: FC = () => {
   const hasCertificate = settings?.client_certificate;
 
   if (isAuthLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (isAuthenticated) {

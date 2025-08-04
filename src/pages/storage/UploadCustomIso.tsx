@@ -9,9 +9,9 @@ import {
   failure,
   Input,
   Notification,
+  Spinner,
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
-import Loader from "components/Loader";
 import ProgressBar from "components/ProgressBar";
 import type { UploadState } from "types/storage";
 import { humanFileSize } from "util/helpers";
@@ -170,7 +170,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
             {humanFileSize(uploadState.total ?? 0)}
           </p>
           {uploadState.loaded === uploadState.total && (
-            <Loader text="Validating ISO" />
+            <Spinner className="u-loader" text="Validating ISO" />
           )}
         </>
       )}

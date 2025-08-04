@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
-import Loader from "components/Loader";
+import { Spinner } from "@canonical/react-components";
 import type { FC } from "react";
 
 interface Props {
@@ -11,7 +11,7 @@ const ProtectedRoute: FC<Props> = ({ outlet }) => {
   const { isAuthenticated, isAuthLoading } = useAuth();
 
   if (isAuthLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (!isAuthenticated) {

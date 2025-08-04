@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Col, Notification, Row } from "@canonical/react-components";
+import { Col, Notification, Row, Spinner } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
@@ -17,7 +17,6 @@ import ClusterMemberDetailUSB from "pages/cluster/ClusterMemberDetailUSB";
 import type { LxdClusterMember } from "types/cluster";
 import { getFirstVisibleSection } from "util/scroll";
 import { fetchClusterMemberState } from "api/cluster-members";
-import Loader from "components/Loader";
 
 interface Props {
   member?: LxdClusterMember;
@@ -72,7 +71,7 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
   }, [isLoading, sections]);
 
   if (isLoading || isStateLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   return (

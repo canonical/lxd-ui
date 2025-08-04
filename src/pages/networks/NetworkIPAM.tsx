@@ -6,14 +6,14 @@ import {
   MainTable,
   Row,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import PageHeader from "components/PageHeader";
-import CustomLayout from "components/CustomLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworkAllocations } from "api/networks";
@@ -137,7 +137,7 @@ const NetworkIPAM: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (

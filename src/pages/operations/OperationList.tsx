@@ -8,8 +8,9 @@ import {
   SearchBox,
   TablePagination,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import { isoTimeToString, nonBreakingSpaces } from "util/helpers";
 import type { LxdOperationStatus } from "types/operation";
@@ -21,7 +22,6 @@ import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn"
 import ScrollableTable from "components/ScrollableTable";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
-import CustomLayout from "components/CustomLayout";
 
 const OperationList: FC = () => {
   const notify = useNotify();
@@ -195,7 +195,10 @@ const OperationList: FC = () => {
                   onUpdateSort={updateSort}
                   emptyStateMsg={
                     isLoading ? (
-                      <Loader text="Loading operations..." />
+                      <Spinner
+                        className="u-loader"
+                        text="Loading operations..."
+                      />
                     ) : (
                       "No matching operations found"
                     )

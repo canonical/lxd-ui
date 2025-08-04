@@ -1,12 +1,11 @@
 import type { FC, FormEvent } from "react";
-import { Switch } from "@canonical/react-components";
+import { Switch, usePortal } from "@canonical/react-components";
 import YamlConfirmation from "components/forms/YamlConfirmation";
 import { slugify } from "util/slugify";
 import {
   MAIN_CONFIGURATION,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
-import { usePortal } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import classnames from "classnames";
 

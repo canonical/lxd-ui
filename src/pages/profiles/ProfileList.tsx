@@ -11,8 +11,9 @@ import {
   SearchBox,
   TablePagination,
   useNotify,
+  CustomLayout,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -22,7 +23,6 @@ import { isProjectWithProfiles } from "util/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
-import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
@@ -171,7 +171,7 @@ const ProfileList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (

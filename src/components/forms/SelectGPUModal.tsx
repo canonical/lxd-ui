@@ -4,11 +4,11 @@ import {
   MainTable,
   Modal,
   Notification,
+  Spinner,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
-import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import type { GpuCard } from "types/resources";
 import { useServerEntitlements } from "util/entitlements/server";
@@ -116,7 +116,11 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
           sortable
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
-            isLoading ? <Loader text="Loading GPUs..." /> : "No GPUs found"
+            isLoading ? (
+              <Spinner className="u-loader" text="Loading GPUs..." />
+            ) : (
+              "No GPUs found"
+            )
           }
         />
       </ScrollableTable>

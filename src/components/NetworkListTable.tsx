@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { MainTable, Notification } from "@canonical/react-components";
-import Loader from "components/Loader";
+import { MainTable, Notification, Spinner } from "@canonical/react-components";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
 import { useParams } from "react-router-dom";
@@ -112,7 +111,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
 
   const getContent = () => {
     if (isLoading) {
-      return <Loader text="Loading networks..." />;
+      return <Spinner className="u-loader" text="Loading networks..." />;
     }
 
     if (instanceHasNetworks && !userHasNetworks) {

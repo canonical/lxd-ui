@@ -1,13 +1,16 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import { Row, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
+import {
+  Row,
+  useNotify,
+  Spinner,
+  CustomLayout,
+} from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import StorageVolumeHeader from "pages/storage/StorageVolumeHeader";
 import StorageVolumeOverview from "pages/storage/StorageVolumeOverview";
 import EditStorageVolume from "pages/storage/forms/EditStorageVolume";
 import TabLinks from "components/TabLinks";
-import CustomLayout from "components/CustomLayout";
 import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
 import { useStorageVolume } from "context/useVolumes";
 import { linkForVolumeDetail } from "util/storageVolume";
@@ -56,7 +59,7 @@ const StorageVolumeDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!volume) {
     return <>Loading storage volume failed</>;
   }

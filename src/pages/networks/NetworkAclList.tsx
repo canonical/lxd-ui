@@ -7,14 +7,14 @@ import {
   MainTable,
   Row,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import PageHeader from "components/PageHeader";
-import CustomLayout from "components/CustomLayout";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useNetworkAcls } from "context/useNetworkAcls";
@@ -100,7 +100,7 @@ const NetworkAclList: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const createAclButton = (

@@ -1,8 +1,7 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button, Icon, usePortal } from "@canonical/react-components";
 import CopyVolumeForm from "../forms/CopyVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
-import { usePortal } from "@canonical/react-components";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import classNames from "classnames";

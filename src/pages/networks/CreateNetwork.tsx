@@ -6,6 +6,7 @@ import {
   Row,
   useNotify,
   useToastNotification,
+  Spinner,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -21,7 +22,6 @@ import NetworkForm, {
 } from "pages/networks/forms/NetworkForm";
 import NotificationRow from "components/NotificationRow";
 import { useSettings } from "context/useSettings";
-import Loader from "components/Loader";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
 import BaseLayout from "components/BaseLayout";
@@ -55,7 +55,7 @@ const CreateNetwork: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const NetworkSchema = Yup.object().shape({

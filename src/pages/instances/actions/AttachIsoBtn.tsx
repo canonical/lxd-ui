@@ -6,12 +6,12 @@ import { useParams } from "react-router-dom";
 import {
   ActionButton,
   useToastNotification,
+  usePortal,
 } from "@canonical/react-components";
 import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
 import type { LxdIsoDevice } from "types/device";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { usePortal } from "@canonical/react-components";
 import type { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
 import { remoteImageToIsoDevice } from "util/formDevices";
