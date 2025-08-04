@@ -28,7 +28,7 @@ const ClusterMemberOverview: FC<Props> = ({ member }) => {
             <tr>
               <th className="u-text--muted">Status</th>
               <td>
-                <ClusterMemberStatus status={member.status} />
+                <ClusterMemberStatus member={member} />
               </td>
             </tr>
             <tr>
