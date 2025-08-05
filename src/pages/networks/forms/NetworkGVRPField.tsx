@@ -13,7 +13,7 @@ const NetworkGVRPField: FC<Props> = ({ formik }) => {
   return (
     <div className="general-field">
       <div className="general-field-label can-edit">
-        <Label forId="description">GARP Registration</Label>
+        <Label forId="gvrp">GARP Registration</Label>
       </div>
       <div
         className="general-field-content"
@@ -44,6 +44,7 @@ const NetworkGVRPField: FC<Props> = ({ formik }) => {
         ) : (
           <Select
             {...formik.getFieldProps("gvrp")}
+            id={"gvrp"}
             options={[
               {
                 label: "Select option",

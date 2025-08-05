@@ -22,7 +22,7 @@ export const createNetwork = async (
   await page.getByLabel("Type").selectOption(type);
   await page.getByLabel("Name", { exact: true }).click();
   await page.getByLabel("Name", { exact: true }).fill(network);
-  if (type === "physical") {
+  if (["physical", "sriov", "macvlan"].includes(type)) {
     await page.getByLabel("Parent").selectOption({ index: 1 });
   }
   await page.getByRole("button", { name: "Create", exact: true }).click();

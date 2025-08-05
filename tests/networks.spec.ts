@@ -318,3 +318,52 @@ test.describe("OVN type", () => {
 test("create network forward for specified network", async ({ page }) => {
   await createNetworkForward(page, network);
 });
+
+test.describe("SRIOV type", () => {
+  test.beforeAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await createNetwork(page, network, "sriov");
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await deleteNetwork(page, network);
+    await page.close();
+  });
+
+  test("configure SRIOV network settings", async ({ page }) => {
+    await visitNetwork(page, network);
+
+    await page.getByRole("button", { name: "Edit" }).first().click();
+    await page.getByLabel("Description").fill("A-new-description");
+    await page.getByLabel("MTU").fill("1281");
+    await page.getByLabel("VLAN Id").fill("1234");
+    await page.getByLabel("vlan").fill("1234");
+  });
+});
+
+test.describe("Macvlan type", () => {
+  test.beforeAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await createNetwork(page, network, "macvlan");
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await deleteNetwork(page, network);
+    await page.close();
+  });
+
+  test("configure macvlan network settings", async ({ page }) => {
+    await visitNetwork(page, network);
+
+    await page.getByRole("button", { name: "Edit" }).first().click();
+    await page.waitForSelector(`text=The MTU of the interface`);
+    await page.getByLabel("Description").fill("A-new-description");
+    await page.getByLabel("MTU").fill("1281");
+    await page.getByLabel("VLAN Id").fill("1234");
+    await page.getByLabel("GARP Registration").selectOption("Yes");
+  });
+});

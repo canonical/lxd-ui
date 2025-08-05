@@ -13,7 +13,7 @@ const NetworkMTUField: FC<Props> = ({ formik }) => {
   return (
     <div className="general-field">
       <div className="general-field-label can-edit">
-        <Label forId="description">MTU</Label>
+        <Label forId="mtu">MTU</Label>
       </div>
       <div
         className="general-field-content"
@@ -40,6 +40,7 @@ const NetworkMTUField: FC<Props> = ({ formik }) => {
         ) : (
           <Input
             {...formik.getFieldProps("mtu")}
+            id="mtu"
             type="number"
             placeholder="Enter MTU"
             help="The MTU of the interface"
