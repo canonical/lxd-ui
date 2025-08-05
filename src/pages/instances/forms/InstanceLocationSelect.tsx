@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Input, Select } from "@canonical/react-components";
+import { Input, Label, RadioInput, Select } from "@canonical/react-components";
 import Loader from "components/Loader";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
@@ -9,6 +9,8 @@ import { useIsClustered } from "context/useIsClustered";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useClusterGroups } from "context/useClusterGroups";
+import { usePlacementGroups } from "context/usePlacementGroups";
+import { pluralize } from "util/instanceBulkActions";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -29,6 +31,7 @@ const figureDefaultMember = (target?: string) => {
 };
 
 const InstanceLocationSelect: FC<Props> = ({ formik }) => {
+  const [type, setType] = useState("auto");
   const isClustered = useIsClustered();
   const { canOverrideClusterTargetRestriction } = useServerEntitlements();
 
@@ -41,6 +44,11 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const defaultMember = figureDefaultMember(formik.values.target);
   const [selectedMember, setSelectedMember] = useState(defaultMember);
   const { project } = useCurrentProject();
+
+  const { data: placementGroups = [] } = usePlacementGroups(
+    project?.name ?? "",
+  );
+
   const { data: clusterGroups = [], isLoading } = useClusterGroups();
 
   const setGroup = (group: string) => {
@@ -111,51 +119,120 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
 
   return (
     <>
-      <Select
-        id="clusterGroup"
-        label="Cluster group"
-        onChange={(e) => {
-          setGroup(e.target.value);
-        }}
-        value={selectedGroup}
-        options={availableGroups.map((group) => {
-          return {
-            label: group.name,
-            value: group.name,
-            disabled: group.members.length < 1,
-          };
-        })}
-        disabled={!formik.values.image}
-        title={
-          formik.values.image
-            ? ""
-            : "Please select an image before adding a location group"
-        }
-      />
-      <Select
-        id="clusterMember"
-        label="Cluster member"
-        onChange={(e) => {
-          setMember(e.target.value);
-        }}
-        value={selectedMember}
-        options={[
-          ...(availableMembers.length > 1 ? [{ label: "any", value: "" }] : []),
-          ...availableMembers.map((member) => {
-            return { label: member, value: member };
-          }),
-        ]}
-        disabled={
-          !formik.values.image || isProjectBlockingClusterMemberTargeting
-        }
-        title={
-          isProjectBlockingClusterMemberTargeting
-            ? "Cluster member targeting is blocked by project policy"
-            : formik.values.image
-              ? ""
-              : "Please select an image before adding a location member"
-        }
-      />
+      <Label>Placement</Label>
+      <div className="u-sv1">
+        <RadioInput
+          inline
+          labelClassName="margin-right"
+          label="Auto"
+          checked={type === "auto"}
+          onClick={() => {
+            setType("auto");
+          }}
+        />
+        <RadioInput
+          inline
+          labelClassName="margin-right"
+          label="Cluster group"
+          checked={type === "clusterGroup"}
+          onClick={() => {
+            setType("clusterGroup");
+          }}
+        />
+        <RadioInput
+          inline
+          labelClassName="margin-right"
+          label="Cluster member"
+          checked={type === "clusterMember"}
+          onClick={() => {
+            setType("clusterMember");
+          }}
+        />
+        <RadioInput
+          inline
+          label="Placement group"
+          checked={type === "placementGroup"}
+          onClick={() => {
+            setType("placementGroup");
+          }}
+        />
+      </div>
+      <div className="u-margin-left">
+        {type === "placementGroup" && (
+          <Select
+            id="placementGroup"
+            label="Placement group"
+            onChange={(e) => {
+              formik.setFieldValue("placementGroup", e.target.value);
+            }}
+            value={formik.values.placementGroup}
+            options={[
+              { label: "None", value: "" },
+              ...placementGroups.map((group) => ({
+                label: `${group.name} (${group.scope}, ${group.policy}, ${group.rigor})`,
+                value: group.name,
+              })),
+            ]}
+            disabled={!formik.values.image}
+            title={
+              formik.values.image
+                ? ""
+                : "Please select an image before adding a placement group"
+            }
+          />
+        )}
+        {type === "clusterGroup" && (
+          <Select
+            id="clusterGroup"
+            label="Cluster group"
+            onChange={(e) => {
+              setGroup(e.target.value);
+            }}
+            value={selectedGroup}
+            options={availableGroups.map((group) => {
+              return {
+                label: `${group.name} (${group.members.length} ${pluralize("member", group.members.length)})`,
+                value: group.name,
+                disabled: group.members.length < 1,
+              };
+            })}
+            disabled={!formik.values.image}
+            title={
+              formik.values.image
+                ? ""
+                : "Please select an image before adding a location group"
+            }
+          />
+        )}
+        {type === "clusterMember" && (
+          <Select
+            id="clusterMember"
+            label="Cluster member"
+            onChange={(e) => {
+              setMember(e.target.value);
+            }}
+            value={selectedMember}
+            options={[
+              ...(availableMembers.length > 1
+                ? [{ label: "any", value: "" }]
+                : []),
+              ...availableMembers.map((member) => {
+                return { label: member, value: member };
+              }),
+            ]}
+            disabled={
+              !formik.values.image || isProjectBlockingClusterMemberTargeting
+            }
+            title={
+              isProjectBlockingClusterMemberTargeting
+                ? "Cluster member targeting is blocked by project policy"
+                : formik.values.image
+                  ? ""
+                  : "Please select an image before adding a location member"
+            }
+          />
+        )}
+      </div>
     </>
   );
 };
