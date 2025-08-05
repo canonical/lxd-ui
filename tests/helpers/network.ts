@@ -11,6 +11,7 @@ export const createNetwork = async (page: Page, network: string) => {
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
+  await page.waitForTimeout(1000); // ensure the form has loaded
   await page.getByLabel("Name").click();
   await page.getByLabel("Name").fill(network);
   await page.getByRole("button", { name: "Create", exact: true }).click();
