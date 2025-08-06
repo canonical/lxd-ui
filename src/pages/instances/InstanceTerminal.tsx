@@ -44,7 +44,7 @@ const defaultPayload: TerminalConnectPayload = {
     {
       key: "PATH",
       value:
-        "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin",
+        "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/run/current-system/sw/bin",
     },
     {
       key: "LANG",
