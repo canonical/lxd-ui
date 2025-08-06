@@ -1,10 +1,15 @@
 import type { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
+import { randomNameSuffix } from "./name";
 
 // These identities are created by the setup_test script in tests/scripts
 export const identityBar = "bar@bar.com";
 export const identityFoo = "foo@foo.com";
+
+export const randomIdentityName = (): string => {
+  return `playwright-identity-${randomNameSuffix()}`;
+};
 
 export const visitIdentities = async (page: Page) => {
   await gotoURL(page, "/ui/");
