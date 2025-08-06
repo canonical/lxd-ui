@@ -184,6 +184,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                     onEdit={(index) => {
                       openEditRuleModal("ingress", index);
                     }}
+                    editRestriction={formik.values.editRestriction}
                   />
                 </>
               )}
@@ -213,6 +214,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                     onEdit={(index) => {
                       openEditRuleModal("egress", index);
                     }}
+                    editRestriction={formik.values.editRestriction}
                   />
                 </>
               )}

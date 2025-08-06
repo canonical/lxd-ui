@@ -12,7 +12,7 @@ interface Props {
 const GroupActions: FC<Props> = ({ group }) => {
   const panelParams = usePanelParams();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { canDeleteGroup } = useGroupEntitlements();
+  const { canDeleteGroup, canEditGroup } = useGroupEntitlements();
 
   return (
     <>
@@ -29,7 +29,12 @@ const GroupActions: FC<Props> = ({ group }) => {
               panelParams.openEditGroup(group.name);
             }}
             type="button"
-            title="Edit group"
+            title={
+              canEditGroup(group)
+                ? "Edit group"
+                : "Edit group - You do not have permission to edit this group"
+            }
+            disabled={!canEditGroup(group)}
           >
             <Icon name="edit" />
           </Button>,
@@ -43,7 +48,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             title={
               canDeleteGroup(group)
                 ? "Delete group"
-                : "You do not have permission to delete this group"
+                : "Delete group - You do not have permission to delete this group"
             }
             disabled={!canDeleteGroup(group)}
           >

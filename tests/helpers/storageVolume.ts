@@ -7,6 +7,10 @@ export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
 };
 
+export const randomIsoName = (): string => {
+  return `playwright-iso-${randomNameSuffix()}`;
+};
+
 export const createVolume = async (
   page: Page,
   volume: string,

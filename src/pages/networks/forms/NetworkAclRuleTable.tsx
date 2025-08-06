@@ -80,7 +80,10 @@ const NetworkAclRuleTable: FC<Props> = ({
                     hasIcon
                     appearance="base"
                     disabled={!!editRestriction}
-                    title={editRestriction ?? "Edit rule"}
+                    title={
+                      "Edit rule" +
+                      (editRestriction ? ` - ${editRestriction}` : "")
+                    }
                   >
                     <Icon name="edit" />
                   </Button>
@@ -93,7 +96,10 @@ const NetworkAclRuleTable: FC<Props> = ({
                     hasIcon
                     appearance="base"
                     disabled={!!editRestriction}
-                    title={editRestriction ?? "Remove rule"}
+                    title={
+                      "Remove rule" +
+                      (editRestriction ? ` - ${editRestriction}` : "")
+                    }
                   >
                     <Icon name="delete" />
                   </Button>
