@@ -333,7 +333,7 @@ export const connectInstanceExec = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        command: [payload.command],
+        command: payload.command.split(" "),
         "wait-for-websocket": true,
         environment: payload.environment.reduce(
           (a, v) => ({ ...a, [v.key]: v.value }),
