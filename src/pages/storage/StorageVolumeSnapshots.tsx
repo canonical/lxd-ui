@@ -7,12 +7,12 @@ import {
   TablePagination,
   useListener,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
-import Loader from "components/Loader";
 import { useCurrentProject } from "context/useCurrentProject";
 import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
@@ -190,7 +190,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   }
 
   if (isSnapshotsLoading || isProjectLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!volumeSnapshots) {
     return <>Loading storage volume snapshots failed</>;
   }

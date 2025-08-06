@@ -5,6 +5,7 @@ import {
   useListener,
   useNotify,
   useToastNotification,
+  CustomLayout,
 } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,7 +21,6 @@ import type { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 import { useAuth } from "context/auth";
-import CustomLayout from "components/CustomLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";

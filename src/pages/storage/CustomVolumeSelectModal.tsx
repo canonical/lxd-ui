@@ -1,6 +1,10 @@
 import type { FC } from "react";
-import { Button, MainTable, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
+import {
+  Button,
+  MainTable,
+  useNotify,
+  Spinner,
+} from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import type { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
@@ -175,7 +179,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading || isFetching ? (
-              <Loader text="Loading volumes..." />
+              <Spinner className="u-loader" text="Loading volumes..." />
             ) : (
               "No custom volumes found"
             )

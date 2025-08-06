@@ -1,10 +1,9 @@
 import type { FC } from "react";
-import { useNotify } from "@canonical/react-components";
+import { useNotify, Spinner } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "api/server";
 import { queryKeys } from "util/queryKeys";
 import { humanFileSize } from "util/helpers";
-import Loader from "components/Loader";
 import { limitToBytes } from "util/limits";
 import type { LxdProject } from "types/project";
 import { useServerEntitlements } from "util/entitlements/server";
@@ -28,7 +27,7 @@ const MemoryLimitAvailable: FC<Props> = ({ project }) => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading resources..." />;
+    return <Spinner className="u-loader" text="Loading resources..." />;
   }
 
   if (error) {

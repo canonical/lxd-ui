@@ -1,14 +1,17 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import { Row, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
+import {
+  Row,
+  useNotify,
+  Spinner,
+  CustomLayout,
+} from "@canonical/react-components";
 import EditProfile from "pages/profiles/EditProfile";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
 import { isProjectWithProfiles } from "util/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import NotificationRow from "components/NotificationRow";
-import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import { useProfile } from "context/useProfiles";
 
@@ -62,7 +65,9 @@ const ProfileDetail: FC = () => {
       contentClassName="detail-page"
     >
       <NotificationRow />
-      {isLoading && <Loader text="Loading profile details..." />}
+      {isLoading && (
+        <Spinner className="u-loader" text="Loading profile details..." />
+      )}
       {!isLoading && !profile && <>Loading profile failed</>}
       {!isLoading && profile && (
         <Row>

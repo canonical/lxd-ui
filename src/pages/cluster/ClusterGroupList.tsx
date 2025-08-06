@@ -6,8 +6,8 @@ import {
   Row,
   TablePagination,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import EditClusterGroupBtn from "pages/cluster/actions/EditClusterGroupBtn";
 import DeleteClusterGroupBtn from "pages/cluster/actions/DeleteClusterGroupBtn";
 import ScrollableTable from "components/ScrollableTable";
@@ -159,7 +159,12 @@ const ClusterGroupList: FC = () => {
               responsive
               onUpdateSort={updateSort}
               emptyStateMsg={
-                isLoading && <Loader text="Loading cluster groups..." />
+                isLoading && (
+                  <Spinner
+                    className="u-loader"
+                    text="Loading cluster groups..."
+                  />
+                )
               }
             />
           </TablePagination>

@@ -1,8 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import type { CustomSelectOption } from "@canonical/react-components";
-import { CustomSelect, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
+import { CustomSelect, useNotify, Spinner } from "@canonical/react-components";
 import type { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
 import { cephObject } from "util/storageOptions";
 import StoragePoolOptionLabel from "./StoragePoolOptionLabel";
@@ -36,7 +35,7 @@ const StoragePoolSelector: FC<Props> = ({
   }, [value, poolsToUse]);
 
   if (isLoading) {
-    return <Loader text="Loading storage pools..." />;
+    return <Spinner className="u-loader" text="Loading storage pools..." />;
   }
 
   if (error) {

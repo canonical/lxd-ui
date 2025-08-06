@@ -6,13 +6,13 @@ import {
   Notification,
   Row,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
-import Loader from "components/Loader";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
-import CustomLayout from "components/CustomLayout";
 import { useSettings } from "context/useSettings";
 
 const CertificateAdd: FC = () => {
@@ -23,7 +23,7 @@ const CertificateAdd: FC = () => {
   const navigate = useNavigate();
 
   if (isAuthLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (isAuthenticated) {

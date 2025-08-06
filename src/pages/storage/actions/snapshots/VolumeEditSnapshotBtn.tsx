@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { usePortal } from "@canonical/react-components";
-import { Button, Icon } from "@canonical/react-components";
+import { Button, Icon, usePortal } from "@canonical/react-components";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import EditVolumeSnapshotForm from "pages/storage/forms/EditVolumeSnapshotForm";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";

@@ -5,8 +5,9 @@ import {
   Row,
   TablePagination,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
@@ -15,7 +16,6 @@ import { useEffect, useState } from "react";
 import useSortTableData from "util/useSortTableData";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
 import usePanelParams, { panels } from "util/usePanelParams";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
@@ -168,7 +168,7 @@ const PermissionGroups: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {

@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { Button } from "@canonical/react-components";
-import { usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import UploadVolumeFileModal from "../forms/UploadVolumeFileModal";
 
 interface Props {

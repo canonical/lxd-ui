@@ -1,6 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { usePortal } from "@canonical/react-components";
-import { Button, Tooltip } from "@canonical/react-components";
+import { Button, Tooltip, usePortal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import CreateInstanceSnapshotForm from "pages/instances/forms/CreateInstanceSnapshotForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";

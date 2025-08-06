@@ -1,11 +1,15 @@
 import type { FC } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Icon, Row, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
+import {
+  Icon,
+  Row,
+  useNotify,
+  Spinner,
+  CustomLayout,
+} from "@canonical/react-components";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
 import NotificationRow from "components/NotificationRow";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
-import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
 import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
@@ -37,7 +41,7 @@ const StoragePoolDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!pool) {
     return <>Loading storage details failed</>;
   }

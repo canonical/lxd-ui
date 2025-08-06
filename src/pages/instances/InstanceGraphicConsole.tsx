@@ -4,10 +4,9 @@ import { useParams } from "react-router-dom";
 import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
-import { useListener, useNotify } from "@canonical/react-components";
+import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 
 declare global {
@@ -160,7 +159,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   return (
     <>
       {isVgaLoading ? (
-        <Loader text="Loading VGA session..." />
+        <Spinner className="u-loader" text="Loading VGA session..." />
       ) : (
         <div id="spice-area" ref={spiceRef}>
           <div id="spice-screen" className="spice-screen" />

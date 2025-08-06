@@ -6,8 +6,9 @@ import {
   Row,
   TablePagination,
   useNotify,
+  CustomLayout,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import StorageBucketsFilter, {
   QUERY,
@@ -25,7 +26,6 @@ import {
   KEY_COL,
 } from "util/storageBucketTable";
 import useSortTableData from "util/useSortTableData";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
@@ -214,7 +214,7 @@ const StorageBuckets: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const hasBuckets = buckets.length !== 0;

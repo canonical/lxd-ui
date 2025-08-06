@@ -6,9 +6,10 @@ import {
   Row,
   SearchBox,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
 import SettingForm from "./SettingForm";
-import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import ScrollableTable from "components/ScrollableTable";
 import HelpLink from "components/HelpLink";
@@ -19,7 +20,6 @@ import { useQuery } from "@tanstack/react-query";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { toConfigFields } from "util/config";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
@@ -51,7 +51,7 @@ const Settings: FC = () => {
   }
 
   if (isConfigOptionsLoading || isSettingsLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (settingsError) {

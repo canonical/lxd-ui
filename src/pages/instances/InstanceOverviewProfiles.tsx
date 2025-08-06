@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { MainTable } from "@canonical/react-components";
-import Loader from "components/Loader";
+import { MainTable, Spinner } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import ResourceLink from "components/ResourceLink";
 import { useProfiles } from "context/useProfiles";
@@ -66,7 +65,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading profiles..." />;
+    return <Spinner className="u-loader" text="Loading profiles..." />;
   }
 
   return <MainTable headers={profileHeaders} rows={profileRows} sortable />;

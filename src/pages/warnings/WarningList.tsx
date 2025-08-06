@@ -1,11 +1,15 @@
 import type { FC } from "react";
 import { useState, useEffect } from "react";
-import { Row, useNotify } from "@canonical/react-components";
+import {
+  Row,
+  useNotify,
+  Spinner,
+  CustomLayout,
+} from "@canonical/react-components";
 import { fetchWarnings } from "api/warnings";
 import { isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
@@ -13,7 +17,6 @@ import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import ScrollableTable from "components/ScrollableTable";
 import PageHeader from "components/PageHeader";
-import CustomLayout from "components/CustomLayout";
 
 const WarningList: FC = () => {
   const docBaseLink = useDocs();
@@ -173,7 +176,7 @@ const WarningList: FC = () => {
             className="warnings-table"
             emptyStateMsg={
               isLoading ? (
-                <Loader text="Loading warnings..." />
+                <Spinner className="u-loader" text="Loading warnings..." />
               ) : (
                 "No data to display"
               )

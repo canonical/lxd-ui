@@ -5,11 +5,11 @@ import {
   MainTable,
   Row,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
-import Loader from "components/Loader";
 import { useDocs } from "context/useDocs";
 import ScrollableTable from "components/ScrollableTable";
 import { fetchNetworkLeases } from "api/network-leases";
@@ -121,7 +121,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (

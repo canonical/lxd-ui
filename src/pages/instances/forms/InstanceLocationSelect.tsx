@@ -1,8 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Input, Select } from "@canonical/react-components";
-import Loader from "components/Loader";
+import { Input, Select, Spinner } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { useIsClustered } from "context/useIsClustered";
@@ -93,7 +92,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   }, [availableGroups, selectedGroup]);
 
   if (isLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   if (isPreselected) {

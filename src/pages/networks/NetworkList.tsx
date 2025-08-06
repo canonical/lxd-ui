@@ -7,8 +7,9 @@ import {
   MainTable,
   Row,
   useNotify,
+  Spinner,
+  CustomLayout,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import {
   Link,
   useNavigate,
@@ -23,7 +24,6 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { renderNetworkType } from "util/networks";
 import { useClusterMembers } from "context/useClusterMembers";
 import PageHeader from "components/PageHeader";
-import CustomLayout from "components/CustomLayout";
 import type { NetworkFilters } from "pages/networks/NetworkSearchFilter";
 import NetworkSearchFilter, {
   MANAGED,
@@ -244,7 +244,7 @@ const NetworkList: FC = () => {
     });
 
   if (isLoading || isClusterNetworksLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (

@@ -8,10 +8,11 @@ import {
   SearchBox,
   TablePagination,
   useNotify,
+  CustomLayout,
+  Spinner,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
-import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import { localLxdToRemoteImage } from "util/images";
@@ -23,7 +24,6 @@ import SelectedTableNotification from "components/SelectedTableNotification";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import { useDocs } from "context/useDocs";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
@@ -191,7 +191,7 @@ const ImageList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (

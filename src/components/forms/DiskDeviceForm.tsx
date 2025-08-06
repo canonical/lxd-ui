@@ -1,7 +1,6 @@
 import type { FC } from "react";
-import { Input, useNotify } from "@canonical/react-components";
+import { Input, useNotify, Spinner } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import Loader from "components/Loader";
 import { getInheritedDiskDevices } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
 import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
@@ -40,7 +39,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
   }
 
   if (isProfileLoading || isStorageLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   const inheritedDiskDevices = getInheritedDiskDevices(formik.values, profiles);

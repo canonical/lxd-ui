@@ -1,11 +1,10 @@
 import type { FC } from "react";
-import { Input, useNotify } from "@canonical/react-components";
+import { Input, useNotify, Spinner } from "@canonical/react-components";
 import type { Props as InputProps } from "@canonical/react-components/dist/components/Input/Input";
 import type { LxdProject } from "types/project";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
-import Loader from "components/Loader";
 import { useServerEntitlements } from "util/entitlements/server";
 
 type Props = {
@@ -28,7 +27,7 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading resources..." />;
+    return <Spinner className="u-loader" text="Loading resources..." />;
   }
 
   if (error) {

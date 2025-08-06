@@ -6,8 +6,8 @@ import {
   Label,
   Select,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import { defaultFirst } from "util/helpers";
 import { useProfiles } from "context/useProfiles";
 
@@ -43,7 +43,7 @@ const ProfileSelector: FC<Props> = ({
   }, [selected]);
 
   if (isLoading) {
-    return <Loader text="Loading profiles..." />;
+    return <Spinner className="u-loader" text="Loading profiles..." />;
   }
 
   if (error) {

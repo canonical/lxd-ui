@@ -4,9 +4,12 @@ import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
-import Loader from "components/Loader";
-import { Row, useNotify } from "@canonical/react-components";
-import CustomLayout from "components/CustomLayout";
+import {
+  Row,
+  useNotify,
+  Spinner,
+  CustomLayout,
+} from "@canonical/react-components";
 import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 import { useNetwork } from "context/useNetworks";
@@ -40,7 +43,7 @@ const NetworkDetail: FC = () => {
   }, [error]);
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const isManagedNetwork = network?.managed;

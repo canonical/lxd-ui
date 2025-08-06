@@ -1,7 +1,6 @@
 import type { FC } from "react";
-import { Button, MainTable } from "@canonical/react-components";
+import { Button, MainTable, Spinner } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import Loader from "components/Loader";
 import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdImageType, RemoteImage } from "types/image";
 import type { IsoImage } from "types/iso";
@@ -112,7 +111,7 @@ const CustomIsoSelector: FC<Props> = ({
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
-              <Loader text="Loading images..." />
+              <Spinner className="u-loader" text="Loading images..." />
             ) : (
               "No custom ISOs found"
             )

@@ -1,10 +1,8 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
+import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
-import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
-import CustomLayout from "components/CustomLayout";
 import classnames from "classnames";
 
 const Login: FC = () => {
@@ -13,7 +11,7 @@ const Login: FC = () => {
   const hasOidc = settings?.auth_methods?.includes("oidc");
 
   if (isAuthLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   if (isAuthenticated) {

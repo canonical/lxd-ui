@@ -6,7 +6,6 @@ import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import type { TerminalConnectPayload } from "types/terminal";
-import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
 import { useInstanceStart } from "util/instanceStart";
@@ -19,6 +18,7 @@ import {
   Notification,
   useListener,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -262,7 +262,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
             <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
           </div>
           <NotificationRow />
-          {isLoading && <Loader text="Loading terminal session..." />}
+          {isLoading && (
+            <Spinner className="u-loader" text="Loading terminal session..." />
+          )}
           {controlWs && (
             <Xterm
               ref={xtermRef}

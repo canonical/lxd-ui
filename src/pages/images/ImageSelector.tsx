@@ -9,6 +9,7 @@ import {
   Row,
   SearchBox,
   Select,
+  Spinner,
 } from "@canonical/react-components";
 import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
 import { capitalizeFirstLetter, handleResponse } from "util/helpers";
@@ -23,7 +24,6 @@ import {
   LOCAL_ISO,
   LOCAL_IMAGE,
 } from "util/images";
-import Loader from "components/Loader";
 import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
@@ -468,7 +468,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 className="table-image-select"
                 emptyStateMsg={
                   isLoading ? (
-                    <Loader text="Loading images..." />
+                    <Spinner className="u-loader" text="Loading images..." />
                   ) : (
                     "No matching images found"
                   )
