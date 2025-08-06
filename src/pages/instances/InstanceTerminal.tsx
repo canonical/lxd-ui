@@ -30,27 +30,33 @@ const XTERM_OPTIONS = {
   },
 };
 
-const getDefaultPayload = (instance: LxdInstance): TerminalConnectPayload => {
-  const imageDescription = instance.config["image.description"];
-  const isAlpine = imageDescription?.toLowerCase().includes("alpine");
-  const isNixOs = imageDescription?.toLowerCase().includes("nixos");
-  const command = isAlpine || isNixOs ? "sh" : "bash";
-
-  return {
-    command: command,
-    environment: [
-      {
-        key: "TERM",
-        value: "xterm-256color",
-      },
-      {
-        key: "HOME",
-        value: "/root",
-      },
-    ],
-    user: 0,
-    group: 0,
-  };
+const defaultPayload: TerminalConnectPayload = {
+  command: "su -l",
+  environment: [
+    {
+      key: "TERM",
+      value: "xterm-256color",
+    },
+    {
+      key: "HOME",
+      value: "/root",
+    },
+    {
+      key: "PATH",
+      value:
+        "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin",
+    },
+    {
+      key: "LANG",
+      value: "C.UTF-8",
+    },
+    {
+      key: "USER",
+      value: "root",
+    },
+  ],
+  user: 0,
+  group: 0,
 };
 
 interface Props {
@@ -68,7 +74,6 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const [isLoading, setLoading] = useState(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
-  const defaultPayload = getDefaultPayload(instance);
   const [payload, setPayload] = useState(defaultPayload);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
