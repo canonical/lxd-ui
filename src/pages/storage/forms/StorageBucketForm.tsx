@@ -46,17 +46,6 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
     <Form onSubmit={formik.handleSubmit} className={"bucket-create-form"}>
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
-      <Input
-        {...getFormProps("name")}
-        type="text"
-        label="Name"
-        required
-        autoFocus
-        disabled={!!bucketEditRestriction || isEditing}
-        help={isEditing && "Storage bucket name can't be changed"}
-        title={bucketEditRestriction}
-      />
-
       <StoragePoolSelector
         value={formik.values.pool}
         setValue={(value) => void formik.setFieldValue("pool", value)}
@@ -69,9 +58,26 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
           disabled: !!bucketEditRestriction || isEditing,
           help: isEditing
             ? "Storage bucket pool can't be changed"
-            : "Pool must have a Ceph Object driver",
+            : formik.errors.pool
+              ? null
+              : "Pool must have a Ceph Object driver",
+          error: formik.errors.pool,
+          onBlur: formik.handleBlur,
+          takeFocus: true,
+          required: true,
         }}
       />
+
+      <Input
+        {...getFormProps("name")}
+        type="text"
+        label="Name"
+        required
+        disabled={!!bucketEditRestriction || isEditing}
+        help={isEditing && "Storage bucket name can't be changed"}
+        title={bucketEditRestriction}
+      />
+
       <DiskSizeSelector
         label="Size"
         value={formik.values.size}
