@@ -18,12 +18,14 @@ import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
 import { useClusterMembers } from "context/useClusterMembers";
 import usePanelParams from "util/usePanelParams";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
+import { useMemberLoading } from "context/memberLoading";
 
 const ClusterMemberList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: members = [], error, isLoading } = useClusterMembers();
+  const memberLoading = useMemberLoading();
 
   if (error) {
     notify.failure("Loading cluster members failed", error);
@@ -64,6 +66,7 @@ const ClusterMemberList: FC = () => {
     const openMemberEdit = () => {
       panelParams.openEditMember(member.server_name);
     };
+    const loadingType = memberLoading.getType(member.server_name);
 
     return {
       key: member.server_name,
@@ -90,10 +93,10 @@ const ClusterMemberList: FC = () => {
           content: (
             <>
               <div>
-                <ClusterMemberStatus status={member.status} />
+                <ClusterMemberStatus member={member} />
               </div>
               <div className="u-text--muted status-header">
-                {member.message}
+                {loadingType ? "In progress" : member.message}
               </div>
             </>
           ),
