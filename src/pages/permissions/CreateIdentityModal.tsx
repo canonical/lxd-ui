@@ -19,7 +19,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
         <>
           {token && (
             <>
-              <CopyTextBtn label="Copy trust token" text={token} />
+              <CopyTextBtn label="Copy identity trust token" text={token} />
               <Button
                 aria-label="Close"
                 className="u-no-margin--bottom"
@@ -36,10 +36,11 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
       {token && (
         <>
           <p>
-            The trust token below can be used to log in with the newly created
-            identity <ResourceLabel type="certificate" value={identityName} /> .{" "}
+            The identity trust token below can be used to log in with the newly
+            created identity{" "}
+            <ResourceLabel type="certificate" value={identityName} /> .{" "}
             <b>
-              Once this modal is closed, the trust token can&rsquo;t be
+              Once this modal is closed, the identity trust token can&rsquo;t be
               generated again.
             </b>
           </p>

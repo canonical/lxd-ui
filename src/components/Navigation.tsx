@@ -657,7 +657,7 @@ const Navigation: FC = () => {
                               navigate("/ui/login/certificate-add");
                             }}
                             index={2}
-                            title="Trust token"
+                            title="Identity trust token"
                             hasProgressLine={false}
                             enabled
                             iconName="number"
