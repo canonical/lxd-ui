@@ -1,8 +1,11 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import { Row, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
-import CustomLayout from "components/CustomLayout";
+import {
+  Row,
+  useNotify,
+  CustomLayout,
+  Spinner,
+} from "@canonical/react-components";
 import { useBucket } from "context/useBuckets";
 import StorageBucketHeader from "./StorageBucketHeader";
 import StorageBucketKeys from "./StorageBucketKeys";
@@ -47,7 +50,7 @@ const StorageBucketDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!bucket) {
     return <>Loading storage bucket failed</>;
   }

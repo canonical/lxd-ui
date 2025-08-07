@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { Row, Col } from "@canonical/react-components";
-import CustomLayout from "./CustomLayout";
+import { Row, Col, CustomLayout } from "@canonical/react-components";
 
 const ProjectNotFound: FC = () => {
   const url = location.pathname;

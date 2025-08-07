@@ -1,10 +1,13 @@
 import type { FC } from "react";
-import { Row, useNotify } from "@canonical/react-components";
+import {
+  Row,
+  useNotify,
+  CustomLayout,
+  Spinner,
+} from "@canonical/react-components";
 import { Link, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
-import CustomLayout from "components/CustomLayout";
 import RenameHeader from "components/RenameHeader";
-import Loader from "components/Loader";
 import TabLinks from "components/TabLinks";
 import { useClusterMember } from "context/useClusterMembers";
 import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
@@ -25,7 +28,7 @@ const ClusterMemberDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const tabs = ["Overview", "Hardware"];

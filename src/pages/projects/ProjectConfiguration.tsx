@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
 import EditProject from "pages/projects/EditProject";
-import Loader from "components/Loader";
+import { Spinner } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 
 const ProjectConfiguration: FC = () => {
@@ -14,7 +14,7 @@ const ProjectConfiguration: FC = () => {
   const { project, isLoading } = useCurrentProject();
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return project ? (

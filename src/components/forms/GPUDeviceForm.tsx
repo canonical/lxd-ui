@@ -5,11 +5,11 @@ import {
   Input,
   Notification,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
 import type { LxdGPUDevice } from "types/device";
 import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { getInheritedGPUs } from "util/configInheritance";
-import Loader from "components/Loader";
 import AttachGPUBtn from "components/forms/SelectGPUBtn";
 import type { GpuCard } from "types/resources";
 import ScrollableForm from "components/ScrollableForm";
@@ -221,7 +221,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (isProfileLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   return (

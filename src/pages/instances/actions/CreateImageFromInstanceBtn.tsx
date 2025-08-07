@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
-import { ActionButton, Icon } from "@canonical/react-components";
-import { usePortal } from "@canonical/react-components";
+import { ActionButton, Icon, usePortal } from "@canonical/react-components";
 import CreateImageFromInstanceForm from "../forms/CreateImageFromInstanceForm";
 import { useInstanceLoading } from "context/instanceLoading";
 import classNames from "classnames";

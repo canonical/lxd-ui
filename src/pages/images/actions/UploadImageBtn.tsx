@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
-import { usePortal } from "@canonical/react-components";
+import { Button, Icon, usePortal } from "@canonical/react-components";
 import UploadImageForm from "./forms/UploadImageForm";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";

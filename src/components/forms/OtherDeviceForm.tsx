@@ -6,6 +6,7 @@ import {
   Label,
   Select,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -15,7 +16,6 @@ import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { toConfigFields } from "util/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import Loader from "components/Loader";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
@@ -85,7 +85,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
   };
 
   if (isProfileLoading || isConfigOptionsLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   const hasCustomDevices = formik.values.devices.some(isOtherDevice);
@@ -204,7 +204,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction ?? "Detach GPU"}
+            title={formik.values.editRestriction ?? "Detach device"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />

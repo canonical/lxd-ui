@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
-import { Button, Icon } from "@canonical/react-components";
-import { usePortal } from "@canonical/react-components";
+import { Button, Icon, usePortal } from "@canonical/react-components";
 import CreateInstanceFromSnapshotForm from "../../forms/CreateInstanceFromSnapshotForm";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";

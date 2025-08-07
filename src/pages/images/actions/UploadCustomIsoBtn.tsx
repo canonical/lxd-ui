@@ -4,9 +4,9 @@ import {
   Icon,
   Modal,
   useToastNotification,
+  usePortal,
 } from "@canonical/react-components";
 import UploadCustomIso from "pages/storage/UploadCustomIso";
-import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ResourceLink from "components/ResourceLink";

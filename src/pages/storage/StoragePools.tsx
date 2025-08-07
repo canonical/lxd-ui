@@ -5,8 +5,9 @@ import {
   MainTable,
   Row,
   useNotify,
+  CustomLayout,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
@@ -16,7 +17,6 @@ import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolB
 import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useStoragePools } from "context/useStoragePools";
 import classNames from "classnames";
@@ -174,7 +174,7 @@ const StoragePools: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const content =

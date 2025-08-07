@@ -7,13 +7,12 @@ import {
   fetchInstanceConsoleBuffer,
 } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
 import Xterm from "components/Xterm";
 import type { Terminal } from "xterm";
-import { useListener, useNotify } from "@canonical/react-components";
+import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 
 interface Props {
@@ -176,7 +175,7 @@ const InstanceTextConsole: FC<Props> = ({
   return (
     <>
       {isLoading ? (
-        <Loader text="Loading text console..." />
+        <Spinner className="u-loader" text="Loading text console..." />
       ) : (
         <Xterm
           ref={xtermRef}

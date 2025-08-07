@@ -8,8 +8,9 @@ import {
   TablePagination,
   useListener,
   useNotify,
+  CustomLayout,
+  Spinner,
 } from "@canonical/react-components";
-import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import type { StorageVolumesFilterType } from "pages/storage/StorageVolumesFilter";
@@ -45,7 +46,6 @@ import {
 import StorageVolumeNameLink from "./StorageVolumeNameLink";
 import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
 import useSortTableData from "util/useSortTableData";
-import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
@@ -380,7 +380,7 @@ const StorageVolumes: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader isMainComponent />;
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   const defaultPoolForVolumeCreate =

@@ -6,11 +6,11 @@ import {
   Label,
   Select,
   useNotify,
+  Spinner,
 } from "@canonical/react-components";
 import type { LxdProxyDevice } from "types/device";
 import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { getInheritedProxies } from "util/configInheritance";
-import Loader from "components/Loader";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
@@ -284,7 +284,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (isProfileLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   return (

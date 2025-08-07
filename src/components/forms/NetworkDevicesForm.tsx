@@ -5,6 +5,7 @@ import {
   Icon,
   Input,
   Tooltip,
+  Spinner,
   useNotify,
 } from "@canonical/react-components";
 import type { LxdNicDevice } from "types/device";
@@ -12,7 +13,6 @@ import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValu
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import Loader from "components/Loader";
 import { getInheritedNetworks } from "util/configInheritance";
 import type { CustomNetworkDevice } from "util/formDevices";
 import { deduplicateName } from "util/formDevices";
@@ -55,7 +55,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   }, [networkError]);
 
   if (isProfileLoading || isNetworkLoading) {
-    return <Loader />;
+    return <Spinner className="u-loader" text="Loading..." />;
   }
 
   const managedNetworks = networks.filter((network) => network.managed);

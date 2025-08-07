@@ -13,7 +13,7 @@ const NetworkVlanField: FC<Props> = ({ formik }) => {
   return (
     <div className="general-field">
       <div className="general-field-label can-edit">
-        <Label forId="description">VLAN Id</Label>
+        <Label forId="vlan">VLAN Id</Label>
       </div>
       <div
         className="general-field-content"
@@ -40,6 +40,7 @@ const NetworkVlanField: FC<Props> = ({ formik }) => {
         ) : (
           <Input
             {...formik.getFieldProps("vlan")}
+            id="vlan"
             type="number"
             placeholder="Enter VLAN ID"
             help="The VLAN ID to attach to"
