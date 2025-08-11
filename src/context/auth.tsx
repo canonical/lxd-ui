@@ -105,7 +105,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: (settings && settings.auth !== "untrusted") ?? false,
+        isAuthenticated: false, //(settings && settings.auth !== "untrusted") ?? false,
         isOidc: settings?.auth_user_method === "oidc",
         isAuthLoading:
           isSettingsLoading || isIdentityLoading || isProjectsLoading,
