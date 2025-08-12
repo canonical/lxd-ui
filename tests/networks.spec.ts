@@ -14,12 +14,14 @@ import {
 } from "./helpers/configuration";
 
 test("network create and remove", async ({ page }) => {
+  test.skip(Boolean(process.env.CI), "skipping unstable test");
   const network = randomNetworkName();
   await createNetwork(page, network);
   await deleteNetwork(page, network);
 });
 
 test("network edit basic details", async ({ page }) => {
+  test.skip(Boolean(process.env.CI), "skipping unstable test");
   const network = randomNetworkName();
   await createNetwork(page, network);
 

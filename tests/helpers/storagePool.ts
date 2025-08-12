@@ -8,6 +8,7 @@ export const randomPoolName = (): string => {
 
 export const createPool = async (page: Page, pool: string) => {
   await page.goto("/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("link", { name: "Storage" }).click();
   await page.getByRole("button", { name: "Create pool" }).click();
   await page.getByPlaceholder("Enter name").fill(pool);
