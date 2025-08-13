@@ -1,7 +1,6 @@
 import type { FC, ReactNode } from "react";
-import { useNotify } from "@canonical/react-components";
+import { ScrollableTable, useNotify } from "@canonical/react-components";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import ScrollableTable from "components/ScrollableTable";
 import ConfigurationTable from "components/ConfigurationTable";
 
 interface Props {

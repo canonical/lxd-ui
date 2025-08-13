@@ -4,6 +4,7 @@ import {
   MainTable,
   Notification,
   Row,
+  ScrollableTable,
   SearchBox,
   useNotify,
   Spinner,
@@ -11,7 +12,6 @@ import {
 } from "@canonical/react-components";
 import SettingForm from "./SettingForm";
 import NotificationRow from "components/NotificationRow";
-import ScrollableTable from "components/ScrollableTable";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import { queryKeys } from "util/queryKeys";

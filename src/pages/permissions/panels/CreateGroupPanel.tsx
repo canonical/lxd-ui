@@ -1,6 +1,7 @@
 import {
   ActionButton,
   Button,
+  ScrollableContainer,
   SidePanel,
   useNotify,
   useToastNotification,
@@ -17,7 +18,6 @@ import { createGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
-import ScrollableContainer from "components/ScrollableContainer";
 import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
 import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
 import classnames from "classnames";

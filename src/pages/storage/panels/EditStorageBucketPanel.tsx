@@ -1,6 +1,7 @@
 import {
   ActionButton,
   Button,
+  ScrollableContainer,
   SidePanel,
   useNotify,
   useToastNotification,
@@ -9,7 +10,6 @@ import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
-import ScrollableContainer from "components/ScrollableContainer";
 import ResourceLink from "components/ResourceLink";
 import StorageBucketForm from "../forms/StorageBucketForm";
 import type { StorageBucketFormValues } from "../forms/StorageBucketForm";

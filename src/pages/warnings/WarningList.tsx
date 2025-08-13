@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useState, useEffect } from "react";
 import {
   Row,
+  ScrollableTable,
   useNotify,
   Spinner,
   CustomLayout,
@@ -15,7 +16,6 @@ import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import SelectableMainTable from "components/SelectableMainTable";
-import ScrollableTable from "components/ScrollableTable";
 import PageHeader from "components/PageHeader";
 
 const WarningList: FC = () => {

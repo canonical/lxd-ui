@@ -5,6 +5,7 @@ import {
   Icon,
   MainTable,
   Row,
+  ScrollableTable,
   useNotify,
   Spinner,
   CustomLayout,
@@ -21,7 +22,6 @@ import type { LxdUsedBy } from "util/usedBy";
 import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
 import ResourceLink from "components/ResourceLink";
-import ScrollableTable from "components/ScrollableTable";
 
 const NetworkIPAM: FC = () => {
   const docBaseLink = useDocs();

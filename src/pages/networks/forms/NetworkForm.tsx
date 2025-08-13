@@ -1,6 +1,12 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Form, Input, SearchBox, useNotify } from "@canonical/react-components";
+import {
+  Form,
+  Input,
+  ScrollableContainer,
+  SearchBox,
+  useNotify,
+} from "@canonical/react-components";
 import type {
   LxdNetwork,
   LxdNetworkBridgeDriver,
@@ -30,7 +36,6 @@ import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/instanceEdit";
-import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";

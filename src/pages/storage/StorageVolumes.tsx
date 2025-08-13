@@ -5,13 +5,13 @@ import {
   EmptyState,
   Icon,
   Row,
+  ScrollableTable,
   TablePagination,
   useListener,
   useNotify,
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import type { StorageVolumesFilterType } from "pages/storage/StorageVolumesFilter";
 import { CLUSTER_MEMBER } from "pages/storage/StorageVolumesFilter";

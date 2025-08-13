@@ -5,6 +5,7 @@ import {
   Icon,
   MainTable,
   Row,
+  ScrollableTable,
   useNotify,
   Spinner,
 } from "@canonical/react-components";
@@ -17,7 +18,6 @@ import DeleteNetworkForwardBtn from "pages/networks/actions/DeleteNetworkForward
 import { Link } from "react-router-dom";
 import ExpandableList from "components/ExpandableList";
 import NetworkForwardPort from "pages/networks/NetworkForwardPort";
-import ScrollableTable from "components/ScrollableTable";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useIsClustered } from "context/useIsClustered";
 import ResourceLink from "components/ResourceLink";

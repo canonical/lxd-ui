@@ -1,6 +1,7 @@
 import {
   ActionButton,
   Button,
+  ScrollableContainer,
   SidePanel,
   useNotify,
   useToastNotification,
@@ -10,7 +11,6 @@ import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
-import ScrollableContainer from "components/ScrollableContainer";
 import ResourceLink from "components/ResourceLink";
 import { createStorageBucketKey } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";

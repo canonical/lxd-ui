@@ -5,6 +5,7 @@ import {
   Form,
   Icon,
   Input,
+  ScrollableContainer,
   useNotify,
   usePortal,
 } from "@canonical/react-components";
@@ -17,7 +18,6 @@ import { ensureEditMode } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { YAML_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import YamlForm from "components/forms/YamlForm";
-import ScrollableContainer from "components/ScrollableContainer";
 import type { LxdNetworkAcl } from "types/network";
 import NetworkAclUsedBy from "pages/networks/NetworkAclUsedBy";
 

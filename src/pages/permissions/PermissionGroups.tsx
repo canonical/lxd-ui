@@ -3,12 +3,12 @@ import {
   EmptyState,
   Icon,
   Row,
+  ScrollableTable,
   TablePagination,
   useNotify,
   Spinner,
   CustomLayout,
 } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import type { FC } from "react";

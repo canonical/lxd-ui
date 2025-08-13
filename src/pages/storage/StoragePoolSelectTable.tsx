@@ -1,6 +1,9 @@
 import type { FC } from "react";
-import { Button, MainTable } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
+import {
+  Button,
+  MainTable,
+  ScrollableTable,
+} from "@canonical/react-components";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import classnames from "classnames";
 import { useStoragePools } from "context/useStoragePools";

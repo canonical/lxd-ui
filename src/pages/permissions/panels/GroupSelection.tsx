@@ -1,10 +1,13 @@
 import type { DependencyList, FC } from "react";
 import { useState } from "react";
 import PermissionGroupsFilter from "../PermissionGroupsFilter";
-import ScrollableContainer from "components/ScrollableContainer";
 import type { LxdAuthGroup } from "types/permissions";
-import { EmptyState, Icon } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
+import {
+  EmptyState,
+  Icon,
+  ScrollableContainer,
+  ScrollableTable,
+} from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";

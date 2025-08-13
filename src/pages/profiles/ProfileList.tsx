@@ -8,6 +8,7 @@ import {
   MainTable,
   Notification,
   Row,
+  ScrollableTable,
   SearchBox,
   TablePagination,
   useNotify,
@@ -21,7 +22,6 @@ import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
 import { useCurrentProject } from "context/useCurrentProject";
-import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";

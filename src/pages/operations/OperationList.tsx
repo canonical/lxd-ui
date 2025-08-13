@@ -5,6 +5,7 @@ import {
   Icon,
   MainTable,
   Row,
+  ScrollableTable,
   SearchBox,
   TablePagination,
   useNotify,
@@ -19,7 +20,6 @@ import NotificationRow from "components/NotificationRow";
 import { getInstanceName, getProjectName } from "util/operations";
 import { useOperations } from "context/operationsProvider";
 import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn";
-import ScrollableTable from "components/ScrollableTable";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 

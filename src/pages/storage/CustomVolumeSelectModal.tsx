@@ -4,8 +4,8 @@ import {
   MainTable,
   useNotify,
   Spinner,
+  ScrollableTable,
 } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
 import type { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
 import { renderContentType } from "util/storageVolume";

@@ -6,6 +6,7 @@ import {
   List,
   MainTable,
   Row,
+  ScrollableTable,
   SearchBox,
   TablePagination,
   useToastNotification,
@@ -16,7 +17,6 @@ import { humanFileSize, isoTimeToString } from "util/helpers";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
-import ScrollableTable from "components/ScrollableTable";
 import { Link, useParams } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";

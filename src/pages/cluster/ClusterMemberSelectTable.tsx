@@ -1,6 +1,9 @@
 import type { FC } from "react";
-import { Button, MainTable } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
+import {
+  Button,
+  MainTable,
+  ScrollableTable,
+} from "@canonical/react-components";
 import classnames from "classnames";
 import { useClusterMembers } from "context/useClusterMembers";
 

@@ -7,6 +7,7 @@ import {
   MainTable,
   Modal,
   Row,
+  ScrollableTable,
   SearchBox,
   Select,
   Spinner,
@@ -27,7 +28,6 @@ import {
 import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
-import ScrollableTable from "components/ScrollableTable";
 import { useParams } from "react-router-dom";
 import { useImagesInProject } from "context/useImages";
 
