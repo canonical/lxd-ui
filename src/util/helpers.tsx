@@ -216,18 +216,6 @@ export const defaultFirst = (
 export const isWidthBelow = (width: number): boolean =>
   window.innerWidth < width;
 
-export const getParentsBottomSpacing = (element: Element): number => {
-  let sum = 0;
-  while (element.parentElement) {
-    element = element.parentElement;
-    const style = window.getComputedStyle(element);
-    const margin = parseInt(style.marginBottom);
-    const padding = parseInt(style.paddingBottom);
-    sum += margin + padding;
-  }
-  return sum;
-};
-
 export const logout = (hasOidc?: boolean, hasCertificate?: boolean): void => {
   if (window.location.href.includes("/ui/login")) {
     return;

@@ -4,6 +4,7 @@ import {
   Icon,
   MainTable,
   Row,
+  ScrollableTable,
   useNotify,
   Spinner,
 } from "@canonical/react-components";
@@ -11,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
 import { useDocs } from "context/useDocs";
-import ScrollableTable from "components/ScrollableTable";
 import { fetchNetworkLeases } from "api/network-leases";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";

@@ -3,6 +3,7 @@ import {
   Button,
   Form,
   Input,
+  ScrollableContainer,
   SidePanel,
   useNotify,
   useToastNotification,
@@ -13,7 +14,6 @@ import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
-import ScrollableContainer from "components/ScrollableContainer";
 import { updateClusterMember } from "api/cluster-members";
 import ResourceLink from "components/ResourceLink";
 import { useClusterMember } from "context/useClusterMembers";

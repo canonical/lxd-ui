@@ -1,7 +1,11 @@
-import { Icon, SearchBox, useNotify } from "@canonical/react-components";
+import {
+  Icon,
+  ScrollableTable,
+  SearchBox,
+  useNotify,
+} from "@canonical/react-components";
 import type { FC } from "react";
 import { useState } from "react";
-import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";

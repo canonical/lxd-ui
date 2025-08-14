@@ -1,6 +1,7 @@
 import {
   ActionButton,
   Button,
+  ScrollableContainer,
   SidePanel,
   useNotify,
   useToastNotification,
@@ -11,7 +12,6 @@ import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
-import ScrollableContainer from "components/ScrollableContainer";
 import { createClusterGroup } from "api/cluster-groups";
 import ResourceLink from "components/ResourceLink";
 import type { ClusterGroupFormValues } from "pages/cluster/ClusterGroupForm";

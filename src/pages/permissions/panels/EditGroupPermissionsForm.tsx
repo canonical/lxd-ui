@@ -4,6 +4,7 @@ import {
   EmptyState,
   Icon,
   MainTable,
+  ScrollableContainer,
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
@@ -15,7 +16,6 @@ import {
   permissionSort,
   getPermissionId,
 } from "util/permissions";
-import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
 import type { LxdAuthGroup, LxdPermission } from "types/permissions";
 import { useServerEntitlements } from "util/entitlements/server";

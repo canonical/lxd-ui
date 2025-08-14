@@ -4,12 +4,12 @@ import {
   EmptyState,
   Icon,
   Row,
+  ScrollableTable,
   TablePagination,
   useNotify,
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
 import StorageBucketsFilter, {
   QUERY,
   POOL,

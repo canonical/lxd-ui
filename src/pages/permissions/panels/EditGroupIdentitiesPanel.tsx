@@ -2,13 +2,14 @@ import {
   ActionButton,
   Button,
   Icon,
+  ScrollableContainer,
+  ScrollableTable,
   SidePanel,
   useNotify,
 } from "@canonical/react-components";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
-import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
@@ -25,7 +26,6 @@ import PermissionIdentitiesFilter, {
   QUERY,
 } from "../PermissionIdentitiesFilter";
 import NotificationRow from "components/NotificationRow";
-import ScrollableContainer from "components/ScrollableContainer";
 import useSortTableData from "util/useSortTableData";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";

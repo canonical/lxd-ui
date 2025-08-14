@@ -2,6 +2,7 @@ import {
   ActionButton,
   Button,
   ConfirmationModal,
+  ScrollableContainer,
   SidePanel,
   useNotify,
   useToastNotification,
@@ -19,7 +20,6 @@ import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
-import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
 import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
 import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";

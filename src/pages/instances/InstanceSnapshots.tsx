@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
+  ScrollableTable,
   SearchBox,
   TablePagination,
   useListener,
@@ -16,7 +17,6 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
 import { useCurrentProject } from "context/useCurrentProject";
-import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { useDocs } from "context/useDocs";
 import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigureSnapshotsBtn";

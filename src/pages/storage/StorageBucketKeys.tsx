@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
+  ScrollableTable,
   SearchBox,
   TablePagination,
   useNotify,
@@ -10,7 +11,6 @@ import {
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useCurrentProject } from "context/useCurrentProject";
-import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";

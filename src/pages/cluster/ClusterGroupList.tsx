@@ -4,13 +4,13 @@ import {
   List,
   MainTable,
   Row,
+  ScrollableTable,
   TablePagination,
   useNotify,
   Spinner,
 } from "@canonical/react-components";
 import EditClusterGroupBtn from "pages/cluster/actions/EditClusterGroupBtn";
 import DeleteClusterGroupBtn from "pages/cluster/actions/DeleteClusterGroupBtn";
-import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";

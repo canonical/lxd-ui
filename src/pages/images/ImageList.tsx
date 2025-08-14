@@ -5,6 +5,7 @@ import {
   Icon,
   List,
   Row,
+  ScrollableTable,
   SearchBox,
   TablePagination,
   useNotify,
@@ -16,7 +17,6 @@ import DeleteImageBtn from "./actions/DeleteImageBtn";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import { localLxdToRemoteImage } from "util/images";
-import ScrollableTable from "components/ScrollableTable";
 import useSortTableData from "util/useSortTableData";
 import SelectableMainTable from "components/SelectableMainTable";
 import BulkDeleteImageBtn from "pages/images/actions/BulkDeleteImageBtn";

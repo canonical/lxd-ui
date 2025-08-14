@@ -1,6 +1,9 @@
 import type { FC } from "react";
-import { Button, MainTable } from "@canonical/react-components";
-import ScrollableTable from "components/ScrollableTable";
+import {
+  Button,
+  MainTable,
+  ScrollableTable,
+} from "@canonical/react-components";
 import classnames from "classnames";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";

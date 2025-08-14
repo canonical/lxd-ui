@@ -4,12 +4,12 @@ import {
   MainTable,
   Modal,
   Notification,
+  ScrollableTable,
   Spinner,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
-import ScrollableTable from "components/ScrollableTable";
 import type { GpuCard } from "types/resources";
 import { useServerEntitlements } from "util/entitlements/server";
 

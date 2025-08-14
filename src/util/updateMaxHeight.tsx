@@ -1,4 +1,4 @@
-import { getAbsoluteHeightBelowById } from "./helpers";
+import { getAbsoluteHeightBelowById } from "util/helpers";
 
 type HeightProperty = "height" | "max-height" | "min-height";
 

@@ -7,6 +7,7 @@ import {
   EmptyState,
   Icon,
   Row,
+  ScrollableTable,
   Spinner,
   TablePagination,
   useListener,
@@ -51,7 +52,6 @@ import {
   TYPE,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
-import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import HelpLink from "components/HelpLink";

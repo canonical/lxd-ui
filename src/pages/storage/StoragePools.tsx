@@ -3,6 +3,7 @@ import {
   EmptyState,
   Icon,
   MainTable,
+  ScrollableTable,
   Row,
   useNotify,
   CustomLayout,
@@ -12,7 +13,6 @@ import { Link, useParams } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
-import ScrollableTable from "components/ScrollableTable";
 import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolBtn";
 import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";

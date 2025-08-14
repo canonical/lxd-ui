@@ -1,10 +1,15 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Col, Notification, Row, Spinner } from "@canonical/react-components";
+import {
+  Col,
+  Notification,
+  Row,
+  ScrollableContainer,
+  Spinner,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
-import ScrollableContainer from "components/ScrollableContainer";
 import { debounce } from "util/debounce";
 import ClusterMemberDetailSystem from "pages/cluster/ClusterMemberDetailSystem";
 import ClusterMemberDetailCPU from "pages/cluster/ClusterMemberDetailCPU";
