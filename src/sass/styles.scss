@@ -1,6 +1,37 @@
 @charset "UTF-8";
 @use "sass:map";
+@use "sass:math";
 @import "settings";
+// Responsive font sizes using calc() - clear start and end points
+// Start: 12px at 0px
+// End: 14px at 1600px
+$fs-start-size-unitless: 0.75;  // 12px / 16px = 0.75
+$fs-end-size-unitless: 0.875;   // 14px / 16px = 0.875
+$fs-breakpoint: 90rem;          // 1440px
+
+// Calculate the responsive font size
+$fs-responsive-size: calc(#{$fs-start-size-unitless}rem + (#{$fs-end-size-unitless} - #{$fs-start-size-unitless}) * ((100vw - 0rem) / (#{$fs-breakpoint} - 0rem)));
+
+// Override vanilla framework font size variables
+$fs-base-font-size: $fs-responsive-size;
+$fs-base-line-height: 1.5;
+
+// Override vanilla framework heading font sizes
+$fs-heading-font-size: $fs-responsive-size;
+$fs-heading-line-height: 1.2;
+
+// Override vanilla framework paragraph font sizes
+$fs-paragraph-font-size: $fs-responsive-size;
+$fs-paragraph-line-height: 1.6;
+$font-size-ratio--largescreen: 1.142857143 !default; // this makes the large text land exactly on 1rem, was previously 1.125
+$font-size-base: .875rem;
+$font-size-largescreen: $font-size-ratio--largescreen * $font-size-base;
+
+$base-font-sizes: (
+  base: $font-size-base,
+  large: $font-size-largescreen,
+);
+
 @import "vanilla-framework/scss/build";
 @import "./breakpoints";
 @import "pattern_icon";
