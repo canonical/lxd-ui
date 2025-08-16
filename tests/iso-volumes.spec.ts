@@ -1,22 +1,17 @@
 import { test, expect } from "./fixtures/lxd-test";
-import { randomNameSuffix } from "./helpers/name";
 import { deleteInstance, randomInstanceName } from "./helpers/instances";
 import { assertTextVisible } from "./helpers/permissions";
 import { activateOverride } from "./helpers/configuration";
 import { gotoURL } from "./helpers/navigate";
+import { randomIsoName } from "./helpers/storageVolume";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
-
-export const randomIso = (): string => {
-  return `playwright-iso-${randomNameSuffix()}`;
-};
-
 test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   test.skip(
     lxdVersion === "5.0-edge",
     "custom storage volume iso import not supported in lxd v5.0/edge",
   );
-  const isoName = randomIso();
+  const isoName = randomIsoName();
 
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage", exact: true }).click();
@@ -57,7 +52,7 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   );
 
   const instance = randomInstanceName();
-  const isoName = randomIso();
+  const isoName = randomIsoName();
 
   await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Instances", exact: true }).click();
