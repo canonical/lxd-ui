@@ -15,6 +15,7 @@ import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
 import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
+import { useMemberLoading } from "context/memberLoading";
 
 interface Props {
   member: LxdClusterMember;
@@ -35,6 +36,8 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
   const [mode, setMode] = useState("");
   const queryClient = useQueryClient();
   const eventQueue = useEventQueue();
+  const memberLoading = useMemberLoading();
+  const loadingType = memberLoading.getType(member.server_name);
 
   const invalidateCache = () => {
     queryClient.invalidateQueries({
@@ -94,7 +97,9 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
         );
         onClose?.();
       })
-      .catch((e) => notify.failure("Member evacuation failed", e))
+      .catch((e) => {
+        notify.failure("Member evacuation failed", e);
+      })
       .finally(() => {
         setLoading(false);
         invalidateCache();
@@ -104,8 +109,8 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
   return (
     <ConfirmationButton
       appearance={hasLabel ? "" : "base"}
-      loading={isLoading}
-      disabled={isLoading || member.status !== "Online"}
+      loading={isLoading || loadingType === "Evacuating"}
+      disabled={isLoading || member.status !== "Online" || !!loadingType}
       confirmationModalProps={{
         title: "Confirm evacuation",
         children: (
