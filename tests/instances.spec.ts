@@ -65,12 +65,10 @@ test.afterAll(async ({ browser }) => {
 test("instance terminal operations", async ({ page }) => {
   await visitAndStartInstance(page, instance);
   await page.getByTestId("tab-link-Terminal").click();
-  await page.getByRole("button", { name: "Reconnect" }).click();
-  await page.getByLabel("Command").fill("sh");
-  await page.getByLabel("submit reconnect").click();
-  await assertTextVisible(page, "~ #");
+  await assertTextVisible(page, "~#");
   await page.waitForTimeout(1000); // ensure the terminal is ready
-  await page.keyboard.type("cat /etc/issue");
+  await page.locator(".xterm-rows").click();
+  await page.keyboard.type("cat /etc/issue", { delay: 100 });
   await page.keyboard.press("Enter");
   await expect(page.locator(".xterm-rows")).toContainText("Alpine Linux");
   let dialogPresent = false;
