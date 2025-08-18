@@ -13,11 +13,9 @@ jobs:
   commits:
     permissions:
       pull-requests: read   # to get list of commits from the PR
-    name: Canonical CLA signed and Signed-off-by (DCO)
+    name: Signed-off-by (DCO)
     runs-on: ubuntu-latest
     steps:
-    - name: Check if CLA signed
-      uses: canonical/has-signed-canonical-cla@5d1443b94417bd150ad234a82fe21f7340a25e4d # v2
     - name: Get PR Commits
       id: 'get-pr-commits'
       uses: tim-actions/get-pr-commits@master
