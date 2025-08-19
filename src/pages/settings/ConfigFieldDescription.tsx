@@ -16,6 +16,7 @@ const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
   const objectsInvTxt = useQuery({
     queryKey: ["documentation/objects.inv.txt"],
     queryFn: async () => fetchDocObjects(hasDocumentationObject),
+    staleTime: 60_000, // consider cache fresh for 1 minutes to avoid excessive API calls
   });
 
   return description ? (

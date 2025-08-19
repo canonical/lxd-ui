@@ -9,6 +9,7 @@ export const useSettings = (): UseQueryResult<LxdSettings> => {
   return useQuery({
     queryKey: [queryKeys.settings],
     queryFn: async () => fetchSettings(),
+    staleTime: 60_000, // consider cache fresh for 1 minute to avoid excessive API calls
   });
 };
 
