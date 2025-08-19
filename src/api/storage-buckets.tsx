@@ -205,6 +205,9 @@ export const createStorageBucketKey = async (
     `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: body,
     },
   )
@@ -229,6 +232,9 @@ export const updateStorageBucketKey = async (
     `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(key),
     },
   ).then(handleResponse);
