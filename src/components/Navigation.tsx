@@ -390,7 +390,10 @@ const Navigation: FC = () => {
                                 title="Pools"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
-                                ignoreUrlMatches={["volumes/custom"]}
+                                ignoreUrlMatches={[
+                                  "volumes/custom",
+                                  "/bucket/",
+                                ]}
                               >
                                 Pools
                               </NavLink>
@@ -432,6 +435,7 @@ const Navigation: FC = () => {
                                 title="Buckets"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
+                                activeUrlMatches={["/bucket/"]}
                               >
                                 Buckets
                               </NavLink>
