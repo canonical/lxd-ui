@@ -31,7 +31,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check inclusive naming
         uses: canonical/Inclusive-naming@main
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Find disallowed Unicode characters (excluding .git and binary files)
         run: |
@@ -98,7 +98,7 @@ jobs:
       LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
       LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Dotrun
         run: |
@@ -176,7 +176,7 @@ jobs:
       HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: actions/setup-node@v4
       with:
         node-version: 22
@@ -203,7 +203,7 @@ jobs:
     name: js-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Dotrun
         run: |

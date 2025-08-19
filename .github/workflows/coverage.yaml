@@ -20,7 +20,7 @@ jobs:
       LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
       LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Dotrun
         run: |
@@ -95,7 +95,7 @@ jobs:
       permissions:
         contents: write
       steps:
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v5
           with:
             ref: gh-pages
             token: ${{ secrets.GITHUB_TOKEN }}
@@ -146,7 +146,7 @@ jobs:
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Dotrun
         run: |
