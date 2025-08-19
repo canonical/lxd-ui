@@ -10,12 +10,17 @@ if (fs.existsSync(".env.local")) {
   dotenv.config({ path: ".env.local" });
 }
 
+// Provide the SCSS settings from the _settings.scss file.
+// SCSS in react-components can reference variables like customized $breakpoint-large and should use our settings.
+const scssSettings = fs.readFileSync("src/sass/_settings.scss", "utf-8").trim();
+
 export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
         api: "modern-compiler",
         silenceDeprecations: ["mixed-decls", "global-builtin", "import"],
+        additionalData: scssSettings,
       },
     },
   },
