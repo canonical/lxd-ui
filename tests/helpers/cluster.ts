@@ -11,12 +11,18 @@ export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   );
 };
 
+export const skipIfNotClustered = (projectName: string) => {
+  test.skip(!projectName.includes("-clustered"));
+};
+
 export const isServerClustered = async (page: Page) => {
   await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Members" }).click();
-  const count = await page.getByText("This server is not clustered").count();
-  return count === 0;
+
+  if ((await page.getByRole("button", { name: "Clustering" }).count()) === 0) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 export const randomGroupName = (): string => {

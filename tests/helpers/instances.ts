@@ -194,15 +194,12 @@ export const migrateInstanceRootStorage = async (
   page: Page,
   instance: string,
   pool: string,
-  serverClustered: boolean,
 ) => {
   await visitInstance(page, instance);
   await page.getByRole("button", { name: "Migrate" }).click();
-  if (serverClustered) {
-    await page
-      .getByRole("button", { name: "Move instance root storage" })
-      .click();
-  }
+  await page
+    .getByRole("button", { name: "Move instance root storage" })
+    .click();
   await page
     .getByRole("row")
     .filter({ hasText: pool })

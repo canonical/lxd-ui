@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
+import { isServerClustered } from "./cluster";
 
 export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
@@ -77,6 +78,7 @@ export const migrateVolume = async (
   volume: string,
   targetPool: string,
 ) => {
+  const serverClustered = await isServerClustered(page);
   await visitVolume(page, volume);
   await page.getByRole("button", { name: "Migrate", exact: true }).click();
   await page
@@ -95,7 +97,7 @@ export const migrateVolume = async (
   );
 
   await expect(page).toHaveURL(
-    `/ui/project/default/storage/pool/${targetPool}/member/local/volumes/custom/${volume}`,
+    `/ui/project/default/storage/pool/${targetPool}${serverClustered ? "/member/local" : "/volumes/custom"}/${volume}`,
   );
 };
 
