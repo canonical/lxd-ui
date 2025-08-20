@@ -85,6 +85,7 @@ jobs:
       matrix:
         lxd_channel: ["5.0/edge", "5.21/edge", "latest/edge"]
         browser: ["chromium", "firefox"]
+        deployment: ["unclustered", "clustered"]
     outputs:
       job_status: ${{job.status}}
     env:
@@ -131,7 +132,6 @@ jobs:
           sudo lxc config set core.https_address "[::]:8443"
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
-          sudo lxc cluster enable local
 
       - uses: actions/setup-node@v4
         with:
@@ -153,17 +153,17 @@ jobs:
         run: sudo -E ./tests/scripts/setup_test
 
       - name: Run Playwright tests
-        run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+        run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}:${{ matrix.deployment }}
 
       - name: Rename Playwright report
         if: always()
-        run: mv blob-report/report.zip blob-report/${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-report.zip
+        run: mv blob-report/report.zip blob-report/${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}-report.zip
 
-      - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }} blob reports to be merged
+      - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }} blob reports to be merged
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: blob-report-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+          name: blob-report-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}
           path: blob-report
           retention-days: 1
 
