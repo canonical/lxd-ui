@@ -423,10 +423,13 @@
 .create-storage-pool,
 .storage-volume-form {
   .bottom-btns {
-    margin-top: 1rem;
     max-width: 72rem;
     min-height: 3.5rem;
     padding-right: 1.5rem;
+  }
+
+  .form-footer {
+    margin-top: 1rem;
   }
 
   .form {
@@ -445,9 +448,12 @@
 .edit-storage-pool,
 .edit-storage-volume {
   .bottom-btns {
-    margin-top: 1rem;
     max-width: 70.5rem;
     min-height: 3.5rem;
+  }
+
+  .form-footer {
+    margin-top: 1rem;
   }
 
   .form {
