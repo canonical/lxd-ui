@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useOperations } from "context/operationsProvider";
 import { useListener, useNotify } from "@canonical/react-components";
+import { useMemberLoading } from "context/memberLoading";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
@@ -22,6 +23,7 @@ const Events: FC = () => {
   const [reconnectWsId, setReconnectWsId] = useState(0);
   const [wsOpenTime, setWsOpenTime] = useState(0);
   const { refetchOperations } = useOperations();
+  const memberLoading = useMemberLoading();
 
   const getCurrentTime = () => {
     return new Date().getTime();
@@ -99,6 +101,25 @@ const Events: FC = () => {
     return "undefined";
   };
 
+  const updateClusterMemberLoading = (event: LxdEvent) => {
+    const description = event.metadata.description;
+    const isEvacuating = description === "Evacuating cluster member";
+    const isRestoring = description === "Restoring cluster member";
+    if (!isEvacuating && !isRestoring) {
+      return;
+    }
+
+    if (event.metadata.status === "Running") {
+      const loadingType = isRestoring ? "Restoring" : "Evacuating";
+      memberLoading.setLoading(event.metadata.location as string, loadingType);
+    } else {
+      memberLoading.setFinish(event.metadata.location as string);
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === queryKeys.cluster,
+      });
+    }
+  };
+
   const connectEventWs = (retryCount = 0) => {
     try {
       const wsUrl = `wss://${location.host}/1.0/events?type=operation,lifecycle&all-projects=true`;
@@ -131,6 +152,7 @@ const Events: FC = () => {
             predicate: (query) => query.queryKey[0] === rootQueryKey,
           });
         }
+        updateClusterMemberLoading(event);
         // ensure open requests that reply with an operation and register
         // new handlers in the eventQueue are closed before handling the event
         setTimeout(() => {
