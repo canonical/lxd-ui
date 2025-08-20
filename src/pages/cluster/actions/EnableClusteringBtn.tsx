@@ -9,7 +9,8 @@ const EnableClusteringBtn: FC = () => {
     programmaticallyOpen: true,
   });
 
-  const editRestriction = canEditServerConfiguration()
+  const canEdit = canEditServerConfiguration();
+  const title = canEdit
     ? "Enable clustering"
     : "You do not have permission to edit the server";
 
@@ -19,8 +20,8 @@ const EnableClusteringBtn: FC = () => {
         appearance="positive"
         hasIcon
         onClick={openPortal}
-        disabled={!!editRestriction}
-        title={editRestriction}
+        disabled={!canEdit}
+        title={title}
       >
         <Icon name="plus" light />
         <span>Enable clustering</span>
