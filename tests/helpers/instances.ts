@@ -79,6 +79,19 @@ export const saveInstance = async (
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
+export const forceStopInstance = async (
+  page: Page,
+  instance: string,
+  project = "default",
+) => {
+  await visitInstance(page, instance, project);
+  await page.getByRole("button", { name: "Stop" }).click();
+  await page.getByText("Force stop").click();
+  await page.getByText("Stop", { exact: true }).click();
+  await page.waitForSelector(`text=Instance ${instance} stopped.`);
+  await page.getByTestId("notification-close-button").click();
+};
+
 export const deleteInstance = async (
   page: Page,
   instance: string,
