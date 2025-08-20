@@ -16,6 +16,7 @@ import CombinedNotificationProvider from "context/CombinedNotificationProvider";
 import StatusBar from "components/StatusBar";
 import OperationsProvider from "context/operationsProvider";
 import { MetricHistoryProvider } from "context/metricHistory";
+import { MemberLoadingProvider } from "context/memberLoading";
 
 const queryClient = new QueryClient();
 
@@ -32,21 +33,23 @@ const Root: FC = () => {
           <AuthProvider>
             <ProjectProvider>
               <InstanceLoadingProvider>
-                <OperationsProvider>
-                  <EventQueueProvider>
-                    <MetricHistoryProvider>
-                      <Application id="l-application">
-                        <SkipLink mainId="main-content" />
-                        <Navigation />
-                        <ErrorBoundary fallback={ErrorPage}>
-                          <App />
-                          <Events />
-                          <StatusBar />
-                        </ErrorBoundary>
-                      </Application>
-                    </MetricHistoryProvider>
-                  </EventQueueProvider>
-                </OperationsProvider>
+                <MemberLoadingProvider>
+                  <OperationsProvider>
+                    <EventQueueProvider>
+                      <MetricHistoryProvider>
+                        <Application id="l-application">
+                          <SkipLink mainId="main-content" />
+                          <Navigation />
+                          <ErrorBoundary fallback={ErrorPage}>
+                            <App />
+                            <Events />
+                            <StatusBar />
+                          </ErrorBoundary>
+                        </Application>
+                      </MetricHistoryProvider>
+                    </EventQueueProvider>
+                  </OperationsProvider>
+                </MemberLoadingProvider>
               </InstanceLoadingProvider>
             </ProjectProvider>
           </AuthProvider>

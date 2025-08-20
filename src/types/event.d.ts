@@ -5,6 +5,7 @@ export interface LxdEvent {
     id: string;
     action: string;
     description: string;
+    location?: string;
     metadata?: {
       fingerprint?: string;
     };
@@ -12,7 +13,7 @@ export interface LxdEvent {
     resources: {
       instances: [string];
     };
-    status: "Failure" | "Success";
+    status: "Failure" | "Success" | "Running";
     err?: string;
   };
   location: string;
