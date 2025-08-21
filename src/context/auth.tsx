@@ -57,6 +57,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
       !isSettingsLoading &&
       settings &&
       settings.auth !== "untrusted" &&
+      settings.auth_user_method !== "unix" &&
       !settingsError &&
       settings.api_extensions?.includes("access_management_tls"),
   });
@@ -64,6 +65,9 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const isFineGrained = () => {
     if (isSettingsLoading) {
       return null;
+    }
+    if (settings?.auth_user_method === "unix") {
+      return false;
     }
     if (hasEntitiesWithEntitlements) {
       return currentIdentity?.fine_grained ?? null;
