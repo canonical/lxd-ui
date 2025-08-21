@@ -15,13 +15,6 @@ import { randomGroupName } from "./helpers/permission-groups";
 import { randomIdentityName } from "./helpers/permission-identities";
 import { openInstancePanel } from "./helpers/instancePanel";
 
-test.beforeEach(() => {
-  test.skip(
-    Boolean(process.env.CI),
-    "This suite is currently only run manually to test View-Only user permissions.",
-  );
-});
-
 test.describe("Given a user with Viewer Server permissions...", () => {
   const ISO_FILE = "./tests/fixtures/foo.iso";
 
@@ -97,6 +90,29 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     } catch (err) {
       console.error("Error occurred:", err);
     }
+
+    try {
+      console.log(
+        "Create test-viewers group",
+        execSync(`lxc auth group create test-viewers`).toString(),
+      );
+
+      console.log(
+        "Add current user to test-viewers group - ",
+        execSync(
+          `lxc auth identity group add tls/lxd-ui test-viewers`,
+        ).toString(),
+      );
+
+      console.log(
+        "Grant viewer entitlement to test-viewers group",
+        execSync(
+          `lxc auth group permission add test-viewers server viewer`,
+        ).toString(),
+      );
+    } catch (err) {
+      console.error("Error occurred during beforeAll setup:", err);
+    }
   });
 
   test.afterAll(() => {
@@ -149,6 +165,34 @@ test.describe("Given a user with Viewer Server permissions...", () => {
       );
     } catch (err) {
       console.error("Cleanup error:", err);
+    }
+
+    try {
+      console.log(
+        "Create test-admins group",
+        execSync(`lxc auth group create test-admins`).toString(),
+      );
+
+      console.log(
+        "Add current user to test-admins group",
+        execSync(
+          `lxc auth identity group add tls/lxd-ui test-admins`,
+        ).toString(),
+      );
+
+      console.log(
+        "Grant admin entitlement to test-admins group",
+        execSync(
+          `lxc auth group permission add test-admins server admin`,
+        ).toString(),
+      );
+
+      console.log(
+        "Delete test-viewers group",
+        execSync(`lxc auth group delete test-viewers`).toString(),
+      );
+    } catch (err) {
+      console.error("Error occurred during afterAll cleanup:", err);
     }
   });
 
