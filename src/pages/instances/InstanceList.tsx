@@ -50,6 +50,7 @@ import {
   SNAPSHOTS,
   STATUS,
   TYPE,
+  USER_HIDEABLE_COLUMNS,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
 import NotificationRow from "components/NotificationRow";
@@ -77,7 +78,10 @@ import { getInstanceKey } from "util/instances";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
-  return saved ? (JSON.parse(saved) as string[]) : [MEMORY, FILESYSTEM];
+  const validColumns = new Set(USER_HIDEABLE_COLUMNS);
+  return saved
+    ? (JSON.parse(saved) as string[]).filter((item) => validColumns.has(item))
+    : [MEMORY, FILESYSTEM];
 };
 
 const saveHidden = (columns: string[]) => {
@@ -719,16 +723,7 @@ const InstanceList: FC = () => {
                     }
                   >
                     <TableColumnsSelect
-                      columns={[
-                        TYPE,
-                        MEMORY,
-                        FILESYSTEM,
-                        CLUSTER_MEMBER,
-                        DESCRIPTION,
-                        IPV4,
-                        IPV6,
-                        SNAPSHOTS,
-                      ].filter((column) => {
+                      columns={USER_HIDEABLE_COLUMNS.filter((column) => {
                         if (column === CLUSTER_MEMBER && !isClustered) {
                           return false;
                         }
