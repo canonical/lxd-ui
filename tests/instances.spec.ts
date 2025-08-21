@@ -284,9 +284,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     })
     .getByLabel("multiselect rows")
     .click();
-  await page
-    .getByRole("button", { name: "Select all instances on this" })
-    .click();
+  await page.getByRole("button", { name: "Select all instances" }).click();
   await page
     .locator("button")
     .filter({ hasText: /^Start$/ })

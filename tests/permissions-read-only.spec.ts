@@ -15,13 +15,6 @@ import { randomGroupName } from "./helpers/permission-groups";
 import { randomIdentityName } from "./helpers/permission-identities";
 import { openInstancePanel } from "./helpers/instancePanel";
 
-test.beforeEach(() => {
-  test.skip(
-    Boolean(process.env.CI),
-    "This suite is currently only run manually to test View-Only user permissions.",
-  );
-});
-
 test.describe("Given a user with Viewer Server permissions...", () => {
   const ISO_FILE = "./tests/fixtures/foo.iso";
 
@@ -40,62 +33,96 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     try {
       console.log(
         "[Switch Project]",
-        execSync(`lxc project switch default`).toString(),
+        execSync(`sudo -E lxc project switch default`).toString(),
       );
       console.log(
         "[Instance Created]",
-        execSync(`lxc init ubuntu:24.04 ${instanceName}`).toString(),
+        execSync(`sudo -E lxc init ubuntu:24.04 ${instanceName}`).toString(),
       );
       console.log(
         "[Profile Created]",
-        execSync(`lxc profile create ${profileName}`).toString(),
+        execSync(`sudo -E lxc profile create ${profileName}`).toString(),
       );
       console.log(
         "[Network Created]",
-        execSync(`lxc network create ${networkName}`).toString(),
+        execSync(`sudo -E lxc network create ${networkName}`).toString(),
       );
       console.log(
         "[Storage Pool Created]",
-        execSync(`lxc storage create ${poolName} dir`).toString(),
+        execSync(`sudo -E lxc storage create ${poolName} dir`).toString(),
       );
       console.log(
         "[Custom Volume Created]",
         execSync(
-          `lxc storage volume create ${poolName} ${volumeName}`,
+          `sudo -E lxc storage volume create ${poolName} ${volumeName}`,
         ).toString(),
       );
       console.log(
         "[Custom ISO Imported]",
         execSync(
-          `lxc storage volume import ${poolName} ${ISO_FILE} ${customISOName}`,
+          `sudo -E lxc storage volume import ${poolName} ${ISO_FILE} ${customISOName}`,
         ).toString(),
       );
       console.log(
         "[ACL Created]",
-        execSync(`lxc network acl create ${aclName}`).toString(),
+        execSync(`sudo -E lxc network acl create ${aclName}`).toString(),
       );
       console.log(
         "[Add Network ACL Rule]",
         execSync(
-          `lxc network acl rule add ${aclName} ingress action=allow`,
+          `sudo -E lxc network acl rule add ${aclName} ingress action=allow`,
         ).toString(),
       );
       console.log(
         "[Identity Trusted]",
-        execSync(`lxc auth identity create tls/${identityName}`).toString(),
+        execSync(
+          `sudo -E lxc auth identity create tls/${identityName}`,
+        ).toString(),
       );
       console.log(
         "[Group Created]",
-        execSync(`lxc auth group create ${groupName}`).toString(),
+        execSync(`sudo -E lxc auth group create ${groupName}`).toString(),
       );
       console.log(
         "[IDP Group Created]",
         execSync(
-          `lxc auth identity-provider-group create ${idpGroupName}`,
+          `sudo -E lxc auth identity-provider-group create ${idpGroupName}`,
         ).toString(),
       );
     } catch (err) {
       console.error("Error occurred:", err);
+    }
+
+    try {
+      const fingerprint = execSync(
+        "sudo -E lxc config trust list | grep lxd-ui.crt | awk '{print $8}'",
+      ).toString();
+
+      console.log(
+        "[Remove current user]",
+        execSync(`sudo -E lxc config trust remove ${fingerprint}`).toString(),
+      );
+
+      console.log(
+        "[Create test-viewers group]",
+        execSync(`sudo -E lxc auth group create test-viewers`).toString(),
+      );
+
+      console.log(
+        "[Grant viewer entitlement to test-viewers group]",
+        execSync(
+          `sudo -E lxc auth group permission add test-viewers server viewer`,
+        ).toString(),
+      );
+
+      console.log(
+        "[Add new user to test-viewers group] - ",
+        execSync(
+          `sudo -E lxc auth identity create tls/lxd-ui --group test-viewers keys/lxd-ui.crt`,
+        ).toString(),
+      );
+    } catch (err) {
+      console.error("Error occurred during setup:", err);
     }
   });
 
@@ -103,52 +130,73 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     try {
       console.log(
         "[Instance Deleted]",
-        execSync(`lxc delete ${instanceName} --force`).toString(),
+        execSync(`sudo -E lxc delete ${instanceName} --force`).toString(),
       );
       console.log(
         "[Profile Deleted]",
-        execSync(`lxc profile delete ${profileName}`).toString(),
+        execSync(`sudo -E lxc profile delete ${profileName}`).toString(),
       );
       console.log(
         "[Network Deleted]",
-        execSync(`lxc network delete ${networkName}`).toString(),
+        execSync(`sudo -E lxc network delete ${networkName}`).toString(),
       );
       console.log(
         "[Storage Volume Deleted]",
         execSync(
-          `lxc storage volume delete ${poolName} ${volumeName}`,
+          `sudo -E lxc storage volume delete ${poolName} ${volumeName}`,
         ).toString(),
       );
       console.log(
         "[Custom ISO Volume Deleted]",
         execSync(
-          `lxc storage volume delete ${poolName} ${customISOName}`,
+          `sudo -E lxc storage volume delete ${poolName} ${customISOName}`,
         ).toString(),
       );
       console.log(
         "[Storage Pool Deleted]",
-        execSync(`lxc storage delete ${poolName}`).toString(),
+        execSync(`sudo -E lxc storage delete ${poolName}`).toString(),
       );
       console.log(
         "[ACL Deleted]",
-        execSync(`lxc network acl delete ${aclName}`).toString(),
+        execSync(`sudo -E lxc network acl delete ${aclName}`).toString(),
       );
       console.log(
         "[Identity Untrusted]",
-        execSync(`lxc auth identity delete tls/${identityName}`).toString(),
+        execSync(
+          `sudo -E lxc auth identity delete tls/${identityName}`,
+        ).toString(),
       );
       console.log(
         "[Group Deleted]",
-        execSync(`lxc auth group delete ${groupName}`).toString(),
+        execSync(`sudo -E lxc auth group delete ${groupName}`).toString(),
       );
       console.log(
         "[IDP Group Deleted]",
         execSync(
-          `lxc auth identity-provider-group delete ${idpGroupName}`,
+          `sudo -E lxc auth identity-provider-group delete ${idpGroupName}`,
         ).toString(),
       );
     } catch (err) {
       console.error("Cleanup error:", err);
+    }
+
+    try {
+      console.log(
+        "[Delete restricted user]",
+        execSync(`sudo -E lxc auth identity delete tls/lxd-ui`).toString(),
+      );
+
+      console.log(
+        "[Delete test-viewers group]",
+        execSync(`sudo -E lxc auth group delete test-viewers`).toString(),
+      );
+
+      console.log(
+        "[Reinstate admin user]",
+        execSync("sudo -E lxc config trust add keys/lxd-ui.crt").toString(),
+      );
+    } catch (err) {
+      console.error("Error occurred during afterAll cleanup:", err);
     }
   });
 
@@ -166,20 +214,36 @@ test.describe("Given a user with Viewer Server permissions...", () => {
 
     // Bulk actions on instance list page
     await page
-      .locator("#instances-table span")
-      .filter({ hasText: "Select all" })
+      .getByRole("row", {
+        name: "select Name Type Description Status Actions",
+      })
+      .getByLabel("multiselect rows")
       .click();
+    await page.getByRole("button", { name: "Select all instances" }).click();
     await expect(
-      page.getByRole("button", { name: "Start", exact: true }),
+      page.getByTitle(
+        "You do not have permission to start the selected instances",
+      ),
     ).toBeDisabled();
     await expect(
-      page.getByRole("button", { name: "Restart", exact: true }),
+      page.getByTitle(
+        "You do not have permission to restart the selected instances",
+      ),
     ).toBeDisabled();
     await expect(
-      page.getByRole("button", { name: "Freeze", exact: true }),
+      page.getByTitle(
+        "You do not have permission to freeze the selected instances",
+      ),
     ).toBeDisabled();
     await expect(
-      page.getByRole("button", { name: "Stop", exact: true }),
+      page.getByTitle(
+        "You do not have permission to stop the selected instances",
+      ),
+    ).toBeDisabled();
+    await expect(
+      page.getByTitle(
+        "You do not have permission to delete the selected instances",
+      ),
     ).toBeDisabled();
     await page
       .locator("#instances-table span")
@@ -409,9 +473,10 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await expect(
       page.getByRole("button", { name: "Create project" }),
     ).toBeDisabled();
-    await page.getByRole("button", { name: "default" }).click();
+    await page.keyboard.press("Escape");
 
     await page.getByText("Configuration", { exact: true }).click();
+    await page.waitForLoadState("networkidle");
     await expect(page.getByLabel("Description")).toBeDisabled();
   });
 
@@ -440,7 +505,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await page.getByPlaceholder("Filter").click();
     await page.getByPlaceholder("Filter").fill(identityName);
     await page.keyboard.press("Enter");
-    await expect(page.getByLabel("Manage groups")).toBeDisabled();
+    await expect(page.getByLabel("Manage groups").first()).toBeDisabled();
     await expect(page.getByLabel("Delete identity")).toBeDisabled();
   });
 
