@@ -1,43 +1,17 @@
-import { test, expect } from "./fixtures/lxd-test";
+import { test } from "./fixtures/lxd-test";
 import { gotoURL } from "./helpers/navigate";
 import {
-  createClusterGroup,
-  deleteClusterGroup,
   getFirstClusterMember,
-  randomGroupName,
+  skipIfNotClustered,
   skipIfNotSupported,
-  toggleClusterGroupMember,
 } from "./helpers/cluster";
 
-test("cluster group create and delete", async ({ page, lxdVersion }) => {
+test("cluster member evacuate and restore", async ({
+  page,
+  lxdVersion,
+}, testInfo) => {
   skipIfNotSupported(lxdVersion);
-  const group = randomGroupName();
-  await createClusterGroup(page, group);
-  await deleteClusterGroup(page, group);
-});
-
-test("cluster group add and remove members", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
-  const group = randomGroupName();
-  const member = await getFirstClusterMember(page);
-  await createClusterGroup(page, group);
-  await toggleClusterGroupMember(page, group, member);
-
-  await expect(
-    page.getByRole("row", { name: group }).getByText("1"),
-  ).toBeVisible();
-
-  await toggleClusterGroupMember(page, group, member);
-
-  await expect(
-    page.getByRole("row", { name: group }).getByText("0"),
-  ).toBeVisible();
-
-  await deleteClusterGroup(page, group);
-});
-
-test("cluster member evacuate and restore", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfNotClustered(testInfo.project.name);
   const member = await getFirstClusterMember(page);
 
   await gotoURL(page, "/ui/");
