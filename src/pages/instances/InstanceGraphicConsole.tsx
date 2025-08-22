@@ -73,8 +73,9 @@ const InstanceGraphicConsole: FC<Props> = ({
     }
 
     const operationUrl = result.operation.split("?")[0];
-    const dataUrl = `wss://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `wss://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
+    const protocol = location.protocol === "https:" ? "wss" : "ws";
+    const dataUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
 
     const control = new WebSocket(controlUrl);
 

@@ -149,7 +149,8 @@ const UploadExternalFormatFileForm: FC<Props> = ({
         const instanceName = getInstanceName(operation.metadata);
 
         // establish websocket connection based on the instance creation operation
-        const wsUrl = `wss://${location.host}/1.0/operations/${encodeURIComponent(operationId)}/websocket?secret=${encodeURIComponent(operationSecret)}`;
+        const protocol = location.protocol === "https:" ? "wss" : "ws";
+        const wsUrl = `${protocol}://${location.host}/1.0/operations/${encodeURIComponent(operationId)}/websocket?secret=${encodeURIComponent(operationSecret)}`;
 
         const ws = sendFileByWebSocket(
           wsUrl,
