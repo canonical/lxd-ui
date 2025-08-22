@@ -43,7 +43,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   const isRunning = isInstanceRunning(instance);
 
   const handleError = (e: object) => {
-    onFailure("Error", e);
+    onFailure("Console error", e);
   };
 
   const handleResize = () => {
@@ -83,7 +83,7 @@ const InstanceGraphicConsole: FC<Props> = ({
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure("Error", event.reason, getWsErrorMsg(event.code));
+        onFailure("Console error", event.reason, getWsErrorMsg(event.code));
       }
     };
 

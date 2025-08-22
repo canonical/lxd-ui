@@ -51,6 +51,7 @@ export const USER_HIDEABLE_COLUMNS = [
 
 export const CREATION_SPAN_COLUMNS = [
   TYPE,
+  DESCRIPTION,
   MEMORY,
   FILESYSTEM,
   IPV4,
