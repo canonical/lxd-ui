@@ -704,6 +704,11 @@ const Navigation: FC = () => {
                             className="p-side-navigation__icon is-dark"
                             name="profile"
                           />
+                        ) : authMethod == "unix" ? (
+                          <Icon
+                            className="p-side-navigation__icon is-dark"
+                            name="profile"
+                          />
                         ) : (
                           <></>
                         )}

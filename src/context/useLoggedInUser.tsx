@@ -8,11 +8,11 @@ export const useLoggedInUser = () => {
   const id = settings?.auth_user_name || "";
   const authMethod = settings?.auth_user_method || "";
 
-  const identityQueryEnabled = !!id && !!authMethod;
+  const identityQueryEnabled = !!id && !!authMethod && authMethod !== "unix";
   const { data: identity } = useIdentity(id, authMethod, identityQueryEnabled);
 
   return {
-    loggedInUserName: getIdentityName(identity),
+    loggedInUserName: authMethod === "unix" ? id : getIdentityName(identity),
     loggedInUserID: id,
     authMethod,
   };
