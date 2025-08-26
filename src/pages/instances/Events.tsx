@@ -122,7 +122,8 @@ const Events: FC = () => {
 
   const connectEventWs = (retryCount = 0) => {
     try {
-      const wsUrl = `wss://${location.host}/1.0/events?type=operation,lifecycle&all-projects=true`;
+      const protocol = location.protocol === "https:" ? "wss" : "ws";
+      const wsUrl = `${protocol}://${location.host}/1.0/events?type=operation,lifecycle&all-projects=true`;
       const ws = new WebSocket(wsUrl);
       ws.onopen = () => {
         setEventWs(ws);
