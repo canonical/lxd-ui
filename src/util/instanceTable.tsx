@@ -38,6 +38,17 @@ export const SIZE_HIDEABLE_COLUMNS = [
   STATUS,
 ];
 
+export const USER_HIDEABLE_COLUMNS = [
+  TYPE,
+  MEMORY,
+  FILESYSTEM,
+  CLUSTER_MEMBER,
+  DESCRIPTION,
+  IPV4,
+  IPV6,
+  SNAPSHOTS,
+];
+
 export const CREATION_SPAN_COLUMNS = [
   TYPE,
   MEMORY,
