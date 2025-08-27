@@ -68,8 +68,11 @@ export const visitNetworkConfiguration = async (page: Page, tab: string) => {
   await activateAllTableOverrides(page);
 };
 
-export const createNetworkForward = async (page: Page, network: string) => {
-  await createNetwork(page, network);
+export const createNetworkForward = async (
+  page: Page,
+  network: string,
+  serverClustered?: boolean,
+) => {
   await visitNetwork(page, network);
   await page.getByText("/24").getByRole("button").click();
 
@@ -96,8 +99,12 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await portInput.fill("23,443-455");
   await addressInput.click();
   await addressInput.fill(targetAddress);
-  await page.getByRole("button", { name: "Create" }).click();
 
+  if (serverClustered) {
+    await page.getByLabel("Location").selectOption({ index: 1 });
+  }
+
+  await page.getByRole("button", { name: "Create" }).click();
   await page
     .getByText(`Network forward with listen address ${listenAddress} created.`)
     .click();
@@ -133,8 +140,6 @@ export const createNetworkForward = async (page: Page, network: string) => {
       `Network forward with listen address ${listenAddress} deleted.`,
     ),
   ).toBeVisible();
-
-  await deleteNetwork(page, network);
 };
 
 export const getNetworkLink = async (page: Page, network: string) => {
