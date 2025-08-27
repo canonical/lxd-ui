@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
-import { FitAddon } from "xterm-addon-fit";
+import { FitAddon } from "@xterm/addon-fit";
 import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
@@ -10,7 +10,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
 import { useInstanceStart } from "util/instanceStart";
 import Xterm from "components/Xterm";
-import type { Terminal } from "xterm";
+import type { Terminal } from "@xterm/xterm";
 import {
   ActionButton,
   EmptyState,

@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FitAddon } from "xterm-addon-fit";
+import { FitAddon } from "@xterm/addon-fit";
 import {
   connectInstanceConsole,
   fetchInstanceConsoleBuffer,
@@ -11,7 +11,7 @@ import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
 import Xterm from "components/Xterm";
-import type { Terminal } from "xterm";
+import type { Terminal } from "@xterm/xterm";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 
