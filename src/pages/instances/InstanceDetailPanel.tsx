@@ -12,6 +12,7 @@ import usePanelParams from "util/usePanelParams";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import InstanceDetailPanelContent from "./InstanceDetailPanelContent";
 import { useInstance } from "context/useInstances";
+import DeleteInstanceBtn from "pages/instances/actions/DeleteInstanceBtn";
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
@@ -59,6 +60,12 @@ const InstanceDetailPanel: FC = () => {
               items={[
                 <OpenTerminalBtn key="terminal" instance={instance} />,
                 <OpenConsoleBtn key="console" instance={instance} />,
+                <DeleteInstanceBtn
+                  key="delete"
+                  instance={instance}
+                  label=""
+                  classname="is-dense p-button--base"
+                />,
               ]}
             />
             <div className="state">
