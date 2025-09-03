@@ -2,7 +2,6 @@ import { test, expect } from "./fixtures/lxd-test";
 import {
   assertReadMode,
   setInput,
-  setMultiselectOption,
   setOption,
   setTextarea,
 } from "./helpers/configuration";
@@ -62,7 +61,6 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
   await page.getByText("Clusters").click();
-  await setMultiselectOption(page, "Cluster groups", "default");
   await setOption(page, "Direct cluster targeting", "allow");
 
   await page
@@ -98,7 +96,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setTextarea(page, "Network uplinks", "lxdbr0");
   await setTextarea(page, "Network zones", "foo,bar");
 
-  await page.getByRole("button", { name: "Save 35 changes" }).click();
+  await page.getByRole("button", { name: "Save 34 changes" }).click();
 
   await page.waitForSelector(`text=Project ${project} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
@@ -124,7 +122,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Max sum of processes", "8");
 
   await page.getByText("Clusters").click();
-  await assertReadMode(page, "Cluster groups targeting", "default");
+  await assertReadMode(page, "Cluster groups targeting", "");
   await assertReadMode(page, "Direct cluster targeting", "Allow");
 
   await page

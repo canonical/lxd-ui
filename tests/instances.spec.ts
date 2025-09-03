@@ -31,7 +31,6 @@ import {
 import { assertTextVisible } from "./helpers/permissions";
 import { deleteImage, getImageNameFromAlias } from "./helpers/images";
 import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
-import { isServerClustered } from "./helpers/cluster";
 import { gotoURL } from "./helpers/navigate";
 import { execSync } from "child_process";
 
@@ -281,7 +280,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
   //Bulk start instances
   await page
     .getByRole("row", {
-      name: "select Name Type Cluster member Status Actions",
+      name: "select Name Type Description Status Actions",
     })
     .getByLabel("multiselect rows")
     .click();
@@ -404,10 +403,9 @@ test("Move instance root storage volume to a different pool", async ({
 }) => {
   const targetPool = randomPoolName();
   await createPool(page, targetPool);
-  const serverClustered = await isServerClustered(page);
-  await migrateInstanceRootStorage(page, instance, targetPool, serverClustered);
+  await migrateInstanceRootStorage(page, instance, targetPool);
   // Migrate back to default so that the Pool can be deleted
-  await migrateInstanceRootStorage(page, instance, "default", serverClustered);
+  await migrateInstanceRootStorage(page, instance, "default");
   await deletePool(page, targetPool);
 });
 
