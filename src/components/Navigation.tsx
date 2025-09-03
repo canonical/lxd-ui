@@ -544,7 +544,7 @@ const Navigation: FC = () => {
                       {!isRestricted && (
                         <SideNavigationItem>
                           <NavLink
-                            to="/ui/warnings"
+                            to="/ui/warnings?status=new"
                             title="Warnings"
                             onClick={softToggleMenu}
                           >
