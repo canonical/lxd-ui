@@ -22,9 +22,15 @@ interface Props {
   instance: LxdInstance;
   classname?: string;
   onClose?: () => void;
+  label?: string;
 }
 
-const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
+const DeleteInstanceBtn: FC<Props> = ({
+  instance,
+  classname,
+  onClose,
+  label = "Delete",
+}) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -118,7 +124,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
       showShiftClickHint
     >
       <Icon name="delete" />
-      <span>Delete</span>
+      {label && <span>{label}</span>}
     </ConfirmationButton>
   );
 };
