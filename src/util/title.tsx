@@ -7,6 +7,11 @@ export const setTitle = (): void => {
   const isMicroCloud = hasMicroCloudFlag(settings);
   const suffix = isMicroCloud ? "MicroCloud" : "LXD UI";
 
+  const favicon = document.querySelector("link[rel='shortcut icon']");
+  if (favicon && isMicroCloud) {
+    (favicon as HTMLLinkElement).href = "/assets/img/microCloud-32x32.png";
+  }
+
   useEffect(() => {
     const host = settings?.config?.["user.ui_title"] ?? location.hostname;
     document.title = `${host} | ${suffix}`;

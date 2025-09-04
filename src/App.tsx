@@ -18,6 +18,7 @@ import {
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
+import { setFavicon } from "util/favicon";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -117,6 +118,7 @@ const App: FC = () => {
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes("oidc");
   const hasCertificate = settings?.client_certificate;
+  setFavicon();
   setTitle();
 
   useEffect(() => {
