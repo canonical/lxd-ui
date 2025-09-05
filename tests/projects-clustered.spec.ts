@@ -29,7 +29,7 @@ test("project edit configuration", async ({ page, lxdVersion }, testInfo) => {
   await setMultiselectOption(page, "Cluster groups", "default");
   await setOption(page, "Direct cluster targeting", "allow");
 
-  await page.getByRole("button", { name: "Save 3 changes" }).click();
+  await page.getByRole("button", { name: "Save 4 changes" }).click();
   await page.waitForSelector(`text=Project ${project} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 

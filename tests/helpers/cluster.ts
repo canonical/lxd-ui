@@ -12,7 +12,7 @@ export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
 };
 
 export const skipIfNotClustered = (projectName: string) => {
-  test.skip(!projectName.includes("-clustered"));
+  test.skip(!projectName.includes(":clustered"));
 };
 
 export const isServerClustered = async (page: Page) => {
