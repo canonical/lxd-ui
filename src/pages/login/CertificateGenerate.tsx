@@ -5,6 +5,7 @@ import {
   Row,
   Spinner,
   CustomLayout,
+  Icon,
 } from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -48,13 +49,21 @@ const CertificateGenerate: FC = () => {
           >
             LXD uses mutual TLS for server client-server authentication. Your
             browser must have a client certificate installed and selected in
-            order to proceed.
+            order to proceed.{" "}
+            <a
+              href="https://github.com/canonical/lxd-ui/wiki/Authentication-Setup-FAQ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Authentication Setup FAQ
+              <Icon className="external-link-icon" name="external-link" />
+            </a>
           </Notification>
           {hasCertificate && (
             <Notification
               actions={[
                 {
-                  label: "Skip to step 2",
+                  label: "Skip to step 2: Identity trust token",
                   onClick: () => {
                     navigate("/ui/login/certificate-add");
                   },
@@ -63,8 +72,8 @@ const CertificateGenerate: FC = () => {
               title="Client certificate already present"
               severity="positive"
             >
-              It looks like you you already have a client certificate installed
-              and selected, skip to the next step.
+              It looks like you already have a client certificate installed and
+              selected, skip to the next step.
             </Notification>
           )}
           <BrowserImport />
