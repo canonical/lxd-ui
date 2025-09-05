@@ -31,6 +31,10 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
   ] as LxdDiskDevice | null;
   const isEditingInstance =
     formik.values.entityType === "instance" && !formik.values.isCreating;
+  const isVirtualMachine =
+    formik.values.entityType === "instance" &&
+    formik.values.instanceType === "virtual-machine";
+  const defaultSize = isVirtualMachine ? "10GiB" : "unlimited";
 
   const [inheritValue, inheritSource] = getInheritedRootStorage(
     formik.values,
@@ -149,7 +153,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
             id: "limits_disk",
             className: "override-with-form",
             inheritValue:
-              inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
+              inheritValue?.size ?? (inheritValue ? defaultSize : ""),
             inheritSource,
             readOnly: readOnly,
             disabledReason: formik.values.editRestriction,
@@ -181,8 +185,8 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                   }
                 />
                 <p className="p-form-help-text">
-                  Size of root storage. If empty, root storage will not have a
-                  size limit.
+                  Size of root storage. If empty, root storage will{" "}
+                  {isVirtualMachine ? "be 10GiB." : "not have a size limit."}
                 </p>
               </>
             ),
