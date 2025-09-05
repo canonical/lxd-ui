@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">47.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/21</span>
+                <span class='fraction'>10/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">61.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>8/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -76,32 +76,32 @@
 <a name='L11'></a><a href='#L11'>11</a>
 <a name='L12'></a><a href='#L12'>12</a>
 <a name='L13'></a><a href='#L13'>13</a>
-<a name='L14'></a><a href='#L14'>14</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">313x</span>
-<span class="cline-any cline-yes">313x</span>
-<span class="cline-any cline-yes">313x</span>
-<span class="cline-any cline-yes">648x</span>
-<span class="cline-any cline-yes">626x</span>
-<span class="cline-any cline-yes">626x</span>
-<span class="cline-any cline-yes">626x</span>
-<span class="cline-any cline-yes">313x</span>
-<span class="cline-any cline-yes">313x</span>
-<span class="cline-any cline-yes">313x</span>
-<span class="cline-any cline-yes">313x</span>
+<a name='L14'></a><a href='#L14'>14</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// returns array of items present in all lists
-export const intersection = (lists: string[][]): string[] =&gt; {
-  const result: string[] = [];
-&nbsp;
-  lists[0].forEach((candidate) =&gt; {
-    const isInAllLists = lists.every((list) =&gt; list.includes(candidate));
-    if (isInAllLists) {
-      result.push(candidate);
-    }
-  });
-&nbsp;
-  return result;
-};
+export const intersection = <span class="fstat-no" title="function not covered" >(lists: string[][]): string[] =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const result: string[] = [];</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  lists[0].forEach((candidate) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const isInAllLists = lists.every((list) =&gt; list.includes(candidate));</span>
+<span class="cstat-no" title="statement not covered" >    if (isInAllLists) {</span>
+<span class="cstat-no" title="statement not covered" >      result.push(candidate);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  return result;</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -109,7 +109,7 @@ export const intersection = (lists: string[][]): string[] =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-03T14:39:13.997Z
+                at 2025-09-05T16:47:10.614Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

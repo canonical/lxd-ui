@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.74% </span>
+                <span class="strong">25.58% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/43</span>
+                <span class='fraction'>11/43</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.84% </span>
+                <span class="strong">28.94% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/38</span>
+                <span class='fraction'>11/38</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -112,33 +112,33 @@
 <span class="cline-any cline-yes">78x</span>
 <span class="cline-any cline-yes">78x</span>
 <span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">106x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import ResourceLink from "components/ResourceLink";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { FC } from "react";
@@ -149,34 +149,34 @@ interface Props {
   pool: LxdStoragePool;
 }
 &nbsp;
-export const StoragePoolClusterMember: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> pool }) =&gt; {</span>
-  const isClusterLocal = <span class="cstat-no" title="statement not covered" >isClusterLocalDriver(pool.driver);</span>
-  const { data: clusterMembers = [] } = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;div&gt;
-      {isClusterLocal ? (
-        clusterMembers.map((member) =&gt; {
-<span class="cstat-no" title="statement not covered" >          return (</span>
-            &lt;div className="clustered-resource-link" key={member.server_name}&gt;
-              &lt;ResourceLink
-                type="cluster-member"
-                value={member.server_name}
-                to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
-              /&gt;
-            &lt;/div&gt;
-          );
-        }<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
+export const StoragePoolClusterMember: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> pool }) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  const isClusterLocal = <span class="cstat-no" title="statement not covered" >isClusterLocalDriver(pool.driver);</span></span>
+<span class="cstat-no" title="statement not covered" >  const { data: clusterMembers = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span></span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >    &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {isClusterLocal ? (</span>
+<span class="cstat-no" title="statement not covered" >        clusterMembers.map(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return (</span></span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="clustered-resource-link" key={member.server_name}&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;ResourceLink</span>
+<span class="cstat-no" title="statement not covered" >                type="cluster-member"</span>
+<span class="cstat-no" title="statement not covered" >                value={member.server_name}</span>
+<span class="cstat-no" title="statement not covered" >                to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}</span>
+<span class="cstat-no" title="statement not covered" >              /&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >          );</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >      ) : (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >          to="/ui/cluster/members"</span>
 <span class="cstat-no" title="statement not covered" >          type="cluster-group"</span>
 <span class="cstat-no" title="statement not covered" >          value="Cluster wide"</span>
-        /&gt;
-      )}
-    &lt;/div&gt;
-  );
-};
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      )}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -184,7 +184,7 @@ export const StoragePoolClusterMember: FC&lt;Props&gt; = <span class="cstat-no" 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-03T14:39:13.997Z
+                at 2025-09-05T16:47:10.614Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

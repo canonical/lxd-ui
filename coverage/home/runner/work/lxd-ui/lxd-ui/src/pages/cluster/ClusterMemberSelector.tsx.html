@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.92% </span>
+                <span class="strong">60.97% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/41</span>
+                <span class='fraction'>25/41</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/18</span>
+                <span class='fraction'>3/13</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.44% </span>
+                <span class="strong">69.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/36</span>
+                <span class='fraction'>25/36</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -110,29 +110,29 @@
 <span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">419x</span>
-<span class="cline-any cline-yes">419x</span>
-<span class="cline-any cline-yes">419x</span>
-<span class="cline-any cline-yes">419x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
-<span class="cline-any cline-yes">432x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">432x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">375x</span>
 <span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { SelectProps } from "@canonical/react-components";
@@ -154,20 +154,20 @@ const ClusterMemberSelector: FC&lt;SelectProps &amp; Props&gt; = <span class="cs
   const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span>
   const { data: clusterMembers = [], isLoading } = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return isClustered ? (</span>
-    &lt;Select
-      {...props}
-      label={label ?? "Cluster member"}
-      options={clusterMembers.map((clusterMember) =&gt; {
-<span class="cstat-no" title="statement not covered" >        return {</span>
-          label: clusterMember.server_name,
-          value: clusterMember.server_name,
-        };
-      })}
-      disabled={disabled || isLoading || !!disableReason}
-      help={disableReason ?? props.help}
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    /&gt;</span></span>
-<span class="cstat-no" title="statement not covered" >  ) : null;</span>
+<span class="cstat-no" title="statement not covered" >  return <span class="branch-0 cbranch-no" title="branch not covered" >isClustered ? (</span></span>
+<span class="cstat-no" title="statement not covered" >    &lt;Select</span>
+<span class="cstat-no" title="statement not covered" >      {...props}</span>
+<span class="cstat-no" title="statement not covered" >      label={label ?? "Cluster member"}</span>
+<span class="cstat-no" title="statement not covered" >      options={clusterMembers.map((clusterMember) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return {</span></span>
+<span class="cstat-no" title="statement not covered" >          label: clusterMember.server_name,</span>
+<span class="cstat-no" title="statement not covered" >          value: clusterMember.server_name,</span>
+<span class="cstat-no" title="statement not covered" >        };</span>
+<span class="cstat-no" title="statement not covered" >      })}</span>
+<span class="cstat-no" title="statement not covered" >      disabled={disabled || isLoading || !!disableReason}</span>
+<span class="cstat-no" title="statement not covered" >      help={disableReason ?? props.help}</span>
+    /&gt;
+  ) : null;
 };
 &nbsp;
 export default ClusterMemberSelector;
@@ -178,7 +178,7 @@ export default ClusterMemberSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-03T14:39:13.997Z
+                at 2025-09-05T16:47:10.614Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.96% </span>
+                <span class="strong">84.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>212/241</span>
+                <span class='fraction'>203/241</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.27% </span>
+                <span class="strong">32.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>29/72</span>
+                <span class='fraction'>23/70</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.23% </span>
+                <span class="strong">93.08% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>211/217</span>
+                <span class='fraction'>202/217</span>
             </div>
         
             
@@ -354,8 +354,8 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -395,15 +395,15 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -557,7 +557,7 @@ const CustomVolumeSelectModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
   const headers = <span class="cstat-no" title="statement not covered" >[</span>
     { content: "Name" },
     { content: "Pool" },
-    ...(instanceLocation ? [{ content: "Location" }] : []),
+    ...(<span class="branch-0 cbranch-no" title="branch not covered" >instanceLocation ? [{ content: "Location" }] : [</span>]),
     { content: "Content type" },
     { content: "Used by" },
     { "aria-label": "Actions", className: "actions" },
@@ -570,9 +570,9 @@ const CustomVolumeSelectModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
         .map((volume) =&gt; {
           const isLocalVolume = <span class="cstat-no" title="statement not covered" >!!volume.location; // if location is set, it's a local volume, otherwise a remote volume</span>
           const isDisabled =
-<span class="cstat-no" title="statement not covered" >            instanceLocation !== undefined &amp;&amp;</span>
-            isLocalVolume &amp;&amp;
-            instanceLocation !== volume.location;
+<span class="cstat-no" title="statement not covered" >            instanceLocation !== <span class="branch-0 cbranch-no" title="branch not covered" >undefined &amp;&amp;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >            isLocalVolume &amp;&amp;</span></span>
+<span class="cstat-no" title="statement not covered" >            instanceLocation !== volume.location;</span>
 &nbsp;
           const disableReason = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isDisabled</span></span>
 <span class="cstat-no" title="statement not covered" >            ? `Instance location (${instanceLocation}) does not match local volume location (${volume.location}). `</span>
@@ -611,14 +611,14 @@ const CustomVolumeSelectModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
                 "aria-label": "Storage pool",
                 onClick: selectVolume,
               },
-              ...(instanceLocation
-                ? [
-                    {
-                      content: volume.location,
-                      role: "cell",
-                      "aria-label": "Location",
-                      onClick: selectVolume,
-                    },
+              ...(<span class="branch-0 cbranch-no" title="branch not covered" >instanceLocation</span>
+<span class="cstat-no" title="statement not covered" >                ? [</span>
+<span class="cstat-no" title="statement not covered" >                    {</span>
+<span class="cstat-no" title="statement not covered" >                      content: volume.location,</span>
+<span class="cstat-no" title="statement not covered" >                      role: "cell",</span>
+<span class="cstat-no" title="statement not covered" >                      "aria-label": "Location",</span>
+<span class="cstat-no" title="statement not covered" >                      onClick: selectVolume,</span>
+<span class="cstat-no" title="statement not covered" >                    },</span>
                   ]
                 : []),
               {
@@ -721,7 +721,7 @@ export default CustomVolumeSelectModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-03T14:39:13.997Z
+                at 2025-09-05T16:47:10.614Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
