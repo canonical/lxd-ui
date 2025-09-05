@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/ProtectedRoute.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/favicon.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> ProtectedRoute.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> favicon.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.51% </span>
+                <span class="strong">46.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/31</span>
+                <span class='fraction'>14/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>3/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/24</span>
+                <span class='fraction'>14/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -83,58 +83,46 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">270x</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">270x</span>
 <span class="cline-any cline-yes">270x</span>
 <span class="cline-any cline-yes">270x</span>
 <span class="cline-any cline-yes">270x</span>
 <span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">3463x</span>
-<span class="cline-any cline-yes">3463x</span>
-<span class="cline-any cline-yes">3463x</span>
+<span class="cline-any cline-yes">4754x</span>
+<span class="cline-any cline-yes">4754x</span>
+<span class="cline-any cline-yes">4754x</span>
+<span class="cline-any cline-yes">4754x</span>
+<span class="cline-any cline-yes">549x</span>
+<span class="cline-any cline-yes">549x</span>
+<span class="cline-any cline-yes">549x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3463x</span>
-<span class="cline-any cline-yes">3463x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3463x</span>
-<span class="cline-any cline-yes">3463x</span>
-<span class="cline-any cline-yes">3463x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-yes">270x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Navigate } from "react-router-dom";
-import { useAuth } from "context/auth";
-import { Spinner } from "@canonical/react-components";
-import type { FC } from "react";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4754x</span>
+<span class="cline-any cline-yes">4754x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect } from "react"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+import { useSettings } from "context/useSettings";
+import { hasMicroCloudFlag } from "util/settings";
 &nbsp;
-interface Props {
-  outlet: React.JSX.Element;
-}
+export const setFavicon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): void =&gt; {</span></span>
+  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
+  const isMicroCloud = <span class="cstat-no" title="statement not covered" >hasMicroCloudFlag(settings);</span>
 &nbsp;
-const ProtectedRoute: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> outlet }) =&gt; {</span>
-  const { isAuthenticated, isAuthLoading } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (isAuthLoading) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading..." isMainComponent /&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!isAuthenticated) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;Navigate to="/ui/login" replace={true} /&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return outlet;</span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (!isMicroCloud) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const favicon = <span class="cstat-no" title="statement not covered" >document.querySelector("link[rel='shortcut icon']");</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!favicon) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    (<span class="cstat-no" title="statement not covered" >favicon as HTMLLinkElement).href = "/assets/img/microCloud-32x32.png";</span></span>
+  }, [settings?.config]);
 };
-&nbsp;
-export default ProtectedRoute;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
