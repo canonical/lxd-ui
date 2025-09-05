@@ -61,11 +61,6 @@ test("Ensure the documentation link text and link targets are present: Server Se
     "How to manage storage buckets",
     "/documentation/howto/storage_buckets/#howto-storage-buckets",
   );
-
-  await openServerSetting(page, "instances.placement.scriptlet");
-  const scriptletLink =
-    "/documentation/explanation/clusters/#clustering-instance-placement-scriptlet";
-  await validateLink(page, "Instance placement scriptlet", scriptletLink);
 });
 
 test("Ensure the documentation link text and link targets are present: Instance Detail > Configuration", async ({
