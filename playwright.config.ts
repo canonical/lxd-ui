@@ -190,7 +190,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
       dependencies: ["login-chromium"],
     },
     {
-      name: "coverage-clustered",
+      name: "coverage:clustered",
       use: {
         ...devices["Desktop Chrome"],
         lxdVersion: "latest-edge",
