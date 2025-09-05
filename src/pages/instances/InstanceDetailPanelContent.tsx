@@ -7,10 +7,10 @@ import InstanceIps from "./InstanceIps";
 import { getRootPool, isoTimeToString } from "util/helpers";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
-import { useSettings } from "context/useSettings";
 import { isNicDevice } from "util/devices";
 import { getIpAddresses } from "util/networks";
 import { useInstanceLoading } from "context/instanceLoading";
+import { useIsClustered } from "context/useIsClustered";
 import InstanceMACAddresses from "pages/instances/InstaceMACAddresses";
 import ResourceLink from "components/ResourceLink";
 import InstanceClusterMemberChip from "./InstanceClusterMemberChip";
@@ -23,13 +23,14 @@ interface Props {
 }
 
 const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
-  const { data: settings } = useSettings();
   const networkDevices = Object.values(instance?.expanded_devices ?? {}).filter(
     isNicDevice,
   );
 
   const instanceLoading = useInstanceLoading();
   const loadingType = instanceLoading.getType(instance);
+
+  const isClustered = useIsClustered();
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
@@ -97,16 +98,14 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <th className="u-text--muted">Architecture</th>
           <td>{instance.architecture}</td>
         </tr>
-        <tr>
-          <th className="u-text--muted">Cluster member</th>
-          <td>
-            {settings?.environment?.server_clustered ? (
+        {isClustered && (
+          <tr>
+            <th className="u-text--muted">Cluster member</th>
+            <td>
               <InstanceClusterMemberChip instance={instance} />
-            ) : (
-              "-"
-            )}
-          </td>
-        </tr>
+            </td>
+          </tr>
+        )}
         <tr>
           <th className="u-text--muted">Root storage pool</th>
           <td>

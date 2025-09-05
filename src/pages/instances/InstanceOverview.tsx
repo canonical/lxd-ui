@@ -8,7 +8,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
 import InstanceIps from "pages/instances/InstanceIps";
-import { useSettings } from "context/useSettings";
+import { useIsClustered } from "context/useIsClustered";
 import NotificationRow from "components/NotificationRow";
 import DeviceListTable from "components/DeviceListTable";
 import NetworkListTable from "components/NetworkListTable";
@@ -23,7 +23,7 @@ interface Props {
 
 const InstanceOverview: FC<Props> = ({ instance }) => {
   const notify = useNotify();
-  const { data: settings } = useSettings();
+  const isClustered = useIsClustered();
 
   const onFailure = (title: string, e: unknown) => {
     notify.failure(title, e);
@@ -82,21 +82,22 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <th className="u-text--muted">Architecture</th>
                 <td>{instance.architecture}</td>
               </tr>
-              <tr>
-                <th className="u-text--muted">Cluster member</th>
-                <td>
-                  {settings?.environment?.server_clustered &&
-                  instance.location ? (
-                    <ResourceLink
-                      type="cluster-member"
-                      value={instance.location}
-                      to={`/ui/cluster/member/${encodeURIComponent(instance.location)}`}
-                    />
-                  ) : (
-                    "-"
-                  )}
-                </td>
-              </tr>
+              {isClustered && (
+                <tr>
+                  <th className="u-text--muted">Cluster member</th>
+                  <td>
+                    {instance.location ? (
+                      <ResourceLink
+                        type="cluster-member"
+                        value={instance.location}
+                        to={`/ui/cluster/member/${encodeURIComponent(instance.location)}`}
+                      />
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                </tr>
+              )}
               <tr>
                 <th className="u-text--muted">PID</th>
                 <td>{pid}</td>
