@@ -50,7 +50,10 @@ const generateProjectUsedByTooltip = (project: LxdProject) => {
   for (const resourceType of resourceTypes) {
     const usedBy = filterUsedByType(
       resourceType as ResourceType,
-      project.used_by,
+      project.used_by?.filter(
+        // the default profile is not blocking project deletion and can't be removed itself
+        (item) => !item.startsWith("/1.0/profiles/default"),
+      ),
     );
 
     if (usedBy.length > 0) {
