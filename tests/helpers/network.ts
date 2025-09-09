@@ -4,6 +4,7 @@ import type { LxdNetworkType } from "types/network";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
+import { isServerClustered } from "./cluster";
 
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
@@ -13,6 +14,7 @@ export const createNetwork = async (
   page: Page,
   network: string,
   type: LxdNetworkType = "bridge",
+  hasMemberSpecificParents?: boolean,
 ) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
@@ -22,12 +24,17 @@ export const createNetwork = async (
   await page.getByLabel("Type").selectOption(type);
   await page.getByLabel("Name", { exact: true }).click();
   await page.getByLabel("Name", { exact: true }).fill(network);
+
   if (["physical", "sriov", "macvlan"].includes(type)) {
+    if (hasMemberSpecificParents) {
+      await page.getByText("Same for all cluster members").click();
+    }
     await page.getByLabel("Parent").selectOption({ index: 1 });
   }
   if (type === "ovn") {
     await page.getByLabel("Uplink").selectOption({ index: 1 });
   }
+
   await page.getByRole("button", { name: "Create", exact: true }).click();
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
@@ -69,7 +76,7 @@ export const visitNetworkConfiguration = async (page: Page, tab: string) => {
 };
 
 export const createNetworkForward = async (page: Page, network: string) => {
-  await createNetwork(page, network);
+  const serverClustered = await isServerClustered(page);
   await visitNetwork(page, network);
   await page.getByText("/24").getByRole("button").click();
 
@@ -96,8 +103,12 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await portInput.fill("23,443-455");
   await addressInput.click();
   await addressInput.fill(targetAddress);
-  await page.getByRole("button", { name: "Create" }).click();
 
+  if (serverClustered) {
+    await page.getByLabel("Location").selectOption({ index: 1 });
+  }
+
+  await page.getByRole("button", { name: "Create" }).click();
   await page
     .getByText(`Network forward with listen address ${listenAddress} created.`)
     .click();
@@ -133,8 +144,6 @@ export const createNetworkForward = async (page: Page, network: string) => {
       `Network forward with listen address ${listenAddress} deleted.`,
     ),
   ).toBeVisible();
-
-  await deleteNetwork(page, network);
 };
 
 export const getNetworkLink = async (page: Page, network: string) => {

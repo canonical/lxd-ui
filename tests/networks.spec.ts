@@ -316,7 +316,9 @@ test.describe("OVN type", () => {
 });
 
 test("create network forward for specified network", async ({ page }) => {
+  await createNetwork(page, network);
   await createNetworkForward(page, network);
+  await deleteNetwork(page, network);
 });
 
 test.describe("SRIOV type", () => {
