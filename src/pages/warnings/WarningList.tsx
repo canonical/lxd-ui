@@ -17,12 +17,17 @@ import { useDocs } from "context/useDocs";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import PageHeader from "components/PageHeader";
+import WarningSearchFilter from "./WarningSearchFilter";
+import { useSearchParams } from "react-router-dom";
+import type { LxdWarningSeverity, LxdWarningStatus } from "types/warning";
+import type { WarningFilters } from "util/warningFilter";
 
 const WarningList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
+  const [searchParams] = useSearchParams();
 
   const {
     data: warnings = [],
@@ -38,15 +43,50 @@ const WarningList: FC = () => {
     notify.failure("Loading warnings failed", error);
   }
 
+  const hasWarnings = isLoading || warnings.length > 0;
+
+  const filters: WarningFilters = {
+    queries: searchParams.getAll("query"),
+    statuses: searchParams.getAll("status") as LxdWarningStatus[],
+    severities: searchParams.getAll("severity") as LxdWarningSeverity[],
+  };
+
+  const filteredWarnings = warnings.filter((item) => {
+    if (
+      !filters.queries.every(
+        (q) =>
+          item.type.toLowerCase().includes(q) ||
+          item.last_message.toLowerCase().includes(q),
+      )
+    ) {
+      return false;
+    }
+    if (
+      filters.statuses.length > 0 &&
+      !filters.statuses.includes(item.status)
+    ) {
+      return false;
+    }
+    if (
+      filters.severities.length > 0 &&
+      !filters.severities.includes(item.severity)
+    ) {
+      return false;
+    }
+    return true;
+  });
+
   useEffect(() => {
-    const validNames = new Set(warnings?.map((warning) => warning.uuid));
+    const validNames = new Set(
+      filteredWarnings?.map((warning) => warning.uuid),
+    );
     const validSelections = selectedNames.filter((name) =>
       validNames.has(name),
     );
     if (validSelections.length !== selectedNames.length) {
       setSelectedNames(validSelections);
     }
-  }, [warnings]);
+  }, [filteredWarnings]);
 
   const headers = [
     { content: "Type", sortKey: "type", className: "type" },
@@ -63,7 +103,7 @@ const WarningList: FC = () => {
     { content: "Last seen", sortKey: "lastSeen", className: "last_seen_at" },
   ];
 
-  const rows = warnings.map((warning) => {
+  const rows = filteredWarnings.map((warning) => {
     return {
       key: warning.uuid,
       name: warning.uuid,
@@ -145,6 +185,13 @@ const WarningList: FC = () => {
                 Warnings
               </HelpLink>
             </PageHeader.Title>
+            {hasWarnings && selectedNames.length === 0 && (
+              <PageHeader.Search>
+                <WarningSearchFilter
+                  key={`warning-${searchParams.get("search")}`}
+                />
+              </PageHeader.Search>
+            )}
             {selectedNames.length > 0 && (
               <BulkDeleteWarningBtn
                 warningIds={selectedNames}
@@ -163,7 +210,7 @@ const WarningList: FC = () => {
       <NotificationRow />
       <Row>
         <ScrollableTable
-          dependencies={[warnings]}
+          dependencies={[filteredWarnings]}
           tableId="warning-table"
           belowIds={["status-bar"]}
         >
