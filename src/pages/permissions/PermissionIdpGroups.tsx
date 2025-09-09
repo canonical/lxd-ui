@@ -1,9 +1,9 @@
 import {
   Button,
-  Card,
   EmptyState,
   Icon,
   List,
+  Notification,
   Row,
   ScrollableTable,
   TablePagination,
@@ -197,40 +197,36 @@ const PermissionIdpGroups: FC = () => {
   };
 
   const hasGroups = groups.length > 0;
-  const infoStyle = hasGroups ? "u-text--muted u-no-max-width" : "";
   const idpGroupsInfo = (
-    <>
-      <p className={infoStyle}>
+    <Notification severity="information">
+      <>
         Identity provider groups map authentication entities from your identity
         provider to groups within LXD.
-      </p>
-      {!hasCustomClaim ? (
-        <p className={infoStyle}>
+      </>
+      {!hasCustomClaim && (
+        <>
+          <br />
           You need to set your server{" "}
           <Link to="/ui/settings">
             configuration (<code>oidc.groups.claim</code>)
           </Link>{" "}
           to the name of the custom claim that provides the IDP groups.
-        </p>
-      ) : (
-        ""
+        </>
       )}
-      <p className={infoStyle}>
-        <a
-          href={`${docBaseLink}/explanation/authorization/#use-groups-defined-by-the-identity-provider`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more about IDP groups
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
-      </p>
-    </>
+      <br />
+      <a
+        href={`${docBaseLink}/explanation/authorization/#use-groups-defined-by-the-identity-provider`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn more about IDP groups
+      </a>
+    </Notification>
   );
 
   const content = hasGroups ? (
     <>
-      <Card>{idpGroupsInfo}</Card>
+      {idpGroupsInfo}
       <ScrollableTable
         dependencies={[groups]}
         tableId="idp-groups-table"
