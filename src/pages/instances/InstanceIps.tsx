@@ -1,18 +1,20 @@
 import type { FC } from "react";
-import { getIpAddresses } from "util/networks";
-import type { LxdInstance } from "types/instance";
+import { getIpAddresses, sortIpv6Addresses } from "util/networks";
+import type { IpFamily, LxdInstance } from "types/instance";
 import ExpandableList from "components/ExpandableList";
 
 interface Props {
   instance: LxdInstance;
-  family: "inet" | "inet6";
+  family: IpFamily;
 }
 
 const InstanceIps: FC<Props> = ({ instance, family }) => {
   const addresses = getIpAddresses(instance, family);
+  const sortedAddresses =
+    family === "inet6" ? sortIpv6Addresses(addresses) : addresses;
   return addresses.length ? (
     <ExpandableList
-      items={addresses.map((item) => (
+      items={sortedAddresses.map((item) => (
         <div
           key={item.address}
           className="ip u-truncate"
