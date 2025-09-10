@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/instances/InstanceLinkChip.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/instances/InstanceListIps.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/instances</a> InstanceLinkChip.tsx</h1>
+        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/instances</a> InstanceListIps.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92% </span>
+                <span class="strong">46.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/25</span>
+                <span class='fraction'>13/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">52.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/23</span>
+                <span class='fraction'>12/23</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,52 +86,52 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">286x</span>
-<span class="cline-any cline-yes">286x</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">968x</span>
+<span class="cline-any cline-yes">968x</span>
+<span class="cline-any cline-yes">968x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">236x</span>
+<span class="cline-any cline-yes">236x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import type { LxdInstance } from "types/instance";
-import ResourceLink from "components/ResourceLink";
-import type { InstanceIconType } from "components/ResourceIcon";
 &nbsp;
 interface Props {
-  instance: Partial&lt;Omit&lt;LxdInstance, "type"&gt;&gt; &amp; {
-    name: string;
-    type: InstanceIconType;
-  };
+  ips: string[];
 }
 &nbsp;
-const InstanceLinkChip: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;ResourceLink
-      type={instance.type}
-      value={instance.name}
-      to={`/ui/project/${encodeURIComponent(instance.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}/instance/${encodeURIComponent(instance.name)}`}
-    /&gt;
-  );
-};
+const InstanceListIps: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> ips }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (ips.length &lt; 3) {</span>
+<span class="cstat-no" title="statement not covered" >    return ips.map((ip) =&gt; &lt;div key={ip}&gt;{ip}&lt;/div&gt;);</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div&gt;{ips[0]}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div&gt;{ips[1]}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="p-text--x-small u-text--muted"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        + {ips.length - 2} more</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default InstanceLinkChip;
+export default InstanceListIps;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
