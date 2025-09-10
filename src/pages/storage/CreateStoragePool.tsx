@@ -16,6 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import { zfsDriver } from "util/storageOptions";
 import {
+  isAlletraIncomplete,
   isPowerflexIncomplete,
   isPureStorageIncomplete,
   testDuplicateStoragePoolName,
@@ -149,7 +150,8 @@ const CreateStoragePool: FC = () => {
             formik.isSubmitting ||
             !formik.values.name ||
             isPowerflexIncomplete(formik) ||
-            isPureStorageIncomplete(formik)
+            isPureStorageIncomplete(formik) ||
+            isAlletraIncomplete(formik)
           }
           onClick={() => void formik.submitForm()}
         >

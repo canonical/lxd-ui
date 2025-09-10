@@ -12,6 +12,7 @@ import {
 import type { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
+  ALLETRA_CONFIGURATION,
   CEPH_CONFIGURATION,
   CEPHFS_CONFIGURATION,
   CEPHOBJECT_CONFIGURATION,
@@ -24,6 +25,7 @@ import StoragePoolFormMenu, {
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdStoragePool } from "types/storage";
 import {
+  alletraDriver,
   btrfsDriver,
   cephDriver,
   cephFSDriver,
@@ -48,6 +50,7 @@ import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import StoragePoolFormPure from "pages/storage/forms/StoragePoolFormPure";
 import StoragePoolFormCephObject from "./StoragePoolFormCephObject";
 import { objectToYaml } from "util/yaml";
+import StoragePoolFormAlletra from "./StoragePoolFormAlletra";
 
 export interface StoragePoolFormValues {
   barePool?: LxdStoragePool;
@@ -96,6 +99,13 @@ export interface StoragePoolFormValues {
   zfs_export?: string;
   zfs_pool_name?: string;
   zfsPoolNamePerClusterMember?: ClusterSpecificValues;
+  alletra_target?: string;
+  alletra_wsapi?: string;
+  alletra_user_name?: string;
+  alletra_user_password?: string;
+  alletra_wsapi_verify?: string;
+  alletra_cpg?: string;
+  alletra_mode?: string;
   editRestriction?: string;
 }
 
@@ -115,6 +125,7 @@ export const toStoragePool = (
   const isPureDriver = values.driver === pureStorage;
   const isZFSDriver = values.driver === zfsDriver;
   const isCephObjectDriver = values.driver === cephObject;
+  const isAlletraDriver = values.driver === alletraDriver;
   const hasValidSize = values.size?.match(/^\d/);
 
   const getConfig = () => {
@@ -179,6 +190,17 @@ export const toStoragePool = (
         [getPoolKey("zfs_export")]: values.zfs_export ?? "",
         [getPoolKey("zfs_pool_name")]: values.zfs_pool_name,
         size: hasValidSize ? values.size : undefined,
+      };
+    }
+    if (isAlletraDriver) {
+      return {
+        [getPoolKey("alletra_target")]: values.alletra_target,
+        [getPoolKey("alletra_wsapi")]: values.alletra_wsapi,
+        [getPoolKey("alletra_user_name")]: values.alletra_user_name,
+        [getPoolKey("alletra_user_password")]: values.alletra_user_password,
+        [getPoolKey("alletra_wsapi_verify")]: values.alletra_wsapi_verify,
+        [getPoolKey("alletra_cpg")]: values.alletra_cpg,
+        [getPoolKey("alletra_mode")]: values.alletra_mode,
       };
     }
     return {
@@ -283,6 +305,9 @@ const StoragePoolForm: FC<Props> = ({
           )}
           {section === slugify(ZFS_CONFIGURATION) && (
             <StoragePoolFormZFS formik={formik} />
+          )}
+          {section === slugify(ALLETRA_CONFIGURATION) && (
+            <StoragePoolFormAlletra formik={formik} />
           )}
           {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm

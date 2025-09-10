@@ -10,6 +10,7 @@ export const cephFSDriver = "cephfs";
 export const cephObject = "cephobject";
 export const powerFlex = "powerflex";
 export const pureStorage = "pure";
+export const alletraDriver = "alletra";
 
 export const storageDriverLabels: { [key: string]: string } = {
   [dirDriver]: "Directory",
@@ -21,6 +22,7 @@ export const storageDriverLabels: { [key: string]: string } = {
   [powerFlex]: "Dell PowerFlex",
   [pureStorage]: "Pure Storage",
   [cephObject]: "Ceph Object",
+  [alletraDriver]: "HPE Alletra",
 };
 
 const bucketCompatibleDrivers = [cephObject];

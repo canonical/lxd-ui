@@ -94,6 +94,13 @@ export const toStoragePoolFormValues = (
     zfs_clone_copy: pool.config?.["zfs.clone_copy"],
     zfs_export: pool.config?.["zfs.export"],
     zfs_pool_name: pool.config?.["zfs.pool_name"],
+    alletra_target: pool.config?.["alletra.target"],
+    alletra_wsapi: pool.config?.["alletra.wsapi"],
+    alletra_user_name: pool.config?.["alletra.user.name"],
+    alletra_user_password: pool.config?.["alletra.user.password"],
+    alletra_wsapi_verify: pool.config?.["alletra.wsapi.verify"],
+    alletra_cpg: pool.config?.["alletra.cpg"],
+    alletra_mode: pool.config?.["alletra.mode"],
     zfsPoolNamePerClusterMember,
     editRestriction,
   };
