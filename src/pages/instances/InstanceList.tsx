@@ -61,6 +61,7 @@ import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
+import InstanceListIps from "./InstanceListIps";
 import {
   mediumScreenBreakpoint,
   useIsScreenBelow,
@@ -492,7 +493,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv4-${ipv4.length}`,
-            content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
+            content: <InstanceListIps ips={ipv4} />,
             role: "cell",
             className: "u-align--right clickable-cell",
             "aria-label": IPV4,
@@ -501,7 +502,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv6-${ipv6.length}`,
-            content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
+            content: <InstanceListIps ips={ipv6} />,
             role: "cell",
             "aria-label": IPV6,
             onClick: openSummary,

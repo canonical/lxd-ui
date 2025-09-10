@@ -12,12 +12,18 @@ interface LxdInstanceMemory {
   usage_peak: number;
 }
 
+export type IpFamily = "inet" | "inet6";
+
 interface LxdInstanceNetworkAddress {
   address: string;
-  family: string;
+  family: IpFamily;
   netmask: string;
   scope: string;
 }
+
+export type IpAddress = LxdInstanceNetworkAddress & {
+  iface: string;
+};
 
 interface LxdInstanceNetworkCounters {
   bytes_received: number;
