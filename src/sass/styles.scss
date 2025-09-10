@@ -142,6 +142,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 body {
   // needed for notification list expanding animation
   overflow: hidden;
+  scrollbar-color: $color-mid-dark transparent;
 }
 
 .p-heading--4 {
