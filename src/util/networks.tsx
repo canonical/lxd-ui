@@ -1,4 +1,4 @@
-import type { LxdInstance } from "types/instance";
+import type { IpAddress, IpFamily, LxdInstance } from "types/instance";
 import type { LxdNetwork, LxdNetworkConfig } from "types/network";
 import type { LxdConfigOptionsKeys } from "types/config";
 import { capitalizeFirstLetter } from "util/helpers";
@@ -25,8 +25,8 @@ export const typesWithStatistics = [bridgeType, ovnType, physicalType];
 
 export const getIpAddresses = (
   instance: LxdInstance,
-  family: "inet" | "inet6",
-) => {
+  family: IpFamily,
+): IpAddress[] => {
   if (!instance.state?.network) return [];
   return Object.entries(instance.state.network)
     .filter(([key, _value]) => key !== "lo")
@@ -36,6 +36,32 @@ export const getIpAddresses = (
       }),
     )
     .filter((item) => item.family === family);
+};
+
+export const isLocalIPv6 = (ipv6Address: string): boolean => {
+  const normalizedAddress = ipv6Address.toLowerCase();
+
+  if (normalizedAddress === "::1") {
+    return true;
+  }
+
+  const firstHextet = parseInt(normalizedAddress.split(":")[0], 16);
+  if (firstHextet >= 0xfe80 && firstHextet <= 0xfebf) {
+    return true;
+  }
+
+  return false;
+};
+
+export const sortIpv6Addresses = (ipv6Addresses: IpAddress[]): IpAddress[] => {
+  if (ipv6Addresses.length === 0) return [];
+
+  // Set local addresses at the end
+  return ipv6Addresses.sort((a, b) => {
+    const isA_local = isLocalIPv6(a.address);
+    const isB_local = isLocalIPv6(b.address);
+    return isA_local === isB_local ? 0 : isA_local ? 1 : -1;
+  });
 };
 
 export const networkFormFieldToPayloadName: Record<
