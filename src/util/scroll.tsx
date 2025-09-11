@@ -15,7 +15,7 @@ export const getFirstVisibleSection = (
   for (const candidate of sections) {
     const element = document.getElementById(candidate.toLowerCase());
     const elementOffset = element?.offsetTop ?? 0;
-    if (elementOffset > scrollTop + offsetTop) {
+    if (elementOffset > scrollTop + offsetTop + 25) {
       return previousCandidate;
     }
     previousCandidate = candidate;
