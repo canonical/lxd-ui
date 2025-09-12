@@ -11,11 +11,13 @@ import {
   pureStorage,
   cephFSDriver,
   cephObject,
+  alletraDriver,
 } from "util/storageOptions";
 import type { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import {
+  getAlletraStoragePoolFormFields,
   getCephObjectPoolFormFields,
   getCephPoolFormFields,
   getPowerflexPoolFormFields,
@@ -57,9 +59,14 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
+  const isAlletraDriver = formik.values.driver === alletraDriver;
   const storageDriverOptions = getStorageDriverOptions(settings);
   const hasClusterWideSource = isCephDriver || isCephFSDriver;
-  const hasSource = !isPureDriver && !isPowerFlexDriver && !isCephObjectDriver;
+  const hasSource =
+    !isPureDriver &&
+    !isPowerFlexDriver &&
+    !isCephObjectDriver &&
+    !isAlletraDriver;
 
   const sourceHelpText = formik.values.isCreating
     ? getSourceHelpForDriver(formik.values.driver)
@@ -144,6 +151,12 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   formik.setFieldValue(field, undefined);
                 }
                 formik.setFieldValue("zfsPoolNamePerClusterMember", "");
+              }
+              if (val !== alletraDriver) {
+                const alletraFields = getAlletraStoragePoolFormFields();
+                for (const field of alletraFields) {
+                  formik.setFieldValue(field, undefined);
+                }
               }
               if (!isStoragePoolWithSize(val)) {
                 formik.setFieldValue("size", undefined);
@@ -315,6 +328,58 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="API gateway"
                 placeholder="Enter Pure Storage API gateway"
                 help="URL for the Pure Storage API."
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+            </>
+          )}
+          {isAlletraDriver && (
+            <>
+              <Input
+                {...formik.getFieldProps("alletra_wsapi")}
+                type="text"
+                label="Address"
+                placeholder="Enter Alletra WSAPI"
+                help="Address of the HPE Alletra Storage UI/WSAPI."
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Input
+                {...formik.getFieldProps("alletra_user_name")}
+                type="text"
+                label="User"
+                placeholder="Enter Alletra user"
+                help="HPE Alletra storage admin username"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Input
+                {...formik.getFieldProps("alletra_user_password")}
+                type="password"
+                label="Password"
+                placeholder="Enter Alletra password"
+                help="HPE Alletra storage admin password"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Input
+                {...formik.getFieldProps("alletra_cpg")}
+                type="text"
+                label="Common Provisioning Group"
+                placeholder="Enter Alletra CPG"
+                help="HPE Alletra Common Provisioning Group (CPG) name"
                 onChange={(e) => {
                   ensureEditMode(formik);
                   formik.handleChange(e);

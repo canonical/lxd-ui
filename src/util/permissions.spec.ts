@@ -135,6 +135,7 @@ describe("General util functions for permissions feature", () => {
           "storage-powerflex": {},
           "storage-pure": {},
           "storage-zfs": {},
+          "storage-alletra": {},
         },
         entities: {
           server: {

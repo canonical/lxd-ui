@@ -5,6 +5,7 @@ import type { LxdConfigOptionsKeys } from "types/config";
 import type { FormikProps } from "formik";
 import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import {
+  alletraDriver,
   btrfsDriver,
   dirDriver,
   lvmDriver,
@@ -47,6 +48,13 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   zfs_clone_copy: "zfs.clone_copy",
   zfs_export: "zfs.export",
   zfs_pool_name: "zfs.pool_name",
+  alletra_target: "alletra.target",
+  alletra_wsapi: "alletra.wsapi",
+  alletra_user_name: "alletra.user.name",
+  alletra_user_password: "alletra.user.password",
+  alletra_wsapi_verify: "alletra.wsapi.verify",
+  alletra_cpg: "alletra.cpg",
+  alletra_mode: "alletra.mode",
 };
 
 export const isClusterLocalDriver = (poolDriver: string) => {
@@ -93,6 +101,12 @@ export const getZfsStoragePoolFormFields = () => {
   );
 };
 
+export const getAlletraStoragePoolFormFields = () => {
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
+    item.startsWith("alletra_"),
+  );
+};
+
 const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   dir: "storage-dir",
   btrfs: "storage-btrfs",
@@ -103,6 +117,7 @@ const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   powerflex: "storage-powerflex",
   pure: "storage-pure",
   cephobject: "storage-cephobject",
+  alletra: "storage-alletra",
 };
 
 export const storagePoolFormDriverToOptionKey = (
@@ -149,5 +164,17 @@ export const isPureStorageIncomplete = (
   return (
     formik.values.driver === pureStorage &&
     (!formik.values.pure_gateway || !formik.values.pure_api_token)
+  );
+};
+
+export const isAlletraIncomplete = (
+  formik: FormikProps<StoragePoolFormValues>,
+): boolean => {
+  return (
+    formik.values.driver === alletraDriver &&
+    (!formik.values.alletra_wsapi ||
+      !formik.values.alletra_user_name ||
+      !formik.values.alletra_user_password ||
+      !formik.values.alletra_cpg)
   );
 };

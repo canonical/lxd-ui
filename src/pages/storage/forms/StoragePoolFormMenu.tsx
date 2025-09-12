@@ -6,6 +6,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import type { FormikProps } from "formik";
 import type { StoragePoolFormValues } from "./StoragePoolForm";
 import {
+  alletraDriver,
   cephDriver,
   cephFSDriver,
   cephObject,
@@ -14,6 +15,7 @@ import {
   zfsDriver,
 } from "util/storageOptions";
 import {
+  isAlletraIncomplete,
   isPowerflexIncomplete,
   isPureStorageIncomplete,
 } from "util/storagePool";
@@ -26,6 +28,7 @@ export const POWERFLEX = "Powerflex";
 export const ZFS_CONFIGURATION = "ZFS";
 export const YAML_CONFIGURATION = "YAML configuration";
 export const PURE_STORAGE = "Pure Storage";
+export const ALLETRA_CONFIGURATION = "HPE Alletra";
 
 interface Props {
   active: string;
@@ -52,6 +55,7 @@ const StoragePoolFormMenu: FC<Props> = ({
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const isZfsDriver = formik.values.driver === zfsDriver;
+  const isAlletraDriver = formik.values.driver === alletraDriver;
   const hasName = formik.values.name.length > 0;
   const getDisableReason = () => {
     if (!hasName) {
@@ -62,6 +66,9 @@ const StoragePoolFormMenu: FC<Props> = ({
     }
     if (isPureStorageIncomplete(formik)) {
       return "Please enter an API token and gateway to enable this section";
+    }
+    if (isAlletraIncomplete(formik)) {
+      return "Please enter an address, user, password and common provisioning group to enable this section";
     }
     return undefined;
   };
@@ -118,6 +125,13 @@ const StoragePoolFormMenu: FC<Props> = ({
           {isZfsDriver && (
             <MenuItem
               label={ZFS_CONFIGURATION}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isAlletraDriver && (
+            <MenuItem
+              label={ALLETRA_CONFIGURATION}
               {...menuItemProps}
               disableReason={disableReason}
             />
