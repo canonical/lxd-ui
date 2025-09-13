@@ -7,6 +7,9 @@ import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm"
 import {
   alletraDriver,
   btrfsDriver,
+  cephDriver,
+  cephFSDriver,
+  cephObject,
   dirDriver,
   lvmDriver,
   powerFlex,
@@ -108,16 +111,16 @@ export const getAlletraStoragePoolFormFields = () => {
 };
 
 const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
-  dir: "storage-dir",
-  btrfs: "storage-btrfs",
-  lvm: "storage-lvm",
-  zfs: "storage-zfs",
-  ceph: "storage-ceph",
-  cephfs: "storage-cephfs",
-  powerflex: "storage-powerflex",
-  pure: "storage-pure",
-  cephobject: "storage-cephobject",
-  alletra: "storage-alletra",
+  [dirDriver]: "storage-dir",
+  [btrfsDriver]: "storage-btrfs",
+  [lvmDriver]: "storage-lvm",
+  [zfsDriver]: "storage-zfs",
+  [cephDriver]: "storage-ceph",
+  [cephFSDriver]: "storage-cephfs",
+  [powerFlex]: "storage-powerflex",
+  [pureStorage]: "storage-pure",
+  [cephObject]: "storage-cephobject",
+  [alletraDriver]: "storage-alletra",
 };
 
 export const storagePoolFormDriverToOptionKey = (
