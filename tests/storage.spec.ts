@@ -112,15 +112,11 @@ test("storage volume edit snapshot configuration", async ({
 test("custom storage volume add snapshot from CTA", async ({ page }) => {
   const volume = randomVolumeName();
   await createVolume(page, volume);
-  await page
+  const row = page
     .getByRole("row", { name: "Name" })
-    .filter({ hasText: volume })
-    .hover();
-  await page
-    .getByRole("row", { name: "Name" })
-    .filter({ hasText: volume })
-    .getByRole("button", { name: "Add Snapshot" })
-    .click();
+    .filter({ hasText: volume });
+  await row.hover();
+  await row.getByRole("button", { name: "Add Snapshot" }).click();
 
   const snapshot = randomSnapshotName();
   await page.getByLabel("Snapshot name").click();
@@ -131,6 +127,8 @@ test("custom storage volume add snapshot from CTA", async ({ page }) => {
   await page.waitForSelector(
     `text=Snapshot ${snapshot} created for volume ${volume}.`,
   );
+
+  expect(row.getByLabel("Snapshots")).toContainText("1");
 
   await deleteVolume(page, volume);
 });

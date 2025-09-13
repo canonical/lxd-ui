@@ -26,6 +26,7 @@ import { useDocs } from "context/useDocs";
 import {
   figureCollapsedScreen,
   getSnapshotsPerVolume,
+  getVolumeId,
   hasVolumeDetailPage,
   isSnapshot,
   renderContentType,
@@ -54,7 +55,6 @@ import { useIsClustered } from "context/useIsClustered";
 import ResourceLink from "components/ResourceLink";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import type { LxdStorageVolume } from "types/storage";
 import StorageVolumeBulkDelete from "./actions/StorageVolumeBulkDelete";
 
 const StorageVolumes: FC = () => {
@@ -68,6 +68,8 @@ const StorageVolumes: FC = () => {
     setSmallScreen(figureCollapsedScreen());
   };
   useListener(window, resize, "resize", true);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [processingVolumes, setProcessingVolumes] = useState<string[]>([]);
 
   const filters: StorageVolumesFilterType = {
     queries: searchParams.getAll(QUERY).map((query) => query.toLowerCase()),
@@ -89,19 +91,13 @@ const StorageVolumes: FC = () => {
 
   const { data: volumes = [], error, isLoading } = useLoadVolumes(project);
 
-  const getVolumeKey = (volume: LxdStorageVolume) => {
-    return `${volume.name}-${volume.pool}-${volume.location || ""}`;
-  };
-  const [selectedNames, setSelectedNames] = useState<string[]>([]);
-  const [processingVolumes, setProcessingVolumes] = useState<string[]>([]);
-
   if (error) {
     notify.failure("Loading storage volumes failed", error);
   }
 
   useEffect(() => {
-    const validKeys = new Set(volumes.map(getVolumeKey));
-    const validSelections = selectedNames.filter((name) => validKeys.has(name));
+    const validIds = new Set(volumes.map(getVolumeId));
+    const validSelections = selectedNames.filter((name) => validIds.has(name));
     if (validSelections.length !== selectedNames.length) {
       setSelectedNames(validSelections);
     }
@@ -227,15 +223,15 @@ const StorageVolumes: FC = () => {
 
   const snapshotsPerVolume = getSnapshotsPerVolume(volumes);
   const rows = filteredVolumes.map((volume) => {
-    const key = getVolumeKey(volume);
+    const id = getVolumeId(volume);
     const volumeType = renderVolumeType(volume);
     const contentType = renderContentType(volume);
-    const snapshotCount = snapshotsPerVolume[key]?.length ?? 0;
+    const snapshotCount = snapshotsPerVolume[id]?.length ?? 0;
     const canSelect = hasVolumeDetailPage(volume);
 
     return {
-      key,
-      name: canSelect ? key : undefined,
+      key: id,
+      name: canSelect ? id : undefined,
       className: "u-row",
       columns: [
         {
@@ -435,7 +431,7 @@ const StorageVolumes: FC = () => {
                 setSelectedNames={setSelectedNames}
                 filteredNames={filteredVolumes
                   .filter(hasVolumeDetailPage)
-                  .map(getVolumeKey)}
+                  .map(getVolumeId)}
               />
             )
           }
@@ -452,7 +448,7 @@ const StorageVolumes: FC = () => {
             selectedNames={selectedNames}
             setSelectedNames={setSelectedNames}
             disabledNames={processingVolumes}
-            filteredNames={filteredVolumes.map(getVolumeKey)}
+            filteredNames={filteredVolumes.map(getVolumeId)}
             onUpdateSort={updateSort}
             defaultSortDirection="descending"
           />
@@ -462,7 +458,7 @@ const StorageVolumes: FC = () => {
   );
 
   const selectedVolumes = volumes.filter((volume) => {
-    const volumeKey = getVolumeKey(volume);
+    const volumeKey = getVolumeId(volume);
     return selectedNames.includes(volumeKey);
   });
 
