@@ -8,6 +8,7 @@ import {
 } from "pages/instances/forms/InstanceFormMenu";
 import type { FormikProps } from "formik/dist/types";
 import classnames from "classnames";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 interface Props {
   section?: string;
@@ -24,6 +25,7 @@ const YamlSwitch: FC<Props> = ({
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const yamlFormik = formik as FormikProps<{ yaml: string }>;
+  const isSmallScreen = useIsScreenBelow();
 
   const isChecked = slugify(section ?? "") === slugify(YAML_CONFIGURATION);
 
@@ -54,7 +56,7 @@ const YamlSwitch: FC<Props> = ({
         </Portal>
       )}
       <Switch
-        label="YAML Configuration"
+        label={isSmallScreen ? "YAML" : "YAML Configuration"}
         checked={isChecked}
         onChange={handleSwitch}
         disabled={disableReason !== undefined}
