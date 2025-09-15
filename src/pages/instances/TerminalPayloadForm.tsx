@@ -68,8 +68,8 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
   useEffect(() => {
     ref.current?.scrollIntoView({
       behavior: "smooth",
-      block: "end",
-      inline: "start",
+      block: "nearest",
+      inline: "nearest",
     });
     window.dispatchEvent(new Event("resize"));
   }, [formik.values.environment]);
