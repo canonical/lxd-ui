@@ -418,7 +418,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               onChange={(v) => {
                 setType(
                   v.target.value === ANY
-                    ? "container"
+                    ? undefined
                     : (v.target.value as LxdImageType),
                 );
               }}
