@@ -16,6 +16,7 @@ import { useEventQueue } from "context/eventQueue";
 import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import { useMemberLoading } from "context/memberLoading";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   member: LxdClusterMember;
@@ -38,6 +39,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({
   const eventQueue = useEventQueue();
   const memberLoading = useMemberLoading();
   const loadingType = memberLoading.getType(member.server_name);
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   const invalidateCache = () => {
     queryClient.invalidateQueries({
@@ -106,11 +108,19 @@ const RestoreClusterMemberBtn: FC<Props> = ({
       });
   };
 
+  const hasPermission = canEditServerConfiguration();
+
+  const isDisabled =
+    isLoading ||
+    member.status !== "Evacuated" ||
+    !!loadingType ||
+    !hasPermission;
+
   return (
     <ConfirmationButton
       appearance={hasLabel ? "" : "base"}
       loading={isLoading || loadingType === "Restoring"}
-      disabled={isLoading || member.status !== "Evacuated" || !!loadingType}
+      disabled={isDisabled}
       confirmationModalProps={{
         title: "Confirm restore",
         children: (
@@ -136,7 +146,9 @@ const RestoreClusterMemberBtn: FC<Props> = ({
             </p>
           </>
         ),
-        confirmButtonLabel: "Restore member",
+        confirmButtonLabel: hasPermission
+          ? "Restore cluster member"
+          : "You do not have permission to restore cluster members",
         onConfirm: handleRestore,
         confirmButtonAppearance: "positive",
       }}

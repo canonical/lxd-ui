@@ -23,19 +23,19 @@ test("cluster member evacuate and restore", async ({
   const restoreBtn = memberRow.getByRole("button", { name: "Restore" });
   if (await restoreBtn.isEnabled()) {
     await restoreBtn.click();
-    await page.getByRole("button", { name: "Restore member" }).click();
+    await page.getByText("Restore cluster member", { exact: true }).click();
     await page.waitForSelector(`text=Member ${member} restore completed.`);
   }
 
   await memberRow.hover();
   await memberRow.getByRole("button", { name: "Evacuate" }).click();
-  await page.getByText("Evacuate member").click();
+  await page.getByText("Evacuate cluster member", { exact: true }).click();
 
   await page.waitForSelector(`text=Member ${member} evacuation completed.`);
 
   await memberRow.hover();
   await memberRow.getByRole("button", { name: "Restore" }).click();
-  await page.getByText("Restore member").click();
+  await page.getByText("Restore cluster member", { exact: true }).click();
 
   await page.waitForSelector(`text=Member ${member} restore completed.`);
 });

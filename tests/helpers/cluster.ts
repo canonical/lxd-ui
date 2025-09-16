@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
 import type { LxdVersions } from "../fixtures/lxd-test";
-import { test } from "../fixtures/lxd-test";
+import { expect, test } from "../fixtures/lxd-test";
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -80,6 +80,7 @@ export const getFirstClusterMember = async (page: Page): Promise<string> => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
   await page.getByRole("link", { name: "Members" }).click();
+  await expect(page.getByText("Cluster members")).toBeVisible();
   const firstCellContent = await page
     .getByRole("rowheader")
     .first()
