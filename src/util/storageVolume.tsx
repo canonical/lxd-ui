@@ -94,14 +94,14 @@ export const isSnapshot = (volume: LxdStorageVolume): boolean => {
 };
 
 export const splitVolumeSnapshotName = (
-  fullVolumeName: string,
-): { snapshotName: string; volumeName: string } => {
-  const fullVolumeNameSplit = fullVolumeName.split("/");
-  const snapshotName = fullVolumeNameSplit.pop() || "";
-  const volumeName = fullVolumeNameSplit.join("");
+  volumeName: string,
+): { snapshotName: string; parentName: string } => {
+  const splitName = volumeName.split("/");
+  const snapshotName = splitName.pop() || "";
+  const parentName = splitName.join("");
   return {
     snapshotName,
-    volumeName,
+    parentName,
   };
 };
 
@@ -109,17 +109,21 @@ export const getSnapshotsPerVolume = (volumes: LxdStorageVolume[]) => {
   const snapshotPerVolumeLookup: { [volumeName: string]: string[] } = {};
   for (const volume of volumes) {
     if (isSnapshot(volume)) {
-      const { volumeName, snapshotName } = splitVolumeSnapshotName(volume.name);
-      const key = `${volumeName}-${volume.location}`;
-      if (!snapshotPerVolumeLookup[key]) {
-        snapshotPerVolumeLookup[key] = [];
+      const { parentName, snapshotName } = splitVolumeSnapshotName(volume.name);
+      const parentId = getVolumeId({ ...volume, name: parentName });
+      if (!snapshotPerVolumeLookup[parentId]) {
+        snapshotPerVolumeLookup[parentId] = [];
       }
 
-      snapshotPerVolumeLookup[key].push(snapshotName);
+      snapshotPerVolumeLookup[parentId].push(snapshotName);
     }
   }
 
   return snapshotPerVolumeLookup;
+};
+
+export const getVolumeId = (volume: LxdStorageVolume) => {
+  return `${volume.name}-${volume.pool}-${volume.location || ""}`;
 };
 
 const collapsedViewMaxWidth = 1250;
