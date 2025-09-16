@@ -353,8 +353,16 @@
       }
 
       &:nth-child(7) {
+        width: 5rem;
+      }
+
+      &:nth-child(8) {
         width: 6rem;
       }
+    }
+
+    @include mobile-and-tablet {
+      width: unset;
     }
   }
 

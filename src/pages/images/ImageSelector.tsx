@@ -278,17 +278,20 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             onClick: selectImage,
           },
           {
-            content: (
-              <>
-                {getSource()}
-                {item.cached && <span className="u-text--muted"> cached</span>}
-              </>
-            ),
+            content: getSource(),
             role: "cell",
             "aria-label": "Source",
             onClick: selectImage,
           },
           {
+            className: "u-hide--small u-hide--medium",
+            content: item.cached ? "Cached" : "Remote",
+            role: "cell",
+            "aria-label": "Cached",
+            onClick: selectImage,
+          },
+          {
+            className: "u-hide--small u-hide--medium",
             content: (
               <Button
                 onClick={selectImage}
@@ -333,6 +336,11 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       content: "Source",
     },
     {
+      className: "u-hide--small u-hide--medium",
+      content: "Cached",
+    },
+    {
+      className: "u-hide--small u-hide--medium",
       content: "",
       "aria-label": "Actions",
     },

@@ -89,12 +89,17 @@ const InstanceCreateDetailsForm: FC<Props> = ({
 }) => {
   const { hasCustomVolumeIso } = useSupportedFeatures();
 
-  function figureBaseImageName() {
+  const figureBaseImageName = () => {
     const image = formik.values.image;
-    return image
-      ? `${image.os} ${image.release} ${image.aliases.split(",")[0]}`
-      : "";
-  }
+
+    if (!image) return "";
+
+    if (image.variant?.toLocaleLowerCase().includes("desktop")) {
+      return `${image.os} ${image.release} ${image.aliases.split(",")[0]}`;
+    }
+
+    return `${image.os} ${image.release} ${image.release_title}`;
+  };
 
   return (
     <ScrollableForm>
