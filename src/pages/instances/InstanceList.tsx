@@ -532,9 +532,6 @@ const InstanceList: FC = () => {
                 className={classnames(
                   "instance-actions",
                   "u-no-margin--bottom",
-                  {
-                    "u-hide": Boolean(instanceLoading.getType(instance)),
-                  },
                 )}
                 instance={instance}
               />
