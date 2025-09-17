@@ -1,7 +1,9 @@
 import type { FC } from "react";
 import { MainTable, Notification, Spinner } from "@canonical/react-components";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
+import ExpandableList from "components/ExpandableList";
 import { useParams } from "react-router-dom";
 import type { LxdDevices } from "types/device";
 import { useNetworks } from "context/useNetworks";
@@ -45,7 +47,37 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
     },
   ];
 
-  const networksRows = Object.entries(devices ?? {})
+  const lxdNetworks = Object.entries(devices ?? {})
+    .map(([_, networkDevice]) => {
+      if (networkDevice.type !== "nic") {
+        return null;
+      }
+
+      const network = networks.find(
+        (item) =>
+          item.name === networkDevice.network ||
+          item.name === networkDevice.parent,
+      );
+
+      if (!network) {
+        return null;
+      }
+
+      return network;
+    })
+    .filter((network) => network !== null);
+
+  const canHaveAcls = lxdNetworks.some((t) => t.type === "ovn");
+
+  if (canHaveAcls) {
+    networksHeaders.push({
+      content: "ACLs",
+      sortKey: "acls",
+      className: "u-text--muted u-hide--small u-hide--medium",
+    });
+  }
+
+  const networksRows: MainTableRow[] = Object.entries(devices ?? {})
     .map(([deviceName, networkDevice]) => {
       if (networkDevice.type !== "nic") {
         return null;
@@ -61,43 +93,68 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
         return null;
       }
 
+      const columns = [
+        {
+          content: (
+            <ResourceLink
+              type="network"
+              value={network.name}
+              to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`}
+            />
+          ),
+          role: "rowheader",
+          "aria-label": "Name",
+        },
+        {
+          content: deviceName,
+          role: "cell",
+          "aria-label": "Interface",
+        },
+        {
+          content: (
+            <>
+              {network.type}
+              <span className="u-text--muted">
+                , {network.managed ? "managed" : "unmanaged"}
+              </span>
+            </>
+          ),
+          role: "cell",
+          "aria-label": "Type",
+        },
+        {
+          content: instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
+          role: "cell",
+          "aria-label": "MAC address",
+        },
+      ];
+
+      if (canHaveAcls) {
+        columns.push({
+          content: network.config["security.acls"] ? (
+            <ExpandableList
+              items={network.config["security.acls"]
+                .split(",")
+                .map((aclName) => (
+                  <ResourceLink
+                    key={aclName}
+                    type="network-acl"
+                    value={aclName}
+                    to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(aclName)}`}
+                  />
+                ))}
+            />
+          ) : (
+            <>-</>
+          ), // TODO: wrong, we want acls attached to the instance or profile, not the network
+          role: "cell",
+          "aria-label": "ACLs",
+        });
+      }
+
       return {
         key: network.name,
-        columns: [
-          {
-            content: (
-              <ResourceLink
-                type="network"
-                value={network.name}
-                to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`}
-              />
-            ),
-            role: "rowheader",
-            "aria-label": "Name",
-          },
-          {
-            content: deviceName,
-            role: "cell",
-            "aria-label": "Interface",
-          },
-          {
-            content: (
-              <>
-                {network.type}
-                <span className="u-text--muted">
-                  , {network.managed ? "managed" : "unmanaged"}
-                </span>
-              </>
-            ),
-            role: "cell",
-            "aria-label": "Type",
-          },
-          {
-            content: instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
-            role: "cell",
-            "aria-label": "MAC address",
-          },
-        ],
+        columns,
         sortData: {
           name: network.name.toLowerCase(),
           type: network.type + network.managed ? "managed" : "unmanaged",
