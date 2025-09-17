@@ -121,6 +121,13 @@ const InstanceList: FC = () => {
     return <>Missing project</>;
   }
 
+  useEffect(() => {
+    if (isClustered || !userHidden.includes(CLUSTER_MEMBER)) {
+      return;
+    }
+    setUserHidden(userHidden.filter((col) => col !== CLUSTER_MEMBER));
+  }, [isClustered]);
+
   const {
     data: instances = [],
     error,
@@ -582,6 +589,9 @@ const InstanceList: FC = () => {
     let gainedSpace = 0;
     const sizeHiddenNew: string[] = [];
     SIZE_HIDEABLE_COLUMNS.forEach((column) => {
+      if (column === CLUSTER_MEMBER && !isClustered) {
+        return;
+      }
       if (
         tableWidth - gainedSpace > wrapWidth &&
         !userHidden.includes(column)
@@ -592,6 +602,7 @@ const InstanceList: FC = () => {
     });
     if (JSON.stringify(sizeHiddenNew) !== JSON.stringify(sizeHidden)) {
       setSizeHidden(sizeHiddenNew);
+      console.log(sizeHiddenNew);
     }
   };
   useListener(window, figureSizeHidden, "resize", true);
