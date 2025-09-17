@@ -11,6 +11,16 @@ export const randomImageName = (): string => {
   return `playwright-image-${randomNameSuffix()}`;
 };
 
+export const selectAllInstances = async (page: Page) => {
+  await page
+    .getByRole("row", {
+      name: "select Name Type Description Status Actions",
+    })
+    .getByLabel("multiselect rows")
+    .click();
+  await page.getByRole("button", { name: "Select all instances" }).click();
+};
+
 export const createInstance = async (
   page: Page,
   instance: string,
