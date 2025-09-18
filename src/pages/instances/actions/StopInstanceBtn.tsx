@@ -73,16 +73,18 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   };
 
   const disabledStatuses = ["Stopped", "Migrating"];
+
+  // Keep button disabled while instance is stopping to allow force stop
   const isDisabled =
-    isLoading ||
     disabledStatuses.includes(instance.status) ||
-    instanceLoading.getType(instance) === "Migrating";
+    instanceLoading.getType(instance) === "Migrating" ||
+    !canUpdateInstanceState(instance);
 
   return (
     <ConfirmationButton
       appearance="base"
       loading={isLoading}
-      disabled={isDisabled || !canUpdateInstanceState(instance) || isLoading}
+      disabled={isDisabled}
       confirmationModalProps={{
         title: "Confirm stop",
         children: (

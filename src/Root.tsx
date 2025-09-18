@@ -32,9 +32,9 @@ const Root: FC = () => {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <ProjectProvider>
-              <InstanceLoadingProvider>
-                <MemberLoadingProvider>
-                  <OperationsProvider>
+              <OperationsProvider>
+                <InstanceLoadingProvider>
+                  <MemberLoadingProvider>
                     <EventQueueProvider>
                       <MetricHistoryProvider>
                         <Application id="l-application">
@@ -48,9 +48,9 @@ const Root: FC = () => {
                         </Application>
                       </MetricHistoryProvider>
                     </EventQueueProvider>
-                  </OperationsProvider>
-                </MemberLoadingProvider>
-              </InstanceLoadingProvider>
+                  </MemberLoadingProvider>
+                </InstanceLoadingProvider>
+              </OperationsProvider>
             </ProjectProvider>
           </AuthProvider>
         </QueryClientProvider>

@@ -126,10 +126,15 @@ const InstanceBulkAction: FC<Props> = ({
     );
   };
 
+  // allow stop action when loading to allow to trigger force stop
+  const isLoadingNotStop = isLoading && action !== "stop";
+
   return (
     <ConfirmationButton
       appearance="base"
-      disabled={isDisabled || !hasChangedStates || allRestricted || isLoading}
+      disabled={
+        isDisabled || !hasChangedStates || allRestricted || isLoadingNotStop
+      }
       loading={isLoading}
       className="u-no-margin--right u-no-margin--bottom bulk-action has-icon"
       confirmationModalProps={{
