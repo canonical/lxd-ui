@@ -39,11 +39,13 @@ export const fetchResources = (): Promise<LxdResources> => {
   });
 };
 
-export const fetchConfigOptions = (): Promise<LxdConfigOptions> => {
-  return new Promise((resolve, reject) => {
-    fetch("/1.0/metadata/configuration")
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdConfigOptions>) => resolve(data.metadata))
-      .catch(reject);
-  });
+export const fetchConfigOptions = (): LxdConfigOptions => {
+  return {
+    configs: {
+      cluster: {},
+      instance: {},
+      project: {},
+      server: {},
+    }
+  };
 };

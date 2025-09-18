@@ -20,7 +20,6 @@ import {
   sendAltTab,
   sendCtrlAltDel,
 } from "../../lib/spice/src/inputs";
-import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 
 interface Props {
   instance: LxdInstance;
@@ -81,7 +80,6 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           </div>
           {isGraphic && isRunning && (
             <div>
-              <AttachIsoBtn instance={instance} />
               <Button
                 className="u-no-margin--bottom"
                 onClick={() => handleFullScreen()}
