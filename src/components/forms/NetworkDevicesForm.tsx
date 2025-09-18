@@ -23,6 +23,7 @@ import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
 import NetworkSelector from "pages/projects/forms/NetworkSelector";
+import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -130,6 +131,19 @@ or remove the originating item"
             | LxdNicDevice
             | CustomNetworkDevice;
 
+          const shouldDisplayAclsSelector = () => {
+            const selectedNetwork = (
+              formik.values.devices[index] as LxdNicDevice
+            ).network;
+            const managedNetwork = managedNetworks.find(
+              (t) => t.name === selectedNetwork,
+            );
+            if (managedNetwork) {
+              return managedNetwork.type === "ovn";
+            }
+            return false;
+          };
+
           return getConfigurationRowBase({
             name: `devices.${index}.name`,
             edit: readOnly ? "read" : "edit",
@@ -174,21 +188,45 @@ or remove the originating item"
                         {(formik.values.devices[index] as LxdNicDevice).network}
                       </div>
                     ) : (
-                      <NetworkSelector
-                        value={
-                          (formik.values.devices[index] as LxdNicDevice).network
-                        }
-                        project={project}
-                        onBlur={formik.handleBlur}
-                        setValue={(value) =>
-                          void formik.setFieldValue(
-                            `devices.${index}.network`,
-                            value,
-                          )
-                        }
-                        id={`devices.${index}.network`}
-                        name={`devices.${index}.network`}
-                      />
+                      <>
+                        <NetworkSelector
+                          value={
+                            (formik.values.devices[index] as LxdNicDevice)
+                              .network
+                          }
+                          project={project}
+                          onBlur={formik.handleBlur}
+                          setValue={(value) =>
+                            void formik.setFieldValue(
+                              `devices.${index}.network`,
+                              value,
+                            )
+                          }
+                          id={`devices.${index}.network`}
+                          name={`devices.${index}.network`}
+                        />
+                        {shouldDisplayAclsSelector() && (
+                          <>
+                            ACLs
+                            <NetworkAclSelector
+                              project={project}
+                              selectedAcls={
+                                (formik.values.devices[index] as LxdNicDevice)[ // eslint-disable-line
+                                  "security_acls"
+                                ]
+                                  ?.split(",") // eslint-disable-line
+                                  .filter((t) => t) || [] // eslint-disable-line
+                              }
+                              setSelectedAcls={(selectedItems) => {
+                                formik.setFieldValue(
+                                  `devices.${index}.security_acls`,
+                                  selectedItems.join(","),
+                                );
+                              }}
+                            />
+                          </>
+                        )}
+                      </>
                     )}
                   </div>
                   <div>

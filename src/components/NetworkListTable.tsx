@@ -93,6 +93,27 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
         return null;
       }
 
+      const find = networkDevices.find((t) => t.network === network.name);
+      const instanceAcls =
+        find && find["security.acls"] ? find["security.acls"] : "";
+      const networkAcls = network.config["security.acls"] ?? "";
+      const acls = instanceAcls
+        .split(",")
+        .map((t) => {
+          return {
+            name: t,
+            source: "instance",
+          };
+        })
+        .concat(
+          networkAcls.split(",").map((t) => {
+            return {
+              name: t,
+              source: "network",
+            };
+          }),
+        );
+
       const columns = [
         {
           content: (
@@ -131,18 +152,20 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
 
       if (canHaveAcls) {
         columns.push({
-          content: network.config["security.acls"] ? (
+          content: acls ? (
             <ExpandableList
-              items={network.config["security.acls"]
-                .split(",")
-                .map((aclName) => (
+              items={acls.map((acl) => (
+                <div key={acl.name} className="u-whitespace-nowrap">
                   <ResourceLink
-                    key={aclName}
                     type="network-acl"
-                    value={aclName}
-                    to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(aclName)}`}
+                    value={acl.name}
+                    to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl.name)}`}
                   />
-                ))}
+                  <span className="u-text--muted p-text--x-small">
+                    &nbsp;({acl.source})
+                  </span>
+                </div>
+              ))}
             />
           ) : (
             <>-</>

@@ -78,7 +78,7 @@ export const isEmptyDevice = (device: FormDevice): boolean =>
   (device.network?.length ?? 0) === 0;
 
 export const formDeviceToPayload = (devices: FormDevice[]) => {
-  return devices
+  const payload = devices
     .filter((item) => !isEmptyDevice(item))
     .reduce((obj, { name, ...item }) => {
       if (
@@ -98,11 +98,27 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
       if ("size" in item && !item.size?.match(/^\d/)) {
         delete item.size;
       }
+      if (
+        (item as LxdNicDevice) &&
+        (item as LxdNicDevice)["security_acls"] !== undefined
+      ) {
+        return {
+          ...obj,
+          [name]: {
+            ...item,
+            "security.acls": (item as LxdNicDevice)["security_acls"], // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+            security_acls: undefined,
+          },
+        };
+      }
       return {
         ...obj,
         [name]: item,
       };
     }, {});
+
+  console.log("payload", payload);
+  return payload;
 };
 
 export const parseDevices = (devices: LxdDevices): FormDevice[] => {
