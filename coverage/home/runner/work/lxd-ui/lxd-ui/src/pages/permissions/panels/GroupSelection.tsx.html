@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.39% </span>
+                <span class="strong">41.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>23/53</span>
+                <span class='fraction'>22/53</span>
             </div>
         
             
@@ -244,35 +244,35 @@
 <a name='L179'></a><a href='#L179'>179</a>
 <a name='L180'></a><a href='#L180'>180</a>
 <a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-yes">73x</span>
@@ -423,8 +423,8 @@
 <span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-yes">73x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { DependencyList, FC } from "react";
 import { useState } from "react";
 import PermissionGroupsFilter from "../PermissionGroupsFilter";
@@ -496,7 +496,7 @@ const GroupSelection: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
 <span class="cstat-no" title="statement not covered" >      !selectedGroups.has(group.name) &amp;&amp; modifiedGroups.has(group.name);</span>
 &nbsp;
     const <span class="cstat-no" title="statement not covered" >selectedParentsText =</span>
-      (parentItems?.length || <span class="branch-1 cbranch-no" title="branch not covered" >0) &gt; 1</span>
+      (parentItems?.<span class="branch-0 cbranch-no" title="branch not covered" >length || <span class="branch-1 cbranch-no" title="branch not covered" >0) &gt; 1</span></span>
         ? `all selected ${pluralize(parentItemName, 2)}`
         : `${parentItemName} ${parentItems?.[0]?.name}`;
     const modifiedTitle = <span class="cstat-no" title="statement not covered" >groupAdded</span>
@@ -613,7 +613,7 @@ export default GroupSelection;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-18T22:01:16.306Z
+                at 2025-09-18T22:02:12.527Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
