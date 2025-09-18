@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/debounce.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/mapsAreEqual.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> debounce.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> mapsAreEqual.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">52.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/12</span>
+                <span class='fraction'>11/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">46.15% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>6/13</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -71,21 +71,30 @@
 <a name='L6'></a><a href='#L6'>6</a>
 <a name='L7'></a><a href='#L7'>7</a>
 <a name='L8'></a><a href='#L8'>8</a>
-<a name='L9'></a><a href='#L9'>9</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const debounce = <span class="fstat-no" title="function not covered" >(m</span>ethod: () =&gt; void, delay: number) =&gt; {
-  interface DebouncedCallback {
-    _timeoutId: NodeJS.Timeout;
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">304x</span>
+<span class="cline-any cline-yes">4661x</span>
+<span class="cline-any cline-yes">4650x</span>
+<span class="cline-any cline-yes">4661x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4649x</span>
+<span class="cline-any cline-yes">4649x</span>
+<span class="cline-any cline-yes">4649x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const mapsAreEqual = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >&lt;K, V&gt;(a</span>: Map&lt;K, V&gt;, b: Map&lt;K, V&gt;): boolean =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (a.size !== b.size) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (const [key, valA] of a) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!b.has(key)) <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >return false;</span></span></span>
+    const valB = <span class="cstat-no" title="statement not covered" >b.get(key);</span>
+<span class="cstat-no" title="statement not covered" >    if (valA !== valB) <span class="cstat-no" title="statement not covered" >return false;</span></span>
   }
-  const debouncedMethod = <span class="cstat-no" title="statement not covered" >method as unknown as DebouncedCallback;</span>
-<span class="cstat-no" title="statement not covered" >  clearTimeout(debouncedMethod._timeoutId);</span>
-<span class="cstat-no" title="statement not covered" >  debouncedMethod._timeoutId = setTimeout(method, delay);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return true;</span>
 };
 &nbsp;</pre></td></tr></table></pre>
 
