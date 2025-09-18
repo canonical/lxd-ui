@@ -46,7 +46,7 @@ import ProfileFormMenu, {
 import type { LxdProfile } from "types/profile";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
-import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
+import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
 import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm from "pages/profiles/forms/ProfileDetailsForm";
 import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";

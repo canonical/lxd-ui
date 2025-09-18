@@ -59,7 +59,7 @@ import ProfileDetailsForm, {
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
-import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
+import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
