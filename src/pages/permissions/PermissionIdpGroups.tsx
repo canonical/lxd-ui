@@ -198,7 +198,7 @@ const PermissionIdpGroups: FC = () => {
 
   const hasGroups = groups.length > 0;
   const idpGroupsInfo = (
-    <Notification severity="information">
+    <>
       <>
         Identity provider groups map authentication entities from your identity
         provider to groups within LXD.
@@ -221,12 +221,12 @@ const PermissionIdpGroups: FC = () => {
       >
         Learn more about IDP groups
       </a>
-    </Notification>
+    </>
   );
 
   const content = hasGroups ? (
     <>
-      {idpGroupsInfo}
+      <Notification severity="information">{idpGroupsInfo}</Notification>
       <ScrollableTable
         dependencies={[groups]}
         tableId="idp-groups-table"
@@ -265,7 +265,7 @@ const PermissionIdpGroups: FC = () => {
       image={<Icon name="user-group" className="empty-state-icon" />}
       title="No IDP group mappings"
     >
-      {idpGroupsInfo}
+      <p>{idpGroupsInfo}</p>
       <Button
         className="empty-state-button"
         appearance="positive"
