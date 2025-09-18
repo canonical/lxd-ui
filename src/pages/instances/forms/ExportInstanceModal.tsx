@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Modal,
+  Notification,
   Select,
   useToastNotification,
 } from "@canonical/react-components";
@@ -17,6 +18,8 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useSettings } from "context/useSettings";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import { isDiskDevice } from "util/devices";
+import { pluralize } from "util/instanceBulkActions";
 
 interface Props {
   instance: LxdInstance;
@@ -130,6 +133,11 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
     },
   });
 
+  const customDiskDevices = Object.values(instance?.expanded_devices ?? {})
+    .filter(isDiskDevice)
+    .filter((device) => device.path !== "/"); // ignore root disk device
+  const hasCustomDisks = customDiskDevices.length > 0;
+
   return (
     <Modal
       close={close}
@@ -158,6 +166,16 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
       }
     >
       <Form onSubmit={formik.handleSubmit}>
+        {hasCustomDisks && (
+          <Notification
+            severity="information"
+            title="Custom disks wil be ignored"
+          >
+            This instance has {customDiskDevices.length} custom{" "}
+            {pluralize("disk", customDiskDevices.length)}, which will be ignored
+            in the export.
+          </Notification>
+        )}
         <Select
           {...formik.getFieldProps("compression")}
           id="project"
