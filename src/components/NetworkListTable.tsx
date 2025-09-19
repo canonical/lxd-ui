@@ -72,9 +72,11 @@ const NetworkListTable: FC<Props> = ({
     })
     .filter((network) => network !== null);
 
-  const canHaveAcls = lxdNetworks.some((t) => t.type === "ovn");
+  const shouldDisplayAclsColumn = lxdNetworks.some(
+    (t) => t.type === "ovn" && t.config["security.acls"],
+  );
 
-  if (canHaveAcls) {
+  if (shouldDisplayAclsColumn) {
     networksHeaders.push({
       content: "ACLs",
       sortKey: "acls",
@@ -103,7 +105,10 @@ const NetworkListTable: FC<Props> = ({
         device && device["security.acls"] ? device["security.acls"] : "";
       const networkAcls = network.config["security.acls"] ?? "";
       const aclsCount = new Set(
-        deviceAcls.split(",").concat(networkAcls.split(",")),
+        deviceAcls
+          .split(",")
+          .filter((t) => t)
+          .concat(networkAcls.split(",").filter((t) => t)),
       ).size;
 
       const columns = [
@@ -148,7 +153,7 @@ const NetworkListTable: FC<Props> = ({
           ? `/ui/project/${encodeURIComponent(project ?? "")}/profile/${encodeURIComponent(profileName)}/configuration/network`
           : "";
 
-      if (canHaveAcls) {
+      if (shouldDisplayAclsColumn) {
         columns.push({
           content:
             aclsCount > 0 ? (

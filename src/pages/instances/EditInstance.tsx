@@ -172,8 +172,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
     },
   });
 
-  console.log("formik", formik.values.devices);
-
   const baseUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instance.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
