@@ -194,7 +194,7 @@ const SelectableMainTable: FC<Props> = ({
             indeterminate={isRowIndeterminate && !isRowSelected}
           />
         ),
-        role: "rowheader",
+        role: "cell",
         className: "select",
       },
       ...(row.columns ?? []),

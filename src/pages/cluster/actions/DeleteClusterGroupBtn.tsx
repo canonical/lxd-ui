@@ -10,6 +10,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   group: string;
@@ -20,6 +21,9 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { canEditServerConfiguration } = useServerEntitlements();
+
+  const hasPermission = canEditServerConfiguration();
 
   const handleDelete = () => {
     setLoading(true);
@@ -49,6 +53,9 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     if (isDefaultGroup) {
       return "The default cluster group cannot be deleted";
     }
+    if (!hasPermission) {
+      return "You do not have permission to delete cluster groups";
+    }
     return "Delete group";
   };
 
@@ -68,7 +75,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      disabled={isDefaultGroup || isLoading}
+      disabled={isDefaultGroup || isLoading || !hasPermission}
       shiftClickEnabled
       showShiftClickHint
       title="Delete group"

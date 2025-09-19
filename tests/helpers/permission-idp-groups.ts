@@ -26,7 +26,7 @@ export const createIdpGroup = async (
   await page.getByPlaceholder("Enter name").fill(idpGroup);
   for (const group of groups) {
     await page
-      .getByRole("rowheader", { name: `Select ${group}` })
+      .getByRole("cell", { name: `Select ${group}` })
       .locator("span")
       .click();
   }
@@ -60,7 +60,7 @@ export const editIdpGroup = async (
   await page.getByPlaceholder("Enter name").fill(newIdpGroupName);
   for (const group of groups) {
     await page
-      .getByRole("rowheader", { name: `Select ${group}` })
+      .getByRole("cell", { name: `Select ${group}` })
       .locator("span")
       .click();
   }

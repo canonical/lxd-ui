@@ -20,12 +20,14 @@ import CreateClusterGroupBtn from "pages/cluster/actions/CreateClusterGroupBtn";
 import ResourceLink from "components/ResourceLink";
 import { useClusterGroups } from "context/useClusterGroups";
 import usePanelParams from "util/usePanelParams";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const ClusterGroupList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: groups = [], error, isLoading } = useClusterGroups();
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   if (error) {
     notify.failure("Loading cluster groups failed", error);
@@ -94,10 +96,12 @@ const ClusterGroupList: FC = () => {
               : "-",
         },
         {
-          content: (
+          content: canEditServerConfiguration() ? (
             <Button appearance="link" dense onClick={openGroupEdit}>
               {group.members.length}
             </Button>
+          ) : (
+            group.members.length
           ),
           className: "members u-align--right",
         },
