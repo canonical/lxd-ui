@@ -289,7 +289,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
         >
           <p>
             {isBooting
-              ? "Terminal will be ready once the instance is finished booting."
+              ? "Terminal will be ready once the instance has finished booting."
               : "Start the instance to access the terminal."}
           </p>
           <ActionButton
