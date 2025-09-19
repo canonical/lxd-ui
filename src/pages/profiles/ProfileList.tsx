@@ -15,7 +15,7 @@ import {
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
@@ -31,6 +31,7 @@ import ProfileDetailPanel from "./ProfileDetailPanel";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProfiles } from "context/useProfiles";
+import ResourceLink from "components/ResourceLink";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -237,9 +238,14 @@ const ProfileList: FC = () => {
           <Col size={12}>
             {!featuresProfiles && (
               <Notification severity="caution" title="Profiles disabled">
-                The feature has been disabled on a project level. All the
+                This feature has been disabled on a project level. All the
                 available profiles are inherited from the{" "}
-                <Link to="/ui/project/default/profiles">default project</Link>.
+                <ResourceLink
+                  to="/ui/project/default/profiles"
+                  type="project"
+                  value="default"
+                />{" "}
+                project.
               </Notification>
             )}
             {profiles.length === 0 && (
