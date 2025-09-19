@@ -1,5 +1,4 @@
 import { test } from "./fixtures/lxd-test";
-import { gotoURL } from "./helpers/navigate";
 import {
   getFirstClusterMember,
   skipIfNotClustered,
@@ -13,10 +12,6 @@ test("cluster member evacuate and restore", async ({
   skipIfNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
   const member = await getFirstClusterMember(page);
-
-  await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Members" }).click();
   const memberRow = page.getByRole("row").filter({ hasText: member });
 
   await memberRow.hover();
