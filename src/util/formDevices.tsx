@@ -100,14 +100,13 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
       }
       if (
         (item as LxdNicDevice) &&
-        (item as LxdNicDevice)["security_acls"] !== undefined
+        (item as LxdNicDevice)["security.acls"] !== undefined
       ) {
         return {
           ...obj,
           [name]: {
             ...item,
-            "security.acls": (item as LxdNicDevice)["security_acls"], // eslint-disable-line @typescript-eslint/no-unsafe-assignment
-            security_acls: undefined,
+            "security.acls": (item as LxdNicDevice)["security.acls"],
           },
         };
       }
@@ -152,6 +151,7 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           name: key,
           network: item.network,
           type: "nic",
+          "security.acls": item["security.acls"],
         };
       case "disk":
         return {

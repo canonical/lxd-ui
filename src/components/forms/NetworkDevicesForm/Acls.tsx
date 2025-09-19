@@ -44,9 +44,9 @@ const Acls: FC<Props> = ({
   return (
     <>
       {networkAcls.length > 0 && (
-        <div>
+        <div className="acls-from-network">
           ACLs from network
-          <div style={{ display: "flex" }}>
+          <div className="acls-list">
             <ExpandableList
               items={networkAcls.map((acl) => (
                 <div key={acl} className="u-whitespace-nowrap">
@@ -88,15 +88,15 @@ const Acls: FC<Props> = ({
               <NetworkAclSelector
                 project={project}
                 selectedAcls={
-                  (formik.values.devices[index] as LxdNicDevice)[ // eslint-disable-line
-                    "security_acls" // eslint-disable-line
-                  ] // eslint-disable-line
-                    ?.split(",") // eslint-disable-line
-                    .filter((t: string) => t) || [] // eslint-disable-line
+                  (formik.values.devices[index] as LxdNicDevice)[
+                    "security.acls"
+                  ]
+                    ?.split(",")
+                    .filter((t: string) => t) || []
                 }
                 setSelectedAcls={(selectedItems) => {
                   formik.setFieldValue(
-                    `devices.${index}.security_acls`,
+                    `devices.${index}["security.acls"]`,
                     selectedItems.join(","),
                   );
                 }}

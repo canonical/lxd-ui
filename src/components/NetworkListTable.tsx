@@ -73,7 +73,7 @@ const NetworkListTable: FC<Props> = ({
     .filter((network) => network !== null);
 
   const shouldDisplayAclsColumn = lxdNetworks.some(
-    (t) => t.type === "ovn" && t.config["security.acls"],
+    (t) => t.config["security.acls"],
   );
 
   if (shouldDisplayAclsColumn) {
@@ -147,10 +147,12 @@ const NetworkListTable: FC<Props> = ({
         },
       ];
 
+      const baseUrl = `/ui/project/${encodeURIComponent(project ?? "")}/`;
+      const urlSuffix = "/configuration/network";
       const linkToConfiguration = instance
-        ? `/ui/project/${encodeURIComponent(project ?? "")}/instance/${encodeURIComponent(instance.name)}/configuration/network`
+        ? `${baseUrl}instance/${encodeURIComponent(instance.name)}${urlSuffix}`
         : profileName
-          ? `/ui/project/${encodeURIComponent(project ?? "")}/profile/${encodeURIComponent(profileName)}/configuration/network`
+          ? `${baseUrl}profile/${encodeURIComponent(profileName)}${urlSuffix}`
           : "";
 
       if (shouldDisplayAclsColumn) {

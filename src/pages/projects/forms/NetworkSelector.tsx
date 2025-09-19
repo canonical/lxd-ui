@@ -45,18 +45,16 @@ const NetworkSelector: FC<Props & SelectProps> = ({
     return options;
   };
   return (
-    <>
-      <Select
-        label="Network"
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-        onBlur={onBlur}
-        value={value}
-        {...selectProps}
-        options={getNetworkOptions()}
-      />
-    </>
+    <Select
+      label="Network"
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      onBlur={onBlur}
+      value={value}
+      {...selectProps}
+      options={getNetworkOptions()}
+    />
   );
 };
 
