@@ -95,6 +95,10 @@ const getLimitChanges = (formik: ConfigurationRowFormikProps): number => {
 const getDevicePairFieldChanges = (a: FormDevice, b: FormDevice): number => {
   let changeCount = 0;
 
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  changeCount += Math.abs(aKeys.length - bKeys.length);
+
   for (const key in a) {
     const keyType = key as keyof FormDevice;
     if (isRootDisk(a) && !["size", "pool"].includes(keyType)) {
