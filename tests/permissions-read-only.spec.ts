@@ -155,7 +155,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await page.keyboard.press("Escape");
     await page
       .locator("#instances-table")
-      .getByRole("rowheader", { name: `Select ${instanceName1}` })
+      .getByRole("cell", { name: `Select ${instanceName1}` })
       .hover();
     await expect(
       page

@@ -68,7 +68,7 @@ export const toggleClusterGroupMember = async (
     .getByRole("button", { name: "Edit group" })
     .click();
   await page
-    .getByRole("rowheader", { name: `Select ${member}` })
+    .getByRole("cell", { name: `Select ${member}` })
     .locator("span")
     .click();
   await page.getByRole("button", { name: "Save changes" }).click();

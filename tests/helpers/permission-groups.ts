@@ -107,7 +107,7 @@ export const toggleIdentitiesForGroups = async (
 ) => {
   for (const identity of identities) {
     await page
-      .getByRole("rowheader", { name: `Select ${identity}` })
+      .getByRole("cell", { name: `Select ${identity}` })
       .locator("label")
       .click();
     const rowModifiedIcon = page
@@ -120,7 +120,7 @@ export const toggleIdentitiesForGroups = async (
 export const selectGroupsToModify = async (page: Page, groups: string[]) => {
   for (const group of groups) {
     await page
-      .getByRole("rowheader", { name: `Select ${group}` })
+      .getByRole("cell", { name: `Select ${group}` })
       .locator("span")
       .click();
   }
