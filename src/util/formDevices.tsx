@@ -117,7 +117,6 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
       };
     }, {});
 
-  console.log("payload", payload);
   return payload;
 };
 
@@ -128,7 +127,7 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
     const isCustomNetwork =
       item.type === "nic" &&
       Object.keys(item).some(
-        (key) => !["type", "name", "network"].includes(key),
+        (key) => !["type", "name", "network", "security.acls"].includes(key),
       );
 
     if (isCustomNetwork) {

@@ -2,10 +2,11 @@ import { useEffect, useState, type FC } from "react";
 import type { LxdNicDevice } from "types/device";
 import type { LxdNetwork } from "types/network";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { CustomNetworkDevice } from "util/formDevices";
 import NetworkSelector from "pages/projects/forms/NetworkSelector";
-import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 import { Button, Icon } from "@canonical/react-components";
 import { ensureEditMode } from "util/instanceEdit";
+import Acls from "components/forms/NetworkDevicesForm/Acls";
 
 interface Props {
   index: number;
@@ -15,6 +16,7 @@ interface Props {
   focusNetwork: (id: number) => void;
   removeNetwork: (id: number) => void;
   managedNetworks: LxdNetwork[];
+  device: LxdNicDevice | CustomNetworkDevice;
 }
 
 const NetworkDevice: FC<Props> = ({
@@ -25,6 +27,7 @@ const NetworkDevice: FC<Props> = ({
   focusNetwork,
   removeNetwork,
   managedNetworks,
+  device,
 }) => {
   const shouldDisplayAcls = () => {
     const selectedNetwork = (formik.values.devices[index] as LxdNicDevice)
@@ -49,7 +52,15 @@ const NetworkDevice: FC<Props> = ({
     <div className="network-device" key={index}>
       <div>
         {readOnly ? (
-          <div>{(formik.values.devices[index] as LxdNicDevice).network}</div>
+          <div>
+            {(formik.values.devices[index] as LxdNicDevice).network}
+            <Acls
+              project={project}
+              managedNetworks={managedNetworks}
+              device={device}
+              readOnly
+            />
+          </div>
         ) : (
           <>
             <NetworkSelector
@@ -62,27 +73,15 @@ const NetworkDevice: FC<Props> = ({
               id={`devices.${index}.network`}
               name={`devices.${index}.network`}
             />
-            {isAclsDisplayed && (
-              <>
-                ACLs
-                <NetworkAclSelector
-                  project={project}
-                  selectedAcls={
-                    (formik.values.devices[index] as LxdNicDevice)[ // eslint-disable-line
-                      "security_acls"
-                    ]
-                      ?.split(",") // eslint-disable-line
-                      .filter((t: string) => t) || [] // eslint-disable-line
-                  }
-                  setSelectedAcls={(selectedItems) => {
-                    formik.setFieldValue(
-                      `devices.${index}.security_acls`,
-                      selectedItems.join(","),
-                    );
-                  }}
-                />
-              </>
-            )}
+            <Acls
+              project={project}
+              managedNetworks={managedNetworks}
+              device={device}
+              readOnly={readOnly}
+              formik={formik}
+              index={index}
+              canSelectManualAcls={isAclsDisplayed}
+            />
           </>
         )}
       </div>

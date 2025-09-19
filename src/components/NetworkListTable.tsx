@@ -3,8 +3,7 @@ import { MainTable, Notification, Spinner } from "@canonical/react-components";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
-import ExpandableList from "components/ExpandableList";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { LxdDevices } from "types/device";
 import { useNetworks } from "context/useNetworks";
 import type { LxdInstance } from "types/instance";
@@ -13,9 +12,15 @@ interface Props {
   onFailure: (title: string, e: unknown) => void;
   devices: LxdDevices;
   instance?: LxdInstance;
+  profileName?: string;
 }
 
-const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
+const NetworkListTable: FC<Props> = ({
+  onFailure,
+  devices,
+  instance,
+  profileName,
+}) => {
   const { project } = useParams<{ project: string }>();
 
   const {
@@ -93,26 +98,13 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
         return null;
       }
 
-      const find = networkDevices.find((t) => t.network === network.name);
-      const instanceAcls =
-        find && find["security.acls"] ? find["security.acls"] : "";
+      const device = networkDevices.find((t) => t.network === network.name);
+      const deviceAcls =
+        device && device["security.acls"] ? device["security.acls"] : "";
       const networkAcls = network.config["security.acls"] ?? "";
-      const acls = instanceAcls
-        .split(",")
-        .map((t) => {
-          return {
-            name: t,
-            source: "instance",
-          };
-        })
-        .concat(
-          networkAcls.split(",").map((t) => {
-            return {
-              name: t,
-              source: "network",
-            };
-          }),
-        );
+      const aclsCount = new Set(
+        deviceAcls.split(",").concat(networkAcls.split(",")),
+      ).size;
 
       const columns = [
         {
@@ -150,28 +142,22 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
         },
       ];
 
+      const linkToConfiguration = instance
+        ? `/ui/project/${encodeURIComponent(project ?? "")}/instance/${encodeURIComponent(instance.name)}/configuration/network`
+        : profileName
+          ? `/ui/project/${encodeURIComponent(project ?? "")}/profile/${encodeURIComponent(profileName)}/configuration/network`
+          : "";
+
       if (canHaveAcls) {
         columns.push({
-          content: acls ? (
-            <ExpandableList
-              items={acls.map((acl) => (
-                <div key={acl.name} className="u-whitespace-nowrap">
-                  <ResourceLink
-                    type="network-acl"
-                    value={acl.name}
-                    to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl.name)}`}
-                  />
-                  <span className="u-text--muted p-text--x-small">
-                    &nbsp;({acl.source})
-                  </span>
-                </div>
-              ))}
-            />
-          ) : (
-            <>-</>
-          ), // TODO: wrong, we want acls attached to the instance or profile, not the network
+          content:
+            aclsCount > 0 ? (
+              <Link to={linkToConfiguration}>{aclsCount}</Link>
+            ) : (
+              <>-</>
+            ),
           role: "cell",
-          "aria-label": "ACLs",
+          "aria-label": "ACLs count",
         });
       }
 

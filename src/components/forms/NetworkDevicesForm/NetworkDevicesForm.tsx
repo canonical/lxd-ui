@@ -23,6 +23,8 @@ import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
 import NetworkDevice from "components/forms/NetworkDevicesForm/NetworkDevice";
+import ExpandableList from "components/ExpandableList";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -110,14 +112,31 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
               </div>
             ),
             override: (
-              <Tooltip
-                message="This network is inherited from a profile or project.
+              <>
+                <Tooltip
+                  message="This network is inherited from a profile or project.
 To change it, edit it in the profile or project it originates from,
 or remove the originating item"
-                position="btm-left"
-              >
-                <Icon name="information" />
-              </Tooltip>
+                  position="btm-left"
+                >
+                  <Icon name="information" />
+                </Tooltip>
+                {item.network && item.network["security.acls"] && (
+                  <ExpandableList
+                    items={item.network["security.acls"]
+                      .split(",")
+                      .map((acl) => (
+                        <div key={acl} className="u-whitespace-nowrap">
+                          <ResourceLink
+                            type="network-acl"
+                            value={acl}
+                            to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl)}`}
+                          />
+                        </div>
+                      ))}
+                  />
+                )}
+              </>
             ),
           });
         }),
@@ -175,6 +194,7 @@ or remove the originating item"
                   focusNetwork={focusNetwork}
                   removeNetwork={removeNetwork}
                   managedNetworks={managedNetworks}
+                  device={device}
                 />
               ),
           });
