@@ -42,7 +42,10 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
                 setTimeout(() => {
                   const selectWrapper = document.getElementById("acl-select");
                   // open multi select dropdown
-                  selectWrapper?.scrollIntoView({ block: "nearest" });
+                  selectWrapper?.scrollIntoView({
+                    block: "nearest",
+                    inline: "nearest",
+                  });
                   (
                     selectWrapper?.firstChild?.firstChild as HTMLElement
                   )?.click();
