@@ -4,6 +4,8 @@ import classNames from "classnames";
 import type { LxdStorageVolume } from "types/storage";
 import ExportVolumeModal from "./forms/ExportVolumeModal";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import { useCurrentProject } from "context/useCurrentProject";
+import { isBackupDisabled } from "util/snapshots";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -14,10 +16,24 @@ interface Props {
 const ExportVolumeBtn: FC<Props> = ({ volume, classname, onClose }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canManageVolumeBackups } = useStorageVolumeEntitlements();
+  const { project } = useCurrentProject();
+  const backupDisabled = isBackupDisabled(project);
 
   const handleClose = () => {
     closePortal();
     onClose?.();
+  };
+
+  const getTitle = () => {
+    if (!canManageVolumeBackups(volume)) {
+      return "You do not have permission to export this volume.";
+    }
+
+    if (backupDisabled) {
+      return `Project "${project?.name}" doesn't allow for backup creation.`;
+    }
+
+    return "Export volume";
   };
 
   return (
@@ -31,12 +47,8 @@ const ExportVolumeBtn: FC<Props> = ({ volume, classname, onClose }) => {
         appearance="default"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         onClick={openPortal}
-        title={
-          canManageVolumeBackups(volume)
-            ? "Export volume"
-            : "You do not have permission to export this volume."
-        }
-        disabled={!canManageVolumeBackups(volume)}
+        title={getTitle()}
+        disabled={!canManageVolumeBackups(volume) || backupDisabled}
       >
         <Icon name="export" />
         <span>Export</span>

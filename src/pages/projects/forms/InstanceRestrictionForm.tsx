@@ -18,6 +18,7 @@ export interface InstanceRestrictionFormValues {
   restricted_containers_nesting?: string;
   restricted_containers_privilege?: string;
   restricted_container_interception?: string;
+  restrict_backups?: string;
   restrict_snapshots?: string;
   restricted_idmap_uid?: string;
   restricted_idmap_gid?: string;
@@ -37,6 +38,7 @@ export const instanceRestrictionPayload = (
       values.restricted_containers_privilege,
     [getProjectKey("restricted_container_interception")]:
       values.restricted_container_interception,
+    [getProjectKey("restrict_backups")]: values.restrict_backups,
     [getProjectKey("restrict_snapshots")]: values.restrict_snapshots,
     [getProjectKey("restricted_idmap_uid")]: values.restricted_idmap_uid,
     [getProjectKey("restricted_idmap_gid")]: values.restricted_idmap_gid,
@@ -92,6 +94,15 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik,
           name: "restricted_container_interception",
           label: "Container interception",
+          defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
+          children: <Select options={optionAllowBlock} />,
+        }),
+
+        getConfigurationRow({
+          formik,
+          name: "restrict_backups",
+          label: "Backup creation",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
