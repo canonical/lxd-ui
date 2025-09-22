@@ -63,11 +63,13 @@
         flex-grow: 1;
         margin-right: $sph--large;
       }
+    }
 
-      .acls-from-network {
-        > .acls-list {
-          display: flex;
-        }
+    .acls-from-network {
+      margin-top: $spv--small;
+
+      > .acls-list {
+        display: flex;
       }
     }
 

@@ -45,7 +45,7 @@ const Acls: FC<Props> = ({
   if (readOnly && allAcls.length) {
     return (
       <div className="acls-from-network">
-        ACLs
+        <span>ACLs</span>
         <div className="acls-list">
           <ExpandableList
             items={allAcls.map((acl) => (
