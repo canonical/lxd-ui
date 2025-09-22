@@ -9,7 +9,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import type { LxdNicDevice } from "types/device";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -22,7 +22,9 @@ import { getExistingDeviceNames } from "util/devices";
 import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
-import NetworkSelector from "pages/projects/forms/NetworkSelector";
+import NetworkDevice from "components/forms/NetworkDevicesForm/NetworkDevice";
+import ExpandableList from "components/ExpandableList";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -93,6 +95,20 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
       className="device-form"
       rows={[
         ...inheritedNetworks.map((item) => {
+          const networkAcls =
+            (item.network && item.network["security.acls"])?.split(",") || [];
+
+          const parentProfile = profiles.find(
+            (t) => t.name === item.source.split(" ")[0],
+          );
+          const profileDevice = parentProfile?.devices[
+            item.key
+          ] as LxdNicDevice;
+          const deviceAcls = profileDevice
+            ? profileDevice["security.acls"]?.split(",") || []
+            : [];
+          const allAcls = Array.from(new Set(networkAcls.concat(deviceAcls)));
+
           return getConfigurationRowBase({
             configuration: (
               <>
@@ -101,23 +117,45 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
             ),
             inherited: (
               <div>
-                <div className="mono-font">
-                  <b>{item.network?.network}</b>
-                </div>
+                <ResourceLink
+                  type="network"
+                  value={item.network?.network || ""}
+                  to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(item.network?.network || "")}`}
+                />
                 <div className="p-text--small u-text--muted">
                   From: {item.source}
                 </div>
               </div>
             ),
             override: (
-              <Tooltip
-                message="This network is inherited from a profile or project.
+              <>
+                <Tooltip
+                  message="This network is inherited from a profile or project.
 To change it, edit it in the profile or project it originates from,
 or remove the originating item"
-                position="btm-left"
-              >
-                <Icon name="information" />
-              </Tooltip>
+                  position="btm-left"
+                >
+                  <Icon name="information" />
+                </Tooltip>
+                {allAcls.length > 0 && (
+                  <div className="acls-from-network">
+                    ACLs
+                    <div className="acls-list">
+                      <ExpandableList
+                        items={allAcls.map((acl) => (
+                          <div key={acl} className="u-whitespace-nowrap">
+                            <ResourceLink
+                              type="network-acl"
+                              value={acl}
+                              to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl)}`}
+                            />
+                          </div>
+                        ))}
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
             ),
           });
         }),
@@ -167,66 +205,16 @@ or remove the originating item"
                   </Tooltip>{" "}
                 </>
               ) : (
-                <div className="network-device" key={index}>
-                  <div>
-                    {readOnly ? (
-                      <div>
-                        {(formik.values.devices[index] as LxdNicDevice).network}
-                      </div>
-                    ) : (
-                      <NetworkSelector
-                        value={
-                          (formik.values.devices[index] as LxdNicDevice).network
-                        }
-                        project={project}
-                        onBlur={formik.handleBlur}
-                        setValue={(value) =>
-                          void formik.setFieldValue(
-                            `devices.${index}.network`,
-                            value,
-                          )
-                        }
-                        id={`devices.${index}.network`}
-                        name={`devices.${index}.network`}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {readOnly && (
-                      <Button
-                        onClick={() => {
-                          ensureEditMode(formik);
-                          focusNetwork(index);
-                        }}
-                        type="button"
-                        appearance="base"
-                        title={formik.values.editRestriction ?? "Edit network"}
-                        className="u-no-margin--top"
-                        hasIcon
-                        dense
-                        disabled={!!formik.values.editRestriction}
-                      >
-                        <Icon name="edit" />
-                      </Button>
-                    )}
-                    <Button
-                      className="delete-device u-no-margin--top"
-                      onClick={() => {
-                        ensureEditMode(formik);
-                        removeNetwork(index);
-                      }}
-                      type="button"
-                      appearance="base"
-                      hasIcon
-                      dense
-                      title={formik.values.editRestriction ?? "Detach network"}
-                      disabled={!!formik.values.editRestriction}
-                    >
-                      <Icon name="disconnect" />
-                      <span>Detach</span>
-                    </Button>
-                  </div>
-                </div>
+                <NetworkDevice
+                  index={index}
+                  readOnly={readOnly}
+                  formik={formik}
+                  project={project}
+                  focusNetwork={focusNetwork}
+                  removeNetwork={removeNetwork}
+                  managedNetworks={managedNetworks}
+                  device={device}
+                />
               ),
           });
         }),

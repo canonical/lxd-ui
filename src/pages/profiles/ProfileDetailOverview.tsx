@@ -94,7 +94,11 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           <h2 className="p-heading--5">Networks</h2>
         </Col>
         <Col size={7}>
-          <NetworkListTable devices={profile.devices} onFailure={onFailure} />
+          <NetworkListTable
+            devices={profile.devices}
+            onFailure={onFailure}
+            profileName={profile.name}
+          />
         </Col>
       </Row>
       <Row className="devices">
