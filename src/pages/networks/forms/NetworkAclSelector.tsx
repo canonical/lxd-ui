@@ -6,12 +6,14 @@ interface Props {
   project: string;
   setSelectedAcls: (acls: string[]) => void;
   selectedAcls: string[];
+  id?: string;
 }
 
 const NetworkAclSelector: FC<Props> = ({
   project,
   setSelectedAcls,
   selectedAcls,
+  id,
 }) => {
   const { data: availableAcls = [] } = useNetworkAcls(project);
 
@@ -37,6 +39,7 @@ const NetworkAclSelector: FC<Props> = ({
         setSelectedAcls(items.map((item) => item.value as string));
       }}
       showDropdownFooter={false}
+      id={id}
     />
   );
 };

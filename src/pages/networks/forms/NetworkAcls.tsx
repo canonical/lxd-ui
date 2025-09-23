@@ -13,9 +13,17 @@ interface Props {
 }
 
 const NetworkAcls: FC<Props> = ({ formik, project }) => {
+  const networlAclSelectorId = "network-acl-selector";
+
   return (
     <div className="general-field">
-      <div className="general-field-label">ACLs</div>
+      {formik.values.readOnly ? (
+        <div className="general-field-label">ACLs</div>
+      ) : (
+        <label className="general-field-label" htmlFor={networlAclSelectorId}>
+          ACLs
+        </label>
+      )}
       <div
         className="general-field-content"
         key={formik.values.readOnly ? "read" : "edit"}
@@ -40,12 +48,11 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
               toggleReadOnly={() => {
                 ensureEditMode(formik);
                 setTimeout(() => {
-                  const selectWrapper = document.getElementById("acl-select");
+                  const aclSelector =
+                    document.getElementById(networlAclSelectorId);
                   // open multi select dropdown
-                  selectWrapper?.scrollIntoView({ block: "nearest" });
-                  (
-                    selectWrapper?.firstChild?.firstChild as HTMLElement
-                  )?.click();
+                  aclSelector?.scrollIntoView({ block: "nearest" });
+                  aclSelector?.click();
                 }, 100);
               }}
               disableReason={formik.values.editRestriction}
@@ -53,15 +60,14 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
           </>
         )}
         {!formik.values.readOnly && (
-          <div id="acl-select">
-            <NetworkAclSelector
-              project={project}
-              selectedAcls={formik.values.security_acls}
-              setSelectedAcls={(selectedItems) => {
-                formik.setFieldValue("security_acls", selectedItems);
-              }}
-            />
-          </div>
+          <NetworkAclSelector
+            project={project}
+            selectedAcls={formik.values.security_acls}
+            setSelectedAcls={(selectedItems) => {
+              formik.setFieldValue("security_acls", selectedItems);
+            }}
+            id={formik.values.readOnly ? undefined : networlAclSelectorId}
+          />
         )}
       </div>
     </div>

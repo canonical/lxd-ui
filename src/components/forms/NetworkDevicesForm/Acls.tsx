@@ -85,7 +85,9 @@ const Acls: FC<Props> = ({
       )}
       {formik && index !== undefined && canSelectManualAcls && (
         <div>
-          <label className="p-form__label">Manual ACLs</label>
+          <label className="p-form__label" htmlFor="network-acls-selector">
+            Manual ACLs
+          </label>
           <NetworkAclSelector
             project={project}
             selectedAcls={
@@ -99,6 +101,7 @@ const Acls: FC<Props> = ({
                 selectedItems.join(","),
               );
             }}
+            id="network-acls-selector"
           />
         </div>
       )}
