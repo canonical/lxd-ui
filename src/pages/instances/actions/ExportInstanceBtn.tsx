@@ -4,6 +4,8 @@ import { Button, Icon, usePortal } from "@canonical/react-components";
 import classNames from "classnames";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ExportInstanceModal from "pages/instances/forms/ExportInstanceModal";
+import { useCurrentProject } from "context/useCurrentProject";
+import { isBackupDisabled } from "util/snapshots";
 
 interface Props {
   instance: LxdInstance;
@@ -14,10 +16,24 @@ interface Props {
 const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canManageInstanceBackups } = useInstanceEntitlements();
+  const { project } = useCurrentProject();
+  const backupDisabled = isBackupDisabled(project);
 
   const handleClose = () => {
     closePortal();
     onClose?.();
+  };
+
+  const getTitle = () => {
+    if (!canManageInstanceBackups(instance)) {
+      return "You do not have permission to export this instance.";
+    }
+
+    if (backupDisabled) {
+      return `Project "${project?.name}" doesn't allow for backup creation.`;
+    }
+
+    return "Export instance";
   };
 
   return (
@@ -31,12 +47,8 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
         appearance="default"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         onClick={openPortal}
-        title={
-          canManageInstanceBackups(instance)
-            ? "Export instance"
-            : "You do not have permission to export this instance."
-        }
-        disabled={!canManageInstanceBackups(instance)}
+        title={getTitle()}
+        disabled={!canManageInstanceBackups(instance) || backupDisabled}
       >
         <Icon name="export" />
         <span>Export</span>

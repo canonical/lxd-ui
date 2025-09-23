@@ -16,6 +16,7 @@ const projectConfigFormFieldsToPayload: Record<string, string> = {
   restricted_containers_nesting: "restricted.containers.nesting",
   restricted_containers_privilege: "restricted.containers.privilege",
   restricted_container_interception: "restricted.containers.interception",
+  restrict_backups: "restricted.backups",
   restrict_snapshots: "restricted.snapshots",
   restricted_idmap_uid: "restricted.idmap.uid",
   restricted_idmap_gid: "restricted.idmap.gid",

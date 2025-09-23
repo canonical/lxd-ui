@@ -72,18 +72,21 @@ export const testValidTime = (): [
 };
 
 export const isSnapshotsDisabled = (project?: LxdProject): boolean => {
+  return isProjectFeatureDisabled("restricted.snapshots", project);
+};
+
+export const isBackupDisabled = (project?: LxdProject): boolean => {
+  return isProjectFeatureDisabled("restricted.backups", project);
+};
+
+const isProjectFeatureDisabled = (feature: string, project?: LxdProject) => {
   if (!project) {
     return false;
   }
 
-  if (project.config["restricted"] === "true") {
-    if (
-      !project.config["restricted.snapshots"] ||
-      project.config["restricted.snapshots"] === "block"
-    ) {
-      return true;
-    }
+  if (project.config["restricted"] !== "true") {
+    return false;
   }
 
-  return false;
+  return !project.config[feature] || project.config[feature] === "block";
 };

@@ -78,6 +78,7 @@ export const getProjectEditValues = (
       project.config["restricted.containers.privilege"],
     restricted_container_interception:
       project.config["restricted.containers.interception"],
+    restrict_backups: project.config["restricted.backups"],
     restrict_snapshots: project.config["restricted.snapshots"],
     restricted_idmap_uid: project.config["restricted.idmap.uid"],
     restricted_idmap_gid: project.config["restricted.idmap.gid"],
