@@ -120,6 +120,10 @@ function SpiceConn(o)
 
             this.parent.onerror(e);
             this.parent.log_err(e.toString());
+        } else {
+          if (this.parent?.parent?.onerror !== undefined) {
+            this.parent.parent.onerror(new Error("Connection closed"));
+          }
         }
     });
 
