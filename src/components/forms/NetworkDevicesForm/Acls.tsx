@@ -45,8 +45,8 @@ const Acls: FC<Props> = ({
   if (readOnly && allAcls.length) {
     return (
       <div className="acls-from-network">
-        <span>ACLs</span>
         <div className="acls-list">
+          <span>ACLs:&nbsp;</span>
           <ExpandableList
             items={allAcls.map((acl) => (
               <div key={acl} className="u-whitespace-nowrap">
@@ -67,7 +67,7 @@ const Acls: FC<Props> = ({
     <>
       {networkAcls.length > 0 && (
         <div className="acls-from-network u-sv1">
-          ACLs from network
+          <span>ACLs from network</span>
           <div className="acls-list">
             <ExpandableList
               items={networkAcls.map((acl) => (

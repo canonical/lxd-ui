@@ -125,22 +125,10 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
                 <div className="p-text--small u-text--muted">
                   From: {item.source}
                 </div>
-              </div>
-            ),
-            override: (
-              <>
-                <Tooltip
-                  message="This network is inherited from a profile or project.
-To change it, edit it in the profile or project it originates from,
-or remove the originating item"
-                  position="btm-left"
-                >
-                  <Icon name="information" />
-                </Tooltip>
                 {allAcls.length > 0 && (
                   <div className="acls-from-network">
-                    ACLs
                     <div className="acls-list">
+                      <span>ACLs:&nbsp;</span>
                       <ExpandableList
                         items={allAcls.map((acl) => (
                           <div key={acl} className="u-whitespace-nowrap">
@@ -155,6 +143,18 @@ or remove the originating item"
                     </div>
                   </div>
                 )}
+              </div>
+            ),
+            override: (
+              <>
+                <Tooltip
+                  message="This network is inherited from a profile or project.
+To change it, edit it in the profile or project it originates from,
+or remove the originating item"
+                  position="btm-left"
+                >
+                  <Icon name="information" />
+                </Tooltip>
               </>
             ),
           });
