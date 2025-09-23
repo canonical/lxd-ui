@@ -15,8 +15,6 @@ const projectEntitlements = [
   "can_create_storage_buckets",
   "can_delete",
   "can_edit",
-  "can_view_events",
-  "can_view_operations",
 ];
 
 export const fetchProjects = async (
