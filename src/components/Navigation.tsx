@@ -29,7 +29,6 @@ import NavAccordion from "./NavAccordion";
 import type { Location } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
-import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
 import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
@@ -713,7 +712,6 @@ const Navigation: FC = () => {
                           <></>
                         )}
                         <div className="u-truncate">{loggedInUserName}</div>
-                        <ProjectPermissionWarning />
                       </div>
                     </SideNavigationItem>
                   )}
