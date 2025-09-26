@@ -26,7 +26,7 @@ test("cluster group add and remove members", async ({
 }, testInfo) => {
   skipIfNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
-  const group = randomGroupName();
+  const group = randomGroupName().replace(/[01]/g, "3");
   const member = await getFirstClusterMember(page);
   await createClusterGroup(page, group);
   await toggleClusterGroupMember(page, group, member);
