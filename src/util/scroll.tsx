@@ -1,5 +1,8 @@
 export const scrollToElement = (id: string) => {
-  document.getElementById(id)?.scrollIntoView();
+  document.getElementById(id)?.scrollIntoView({
+    inline: "nearest",
+    block: "nearest",
+  });
 };
 
 /**
