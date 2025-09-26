@@ -16,6 +16,7 @@ import { useEventQueue } from "context/eventQueue";
 import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import { useMemberLoading } from "context/memberLoading";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   member: LxdClusterMember;
@@ -38,6 +39,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
   const eventQueue = useEventQueue();
   const memberLoading = useMemberLoading();
   const loadingType = memberLoading.getType(member.server_name);
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   const invalidateCache = () => {
     queryClient.invalidateQueries({
@@ -106,11 +108,15 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
       });
   };
 
+  const hasPermission = canEditServerConfiguration();
+  const isDisabled =
+    isLoading || member.status !== "Online" || !!loadingType || !hasPermission;
+
   return (
     <ConfirmationButton
       appearance={hasLabel ? "" : "base"}
       loading={isLoading || loadingType === "Evacuating"}
-      disabled={isLoading || member.status !== "Online" || !!loadingType}
+      disabled={isDisabled}
       confirmationModalProps={{
         title: "Confirm evacuation",
         children: (
@@ -149,7 +155,9 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
             </p>
           </>
         ),
-        confirmButtonLabel: "Evacuate member",
+        confirmButtonLabel: hasPermission
+          ? "Evacuate cluster member"
+          : "You do not have permission to evacuate cluster members",
         onConfirm: handleEvacuate,
       }}
       shiftClickEnabled

@@ -19,6 +19,7 @@ import { useClusterMembers } from "context/useClusterMembers";
 import usePanelParams from "util/usePanelParams";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
 import { useMemberLoading } from "context/memberLoading";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const ClusterMemberList: FC = () => {
   const docBaseLink = useDocs();
@@ -26,6 +27,7 @@ const ClusterMemberList: FC = () => {
   const panelParams = usePanelParams();
   const { data: members = [], error, isLoading } = useClusterMembers();
   const memberLoading = useMemberLoading();
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   if (error) {
     notify.failure("Loading cluster members failed", error);
@@ -123,10 +125,12 @@ const ClusterMemberList: FC = () => {
           className: "description",
         },
         {
-          content: (
+          content: canEditServerConfiguration() ? (
             <Button appearance="link" dense onClick={openMemberEdit}>
               {groupCount}
             </Button>
+          ) : (
+            groupCount
           ),
           role: "cell",
           className: "groups u-align--right",
