@@ -11,6 +11,8 @@ import {
   useNotify,
   CustomLayout,
   Spinner,
+  Notification,
+  Tooltip,
 } from "@canonical/react-components";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import type { StorageVolumesFilterType } from "pages/storage/StorageVolumesFilter";
@@ -56,6 +58,8 @@ import ResourceLink from "components/ResourceLink";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import StorageVolumeBulkDelete from "./actions/StorageVolumeBulkDelete";
+import { useCurrentProject } from "context/useCurrentProject";
+import { isProjectWithVolumes } from "util/projects";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -89,7 +93,11 @@ const StorageVolumes: FC = () => {
     return <>Missing project</>;
   }
 
+  const { project: currentProject, isLoading: isProjectLoading } =
+    useCurrentProject();
   const { data: volumes = [], error, isLoading } = useLoadVolumes(project);
+
+  const featuresVolumes = isProjectWithVolumes(currentProject);
 
   if (error) {
     notify.failure("Loading storage volumes failed", error);
@@ -375,7 +383,7 @@ const StorageVolumes: FC = () => {
     rows,
   });
 
-  if (isLoading) {
+  if (isLoading || isProjectLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
@@ -384,27 +392,51 @@ const StorageVolumes: FC = () => {
 
   const hasVolumes = volumes.length !== 0;
 
+  const inheritedVolumesWarning = !featuresVolumes && (
+    <Notification severity="caution" borderless>
+      Showing volumes from the{" "}
+      <ResourceLink
+        to="/ui/project/default/storage/volumes"
+        type="project"
+        value="default"
+      />{" "}
+      project.{" "}
+      <Tooltip message="For project-specific volumes, enable storage volume isolation in the project configuration.">
+        <Icon name="information" />
+      </Tooltip>
+    </Notification>
+  );
+
   const content = !hasVolumes ? (
-    <EmptyState
-      className="empty-state"
-      image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
-      title="No volumes found in this project"
-    >
-      <p>Storage volumes will appear here</p>
-      <p>
-        <a
-          href={`${docBaseLink}/explanation/storage/`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more about storage
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
-      </p>
-      <CreateVolumeBtn projectName={project} className="empty-state-button" />
-    </EmptyState>
+    <>
+      {inheritedVolumesWarning}
+      <EmptyState
+        className="empty-state"
+        image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
+        title="No volumes found in this project"
+      >
+        <p>Storage volumes will appear here</p>
+        <p>
+          <a
+            href={`${docBaseLink}/explanation/storage/`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about storage
+            <Icon className="external-link-icon" name="external-link" />
+          </a>
+        </p>
+        {featuresVolumes && (
+          <CreateVolumeBtn
+            projectName={project}
+            className="empty-state-button"
+          />
+        )}
+      </EmptyState>
+    </>
   ) : (
     <div className="storage-volumes">
+      {inheritedVolumesWarning}
       <ScrollableTable
         dependencies={[volumes]}
         tableId="volume-table"
@@ -458,8 +490,8 @@ const StorageVolumes: FC = () => {
   );
 
   const selectedVolumes = volumes.filter((volume) => {
-    const volumeKey = getVolumeId(volume);
-    return selectedNames.includes(volumeKey);
+    const id = getVolumeId(volume);
+    return selectedNames.includes(id);
   });
 
   return (
@@ -493,7 +525,7 @@ const StorageVolumes: FC = () => {
               />
             )}
           </PageHeader.Left>
-          {hasVolumes && (
+          {hasVolumes && featuresVolumes && (
             <PageHeader.BaseActions>
               <CreateVolumeBtn
                 projectName={project}

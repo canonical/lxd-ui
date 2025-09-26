@@ -19,14 +19,9 @@ import { useProfileEntitlements } from "util/entitlements/profiles";
 interface Props {
   profile: LxdProfile;
   project: string;
-  featuresProfiles: boolean;
 }
 
-const DeleteProfileBtn: FC<Props> = ({
-  profile,
-  project,
-  featuresProfiles,
-}) => {
+const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
   const isSmallScreen = useIsScreenBelow();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -62,9 +57,6 @@ const DeleteProfileBtn: FC<Props> = ({
       return "You do not have permission to delete this profile";
     }
 
-    if (!featuresProfiles) {
-      return "Modifications are only available in the default project";
-    }
     if (isDefaultProfile) {
       return "The default profile cannot be deleted";
     }
@@ -77,12 +69,7 @@ const DeleteProfileBtn: FC<Props> = ({
       className={classnames("u-no-margin--bottom", {
         "has-icon": !isSmallScreen,
       })}
-      disabled={
-        !canDeleteProfile(profile) ||
-        isDefaultProfile ||
-        !featuresProfiles ||
-        isLoading
-      }
+      disabled={!canDeleteProfile(profile) || isDefaultProfile || isLoading}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",

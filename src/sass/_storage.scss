@@ -1,6 +1,10 @@
 .storage-buckets,
 .storage-volumes,
 .custom-iso-list {
+  .p-notification--caution {
+    margin-bottom: $spv--small;
+  }
+
   .search-wrapper {
     max-width: 42rem;
     width: 100%;
