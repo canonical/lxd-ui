@@ -78,7 +78,7 @@ export const isEmptyDevice = (device: FormDevice): boolean =>
   (device.network?.length ?? 0) === 0;
 
 export const formDeviceToPayload = (devices: FormDevice[]) => {
-  return devices
+  const payload = devices
     .filter((item) => !isEmptyDevice(item))
     .reduce((obj, { name, ...item }) => {
       if (
@@ -98,11 +98,25 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
       if ("size" in item && !item.size?.match(/^\d/)) {
         delete item.size;
       }
+      if (
+        (item as LxdNicDevice) &&
+        (item as LxdNicDevice)["security.acls"] !== undefined
+      ) {
+        return {
+          ...obj,
+          [name]: {
+            ...item,
+            "security.acls": (item as LxdNicDevice)["security.acls"],
+          },
+        };
+      }
       return {
         ...obj,
         [name]: item,
       };
     }, {});
+
+  return payload;
 };
 
 export const parseDevices = (devices: LxdDevices): FormDevice[] => {
@@ -112,7 +126,7 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
     const isCustomNetwork =
       item.type === "nic" &&
       Object.keys(item).some(
-        (key) => !["type", "name", "network"].includes(key),
+        (key) => !["type", "name", "network", "security.acls"].includes(key),
       );
 
     if (isCustomNetwork) {
@@ -137,6 +151,7 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           name: key,
           network: item.network,
           type: "nic",
+          "security.acls": item["security.acls"],
         };
       case "disk":
         return {

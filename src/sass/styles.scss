@@ -99,7 +99,6 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "meter";
 @import "migrate_instance";
 @import "modified_actions";
-@import "network_detail_list";
 @import "network_form";
 @import "network_forwards_form";
 @import "network_ipam";
@@ -393,4 +392,8 @@ body {
 
 .u-break-all {
   word-break: break-all;
+}
+
+.u-whitespace-nowrap {
+  white-space: nowrap;
 }

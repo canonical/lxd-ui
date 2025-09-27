@@ -65,6 +65,14 @@
       }
     }
 
+    .acls-from-network {
+      margin-top: $spv--small;
+
+      > .acls-list {
+        display: flex;
+      }
+    }
+
     .image-change-link {
       align-self: end;
       margin-bottom: 6px;

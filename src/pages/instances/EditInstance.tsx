@@ -44,7 +44,7 @@ import InstanceFormMenu, {
 } from "pages/instances/forms/InstanceFormMenu";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
-import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
+import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
 import {
   ensureEditMode,
   getInstanceEditValues,
