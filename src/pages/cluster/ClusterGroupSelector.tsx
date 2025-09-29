@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
 import { useClusterGroups } from "context/useClusterGroups";
 import type { FormikProps } from "formik/dist/types";
@@ -6,9 +6,10 @@ import type { ProjectFormValues } from "pages/projects/CreateProject";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
+  help?: ReactNode;
 }
 
-const ClusterGroupSelector: FC<Props> = ({ formik }) => {
+const ClusterGroupSelector: FC<Props> = ({ formik, help }) => {
   const { data: groups = [] } = useClusterGroups();
 
   const selectedValues =
@@ -24,6 +25,8 @@ const ClusterGroupSelector: FC<Props> = ({ formik }) => {
   return (
     <div className="restricted-cluster-groups">
       <MultiSelect
+        id="restricted_cluster_groups"
+        help={help}
         items={groups.map((group) => {
           return { label: group.name, value: group.name };
         })}
