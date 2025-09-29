@@ -34,8 +34,9 @@ export const createNetwork = async (
   if (type === "ovn") {
     await page.getByLabel("Uplink").selectOption({ index: 1 });
   }
-
+  await page.waitForTimeout(750);
   await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForTimeout(2500);
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
 };
