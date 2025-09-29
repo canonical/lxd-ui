@@ -84,11 +84,10 @@
     For local development, the UI is served by the Vite development server, which uses port 8507 by default. 
     If you have another process listening on this port on your system, create `.env.local` as a copy of the `.env` file and change the `VITE_PORT` variable in it to any free port.
 
-    The first time, running `dotrun` will generate certificates for you. You can find them in the `keys` folder on the top level of
-    the repo. Trust them from your local `lxc` with
+    The first time, running `dotrun` will generate certificates for you. You can find them in the `keys` folder on the top level of the repo. Trust them from your local `lxc` with
 
-       sudo lxc config trust add keys/lxd-ui.crt
-
+       sudo lxc auth identity create keys/lxd-ui.crt --group admins
+    
     If you are on a Mac and running LXD inside Multipass, set the `LXD_UI_BACKEND_IP` in the `.env.local` file:
 
        echo "LXD_UI_BACKEND_IP=$(multipass info lxd | grep IPv4 | awk '{print $2}')" > .env.local
@@ -124,7 +123,7 @@ All commits are required to be signed off using a GPG key. You can use the follo
 4. To make your life a little easier, you can setup a git alias for signing commits with `git config alias.sc 'commit -s -S -a'`. Now you can sign your commits with `git sc -m "initial commit"` for example. Note this only enables the alias for your local git configuration.
 
 # Supporting multiple lxd versions
-When making a contribution to this project, please take note that the UI should degrade gracefully for all lxd LTS versions later than v5.0. To acheive this, there are two processes that should be followed:
+When making a contribution to this project, please take note that the UI should degrade gracefully for all lxd LTS versions later than v5.0. To achieve this, there are two processes that should be followed:
 
 1. When adding a new feature that introduces lxd api endpoints that are not currently used in the project, make sure you check against `api_extensions` returned by the `GET /1.0/` endpoint if the new endpoints used exists for older lxd versions. If the new endpoints are not supported in an older lxd version, then you should either hide or disable a portion of the new feature for the relevant lxd version. A useful `useSupportedFeatures` hook can be used for this purpose. You can also find a comprehensive list of `api_extensions` refrences in the [lxd documentation](https://documentation.ubuntu.com/lxd/en/latest/api-extensions/).
 2. You should write e2e tests that covers the new feature for all supported lxd versions. For example, if your feature is hidden for an older lxd server version, you should test that it is not displayed in the browser for that lxd version.
@@ -171,6 +170,53 @@ Explore and debug tests in UI mode [Doc](https://playwright.dev/docs/test-ui-mod
     npx playwright test --ui
 
 Learn more about the [test architecture](ARCHITECTURE.MD#e2e-test-setup-for-multiple-lxd-versions) in our architecture documentation.
+
+# Restricted permission setup
+
+## How to remove admin permissions
+
+For testing features with a read only access, set up limited permissions for your user.
+
+### Step 1: Create a read-only group (optional if group already exists)
+1. In the UI, navigate to **Permissions > Groups**.
+2. Click on **Create group**.
+3. Enter a name for the new group, for example, `read-only`.
+4. Click on **Add permissions**. Set the **Resource type** to `server`. Set the **Entitlement** to `viewer`. And click on **Add**.
+5. Go back to the group's details by clicking on **Create auth group** in the breadcrumbs.
+6. Click **Add identities**. Select yourself. If you can't identify yourself in the list, you can check your name in **Permissions > Identities**.
+7. Click on **Create group**.
+
+### Step 2: Remove admin rights
+1. In the UI, navigate to **Permissions > Identities**.
+2. Click on the **people icon** at the end of your line to edit groups.
+3. Deselect the `admins` group.
+4. Click on **Save 1 group change**.
+
+## Restore admin permissions
+If you have removed your admin rights, the only way to get them back is through the command line. This is because non-admin users cannot edit their own group memberships in the UI.
+
+1. Find your user ID (also known as a fingerprint) to identify your user. You can find this ID either in the UI or from the CLI.
+* In the UI: The ID is listed in the **ID** column on the **Identities** page.
+* From the CLI: Run the command `lxc auth identy list` to see a list of trusted identities and their fingerprints. The User ID is in the fingerprint column.
+
+2. Edit your Identity via the CLI. Run the command (replace `{YOUR_USER_ID}` with the fingerprint you found in the previous step.):
+```
+lxc auth identity edit tls/{YOUR_USER_ID}
+```
+
+This command will open a text editor in your terminal. Look for the `groups` field.
+
+Add the `- admins` entry to the list of groups. This will add you back to the administrators group. The file should look something like this:
+```
+# ... other settings
+groups:
+- admins
+- read-only
+# ... other settings
+```
+Save and exit the editor by pressing **CTRL+X**, then **Y**.
+
+Refresh your UI to see your administrator permissions restored.
 
 # Advanced setup
 
