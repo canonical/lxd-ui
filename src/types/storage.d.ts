@@ -13,6 +13,7 @@ export interface LxdStoragePool {
   status?: string;
   used_by?: string[];
   access_entitlements?: string[];
+  etag?: string;
 }
 
 export type LxdStorageVolumeContentType = "filesystem" | "block" | "iso";
