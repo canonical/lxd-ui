@@ -148,6 +148,20 @@ const InstanceList: FC = () => {
   };
   useListener(window, setCreateButtonLabel, "resize", true);
 
+  const forceReflow = () => {
+    // fixing a layout bug in safari when resizing the window
+    // we shrink the window with the instance detail panel open and
+    // without this, the first column is taken too much space
+    const table = document.getElementById("instances-table");
+    if (!table) {
+      return;
+    }
+    table.style.display = "none";
+    table.offsetHeight; // eslint-disable-line @typescript-eslint/no-unused-expressions
+    table.style.display = "table";
+  };
+  useListener(window, forceReflow, "resize", true);
+
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
     saveHidden(columns);
