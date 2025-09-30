@@ -1,4 +1,8 @@
-import { handleResponse, handleSettledResult } from "util/helpers";
+import {
+  ensureStableSorting,
+  handleResponse,
+  handleSettledResult,
+} from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
@@ -15,9 +19,7 @@ export const fetchIdentities = async (
   return fetch(`/1.0/auth/identities?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity[]>) => {
-      data.metadata.map((identity) => {
-        identity.access_entitlements?.sort();
-      });
+      data.metadata.map(ensureStableSorting);
       return data.metadata;
     });
 };

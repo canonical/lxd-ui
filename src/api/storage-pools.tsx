@@ -1,5 +1,6 @@
 import {
   constructMemberError,
+  handleEtagResponse,
   handleResponse,
   handleSettledResult,
 } from "util/helpers";
@@ -29,9 +30,9 @@ export const fetchStoragePool = async (
   return fetch(
     `/1.0/storage-pools/${encodeURIComponent(pool)}?${params.toString()}`,
   )
-    .then(handleResponse)
-    .then((data: LxdApiResponse<LxdStoragePool>) => {
-      return data.metadata;
+    .then(handleEtagResponse)
+    .then((data) => {
+      return data as LxdStoragePool;
     });
 };
 
