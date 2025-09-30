@@ -6,6 +6,7 @@ import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
 import { ensureEditMode } from "util/instanceEdit";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
+import { Label } from "@canonical/react-components";
 
 interface Props {
   project: string;
@@ -15,7 +16,13 @@ interface Props {
 const NetworkAcls: FC<Props> = ({ formik, project }) => {
   return (
     <div className="general-field">
-      <div className="general-field-label">ACLs</div>
+      {formik.values.readOnly ? (
+        <div className="general-field-label">ACLs</div>
+      ) : (
+        <Label className="general-field-label" forId="network-acl-selector">
+          ACLs
+        </Label>
+      )}
       <div
         className="general-field-content"
         key={formik.values.readOnly ? "read" : "edit"}

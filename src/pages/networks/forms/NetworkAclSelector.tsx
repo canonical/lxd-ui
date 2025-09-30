@@ -6,12 +6,14 @@ interface Props {
   project: string;
   setSelectedAcls: (acls: string[]) => void;
   selectedAcls: string[];
+  id?: string;
 }
 
 const NetworkAclSelector: FC<Props> = ({
   project,
   setSelectedAcls,
   selectedAcls,
+  id = "network-acl-selector",
 }) => {
   const { data: availableAcls = [] } = useNetworkAcls(project);
 
@@ -28,6 +30,7 @@ const NetworkAclSelector: FC<Props> = ({
 
   return (
     <MultiSelect
+      id={id}
       items={toOptionList(availableAcls.map((acl) => acl.name))}
       disabled={!hasAcls}
       selectedItems={toOptionList(selectedAcls)}
