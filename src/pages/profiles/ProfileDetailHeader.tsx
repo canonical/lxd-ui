@@ -17,15 +17,9 @@ interface Props {
   name: string;
   profile?: LxdProfile;
   project: string;
-  featuresProfiles: boolean;
 }
 
-const ProfileDetailHeader: FC<Props> = ({
-  name,
-  profile,
-  project,
-  featuresProfiles,
-}) => {
+const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -109,12 +103,7 @@ const ProfileDetailHeader: FC<Props> = ({
       renameDisabledReason={getRenameDisabledReason()}
       controls={
         profile && (
-          <DeleteProfileBtn
-            key="delete"
-            profile={profile}
-            project={project}
-            featuresProfiles={featuresProfiles}
-          />
+          <DeleteProfileBtn key="delete" profile={profile} project={project} />
         )
       }
       isLoaded={Boolean(profile)}
