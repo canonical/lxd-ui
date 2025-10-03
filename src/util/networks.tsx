@@ -22,6 +22,7 @@ export const typesWithAcls = [bridgeType, ovnType];
 export const typesWithForwards = [bridgeType, ovnType];
 export const typesWithParent = [physicalType, sriovType, macvlanType];
 export const typesWithStatistics = [bridgeType, ovnType, physicalType];
+export const typesWithNicDeviceAcls = [ovnType];
 
 export const getIpAddresses = (
   instance: LxdInstance,
@@ -195,4 +196,20 @@ export const renderNetworkType = (type: LxdNetwork["type"]) => {
     default:
       return capitalizeFirstLetter(type);
   }
+};
+
+export const getNetworkAcls = (network?: LxdNetwork) => {
+  if (network) {
+    return network.config["security.acls"]?.split(",").filter((t) => t) || [];
+  }
+  return [];
+};
+
+export const isTypeOvn = (network?: LxdNetwork) => {
+  return network?.type === ovnType;
+};
+
+export const supportsNicDeviceAcls = (network?: LxdNetwork) => {
+  if (network) return typesWithNicDeviceAcls.includes(network?.type);
+  return false;
 };
