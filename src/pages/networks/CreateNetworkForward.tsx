@@ -20,7 +20,7 @@ import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNetwork } from "context/useNetworks";
-import { ovnType } from "util/networks";
+import { isTypeOvn } from "util/networks";
 
 const CreateNetworkForward: FC = () => {
   const docBaseLink = useDocs();
@@ -45,7 +45,7 @@ const CreateNetworkForward: FC = () => {
   }, [networkError]);
 
   const getDefaultListenAddress = () => {
-    if (network?.type !== ovnType) {
+    if (!isTypeOvn(network)) {
       return "";
     }
     if (network?.config["ipv4.address"] !== "none") {
