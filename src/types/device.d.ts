@@ -24,6 +24,7 @@ export interface LxdNicDevice {
   parent?: string;
   network: string;
   type: "nic";
+  "security.acls"?: string;
 }
 
 export interface LxdPhysicalGPUDevice {

@@ -325,4 +325,110 @@ describe("formChangeCount", () => {
 
     expect(result).toBe(2);
   });
+
+  it("counts adding an ACL", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+            "security.acls": "foo",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(1);
+  });
+
+  it("counts removing an ACL", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+            "security.acls": "foo",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(1);
+  });
+
+  it("counts updating an ACL", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+            "security.acls": "foo",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+            "security.acls": "bar",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(1);
+  });
+
+  it("does not count if no changes", () => {
+    const formik = {
+      initialValues: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+            "security.acls": "foo",
+          },
+        ],
+      },
+      values: {
+        devices: [
+          {
+            name: "eth0",
+            type: "nic",
+            "security.acls": "foo",
+          },
+        ],
+      },
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(0);
+  });
 });
