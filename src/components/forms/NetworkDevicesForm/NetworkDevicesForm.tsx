@@ -9,7 +9,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import type { LxdNicDevice } from "types/device";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -22,7 +22,9 @@ import { getExistingDeviceNames } from "util/devices";
 import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
-import NetworkSelector from "pages/projects/forms/NetworkSelector";
+import NetworkDevice from "components/forms/NetworkDevicesForm/NetworkDevice";
+import ResourceLink from "components/ResourceLink";
+import ReadOnlyAclsList from "./ReadOnlyAclsList";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -101,12 +103,22 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
             ),
             inherited: (
               <div>
-                <div className="mono-font">
-                  <b>{item.network?.network}</b>
-                </div>
                 <div className="p-text--small u-text--muted">
                   From: {item.source}
                 </div>
+                <div>Network</div>
+                <ResourceLink
+                  type="network"
+                  value={item.network?.network || ""}
+                  to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(item.network?.network || "")}`}
+                />
+                <ReadOnlyAclsList
+                  project={project}
+                  network={managedNetworks.find(
+                    (t) => t.name === item.network?.network,
+                  )}
+                  device={item.network}
+                />
               </div>
             ),
             override: (
@@ -167,66 +179,20 @@ or remove the originating item"
                   </Tooltip>{" "}
                 </>
               ) : (
-                <div className="network-device" key={index}>
-                  <div>
-                    {readOnly ? (
-                      <div>
-                        {(formik.values.devices[index] as LxdNicDevice).network}
-                      </div>
-                    ) : (
-                      <NetworkSelector
-                        value={
-                          (formik.values.devices[index] as LxdNicDevice).network
-                        }
-                        project={project}
-                        onBlur={formik.handleBlur}
-                        setValue={(value) =>
-                          void formik.setFieldValue(
-                            `devices.${index}.network`,
-                            value,
-                          )
-                        }
-                        id={`devices.${index}.network`}
-                        name={`devices.${index}.network`}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {readOnly && (
-                      <Button
-                        onClick={() => {
-                          ensureEditMode(formik);
-                          focusNetwork(index);
-                        }}
-                        type="button"
-                        appearance="base"
-                        title={formik.values.editRestriction ?? "Edit network"}
-                        className="u-no-margin--top"
-                        hasIcon
-                        dense
-                        disabled={!!formik.values.editRestriction}
-                      >
-                        <Icon name="edit" />
-                      </Button>
-                    )}
-                    <Button
-                      className="delete-device u-no-margin--top"
-                      onClick={() => {
-                        ensureEditMode(formik);
-                        removeNetwork(index);
-                      }}
-                      type="button"
-                      appearance="base"
-                      hasIcon
-                      dense
-                      title={formik.values.editRestriction ?? "Detach network"}
-                      disabled={!!formik.values.editRestriction}
-                    >
-                      <Icon name="disconnect" />
-                      <span>Detach</span>
-                    </Button>
-                  </div>
-                </div>
+                <NetworkDevice
+                  index={index}
+                  readOnly={readOnly}
+                  formik={formik}
+                  project={project}
+                  focusNetwork={focusNetwork}
+                  removeNetwork={removeNetwork}
+                  device={device}
+                  network={managedNetworks.find(
+                    (t) =>
+                      t.name ===
+                      (formik.values.devices[index] as LxdNicDevice).network,
+                  )}
+                />
               ),
           });
         }),
