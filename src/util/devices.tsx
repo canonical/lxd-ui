@@ -110,3 +110,10 @@ export const getExistingDeviceNames = (
 
   return existingDeviceNames;
 };
+
+export const getDeviceAcls = (device?: LxdNicDevice | null) => {
+  if (device) {
+    return device["security.acls"]?.split(",").filter((t) => t) || [];
+  }
+  return [];
+};
