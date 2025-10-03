@@ -21,6 +21,7 @@ import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ResourceLink from "components/ResourceLink";
 import NetworkSelector from "./NetworkSelector";
+import { useNetworks } from "context/useNetworks";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -88,6 +89,9 @@ interface Props {
 const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
+
+  const { data: networks = [] } = useNetworks(project?.name || "");
+  const managedNetworks = networks.filter((network) => network.managed);
 
   const figureFeatures = () => {
     if (
@@ -188,13 +192,13 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
           />
           <NetworkSelector
             value={formik.values.default_project_network}
-            project="default"
             setValue={(value) =>
               void formik.setFieldValue("default_project_network", value)
             }
             hasNoneOption
             label="Default profile network"
             disabled={hasNoProfiles || hasIsolatedNetworks || isEdit}
+            managedNetworks={managedNetworks}
             help={
               isEdit ? (
                 <>

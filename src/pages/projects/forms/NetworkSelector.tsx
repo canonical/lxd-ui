@@ -1,59 +1,102 @@
-import { Select } from "@canonical/react-components";
-import type { SelectProps } from "@canonical/react-components";
 import type { FC } from "react";
-import { useNetworks } from "context/useNetworks";
+import { CustomSelect } from "@canonical/react-components";
+import type {
+  CustomSelectOption,
+  CustomSelectProps,
+} from "@canonical/react-components";
+import { getNetworkAcls } from "util/networks";
+import type { LxdNetwork } from "types/network";
 
 interface Props {
   value: string;
-  project: string;
   setValue: (value: string) => void;
-  onBlur?: (e: React.FocusEvent) => void;
+  managedNetworks: LxdNetwork[];
   hasNoneOption?: boolean;
 }
 
-const NetworkSelector: FC<Props & SelectProps> = ({
+const NetworkSelector: FC<
+  Props & Omit<CustomSelectProps, "onChange" | "options" | "value">
+> = ({
   value,
-  project,
   setValue,
-  onBlur,
+  managedNetworks,
   hasNoneOption = false,
   ...selectProps
 }) => {
-  const { data: networks = [] } = useNetworks(project);
-
-  const managedNetworks = networks.filter((network) => network.managed);
-
   const getNetworkOptions = () => {
-    const options = managedNetworks.map((network) => {
+    const options: CustomSelectOption[] = managedNetworks.map((network) => {
       return {
-        label: network.name,
+        label: (
+          <div className="label">
+            <span title={network.name} className="network-option u-truncate">
+              {network.name}
+            </span>
+            <span title={network.type} className="network-option u-truncate">
+              {network.type}
+            </span>
+            <span
+              title="network ACLs"
+              className="network-option u-truncate u-align--right"
+            >
+              {getNetworkAcls(network).length || "-"}
+            </span>
+          </div>
+        ),
         value: network.name,
+        text: `${network.name} - ${network.type}`,
         disabled: false,
+        selectedLabel: (
+          <span>
+            {network.name}&nbsp;
+            <span className="u-text--muted">&#40;{network.type}&#41;</span>
+          </span>
+        ),
       };
     });
 
-    options.unshift({
-      label: options.length === 0 ? "No networks available" : "Select option",
-      value: "",
-      disabled: true,
-    });
+    if (options.length === 0) {
+      options.unshift({
+        label: <span>No networks available</span>,
+        value: "",
+        text: "",
+        disabled: true,
+      });
+    }
 
     if (hasNoneOption) {
-      options.push({ label: "No network", value: "none", disabled: false });
+      options.push({
+        label: <span>No network</span>,
+        value: "none",
+        text: "none",
+        disabled: false,
+      });
     }
 
     return options;
   };
+
+  const getHeader = () => {
+    return (
+      <div className="header">
+        <span className="network-option u-no-margin--bottom">Name</span>
+        <span className="network-option u-no-margin--bottom">Type</span>
+        <span className="network-option u-no-margin--bottom">ACLs</span>
+      </div>
+    );
+  };
+
   return (
-    <Select
+    <CustomSelect
+      {...selectProps}
       label="Network"
       onChange={(e) => {
-        setValue(e.target.value);
+        setValue(e);
       }}
-      onBlur={onBlur}
       value={value}
-      {...selectProps}
       options={getNetworkOptions()}
+      header={getHeader()}
+      dropdownClassName="network-select-dropdown"
+      aria-label="Network"
     />
   );
 };
