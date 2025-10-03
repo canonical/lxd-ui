@@ -70,7 +70,7 @@
     }
   }
 
-  .configurable-table-toggle {
+  .column-selector-toggle {
     float: right;
     margin-bottom: -3.5rem;
   }
@@ -109,17 +109,5 @@
 
   .p-meter {
     margin-top: 4px;
-  }
-}
-
-.table-column-select-list {
-  min-width: 12rem;
-
-  label {
-    margin-left: 1rem;
-  }
-
-  .size-hidden > * {
-    opacity: 0.33;
   }
 }
