@@ -5,7 +5,7 @@ import type {
   LXDNetworkOnClusterMember,
 } from "types/network";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import { getNetworkKey } from "util/networks";
+import { getNetworkAcls, getNetworkKey } from "util/networks";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const toNetworkFormValues = (
@@ -76,7 +76,7 @@ export const toNetworkFormValues = (
     ovn_ingress_mode: network.config[getNetworkKey("ovn_ingress_mode")],
     network: network.config.network,
     parent: network.config.parent,
-    security_acls: network.config["security.acls"]?.split(",") ?? [],
+    security_acls: getNetworkAcls(network),
     vlan: network.config.vlan,
     parentPerClusterMember,
     entityType: "network",
