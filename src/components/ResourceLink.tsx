@@ -9,14 +9,19 @@ interface Props {
   value: string;
   to: string;
   disabled?: boolean;
+  className?: string;
 }
 
-const ResourceLink: FC<Props> = ({ type, value, to, disabled }) => {
+const ResourceLink: FC<Props> = ({ type, value, to, disabled, className }) => {
   return (
     <Link
-      className={classnames("p-chip is-inline is-dense resource-link", {
-        "p-chip--disabled": disabled,
-      })}
+      className={classnames(
+        "p-chip is-inline is-dense resource-link",
+        {
+          "p-chip--disabled": disabled,
+        },
+        className,
+      )}
       to={to}
       title={value}
     >

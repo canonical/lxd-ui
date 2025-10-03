@@ -39,8 +39,18 @@
   }
 
   .networks {
-    th:nth-child(1) {
-      width: 30%;
+    th {
+      &:nth-child(1) {
+        width: 30%;
+      }
+
+      &:nth-child(2) {
+        width: 6rem;
+      }
+
+      &:nth-child(5) {
+        width: 3rem;
+      }
     }
 
     th:first-of-type,

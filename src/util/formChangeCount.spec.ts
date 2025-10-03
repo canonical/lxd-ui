@@ -333,6 +333,7 @@ describe("formChangeCount", () => {
           {
             name: "eth0",
             type: "nic",
+            "security.acls": undefined,
           },
         ],
       },

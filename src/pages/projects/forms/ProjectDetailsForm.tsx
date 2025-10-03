@@ -90,7 +90,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
 
-  const { data: networks = [] } = useNetworks(project?.name || "");
+  const { data: networks = [] } = useNetworks(project?.name || "default");
   const managedNetworks = networks.filter((network) => network.managed);
 
   const figureFeatures = () => {

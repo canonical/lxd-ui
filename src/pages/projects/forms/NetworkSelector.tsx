@@ -58,16 +58,31 @@ const NetworkSelector: FC<
       options.unshift({
         label: <span>No networks available</span>,
         value: "",
-        text: "",
+        text: "None",
         disabled: true,
       });
     }
 
     if (hasNoneOption) {
       options.push({
-        label: <span>No network</span>,
+        label: (
+          <div className="label">
+            <span title="No network" className="network-option u-truncate">
+              No network
+            </span>
+            <span title="No network type" className="network-option u-truncate">
+              -
+            </span>
+            <span
+              title="network ACLs"
+              className="network-option u-truncate u-align--right"
+            >
+              -
+            </span>
+          </div>
+        ),
         value: "none",
-        text: "none",
+        text: "No network",
         disabled: false,
       });
     }
@@ -80,15 +95,17 @@ const NetworkSelector: FC<
       <div className="header">
         <span className="network-option u-no-margin--bottom">Name</span>
         <span className="network-option u-no-margin--bottom">Type</span>
-        <span className="network-option u-no-margin--bottom">ACLs</span>
+        <span className="network-option u-no-margin--bottom u-align--right">
+          ACLs
+        </span>
       </div>
     );
   };
 
   return (
     <CustomSelect
-      {...selectProps}
       label="Network"
+      {...selectProps}
       onChange={(e) => {
         setValue(e);
       }}
