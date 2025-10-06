@@ -9,9 +9,9 @@ import {
   getStorageDriverOptions,
   powerFlex,
   pureStorage,
-  cephFSDriver,
   cephObject,
   alletraDriver,
+  isClusterWideSourceDriver,
 } from "util/storageOptions";
 import type { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -54,14 +54,13 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     };
   };
 
-  const isCephDriver = formik.values.driver === cephDriver;
-  const isCephFSDriver = formik.values.driver === cephFSDriver;
   const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const isAlletraDriver = formik.values.driver === alletraDriver;
   const storageDriverOptions = getStorageDriverOptions(settings);
-  const hasClusterWideSource = isCephDriver || isCephFSDriver;
+  const isClusterWideSource = isClusterWideSourceDriver(formik.values.driver);
+
   const hasSource =
     !isPureDriver &&
     !isPowerFlexDriver &&
@@ -207,7 +206,14 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               />
             ))}
           {hasSource &&
-            (hasClusterWideSource || !isClusteredServer(settings) ? (
+            (isClusteredServer(settings) ? (
+              <ClusteredSourceSelector
+                formik={formik}
+                helpText={sourceHelpText}
+                disabledReason={formik.values.editRestriction}
+                canToggleMemberSpecific={!isClusterWideSource}
+              />
+            ) : (
               <Input
                 {...getFormProps("source")}
                 type="text"
@@ -217,12 +223,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 help={sourceHelpText}
                 label="Source"
                 title={formik.values.editRestriction}
-              />
-            ) : (
-              <ClusteredSourceSelector
-                formik={formik}
-                helpText={sourceHelpText}
-                disabledReason={formik.values.editRestriction}
               />
             ))}
           {isCephObjectDriver && (
