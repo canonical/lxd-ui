@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Col,
+  ColumnSelector,
   CustomLayout,
   EmptyState,
   Icon,
@@ -12,6 +13,8 @@ import {
   TablePagination,
   useListener,
   useNotify,
+  visibleHeaderColumns,
+  visibleRowColumns,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -19,7 +22,6 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
-import TableColumnsSelect from "components/TableColumnsSelect";
 import classnames from "classnames";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useInstanceLoading } from "context/instanceLoading";
@@ -33,7 +35,10 @@ import type { InstanceFilters } from "util/instanceFilter";
 import { enrichStatuses } from "util/instanceFilter";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
-import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type {
+  MainTableHeader,
+  MainTableRow,
+} from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   ACTIONS,
   CLUSTER_MEMBER,
@@ -249,80 +254,81 @@ const InstanceList: FC = () => {
     }
   }, [instances]);
 
-  const getHeaders = (hiddenCols: string[]) =>
-    [
-      {
-        content: NAME,
-        sortKey: "name",
-        style: { width: `${COLUMN_WIDTHS[NAME]}px` },
-      },
-      {
-        content: TYPE,
-        sortKey: "type",
-        style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
-      },
-      ...(isAllProjects
-        ? [
-            {
-              content: PROJECT,
-              sortKey: "project",
-              style: { width: `${COLUMN_WIDTHS[PROJECT]}px` },
-            },
-          ]
-        : []),
-      ...(isClustered
-        ? [
-            {
-              content: CLUSTER_MEMBER,
-              sortKey: "member",
-              style: { width: `${COLUMN_WIDTHS[CLUSTER_MEMBER]}px` },
-            },
-          ]
-        : []),
-      {
-        content: MEMORY,
-        style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
-      },
-      {
-        content: FILESYSTEM,
-        style: { width: `${COLUMN_WIDTHS[FILESYSTEM]}px` },
-      },
-      {
-        content: DESCRIPTION,
-        sortKey: "description",
-        style: { width: `${COLUMN_WIDTHS[DESCRIPTION]}px` },
-      },
-      {
-        content: IPV4,
-        className: "u-align--right",
-        style: { width: `${COLUMN_WIDTHS[IPV4]}px` },
-      },
-      {
-        content: IPV6,
-        id: "header-ipv6",
-        style: { width: `${COLUMN_WIDTHS[IPV6]}px` },
-      },
-      {
-        content: SNAPSHOTS,
-        sortKey: "snapshots",
-        className: "u-align--right",
-        style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
-      },
-      {
-        content: STATUS,
-        sortKey: "status",
-        className: "status-header status",
-        style: { width: `${COLUMN_WIDTHS[STATUS]}px` },
-      },
-      {
-        "aria-label": "Actions",
-        className: classnames({ "u-hide": panelParams.instance }),
-        style: { width: `${COLUMN_WIDTHS[ACTIONS]}px` },
-      },
-    ].filter(
-      (item) =>
-        typeof item.content !== "string" || !hiddenCols.includes(item.content),
-    );
+  const headers: MainTableHeader[] = [
+    {
+      content: NAME,
+      sortKey: "name",
+      style: { width: `${COLUMN_WIDTHS[NAME]}px` },
+    },
+    {
+      content: TYPE,
+      sortKey: "type",
+      style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
+    },
+    ...(isAllProjects
+      ? [
+          {
+            content: PROJECT,
+            sortKey: "project",
+            style: { width: `${COLUMN_WIDTHS[PROJECT]}px` },
+          },
+        ]
+      : []),
+    ...(isClustered
+      ? [
+          {
+            content: CLUSTER_MEMBER,
+            sortKey: "member",
+            style: { width: `${COLUMN_WIDTHS[CLUSTER_MEMBER]}px` },
+          },
+        ]
+      : []),
+    {
+      content: MEMORY,
+      style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
+    },
+    {
+      content: FILESYSTEM,
+      style: { width: `${COLUMN_WIDTHS[FILESYSTEM]}px` },
+    },
+    {
+      content: DESCRIPTION,
+      sortKey: "description",
+      style: { width: `${COLUMN_WIDTHS[DESCRIPTION]}px` },
+    },
+    {
+      content: IPV4,
+      className: "u-align--right",
+      style: { width: `${COLUMN_WIDTHS[IPV4]}px` },
+    },
+    {
+      content: IPV6,
+      id: "header-ipv6",
+      style: { width: `${COLUMN_WIDTHS[IPV6]}px` },
+    },
+    {
+      content: SNAPSHOTS,
+      sortKey: "snapshots",
+      className: "u-align--right",
+      style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
+    },
+    {
+      content: STATUS,
+      sortKey: "status",
+      className: "status-header status",
+      style: { width: `${COLUMN_WIDTHS[STATUS]}px` },
+    },
+    {
+      "aria-label": "Actions",
+      className: classnames({ "u-hide": panelParams.instance }),
+      style: { width: `${COLUMN_WIDTHS[ACTIONS]}px` },
+    },
+  ];
+
+  const visibleHeaders = visibleHeaderColumns(
+    headers,
+    userHidden.concat(sizeHidden),
+  );
 
   const getRows = (hiddenCols: string[]): MainTableRow[] => {
     const spannedWidth = CREATION_SPAN_COLUMNS.filter(
@@ -332,7 +338,7 @@ const InstanceList: FC = () => {
       .concat(...(isAllProjects ? [PROJECT] : []))
       .reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
 
-    const totalColumnCount = getHeaders(userHidden.concat(sizeHidden)).length;
+    const totalColumnCount = visibleHeaders.length;
 
     const creationRows: MainTableRow[] = creationOperations.map((operation) => {
       return {
@@ -550,7 +556,7 @@ const InstanceList: FC = () => {
             "aria-label": "Actions",
             style: { width: `${COLUMN_WIDTHS[ACTIONS]}px` },
           },
-        ].filter((item) => !hiddenCols.includes(item["aria-label"])),
+        ],
         sortData: {
           name: instance.name.toLowerCase(),
           member: instance.location,
@@ -563,7 +569,7 @@ const InstanceList: FC = () => {
       };
     });
 
-    return creationRows.concat(instanceRows);
+    return visibleRowColumns(creationRows.concat(instanceRows), hiddenCols);
   };
 
   const { rows: sortedRows, updateSort } = useSortTableData({
@@ -731,23 +737,23 @@ const InstanceList: FC = () => {
                       )
                     }
                   >
-                    <TableColumnsSelect
+                    <ColumnSelector
                       columns={USER_HIDEABLE_COLUMNS.filter((column) => {
                         if (column === CLUSTER_MEMBER && !isClustered) {
                           return false;
                         }
                         return true;
                       })}
-                      hidden={userHidden}
+                      userHidden={userHidden}
                       sizeHidden={sizeHidden}
-                      setHidden={setHidden}
+                      setUserHidden={setHidden}
                       className={classnames({
                         "u-hide": panelParams.instance,
                       })}
                     />
                     <SelectableMainTable
                       id="instances-table"
-                      headers={getHeaders(userHidden.concat(sizeHidden))}
+                      headers={visibleHeaders}
                       rows={sortedRows}
                       sortable
                       emptyStateMsg={
@@ -772,7 +778,7 @@ const InstanceList: FC = () => {
                 </ScrollableTable>
                 <div id="instance-table-measure">
                   <SelectableMainTable
-                    headers={getHeaders(userHidden)}
+                    headers={visibleHeaderColumns(headers, userHidden)}
                     rows={getRows(userHidden)}
                     className="scrollable-table"
                     itemName="instance"
