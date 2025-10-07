@@ -62,6 +62,15 @@
       > :first-child {
         flex-grow: 1;
         margin-right: $sph--large;
+        max-width: 19rem;
+      }
+    }
+
+    .acls-from-network {
+      margin-top: $spv--small;
+
+      .acl-chip {
+        max-width: 15rem;
       }
     }
 
@@ -234,6 +243,10 @@
   }
 
   .device-form {
+    td:last-child {
+      padding-bottom: 0.5rem;
+    }
+
     .configuration {
       padding-left: 0;
       width: 8rem;

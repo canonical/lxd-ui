@@ -610,7 +610,6 @@ const InstanceList: FC = () => {
     });
     if (JSON.stringify(sizeHiddenNew) !== JSON.stringify(sizeHidden)) {
       setSizeHidden(sizeHiddenNew);
-      console.log(sizeHiddenNew);
     }
   };
   useListener(window, figureSizeHidden, "resize", true);

@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import { MainTable, Notification, Spinner } from "@canonical/react-components";
-import { isNicDevice } from "util/devices";
+import { getDeviceAcls, isNicDevice } from "util/devices";
+import { getNetworkAcls } from "util/networks";
 import ResourceLink from "components/ResourceLink";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { LxdDevices } from "types/device";
 import { useNetworks } from "context/useNetworks";
 import type { LxdInstance } from "types/instance";
@@ -43,6 +44,11 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
       sortKey: "macAddress",
       className: "u-text--muted u-hide--small u-hide--medium",
     },
+    {
+      content: "ACLs",
+      sortKey: "acls",
+      className: "u-text--muted u-hide--small u-hide--medium",
+    },
   ];
 
   const networksRows = Object.entries(devices ?? {})
@@ -60,6 +66,11 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
       if (!network) {
         return null;
       }
+
+      const device = networkDevices.find((t) => t.network === network.name);
+      const deviceAcls = getDeviceAcls(device);
+      const networkAcls = getNetworkAcls(network);
+      const aclsCount = new Set(deviceAcls.concat(networkAcls)).size;
 
       return {
         key: network.name,
@@ -96,6 +107,16 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
             content: instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
             role: "cell",
             "aria-label": "MAC address",
+          },
+          {
+            content:
+              aclsCount > 0 ? (
+                <Link to="configuration/network">{aclsCount}</Link>
+              ) : (
+                <>-</>
+              ),
+            role: "cell",
+            "aria-label": "ACLs count",
           },
         ],
         sortData: {

@@ -17,7 +17,7 @@ import type { FormikProps } from "formik/dist/types";
 import * as Yup from "yup";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import { testValidIp, testValidPort } from "util/networks";
+import { isTypeOvn, testValidIp, testValidPort } from "util/networks";
 import NotificationRow from "components/NotificationRow";
 import type { NetworkForwardPortFormValues } from "pages/networks/forms/NetworkForwardFormPorts";
 import NetworkForwardFormPorts from "pages/networks/forms/NetworkForwardFormPorts";
@@ -25,7 +25,7 @@ import ScrollableForm from "components/ScrollableForm";
 import { focusField } from "util/formFields";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useClusterMembers } from "context/useClusterMembers";
-import { bridgeType, ovnType } from "util/networks";
+import { bridgeType } from "util/networks";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -110,7 +110,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
     focusField(name);
   };
 
-  const isOvnNetwork = network?.type === ovnType;
+  const isOvnNetwork = isTypeOvn(network);
   const isManualListenAddress =
     !isOvnNetwork || !["0.0.0.0", "::"].includes(formik.values.listenAddress);
 

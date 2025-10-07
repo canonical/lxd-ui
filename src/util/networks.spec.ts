@@ -1,8 +1,12 @@
 import type { IpAddress, IpFamily } from "types/instance";
 import {
   areNetworksEqual,
+  getNetworkAcls,
   isLocalIPv6,
+  isTypeOvn,
+  ovnType,
   sortIpv6Addresses,
+  supportsNicDeviceAcls,
   testValidIp,
   testValidPort,
 } from "./networks";
@@ -242,5 +246,138 @@ describe("sortIpv6Addresses", () => {
     for (let i = 17; i < result.length; i++) {
       expect(isLocalIPv6(result[i].address)).toBe(true);
     }
+  });
+});
+
+describe("getNetworkAcls", () => {
+  it("should return an empty array when network is undefined", () => {
+    expect(getNetworkAcls(undefined)).toEqual([]);
+  });
+
+  it("should return an empty array when security.acls is not in config", () => {
+    const network: LxdNetwork = {
+      name: "network-name",
+      type: "bridge",
+      config: {
+        "volatile.eth0.hwaddr": "00:16:3e:bd:5b:f5",
+      },
+    };
+    expect(getNetworkAcls(network)).toEqual([]);
+  });
+
+  it("should return an empty array when security.acls is an empty string", () => {
+    const network: LxdNetwork = {
+      name: "network-name",
+      type: "bridge",
+      config: {
+        "security.acls": "",
+      },
+    };
+    expect(getNetworkAcls(network)).toEqual([]);
+  });
+
+  it("should return an array with a single acl when security.acls has one value", () => {
+    const network: LxdNetwork = {
+      name: "network-name",
+      type: "bridge",
+      config: {
+        "security.acls": "default",
+      },
+    };
+    expect(getNetworkAcls(network)).toEqual(["default"]);
+  });
+
+  it("should return an array of acls when security.acls has multiple values", () => {
+    const network: LxdNetwork = {
+      name: "network-name",
+      type: "bridge",
+      config: {
+        "security.acls": "default,test-acl,production-acl",
+      },
+    };
+    expect(getNetworkAcls(network)).toEqual([
+      "default",
+      "test-acl",
+      "production-acl",
+    ]);
+  });
+
+  it("should filter out empty strings from the acl list", () => {
+    const network: LxdNetwork = {
+      name: "network-name",
+      type: "bridge",
+      config: {
+        "security.acls": "default,,test-acl,   ,production-acl,",
+      },
+    };
+    // Note: The current implementation does not trim whitespace.
+    expect(getNetworkAcls(network)).toEqual([
+      "default",
+      "test-acl",
+      "   ",
+      "production-acl",
+    ]);
+  });
+
+  it("should correctly filter out only truly empty strings from trailing/double commas", () => {
+    const network: LxdNetwork = {
+      name: "network-name",
+      type: "bridge",
+      config: {
+        "security.acls": "acl1,acl2,,acl3,",
+      },
+    };
+    expect(getNetworkAcls(network)).toEqual(["acl1", "acl2", "acl3"]);
+  });
+});
+
+describe("isTypeOvn", () => {
+  it("should return true if the network type is ovn", () => {
+    const network: LxdNetwork = { name: "ovn-net", type: ovnType, config: {} };
+    expect(isTypeOvn(network)).toBe(true);
+  });
+
+  it("should return false if the network type is not ovn", () => {
+    const network: LxdNetwork = {
+      name: "bridge-net",
+      type: "bridge",
+      config: {},
+    };
+    expect(isTypeOvn(network)).toBe(false);
+  });
+
+  it("should return false if the network object is undefined", () => {
+    expect(isTypeOvn(undefined)).toBe(false);
+  });
+
+  it("should return false if the network has no type property", () => {
+    const network = { name: "no-type-net" } as LxdNetwork;
+    expect(isTypeOvn(network)).toBe(false);
+  });
+});
+
+describe("supportsNicDeviceAcls", () => {
+  it("should return false if network is undefined", () => {
+    expect(supportsNicDeviceAcls(undefined)).toBe(false);
+  });
+
+  it("should return false if network type is not in the supported list", () => {
+    const network = { type: "physical" } as LxdNetwork;
+    expect(supportsNicDeviceAcls(network)).toBe(false);
+  });
+
+  it("should return false if network has no type property", () => {
+    const network = {} as LxdNetwork;
+    expect(supportsNicDeviceAcls(network)).toBe(false);
+  });
+
+  it('should return true if network type is "ovn"', () => {
+    const network = { type: "ovn" } as LxdNetwork;
+    expect(supportsNicDeviceAcls(network)).toBe(true);
+  });
+
+  it('should return true if network type is "bridge"', () => {
+    const network = { type: "bridge" } as LxdNetwork;
+    expect(supportsNicDeviceAcls(network)).toBe(false);
   });
 });

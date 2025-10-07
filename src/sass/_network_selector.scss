@@ -1,0 +1,51 @@
+.network-select-dropdown {
+  .label {
+    display: flex;
+    gap: $sph--small;
+
+    > .network-option {
+      &:nth-child(1) {
+        width: 12rem;
+      }
+
+      &:nth-child(2) {
+        width: 8rem;
+      }
+
+      &:nth-child(3) {
+        padding-right: 8px;
+        width: 4rem;
+      }
+    }
+  }
+
+  .header {
+    background-color: $colors--theme--background-alt;
+    display: flex;
+    gap: $sph--small;
+    padding: $sph--x-small $sph--small;
+    position: sticky;
+    top: 0;
+
+    > span {
+      @extend %table-header-label;
+
+      color: $colors--theme--text-default;
+    }
+
+    > .network-option {
+      &:nth-child(1) {
+        width: 12rem;
+      }
+
+      &:nth-child(2) {
+        width: 8rem;
+      }
+
+      &:nth-child(3) {
+        padding-right: 8px;
+        width: 4rem;
+      }
+    }
+  }
+}
