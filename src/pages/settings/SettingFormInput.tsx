@@ -53,12 +53,7 @@ const SettingFormInput: FC<Props> = ({
         onChange={(e) => {
           setValue(e.target.value);
         }}
-        help={
-          <ConfigFieldDescription
-            description={configField.longdesc}
-            className="p-form-help-text"
-          />
-        }
+        help={<ConfigFieldDescription description={configField.longdesc} />}
       />
       <Button appearance="base" onClick={onCancel}>
         Cancel
