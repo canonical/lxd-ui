@@ -1,0 +1,19 @@
+.choose-sso-provider-modal {
+  .sso-provider-buttons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: $spv--large;
+    margin: 0 auto;
+    padding: $spv--large 0;
+    width: 22rem;
+
+    .sso-provider-link {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+      width: 10rem;
+    }
+  }
+}

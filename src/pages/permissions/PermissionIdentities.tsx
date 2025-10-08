@@ -7,6 +7,7 @@ import {
   useNotify,
   Spinner,
   CustomLayout,
+  NotificationConsumer,
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
@@ -25,7 +26,6 @@ import { useSettings } from "context/useSettings";
 import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
-import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
@@ -42,6 +42,7 @@ import { getIdentityName } from "util/permissionIdentities";
 import CreateTLSIdentity from "./CreateTLSIdentity";
 import ResourceLabel from "components/ResourceLabel";
 import type { ResourceIconType } from "components/ResourceIcon";
+import SsoNotification from "pages/permissions/SsoNotification";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -53,6 +54,7 @@ const PermissionIdentities: FC = () => {
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
   const { hasAccessManagementTLS } = useSupportedFeatures();
   const { canEditIdentity } = useIdentityEntitlements();
+  const hasOidc = settings?.auth_methods?.includes("oidc");
 
   useEffect(() => {
     const validIdentityIds = new Set(identities.map((identity) => identity.id));
@@ -318,7 +320,12 @@ const PermissionIdentities: FC = () => {
           </PageHeader>
         }
       >
-        {!panelParams.panel && <NotificationRow />}
+        {!panelParams.panel && (
+          <div className="row">
+            <NotificationConsumer />
+            <SsoNotification hasOidc={hasOidc ?? false} />
+          </div>
+        )}
         <Row>
           <ScrollableTable
             dependencies={[identities]}
