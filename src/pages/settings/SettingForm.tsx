@@ -103,7 +103,11 @@ const SettingForm: FC<Props> = ({
 
   useEffect(() => {
     if (isEditMode && isLast) {
-      editRef.current?.scrollIntoView({ behavior: "smooth" });
+      editRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
     }
   }, [isEditMode]);
 
