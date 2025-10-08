@@ -34,11 +34,7 @@ export const createNetwork = async (
   if (type === "ovn") {
     await page.getByLabel("Uplink").selectOption({ index: 1 });
   }
-  await page.waitForTimeout(750);
-  await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForTimeout(2500);
-  const networkLink = await getNetworkLink(page, network);
-  await expect(networkLink).toBeVisible();
+  await submitCreateNetwork(page, network);
 };
 
 export const deleteNetwork = async (page: Page, network: string) => {
@@ -48,12 +44,14 @@ export const deleteNetwork = async (page: Page, network: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
+  await page.waitForTimeout(2500);
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).not.toBeVisible();
 };
 
 export const visitNetwork = async (page: Page, network: string) => {
   await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("link", { name: network }).first().click();
@@ -113,10 +111,10 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page
     .getByText(`Network forward with listen address ${listenAddress} created.`)
     .click();
-  await page.getByText(`:80 → ${targetAddress}:80 (tcp)`).click();
-  await page
-    .getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`)
-    .click();
+  await expect(page.getByText(`:80 → ${targetAddress}:80 (tcp)`)).toBeVisible();
+  await expect(
+    page.getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`),
+  ).toBeVisible();
 
   await page.getByRole("link", { name: "Edit network forward" }).click();
   await expect(page.getByText("Edit a network forward")).toBeVisible();
@@ -152,7 +150,15 @@ export const getNetworkLink = async (page: Page, network: string) => {
   await page.waitForLoadState("networkidle");
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
+  await page.getByTitle("Networks (default)").click();
   const networkLink = page.getByRole("link", { name: network, exact: true });
   return networkLink;
+};
+
+export const submitCreateNetwork = async (page: Page, network: string) => {
+  await page.waitForTimeout(750);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForTimeout(2500);
+  const networkLink = await getNetworkLink(page, network);
+  await expect(networkLink).toBeVisible();
 };

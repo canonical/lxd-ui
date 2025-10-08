@@ -1,0 +1,88 @@
+name: Screenshot automation
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sundays at midnight
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-e2e-test:
+    name: generate-screenshots
+    runs-on: ubuntu-latest
+    outputs:
+      job_status: ${{job.status}}
+    env:
+      LXD_OIDC_CLIENT_ID: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
+      LXD_OIDC_CLIENT_SECRET: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
+      LXD_OIDC_ISSUER: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
+      LXD_OIDC_AUDIENCE: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
+      LXD_OIDC_USER: "lxd-ui-e2e-tests@example.org"
+      LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
+      LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Dotrun
+        run: |
+          sudo pip3 install dotrun
+
+      - name: Install LXD-UI dependencies
+        run: |
+          set -x
+          sudo chmod 0777 ../lxd-ui
+          dotrun install
+
+      - name: Run LXD-UI
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          LXD_UI_BACKEND_IP: 172.17.0.1
+          VITE_PORT: 3000
+        run: |
+          dotrun &
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
+
+      - name: Install LXD
+        uses: canonical/setup-lxd@v0.1.3
+        with:
+          group: lxd
+
+      - name: Setup LXD
+        shell: bash
+        run: |
+          set -x
+          sudo lxc config set core.https_address "[::]:8443"
+          sudo lxc config trust add keys/lxd-ui.crt
+          sudo lxc config set cluster.https_address "127.0.0.1"
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Setup for tests
+        shell: bash
+        run: sudo -E ./tests/scripts/setup_test
+
+      - name: Run Playwright tests
+        env:
+          ENABLE_SCREENSHOTS: true
+        run: |
+          npx playwright test --project screenshots
+          npx playwright test --project screenshots-clustered
+
+      - name: Upload screenshot-automation-report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: report
+          path: blob-report
+          retention-days: 1
