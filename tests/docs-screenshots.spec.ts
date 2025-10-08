@@ -14,7 +14,7 @@ import { openInstancePanel } from "./helpers/instancePanel";
 
 test.beforeEach(() => {
   test.skip(
-    Boolean(process.env.CI),
+    Boolean(process.env.CI ) && !Boolean(process.env.ENABLE_SCREENSHOTS),
     "This suite is only run manually to create screenshots for the documentation",
   );
 });
