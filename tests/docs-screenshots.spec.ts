@@ -6,7 +6,7 @@ import {
   visitInstance,
 } from "./helpers/instances";
 import { createPool, deletePool } from "./helpers/storagePool";
-import { createNetwork, deleteNetwork, visitNetwork } from "./helpers/network";
+import { deleteNetwork, visitNetwork } from "./helpers/network";
 import { createVolume, deleteVolume } from "./helpers/storageVolume";
 import { setOption } from "./helpers/configuration";
 import { getClipPosition } from "./helpers/doc-screenshots";
@@ -14,7 +14,7 @@ import { openInstancePanel } from "./helpers/instancePanel";
 
 test.beforeEach(() => {
   test.skip(
-    Boolean(process.env.CI),
+    !!process.env.CI && !process.env.ENABLE_SCREENSHOTS,
     "This suite is only run manually to create screenshots for the documentation",
   );
 });
@@ -29,7 +29,7 @@ test("instances", async ({ page }) => {
   await createVolume(page, volume);
   await gotoURL(page, "/ui/");
   await page.getByText("Instances", { exact: true }).click();
-  await page.getByText("Create instance").click();
+  await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill(instance);
   await page.getByRole("button", { name: "Browse images" }).click();
   await page
@@ -136,7 +136,7 @@ test("networks", async ({ page }) => {
     clip: getClipPosition(240, 0, 1420, 750),
   });
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Network ${network} created.`);
+  await page.waitForTimeout(2500);
 
   await visitNetwork(page, network);
   await page.screenshot({
@@ -343,12 +343,12 @@ test("LXD - Tutorial folder", async ({ page }) => {
 
   await page.getByRole("button", { name: "default", exact: true }).click();
   await page.getByRole("link", { name: "Instances", exact: true }).click();
-  await page.getByText("Create instance").click();
+  await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-vm");
   await page.getByRole("button", { name: "Browse images" }).click();
   await page
     .locator("tr")
-    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuSelect" })
+    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })
     .getByRole("button")
     .click();
 
@@ -385,7 +385,6 @@ test("LXD - Tutorial folder", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Create and start" }).click();
-  await page.getByTestId("notification-close-button").click();
   await page.getByTestId("notification-close-button").click();
 
   await openInstancePanel(page, instance);
@@ -441,14 +440,12 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
   const vminstance = "Ubuntu-desktop";
   await gotoURL(page, "/ui/");
   await page.getByText("Instances", { exact: true }).click();
-  await page.getByText("Create instance").click();
+  await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill(vminstance);
   await page.getByRole("button", { name: "Browse images" }).click();
   await page
     .locator("tr")
-    .filter({
-      hasText: "Ubuntunobledesktopvirtual-machineubuntu/noble/desktop",
-    })
+    .filter({ hasText: "Ubuntunobledesktopvirtual-" })
     .getByRole("button")
     .click();
 
@@ -562,12 +559,12 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
 
   //Instance Screenshots
   await page.getByRole("link", { name: "Instances", exact: true }).click();
-  await page.getByText("Create instance").click();
+  await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-container");
   await page.getByRole("button", { name: "Browse images" }).click();
   await page
     .locator("tr")
-    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuSelect" })
+    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })
     .getByRole("button")
     .click();
   await page.screenshot({
@@ -646,15 +643,23 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
 });
 
 test("LXD - UI Folder - Networks", async ({ page }) => {
+  const network1 = "lxdbr0";
+  const network2 = "ovntest";
   await page.setViewportSize({ width: 1440, height: 800 });
 
   // Network forwards screenshots
 
-  const network1 = "lxdbr0";
-  const network2 = "ovntest";
-  await createNetwork(page, network2, "bridge");
-
+  await gotoURL(page, "/ui/");
+  await page.getByText("Networking").click();
+  await page.getByText("Networks").click();
+  await page.getByText("Create network").click();
+  await page.getByPlaceholder("Enter name").fill(network2);
+  await page.getByLabel("Type").selectOption("bridge");
+  await page.waitForTimeout(2500);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForTimeout(2500);
   await visitNetwork(page, network2);
+
   await page.getByText("/24").getByRole("button").click();
   let networkSubnet = await page.inputValue("input#ipv4_address");
   let listenAddress = networkSubnet.replace("1/24", "1");
@@ -673,6 +678,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   await page.getByRole("heading", { name: "Create a network" }).click();
   await page.getByLabel("Type").selectOption("bridge");
   await page.getByPlaceholder("Enter name").fill(network1);
+  await page.waitForTimeout(2500);
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.getByTestId("notification-close-button").click();
   await page.getByRole("link", { name: network1, exact: true }).click();
