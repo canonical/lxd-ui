@@ -15,7 +15,7 @@ import {
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
@@ -31,6 +31,7 @@ import ProfileDetailPanel from "./ProfileDetailPanel";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProfiles } from "context/useProfiles";
+import ResourceLink from "components/ResourceLink";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -121,7 +122,10 @@ const ProfileList: FC = () => {
           content: (
             <div className="u-truncate" title={`Profile ${profile.name}`}>
               <ProfileLink
-                profile={{ name: profile.name, project: projectName }}
+                profile={{
+                  name: profile.name,
+                  project: profile.project ?? "default",
+                }}
               />
             </div>
           ),
@@ -236,10 +240,19 @@ const ProfileList: FC = () => {
         <Row className="no-grid-gap">
           <Col size={12}>
             {!featuresProfiles && (
-              <Notification severity="caution" title="Profiles disabled">
-                The feature has been disabled on a project level. All the
-                available profiles are inherited from the{" "}
-                <Link to="/ui/project/default/profiles">default project</Link>.
+              <Notification severity="information">
+                Showing profiles from the{" "}
+                <ResourceLink
+                  to="/ui/project/default/profiles"
+                  type="project"
+                  value="default"
+                />{" "}
+                project.
+                <br />
+                <span className="u-text--muted">
+                  For project-specific profiles, enable profile isolation in the
+                  project configuration.
+                </span>
               </Notification>
             )}
             {profiles.length === 0 && (

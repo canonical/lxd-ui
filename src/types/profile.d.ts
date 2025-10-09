@@ -8,5 +8,6 @@ export interface LxdProfile {
   name: string;
   used_by?: string[];
   etag?: string;
+  project?: string;
   access_entitlements?: string[];
 }
