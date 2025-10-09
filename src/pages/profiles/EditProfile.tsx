@@ -4,7 +4,6 @@ import {
   Button,
   Col,
   Form,
-  Notification,
   Row,
   useListener,
   useNotify,
@@ -15,7 +14,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { objectToYaml, yamlToObject } from "util/yaml";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { FormDeviceValues } from "util/formDevices";
 import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
@@ -82,10 +81,9 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
 
 interface Props {
   profile: LxdProfile;
-  featuresProfiles: boolean;
 }
 
-const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
+const EditProfile: FC<Props> = ({ profile }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -180,17 +178,6 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
   return (
     <div className="edit-profile">
-      {!featuresProfiles && (
-        <Notification severity="caution" title="Inherited profile">
-          Modifications are only available in the{" "}
-          <Link
-            to={`/ui/project/default/profile/${encodeURIComponent(profile.name)}/configuration`}
-          >
-            default project
-          </Link>
-          .
-        </Notification>
-      )}
       <Form onSubmit={formik.handleSubmit} className="form">
         {section !== slugify(YAML_CONFIGURATION) && (
           <ProfileFormMenu

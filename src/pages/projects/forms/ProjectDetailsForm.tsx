@@ -259,6 +259,14 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             {features === "customised" && (
               <>
                 Isolate the following features:
+                {!isDefaultProject && (
+                  <>
+                    {" "}
+                    <Tooltip message="Unselected features will be shared with the default project">
+                      <Icon name="information" />
+                    </Tooltip>
+                  </>
+                )}
                 <CheckboxInput
                   id="features_images"
                   name="features_images"
@@ -280,17 +288,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 <CheckboxInput
                   id="features_profiles"
                   name="features_profiles"
-                  label={
-                    <>
-                      Profiles
-                      <Tooltip
-                        className="checkbox-label-tooltip"
-                        message={`Allow profiles to enable custom${"\n"}restrictions on a project level`}
-                      >
-                        <Icon name="information" />
-                      </Tooltip>
-                    </>
-                  }
+                  label="Profiles"
                   onChange={() => {
                     ensureEditMode(formik);
                     const newValue = !formik.values.features_profiles;

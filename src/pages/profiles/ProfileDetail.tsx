@@ -9,8 +9,6 @@ import {
 import EditProfile from "pages/profiles/EditProfile";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
-import { isProjectWithProfiles } from "util/projects";
-import { useCurrentProject } from "context/useCurrentProject";
 import NotificationRow from "components/NotificationRow";
 import TabLinks from "components/TabLinks";
 import { useProfile } from "context/useProfiles";
@@ -36,21 +34,11 @@ const ProfileDetail: FC = () => {
     return <>Missing project</>;
   }
 
-  const { project, isLoading: isProjectLoading } = useCurrentProject();
-
-  const {
-    data: profile,
-    error,
-    isLoading: isProfileLoading,
-  } = useProfile(name, projectName);
+  const { data: profile, error, isLoading } = useProfile(name, projectName);
 
   if (error) {
     notify.failure("Loading profile failed", error);
   }
-
-  const isLoading = isProfileLoading || isProjectLoading;
-
-  const featuresProfiles = isProjectWithProfiles(project);
 
   return (
     <CustomLayout
@@ -59,7 +47,6 @@ const ProfileDetail: FC = () => {
           name={name}
           profile={profile}
           project={projectName}
-          featuresProfiles={featuresProfiles}
         />
       }
       contentClassName="detail-page"
@@ -79,19 +66,13 @@ const ProfileDetail: FC = () => {
 
           {!activeTab && (
             <div role="tabpanel" aria-labelledby="overview">
-              <ProfileDetailOverview
-                profile={profile}
-                featuresProfiles={featuresProfiles}
-              />
+              <ProfileDetailOverview profile={profile} />
             </div>
           )}
 
           {activeTab === "configuration" && (
             <div role="tabpanel" aria-labelledby="configuration">
-              <EditProfile
-                profile={profile}
-                featuresProfiles={featuresProfiles}
-              />
+              <EditProfile profile={profile} />
             </div>
           )}
         </Row>

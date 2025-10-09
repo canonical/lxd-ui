@@ -56,3 +56,6 @@ export const isProjectEmpty = (project: LxdProject): boolean => {
 
 export const isProjectWithProfiles = (project?: LxdProject): boolean =>
   project?.config["features.profiles"] === "true";
+
+export const isProjectWithVolumes = (project?: LxdProject): boolean =>
+  project?.config["features.storage.volumes"] === "true";

@@ -1,13 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  Col,
-  Notification,
-  Row,
-  useListener,
-  useNotify,
-} from "@canonical/react-components";
+import { Col, Row, useListener, useNotify } from "@canonical/react-components";
 import type { LxdProfile } from "types/profile";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ProfileInstances from "./ProfileInstances";
@@ -21,10 +15,9 @@ import DeviceListTable from "components/DeviceListTable";
 
 interface Props {
   profile: LxdProfile;
-  featuresProfiles: boolean;
 }
 
-const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
+const ProfileDetailOverview: FC<Props> = ({ profile }) => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
@@ -56,17 +49,6 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
 
   return (
     <div className="profile-overview-tab">
-      {!featuresProfiles && (
-        <Notification severity="caution" title="Inherited profile">
-          Modifications are only available in the{" "}
-          <Link
-            to={`/ui/project/default/profile/${encodeURIComponent(profile.name)}`}
-          >
-            default project
-          </Link>
-          .
-        </Notification>
-      )}
       <Row className="section">
         <Col size={3}>
           <h2 className="p-heading--5">General</h2>
