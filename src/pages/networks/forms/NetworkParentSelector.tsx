@@ -142,6 +142,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
               (item) => item !== currentValues[0],
             )}
             disableReason={formik.values.editRestriction}
+            helpText={getHelpText()}
           />
         </div>
       </div>

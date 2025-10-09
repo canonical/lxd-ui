@@ -34,7 +34,7 @@ interface Props {
 
 const ClusterSpecificSelect: FC<Props> = ({
   id,
-  classname = "u-sv3",
+  classname = "",
   isReadOnly,
   options,
   values,
@@ -181,7 +181,6 @@ const ClusterSpecificSelect: FC<Props> = ({
           ) : (
             <Select
               id={id}
-              className="u-no-margin--bottom"
               options={allMemberOptions}
               onChange={(e) => {
                 setValueForAllMembers(e.target.value);
