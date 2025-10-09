@@ -131,7 +131,8 @@ test("profile edit networks", async ({ page }) => {
   await page.getByRole("button", { name: "Attach network" }).click();
   await page.getByPlaceholder("Enter name").fill("eth0");
   await page.getByRole("button", { name: "Network", exact: true }).click();
-  await page.getByText("lxdbr0 (bridge)").click();
+  await expect(page.getByText("NameTypeACLs")).toBeVisible();
+  await page.keyboard.press("Enter");
   await finishProfileCreation(page, profile);
 
   await visitProfile(page, profile);
@@ -141,10 +142,8 @@ test("profile edit networks", async ({ page }) => {
 
   await page.getByRole("button", { name: "Attach network" }).click();
   await page.locator("[id='devices.1.network']").click();
-  await page
-    .locator("[id='devices.1.network']")
-    .getByText("lxdbr0 (bridge)")
-    .click();
+  await expect(page.getByText("NameTypeACLs")).toBeVisible();
+  await page.keyboard.press("Enter");
   await page.locator("[id='devices.1.name']").fill("eth1");
   await saveProfile(page, profile, 1);
 
