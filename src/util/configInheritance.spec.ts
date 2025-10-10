@@ -1,6 +1,11 @@
-import { getConfigRowMetadata } from "util/configInheritance";
+import {
+  getConfigRowMetadata,
+  getInheritedNetworks,
+} from "util/configInheritance";
 import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type { LxdProfile } from "types/profile";
 
 beforeEach(() => {
   vi.mock("@tanstack/react-query", () => ({
@@ -84,5 +89,41 @@ describe("getConfigRowMetadata", () => {
       "Valid options are: `btrfs`, `ext4`, `xfs`\n" +
         "If not set, `ext4` is assumed.",
     );
+  });
+
+  it("devices with same name in inherited profiles override each other", () => {
+    const values = {
+      entityType: "instance",
+      profiles: ["foo", "bar"],
+    } as InstanceAndProfileFormValues;
+    const profiles = [
+      {
+        name: "foo",
+        description: "",
+        config: {},
+        devices: {
+          abc: {
+            network: "foo profile network",
+            type: "nic",
+          },
+        },
+      },
+      {
+        name: "bar",
+        description: "",
+        config: {},
+        devices: {
+          abc: {
+            network: "bar profile network",
+            type: "nic",
+          },
+        },
+      },
+    ] as LxdProfile[];
+
+    const result = getInheritedNetworks(values, profiles);
+
+    expect(result.length).toBe(1);
+    expect(result[0].source).toBe("bar profile");
   });
 });
