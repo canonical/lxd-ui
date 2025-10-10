@@ -11,6 +11,7 @@ import { isRootDisk } from "./instanceValidation";
 import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
 import { addTarget } from "util/target";
+import { debounceAsync } from "util/debounce";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -174,7 +175,9 @@ export type AbortControllerState = [
   Dispatch<SetStateAction<AbortController | null>>,
 ];
 
-export const checkDuplicateName = async (
+const validNames: Record<string, string[]> = {};
+
+const _checkDuplicateName = async (
   candidate: string | undefined,
   project: string,
   controllerState: AbortControllerState,
@@ -193,13 +196,29 @@ export const checkDuplicateName = async (
   params.set("project", project);
   addTarget(params, target);
 
+  const validNameKey = `${basePath}-${params.toString()}`;
+  if (!validNames[validNameKey]) {
+    validNames[validNameKey] = [];
+  }
+  if (validNames[validNameKey].includes(candidate)) {
+    return true;
+  }
+
   return fetch(
     `/1.0/${basePath}/${encodeURIComponent(candidate)}?${params.toString()}`,
     {
       signal,
     },
-  ).then((response) => response.status === 404);
+  ).then((response) => {
+    if (response.status === 404) {
+      validNames[validNameKey].push(candidate);
+      return true;
+    }
+    return false;
+  });
 };
+
+export const checkDuplicateName = debounceAsync(_checkDuplicateName, 500);
 
 export const getUrlParam = (paramName: string, url?: string): string | null => {
   const targetUrl = url ?? location.href;
