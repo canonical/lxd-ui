@@ -116,7 +116,6 @@ export const getConfigurationRow = ({
                       ? metadata.configField.longdesc
                       : inputHelp
                   }
-                  className="p-form-help-text"
                 />
               ),
             })}
@@ -207,12 +206,13 @@ export const getConfigurationRow = ({
     configuration: (
       <>
         {displayLabel}
-        <ConfigFieldDescription
-          description={
-            metadata.configField ? metadata.configField.shortdesc : help
-          }
-          className="configuration-help"
-        />
+        <p className="configuration-help">
+          <ConfigFieldDescription
+            description={
+              metadata.configField ? metadata.configField.shortdesc : help
+            }
+          />
+        </p>
       </>
     ),
     inherited: (

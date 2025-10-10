@@ -164,10 +164,9 @@ const Settings: FC = () => {
                 ) : (
                   <strong>{configField.key}</strong>
                 )}
-                <ConfigFieldDescription
-                  description={configField.shortdesc}
-                  className="p-text--small u-text--muted u-no-margin--bottom"
-                />
+                <p className="p-text--small u-text--muted u-no-margin--bottom">
+                  <ConfigFieldDescription description={configField.shortdesc} />
+                </p>
               </div>
             ),
             role: "cell",

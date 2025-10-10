@@ -297,6 +297,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               type="text"
               placeholder={field.default}
               help={<ConfigFieldDescription description={field.shortdesc} />}
+              helpClassName="configuration-help"
               className="u-no-margin--bottom"
               disabled={!!formik.values.editRestriction}
               title={formik.values.editRestriction}

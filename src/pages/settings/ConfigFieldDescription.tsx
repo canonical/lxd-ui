@@ -20,7 +20,7 @@ const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
   });
 
   return description ? (
-    <p
+    <span
       className={className}
       dangerouslySetInnerHTML={{
         __html: configDescriptionToHtml(
@@ -29,7 +29,7 @@ const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
           objectsInvTxt.data,
         ),
       }}
-    ></p>
+    />
   ) : null;
 };
 

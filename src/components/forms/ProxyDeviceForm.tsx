@@ -102,6 +102,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           value={value ?? ""}
           options={options}
           help={<ConfigFieldDescription description={help} />}
+          helpClassName="configuration-help"
           className="u-no-margin--bottom"
           disabled={!!disabledText || !!formik.values.editRestriction}
           title={formik.values.editRestriction ?? disabledText}

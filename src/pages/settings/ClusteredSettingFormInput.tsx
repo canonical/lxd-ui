@@ -47,10 +47,7 @@ const ClusteredSettingFormInput: FC<Props> = ({
   };
 
   const helpText = (
-    <ConfigFieldDescription
-      className="u-no-margin--bottom"
-      description={configField.longdesc}
-    />
+    <ConfigFieldDescription description={configField.longdesc} />
   );
 
   return (

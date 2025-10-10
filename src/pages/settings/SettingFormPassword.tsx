@@ -44,10 +44,7 @@ const SettingFormPassword: FC<Props> = ({
                 setPassword(e.target.value);
               }}
               help={
-                <ConfigFieldDescription
-                  description={configField.longdesc}
-                  className="p-form-help-text"
-                />
+                <ConfigFieldDescription description={configField.longdesc} />
               }
             />
             <Button
