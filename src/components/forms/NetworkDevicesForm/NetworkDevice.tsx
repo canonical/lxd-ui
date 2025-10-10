@@ -11,18 +11,16 @@ import { supportsNicDeviceAcls } from "util/networks";
 import { useNetworks } from "context/useNetworks";
 
 interface Props {
-  index: number;
   readOnly: boolean;
   project: string;
   formik: InstanceAndProfileFormikProps;
   focusNetwork: (id: number) => void;
-  removeNetwork: (id: number) => void;
+  removeNetwork: (deviceName: string) => void;
   device: LxdNicDevice;
   network?: LxdNetwork;
 }
 
 const NetworkDevice: FC<Props> = ({
-  index,
   readOnly,
   project,
   formik,
@@ -33,6 +31,7 @@ const NetworkDevice: FC<Props> = ({
 }) => {
   const { data: networks = [] } = useNetworks(project);
   const managedNetworks = networks.filter((network) => network.managed);
+  const index = formik?.values.devices.findIndex((t) => t.name === device.name);
 
   return (
     <div className="network-device" key={index}>
@@ -83,7 +82,6 @@ const NetworkDevice: FC<Props> = ({
               device={device}
               readOnly={readOnly}
               formik={formik}
-              index={index}
               canSelectManualAcls={supportsNicDeviceAcls(network)}
             />
           </>
@@ -111,7 +109,7 @@ const NetworkDevice: FC<Props> = ({
           className="delete-device u-no-margin--top"
           onClick={() => {
             ensureEditMode(formik);
-            removeNetwork(index);
+            removeNetwork(device.name || "");
           }}
           type="button"
           appearance="base"

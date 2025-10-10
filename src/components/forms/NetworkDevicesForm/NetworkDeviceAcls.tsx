@@ -13,7 +13,6 @@ interface Props {
   device: LxdNicDevice;
   readOnly?: boolean;
   formik?: InstanceAndProfileFormikProps;
-  index?: number;
   canSelectManualAcls?: boolean;
 }
 
@@ -23,7 +22,6 @@ const NetworkDeviceAcls: FC<Props> = ({
   device,
   readOnly,
   formik,
-  index,
   canSelectManualAcls,
 }) => {
   if (readOnly) {
@@ -47,6 +45,8 @@ const NetworkDeviceAcls: FC<Props> = ({
     if (networkAcls.length === 0) return undefined;
     return "Some ACLs are inherited from the network. They cannot be deselected here.";
   };
+
+  const index = formik?.values.devices.findIndex((t) => t.name === device.name);
 
   return (
     <>
