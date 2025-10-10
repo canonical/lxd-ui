@@ -122,6 +122,95 @@ All commits are required to be signed off using a GPG key. You can use the follo
 3. To sign commits, you should enter the git command with additional flags as shown in this example: `git commit -s -S -a -m "initial commit"`.
 4. To make your life a little easier, you can setup a git alias for signing commits with `git config alias.sc 'commit -s -S -a'`. Now you can sign your commits with `git sc -m "initial commit"` for example. Note this only enables the alias for your local git configuration.
 
+# Code style guidelines
+The principles mentioned are guardrails, not a law to abide to. Their application always depends on the circumstances.
+
+## Formatting
+We use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/) to maintain a consistent code style. You can check your code formatting with
+
+    yarn lint-js
+
+For CSS formatting, we use [Stylelint](https://stylelint.io/). You can check your CSS formatting with
+
+    yarn lint-scss
+
+## Naming
+When struggling to find a good name, call it "foo" and rename at a later stage. You will gain a better understanding after finishing the implementation. A good name will be much easier to choose with that knowledge.
+
+Avoid taking perspective of only your current use case for the name. Consider the point of view of the component or interface at hand. 
+
+Take time to refine all introduced names on commit or during review.
+
+Learn the shortcuts in your IDE. `Shift + F6` in PyCharm does rename variables, functions and components, including all references, comments, file names.
+
+## Interfaces
+When designing components, think carefully about interfaces. Where should the state live, and how is it shared? Prop drilling?
+
+Avoid using the React context API, it is a form of global state and hides dependencies. Also, it makes the data flow hard to understand. Aim to make the dependencies explicit, so they are easy to follow.
+
+## State
+- Avoid state.
+- Avoid global state.
+- Do not expose state.
+- Keep state as local as possible.
+- Don't use state for calculated values.
+- `useQuery` is great at handling API state.
+- You can use query parameters to hold filter state to allow for bookmarks.
+
+## Comments
+Make code speak so you don't need comments. Clear function and variable names can make code speak.
+
+Introduce constants with good names to explain what they are instead of using the value with no extra semantics. Add comments to explain why, not how. Explain details outside what the code can express with comments.
+
+## Simplification practices
+Prefer early exit instead of nesting conditionals.
+
+    // avoid
+    function example(a) {
+      if (a) {
+        // do something
+      } else {
+        return;
+      }
+    }
+
+    // prefer
+    function example(a) {
+      if (!a) {
+        return;
+      }
+      // do something
+    }
+
+Use positive if conditions, especially in ternary operators.
+
+    // avoid
+    const status = !isOnline ? 'offline' : 'online';
+
+    // prefer
+    const status = isOnline ? 'online' : 'offline';
+
+Avoid introducing callbacks when not needed.
+
+    // avoid
+    const doSomething = () => { ... }
+    return <Button onClick={() => { doSomething(); }}>
+
+    // prefer
+    const doSomething = () => { ... }
+    return <Button onClick={doSomething}>
+
+Simplify string props when they are static.
+
+    // avoid
+    <Component foo={`bar`} />
+
+    // prefer
+    <Component foo="bar" />
+
+## Custom styling
+Use existing [react-components](https://github.com/canonical/react-components) as much as possible. If you need to customize, use existing vanilla classes over writing new CSS. Use vanilla [utility classes](https://vanillaframework.io/docs/utilities/align) where possible. For custom CSS, use vanilla CSS variables for [spacing](https://vanillaframework.io/docs/settings/spacing-settings#vertical-spacing) and colors. Use the themed colors instead of hardcoding colors to avoid problems with switching from light to dark theme.
+
 # Supporting multiple lxd versions
 When making a contribution to this project, please take note that the UI should degrade gracefully for all lxd LTS versions later than v5.0. To achieve this, there are two processes that should be followed:
 
