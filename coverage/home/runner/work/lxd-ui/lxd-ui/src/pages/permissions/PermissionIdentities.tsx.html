@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.54% </span>
+                <span class="strong">80.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>356/442</span>
+                <span class='fraction'>363/450</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.66% </span>
+                <span class="strong">45.38% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>58/127</span>
+                <span class='fraction'>59/130</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.16% </span>
+                <span class="strong">95.25% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>354/372</span>
+                <span class='fraction'>361/379</span>
             </div>
         
             
@@ -435,7 +435,14 @@
 <a name='L370'></a><a href='#L370'>370</a>
 <a name='L371'></a><a href='#L371'>371</a>
 <a name='L372'></a><a href='#L372'>372</a>
-<a name='L373'></a><a href='#L373'>373</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -481,6 +488,8 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
@@ -756,6 +765,11 @@
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
@@ -816,6 +830,7 @@
   useNotify,
   Spinner,
   CustomLayout,
+  NotificationConsumer,
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
@@ -834,7 +849,6 @@ import { useSettings } from "context/useSettings";
 import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
-import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
@@ -851,6 +865,7 @@ import { getIdentityName } from "util/permissionIdentities";
 import CreateTLSIdentity from "./CreateTLSIdentity";
 import ResourceLabel from "components/ResourceLabel";
 import type { ResourceIconType } from "components/ResourceIcon";
+import SsoNotification from "pages/permissions/SsoNotification";
 &nbsp;
 const PermissionIdentities: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
@@ -862,6 +877,7 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
   const [selectedIdentityIds, setSelectedIdentityIds] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
   const { hasAccessManagementTLS } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
   const { canEditIdentity } = <span class="cstat-no" title="statement not covered" >useIdentityEntitlements();</span>
+  const hasOidc = <span class="cstat-no" title="statement not covered" >settings?.auth_methods?.includes("oidc");</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
     const validIdentityIds = <span class="cstat-no" title="statement not covered" >new Set(identities.map((identity) =&gt; identity.id));</span>
@@ -1127,7 +1143,12 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
           &lt;/PageHeader&gt;
         }
       &gt;
-        {!panelParams.panel &amp;&amp; &lt;NotificationRow /&gt;}
+        {!panelParams.panel &amp;&amp; (
+          &lt;div className="row"&gt;
+            &lt;NotificationConsumer /&gt;
+            &lt;SsoNotification hasOidc={<span class="branch-0 cbranch-no" title="branch not covered" >hasOidc ?? <span class="branch-1 cbranch-no" title="branch not covered" >false} </span>/</span>&gt;
+          &lt;/div&gt;
+        )}
         &lt;Row&gt;
           &lt;ScrollableTable
             dependencies={[identities]}
@@ -1186,7 +1207,7 @@ export default PermissionIdentities;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-10T09:22:56.098Z
+                at 2025-10-10T16:38:35.522Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

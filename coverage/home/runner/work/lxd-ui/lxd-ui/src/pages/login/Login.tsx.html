@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -121,7 +121,27 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -132,6 +152,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -142,6 +163,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,17 +208,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, type FC } from "react";
+import {
+  Icon,
+  Spinner,
+  CustomLayout,
+  Button,
+} from "@canonical/react-components";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
-import classnames from "classnames";
+import SsoProviderSelector from "components/SsoProviderSelector/SsoProviderSelector";
 &nbsp;
 const Login: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const { isAuthenticated, isAuthLoading } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
   const hasOidc = <span class="cstat-no" title="statement not covered" >settings?.auth_methods?.includes("oidc");</span>
+  const [isModal, setModal] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
+  const closeModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    setModal(false);</span>
+  };
+&nbsp;
+  const openModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    setModal(true);</span>
+  };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (isAuthLoading) {</span>
 <span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading..." isMainComponent /&gt;;</span>
@@ -200,39 +244,40 @@ const Login: FC = <span class="cstat-no" title="statement not covered" ><span cl
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;CustomLayout contentClassName="login"&gt;
-      &lt;div className="empty-state login-page"&gt;
-        &lt;Icon name="pods" className="lxd-icon" /&gt;
-        &lt;h1 className="p-heading--4 u-sv-2"&gt;Login&lt;/h1&gt;
+    &lt;&gt;
+      &lt;CustomLayout contentClassName="login"&gt;
+        &lt;div className="empty-state login-page"&gt;
+          &lt;Icon name="pods" className="lxd-icon" /&gt;
+          &lt;h1 className="p-heading--4 u-sv-2"&gt;Login&lt;/h1&gt;
 &nbsp;
-        &lt;&gt;
-          &lt;p className="u-sv1"&gt;Choose your login method&lt;/p&gt;
-          &lt;div className="auth-container"&gt;
-            {hasOidc &amp;&amp; (
-              &lt;a className="p-button--positive has-icon" href="/oidc/login"&gt;
-                &lt;Icon name="security" light /&gt;
-                &lt;span&gt;Login with SSO&lt;/span&gt;
-              &lt;/a&gt;
-            )}
-            &lt;Link
-              className={classnames(" has-icon", {
-                "p-button--positive": !hasOidc,
-                "p-button": hasOidc,
-              })}
-              to="/ui/login/certificate-generate"
-            &gt;
-              &lt;Icon
-                name="certificate"
-                className={classnames("auth-button-icon", {
-                  "is-light": !hasOidc,
-                })}
-              /&gt;
-              &lt;span&gt;Login with TLS&lt;/span&gt;
-            &lt;/Link&gt;
-          &lt;/div&gt;
-        &lt;/&gt;
-      &lt;/div&gt;
-    &lt;/CustomLayout&gt;
+          &lt;&gt;
+            &lt;p className="u-sv1"&gt;Choose your login method&lt;/p&gt;
+            &lt;div className="auth-container"&gt;
+              {hasOidc &amp;&amp; (
+                &lt;a className="p-button--positive has-icon" href="/oidc/login"&gt;
+                  &lt;Icon name="security" light /&gt;
+                  &lt;span&gt;Login with SSO&lt;/span&gt;
+                &lt;/a&gt;
+              )}
+              {!hasOidc &amp;&amp; (
+                &lt;Button hasIcon onClick={openModal} appearance="positive"&gt;
+                  &lt;Icon name="security" light /&gt;
+                  &lt;span&gt;Set up SSO login&lt;/span&gt;
+                &lt;/Button&gt;
+              )}
+              &lt;Link
+                className="has-icon p-button"
+                to="/ui/login/certificate-generate"
+              &gt;
+                &lt;Icon name="certificate" /&gt;
+                &lt;span&gt;Set up TLS login&lt;/span&gt;
+              &lt;/Link&gt;
+            &lt;/div&gt;
+          &lt;/&gt;
+        &lt;/div&gt;
+      &lt;/CustomLayout&gt;
+      {isModal &amp;&amp; &lt;SsoProviderSelector closeModal={closeModal} /&gt;}
+    &lt;/&gt;
   );
 };
 &nbsp;
@@ -244,7 +289,7 @@ export default Login;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-10T09:22:56.098Z
+                at 2025-10-10T16:38:35.522Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
