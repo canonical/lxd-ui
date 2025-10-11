@@ -26,9 +26,14 @@ export const storageDriverLabels: { [key: string]: string } = {
 };
 
 const bucketCompatibleDrivers = [cephObject];
+const driversWithClusterWideSource = [cephDriver, cephFSDriver];
 
 export const isBucketCompatibleDriver = (driver: string): boolean => {
   return bucketCompatibleDrivers.includes(driver);
+};
+
+export const isClusterWideSourceDriver = (driver: string): boolean => {
+  return driversWithClusterWideSource.includes(driver);
 };
 
 export const getStorageDriverOptions = (
