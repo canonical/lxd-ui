@@ -265,12 +265,13 @@ export const updateClusterNetwork = async (
   clusterMembers: LxdClusterMember[],
   parentsPerClusterMember: ClusterSpecificValues,
   bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
+  oldConfig?: LxdNetworkConfig,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map(async (member) => {
         const memberName = member.server_name;
-        const config: LxdNetworkConfig = {};
+        const config: LxdNetworkConfig = { ...oldConfig };
         if (parentsPerClusterMember?.[memberName]) {
           config.parent = parentsPerClusterMember[memberName];
         }
