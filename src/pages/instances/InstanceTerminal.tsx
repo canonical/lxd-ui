@@ -255,6 +255,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     );
   }
 
+  const isDisabled =
+    !canUpdateInstanceState(instance) || isBooting || isStartLoading;
+
   return (
     <div className="instance-terminal-tab">
       {canConnect && (
@@ -296,7 +299,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
             appearance="positive"
             loading={isStartLoading || isBooting}
             onClick={handleStart}
-            disabled={!canUpdateInstanceState(instance)}
+            disabled={isDisabled}
             title={
               canUpdateInstanceState(instance)
                 ? ""
