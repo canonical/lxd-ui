@@ -4,13 +4,14 @@ import ReadOnlyAclsList from "components/forms/NetworkDevicesForm/ReadOnlyAclsLi
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import type { InheritedNetwork } from "util/configInheritance";
 import type { LxdNetwork } from "types/network";
-import { Button, Icon, Tooltip } from "@canonical/react-components";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import classNames from "classnames";
 import NetworkDevice from "./NetworkDevice";
-import type { LxdNicDevice } from "types/device";
+import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import { ensureEditMode } from "util/instanceEdit";
+import NetworkDeviceActionButtons from "./NetworkDeviceActionButtons";
+import { addDevice, addNoneDevice } from "util/formDevices";
 
 interface Props {
   device: InheritedNetwork;
@@ -34,7 +35,7 @@ export const getInheritedNetworkRow = ({
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const overrideDevice = formik.values.devices.find(
     (t) => t.name === device.key,
-  ) as LxdNicDevice;
+  ) as LxdNicDevice | LxdNoneDevice;
 
   const overrideNetwork = managedNetworks.find(
     (t) =>
@@ -84,55 +85,42 @@ export const getInheritedNetworkRow = ({
         />
       </div>
     ),
-    override: (
-      <div>
-        <Tooltip
-          message="This network is inherited from a profile or project.
-To change it, edit it in the profile or project it originates from,
-or remove the originating item"
-          position="btm-left"
-        >
-          <Icon name="information" />
-        </Tooltip>
-        {!isOverridden && (
-          <Button
-            onClick={() => {
-              ensureEditMode(formik);
-              const copy = [...formik.values.devices];
-              copy.push({
-                type: "nic",
-                name: device.key,
-                network: managedNetworks[0]?.name ?? "",
-              });
-              formik.setFieldValue("devices", copy);
+    override: isOverridden ? (
+      <NetworkDevice
+        readOnly={readOnly}
+        formik={formik}
+        project={project}
+        focusNetwork={focusNetwork}
+        removeNetwork={removeNetwork}
+        device={overrideDevice}
+        network={overrideNetwork}
+        isInheritedRow
+      />
+    ) : (
+      <NetworkDeviceActionButtons
+        readOnly={readOnly}
+        formik={formik}
+        onClickEdit={() => {
+          ensureEditMode(formik);
+          addDevice({
+            formik,
+            deviceName: device.key,
+            deviceNetworkName: managedNetworks[0]?.name ?? "",
+          });
 
-              focusNetwork(
-                formik?.values.devices.findIndex((t) => t.name === device.key),
-              );
-            }}
-            type="button"
-            appearance="base"
-            title={formik.values.editRestriction ?? "Override network"}
-            className="u-no-margin--top"
-            hasIcon
-            dense
-            disabled={!!formik.values.editRestriction}
-          >
-            <Icon name="edit" />
-          </Button>
-        )}
-        {isOverridden && overrideNetwork && (
-          <NetworkDevice
-            readOnly={readOnly}
-            formik={formik}
-            project={project}
-            focusNetwork={focusNetwork}
-            removeNetwork={removeNetwork}
-            device={overrideDevice}
-            network={overrideNetwork}
-          />
-        )}
-      </div>
+          focusNetwork(
+            formik?.values.devices.findIndex((t) => t.name === device.key),
+          );
+        }}
+        onClickDetach={() => {
+          ensureEditMode(formik);
+          addNoneDevice(device.key, formik);
+          focusNetwork(
+            formik?.values.devices.findIndex((t) => t.name === device.key),
+          );
+        }}
+        detachLabel="Detach"
+      />
     ),
   });
 };

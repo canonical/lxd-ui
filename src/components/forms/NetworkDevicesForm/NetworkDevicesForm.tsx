@@ -15,7 +15,7 @@ import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedNetworks } from "util/configInheritance";
 import type { CustomNetworkDevice } from "util/formDevices";
-import { deduplicateName } from "util/formDevices";
+import { addDevice, deduplicateName } from "util/formDevices";
 import { isNicDeviceNameMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
@@ -75,15 +75,13 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
   const addNetwork = () => {
-    const copy = [...formik.values.devices];
-    copy.push({
-      type: "nic",
-      name: deduplicateName("eth", 1, existingDeviceNames),
-      network: managedNetworks[0]?.name ?? "",
+    addDevice({
+      formik,
+      deviceName: deduplicateName("eth", 1, existingDeviceNames),
+      deviceNetworkName: managedNetworks[0]?.name ?? "",
     });
-    formik.setFieldValue("devices", copy);
 
-    focusNetwork(copy.length - 1);
+    focusNetwork(formik.values.devices.length);
   };
 
   const inheritedNetworks = getInheritedNetworks(formik.values, profiles);

@@ -1,5 +1,7 @@
 import type { LxdNicDevice } from "types/device";
-import { getDeviceAcls } from "./devices";
+import { getDeviceAcls, getIndex } from "./devices";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { FormDevice } from "./formDevices";
 
 describe("getDeviceAcls", () => {
   it("should return an empty array when device is undefined", () => {
@@ -72,5 +74,58 @@ describe("getDeviceAcls", () => {
       network: "network-name",
     };
     expect(getDeviceAcls(device)).toEqual(["acl1", "acl2", "acl3"]);
+  });
+});
+
+describe("getIndex", () => {
+  const mockDevice1: FormDevice = {
+    name: "eth0",
+    type: "nic",
+    network: "lxdbr0",
+  };
+  const mockDevice2: FormDevice = {
+    name: "eth1",
+    type: "nic",
+    network: "lxdbr1",
+  };
+  const mockDevice3: FormDevice = {
+    name: "eth2",
+    type: "nic",
+    network: "lxdbr2",
+  };
+
+  const createMockFormik = (devices: FormDevice[]) =>
+    ({
+      values: {
+        devices: devices,
+      },
+    }) as InstanceAndProfileFormikProps;
+
+  it("returns -1 if formik is not provided", () => {
+    const mockDevice: LxdNicDevice = {
+      name: "eth0",
+      type: "nic",
+      network: "lxdbr0",
+    };
+    expect(getIndex(mockDevice, undefined)).toBe(-1);
+  });
+
+  it("returns the correct index when the device exists in the array", () => {
+    const mockFormik = createMockFormik([
+      mockDevice1,
+      mockDevice2,
+      mockDevice3,
+    ]);
+    expect(getIndex(mockDevice2 as LxdNicDevice, mockFormik)).toBe(1);
+  });
+
+  it("returns -1 if the device does not exist in the array", () => {
+    const mockFormik = createMockFormik([mockDevice1, mockDevice3]);
+    expect(getIndex(mockDevice2 as LxdNicDevice, mockFormik)).toBe(-1);
+  });
+
+  it("returns -1 when the devices array is empty", () => {
+    const mockFormik = createMockFormik([]);
+    expect(getIndex(mockDevice1 as LxdNicDevice, mockFormik)).toBe(-1);
   });
 });

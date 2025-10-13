@@ -3,7 +3,7 @@ import type { LxdNicDevice } from "types/device";
 import type { LxdNetwork } from "types/network";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
-import { getDeviceAcls } from "util/devices";
+import { getDeviceAcls, getIndex } from "util/devices";
 import { getNetworkAcls } from "util/networks";
 import ReadOnlyAclsList from "./ReadOnlyAclsList";
 
@@ -46,8 +46,6 @@ const NetworkDeviceAcls: FC<Props> = ({
     return "Some ACLs are inherited from the network. They cannot be deselected here.";
   };
 
-  const index = formik?.values.devices.findIndex((t) => t.name === device.name);
-
   return (
     <>
       <label
@@ -62,7 +60,7 @@ const NetworkDeviceAcls: FC<Props> = ({
           selectedAcls={selectedAcls}
           setSelectedAcls={(selectedItems) => {
             formik.setFieldValue(
-              `devices.${index}["security.acls"]`,
+              `devices.${getIndex(device, formik)}["security.acls"]`,
               selectedItems.join(","),
             );
           }}

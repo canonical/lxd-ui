@@ -1,9 +1,13 @@
-import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "components/forms/instanceAndProfileFormValues";
 import type {
   LxdDeviceValue,
   LxdDiskDevice,
   LxdGPUDevice,
   LxdNicDevice,
+  LxdNoneDevice,
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
@@ -116,4 +120,13 @@ export const getDeviceAcls = (device?: LxdNicDevice | null) => {
     return device["security.acls"]?.split(",").filter((t) => t) || [];
   }
   return [];
+};
+
+export const getIndex = (
+  device: LxdNicDevice | LxdNoneDevice,
+  formik?: InstanceAndProfileFormikProps,
+) => {
+  if (!formik) return -1;
+
+  return formik?.values.devices.findIndex((t) => t.name === device.name);
 };
