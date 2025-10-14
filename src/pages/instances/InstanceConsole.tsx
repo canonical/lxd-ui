@@ -143,7 +143,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
             loading={isLoading}
             aria-disabled={isLoading}
             onClick={handleStart}
-            disabled={!canUpdateInstanceState(instance)}
+            disabled={!canUpdateInstanceState(instance) || isLoading}
             title={
               canUpdateInstanceState(instance)
                 ? ""
