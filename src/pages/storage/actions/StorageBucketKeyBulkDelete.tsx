@@ -11,6 +11,7 @@ import { getPromiseSettledCounts } from "util/promises";
 import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLink from "components/ResourceLink";
 import { getStorageBucketURL } from "util/storageBucket";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   keys: LxdStorageBucketKey[];
@@ -28,6 +29,7 @@ const StorageBucketKeyBulkDelete: FC<Props> = ({
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
+  const viewBulkDetails = useBulkDetails();
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
   const totalCount = keys.length;
@@ -59,7 +61,7 @@ const StorageBucketKeyBulkDelete: FC<Props> = ({
           getPromiseSettledCounts(results);
 
         if (fulfilledCount === totalCount) {
-          toastNotify.success(successMessage);
+          toastNotify.success(successMessage, viewBulkDetails(results));
         } else if (rejectedCount === totalCount) {
           toastNotify.failure(
             "Key bulk deletion failed",
@@ -68,6 +70,7 @@ const StorageBucketKeyBulkDelete: FC<Props> = ({
               <b>{totalCount}</b> {pluralize("key", totalCount)} could not be
               deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           toastNotify.failure(
@@ -80,6 +83,7 @@ const StorageBucketKeyBulkDelete: FC<Props> = ({
               <b>{rejectedCount}</b> {pluralize("key", rejectedCount)} could not
               be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
 

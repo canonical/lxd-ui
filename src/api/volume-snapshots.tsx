@@ -1,10 +1,14 @@
 import { handleResponse } from "util/helpers";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { EventQueue } from "context/eventQueue";
-import { splitVolumeSnapshotName } from "util/storageVolume";
+import {
+  linkForVolumeDetail,
+  splitVolumeSnapshotName,
+} from "util/storageVolume";
 import { addTarget } from "util/target";
 
 export const createVolumeSnapshot = async (
@@ -59,20 +63,25 @@ export const deleteVolumeSnapshotBulk = async (
   volume: LxdStorageVolume,
   snapshotNames: string[],
   eventQueue: EventQueue,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       snapshotNames.map(async (name) => {
+        const item: BulkOperationItem = {
+          name: name,
+          type: "snapshot",
+          href: `${linkForVolumeDetail(volume)}/snapshots`,
+        };
         await deleteVolumeSnapshot(volume, { name })
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => {
-                pushSuccess(results);
+                pushSuccess(results, item);
               },
               (msg) => {
-                pushFailure(results, msg);
+                pushFailure(results, msg, item);
               },
               () => {
                 continueOrFinish(results, snapshotNames.length, resolve);
@@ -80,7 +89,7 @@ export const deleteVolumeSnapshotBulk = async (
             );
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, snapshotNames.length, resolve);
           });
       }),

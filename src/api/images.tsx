@@ -1,4 +1,5 @@
 import { handleResponse } from "util/helpers";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdImage } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
@@ -66,21 +67,26 @@ export const deleteImageBulk = async (
   fingerprints: string[],
   project: string,
   eventQueue: EventQueue,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       fingerprints.map(async (name) => {
         const image = { fingerprint: name } as LxdImage;
+        const item: BulkOperationItem = {
+          name: name,
+          type: "image",
+          href: `/ui/project/${encodeURIComponent(project)}/images`,
+        };
         return deleteImage(image, project)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => {
-                pushSuccess(results);
+                pushSuccess(results, item);
               },
               (msg) => {
-                pushFailure(results, msg);
+                pushFailure(results, msg, item);
               },
               () => {
                 continueOrFinish(results, fingerprints.length, resolve);
@@ -88,7 +94,7 @@ export const deleteImageBulk = async (
             );
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, fingerprints.length, resolve);
           });
       }),

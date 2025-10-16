@@ -10,6 +10,7 @@ import BulkDeleteButton from "components/BulkDeleteButton";
 import { useImageEntitlements } from "util/entitlements/images";
 import type { LxdImage } from "types/image";
 import { useToastNotification } from "@canonical/react-components";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   images: LxdImage[];
@@ -29,6 +30,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { canDeleteImage } = useImageEntitlements();
+  const viewBulkDetails = useBulkDetails();
 
   const totalCount = images.length;
   const deletableImages = images.filter((image) => canDeleteImage(image));
@@ -48,6 +50,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
               <b>{fingerprints.length}</b>{" "}
               {pluralize("image", fingerprints.length)} deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else if (rejectedCount === deleteCount) {
           toastNotify.failure(
@@ -57,6 +60,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
               <b>{deleteCount}</b> {pluralize("image", deleteCount)} could not
               be deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           toastNotify.failure(
@@ -69,6 +73,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
               <b>{rejectedCount}</b> {pluralize("image", rejectedCount)} could
               not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
         queryClient.invalidateQueries({

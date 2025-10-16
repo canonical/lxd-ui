@@ -16,6 +16,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { getInstanceKey } from "util/instances";
 import { useToastNotification } from "@canonical/react-components";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   instances: LxdInstance[];
@@ -32,6 +33,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   );
   const [isForce, setForce] = useState(false);
   const { canUpdateInstanceState } = useInstanceEntitlements();
+  const viewBulkDetails = useBulkDetails();
 
   const clearCache = () => {
     queryClient.invalidateQueries({
@@ -63,6 +65,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
             <>
               <b>{count}</b> {pluralize("instance", count)} {action}.
             </>,
+            viewBulkDetails(results),
           );
           clearCache();
         } else if (rejectedCount === count) {
@@ -73,6 +76,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               <b>{count}</b> {pluralize("instance", count)} could not be{" "}
               {action}.
             </>,
+            viewBulkDetails(results),
           );
           delayedClearCache();
         } else {
@@ -86,6 +90,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)}{" "}
               could not be {action}.
             </>,
+            viewBulkDetails(results),
           );
           delayedClearCache();
         }

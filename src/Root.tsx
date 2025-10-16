@@ -17,6 +17,7 @@ import StatusBar from "components/StatusBar";
 import OperationsProvider from "context/operationsProvider";
 import { MetricHistoryProvider } from "context/metricHistory";
 import { MemberLoadingProvider } from "context/memberLoading";
+import { ModalProvider } from "context/useModal";
 
 const queryClient = new QueryClient();
 
@@ -37,15 +38,17 @@ const Root: FC = () => {
                   <MemberLoadingProvider>
                     <EventQueueProvider>
                       <MetricHistoryProvider>
-                        <Application id="l-application">
-                          <SkipLink mainId="main-content" />
-                          <Navigation />
-                          <ErrorBoundary fallback={ErrorPage}>
-                            <App />
-                            <Events />
-                            <StatusBar />
-                          </ErrorBoundary>
-                        </Application>
+                        <ModalProvider>
+                          <Application id="l-application">
+                            <SkipLink mainId="main-content" />
+                            <Navigation />
+                            <ErrorBoundary fallback={ErrorPage}>
+                              <App />
+                              <Events />
+                              <StatusBar />
+                            </ErrorBoundary>
+                          </Application>
+                        </ModalProvider>
                       </MetricHistoryProvider>
                     </EventQueueProvider>
                   </MemberLoadingProvider>

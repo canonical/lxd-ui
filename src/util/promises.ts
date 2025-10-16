@@ -1,5 +1,7 @@
+import type { ResourceIconType } from "components/ResourceIcon";
+
 export const getPromiseSettledCounts = (
-  results: PromiseSettledResult<void>[],
+  results: BulkOperationResult[],
 ): { fulfilledCount: number; rejectedCount: number } => {
   const settledCounts = { fulfilledCount: 0, rejectedCount: 0 };
   results.forEach((result) => {
@@ -12,27 +14,53 @@ export const getPromiseSettledCounts = (
   return settledCounts;
 };
 
-export const pushSuccess = (results: PromiseSettledResult<void>[]): void => {
+interface BulkOperationFulfilled {
+  status: "fulfilled";
+  item: BulkOperationItem;
+}
+
+interface BulkOperationRejected {
+  status: "rejected";
+  item: BulkOperationItem;
+  reason: string;
+}
+
+export interface BulkOperationItem {
+  name: string;
+  type: ResourceIconType;
+  href: string;
+}
+
+export type BulkOperationResult =
+  | BulkOperationFulfilled
+  | BulkOperationRejected;
+
+export const pushSuccess = (
+  results: BulkOperationResult[],
+  item: BulkOperationItem,
+): void => {
   results.push({
     status: "fulfilled",
-    value: undefined,
+    item,
   });
 };
 
 export const pushFailure = (
-  results: PromiseSettledResult<void>[],
+  results: BulkOperationResult[],
   msg: string,
+  item: BulkOperationItem,
 ): void => {
   results.push({
     status: "rejected",
     reason: msg,
+    item,
   });
 };
 
 export const continueOrFinish = (
-  results: PromiseSettledResult<void>[],
+  results: BulkOperationResult[],
   totalLength: number,
-  resolve: (value: PromiseSettledResult<void>[]) => void,
+  resolve: (value: BulkOperationResult[]) => void,
 ): void => {
   if (totalLength === results.length) {
     resolve(results);

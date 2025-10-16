@@ -11,6 +11,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useToastNotification } from "@canonical/react-components";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   instances: LxdInstance[];
@@ -36,6 +37,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const deleteCount = deletableInstances.length;
   const restrictedCount = restrictedInstances.length;
   const ignoredCount = totalCount - deleteCount - restrictedCount;
+  const viewBulkDetails = useBulkDetails();
 
   const handleDelete = () => {
     setLoading(true);
@@ -47,6 +49,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
         if (fulfilledCount === deleteCount) {
           toastNotify.success(
             `${deleteCount} ${pluralize("instance", deleteCount)} deleted`,
+            viewBulkDetails(results),
           );
         } else if (rejectedCount === deleteCount) {
           toastNotify.failure(
@@ -56,6 +59,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
               <b>{deleteCount}</b> {pluralize("instance", deleteCount)} could
               not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           toastNotify.failure(
@@ -68,6 +72,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
               <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)}{" "}
               could not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
         queryClient.invalidateQueries({

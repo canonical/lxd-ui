@@ -10,7 +10,9 @@ import axios from "axios";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
+import { linkForVolumeDetail } from "util/storageVolume";
 
 export const volumeEntitlements = [
   "can_delete",
@@ -222,11 +224,16 @@ export const deleteStorageVolume = async (
 export const deleteStorageVolumeBulk = async (
   volumes: LxdStorageVolume[],
   project: string,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       volumes.map(async (volume) => {
+        const item: BulkOperationItem = {
+          name: volume.name,
+          type: "volume",
+          href: linkForVolumeDetail(volume),
+        };
         return deleteStorageVolume(
           volume.name,
           volume.pool,
@@ -234,11 +241,11 @@ export const deleteStorageVolumeBulk = async (
           volume.location,
         )
           .then(() => {
-            pushSuccess(results);
+            pushSuccess(results, item);
             continueOrFinish(results, volumes.length, resolve);
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, volumes.length, resolve);
           });
       }),
