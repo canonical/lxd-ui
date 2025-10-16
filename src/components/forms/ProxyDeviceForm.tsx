@@ -31,6 +31,7 @@ import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { optionEnabledDisabled } from "util/instanceOptions";
 import { getProxyAddress } from "util/proxyDevices";
 import { useProfiles } from "context/useProfiles";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -58,9 +59,13 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
 
   const addProxy = () => {
     const copy = [...formik.values.devices];
+    const isNATEnabled =
+      formik.values.entityType !== "profile" &&
+      (formik.values as CreateInstanceFormValues).instanceType !== "container";
     copy.push({
       type: "proxy",
       name: deduplicateName("proxy", 1, existingDeviceNames),
+      nat: String(isNATEnabled),
     });
     formik.setFieldValue("devices", copy);
   };
