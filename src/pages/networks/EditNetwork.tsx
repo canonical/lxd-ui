@@ -116,6 +116,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             clusterMembers,
             values.parentPerClusterMember,
             values.bridge_external_interfaces_per_member,
+            network.config,
           );
         } else {
           return updateNetwork(saveNetwork, project);
