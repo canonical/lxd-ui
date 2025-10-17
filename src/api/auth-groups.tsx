@@ -1,4 +1,8 @@
-import { handleResponse, handleSettledResult } from "util/helpers";
+import {
+  ensureStableSorting,
+  handleResponse,
+  handleSettledResult,
+} from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdAuthGroup } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
@@ -15,9 +19,7 @@ export const fetchGroups = async (
   return fetch(`/1.0/auth/groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdAuthGroup[]>) => {
-      data.metadata.map((group) => {
-        group.access_entitlements?.sort();
-      });
+      data.metadata.map(ensureStableSorting);
       return data.metadata;
     });
 };

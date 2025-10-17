@@ -3,7 +3,7 @@ import type { LxdInstance } from "types/instance";
 import type { LxdProject } from "types/project";
 import type { LxdProfile } from "types/profile";
 import type { LxdNetwork, LxdNetworkAcl } from "types/network";
-import type { LxdStorageVolume } from "types/storage";
+import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
 import { isDiskDevice, isNicDevice } from "./devices";
@@ -87,18 +87,42 @@ export const handleSettledResult = (
   }
 };
 
+type EtagObject =
+  | LxdInstance
+  | LxdProject
+  | LxdProfile
+  | LxdNetwork
+  | LxdNetworkAcl
+  | LxdStorageVolume
+  | LxdStoragePool;
+
 export const handleEtagResponse = async (response: Response) => {
-  const data = (await handleResponse(response)) as LxdApiResponse<
-    | LxdInstance
-    | LxdProject
-    | LxdProfile
-    | LxdNetwork
-    | LxdNetworkAcl
-    | LxdStorageVolume
-  >;
+  const data = (await handleResponse(response)) as LxdApiResponse<EtagObject>;
   const result = data.metadata;
   result.etag = response.headers.get("etag")?.replace("W/", "") ?? undefined;
-  return result;
+  return ensureStableSorting(result);
+};
+
+interface SortableObject {
+  access_entitlements?: string[];
+  locations?: string[];
+  used_by?: string[];
+}
+
+export const ensureStableSorting = (data: SortableObject) => {
+  // these data fields can be randomly sorted in the API response,
+  // we sort them here to have consistent results
+  // and avoid forms from re-initializing based on different order
+  if (data.access_entitlements) {
+    data.access_entitlements.sort();
+  }
+  if (data.locations) {
+    data.locations.sort();
+  }
+  if (data.used_by) {
+    data.used_by.sort();
+  }
+  return data as EtagObject;
 };
 
 export const handleTextResponse = async (
