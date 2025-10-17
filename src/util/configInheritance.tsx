@@ -291,7 +291,7 @@ export const getInheritedDiskDevices = (
     }));
 };
 
-interface InheritedNetwork {
+export interface InheritedNetwork {
   key: string;
   network: LxdNicDevice | null;
   source: string;

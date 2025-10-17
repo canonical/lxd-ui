@@ -232,3 +232,21 @@ export const deduplicateName = (
   }
   return candidate;
 };
+
+export const addDevice = ({
+  formik,
+  deviceName,
+  deviceNetworkName,
+}: {
+  formik: InstanceAndProfileFormikProps;
+  deviceName: string;
+  deviceNetworkName: string;
+}) => {
+  const copy = [...formik.values.devices];
+  copy.push({
+    type: "nic",
+    name: deviceName,
+    network: deviceNetworkName,
+  });
+  formik.setFieldValue("devices", copy);
+};
