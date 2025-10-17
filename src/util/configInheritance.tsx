@@ -243,6 +243,11 @@ const getInheritedDevices = (
     const appliedProfiles = getAppliedProfiles(values, profiles);
     for (const profile of appliedProfiles) {
       Object.entries(profile.devices).map(([key, device]) => {
+        const id = result.findIndex((item) => item.key === key);
+        // device already exists, skip it
+        if (id !== -1) {
+          return;
+        }
         result.push({ key, device, source: `${profile.name} profile` });
       });
     }
