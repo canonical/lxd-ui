@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import type { NotificationAction } from "@canonical/react-components";
 import {
   EmptyState,
   Icon,
@@ -46,12 +47,17 @@ const InstanceSnapshots = (props: Props) => {
   const { project } = useCurrentProject();
   const snapshotsDisabled = isSnapshotsDisabled(project);
 
-  const onSuccess = (message: ReactNode) => {
-    toastNotify.success(message);
+  const onSuccess = (message: ReactNode, actions?: NotificationAction[]) => {
+    toastNotify.success(message, actions);
   };
 
-  const onFailure = (title: string, e: unknown, message?: ReactNode) => {
-    notify.failure(title, e, message);
+  const onFailure = (
+    title: string,
+    e: unknown,
+    message?: ReactNode,
+    actions?: NotificationAction[],
+  ) => {
+    notify.failure(title, e, message, actions);
   };
 
   useEffect(() => {

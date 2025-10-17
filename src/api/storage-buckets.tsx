@@ -3,10 +3,12 @@ import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";
+import { getStorageBucketURL } from "util/storageBucket";
 
 export const storageBucketEntitlements = ["can_delete", "can_edit"];
 
@@ -135,18 +137,23 @@ export const deleteStorageBucket = async (
 export const deleteStorageBucketBulk = async (
   buckets: LxdStorageBucket[],
   project: string,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       buckets.map(async (bucket) => {
+        const item: BulkOperationItem = {
+          name: bucket.name,
+          type: "bucket",
+          href: getStorageBucketURL(bucket.name, bucket.pool, project),
+        };
         return deleteStorageBucket(bucket.name, bucket.pool, project)
           .then(() => {
-            pushSuccess(results);
+            pushSuccess(results, item);
             continueOrFinish(results, buckets.length, resolve);
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, buckets.length, resolve);
           });
       }),
@@ -261,11 +268,16 @@ export const deleteStorageBucketKeyBulk = async (
   bucket: LxdStorageBucket,
   keys: LxdStorageBucketKey[],
   project: string,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       keys.map(async (key) => {
+        const item: BulkOperationItem = {
+          name: key.name,
+          type: "bucket-key",
+          href: getStorageBucketURL(bucket.name, bucket.pool, project),
+        };
         return deleteStorageBucketKey(
           bucket.name,
           key.name,
@@ -273,11 +285,11 @@ export const deleteStorageBucketKeyBulk = async (
           project,
         )
           .then(() => {
-            pushSuccess(results);
+            pushSuccess(results, item);
             continueOrFinish(results, keys.length, resolve);
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, keys.length, resolve);
           });
       }),

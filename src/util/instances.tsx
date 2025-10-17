@@ -32,6 +32,10 @@ export const instanceLinkFromOperation = (args: {
   );
 };
 
+export const linkForInstanceDetail = (name: string, project?: string) => {
+  return `/ui/project/${encodeURIComponent(project ?? "default")}/instance/${encodeURIComponent(name)}`;
+};
+
 export const instanceNameValidation = (
   project: string,
   controllerState: AbortControllerState,

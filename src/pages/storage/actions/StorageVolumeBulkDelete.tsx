@@ -10,6 +10,7 @@ import { getPromiseSettledCounts } from "util/promises";
 import { useCurrentProject } from "context/useCurrentProject";
 import { deleteStorageVolumeBulk } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   volumes: LxdStorageVolume[];
@@ -22,6 +23,7 @@ const StorageVolumeBulkDelete: FC<Props> = ({ volumes, onStart, onFinish }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const { canDeleteVolume } = useStorageVolumeEntitlements();
+  const viewBulkDetails = useBulkDetails();
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
 
@@ -42,7 +44,7 @@ const StorageVolumeBulkDelete: FC<Props> = ({ volumes, onStart, onFinish }) => {
           getPromiseSettledCounts(results);
 
         if (fulfilledCount === deleteCount) {
-          toastNotify.success(successMessage);
+          toastNotify.success(successMessage, viewBulkDetails(results));
         } else if (rejectedCount === deleteCount) {
           toastNotify.failure(
             "Volume bulk deletion failed",
@@ -51,6 +53,7 @@ const StorageVolumeBulkDelete: FC<Props> = ({ volumes, onStart, onFinish }) => {
               <b>{deleteCount}</b> {pluralize("volume", deleteCount)} could not
               be deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           toastNotify.failure(
@@ -63,6 +66,7 @@ const StorageVolumeBulkDelete: FC<Props> = ({ volumes, onStart, onFinish }) => {
               <b>{rejectedCount}</b> {pluralize("volume", rejectedCount)} could
               not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
 

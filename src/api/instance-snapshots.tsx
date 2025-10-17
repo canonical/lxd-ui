@@ -1,8 +1,10 @@
 import { handleResponse } from "util/helpers";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
+import { linkForInstanceDetail } from "util/instances";
 
 export const createInstanceSnapshot = async (
   instance: LxdInstance,
@@ -56,20 +58,25 @@ export const deleteInstanceSnapshotBulk = async (
   instance: LxdInstance,
   snapshotNames: string[],
   eventQueue: EventQueue,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       snapshotNames.map(async (name) => {
+        const item: BulkOperationItem = {
+          name: name,
+          type: "snapshot",
+          href: `${linkForInstanceDetail(instance.name, instance.project)}/snapshots`,
+        };
         await deleteInstanceSnapshot(instance, { name })
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => {
-                pushSuccess(results);
+                pushSuccess(results, item);
               },
               (msg) => {
-                pushFailure(results, msg);
+                pushFailure(results, msg, item);
               },
               () => {
                 continueOrFinish(results, snapshotNames.length, resolve);
@@ -77,7 +84,7 @@ export const deleteInstanceSnapshotBulk = async (
             );
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, snapshotNames.length, resolve);
           });
       }),

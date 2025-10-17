@@ -9,14 +9,21 @@ import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import BulkDeleteButton from "components/BulkDeleteButton";
+import { useBulkDetails } from "context/useBulkDetails";
+import type { NotificationAction } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
   snapshotNames: string[];
   onStart: () => void;
   onFinish: () => void;
-  onSuccess: (message: ReactNode) => void;
-  onFailure: (title: string, e: unknown, message?: ReactNode) => void;
+  onSuccess: (message: ReactNode, actions?: NotificationAction[]) => void;
+  onFailure: (
+    title: string,
+    e: unknown,
+    message?: ReactNode,
+    actions?: NotificationAction[],
+  ) => void;
 }
 
 const InstanceSnapshotBulkDelete: FC<Props> = ({
@@ -31,6 +38,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { canManageInstanceSnapshots } = useInstanceEntitlements();
+  const viewBulkDetails = useBulkDetails();
 
   const count = snapshotNames.length;
 
@@ -47,6 +55,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
               <b>{snapshotNames.length}</b>{" "}
               {pluralize("snapshot", snapshotNames.length)} deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else if (rejectedCount === count) {
           onFailure(
@@ -56,6 +65,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
               <b>{count}</b> {pluralize("snapshot", count)} could not be
               deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           onFailure(
@@ -68,6 +78,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
               <b>{rejectedCount}</b> {pluralize("snapshot", rejectedCount)}{" "}
               could not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
         queryClient.invalidateQueries({

@@ -10,6 +10,7 @@ import type { LxdStorageVolume } from "types/storage";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { useToastNotification } from "@canonical/react-components";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -29,6 +30,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
+  const viewBulkDetails = useBulkDetails();
 
   const count = snapshotNames.length;
 
@@ -45,6 +47,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
               "snapshot",
               snapshotNames.length,
             )} deleted`,
+            viewBulkDetails(results),
           );
         } else if (rejectedCount === count) {
           toastNotify.failure(
@@ -54,6 +57,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
               <b>{count}</b> {pluralize("snapshot", count)} could not be
               deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           toastNotify.failure(
@@ -66,6 +70,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
               <b>{rejectedCount}</b> {pluralize("snapshot", rejectedCount)}{" "}
               could not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
         queryClient.invalidateQueries({

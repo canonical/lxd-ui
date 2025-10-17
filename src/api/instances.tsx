@@ -3,6 +3,7 @@ import {
   handleResponse,
   handleTextResponse,
 } from "util/helpers";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
@@ -14,6 +15,7 @@ import axios from "axios";
 import type { UploadState } from "types/storage";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
+import { linkForInstanceDetail } from "util/instances";
 
 export const instanceEntitlements = [
   "can_access_console",
@@ -237,20 +239,25 @@ export const updateInstanceBulkAction = async (
   actions: InstanceBulkAction[],
   isForce: boolean,
   eventQueue: EventQueue,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
+        const item: BulkOperationItem = {
+          name,
+          type: "instance",
+          href: linkForInstanceDetail(project, name),
+        };
         await putInstanceAction(name, project, action, isForce)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => {
-                pushSuccess(results);
+                pushSuccess(results, item);
               },
               (msg) => {
-                pushFailure(results, msg);
+                pushFailure(results, msg, item);
               },
               () => {
                 continueOrFinish(results, actions.length, resolve);
@@ -258,7 +265,7 @@ export const updateInstanceBulkAction = async (
             );
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, actions.length, resolve);
           });
       }),
@@ -287,20 +294,25 @@ export const deleteInstance = async (
 export const deleteInstanceBulk = async (
   instances: LxdInstance[],
   eventQueue: EventQueue,
-): Promise<PromiseSettledResult<void>[]> => {
-  const results: PromiseSettledResult<void>[] = [];
+): Promise<BulkOperationResult[]> => {
+  const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       instances.map(async (instance) => {
+        const item: BulkOperationItem = {
+          name: instance.name,
+          type: "instance",
+          href: linkForInstanceDetail(instance.name, instance.project),
+        };
         await deleteInstance(instance)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => {
-                pushSuccess(results);
+                pushSuccess(results, item);
               },
               (msg) => {
-                pushFailure(results, msg);
+                pushFailure(results, msg, item);
               },
               () => {
                 continueOrFinish(results, instances.length, resolve);
@@ -308,7 +320,7 @@ export const deleteInstanceBulk = async (
             );
           })
           .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "");
+            pushFailure(results, e instanceof Error ? e.message : "", item);
             continueOrFinish(results, instances.length, resolve);
           });
       }),

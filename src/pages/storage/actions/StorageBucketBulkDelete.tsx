@@ -10,6 +10,7 @@ import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets"
 import { deleteStorageBucketBulk } from "api/storage-buckets";
 import { getPromiseSettledCounts } from "util/promises";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useBulkDetails } from "context/useBulkDetails";
 
 interface Props {
   buckets: LxdStorageBucket[];
@@ -22,6 +23,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const { canDeleteBucket } = useStorageBucketEntitlements();
+  const viewBulkDetails = useBulkDetails();
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
 
@@ -42,7 +44,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
           getPromiseSettledCounts(results);
 
         if (fulfilledCount === deleteCount) {
-          toastNotify.success(successMessage);
+          toastNotify.success(successMessage, viewBulkDetails(results));
         } else if (rejectedCount === deleteCount) {
           toastNotify.failure(
             "Bucket bulk deletion failed",
@@ -51,6 +53,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
               <b>{deleteCount}</b> {pluralize("bucket", deleteCount)} could not
               be deleted.
             </>,
+            viewBulkDetails(results),
           );
         } else {
           toastNotify.failure(
@@ -63,6 +66,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
               <b>{rejectedCount}</b> {pluralize("bucket", rejectedCount)} could
               not be deleted.
             </>,
+            viewBulkDetails(results),
           );
         }
 

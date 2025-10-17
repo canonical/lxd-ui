@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import ResourceLink from "components/ResourceLink";
 import type { InstanceIconType } from "components/ResourceIcon";
+import { linkForInstanceDetail } from "util/instances";
 
 interface Props {
   instance: Partial<Omit<LxdInstance, "type">> & {
@@ -15,7 +16,7 @@ const InstanceLinkChip: FC<Props> = ({ instance }) => {
     <ResourceLink
       type={instance.type}
       value={instance.name}
-      to={`/ui/project/${encodeURIComponent(instance.project ?? "")}/instance/${encodeURIComponent(instance.name)}`}
+      to={linkForInstanceDetail(instance.name, instance.project)}
     />
   );
 };
