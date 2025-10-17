@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">14.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>52/369</span>
+                <span class='fraction'>54/383</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">18.12% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>52/286</span>
+                <span class='fraction'>54/298</span>
             </div>
         
             
@@ -349,7 +349,21 @@
 <a name='L284'></a><a href='#L284'>284</a>
 <a name='L285'></a><a href='#L285'>285</a>
 <a name='L286'></a><a href='#L286'>286</a>
-<a name='L287'></a><a href='#L287'>287</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -504,20 +518,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -561,6 +561,25 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -609,6 +628,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -640,10 +664,12 @@ import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
+import type { BulkOperationItem, BulkOperationResult } from "util/promises";
 import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";
+import { getStorageBucketURL } from "util/storageBucket";
 &nbsp;
 export const storageBucketEntitlements = <span class="cstat-no" title="statement not covered" >["can_delete", "can_edit"];</span>
 &nbsp;
@@ -772,18 +798,23 @@ export const deleteStorageBucket = <span class="cstat-no" title="statement not c
 export const deleteStorageBucketBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
 <span class="cstat-no" title="statement not covered" >  buckets: LxdStorageBucket[],</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): Promise&lt;PromiseSettledResult&lt;void&gt;[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const results: PromiseSettledResult&lt;void&gt;[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
+<span class="cstat-no" title="statement not covered" >): Promise&lt;BulkOperationResult[]&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const results: BulkOperationResult[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span></span>
 <span class="cstat-no" title="statement not covered" >      buckets.map(<span class="fstat-no" title="function not covered" >async (b</span>ucket) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const item: BulkOperationItem = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >          name: bucket.name,</span>
+<span class="cstat-no" title="statement not covered" >          type: "bucket",</span>
+<span class="cstat-no" title="statement not covered" >          href: getStorageBucketURL(bucket.name, bucket.pool, project),</span>
+<span class="cstat-no" title="statement not covered" >        };</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return deleteStorageBucket(bucket.name, bucket.pool, project)</span></span>
 <span class="cstat-no" title="statement not covered" >          .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushSuccess(results);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushSuccess(results, item);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, buckets.length, resolve);</span></span>
 <span class="cstat-no" title="statement not covered" >          })</span>
 <span class="cstat-no" title="statement not covered" >          .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : <span class="branch-1 cbranch-no" title="branch not covered" >"", i</span>tem);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, buckets.length, resolve);</span></span>
 <span class="cstat-no" title="statement not covered" >          });</span>
 <span class="cstat-no" title="statement not covered" >      }),</span>
@@ -898,11 +929,16 @@ export const deleteStorageBucketKeyBulk = <span class="cstat-no" title="statemen
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  keys: LxdStorageBucketKey[],</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): Promise&lt;PromiseSettledResult&lt;void&gt;[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const results: PromiseSettledResult&lt;void&gt;[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
+<span class="cstat-no" title="statement not covered" >): Promise&lt;BulkOperationResult[]&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const results: BulkOperationResult[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span></span>
 <span class="cstat-no" title="statement not covered" >      keys.map(<span class="fstat-no" title="function not covered" >async (k</span>ey) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const item: BulkOperationItem = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >          name: key.name,</span>
+<span class="cstat-no" title="statement not covered" >          type: "bucket-key",</span>
+<span class="cstat-no" title="statement not covered" >          href: getStorageBucketURL(bucket.name, bucket.pool, project),</span>
+<span class="cstat-no" title="statement not covered" >        };</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return deleteStorageBucketKey(</span></span>
 <span class="cstat-no" title="statement not covered" >          bucket.name,</span>
 <span class="cstat-no" title="statement not covered" >          key.name,</span>
@@ -910,11 +946,11 @@ export const deleteStorageBucketKeyBulk = <span class="cstat-no" title="statemen
 <span class="cstat-no" title="statement not covered" >          project,</span>
 <span class="cstat-no" title="statement not covered" >        )</span>
 <span class="cstat-no" title="statement not covered" >          .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushSuccess(results);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushSuccess(results, item);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, keys.length, resolve);</span></span>
 <span class="cstat-no" title="statement not covered" >          })</span>
 <span class="cstat-no" title="statement not covered" >          .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : <span class="branch-1 cbranch-no" title="branch not covered" >"", i</span>tem);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, keys.length, resolve);</span></span>
 <span class="cstat-no" title="statement not covered" >          });</span>
 <span class="cstat-no" title="statement not covered" >      }),</span>
@@ -928,7 +964,7 @@ export const deleteStorageBucketKeyBulk = <span class="cstat-no" title="statemen
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-17T14:34:49.600Z
+                at 2025-10-17T14:37:13.843Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

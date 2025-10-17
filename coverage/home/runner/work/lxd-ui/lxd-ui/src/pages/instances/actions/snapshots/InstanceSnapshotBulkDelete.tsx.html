@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.6% </span>
+                <span class="strong">21.98% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/129</span>
+                <span class='fraction'>31/141</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.64% </span>
+                <span class="strong">26.49% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/106</span>
+                <span class='fraction'>31/117</span>
             </div>
         
             
@@ -169,7 +169,18 @@
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a>
 <a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
@@ -191,6 +202,17 @@
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -286,14 +308,21 @@ import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import BulkDeleteButton from "components/BulkDeleteButton";
+import { useBulkDetails } from "context/useBulkDetails";
+import type { NotificationAction } from "@canonical/react-components";
 &nbsp;
 interface Props {
   instance: LxdInstance;
   snapshotNames: string[];
   onStart: () =&gt; void;
   onFinish: () =&gt; void;
-  onSuccess: (message: ReactNode) =&gt; void;
-  onFailure: (title: string, e: unknown, message?: ReactNode) =&gt; void;
+  onSuccess: (message: ReactNode, actions?: NotificationAction[]) =&gt; void;
+  onFailure: (
+    title: string,
+    e: unknown,
+    message?: ReactNode,
+    actions?: NotificationAction[],
+  ) =&gt; void;
 }
 &nbsp;
 const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
@@ -308,6 +337,7 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
 <span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
 <span class="cstat-no" title="statement not covered" >  const { canManageInstanceSnapshots } = <span class="cstat-no" title="statement not covered" >useInstanceEntitlements();</span></span>
+<span class="cstat-no" title="statement not covered" >  const viewBulkDetails = <span class="cstat-no" title="statement not covered" >useBulkDetails();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const count = <span class="cstat-no" title="statement not covered" >snapshotNames.length;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -324,6 +354,7 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >              &lt;b&gt;{snapshotNames.length}&lt;/b&gt;{" "}</span>
 <span class="cstat-no" title="statement not covered" >              {pluralize("snapshot", snapshotNames.length)} deleted.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        } else if (rejectedCount === count) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          onFailure(</span></span>
@@ -333,6 +364,7 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >              &lt;b&gt;{count}&lt;/b&gt; {pluralize("snapshot", count)} could not be</span>
 <span class="cstat-no" title="statement not covered" >              deleted.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        } else {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          onFailure(</span></span>
@@ -345,6 +377,7 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >              &lt;b&gt;{rejectedCount}&lt;/b&gt; {pluralize("snapshot", rejectedCount)}{" "}</span>
 <span class="cstat-no" title="statement not covered" >              could not be deleted.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
@@ -388,7 +421,7 @@ export default InstanceSnapshotBulkDelete;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-17T14:34:49.600Z
+                at 2025-10-17T14:37:13.843Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

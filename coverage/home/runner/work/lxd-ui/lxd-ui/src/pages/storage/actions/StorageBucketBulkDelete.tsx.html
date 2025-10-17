@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.76% </span>
+                <span class="strong">14.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/149</span>
+                <span class='fraction'>23/154</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.13% </span>
+                <span class="strong">19.32% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/115</span>
+                <span class='fraction'>23/119</span>
             </div>
         
             
@@ -178,7 +178,11 @@
 <a name='L113'></a><a href='#L113'>113</a>
 <a name='L114'></a><a href='#L114'>114</a>
 <a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -198,6 +202,10 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -305,6 +313,7 @@ import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets"
 import { deleteStorageBucketBulk } from "api/storage-buckets";
 import { getPromiseSettledCounts } from "util/promises";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useBulkDetails } from "context/useBulkDetails";
 &nbsp;
 interface Props {
   buckets: LxdStorageBucket[];
@@ -317,6 +326,7 @@ const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
 <span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
 <span class="cstat-no" title="statement not covered" >  const { canDeleteBucket } = <span class="cstat-no" title="statement not covered" >useStorageBucketEntitlements();</span></span>
+<span class="cstat-no" title="statement not covered" >  const viewBulkDetails = <span class="cstat-no" title="statement not covered" >useBulkDetails();</span></span>
 <span class="cstat-no" title="statement not covered" >  const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span></span>
 <span class="cstat-no" title="statement not covered" >  const projectName = <span class="cstat-no" title="statement not covered" >project?.name || "";</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -337,7 +347,7 @@ const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        if (fulfilledCount === deleteCount) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.success(successMessage);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.success(successMessage, viewBulkDetails(results));</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        } else if (rejectedCount === deleteCount) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
 <span class="cstat-no" title="statement not covered" >            "Bucket bulk deletion failed",</span>
@@ -346,6 +356,7 @@ const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" >              &lt;b&gt;{deleteCount}&lt;/b&gt; {pluralize("bucket", deleteCount)} could not</span>
 <span class="cstat-no" title="statement not covered" >              be deleted.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        } else {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
@@ -358,6 +369,7 @@ const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" >              &lt;b&gt;{rejectedCount}&lt;/b&gt; {pluralize("bucket", rejectedCount)} could</span>
 <span class="cstat-no" title="statement not covered" >              not be deleted.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -415,7 +427,7 @@ export default StorageBucketBulkDelete;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-17T14:34:49.600Z
+                at 2025-10-17T14:37:13.843Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
