@@ -13,7 +13,6 @@ import { Link, useParams } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
-import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolBtn";
 import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
@@ -39,8 +38,6 @@ const StoragePools: FC = () => {
     notify.failure("Loading storage pools failed", error);
   }
 
-  const isDefaultProject = project === "default";
-
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Driver", sortKey: "driver", className: "driver" },
@@ -52,25 +49,8 @@ const StoragePools: FC = () => {
       className: classNames("size", { clustered: isClustered }),
     },
     {
-      content: (
-        <>
-          Volumes
-          <br />
-          (this project)
-        </>
-      ),
-      sortKey: "projectVolumes",
-      className: "u-align--right volumes-this-project",
-    },
-    {
-      content: (
-        <>
-          Volumes
-          <br />
-          (all projects)
-        </>
-      ),
-      sortKey: "allVolumes",
+      content: <>Used by</>,
+      sortKey: "usedBy",
       className: "u-align--right volumes-total",
     },
     { content: "Status", sortKey: "status", className: "status" },
@@ -78,15 +58,6 @@ const StoragePools: FC = () => {
   ];
 
   const rows = pools.map((pool) => {
-    const volumes =
-      pool.used_by?.filter((url) => !url.startsWith("/1.0/profiles")) ?? [];
-    const currentProjectVolumeCount = volumes.filter((url) =>
-      isDefaultProject
-        ? !url.includes("project=")
-        : url.includes("project=" + project),
-    ).length;
-    const totalVolumeCount = volumes.length;
-
     return {
       key: pool.name,
       columns: [
@@ -124,22 +95,7 @@ const StoragePools: FC = () => {
           className: classNames("size", { clustered: isClustered }),
         },
         {
-          content: (
-            <StorageVolumesInPoolBtn
-              project={project}
-              pool={pool.name}
-              appearance="link"
-              className="u-no-margin--bottom"
-            >
-              {currentProjectVolumeCount}
-            </StorageVolumesInPoolBtn>
-          ),
-          role: "cell",
-          className: "u-align--right volumes-this-project",
-          "aria-label": "Volumes in this projects",
-        },
-        {
-          content: totalVolumeCount,
+          content: pool.used_by?.length ?? 0,
           role: "cell",
           className: "u-align--right volumes-total",
           "aria-label": "Volumes in all projects",
@@ -167,8 +123,7 @@ const StoragePools: FC = () => {
         name: pool.name.toLowerCase(),
         driver: pool.driver,
         status: pool.status,
-        projectVolumes: currentProjectVolumeCount,
-        allVolumes: totalVolumeCount,
+        usedBy: pool.used_by?.length ?? 0,
       },
     };
   });
