@@ -12,6 +12,8 @@ import {
 } from "util/instanceBulkActions";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { getInstanceKey } from "util/instances";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
+import classnames from "classnames";
 
 interface Props {
   action: LxdInstanceAction;
@@ -38,6 +40,8 @@ const InstanceBulkAction: FC<Props> = ({
   onClick,
   restrictedInstances,
 }) => {
+  const isSmallScreen = useIsScreenBelow();
+
   const selectedStates = new Set(instances.map((item) => item.status));
   const hasDifferentStates = selectedStates.size > 1;
   const selectedSummary = hasDifferentStates ? (
@@ -136,7 +140,12 @@ const InstanceBulkAction: FC<Props> = ({
         isDisabled || !hasChangedStates || allRestricted || isLoadingNotStop
       }
       loading={isLoading}
-      className="u-no-margin--right u-no-margin--bottom bulk-action has-icon"
+      className={classnames(
+        {
+          "has-icon": !isSmallScreen,
+        },
+        "u-no-margin--right u-no-margin--bottom bulk-action",
+      )}
       confirmationModalProps={{
         title: `Confirm ${confirmLabel.toLowerCase()}`,
         children: (
@@ -160,7 +169,7 @@ const InstanceBulkAction: FC<Props> = ({
       }
     >
       <Icon name={icon} />
-      <span>{confirmLabel}</span>
+      <span className="u-hide--small">{confirmLabel}</span>
     </ConfirmationButton>
   );
 };
