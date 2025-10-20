@@ -1,11 +1,13 @@
 .upper-controls-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: $sph--large;
   justify-content: flex-end;
 
   .search-box-wrapper {
     display: flex;
     flex-grow: 1;
+    min-width: 10rem;
 
     .search-box {
       max-width: 25rem;
