@@ -19,6 +19,7 @@ import {
   useListener,
   useNotify,
   Spinner,
+  Button,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -258,11 +259,30 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const isDisabled =
     !canUpdateInstanceState(instance) || isBooting || isStartLoading;
 
+  const handleFullscreen = () => {
+    xtermRef.current?.element
+      ?.requestFullscreen()
+      .then(handleResize)
+      .then(() => {
+        xtermRef.current?.focus();
+      })
+      .catch((e) => {
+        notify.failure("Failed to enter full-screen mode", e);
+      });
+  };
+
   return (
     <div className="instance-terminal-tab">
       {canConnect && (
         <>
           <div className="p-panel__controls">
+            <Button
+              className="u-no-margin--bottom"
+              onClick={handleFullscreen}
+              disabled={isLoading || !controlWs}
+            >
+              Fullscreen
+            </Button>
             <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
           </div>
           <NotificationRow />
