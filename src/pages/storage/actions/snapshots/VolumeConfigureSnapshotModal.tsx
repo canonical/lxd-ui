@@ -30,7 +30,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: getStorageVolumeEditValues(volume),
     onSubmit: (values) => {
-      const saveVolume = volumeFormToPayload(values, volume.project);
+      const saveVolume = volumeFormToPayload(values, volume.project, volume);
       updateStorageVolume(
         volume.pool,
         volume.project,
