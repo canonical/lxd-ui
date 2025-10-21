@@ -2,17 +2,25 @@
   .p-panel__title {
     display: flex;
     flex-direction: column;
-    max-width: none;
+    max-width: 100%;
+    min-width: 0;
 
     @include extra-large {
       align-items: center;
       flex-direction: row;
     }
 
+    .breadcrumb-wrapper {
+      display: flex !important;
+    }
+
     .name {
+      flex-shrink: 1;
       margin-right: $sph--large;
-      max-width: 20vw;
-      overflow: clip !important;
+      min-width: 0;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
 
       > span > span {
         display: inherit !important;
@@ -51,7 +59,13 @@
     }
   }
 
+  .instance-header-state-controls {
+    flex-shrink: 0;
+    white-space: nowrap !important;
+  }
+
   .p-panel__controls {
+    flex-shrink: 0;
     margin-top: 0.2rem;
   }
 }
