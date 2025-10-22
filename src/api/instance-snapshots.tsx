@@ -43,7 +43,7 @@ export const deleteInstanceSnapshot = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(encodeURIComponent(snapshot.name))}?${params.toString()}`,
     {
       method: "DELETE",
     },
