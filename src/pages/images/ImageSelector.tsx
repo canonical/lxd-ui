@@ -19,6 +19,7 @@ import { queryKeys } from "util/queryKeys";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   byLtsFirst,
+  byOSRelease,
   localLxdToRemoteImage,
   isContainerOnlyImage,
   isVmOnlyImage,
@@ -117,7 +118,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     ? []
     : localImages
         .map(localLxdToRemoteImage)
-        .sort((a, b) => Number(b.cached) - Number(a.cached))
+        .sort(byOSRelease)
         .concat([...canonicalImages].reverse().sort(byLtsFirst))
         .concat([...minimalImages].reverse().sort(byLtsFirst))
         .concat([...imagesLxdImages])
@@ -139,14 +140,14 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     mapper,
     filter = () => true,
   ) => {
-    const options = [...new Set(images.filter(filter).map(mapper))].map(
-      (item: string) => {
+    const options = [...new Set(images.filter(filter).map(mapper))]
+      .sort()
+      .map((item: string) => {
         return {
           label: item,
           value: item,
         };
-      },
-    );
+      });
     options.unshift({
       label: "Any",
       value: "",

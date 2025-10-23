@@ -72,3 +72,16 @@ export const byLtsFirst = (a: RemoteImage, b: RemoteImage): number => {
   }
   return 0;
 };
+
+export const byOSRelease = (a: RemoteImage, b: RemoteImage): number => {
+  const aTitle = a.os + a.release_title + a.release + a.type + a.server;
+  const bTitle = b.os + b.release_title + b.release + b.type + b.server;
+
+  if (aTitle < bTitle) {
+    return -1;
+  }
+  if (aTitle > bTitle) {
+    return 1;
+  }
+  return 0;
+};
