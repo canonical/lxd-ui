@@ -59,19 +59,37 @@
     .network-device {
       display: flex;
 
-      > :first-child {
+      @media screen and (width <= 1420px) {
+        flex-direction: column-reverse;
+
+        > .network-device-actions {
+          margin-bottom: $spv--medium;
+        }
+      }
+
+      .network-device-content {
+        display: flex;
+        flex-direction: column;
         flex-grow: 1;
         margin-right: $sph--large;
-        max-width: 19rem;
+        min-width: 19rem;
+      }
+
+      .network-device-actions {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        max-width: 8.5rem;
+        min-width: 8.5rem;
       }
     }
 
-    .acls-from-network {
-      margin-top: $spv--small;
+    .acl-chip {
+      margin-bottom: 0.25rem;
+    }
 
-      .acl-chip {
-        max-width: 15rem;
-      }
+    .acl-label {
+      margin-top: $spv--small;
     }
 
     .image-change-link {
@@ -108,10 +126,6 @@
 
     .profile-add-btn {
       display: block;
-    }
-
-    .delete-device {
-      margin-top: $spv--x-large;
     }
   }
 

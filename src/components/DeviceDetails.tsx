@@ -17,7 +17,7 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
         <>
           Pool{" "}
           <ResourceLink
-            type={"pool"}
+            type="pool"
             value={device.pool || ""}
             to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
           />
@@ -33,13 +33,13 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
       <>
         Volume{" "}
         <ResourceLink
-          type={"volume"}
+          type="volume"
           value={device.source as string}
           to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}/volumes/custom/${encodeURIComponent(device.source ?? "")}`}
         />{" "}
         on pool{" "}
         <ResourceLink
-          type={"pool"}
+          type="pool"
           value={device.pool || ""}
           to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
         />

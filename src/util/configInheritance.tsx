@@ -232,6 +232,7 @@ interface InheritedDevice {
   key: string;
   device: LxdDeviceValue;
   source: string;
+  sourceProfile: string;
 }
 
 const getInheritedDevices = (
@@ -248,7 +249,12 @@ const getInheritedDevices = (
         if (id !== -1) {
           return;
         }
-        result.push({ key, device, source: `${profile.name} profile` });
+        result.push({
+          key,
+          device,
+          source: `${profile.name} profile`,
+          sourceProfile: profile.name,
+        });
       });
     }
   }
@@ -296,10 +302,11 @@ export const getInheritedDiskDevices = (
     }));
 };
 
-interface InheritedNetwork {
+export interface InheritedNetwork {
   key: string;
   network: LxdNicDevice | null;
   source: string;
+  sourceProfile: string;
 }
 
 export const getInheritedNetworks = (

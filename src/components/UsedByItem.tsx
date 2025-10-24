@@ -55,7 +55,7 @@ const UsedByItem: FC<Props> = ({
       {type === "snapshot" && item.volume && (
         <>
           <ResourceLink
-            type={"volume"}
+            type="volume"
             value={item.volume}
             to={linkForVolumeDetail({
               name: item.volume,

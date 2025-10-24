@@ -1,9 +1,13 @@
-import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "components/forms/instanceAndProfileFormValues";
 import type {
   LxdDeviceValue,
   LxdDiskDevice,
   LxdGPUDevice,
   LxdNicDevice,
+  LxdNoneDevice,
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
@@ -22,6 +26,9 @@ export const isHostDiskDevice = (device: LxdDiskDevice): boolean => {
     device.type === "disk" && device.pool === undefined && device.path !== "/"
   );
 };
+
+export const isNoneDevice = (device: LxdDeviceValue): device is LxdNoneDevice =>
+  device.type === "none";
 
 export const isVolumeDevice = (
   device: FormDiskDevice | LxdDiskDevice,
@@ -116,4 +123,13 @@ export const getDeviceAcls = (device?: LxdNicDevice | null) => {
     return device["security.acls"]?.split(",").filter((t) => t) || [];
   }
   return [];
+};
+
+export const getIndex = (
+  deviceName: string,
+  formik?: InstanceAndProfileFormikProps,
+) => {
+  if (!formik) return -1;
+
+  return formik?.values.devices.findIndex((t) => t.name === deviceName);
 };

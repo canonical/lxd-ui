@@ -5,14 +5,21 @@ import type { LxdNicDevice } from "types/device";
 import type { LxdNetwork } from "types/network";
 import { getDeviceAcls } from "util/devices";
 import { getNetworkAcls } from "util/networks";
+import classnames from "classnames";
 
 interface Props {
   project: string;
   network?: LxdNetwork;
   device: LxdNicDevice | null;
+  isOverridden?: boolean;
 }
 
-const ReadOnlyAclsList: FC<Props> = ({ project, network, device }) => {
+const ReadOnlyAclsList: FC<Props> = ({
+  project,
+  network,
+  device,
+  isOverridden,
+}) => {
   const networkAcls = getNetworkAcls(network);
   const deviceAcls = getDeviceAcls(device);
   const allAcls = Array.from(new Set(networkAcls.concat(deviceAcls)));
@@ -20,23 +27,29 @@ const ReadOnlyAclsList: FC<Props> = ({ project, network, device }) => {
   if (!allAcls.length) return null;
 
   return (
-    <div className="acls-from-network">
-      <div>ACLs</div>
-      <div>
-        <ExpandableList
-          items={allAcls.map((acl) => (
-            <div key={acl}>
-              <ResourceLink
-                type="network-acl"
-                value={acl}
-                to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl)}`}
-                className="acl-chip"
-              />
-            </div>
-          ))}
-        />
+    <>
+      <div
+        className={classnames("acl-label", {
+          "u-text--muted": isOverridden,
+          "u-text--line-through": isOverridden,
+        })}
+      >
+        ACLs
       </div>
-    </div>
+      <ExpandableList
+        items={allAcls.map((acl) => (
+          <ResourceLink
+            key={acl}
+            type="network-acl"
+            value={acl}
+            to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl)}`}
+            className={classnames("acl-chip", {
+              "u-text--line-through": isOverridden,
+            })}
+          />
+        ))}
+      />
+    </>
   );
 };
 

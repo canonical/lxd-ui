@@ -3,7 +3,7 @@ import type { LxdNicDevice } from "types/device";
 import type { LxdNetwork } from "types/network";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
-import { getDeviceAcls } from "util/devices";
+import { getDeviceAcls, getIndex } from "util/devices";
 import { getNetworkAcls } from "util/networks";
 import ReadOnlyAclsList from "./ReadOnlyAclsList";
 
@@ -13,7 +13,6 @@ interface Props {
   device: LxdNicDevice;
   readOnly?: boolean;
   formik?: InstanceAndProfileFormikProps;
-  index?: number;
   canSelectManualAcls?: boolean;
 }
 
@@ -23,7 +22,6 @@ const NetworkDeviceAcls: FC<Props> = ({
   device,
   readOnly,
   formik,
-  index,
   canSelectManualAcls,
 }) => {
   if (readOnly) {
@@ -62,7 +60,7 @@ const NetworkDeviceAcls: FC<Props> = ({
           selectedAcls={selectedAcls}
           setSelectedAcls={(selectedItems) => {
             formik.setFieldValue(
-              `devices.${index}["security.acls"]`,
+              `devices.${getIndex(device.name || "", formik)}["security.acls"]`,
               selectedItems.join(","),
             );
           }}

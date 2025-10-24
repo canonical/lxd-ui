@@ -15,16 +15,18 @@ import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedNetworks } from "util/configInheritance";
 import type { CustomNetworkDevice } from "util/formDevices";
-import { deduplicateName } from "util/formDevices";
+import {
+  addNicDevice,
+  deduplicateName,
+  focusNicDevice,
+} from "util/formDevices";
 import { isNicDeviceNameMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
-import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
 import NetworkDevice from "components/forms/NetworkDevicesForm/NetworkDevice";
-import ResourceLink from "components/ResourceLink";
-import ReadOnlyAclsList from "./ReadOnlyAclsList";
+import { getInheritedNetworkRow } from "components/forms/NetworkDevicesForm/InheritedNetworkRow";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -62,28 +64,17 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
 
   const managedNetworks = networks.filter((network) => network.managed);
 
-  const focusNetwork = (id: number) => {
-    focusField(`devices.${id}.name`);
-  };
-
-  const removeNetwork = (index: number) => {
-    const copy = [...formik.values.devices];
-    copy.splice(index, 1);
-    formik.setFieldValue("devices", copy);
-  };
-
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
-  const addNetwork = () => {
-    const copy = [...formik.values.devices];
-    copy.push({
-      type: "nic",
-      name: deduplicateName("eth", 1, existingDeviceNames),
-      network: managedNetworks[0]?.name ?? "",
+  const onAttachNetwork = () => {
+    ensureEditMode(formik);
+    const index = addNicDevice({
+      formik,
+      deviceName: deduplicateName("eth", 1, existingDeviceNames),
+      deviceNetworkName: managedNetworks[0]?.name ?? "",
     });
-    formik.setFieldValue("devices", copy);
 
-    focusNetwork(copy.length - 1);
+    focusNicDevice(index - 1);
   };
 
   const inheritedNetworks = getInheritedNetworks(formik.values, profiles);
@@ -94,50 +85,23 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     <ScrollableConfigurationTable
       className="device-form"
       rows={[
-        ...inheritedNetworks.map((item) => {
-          return getConfigurationRowBase({
-            configuration: (
-              <>
-                <b>{item.key}</b>
-              </>
-            ),
-            inherited: (
-              <div>
-                <div className="p-text--small u-text--muted">
-                  From: {item.source}
-                </div>
-                <div>Network</div>
-                <ResourceLink
-                  type="network"
-                  value={item.network?.network || ""}
-                  to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(item.network?.network || "")}`}
-                />
-                <ReadOnlyAclsList
-                  project={project}
-                  network={managedNetworks.find(
-                    (t) => t.name === item.network?.network,
-                  )}
-                  device={item.network}
-                />
-              </div>
-            ),
-            override: (
-              <Tooltip
-                message="This network is inherited from a profile or project.
-To change it, edit it in the profile or project it originates from,
-or remove the originating item"
-                position="btm-left"
-              >
-                <Icon name="information" />
-              </Tooltip>
-            ),
-          });
-        }),
+        ...inheritedNetworks.map((item) =>
+          getInheritedNetworkRow({
+            device: item,
+            project,
+            managedNetworks,
+            formik,
+          }),
+        ),
 
         ...formik.values.devices.map((formDevice, index) => {
-          if (!formDevice.type?.includes("nic")) {
+          if (
+            !formDevice.type?.includes("nic") ||
+            inheritedNetworks.map((t) => t.key).includes(formDevice.name)
+          ) {
             return {};
           }
+
           const device = formik.values.devices[index] as
             | LxdNicDevice
             | CustomNetworkDevice;
@@ -180,12 +144,8 @@ or remove the originating item"
                 </>
               ) : (
                 <NetworkDevice
-                  index={index}
-                  readOnly={readOnly}
                   formik={formik}
                   project={project}
-                  focusNetwork={focusNetwork}
-                  removeNetwork={removeNetwork}
                   device={device}
                   network={managedNetworks.find(
                     (t) =>
@@ -202,10 +162,7 @@ or remove the originating item"
           inherited: "",
           override: (
             <Button
-              onClick={() => {
-                ensureEditMode(formik);
-                addNetwork();
-              }}
+              onClick={onAttachNetwork}
               type="button"
               hasIcon
               disabled={!!formik.values.editRestriction}
