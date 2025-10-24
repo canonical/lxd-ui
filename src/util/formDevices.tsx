@@ -9,6 +9,7 @@ import type {
 } from "types/device";
 import type { RemoteImage } from "types/image";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import { focusField } from "util/formFields";
 
 interface EmptyDevice {
   type: "";
@@ -194,7 +195,7 @@ export const addNoneDevice = (
   name: string,
   formik: InstanceAndProfileFormikProps,
 ) => {
-  const copy = [...formik.values.devices];
+  const copy = [...formik.values.devices].filter((t) => t.name !== name);
   copy.push({
     type: "none",
     name,
@@ -231,4 +232,38 @@ export const deduplicateName = (
     return deduplicateName(prefix, index + 1, existingNames);
   }
   return candidate;
+};
+
+export const addNicDevice = ({
+  formik,
+  deviceName,
+  deviceNetworkName,
+}: {
+  formik: InstanceAndProfileFormikProps;
+  deviceName: string;
+  deviceNetworkName: string;
+}) => {
+  const copy = [...formik.values.devices].filter((t) => t.name !== deviceName);
+  copy.push({
+    type: "nic",
+    name: deviceName,
+    network: deviceNetworkName,
+  });
+  formik.setFieldValue("devices", copy);
+  return copy.length;
+};
+
+export const focusNicDevice = (id: number) => {
+  focusField(`devices.${id}.network`);
+};
+
+export const removeNicDevice = ({
+  formik,
+  deviceName,
+}: {
+  formik: InstanceAndProfileFormikProps;
+  deviceName: string;
+}) => {
+  const copy = [...formik.values.devices].filter((t) => t.name !== deviceName);
+  formik.setFieldValue("devices", copy);
 };
