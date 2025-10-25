@@ -110,4 +110,10 @@
   .p-meter {
     margin-top: 4px;
   }
+
+  @media screen and (width < 500px) {
+    .page-header__search {
+      display: none;
+    }
+  }
 }

@@ -5,6 +5,8 @@
   .page-header__left {
     display: flex;
     flex: 2;
+    flex-wrap: wrap;
+    row-gap: 1rem;
 
     h1 {
       margin-right: 2rem;

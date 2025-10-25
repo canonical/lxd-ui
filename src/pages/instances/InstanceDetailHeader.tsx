@@ -146,7 +146,7 @@ const InstanceDetailHeader: FC<Props> = ({
         renameDisabledReason={getDisabledReason()}
         centerControls={
           instance ? (
-            <div>
+            <div className="instance-header-state-controls">
               <i className="status u-text--muted">{instance.status}</i>
               <InstanceStateActions key="state" instance={instance} />
             </div>

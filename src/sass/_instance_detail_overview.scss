@@ -77,4 +77,8 @@
       }
     }
   }
+
+  .resource-label {
+    max-width: 100%; // allow base image to take full width
+  }
 }

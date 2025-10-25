@@ -3,6 +3,7 @@ import { pluralize } from "util/instanceBulkActions";
 import type { ConfirmationButtonProps } from "@canonical/react-components";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 interface Props {
   entities: unknown[];
@@ -29,6 +30,7 @@ const BulkDeleteButton: FC<Props> = ({
   className,
   modalContentPrefix,
 }) => {
+  const isSmallScreen = useIsScreenBelow();
   const totalCount = entities.length;
   const deleteCount = deletableEntities.length;
 
@@ -65,7 +67,12 @@ const BulkDeleteButton: FC<Props> = ({
 
   return (
     <ConfirmationButton
-      className={classnames("has-icon", className)}
+      className={classnames(
+        {
+          "has-icon": !isSmallScreen,
+        },
+        className,
+      )}
       onHoverText={
         disabledReason ?? `Delete ${pluralize(entityType, entities.length)}`
       }
@@ -81,7 +88,7 @@ const BulkDeleteButton: FC<Props> = ({
       }}
     >
       <Icon name="delete" />
-      <span>{buttonLabel}</span>
+      <span className="u-hide--small">{buttonLabel}</span>
     </ConfirmationButton>
   );
 };
