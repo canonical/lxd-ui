@@ -58,10 +58,7 @@ const RenameHeader: FC<Props> = ({
           className="p-breadcrumbs p-breadcrumbs--large"
           aria-label="Breadcrumbs"
         >
-          <ol
-            className="p-breadcrumbs__items"
-            style={{ display: "inline-block" }}
-          >
+          <ol className="p-breadcrumbs__items breadcrumb-wrapper">
             {parentItems.map((item, key) => (
               <li
                 className="p-heading--4 u-no-margin--bottom continuous-breadcrumb"

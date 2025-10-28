@@ -233,7 +233,7 @@ body {
 }
 
 .p-breadcrumbs--large {
-  margin-bottom: 0;
+  min-width: 0;
   width: inherit;
 
   .p-breadcrumbs__items {
@@ -241,6 +241,7 @@ body {
 
     .continuous-breadcrumb {
       display: inline-block;
+      margin-bottom: 0 !important;
     }
   }
 

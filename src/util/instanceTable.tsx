@@ -36,6 +36,7 @@ export const SIZE_HIDEABLE_COLUMNS = [
   MEMORY,
   TYPE,
   STATUS,
+  ACTIONS,
 ];
 
 export const USER_HIDEABLE_COLUMNS = [

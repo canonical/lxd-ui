@@ -279,6 +279,7 @@ const InstanceSnapshots = (props: Props) => {
                 id="instance-snapshot-table"
                 headers={headers}
                 rows={sortedRows}
+                responsive
                 sortable
                 emptyStateMsg="No snapshot found matching this search"
                 itemName="snapshot"
