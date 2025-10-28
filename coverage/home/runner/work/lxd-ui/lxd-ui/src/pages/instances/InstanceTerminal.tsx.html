@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.37% </span>
+                <span class="strong">56.54% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>245/427</span>
+                <span class='fraction'>255/451</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">25.28% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>21/84</span>
+                <span class='fraction'>22/87</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">34.09% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>15/40</span>
+                <span class='fraction'>15/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.28% </span>
+                <span class="strong">75.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>245/317</span>
+                <span class='fraction'>255/337</span>
             </div>
         
             
@@ -380,7 +380,28 @@
 <a name='L315'></a><a href='#L315'>315</a>
 <a name='L316'></a><a href='#L316'>316</a>
 <a name='L317'></a><a href='#L317'>317</a>
-<a name='L318'></a><a href='#L318'>318</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
@@ -539,8 +560,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -636,6 +657,25 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -718,6 +758,7 @@ import {
   useListener,
   useNotify,
   Spinner,
+  Button,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -957,11 +998,30 @@ const InstanceTerminal: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
   const isDisabled =
 <span class="cstat-no" title="statement not covered" >    !canUpdateInstanceState(instance) || isBooting || isStartLoading;</span>
 &nbsp;
+  const handleFullscreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    xtermRef.current?.element</span></span>
+<span class="cstat-no" title="statement not covered" >      ?.requestFullscreen()</span>
+<span class="cstat-no" title="statement not covered" >      .then(handleResize)</span>
+<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        xtermRef.current?.focus();</span></span>
+<span class="cstat-no" title="statement not covered" >      })</span>
+<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Failed to enter full-screen mode", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div className="instance-terminal-tab"&gt;
       {canConnect &amp;&amp; (
         &lt;&gt;
           &lt;div className="p-panel__controls"&gt;
+            &lt;Button
+              className="u-no-margin--bottom"
+              onClick={handleFullscreen}
+              disabled={isLoading || !controlWs}
+            &gt;
+              Fullscreen
+            &lt;/Button&gt;
             &lt;ReconnectTerminalBtn reconnect={setPayload} payload={payload} /&gt;
           &lt;/div&gt;
           &lt;NotificationRow /&gt;
@@ -1021,7 +1081,7 @@ export default InstanceTerminal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-27T09:56:02.715Z
+                at 2025-10-28T11:11:32.330Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

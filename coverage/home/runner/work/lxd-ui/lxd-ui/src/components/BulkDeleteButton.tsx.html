@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.7% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>89/96</span>
+                <span class='fraction'>96/104</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>89/89</span>
+                <span class='fraction'>96/96</span>
             </div>
         
             
@@ -152,7 +152,14 @@
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">264x</span>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">264x</span>
 <span class="cline-any cline-yes">264x</span>
 <span class="cline-any cline-yes">264x</span>
 <span class="cline-any cline-yes">264x</span>
@@ -172,6 +179,7 @@
 <span class="cline-any cline-yes">264x</span>
 <span class="cline-any cline-yes">264x</span>
 <span class="cline-any cline-yes">264x</span>
+<span class="cline-any cline-yes">264x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
@@ -188,24 +196,30 @@
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
 <span class="cline-any cline-yes">57x</span>
@@ -246,6 +260,7 @@ import { pluralize } from "util/instanceBulkActions";
 import type { ConfirmationButtonProps } from "@canonical/react-components";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 &nbsp;
 interface Props {
   entities: unknown[];
@@ -272,6 +287,7 @@ const BulkDeleteButton: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
   className,
   modalContentPrefix,
 }) =&gt; {
+  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow();</span>
   const totalCount = <span class="cstat-no" title="statement not covered" >entities.length;</span>
   const deleteCount = <span class="cstat-no" title="statement not covered" >deletableEntities.length;</span>
 &nbsp;
@@ -308,7 +324,12 @@ const BulkDeleteButton: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ConfirmationButton
-      className={classnames("has-icon", className)}
+      className={classnames(
+        {
+          "has-icon": !isSmallScreen,
+        },
+        className,
+      )}
       onHoverText={
         disabledReason ?? `Delete ${pluralize(entityType, entities.length)}`
       }
@@ -324,7 +345,7 @@ const BulkDeleteButton: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
       }}
     &gt;
       &lt;Icon name="delete" /&gt;
-      &lt;span&gt;{buttonLabel}&lt;/span&gt;
+      &lt;span className="u-hide--small"&gt;{buttonLabel}&lt;/span&gt;
     &lt;/ConfirmationButton&gt;
   );
 };
@@ -337,7 +358,7 @@ export default BulkDeleteButton;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-27T09:56:02.715Z
+                at 2025-10-28T11:11:32.330Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
