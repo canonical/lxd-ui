@@ -10,6 +10,7 @@ import {
   macvlanType,
   ovnType,
   sriovType,
+  physicalType,
 } from "util/networks";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 import { ensureEditMode } from "util/instanceEdit";
@@ -113,6 +114,9 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             formik={formik}
             isClustered={isClustered}
           />
+        )}
+        {formik.values.networkType === physicalType && (
+          <NetworkVlanField formik={formik} />
         )}
         {formik.values.networkType === macvlanType && (
           <>
