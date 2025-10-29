@@ -162,7 +162,7 @@ const StoragePools: FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn more about storage
+            Learn more about storage pools, volumes and buckets
             <Icon className="external-link-icon" name="external-link" />
           </a>
         </p>

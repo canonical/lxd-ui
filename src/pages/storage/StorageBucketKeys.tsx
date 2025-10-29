@@ -245,11 +245,11 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
           <p>This bucket does not contain any keys.</p>
           <p>
             <a
-              href={`${docBaseLink}/explanation/storage/`}
+              href={`${docBaseLink}/howto/storage_buckets/#manage-storage-bucket-keys`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn more about storage
+              Learn how to manage storage bucket keys
               <Icon className="external-link-icon" name="external-link" />
             </a>
           </p>
