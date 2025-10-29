@@ -14,6 +14,7 @@ import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
 import type { LxdStoragePool } from "types/storage";
 import type { LxdSettings } from "types/server";
 import type { LxdClusterMember } from "types/cluster";
+import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -30,6 +31,10 @@ const StorageVolumeFormMain: FC<Props> = ({
   pools = [],
   settings,
 }) => {
+  const poolDriver = pools.find(
+    (item) => item.name === formik.values.pool,
+  )?.driver;
+
   return (
     <ScrollableForm>
       <Row>
@@ -105,9 +110,14 @@ const StorageVolumeFormMain: FC<Props> = ({
             label="Size"
             value={formik.values.size}
             help={
-              formik.values.volumeType === "custom"
-                ? "Size of storage volume. If empty, volume will not have a size limit within its storage pool."
-                : "Size is immutable for non-custom volumes."
+              (
+                <>
+                  <DiskSizeQuotaLimitation driver={poolDriver} />
+                  {formik.values.volumeType === "custom"
+                    ? "Size of storage volume. If empty, volume will not have a size limit within its storage pool."
+                    : "Size is immutable for non-custom volumes."}
+                </>
+              ) as unknown as string
             }
             setMemoryLimit={(val?: string) => {
               ensureEditMode(formik);
