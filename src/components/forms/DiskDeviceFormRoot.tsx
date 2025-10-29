@@ -15,6 +15,7 @@ import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
+import { useDocs } from "context/useDocs";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
+  const docBaseLink = useDocs();
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(isRootDisk);
   const hasRootStorage = rootIndex !== -1;
@@ -35,6 +37,8 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
     formik.values.entityType === "instance" &&
     formik.values.instanceType === "virtual-machine";
   const defaultSize = isVirtualMachine ? "10GiB" : "unlimited";
+  const isRootPoolDirectoryDriver =
+    pools.find((item) => item.name === formRootDevice?.pool)?.driver === "dir";
 
   const [inheritValue, inheritSource] = getInheritedRootStorage(
     formik.values,
@@ -185,6 +189,23 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                   }
                 />
                 <p className="p-form-help-text">
+                  {isRootPoolDirectoryDriver && (
+                    <>
+                      <Icon name="warning" style={{ marginRight: "10px" }} />
+                      Size limit might not be applied. See{" "}
+                      <a
+                        href={`${docBaseLink}/reference/storage_dir/#quotas`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        directory driver quotas
+                      </a>
+                      . Use a storage pool with another driver for full quota
+                      support.
+                      <br />
+                      <br />
+                    </>
+                  )}
                   Size of root storage. If empty, root storage will{" "}
                   {isVirtualMachine ? "be 10GiB." : "not have a size limit."}
                 </p>
