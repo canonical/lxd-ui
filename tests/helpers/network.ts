@@ -113,10 +113,10 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page
     .getByText(`Network forward with listen address ${listenAddress} created.`)
     .click();
-  await page.getByText(`:80 → ${targetAddress}:80 (tcp)`).click();
-  await page
-    .getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`)
-    .click();
+  await expect(page.getByText(`:80 → ${targetAddress}:80 (tcp)`)).toBeVisible();
+  await expect(
+    page.getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`),
+  ).toBeVisible();
 
   await page.getByRole("link", { name: "Edit network forward" }).click();
   await expect(page.getByText("Edit a network forward")).toBeVisible();
