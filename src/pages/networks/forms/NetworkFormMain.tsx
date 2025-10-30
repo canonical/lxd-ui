@@ -116,7 +116,10 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
           />
         )}
         {formik.values.networkType === physicalType && (
-          <NetworkVlanField formik={formik} />
+          <>
+            <NetworkMTUField formik={formik} />
+            <NetworkVlanField formik={formik} />
+          </>
         )}
         {formik.values.networkType === macvlanType && (
           <>
