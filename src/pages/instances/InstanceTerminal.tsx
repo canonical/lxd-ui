@@ -60,6 +60,17 @@ const defaultPayload: TerminalConnectPayload = {
   group: 0,
 };
 
+export const UI_TERMINAL_DEFAULT_PAYLOAD = "user.ui_terminal_default_payload";
+
+const getDefaultPayload = (instance: LxdInstance) => {
+  const userPayload = instance.config[UI_TERMINAL_DEFAULT_PAYLOAD];
+  if (userPayload) {
+    return JSON.parse(userPayload) as TerminalConnectPayload;
+  }
+
+  return defaultPayload;
+};
+
 interface Props {
   instance: LxdInstance;
   refreshInstance: () => Promise<unknown>;
@@ -75,7 +86,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const [isLoading, setLoading] = useState(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
-  const [payload, setPayload] = useState(defaultPayload);
+  const [payload, setPayload] = useState(getDefaultPayload(instance));
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef<Terminal>(null);
@@ -283,7 +294,11 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
             >
               Fullscreen
             </Button>
-            <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
+            <ReconnectTerminalBtn
+              reconnect={setPayload}
+              payload={payload}
+              instance={instance}
+            />
           </div>
           <NotificationRow />
           {isLoading && (
