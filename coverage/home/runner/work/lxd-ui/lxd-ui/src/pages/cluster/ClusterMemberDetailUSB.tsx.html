@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.51% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/54</span>
+                <span class='fraction'>24/54</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">23.52% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/16</span>
+                <span class='fraction'>4/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/50</span>
+                <span class='fraction'>24/50</span>
             </div>
         
             
@@ -121,6 +121,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -147,20 +156,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -170,16 +170,16 @@ interface Props {
   resources: LxdResources;
 }
 &nbsp;
-const ClusterMemberDetailUSB: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> resources }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
-<span class="cstat-no" title="statement not covered" >    &lt;table className="usb"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;tbody&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {resources?.usb.devices?.length === 0 &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;tr&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;td className="u-text--muted"&gt;No USB devices found&lt;/td&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/tr&gt;</span>
-<span class="cstat-no" title="statement not covered" >        )}</span>
-<span class="cstat-no" title="statement not covered" >        {resources?.usb.devices?.map(<span class="fstat-no" title="function not covered" >(d</span>evice, i) =&gt; (</span>
+const ClusterMemberDetailUSB: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> resources }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;table className="usb"&gt;
+      &lt;tbody&gt;
+        {resources?.usb.devices?.length === 0 &amp;&amp; (
+          &lt;tr&gt;
+            &lt;td className="u-text--muted"&gt;No USB devices found&lt;/td&gt;
+          &lt;/tr&gt;
+        )}
+        {resources?.usb.devices?.map(<span class="fstat-no" title="function not covered" >(d</span>evice, i) =&gt; (
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          &lt;tr key={i}&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >            &lt;th className="u-text--muted"&gt;Device #{i + 1}&lt;/th&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;td&gt;</span>
@@ -190,11 +190,11 @@ const ClusterMemberDetailUSB: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >              {device.serial &amp;&amp; device.serial !== "" &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div&gt;Serial: {device.serial}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >              )}</span>
-<span class="cstat-no" title="statement not covered" >              {(device.interfaces ?? []).length &gt; 0 &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >              {(device.interfaces ?? <span class="branch-1 cbranch-no" title="branch not covered" >[]).l</span>ength &gt; 0 &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  Interfaces:</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;ul&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    {(device.interfaces ?? []).map(<span class="fstat-no" title="function not covered" >(i</span>face, j) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >                    {(device.interfaces ?? <span class="branch-1 cbranch-no" title="branch not covered" >[]).m</span>ap(<span class="fstat-no" title="function not covered" >(i</span>face, j) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                      &lt;li key={j}&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >                        &lt;div&gt;Class: {iface.class}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >                        &lt;div&gt;Subclass: {iface.subclass}&lt;/div&gt;</span>
@@ -206,11 +206,11 @@ const ClusterMemberDetailUSB: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >              )}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/td&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/tr&gt;</span>
-<span class="cstat-no" title="statement not covered" >        ))}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/tbody&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/table&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+        ))}
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  );
+};
 &nbsp;
 export default ClusterMemberDetailUSB;
 &nbsp;</pre></td></tr></table></pre>
@@ -220,7 +220,7 @@ export default ClusterMemberDetailUSB;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-28T21:37:03.228Z
+                at 2025-10-30T08:31:42.080Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
