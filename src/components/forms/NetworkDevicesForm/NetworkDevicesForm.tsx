@@ -51,7 +51,6 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     isLoading: isNetworkLoading,
     error: networkError,
   } = useNetworks(project);
-
   useEffect(() => {
     if (networkError) {
       notify.failure("Loading networks failed", networkError);
@@ -134,26 +133,29 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
               </>
             ),
             inherited: "",
-            override:
-              device.type === "custom-nic" ? (
-                <>
-                  custom network{" "}
-                  <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
-                    <Icon name="information" />
-                  </Tooltip>{" "}
-                </>
-              ) : (
-                <NetworkDevice
-                  formik={formik}
-                  project={project}
-                  device={device}
-                  network={managedNetworks.find(
-                    (t) =>
-                      t.name ===
-                      (formik.values.devices[index] as LxdNicDevice).network,
-                  )}
-                />
-              ),
+            override: (
+              <>
+                {device.type === "custom-nic" ? (
+                  <>
+                    custom network{" "}
+                    <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
+                      <Icon name="information" />
+                    </Tooltip>{" "}
+                  </>
+                ) : (
+                  <NetworkDevice
+                    formik={formik}
+                    project={project}
+                    device={device}
+                    network={managedNetworks.find(
+                      (t) =>
+                        t.name ===
+                        (formik.values.devices[index] as LxdNicDevice).network,
+                    )}
+                  />
+                )}
+              </>
+            ),
           });
         }),
 

@@ -100,7 +100,6 @@ const getDevicePairFieldChanges = (a: FormDevice, b: FormDevice): number => {
     if (isRootDisk(a) && !["size", "pool"].includes(keyType)) {
       continue;
     }
-
     if (JSON.stringify(a[keyType]) !== JSON.stringify(b[keyType])) {
       changeCount++;
     }
@@ -117,7 +116,6 @@ const getDeviceChanges = (formik: ConfigurationRowFormikProps): number => {
 
   const initDevices = (formik.initialValues as FormDeviceValues).devices;
   const devices = (formik.values as FormDeviceValues).devices;
-
   const initNames = initDevices.map((item) => item.name);
   const names = devices.map((item) => item.name);
 

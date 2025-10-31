@@ -68,13 +68,21 @@ const SettingForm: FC<Props> = ({
           )
         : updateSettings({ [configField.key]: String(newValue) });
 
+    const actionName =
+      configField.isUserDefined && newValue === "" ? "delete" : "update";
+    const actionVerb = `${actionName}d`;
+
     mutation
       .then(() => {
-        toastNotify.success(<>Setting {settingLabel} updated.</>);
+        toastNotify.success(
+          <>
+            Setting {settingLabel} {actionVerb}.
+          </>,
+        );
         setEditMode(false);
       })
       .catch((e) => {
-        notify.failure("Setting update failed", e, settingLabel);
+        notify.failure(`Setting ${actionName} failed`, e, settingLabel);
       })
       .finally(() => {
         queryClient.invalidateQueries({

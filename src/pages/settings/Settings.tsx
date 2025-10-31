@@ -9,13 +9,17 @@ import {
   useNotify,
   Spinner,
   CustomLayout,
+  Input,
+  Button,
+  useToastNotification,
 } from "@canonical/react-components";
+import { useQueryClient } from "@tanstack/react-query";
 import SettingForm from "./SettingForm";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import { queryKeys } from "util/queryKeys";
-import { fetchConfigOptions } from "api/server";
+import { fetchConfigOptions, updateSettings } from "api/server";
 import { useQuery } from "@tanstack/react-query";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
@@ -26,11 +30,23 @@ import { useServerEntitlements } from "util/entitlements/server";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useClusteredSettings } from "context/useSettings";
 import type { LXDSettingOnClusterMember } from "types/server";
+import ResourceLabel from "components/ResourceLabel";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+
+type userDefinedConfig = ConfigField & { value: string };
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
   const [query, setQuery] = useState("");
+
+  const [userDefinedConfigs, setUserDefinedConfigs] = useState<
+    userDefinedConfig[]
+  >([]);
+
   const notify = useNotify();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
+
   const {
     hasMetadataConfiguration,
     settings,
@@ -57,6 +73,39 @@ const Settings: FC = () => {
   if (settingsError) {
     notify.failure("Loading settings failed", settingsError);
   }
+
+  const isKeyDuplicate = (key: string) => {
+    return configFields.some((cf) => `user.${key}` === cf.key);
+  };
+
+  const addUserDefinedConfig = (index: number) => {
+    const key = userDefinedConfigs[index].key;
+    const value = userDefinedConfigs[index].value;
+    const settingLabel = (
+      <ResourceLabel bold type="setting" value={`user.${key}`} />
+    );
+
+    updateSettings({ [`user.${key}`]: value })
+      .then(() => {
+        setUserDefinedConfigs((prev) => {
+          const copy = [...prev];
+          copy.splice(index, 1);
+          return copy;
+        });
+        toastNotify.success(<>Setting {settingLabel} added</>);
+      })
+      .catch((e) => {
+        notify.failure(`Setting add failed`, e, settingLabel);
+      })
+      .finally(() => {
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.settings],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.settings, queryKeys.cluster],
+        });
+      });
+  };
 
   const getValue = (configField: ConfigField): string | undefined => {
     for (const [key, value] of Object.entries(settings?.config ?? {})) {
@@ -94,7 +143,6 @@ const Settings: FC = () => {
   ];
 
   const configFields = toConfigFields(configOptions?.configs?.server ?? {});
-
   configFields.push({
     key: "user.ui_title",
     category: "user",
@@ -123,8 +171,23 @@ const Settings: FC = () => {
     type: "string",
   });
 
+  Object.entries(settings?.config ?? {})
+    .filter(
+      ([key, _]) =>
+        key.startsWith("user.") && !configFields.some((cf) => cf.key === key),
+    )
+    .forEach(([key, _]) => {
+      configFields.push({
+        key: key,
+        category: "user",
+        default: "",
+        type: "string",
+        isUserDefined: true,
+      });
+    });
+
   let lastCategory = "";
-  const rows = configFields
+  const rows: MainTableRow[] = configFields
     .filter((configField) => {
       if (!query) {
         return true;
@@ -189,6 +252,145 @@ const Settings: FC = () => {
         ],
       };
     });
+
+  userDefinedConfigs.forEach((config, index) => {
+    rows.push({
+      key: `new-config-${index}`,
+      columns: [
+        {
+          content: false,
+          role: "rowheader",
+          className: "group",
+          "aria-label": "Group",
+        },
+        {
+          content: (
+            <>
+              <Input
+                aria-label="new user key"
+                id={`new-user-defined-key-${index}`}
+                placeholder="User key"
+                type="text"
+                value={config.key}
+                autoFocus
+                error={
+                  isKeyDuplicate(config.key) && (
+                    <p>Setting with this name already exists</p>
+                  )
+                }
+                onChange={(e) => {
+                  setUserDefinedConfigs((prev) => {
+                    const copy = [...prev];
+                    copy[index] = {
+                      ...copy[index],
+                      key: e.target.value,
+                    };
+                    return copy;
+                  });
+                }}
+                help="Key will be saved as user.{your-key}. Enter only the part after user."
+              />
+            </>
+          ),
+          role: "cell",
+          className: "key",
+          "aria-label": "key",
+        },
+        {
+          content: (
+            <>
+              <Input
+                aria-label="new user value"
+                id={`new-user-defined-value-${index}`}
+                placeholder="Value"
+                type="text"
+                value={userDefinedConfigs[index].value}
+                onChange={(e) => {
+                  setUserDefinedConfigs((prev) => {
+                    const copy = [...prev];
+                    copy[index] = {
+                      ...copy[index],
+                      value: e.target.value,
+                    };
+                    return copy;
+                  });
+                }}
+              />
+              <Button
+                type="button"
+                appearance="base"
+                className="button"
+                onClick={() => {
+                  setUserDefinedConfigs((prev) => {
+                    const copy = [...prev];
+                    copy.splice(index, 1);
+                    return copy;
+                  });
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                disabled={
+                  isKeyDuplicate(userDefinedConfigs[index].key) ||
+                  !userDefinedConfigs[index].value ||
+                  !userDefinedConfigs[index].key
+                }
+                appearance="positive"
+                onClick={() => {
+                  addUserDefinedConfig(index);
+                }}
+              >
+                Save
+              </Button>
+            </>
+          ),
+          role: "cell",
+          className: "u-vertical-align-middle",
+          "aria-label": "Value",
+        },
+      ],
+    });
+  });
+
+  rows.push({
+    key: "new-user-defined-config",
+    columns: [
+      {
+        content: false,
+        role: "rowheader",
+        className: "group",
+        "aria-label": "Group",
+      },
+      {
+        content: (
+          <Button
+            type="button"
+            onClick={() => {
+              setUserDefinedConfigs((prev) => {
+                return [
+                  ...prev,
+                  {
+                    key: "",
+                    value: "",
+                    default: "",
+                    category: "user",
+                    type: "string",
+                    isUserDefined: true,
+                  },
+                ];
+              });
+            }}
+          >
+            Add key
+          </Button>
+        ),
+        role: "cell",
+        className: "key",
+      },
+    ],
+  });
 
   return (
     <>
