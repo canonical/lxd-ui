@@ -13,6 +13,7 @@ export interface LxdConfigOption {
   scope?: "global" | "local";
   shortdesc?: string;
   type: "bool" | "string" | "integer";
+  isUserDefined?: boolean;
 }
 
 export interface LxcConfigOptionCategories {

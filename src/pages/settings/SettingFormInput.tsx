@@ -29,7 +29,8 @@ const SettingFormInput: FC<Props> = ({
     }
   };
 
-  const canBeReset = String(configField.default) !== String(value);
+  const canBeReset =
+    !configField.isUserDefined && String(configField.default) !== String(value);
 
   const resetToDefault = () => {
     setValue(configField.default);
@@ -61,9 +62,21 @@ const SettingFormInput: FC<Props> = ({
       <Button appearance="positive" type="submit">
         Save
       </Button>
+      {configField.isUserDefined && (
+        <Button
+          appearance="base"
+          className="reset-or-delete-button"
+          type="button"
+          onClick={() => {
+            onSubmit("");
+          }}
+        >
+          Delete user setting
+        </Button>
+      )}
       {canBeReset && (
         <Button
-          className="reset-button"
+          className="reset-or-delete-button"
           appearance="base"
           onClick={resetToDefault}
           hasIcon
