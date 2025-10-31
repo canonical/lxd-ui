@@ -419,11 +419,11 @@ const StorageVolumes: FC = () => {
         <p>Storage volumes will appear here</p>
         <p>
           <a
-            href={`${docBaseLink}/explanation/storage/`}
+            href={`${docBaseLink}/explanation/storage/#storage-volumes`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn more about storage
+            Learn more about storage volumes
             <Icon className="external-link-icon" name="external-link" />
           </a>
         </p>
@@ -503,8 +503,8 @@ const StorageVolumes: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/explanation/storage/`}
-                title="Learn more about storage pools, volumes and buckets"
+                href={`${docBaseLink}/explanation/storage/#storage-volumes`}
+                title="Learn more about storage volumes"
               >
                 Volumes
               </HelpLink>

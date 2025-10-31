@@ -163,11 +163,11 @@ const CustomIsoList: FC = () => {
       <p>Custom ISOs will appear here</p>
       <p>
         <a
-          href={`${docBaseLink}/explanation/storage/`}
+          href={`${docBaseLink}/howto/instances_create/#instances-create-iso`}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn more about storage
+          Learn how to create a VM that boots from an ISO
           <Icon className="external-link-icon" name="external-link" />
         </a>
       </p>
@@ -211,8 +211,8 @@ const CustomIsoList: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/explanation/storage/`}
-                title="Learn more about storage pools, volumes and buckets"
+                href={`${docBaseLink}/howto/instances_create/#instances-create-iso`}
+                title="Learn how to create a VM that boots from an ISO"
               >
                 Custom ISOs
               </HelpLink>
