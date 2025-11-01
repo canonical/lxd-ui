@@ -244,7 +244,13 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
 
       return {
-        key: itemType + item.os + displayRelease + displayVariant + item.server,
+        key:
+          itemType +
+          item.os +
+          displayRelease +
+          displayVariant +
+          item.server +
+          item.fingerprint,
         className: "u-row",
         columns: [
           {
