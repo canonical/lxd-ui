@@ -199,6 +199,13 @@ const getInstanceProfileProjectDefaults = (
       return { value: "1", source: "LXD (VM)", configField };
     }
   }
+  if (configKey === "limits.cpu" && values.entityType === "profile") {
+    return {
+      value: "None on containers, 1 core for VMs",
+      source: "LXD",
+      configField,
+    };
+  }
 
   if (configKey === "limits.memory" && values.entityType === "instance") {
     if (values.instanceType === "container") {
@@ -206,6 +213,13 @@ const getInstanceProfileProjectDefaults = (
     } else {
       return { value: "1GB", source: "LXD (VM)", configField };
     }
+  }
+  if (configKey === "limits.memory" && values.entityType === "profile") {
+    return {
+      value: "None on containers, 1GB for VMs",
+      source: "LXD",
+      configField,
+    };
   }
 
   // migration.stateful is inherited through 4 levels:
