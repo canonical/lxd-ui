@@ -33,6 +33,7 @@ import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
+import { getReportBugBodyTemplate } from "util/reportBug";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -752,7 +753,7 @@ const Navigation: FC = () => {
                   <SideNavigationItem>
                     <a
                       className="p-side-navigation__link"
-                      href="https://github.com/canonical/lxd-ui/issues/new"
+                      href={`https://github.com/canonical/lxd-ui/issues/new?labels=Bug&title=Bug%20report&body=${encodeURIComponent(getReportBugBodyTemplate())}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Report a bug"
