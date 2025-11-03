@@ -8,12 +8,14 @@ import { useClusterMembers } from "context/useClusterMembers";
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
   helpText?: string;
+  canToggleMemberSpecific?: boolean;
   disabledReason?: string;
 }
 
 const ClusteredSourceSelector: FC<Props> = ({
   formik,
   helpText,
+  canToggleMemberSpecific = true,
   disabledReason,
 }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
@@ -29,7 +31,7 @@ const ClusteredSourceSelector: FC<Props> = ({
         onChange={(value) => {
           formik.setFieldValue("sourcePerClusterMember", value);
         }}
-        canToggleSpecific={formik.values.isCreating}
+        canToggleSpecific={formik.values.isCreating && canToggleMemberSpecific}
         memberNames={memberNames}
         disabled={!formik.values.isCreating}
         helpText={helpText}
