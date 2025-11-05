@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/settings.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/reportBug.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> settings.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> reportBug.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/25</span>
+                <span class='fraction'>26/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.92% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/13</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.46% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>23/26</span>
             </div>
         
             
@@ -82,43 +82,64 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">420x</span>
-<span class="cline-any cline-yes">420x</span>
-<span class="cline-any cline-yes">420x</span>
-<span class="cline-any cline-yes">420x</span>
-<span class="cline-any cline-yes">420x</span>
-<span class="cline-any cline-yes">420x</span>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">299x</span>
 <span class="cline-any cline-yes">299x</span>
 <span class="cline-any cline-yes">299x</span>
-<span class="cline-any cline-yes">18647x</span>
-<span class="cline-any cline-yes">18647x</span>
-<span class="cline-any cline-yes">18647x</span>
-<span class="cline-any cline-yes">18647x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
 <span class="cline-any cline-yes">299x</span>
 <span class="cline-any cline-yes">299x</span>
-<span class="cline-any cline-yes">21210x</span>
-<span class="cline-any cline-yes">21210x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdSettings } from "types/server";
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-yes">6312x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { UI_VERSION } from "./version";
 &nbsp;
-export const supportsOvnNetwork = <span class="fstat-no" title="function not covered" >(</span>
-  settings: LxdSettings | undefined,
-): boolean =&gt; {
-<span class="cstat-no" title="statement not covered" >  return Boolean(</span>
-    settings?.config?.["network.ovn.northbound_connection"] ?? false,
-  );
+export const getReportBugBodyTemplate = (error?: Error) =&gt; {
+  return `\
+  # Description
+&nbsp;
+  A brief description of the problem. Should include what you were attempting to do, what you did, what happened and what you expected to 
+  see happen.
+    
+  # Metadata
+    
+  UI Version: ${UI_VERSION}
+  Path: ${location.toString()}
+    
+  ${
+<span class="branch-0 cbranch-no" title="branch not covered" >    error &amp;&amp; error.<span class="branch-0 cbranch-no" title="branch not covered" >stack</span></span>
+<span class="cstat-no" title="statement not covered" >      ? `# Stacktrace</span>
+<span class="cstat-no" title="statement not covered" >    </span>
+<span class="cstat-no" title="statement not covered" >    ${error.stack}`</span>
+      : ""
+  } `;
 };
 &nbsp;
-export const isClusteredServer = <span class="fstat-no" title="function not covered" >(</span>
-  settings: LxdSettings | undefined,
-): boolean =&gt; {
-<span class="cstat-no" title="statement not covered" >  return settings?.environment?.server_clustered ?? <span class="branch-1 cbranch-no" title="branch not covered" >false;</span></span>
-};
-&nbsp;
-export const hasMicroCloudFlag = <span class="fstat-no" title="function not covered" >(s</span>ettings?: LxdSettings): boolean =&gt; {
-<span class="cstat-no" title="statement not covered" >  return Boolean(settings?.config?.["user.microcloud"]);</span>
+export const getReportBugURL = <span class="fstat-no" title="function not covered" >(e</span>rror?: Error) =&gt; {
+<span class="cstat-no" title="statement not covered" >  return `https://github.com/canonical/lxd-ui/issues/new?labels=Bug&amp;title=Bug%20report&amp;body=${encodeURIComponent(getReportBugBodyTemplate(error))}`;</span>
 };
 &nbsp;</pre></td></tr></table></pre>
 
