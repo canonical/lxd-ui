@@ -2,6 +2,7 @@ import type { FC, FormEvent, ReactNode } from "react";
 import { useState } from "react";
 import { Button, Form, Input, Label, Modal } from "@canonical/react-components";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import SshKeyGenerateAndDownload from "./SshKeyGenerateAndDownload";
 
 interface Props {
   initialName: string;
@@ -9,7 +10,12 @@ interface Props {
   onClose: () => void;
 }
 
-type SourceType = "clipboard" | "fileUpload" | "github" | "launchpad";
+type SourceType =
+  | "clipboard"
+  | "fileUpload"
+  | "generate"
+  | "github"
+  | "launchpad";
 
 const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
   const [name, setName] = useState(initialName);
@@ -20,6 +26,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
     launchpad: "",
     fileUpload: "",
     clipboard: "",
+    generate: "",
   });
 
   const getFingerprint = () => {
@@ -32,6 +39,8 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
         return source.fileUpload;
       case "clipboard":
         return source.clipboard;
+      case "generate":
+        return source.generate;
     }
   };
 
@@ -79,6 +88,10 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
     document.getElementById("ssh-file-upload")?.click();
   };
 
+  const onSSHKeyGenerate = (key: string) => {
+    setSource({ ...source, generate: key });
+  };
+
   return (
     <Modal close={onClose} title="Add SSH key" className="ssh-key-add-modal">
       <Form onSubmit={handleAdd}>
@@ -112,6 +125,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             aria-label="Source"
           >
             {segmentButton("clipboard", "Clipboard")}
+            {segmentButton("generate", "Generate key")}
             {segmentButton("fileUpload", "File upload")}
             {segmentButton("github", "Github")}
             {segmentButton("launchpad", "Launchpad")}
@@ -122,7 +136,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
           {segmentContent(
             "clipboard",
             <AutoExpandingTextArea
-              placeholder="ssh-rsa ..."
+              placeholder="ecdsa-sha2-nistp384 ..."
               help="Paste the contents of the public key file (.pub)"
               className="u-break-all"
               autoFocus
@@ -131,6 +145,14 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
               onChange={(e) => {
                 setSource({ ...source, clipboard: e.target.value });
               }}
+            />,
+          )}
+
+          {segmentContent(
+            "generate",
+            <SshKeyGenerateAndDownload
+              keyName={name}
+              setSSHPublicKey={onSSHKeyGenerate}
             />,
           )}
 
