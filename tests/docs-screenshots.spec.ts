@@ -144,7 +144,7 @@ test("networks", async ({ page }) => {
     clip: getClipPosition(240, 0, 1130, 750),
   });
 
-  await page.getByTestId("tab-link-Leases").click();
+  await page.getByRole("link", { name: "Leases" }).click();
   await page.waitForSelector(`text=Hostname`);
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_view_leases.png",
@@ -659,7 +659,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   let networkSubnet = await page.inputValue("input#ipv4_address");
   let listenAddress = networkSubnet.replace("1/24", "1");
   let targetAddress = networkSubnet.replace("1/24", "3");
-  await page.getByTestId("tab-link-Forwards").click();
+  await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByRole("link", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
   await page.getByLabel("Default target address").fill(targetAddress);
@@ -681,7 +681,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   networkSubnet = await page.inputValue("input#ipv4_address");
   listenAddress = networkSubnet.replace("1/24", "1");
   targetAddress = networkSubnet.replace("1/24", "3");
-  await page.getByTestId("tab-link-Forwards").click();
+  await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByRole("link", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
   await page.getByLabel("Default target address").fill(targetAddress);

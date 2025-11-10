@@ -80,7 +80,9 @@ export const getFirstClusterMember = async (page: Page): Promise<string> => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
   await page.getByRole("link", { name: "Members" }).click();
-  await expect(page.getByText("Cluster members")).toBeVisible();
+  await expect(
+    page.getByText("Cluster members", { exact: true }),
+  ).toBeVisible();
   const firstCellContent = await page
     .getByRole("rowheader")
     .first()
