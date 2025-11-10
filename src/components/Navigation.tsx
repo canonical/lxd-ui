@@ -509,6 +509,16 @@ const Navigation: FC = () => {
                                   Groups
                                 </NavLink>
                               </SideNavigationItem>,
+                              <SideNavigationItem key="links">
+                                <NavLink
+                                  to="/ui/cluster/links"
+                                  title="Links"
+                                  onClick={softToggleMenu}
+                                  className="accordion-nav-secondary"
+                                >
+                                  Links
+                                </NavLink>
+                              </SideNavigationItem>,
                             ]}
                           </NavAccordion>
                         </SideNavigationItem>
