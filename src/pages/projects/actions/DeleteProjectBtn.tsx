@@ -1,6 +1,6 @@
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
@@ -8,76 +8,19 @@ import { useQueryClient } from "@tanstack/react-query";
 import { isProjectEmpty } from "util/projects";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
-  ConfirmationButton,
+  Button,
   Icon,
-  Tooltip,
   useNotify,
+  usePortal,
   useToastNotification,
 } from "@canonical/react-components";
-import classnames from "classnames";
-import { filterUsedByType } from "util/usedBy";
-import type { ResourceType } from "util/resourceDetails";
 import ResourceLabel from "components/ResourceLabel";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import DeleteProjectModal from "./DeleteProjectModal";
 
 interface Props {
   project: LxdProject;
 }
-
-const generateProjectUsedByTooltip = (project: LxdProject) => {
-  const resourceLabelAndLink: Record<string, { label: string; link: string }> =
-    {
-      instance: {
-        label: "Instances",
-        link: `/ui/project/${encodeURIComponent(project.name)}/instances`,
-      },
-      profile: {
-        label: "Profiles",
-        link: `/ui/project/${encodeURIComponent(project.name)}/profiles`,
-      },
-      image: {
-        label: "Images",
-        link: `/ui/project/${encodeURIComponent(project.name)}/images`,
-      },
-      volume: {
-        label: "Custom volumes",
-        link: `/ui/project/${encodeURIComponent(project.name)}/storage/volumes`,
-      },
-    };
-
-  const resourceTypes = Object.keys(resourceLabelAndLink);
-  const usedByItems: ReactNode[] = [];
-  for (const resourceType of resourceTypes) {
-    const usedBy = filterUsedByType(
-      resourceType as ResourceType,
-      project.used_by?.filter(
-        // the default profile is not blocking project deletion and can't be removed itself
-        (item) => !item.startsWith("/1.0/profiles/default"),
-      ),
-    );
-
-    if (usedBy.length > 0) {
-      const label = resourceLabelAndLink[resourceType].label;
-      const link = resourceLabelAndLink[resourceType].link;
-      usedByItems.push(
-        <li
-          key={resourceType}
-          className="p-list__item is-dark u-no-margin--bottom"
-        >
-          {<Link to={link}>{label}</Link>} ({usedBy.length})
-        </li>,
-      );
-    }
-  }
-
-  return (
-    <>
-      Non-empty project cannot be deleted.
-      <p className="u-no-margin--bottom">Project is used by:</p>
-      <ul className="p-list u-no-margin--bottom">{usedByItems}</ul>
-    </>
-  );
-};
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const isSmallScreen = useIsScreenBelow();
@@ -87,6 +30,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { canDeleteProject } = useProjectEntitlements();
+  const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
   const isDefaultProject = project.name === "default";
   const isEmpty = isProjectEmpty(project);
@@ -98,7 +42,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       return "The default project cannot be deleted";
     }
     if (!isEmpty) {
-      return "";
+      return "Delete project and all its resources";
     }
     return "Delete project";
   };
@@ -114,6 +58,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
             deleted.
           </>,
         );
+        closePortal();
       })
       .catch((e) => {
         setLoading(false);
@@ -127,41 +72,31 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   };
 
   return (
-    <ConfirmationButton
-      onHoverText={getHoverText()}
-      className={classnames("u-no-margin--bottom", {
-        "has-icon": !isSmallScreen,
-      })}
-      loading={isLoading}
-      disabled={
-        !canDeleteProject(project) || isDefaultProject || !isEmpty || isLoading
-      }
-      confirmationModalProps={{
-        title: "Confirm delete",
-        confirmButtonLabel: "Delete",
-        onConfirm: handleDelete,
-        children: (
-          <p>
-            This will permanently delete project{" "}
-            <ResourceLabel type="project" value={project.name} bold />.<br />
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ),
-      }}
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      <Tooltip
-        message={
-          !isEmpty && !isDefaultProject
-            ? generateProjectUsedByTooltip(project)
-            : ""
-        }
+    <>
+      <Button
+        onClick={() => {
+          openPortal();
+        }}
+        title={getHoverText()}
+        hasIcon={!isSmallScreen}
+        disabled={!canDeleteProject(project) || isDefaultProject || isLoading}
+        className="u-no-margin--bottom"
       >
-        {!isSmallScreen && <Icon name="delete" />}
+        <Icon name="delete" />
         <span>Delete project</span>
-      </Tooltip>
-    </ConfirmationButton>
+      </Button>
+
+      {isOpen && (
+        <Portal>
+          <DeleteProjectModal
+            project={project}
+            handleDelete={handleDelete}
+            isLoading={isLoading}
+            closePortal={closePortal}
+          />
+        </Portal>
+      )}
+    </>
   );
 };
 
