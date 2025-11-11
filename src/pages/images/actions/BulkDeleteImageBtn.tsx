@@ -77,7 +77,14 @@ const BulkDeleteImageBtn: FC<Props> = ({
           );
         }
         queryClient.invalidateQueries({
-          predicate: (query) => query.queryKey[0] === queryKeys.images,
+          predicate: (query) => {
+            const firstKey = query.queryKey[0];
+            return (
+              firstKey === queryKeys.images ||
+              // Invalidate projects to update used_by field
+              firstKey === queryKeys.projects
+            );
+          },
         });
         setLoading(false);
         onFinish();
