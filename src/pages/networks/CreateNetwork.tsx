@@ -14,7 +14,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
-import { createClusterNetwork, createNetwork } from "api/networks";
+import {
+  createClusterNetwork,
+  createNetwork,
+  deleteNetwork,
+  fetchNetwork,
+} from "api/networks";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkForm, {
   isNetworkFormInvalid,
@@ -36,8 +41,10 @@ import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { bridgeType, ovnType } from "util/networks";
+import { useAuth } from "context/auth";
 
 const CreateNetwork: FC = () => {
+  const { isFineGrained } = useAuth();
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -119,6 +126,37 @@ const CreateNetwork: FC = () => {
         .catch((e) => {
           formik.setSubmitting(false);
           notify.failure("Network creation failed", e);
+
+          // load the network that we just created
+          fetchNetwork(values.name, project, isFineGrained)
+            .then((network) => {
+              // if the network was created in errored state, delete it
+              if (network.status === "Errored") {
+                deleteNetwork(values.name, project).catch(() => {
+                  // deleting the errored network failed, forward to network list page and show the creation failure
+                  navigate(
+                    `/ui/project/${encodeURIComponent(project)}/networks`,
+                  );
+                  toastNotify.failure(
+                    "Error during network creation",
+                    e,
+                    <>
+                      Network{" "}
+                      <ResourceLink
+                        type="network"
+                        value={values.name}
+                        to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
+                      />{" "}
+                      created with error status.
+                    </>,
+                  );
+                });
+              }
+            })
+            .catch(() => {
+              // network was not created, keep user on creation form so they can submit it again.
+            });
+          // todo: why the duplicate network fetch requests in the network tab?
         });
     },
   });
