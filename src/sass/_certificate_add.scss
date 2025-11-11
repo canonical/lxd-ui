@@ -1,0 +1,19 @@
+.certificate-generate {
+  .code-snippet-container {
+    display: flex;
+    justify-content: space-between;
+    overflow-x: auto;
+  }
+
+  .identity-trust-token-command-wrapper code {
+    width: 100%;
+
+    .command-wrapper {
+      display: flex;
+
+      .command {
+        flex-grow: 1;
+      }
+    }
+  }
+}

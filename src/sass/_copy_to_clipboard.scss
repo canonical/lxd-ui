@@ -1,0 +1,13 @@
+.copy-to-clipboard-container {
+  display: flex;
+
+  .copy-to-clipboard-button {
+    align-items: center;
+    display: flex;
+    padding: 0 1.5rem !important;
+
+    .copy-to-clipboard-button-wrapper {
+      height: 1.5rem;
+    }
+  }
+}

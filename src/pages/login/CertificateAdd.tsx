@@ -8,12 +8,14 @@ import {
   useNotify,
   Spinner,
   CustomLayout,
+  CodeSnippetBlockAppearance,
 } from "@canonical/react-components";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import { useSettings } from "context/useSettings";
+import CopyToClipboard from "components/CopyToClipboard";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -21,6 +23,8 @@ const CertificateAdd: FC = () => {
   const { data: settings } = useSettings();
   const hasCertificate = settings?.client_certificate;
   const navigate = useNavigate();
+  const identityTrustTokenCommand =
+    "if ! lxc auth group show admins ; then lxc auth group create admins ; lxc auth group permission add admins server admin ; fi ; lxc auth identity create tls/lxd-ui --group admins";
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -68,11 +72,23 @@ const CertificateAdd: FC = () => {
               Paste the following commands into the console of the machine where
               LXD is running:
             </p>
+
             <CodeSnippet
-              className="u-no-margin--bottom"
+              className="identity-trust-token-command-wrapper u-no-margin--bottom"
               blocks={[
                 {
-                  code: `if ! lxc auth group show admins ; then lxc auth group create admins ; lxc auth group permission add admins server admin ; fi ; lxc auth identity create tls/lxd-ui --group admins`,
+                  appearance: CodeSnippetBlockAppearance.LINUX_PROMPT,
+                  code: (
+                    <div className="command-wrapper">
+                      <span
+                        className="command u-truncate"
+                        title={identityTrustTokenCommand}
+                      >
+                        {identityTrustTokenCommand}
+                      </span>
+                      <CopyToClipboard value={identityTrustTokenCommand} />
+                    </div>
+                  ),
                 },
               ]}
             />

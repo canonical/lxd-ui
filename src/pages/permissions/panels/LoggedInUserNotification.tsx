@@ -18,16 +18,12 @@ const LoggedInUserNotification: FC<Props> = ({ isVisible }) => {
       className="u-no-margin--bottom"
       id="current-user-warning"
     >
-      <span>
-        This action will modify the permissions of the current logged-in
-        identity.
-      </span>
-      <p>
-        <Tag className="u-no-margin--left" isVisible={isVisible}>
-          You
-        </Tag>{" "}
-        might not be able to reverse this change once you&rsquo;ve made it.
-      </p>
+      This action will modify the permissions of the current logged-in identity.
+      <br />
+      <Tag className="u-no-margin--left" isVisible={isVisible}>
+        You
+      </Tag>{" "}
+      might not be able to reverse this change once you&rsquo;ve made it.
     </Notification>
   );
 };
