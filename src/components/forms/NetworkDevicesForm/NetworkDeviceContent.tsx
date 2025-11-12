@@ -7,6 +7,7 @@ import NetworkSelector from "pages/projects/forms/NetworkSelector";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { supportsNicDeviceAcls } from "util/networks";
 import { isNoneDevice } from "util/devices";
+import { NetworkDeviceIPAddress } from "./NetworkDeviceIPAddress";
 
 interface Props {
   readOnly: boolean;
@@ -34,7 +35,6 @@ const NetworkDeviceContent: FC<Props> = ({
       </span>
     );
   }
-
   if (readOnly) {
     return (
       <>
@@ -50,6 +50,26 @@ const NetworkDeviceContent: FC<Props> = ({
           device={device}
           readOnly
         />
+
+        {formik.values.entityType === "instance" && (
+          <>
+            <NetworkDeviceIPAddress
+              formik={formik}
+              index={index}
+              network={network}
+              device={device}
+              family="IPv4"
+            />
+
+            <NetworkDeviceIPAddress
+              formik={formik}
+              index={index}
+              network={network}
+              device={device}
+              family="IPv6"
+            />
+          </>
+        )}
       </>
     );
   }
@@ -82,6 +102,24 @@ const NetworkDeviceContent: FC<Props> = ({
         formik={formik}
         canSelectManualAcls={supportsNicDeviceAcls(network)}
       />
+      {formik.values.entityType === "instance" && (
+        <>
+          <NetworkDeviceIPAddress
+            formik={formik}
+            index={index}
+            network={network}
+            device={device}
+            family="IPv4"
+          />
+          <NetworkDeviceIPAddress
+            formik={formik}
+            index={index}
+            network={network}
+            device={device}
+            family="IPv6"
+          />
+        </>
+      )}
     </>
   );
 };
