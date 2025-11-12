@@ -69,6 +69,24 @@ const ProfileSelector: FC<Props> = ({
     }
   };
 
+  const getHelp = (index: number) => {
+    const profileIntro =
+      "Profiles store a set of configuration options, such as instance and device options.";
+
+    if (index > 0 && index === selected.length - 1) {
+      return (
+        <>
+          {profileIntro}
+          <br />
+          Each profile overrides the settings specified in previous profiles.
+        </>
+      );
+    }
+    if (selected.length === 1) {
+      return profileIntro;
+    }
+  };
+
   return (
     <>
       <Label forId="profile-0">Profiles</Label>
@@ -78,11 +96,7 @@ const ProfileSelector: FC<Props> = ({
             <Select
               id={`profile-${index}`}
               aria-label="Select a profile"
-              help={
-                index > 0 &&
-                index === selected.length - 1 &&
-                "Each profile overrides the settings specified in previous profiles"
-              }
+              help={getHelp(index)}
               onChange={(e) => {
                 const newValues = [...selected];
                 newValues[index] = e.target.value;
