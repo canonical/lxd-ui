@@ -7,6 +7,7 @@ import NetworkSelector from "pages/projects/forms/NetworkSelector";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { supportsNicDeviceAcls } from "util/networks";
 import { isNoneDevice } from "util/devices";
+import { NetworkDeviceIPAddress } from "./NetworkDeviceIPAddress";
 
 interface Props {
   readOnly: boolean;
@@ -34,7 +35,6 @@ const NetworkDeviceContent: FC<Props> = ({
       </span>
     );
   }
-
   if (readOnly) {
     return (
       <>
@@ -49,6 +49,13 @@ const NetworkDeviceContent: FC<Props> = ({
           network={network}
           device={device}
           readOnly
+        />
+        <NetworkDeviceIPAddress
+          formik={formik}
+          index={index}
+          network={network}
+          readOnly={readOnly}
+          device={device}
         />
       </>
     );
@@ -81,6 +88,13 @@ const NetworkDeviceContent: FC<Props> = ({
         readOnly={readOnly}
         formik={formik}
         canSelectManualAcls={supportsNicDeviceAcls(network)}
+      />
+      <NetworkDeviceIPAddress
+        formik={formik}
+        index={index}
+        network={network}
+        readOnly={readOnly}
+        device={device}
       />
     </>
   );
