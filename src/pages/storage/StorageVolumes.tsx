@@ -23,7 +23,6 @@ import StorageVolumesFilter, {
   VOLUME_TYPE,
 } from "pages/storage/StorageVolumesFilter";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
-import { useDocs } from "context/useDocs";
 import {
   figureCollapsedScreen,
   getSnapshotsPerVolume,
@@ -59,9 +58,9 @@ import SelectedTableNotification from "components/SelectedTableNotification";
 import StorageVolumeBulkDelete from "./actions/StorageVolumeBulkDelete";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isProjectWithVolumes } from "util/projects";
+import DocLink from "components/DocLink";
 
 const StorageVolumes: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
@@ -418,14 +417,12 @@ const StorageVolumes: FC = () => {
       >
         <p>Storage volumes will appear here</p>
         <p>
-          <a
-            href={`${docBaseLink}/explanation/storage/#storage-volumes`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <DocLink
+            docPath="/explanation/storage/#storage-volumes"
+            hasExternalIcon
           >
             Learn more about storage volumes
-            <Icon className="external-link-icon" name="external-link" />
-          </a>
+          </DocLink>
         </p>
         {featuresVolumes && (
           <CreateVolumeBtn
@@ -503,7 +500,7 @@ const StorageVolumes: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/explanation/storage/#storage-volumes`}
+                docPath="/explanation/storage/#storage-volumes"
                 title="Learn more about storage volumes"
               >
                 Volumes

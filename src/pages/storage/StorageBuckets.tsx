@@ -14,7 +14,6 @@ import StorageBucketsFilter, {
   QUERY,
   POOL,
 } from "pages/storage/StorageBucketsFilter";
-import { useDocs } from "context/useDocs";
 import {
   ACTIONS_COL,
   POOL_COL,
@@ -43,9 +42,9 @@ import CreateStorageBucketPanel from "./panels/CreateStorageBucketPanel";
 import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 import StorageBucketLink from "./StorageBucketLink";
 import StorageBucketKeyCount from "./StorageBucketKeyCount";
+import DocLink from "components/DocLink";
 
 const StorageBuckets: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
@@ -275,14 +274,12 @@ const StorageBuckets: FC = () => {
     >
       <p>Storage buckets will appear here</p>
       <p>
-        <a
-          href={`${docBaseLink}/explanation/storage/#storage-buckets`}
-          target="_blank"
-          rel="noopener noreferrer"
+        <DocLink
+          docPath="/explanation/storage/#storage-buckets"
+          hasExternalIcon
         >
           Learn more about storage buckets
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
+        </DocLink>
       </p>
       <CreateStorageBucketBtn className="empty-state-button" />
     </EmptyState>
@@ -310,7 +307,7 @@ const StorageBuckets: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/explanation/storage/#storage-buckets`}
+                  docPath="/explanation/storage/#storage-buckets"
                   title="Learn more about storage buckets"
                 >
                   Buckets

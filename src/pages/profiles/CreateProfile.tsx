@@ -64,7 +64,6 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useDocs } from "context/useDocs";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
   migrationPayload,
@@ -92,7 +91,6 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   YamlFormValues;
 
 const CreateProfile: FC = () => {
-  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -253,10 +251,7 @@ const CreateProfile: FC = () => {
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >
-                <YamlNotification
-                  entity="profile"
-                  href={`${docBaseLink}/profiles`}
-                />
+                <YamlNotification entity="profile" docPath="/profiles" />
               </YamlForm>
             )}
           </Col>

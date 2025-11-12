@@ -31,7 +31,6 @@ import NetworkFormDns from "pages/networks/forms/NetworkFormDns";
 import NetworkFormIpv4 from "pages/networks/forms/NetworkFormIpv4";
 import NetworkFormIpv6 from "pages/networks/forms/NetworkFormIpv6";
 import { slugify } from "util/slugify";
-import { useDocs } from "context/useDocs";
 import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
@@ -217,7 +216,6 @@ const NetworkForm: FC<Props> = ({
   setSection,
   version = 0,
 }) => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const isClustered = useIsClustered();
   const [query, setQuery] = useState("");
@@ -365,7 +363,7 @@ const NetworkForm: FC<Props> = ({
             >
               <YamlNotification
                 entity="network"
-                href={`${docBaseLink}/explanation/networks/#managed-networks`}
+                docPath="/explanation/networks/#managed-networks"
               />
             </YamlForm>
           )}

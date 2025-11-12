@@ -23,7 +23,6 @@ import BulkDeleteImageBtn from "pages/images/actions/BulkDeleteImageBtn";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
-import { useDocs } from "context/useDocs";
 import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
@@ -32,7 +31,6 @@ import { useImagesInProject } from "context/useImages";
 import { useImageEntitlements } from "util/entitlements/images";
 
 const ImageList: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
@@ -203,7 +201,7 @@ const ImageList: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/image-handling/`}
+                docPath="/image-handling/"
                 title="Learn more about images"
               >
                 Images

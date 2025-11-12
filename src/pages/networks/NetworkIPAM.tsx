@@ -13,7 +13,6 @@ import {
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import PageHeader from "components/PageHeader";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -22,9 +21,9 @@ import type { LxdUsedBy } from "util/usedBy";
 import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
 import ResourceLink from "components/ResourceLink";
+import DocLink from "components/DocLink";
 
 const NetworkIPAM: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
@@ -147,7 +146,7 @@ const NetworkIPAM: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/howto/network_ipam/`}
+                docPath="/howto/network_ipam/"
                 title="Learn more about IPAM"
               >
                 IP Address Management
@@ -184,14 +183,9 @@ const NetworkIPAM: FC = () => {
           >
             <p>There are no network allocations in this project.</p>
             <p>
-              <a
-                href={`${docBaseLink}/howto/network_ipam/`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <DocLink docPath="/howto/network_ipam/" hasExternalIcon>
                 Learn more about network allocations
-                <Icon className="external-link-icon" name="external-link" />
-              </a>
+              </DocLink>
             </p>
           </EmptyState>
         )}

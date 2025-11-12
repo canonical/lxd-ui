@@ -3,10 +3,9 @@ import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
-import { useDocs } from "context/useDocs";
+import DocLink from "components/DocLink";
 
 const Login: FC = () => {
-  const docBaseLink = useDocs();
   const { isAuthenticated, isAuthLoading } = useAuth();
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes("oidc");
@@ -36,15 +35,13 @@ const Login: FC = () => {
                 </a>
               )}
               {!hasOidc && (
-                <a
+                <DocLink
                   className="p-button--positive has-icon"
-                  href={`${docBaseLink}/howto/oidc`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  docPath="/howto/oidc"
                 >
                   <Icon name="security" light />
                   <span>Set up SSO login</span>
-                </a>
+                </DocLink>
               )}
               <Link
                 className="has-icon p-button"

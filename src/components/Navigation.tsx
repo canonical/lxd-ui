@@ -21,7 +21,6 @@ import {
 } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
-import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { AccordionNavMenu } from "./NavAccordion";
@@ -34,6 +33,7 @@ import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
 import { getReportBugURL } from "util/reportBug";
+import DocLink from "components/DocLink";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -80,7 +80,6 @@ const initializeProjectName = (
 
 const Navigation: FC = () => {
   const { isRestricted, isOidc } = useAuth();
-  const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const {
     project,
@@ -717,12 +716,10 @@ const Navigation: FC = () => {
                     </SideNavigationItem>
                   )}
                   <SideNavigationItem>
-                    <a
+                    <DocLink
                       className="p-side-navigation__link"
-                      href={docBaseLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       title="Documentation"
+                      docPath="/"
                     >
                       <Icon
                         className={classnames("p-side-navigation__icon", {
@@ -731,7 +728,7 @@ const Navigation: FC = () => {
                         name="book"
                       />
                       Documentation
-                    </a>
+                    </DocLink>
                   </SideNavigationItem>
                   <SideNavigationItem>
                     <a

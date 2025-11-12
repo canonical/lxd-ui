@@ -11,10 +11,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
-import { useDocs } from "context/useDocs";
 import { fetchNetworkLeases } from "api/network-leases";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
+import DocLink from "components/DocLink";
 
 interface Props {
   network: LxdNetwork;
@@ -22,7 +22,6 @@ interface Props {
 }
 
 const NetworkLeases: FC<Props> = ({ network, project }) => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const isClustered = useIsClustered();
 
@@ -152,14 +151,12 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
         >
           <p>There are no network leases in this project.</p>
           <p>
-            <a
-              href={`${docBaseLink}/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <DocLink
+              docPath="/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks"
+              hasExternalIcon
             >
               Learn more about network leases
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
+            </DocLink>
           </p>
         </EmptyState>
       )}
