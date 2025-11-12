@@ -18,7 +18,7 @@ import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
 import { Link, useParams } from "react-router-dom";
-import { useDocs } from "context/useDocs";
+import ExternalDocLink from "components/ExternalDocLink";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
@@ -27,7 +27,6 @@ import ResourceLabel from "components/ResourceLabel";
 import { useLoadIsoVolumes } from "context/useVolumes";
 
 const CustomIsoList: FC = () => {
-  const docBaseLink = useDocs();
   const toastNotify = useToastNotification();
   const [query, setQuery] = useState<string>("");
   const { project } = useParams<{
@@ -162,14 +161,10 @@ const CustomIsoList: FC = () => {
     >
       <p>Custom ISOs will appear here</p>
       <p>
-        <a
-          href={`${docBaseLink}/howto/instances_create/#instances-create-iso`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn how to create a VM that boots from an ISO
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
+        <ExternalDocLink
+          docPath="/howto/instances_create/#instances-create-iso"
+          content="Learn how to create a VM that boots from an ISO"
+        />
       </p>
       <UploadCustomIsoBtn
         className="empty-state-button"
@@ -211,7 +206,7 @@ const CustomIsoList: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/howto/instances_create/#instances-create-iso`}
+                docPath="/howto/instances_create/#instances-create-iso"
                 title="Learn how to create a VM that boots from an ISO"
               >
                 Custom ISOs

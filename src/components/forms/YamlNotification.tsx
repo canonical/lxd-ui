@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Notification } from "@canonical/react-components";
 import { pluralize } from "util/instanceBulkActions";
+import DocLink from "components/DocLink";
 
 const loadClosed = (entity: string) => {
   const saved = localStorage.getItem(`yamlNotificationClosed${entity}`);
@@ -14,10 +15,10 @@ const saveClosed = (entity: string) => {
 
 interface Props {
   entity: string;
-  href: string;
+  docPath: string;
 }
 
-const YamlNotification: FC<Props> = ({ entity, href }) => {
+const YamlNotification: FC<Props> = ({ entity, docPath }) => {
   const [closed, setClosed] = useState(loadClosed(entity));
 
   if (closed) {
@@ -41,9 +42,10 @@ const YamlNotification: FC<Props> = ({ entity, href }) => {
     >
       This is the YAML representation of the {entity}.
       <br />
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        Learn more about {pluralize(entity, 2)}
-      </a>
+      <DocLink
+        docPath={docPath}
+        content={`Learn more about ${pluralize(entity, 2)}`}
+      />
     </Notification>
   );
 };

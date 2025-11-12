@@ -55,7 +55,6 @@ import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useDocs } from "context/useDocs";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm from "components/forms/MigrationForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
@@ -100,7 +99,6 @@ interface Props {
 }
 
 const EditInstance: FC<Props> = ({ instance }) => {
-  const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const { project, section } = useParams<{
@@ -280,10 +278,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
                 readOnly={!!formik.values.editRestriction}
                 readOnlyMessage={formik.values.editRestriction}
               >
-                <YamlNotification
-                  entity="instance"
-                  href={`${docBaseLink}/instances`}
-                />
+                <YamlNotification entity="instance" docPath="/instances" />
               </YamlForm>
             )}
           </Col>

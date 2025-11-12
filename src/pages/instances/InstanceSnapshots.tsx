@@ -19,13 +19,13 @@ import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
 import { useCurrentProject } from "context/useCurrentProject";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { useDocs } from "context/useDocs";
 import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigureSnapshotsBtn";
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
 import ResourceLink from "components/ResourceLink";
+import ExternalDocLink from "components/ExternalDocLink";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -37,7 +37,6 @@ interface Props {
 
 const InstanceSnapshots = (props: Props) => {
   const { instance } = props;
-  const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -319,14 +318,10 @@ const InstanceSnapshots = (props: Props) => {
             )}
           </p>
           <p>
-            <a
-              href={`${docBaseLink}/howto/storage_backup_volume/#storage-backup-snapshots`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more about snapshots
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
+            <ExternalDocLink
+              docPath="/howto/storage_backup_volume/#storage-backup-snapshots"
+              content="Learn more about snapshots"
+            />
           </p>
           <InstanceConfigureSnapshotsBtn
             instance={instance}

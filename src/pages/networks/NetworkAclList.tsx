@@ -13,14 +13,13 @@ import {
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import PageHeader from "components/PageHeader";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useNetworkAcls } from "context/useNetworkAcls";
+import ExternalDocLink from "components/ExternalDocLink";
 
 const NetworkAclList: FC = () => {
-  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -132,7 +131,7 @@ const NetworkAclList: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/howto/network_acls/`}
+                docPath="/howto/network_acls/"
                 title="Learn more about network ACLs"
               >
                 Network ACLs
@@ -164,14 +163,10 @@ const NetworkAclList: FC = () => {
           >
             <p>There are no network ACLs in this project.</p>
             <p>
-              <a
-                href={`${docBaseLink}/howto/network_acls/`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn more about network ACLs
-                <Icon className="external-link-icon" name="external-link" />
-              </a>
+              <ExternalDocLink
+                docPath="/howto/network_acls/"
+                content="Learn more about network ACLs"
+              />
             </p>
             {createAclButton}
           </EmptyState>

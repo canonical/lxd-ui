@@ -13,7 +13,6 @@ import { Link, useParams } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
-import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
@@ -21,9 +20,9 @@ import { useStoragePools } from "context/useStoragePools";
 import classNames from "classnames";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
 import { useIsClustered } from "context/useIsClustered";
+import ExternalDocLink from "components/ExternalDocLink";
 
 const StoragePools: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const isClustered = useIsClustered();
@@ -157,14 +156,10 @@ const StoragePools: FC = () => {
       >
         <p>Storage pools will appear here.</p>
         <p>
-          <a
-            href={`${docBaseLink}/explanation/storage/`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn more about storage pools, volumes and buckets
-            <Icon className="external-link-icon" name="external-link" />
-          </a>
+          <ExternalDocLink
+            docPath="/explanation/storage/"
+            content="Learn more about storage pools, volumes and buckets"
+          />
         </p>
         <CreateStoragePoolBtn
           project={project}
@@ -181,7 +176,7 @@ const StoragePools: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/explanation/storage/`}
+                docPath="/explanation/storage/"
                 title="Learn more about storage pools, volumes and buckets"
               >
                 Pools
