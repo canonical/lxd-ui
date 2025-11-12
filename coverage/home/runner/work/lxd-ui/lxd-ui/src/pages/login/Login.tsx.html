@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Branches</span>
                 <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/8</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -127,21 +127,7 @@
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,14 +149,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,31 +187,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, type FC } from "react";
-import {
-  Icon,
-  Spinner,
-  CustomLayout,
-  Button,
-} from "@canonical/react-components";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
+import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
-import SsoProviderSelector from "components/SsoProviderSelector/SsoProviderSelector";
+import { useDocs } from "context/useDocs";
 &nbsp;
 const Login: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+  const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const { isAuthenticated, isAuthLoading } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
   const hasOidc = <span class="cstat-no" title="statement not covered" >settings?.auth_methods?.includes("oidc");</span>
-  const [isModal, setModal] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-&nbsp;
-  const closeModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setModal(false);</span>
-  };
-&nbsp;
-  const openModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setModal(true);</span>
-  };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (isAuthLoading) {</span>
 <span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading..." isMainComponent /&gt;;</span>
@@ -260,10 +229,15 @@ const Login: FC = <span class="cstat-no" title="statement not covered" ><span cl
                 &lt;/a&gt;
               )}
               {!hasOidc &amp;&amp; (
-                &lt;Button hasIcon onClick={openModal} appearance="positive"&gt;
+                &lt;a
+                  className="p-button--positive has-icon"
+                  href={`${docBaseLink}/howto/oidc`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                &gt;
                   &lt;Icon name="security" light /&gt;
                   &lt;span&gt;Set up SSO login&lt;/span&gt;
-                &lt;/Button&gt;
+                &lt;/a&gt;
               )}
               &lt;Link
                 className="has-icon p-button"
@@ -276,7 +250,6 @@ const Login: FC = <span class="cstat-no" title="statement not covered" ><span cl
           &lt;/&gt;
         &lt;/div&gt;
       &lt;/CustomLayout&gt;
-      {isModal &amp;&amp; &lt;SsoProviderSelector closeModal={closeModal} /&gt;}
     &lt;/&gt;
   );
 };
@@ -289,7 +262,7 @@ export default Login;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-11T19:22:07.518Z
+                at 2025-11-12T09:59:25.619Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

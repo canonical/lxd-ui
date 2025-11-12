@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.02% </span>
+                <span class="strong">36.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/82</span>
+                <span class='fraction'>25/69</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/10</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/15</span>
+                <span class='fraction'>3/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.79% </span>
+                <span class="strong">45.45% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/63</span>
+                <span class='fraction'>25/55</span>
             </div>
         
             
@@ -118,15 +118,7 @@
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -149,14 +141,6 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,15 +168,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useState } from "react";
 import { Notification } from "@canonical/react-components";
-import SsoProviderSelector from "components/SsoProviderSelector/SsoProviderSelector";
+import { useDocs } from "context/useDocs";
 &nbsp;
 const loadClosed = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const saved = <span class="cstat-no" title="statement not covered" >localStorage.getItem("ssoNotificationClosed");</span>
@@ -208,16 +192,8 @@ interface Props {
 }
 &nbsp;
 const SsoNotification: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> hasOidc }: Props) =&gt; {</span>
+  const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const [closed, setClosed] = <span class="cstat-no" title="statement not covered" >useState(loadClosed());</span>
-  const [isModal, setModal] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-&nbsp;
-  const closeModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setModal(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-  const openModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setModal(true);</span></span>
-<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (closed || <span class="branch-1 cbranch-no" title="branch not covered" >hasOidc) {</span></span>
 <span class="cstat-no" title="statement not covered" >    return null;</span>
@@ -235,21 +211,21 @@ const SsoNotification: FC&lt;Props&gt; = <span class="cstat-no" title="statement
 <span class="cstat-no" title="statement not covered" >        title="Did you know?"</span>
 <span class="cstat-no" title="statement not covered" >        onDismiss={handleClose}</span>
 <span class="cstat-no" title="statement not covered" >        actions={[</span>
-<span class="cstat-no" title="statement not covered" >          {</span>
-<span class="cstat-no" title="statement not covered" >            label: "Show me how",</span>
-<span class="cstat-no" title="statement not covered" >            onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              openModal();</span></span>
-<span class="cstat-no" title="statement not covered" >            },</span>
-<span class="cstat-no" title="statement not covered" >          },</span>
+<span class="cstat-no" title="statement not covered" >          &lt;a</span>
+<span class="cstat-no" title="statement not covered" >            href={`${docBaseLink}/howto/oidc/`}</span>
+<span class="cstat-no" title="statement not covered" >            target="_blank"</span>
+<span class="cstat-no" title="statement not covered" >            rel="noopener noreferrer"</span>
+<span class="cstat-no" title="statement not covered" >            key="sso-doc-link"</span>
+<span class="cstat-no" title="statement not covered" >          &gt;</span>
+<span class="cstat-no" title="statement not covered" >            Show me how</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/a&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        ]}</span>
 <span class="cstat-no" title="statement not covered" >      &gt;</span>
 <span class="cstat-no" title="statement not covered" >        LXD can be configured to log in using a single sign-on provider.</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/Notification&gt;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      {isModal &amp;&amp; &lt;SsoProviderSelector closeModal={closeModal} /&gt;}</span>
-    &lt;/&gt;
-  );
-};
+<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 export default SsoNotification;
 &nbsp;</pre></td></tr></table></pre>
@@ -259,7 +235,7 @@ export default SsoNotification;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-11T19:22:07.518Z
+                at 2025-11-12T09:59:25.619Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
