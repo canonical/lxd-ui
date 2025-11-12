@@ -113,7 +113,15 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
     const isCustomNetwork =
       item.type === "nic" &&
       Object.keys(item).some(
-        (key) => !["type", "name", "network", "security.acls"].includes(key),
+        (key) =>
+          ![
+            "type",
+            "name",
+            "network",
+            "security.acls",
+            "ipv4.address",
+            "ipv6.address",
+          ].includes(key),
       );
 
     if (isCustomNetwork) {
@@ -136,6 +144,8 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
       case "nic":
         return {
           name: key,
+          "ipv4.address": item["ipv4.address"],
+          "ipv6.address": item["ipv6.address"],
           network: item.network,
           type: "nic",
           "security.acls": item["security.acls"],
