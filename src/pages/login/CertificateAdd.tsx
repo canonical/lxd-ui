@@ -8,14 +8,13 @@ import {
   useNotify,
   Spinner,
   CustomLayout,
-  CodeSnippetBlockAppearance,
 } from "@canonical/react-components";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import { useSettings } from "context/useSettings";
-import CopyToClipboard from "components/CopyToClipboard";
+import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -73,25 +72,7 @@ const CertificateAdd: FC = () => {
               LXD is running:
             </p>
 
-            <CodeSnippet
-              className="identity-trust-token-command-wrapper u-no-margin--bottom"
-              blocks={[
-                {
-                  appearance: CodeSnippetBlockAppearance.LINUX_PROMPT,
-                  code: (
-                    <div className="command-wrapper">
-                      <span
-                        className="command u-truncate"
-                        title={identityTrustTokenCommand}
-                      >
-                        {identityTrustTokenCommand}
-                      </span>
-                      <CopyToClipboard value={identityTrustTokenCommand} />
-                    </div>
-                  ),
-                },
-              ]}
-            />
+            <CodeSnippetWithCopyButton code={identityTrustTokenCommand} />
             <Accordion
               sections={[
                 {

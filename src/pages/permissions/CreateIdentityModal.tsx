@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import ResourceLabel from "components/ResourceLabel";
-import { Button, Modal } from "@canonical/react-components";
-import CopyTextBtn from "components/CopyTextBtn";
+import { Modal } from "@canonical/react-components";
+import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 
 interface Props {
   onClose: () => void;
@@ -15,23 +15,6 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
       close={onClose}
       className="create-tls-identity"
       title="Identity created"
-      buttonRow={
-        <>
-          {token && (
-            <>
-              <CopyTextBtn label="Copy identity trust token" text={token} />
-              <Button
-                aria-label="Close"
-                className="u-no-margin--bottom"
-                onClick={onClose}
-                type="button"
-              >
-                Close
-              </Button>
-            </>
-          )}
-        </>
-      }
     >
       {token && (
         <>
@@ -45,9 +28,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
             </b>
           </p>
 
-          <div className="token-code-block">
-            <code>{token}</code>
-          </div>
+          <CodeSnippetWithCopyButton code={token} />
         </>
       )}
     </Modal>
