@@ -60,7 +60,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
 
   const rows = leases.map((lease) => {
     return {
-      key: lease.address,
+      key: lease.address + lease.hostname + lease.type,
       columns: [
         {
           content: lease.type,
