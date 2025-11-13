@@ -199,6 +199,23 @@ const config: PlaywrightTestConfig<TestOptions> = {
       dependencies: ["enable-clustering-chrome"],
       testMatch: "*-clustered.spec.ts",
     },
+    {
+      name: "screenshots",
+      use: {
+        ...devices["Desktop Chrome"],
+        lxdVersion: "latest-edge",
+      },
+      testMatch: "docs-screenshots.spec.ts",
+    },
+    {
+      name: "screenshots-clustered",
+      use: {
+        ...devices["Desktop Chrome"],
+        lxdVersion: "latest-edge",
+      },
+      dependencies: ["enable-clustering-chrome"],
+      testMatch: "docs-screenshots-clustered.spec.ts",
+    },
   ],
 };
 

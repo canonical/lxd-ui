@@ -5,7 +5,7 @@ import { createPool, deletePool } from "./helpers/storagePool";
 
 test.beforeEach(() => {
   test.skip(
-    Boolean(process.env.CI),
+    !!process.env.CI && !process.env.ENABLE_SCREENSHOTS,
     "This suite is only run manually to create screenshots for the documentation",
   );
 });
@@ -56,17 +56,17 @@ test("Clustered storage volumes", async ({ page }) => {
 });
 
 test("LXD - UI Folder - Clustered", async ({ page }) => {
-  //This test assumes that there is a cluster member named micro2 within the environment. This is the value within the original screenshot, but it can also be changed to accomodate alternative names.
-  const clusterMemberName = "micro2";
+  //This test assumes that there is a cluster member named micro1 within the environment. This is the value within the original screenshot, but it can also be changed to accomodate alternative names.
+  const clusterMemberName = "micro1";
   page.setViewportSize({ width: 1440, height: 800 });
   await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Instances", exact: true }).click();
-  await page.getByText("Create instance").click();
+  await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-vm-server2");
   await page.getByRole("button", { name: "Browse images" }).click();
   await page
     .locator("tr")
-    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuSelect" })
+    .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })
     .getByRole("button")
     .click();
   await page.getByLabel("Cluster member").selectOption(clusterMemberName);
