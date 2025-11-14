@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Select } from "@canonical/react-components";
+import { CustomSelect } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useDocs } from "context/useDocs";
@@ -19,7 +19,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
   const docBaseLink = useDocs();
 
   return (
-    <Select
+    <CustomSelect
       id="networkType"
       name="networkType"
       help={
@@ -34,30 +34,75 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
         ) : undefined
       }
       required
+      searchable="never"
       options={[
         {
-          label: "Bridge",
+          label: (
+            <div className="label network-type-label">
+              <span className="network-type-name">Bridge</span>
+              <span className="network-type-explanation u-text--muted">
+                Setup local virtual subnet providing NAT, DHCP and DNS to
+                instances.
+              </span>
+            </div>
+          ),
+          text: "Bridge",
           value: bridgeType,
         },
         {
-          label: "Macvlan",
+          label: (
+            <div className="label network-type-label">
+              <span className="network-type-name">Macvlan</span>
+              <span className="network-type-explanation u-text--muted">
+                Connect instances to an existing network interface without a
+                bridge.
+              </span>
+            </div>
+          ),
+          text: "Macvlan",
           value: macvlanType,
         },
         {
-          label: "OVN",
+          label: (
+            <div className="label network-type-label">
+              <div className="network-type-name">OVN</div>
+              <div className="network-type-explanation u-text--muted">
+                Setup cluster-wide virtual subnet providing NAT, DHCP and DNS to
+                instances.
+              </div>
+            </div>
+          ),
+          text: "OVN",
           value: ovnType,
         },
         {
-          label: "Physical",
+          label: (
+            <div className="label network-type-label">
+              <span className="network-type-name">Physical</span>
+              <span className="network-type-explanation u-text--muted">
+                Define OVN uplink or pass-through existing physical interface to
+                one instance.
+              </span>
+            </div>
+          ),
+          text: "Physical",
           value: physicalType,
         },
         {
-          label: "SR-IOV",
+          label: (
+            <div className="label network-type-label">
+              <span className="network-type-name">SR-IOV</span>
+              <span className="network-type-explanation u-text--muted">
+                Connect instances to an existing SR-IOV network interface.
+              </span>
+            </div>
+          ),
+          text: "SR-IOV",
           value: sriovType,
         },
       ]}
-      onChange={(e) => {
-        if (e.target.value === bridgeType) {
+      onChange={(value) => {
+        if (value === bridgeType) {
           formik.setFieldValue("networkType", bridgeType);
           formik.setFieldValue("network", undefined);
           formik.setFieldValue("parent", undefined);
@@ -77,7 +122,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           formik.setFieldValue("mtu", undefined);
           formik.setFieldValue("ovn_ingress_mode", undefined);
         }
-        if (e.target.value === macvlanType) {
+        if (value === macvlanType) {
           formik.setFieldValue("networkType", macvlanType);
           formik.setFieldValue("network", undefined);
           formik.setFieldValue("bridge_driver", undefined);
@@ -103,7 +148,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           formik.setFieldValue("ovn_ingress_mode", undefined);
           formik.setFieldValue("security_acls", []);
         }
-        if (e.target.value === ovnType) {
+        if (value === ovnType) {
           formik.setFieldValue("networkType", ovnType);
           formik.setFieldValue("bridge_driver", undefined);
           formik.setFieldValue("bridge_external_interfaces", undefined);
@@ -129,7 +174,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           formik.setFieldValue("mtu", undefined);
           formik.setFieldValue("ovn_ingress_mode", undefined);
         }
-        if (e.target.value === physicalType) {
+        if (value === physicalType) {
           formik.setFieldValue("networkType", physicalType);
           formik.setFieldValue("network", undefined);
           formik.setFieldValue("bridge_driver", undefined);
@@ -156,7 +201,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           formik.setFieldValue("mtu", undefined);
           formik.setFieldValue("security_acls", []);
         }
-        if (e.target.value === sriovType) {
+        if (value === sriovType) {
           formik.setFieldValue("networkType", sriovType);
           formik.setFieldValue("network", undefined);
           formik.setFieldValue("bridge_driver", undefined);

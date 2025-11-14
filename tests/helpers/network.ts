@@ -1,6 +1,5 @@
 import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
-import type { LxdNetworkType } from "types/network";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
@@ -13,7 +12,7 @@ export const randomNetworkName = (): string => {
 export const createNetwork = async (
   page: Page,
   network: string,
-  type: LxdNetworkType = "bridge",
+  type = "bridge",
   hasMemberSpecificParents?: boolean,
 ) => {
   await gotoURL(page, "/ui/");
@@ -21,11 +20,12 @@ export const createNetwork = async (
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
-  await page.getByLabel("Type").selectOption(type);
+  await page.getByRole("button", { name: "Type" }).click();
+  await page.getByLabel("submenu").getByText(type).first().click();
   await page.getByLabel("Name", { exact: true }).click();
   await page.getByLabel("Name", { exact: true }).fill(network);
 
-  if (["physical", "sriov", "macvlan"].includes(type)) {
+  if (["physical", "sr-iov", "macvlan"].includes(type)) {
     if (hasMemberSpecificParents) {
       await page.getByText("Same for all cluster members").click();
     }

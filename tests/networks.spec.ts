@@ -241,7 +241,8 @@ test.describe("OVN type", () => {
     await page.getByRole("link", { name: "Networks", exact: true }).click();
     await page.getByRole("button", { name: "Create network" }).click();
     await page.getByRole("heading", { name: "Create a network" }).click();
-    await page.getByLabel("Type").selectOption("OVN");
+    await page.getByRole("button", { name: "Type" }).click();
+    await page.getByLabel("submenu").getByText("OVN").first().click();
     await page.getByLabel("Name").click();
     await page.getByLabel("Name").fill(network);
     await page.getByLabel("Uplink").selectOption({ index: 1 });
@@ -321,10 +322,10 @@ test("create network forward for specified network", async ({ page }) => {
   await deleteNetwork(page, network);
 });
 
-test.describe("SRIOV type", () => {
+test.describe("SR-IOV type", () => {
   test.beforeAll(async ({ browser }) => {
     const page = await browser.newPage();
-    await createNetwork(page, network, "sriov");
+    await createNetwork(page, network, "sr-iov");
     await page.close();
   });
 
@@ -334,7 +335,7 @@ test.describe("SRIOV type", () => {
     await page.close();
   });
 
-  test("configure SRIOV network settings", async ({ page }) => {
+  test("configure SR-IOV network settings", async ({ page }) => {
     await visitNetwork(page, network);
 
     await page.getByRole("button", { name: "Edit" }).first().click();
