@@ -27,7 +27,6 @@ import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
@@ -48,7 +47,6 @@ const PermissionIdentities: FC = () => {
   const notify = useNotify();
   const { data: identities = [], error, isLoading } = useIdentities();
   const { data: settings } = useSettings();
-  const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [searchParams] = useSearchParams();
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
@@ -291,7 +289,7 @@ const PermissionIdentities: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/explanation/authorization`}
+                  docPath="/explanation/authorization"
                   title="Learn more about permissions"
                 >
                   Identities

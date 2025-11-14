@@ -16,7 +16,7 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { useDocs } from "context/useDocs";
+import ExternalDocLink from "components/ExternalDocLink";
 import type { LxdStorageVolume } from "types/storage";
 import VolumeSnapshotBulkDelete from "./actions/snapshots/VolumeSnapshotBulkDelete";
 import VolumeAddSnapshotBtn from "./actions/snapshots/VolumeAddSnapshotBtn";
@@ -34,7 +34,6 @@ interface Props {
 }
 
 const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
-  const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
@@ -311,14 +310,10 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
             )}
           </p>
           <p>
-            <a
-              href={`${docBaseLink}/howto/storage_backup_volume/#storage-backup-snapshots`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more about snapshots
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
+            <ExternalDocLink
+              docPath="/howto/storage_backup_volume/#storage-backup-snapshots"
+              content="Learn more about snapshots"
+            />
           </p>
           <VolumeConfigureSnapshotBtn
             volume={volume}

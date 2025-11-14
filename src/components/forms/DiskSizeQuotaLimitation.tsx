@@ -1,27 +1,22 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
-import { useDocs } from "context/useDocs";
 import { btrfsDriver, dirDriver } from "util/storageOptions";
+import DocLink from "components/DocLink";
 
 interface Props {
   driver?: string;
 }
 
 const DiskSizeQuotaLimitation: FC<Props> = ({ driver }) => {
-  const docBaseLink = useDocs();
-
   const getMessage = () => {
     if (driver === dirDriver) {
       return (
         <>
           Size limit might not be applied. See{" "}
-          <a
-            href={`${docBaseLink}/reference/storage_dir/#quotas`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            directory driver quotas
-          </a>
+          <DocLink
+            docPath="/reference/storage_dir/#quotas"
+            content="directory driver quotas"
+          />
           .
         </>
       );
@@ -30,13 +25,10 @@ const DiskSizeQuotaLimitation: FC<Props> = ({ driver }) => {
       return (
         <>
           Size limit might not be applied. See{" "}
-          <a
-            href={`${docBaseLink}/reference/storage_btrfs/#quotas`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            btrfs driver quotas
-          </a>
+          <DocLink
+            docPath="/reference/storage_btrfs/#quotas"
+            content="btrfs driver quotas"
+          />
           .
         </>
       );

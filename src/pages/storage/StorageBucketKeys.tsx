@@ -12,7 +12,7 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { useDocs } from "context/useDocs";
+import ExternalDocLink from "components/ExternalDocLink";
 import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
 import CreateStorageBucketKeyBtn from "./actions/CreateStorageBucketKeyBtn";
@@ -27,7 +27,6 @@ interface Props {
 }
 
 const StorageBucketKeys: FC<Props> = ({ bucket }) => {
-  const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
   const notify = useNotify();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
@@ -244,14 +243,10 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
         >
           <p>This bucket does not contain any keys.</p>
           <p>
-            <a
-              href={`${docBaseLink}/howto/storage_buckets/#manage-storage-bucket-keys`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn how to manage storage bucket keys
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
+            <ExternalDocLink
+              docPath="/howto/storage_buckets/#manage-storage-bucket-keys"
+              content="Learn how to manage storage bucket keys"
+            />
           </p>
           <CreateStorageBucketKeyBtn />
         </EmptyState>

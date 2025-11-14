@@ -14,7 +14,7 @@ import StorageBucketsFilter, {
   QUERY,
   POOL,
 } from "pages/storage/StorageBucketsFilter";
-import { useDocs } from "context/useDocs";
+import ExternalDocLink from "components/ExternalDocLink";
 import {
   ACTIONS_COL,
   POOL_COL,
@@ -45,7 +45,6 @@ import StorageBucketLink from "./StorageBucketLink";
 import StorageBucketKeyCount from "./StorageBucketKeyCount";
 
 const StorageBuckets: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
@@ -275,14 +274,10 @@ const StorageBuckets: FC = () => {
     >
       <p>Storage buckets will appear here</p>
       <p>
-        <a
-          href={`${docBaseLink}/explanation/storage/#storage-buckets`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more about storage buckets
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
+        <ExternalDocLink
+          docPath="/explanation/storage/#storage-buckets"
+          content="Learn more about storage buckets"
+        />
       </p>
       <CreateStorageBucketBtn className="empty-state-button" />
     </EmptyState>
@@ -310,7 +305,7 @@ const StorageBuckets: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/explanation/storage/#storage-buckets`}
+                  docPath="/explanation/storage/#storage-buckets"
                   title="Learn more about storage buckets"
                 >
                   Buckets

@@ -11,7 +11,6 @@ import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
-import { useDocs } from "context/useDocs";
 import ResourceLink from "components/ResourceLink";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useToastNotification } from "@canonical/react-components";
@@ -21,7 +20,6 @@ interface Props {
 }
 
 const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
-  const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
@@ -114,7 +112,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
       parentItems={[
         <HelpLink
           key="project-configuration"
-          href={`${docBaseLink}/reference/projects/`}
+          docPath="/reference/projects/"
           title="Learn more about project configuration"
         >
           Project configuration

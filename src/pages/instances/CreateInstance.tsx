@@ -74,7 +74,6 @@ import {
   hasNoRootDisk,
 } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useDocs } from "context/useDocs";
 import { instanceNameValidation } from "util/instances";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
@@ -114,7 +113,6 @@ interface PresetFormState {
 }
 
 const CreateInstance: FC = () => {
-  const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const location = useLocation() as Location<PresetFormState>;
   const navigate = useNavigate();
@@ -524,10 +522,7 @@ const CreateInstance: FC = () => {
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >
-                <YamlNotification
-                  entity="instance"
-                  href={`${docBaseLink}/instances`}
-                />
+                <YamlNotification entity="instance" docPath="/instances" />
               </YamlForm>
             )}
           </Col>

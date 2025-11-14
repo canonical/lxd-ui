@@ -13,7 +13,6 @@ import {
 import SettingForm from "./SettingForm";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import { queryKeys } from "util/queryKeys";
 import { fetchConfigOptions } from "api/server";
 import { useQuery } from "@tanstack/react-query";
@@ -30,7 +29,6 @@ import { useProjects } from "context/useProjects";
 import { getDefaultProject } from "util/loginProject";
 
 const Settings: FC = () => {
-  const docBaseLink = useDocs();
   const [query, setQuery] = useState("");
   const notify = useNotify();
   const {
@@ -210,7 +208,7 @@ const Settings: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/server/`}
+                  docPath="/server/"
                   title="Learn more about server configuration"
                 >
                   Settings
