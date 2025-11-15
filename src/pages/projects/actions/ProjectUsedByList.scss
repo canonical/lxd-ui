@@ -1,0 +1,30 @@
+.delete-project-dialog {
+  .p-modal__dialog {
+    left: 50%;
+    position: absolute;
+    right: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+  }
+
+  .delete-project-table {
+    thead {
+      tr {
+        th:first-child {
+          width: 16rem;
+        }
+      }
+    }
+    .icon {
+      margin-right: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-large) {
+  .delete-project-dialog {
+    .p-modal__dialog {
+      width: 80%;
+    }
+  }
+}
