@@ -53,8 +53,8 @@ describe("parseDevices and formDeviceToPayload", () => {
       Object.values(formDevices).filter((item) => item.type === deviceType);
 
     expect(matchFormDeviceType("disk").length).toBe(1);
-    expect(matchFormDeviceType("nic").length).toBe(1);
-    expect(matchFormDeviceType("custom-nic").length).toBe(1);
+    expect(matchFormDeviceType("nic").length).toBe(2);
+    expect(matchFormDeviceType("custom-nic").length).toBe(0);
     expect(matchFormDeviceType("proxy").length).toBe(2);
     expect(matchFormDeviceType("gpu").length).toBe(1);
 
