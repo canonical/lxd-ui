@@ -1,0 +1,11 @@
+.code-snippet-with-copy-button-wrapper code {
+  width: 100%;
+
+  .command-wrapper {
+    display: flex;
+
+    .command {
+      flex-grow: 1;
+    }
+  }
+}

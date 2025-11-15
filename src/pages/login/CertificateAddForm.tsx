@@ -7,7 +7,7 @@ const CertificateAddForm: FC = () => {
   const notify = useNotify();
   const [token, setToken] = useState("");
 
-  const useToken = () => {
+  const submitCertificateToken = () => {
     const sanitisedToken =
       token
         .trim()
@@ -37,7 +37,7 @@ const CertificateAddForm: FC = () => {
         appearance="positive"
         disabled={token.length < 1}
         type="button"
-        onClick={useToken}
+        onClick={submitCertificateToken}
       >
         Connect
       </Button>
