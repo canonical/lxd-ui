@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
@@ -14,7 +14,10 @@ import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 import { useNetwork } from "context/useNetworks";
 import NetworkLeases from "pages/networks/NetworkLeases";
-import { typesWithForwards } from "util/networks";
+import { ovnType, typesWithForwards, typesWithLeases } from "util/networks";
+import NetworkPeers from "./NetworkPeers";
+import { slugify } from "util/slugify";
+import classnames from "classnames";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -47,14 +50,17 @@ const NetworkDetail: FC = () => {
   }
 
   const isManagedNetwork = network?.managed;
+  const hasForwards =
+    typesWithForwards.includes(network?.type ?? "") && isManagedNetwork;
+  const hasLeases = typesWithLeases.includes(network?.type ?? "");
+  const isPeeringSupported = network?.type === ovnType;
 
-  const getTabs = () => {
-    const type = network?.type ?? "";
-    if (!typesWithForwards.includes(type) || !isManagedNetwork) {
-      return ["Configuration"];
-    }
+  const tabLink = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`;
 
-    return ["Configuration", "Forwards", "Leases"];
+  const getTabClassnames = (isDisabled: boolean) => {
+    return classnames("p-tabs__link", {
+      "is-disabled": isDisabled,
+    });
   };
 
   return (
@@ -66,9 +72,71 @@ const NetworkDetail: FC = () => {
     >
       <Row>
         <TabLinks
-          tabs={getTabs()}
+          tabs={[
+            "Configuration",
+            {
+              component: () => {
+                return (
+                  <Link
+                    to={hasForwards ? `${tabLink}/forwards` : "#"}
+                    className={getTabClassnames(!hasForwards)}
+                    title={
+                      hasForwards
+                        ? "Forwards"
+                        : `Forwards are not supported on this network`
+                    }
+                  >
+                    Forwards
+                  </Link>
+                );
+              },
+              id: "forwards",
+              label: "Forwards",
+              active: slugify("Forwards") === activeTab,
+            },
+            {
+              component: () => {
+                return (
+                  <Link
+                    to={hasLeases ? `${tabLink}/leases` : "#"}
+                    className={getTabClassnames(!hasLeases)}
+                    title={
+                      hasLeases
+                        ? "Leases"
+                        : `Leases are not supported on this network`
+                    }
+                  >
+                    Leases
+                  </Link>
+                );
+              },
+              id: "leases",
+              label: "Leases",
+              active: slugify("Leases") === activeTab,
+            },
+            {
+              component: () => {
+                return (
+                  <Link
+                    to={isPeeringSupported ? `${tabLink}/local-peering` : "#"}
+                    className={getTabClassnames(!isPeeringSupported)}
+                    title={
+                      isPeeringSupported
+                        ? "Local Peering"
+                        : `Local Peering is not supported on this network`
+                    }
+                  >
+                    Local Peering
+                  </Link>
+                );
+              },
+              id: "local-peering",
+              label: "Local Peering",
+              active: slugify("Local Peering") === activeTab,
+            },
+          ]}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`}
+          tabUrl={tabLink}
         />
         <NotificationRow />
         {!activeTab && (
@@ -84,6 +152,11 @@ const NetworkDetail: FC = () => {
         {activeTab === "leases" && (
           <div role="tabpanel" aria-labelledby="leases">
             {network && <NetworkLeases network={network} project={project} />}
+          </div>
+        )}
+        {activeTab === "local-peering" && (
+          <div role="tabpanel" aria-labelledby="local-peering">
+            {network && <NetworkPeers network={network} project={project} />}
           </div>
         )}
       </Row>
