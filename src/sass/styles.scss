@@ -71,11 +71,14 @@
 
 $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
+@import "certificate_add";
 @import "certificates";
 @import "cluster_group_form";
 @import "cluster_list";
 @import "cluster_specific_input";
+@import "code_snippet_with_copy";
 @import "configuration_table";
+@import "copy_to_clipboard";
 @import "custom_isos";
 @import "detail_page";
 @import "detail_panels";
