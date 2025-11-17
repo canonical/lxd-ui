@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.92% </span>
+                <span class="strong">73.91% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>292/395</span>
+                <span class='fraction'>289/391</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.14% </span>
+                <span class="strong">82.99% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>291/350</span>
+                <span class='fraction'>288/347</span>
             </div>
         
             
@@ -410,10 +410,7 @@
 <a name='L345'></a><a href='#L345'>345</a>
 <a name='L346'></a><a href='#L346'>346</a>
 <a name='L347'></a><a href='#L347'>347</a>
-<a name='L348'></a><a href='#L348'>348</a>
-<a name='L349'></a><a href='#L349'>349</a>
-<a name='L350'></a><a href='#L350'>350</a>
-<a name='L351'></a><a href='#L351'>351</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<a name='L348'></a><a href='#L348'>348</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
@@ -451,7 +448,6 @@
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
@@ -729,8 +725,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -784,13 +778,13 @@ import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
 import { useCurrentProject } from "context/useCurrentProject";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { useDocs } from "context/useDocs";
 import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigureSnapshotsBtn";
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
 import ResourceLink from "components/ResourceLink";
+import DocLink from "components/DocLink";
 &nbsp;
 const collapsedViewMaxWidth = <span class="cstat-no" title="statement not covered" >1250;</span>
 export const figureCollapsedScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): boolean =&gt;</span></span>
@@ -802,7 +796,6 @@ interface Props {
 &nbsp;
 const InstanceSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>rops: Props) =&gt; {</span>
   const { instance } = <span class="cstat-no" title="statement not covered" >props;</span>
-  const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const [query, setQuery] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;("");</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
@@ -1084,14 +1077,12 @@ const InstanceSnapshots = <span class="cstat-no" title="statement not covered" >
             )}
           &lt;/p&gt;
           &lt;p&gt;
-            &lt;a
-              href={`${docBaseLink}/howto/storage_backup_volume/#storage-backup-snapshots`}
-              target="_blank"
-              rel="noopener noreferrer"
+            &lt;DocLink
+              docPath="/howto/storage_backup_volume/#storage-backup-snapshots"
+              hasExternalIcon
             &gt;
               Learn more about snapshots
-              &lt;Icon className="external-link-icon" name="external-link" /&gt;
-            &lt;/a&gt;
+            &lt;/DocLink&gt;
           &lt;/p&gt;
           &lt;InstanceConfigureSnapshotsBtn
             instance={instance}
@@ -1120,7 +1111,7 @@ export default InstanceSnapshots;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-17T10:23:43.389Z
+                at 2025-11-17T13:35:13.510Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

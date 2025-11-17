@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.29% </span>
+                <span class="strong">78.45% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>143/185</span>
+                <span class='fraction'>142/181</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.11% </span>
+                <span class="strong">85.02% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>143/170</span>
+                <span class='fraction'>142/167</span>
             </div>
         
             
@@ -230,10 +230,7 @@
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -257,7 +254,6 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -395,8 +391,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -416,10 +410,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
-import { useDocs } from "context/useDocs";
 import { fetchNetworkLeases } from "api/network-leases";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
+import DocLink from "components/DocLink";
 &nbsp;
 interface Props {
   network: LxdNetwork;
@@ -427,7 +421,6 @@ interface Props {
 }
 &nbsp;
 const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> network, project }) =&gt; {</span>
-  const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span>
 &nbsp;
@@ -557,14 +550,12 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p&gt;There are no network leases in this project.&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;a</span>
-<span class="cstat-no" title="statement not covered" >              href={`${docBaseLink}/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks`}</span>
-<span class="cstat-no" title="statement not covered" >              target="_blank"</span>
-<span class="cstat-no" title="statement not covered" >              rel="noopener noreferrer"</span>
+<span class="cstat-no" title="statement not covered" >            &lt;DocLink</span>
+<span class="cstat-no" title="statement not covered" >              docPath="/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks"</span>
+<span class="cstat-no" title="statement not covered" >              hasExternalIcon</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              Learn more about network leases</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Icon className="external-link-icon" name="external-link" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/a&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/DocLink&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/EmptyState&gt;</span>
       )}
@@ -580,7 +571,7 @@ export default NetworkLeases;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-17T10:23:43.389Z
+                at 2025-11-17T13:35:13.510Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

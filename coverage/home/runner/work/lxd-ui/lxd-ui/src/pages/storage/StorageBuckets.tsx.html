@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">49.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>202/404</span>
+                <span class='fraction'>199/400</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.14% </span>
+                <span class="strong">55.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>201/358</span>
+                <span class='fraction'>198/355</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -418,10 +418,7 @@
 <a name='L353'></a><a href='#L353'>353</a>
 <a name='L354'></a><a href='#L354'>354</a>
 <a name='L355'></a><a href='#L355'>355</a>
-<a name='L356'></a><a href='#L356'>356</a>
-<a name='L357'></a><a href='#L357'>357</a>
-<a name='L358'></a><a href='#L358'>358</a>
-<a name='L359'></a><a href='#L359'>359</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L356'></a><a href='#L356'>356</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -468,7 +465,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -690,8 +686,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -795,7 +789,6 @@ import StorageBucketsFilter, {
   QUERY,
   POOL,
 } from "pages/storage/StorageBucketsFilter";
-import { useDocs } from "context/useDocs";
 import {
   ACTIONS_COL,
   POOL_COL,
@@ -824,9 +817,9 @@ import CreateStorageBucketPanel from "./panels/CreateStorageBucketPanel";
 import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 import StorageBucketLink from "./StorageBucketLink";
 import StorageBucketKeyCount from "./StorageBucketKeyCount";
+import DocLink from "components/DocLink";
 &nbsp;
 const StorageBuckets: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ project: string }&gt;();</span>
   const [searchParams] = <span class="cstat-no" title="statement not covered" >useSearchParams();</span>
@@ -1056,14 +1049,12 @@ const StorageBuckets: FC = <span class="cstat-no" title="statement not covered" 
     &gt;
       &lt;p&gt;Storage buckets will appear here&lt;/p&gt;
       &lt;p&gt;
-        &lt;a
-          href={`${docBaseLink}/explanation/storage/#storage-buckets`}
-          target="_blank"
-          rel="noopener noreferrer"
+        &lt;DocLink
+          docPath="/explanation/storage/#storage-buckets"
+          hasExternalIcon
         &gt;
           Learn more about storage buckets
-          &lt;Icon className="external-link-icon" name="external-link" /&gt;
-        &lt;/a&gt;
+        &lt;/DocLink&gt;
       &lt;/p&gt;
       &lt;CreateStorageBucketBtn className="empty-state-button" /&gt;
     &lt;/EmptyState&gt;
@@ -1091,7 +1082,7 @@ const StorageBuckets: FC = <span class="cstat-no" title="statement not covered" 
             &lt;PageHeader.Left&gt;
               &lt;PageHeader.Title&gt;
                 &lt;HelpLink
-                  href={`${docBaseLink}/explanation/storage/#storage-buckets`}
+                  docPath="/explanation/storage/#storage-buckets"
                   title="Learn more about storage buckets"
                 &gt;
                   Buckets
@@ -1144,7 +1135,7 @@ export default StorageBuckets;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-17T10:23:43.389Z
+                at 2025-11-17T13:35:13.510Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
