@@ -72,7 +72,7 @@ test("LXD - UI Folder - Clustered", async ({ page }) => {
   await page.getByLabel("Cluster member").selectOption(clusterMemberName);
   await page.getByLabel("Cluster member").dblclick();
   await page.screenshot({
-    path: "tests/screenshots/doc/images/ui/create_instance_ex4.png",
+    path: "tests/screenshots/doc/images/UI/create_instance_ex4.png",
     clip: getClipPosition(240, 0, 1440, 760),
   });
 });

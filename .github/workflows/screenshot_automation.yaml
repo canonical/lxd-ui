@@ -78,6 +78,17 @@ jobs:
         run: |
           npx playwright test --project screenshots
           npx playwright test --project screenshots-clustered
+      
+      - name: List screenshots
+        run: ls -R tests/screenshots || echo "No screenshots found"
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: lxd-ui-doc-screenshots
+          path: tests/screenshots/doc/images
+          retention-days: 7
 
       - name: Upload screenshot-automation-report
         if: always()
