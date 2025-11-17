@@ -14,7 +14,6 @@ import DeleteClusterGroupBtn from "pages/cluster/actions/DeleteClusterGroupBtn";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import CreateClusterGroupBtn from "pages/cluster/actions/CreateClusterGroupBtn";
 import ResourceLink from "components/ResourceLink";
@@ -23,7 +22,6 @@ import usePanelParams from "util/usePanelParams";
 import { useServerEntitlements } from "util/entitlements/server";
 
 const ClusterGroupList: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: groups = [], error, isLoading } = useClusterGroups();
@@ -134,7 +132,7 @@ const ClusterGroupList: FC = () => {
       mainClassName="cluster-list"
       title={
         <HelpLink
-          href={`${docBaseLink}/explanation/clustering/#cluster-groups`}
+          docPath="/explanation/clustering/#cluster-groups"
           title="Learn more about cluster groups"
         >
           Cluster groups

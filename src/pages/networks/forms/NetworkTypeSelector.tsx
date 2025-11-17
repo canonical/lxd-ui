@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { CustomSelect } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import { useDocs } from "context/useDocs";
+import DocLink from "components/DocLink";
 import {
   bridgeType,
   macvlanType,
@@ -16,21 +16,15 @@ interface Props {
 }
 
 const NetworkTypeSelector: FC<Props> = ({ formik }) => {
-  const docBaseLink = useDocs();
-
   return (
     <CustomSelect
       id="networkType"
       name="networkType"
       help={
         formik.values.networkType === ovnType ? (
-          <a
-            href={`${docBaseLink}/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <DocLink docPath="/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn">
             Learn how to set up OVN
-          </a>
+          </DocLink>
         ) : undefined
       }
       required

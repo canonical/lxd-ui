@@ -27,9 +27,9 @@ import {
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
 import { deviceKeyToLabel, getExistingDeviceNames } from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
-import { useDocs } from "context/useDocs";
 import GPUDeviceInput from "components/forms/GPUDeviceInput";
 import { useProfiles } from "context/useProfiles";
+import DocLink from "components/DocLink";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -37,7 +37,6 @@ interface Props {
 }
 
 const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
 
   const {
@@ -231,21 +230,13 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
 
       <Notification severity="information" title="GPU passthrough">
         Learn more about{" "}
-        <a
-          href={`${docBaseLink}/reference/devices_gpu/#devices-gpu`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <DocLink docPath="/reference/devices_gpu/#devices-gpu">
           GPU devices
-        </a>{" "}
+        </DocLink>{" "}
         and{" "}
-        <a
-          href={`${docBaseLink}/howto/container_gpu_passthrough_with_docker/#container-gpu-passthrough-with-docker`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          how to pass an NVIDIA GPU to a container
-        </a>
+        <DocLink docPath="/howto/container_gpu_passthrough_with_docker/#container-gpu-passthrough-with-docker">
+          container GPU passthrough with Docker
+        </DocLink>
       </Notification>
 
       {inheritedRows.length > 0 && (

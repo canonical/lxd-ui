@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Notification } from "@canonical/react-components";
-import { useDocs } from "context/useDocs";
+import DocLink from "components/DocLink";
 
 const loadClosed = () => {
   const saved = localStorage.getItem("ssoNotificationClosed");
@@ -17,7 +17,6 @@ interface Props {
 }
 
 const SsoNotification: FC<Props> = ({ hasOidc }: Props) => {
-  const docBaseLink = useDocs();
   const [closed, setClosed] = useState(loadClosed());
 
   if (closed || hasOidc) {
@@ -36,14 +35,9 @@ const SsoNotification: FC<Props> = ({ hasOidc }: Props) => {
         title="Did you know?"
         onDismiss={handleClose}
         actions={[
-          <a
-            href={`${docBaseLink}/howto/oidc/`}
-            target="_blank"
-            rel="noopener noreferrer"
-            key="sso-doc-link"
-          >
+          <DocLink docPath="/howto/oidc/" key="sso-doc-link">
             Show me how
-          </a>,
+          </DocLink>,
         ]}
       >
         LXD can be configured to log in using a single sign-on provider.

@@ -19,7 +19,6 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import GroupActions from "./actions/GroupActions";
 import CreateGroupPanel from "./panels/CreateGroupPanel";
 import EditGroupPanel from "./panels/EditGroupPanel";
@@ -30,11 +29,11 @@ import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
 import { useAuthGroups } from "context/useAuthGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import DocLink from "components/DocLink";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
   const { data: groups = [], error, isLoading } = useAuthGroups();
-  const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
@@ -233,14 +232,9 @@ const PermissionGroups: FC = () => {
         permissions
       </p>
       <p>
-        <a
-          href={`${docBaseLink}/explanation/authorization`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <DocLink docPath="/explanation/authorization" hasExternalIcon>
           Learn more about permissions
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
+        </DocLink>
       </p>
       <Button
         className="empty-state-button"
@@ -270,7 +264,7 @@ const PermissionGroups: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/explanation/authorization`}
+                  docPath="/explanation/authorization"
                   title="Learn more about permissions"
                 >
                   Auth groups

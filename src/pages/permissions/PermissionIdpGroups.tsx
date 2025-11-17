@@ -20,7 +20,6 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import CreateIdpGroupPanel from "./panels/CreateIdpGroupPanel";
 import BulkDeleteIdpGroupsBtn from "./actions/BulkDeleteIdpGroupsBtn";
@@ -33,11 +32,11 @@ import { useServerEntitlements } from "util/entitlements/server";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { pluralize } from "util/instanceBulkActions";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import DocLink from "components/DocLink";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
   const { data: groups = [], error, isLoading } = useIdpGroups();
-  const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
@@ -214,13 +213,9 @@ const PermissionIdpGroups: FC = () => {
         </>
       )}
       <br />
-      <a
-        href={`${docBaseLink}/explanation/authorization/#use-groups-defined-by-the-identity-provider`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <DocLink docPath="/explanation/authorization/#use-groups-defined-by-the-identity-provider">
         Learn more about IDP groups
-      </a>
+      </DocLink>
     </>
   );
 
@@ -294,7 +289,7 @@ const PermissionIdpGroups: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/explanation/authorization`}
+                  docPath="/explanation/authorization"
                   title="Learn more about permissions"
                 >
                   IDP&nbsp;groups

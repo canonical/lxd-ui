@@ -16,14 +16,12 @@ import NetworkForwardForm, {
 import { createNetworkForward } from "api/network-forwards";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "components/BaseLayout";
-import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNetwork } from "context/useNetworks";
 import { isTypeOvn } from "util/networks";
 
 const CreateNetworkForward: FC = () => {
-  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -94,7 +92,7 @@ const CreateNetworkForward: FC = () => {
     <BaseLayout
       title={
         <HelpLink
-          href={`${docBaseLink}/howto/network_forwards/`}
+          docPath="/howto/network_forwards/"
           title="Learn more about network forwards"
         >
           Create a network forward

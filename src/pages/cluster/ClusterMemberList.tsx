@@ -11,7 +11,6 @@ import {
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import { Link } from "react-router-dom";
 import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
@@ -22,7 +21,6 @@ import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
 
 const ClusterMemberList: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: members = [], error, isLoading } = useClusterMembers();
@@ -161,7 +159,7 @@ const ClusterMemberList: FC = () => {
       mainClassName="cluster-list"
       title={
         <HelpLink
-          href={`${docBaseLink}/explanation/clustering/`}
+          docPath="/explanation/clustering/"
           title="Learn more about clustering"
         >
           Cluster members

@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import PageHeader from "components/PageHeader";
@@ -23,7 +22,6 @@ import type { LxdWarningSeverity, LxdWarningStatus } from "types/warning";
 import type { WarningFilters } from "util/warningFilter";
 
 const WarningList: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
@@ -179,7 +177,7 @@ const WarningList: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/howto/troubleshoot/`}
+                docPath="/howto/troubleshoot/"
                 title="Learn more about troubleshooting"
               >
                 Warnings

@@ -52,7 +52,6 @@ import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { useDocs } from "context/useDocs";
 import { getProfilePayload } from "util/profileEdit";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm from "components/forms/MigrationForm";
@@ -84,7 +83,6 @@ interface Props {
 }
 
 const EditProfile: FC<Props> = ({ profile }) => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const { project, section } = useParams<{
@@ -246,10 +244,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
                 readOnly={!!formik.values.editRestriction}
                 readOnlyMessage={formik.values.editRestriction}
               >
-                <YamlNotification
-                  entity="profile"
-                  href={`${docBaseLink}/profiles`}
-                />
+                <YamlNotification entity="profile" docPath="/profiles" />
               </YamlForm>
             )}
           </Col>
