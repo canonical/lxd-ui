@@ -50,7 +50,7 @@ export const isProjectEmpty = (project: LxdProject): boolean => {
     return true;
   }
 
-  const defaultProfile = `/1.0/profiles/default?project=${project.name}`;
+  const defaultProfile = `/1.0/profiles/default?project=${encodeURIComponent(project.name)}`;
   return !project.used_by.some((item) => item !== defaultProfile);
 };
 

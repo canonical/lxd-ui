@@ -4,7 +4,9 @@ import { Row, Col, CustomLayout } from "@canonical/react-components";
 const ProjectNotFound: FC = () => {
   const url = location.pathname;
   const hasProjectInUrl = url.startsWith("/ui/project/");
-  const project = hasProjectInUrl ? url.split("/")[3] : "default";
+  const project = hasProjectInUrl
+    ? decodeURIComponent(url.split("/")[3])
+    : "default";
 
   return (
     <CustomLayout mainClassName="no-match">

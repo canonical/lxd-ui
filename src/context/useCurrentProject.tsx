@@ -31,7 +31,9 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const { isLoading: isSettingsLoading } = useSettings();
   const location = useLocation();
   const url = location.pathname;
-  const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
+  const project = url.startsWith("/ui/project/")
+    ? decodeURIComponent(url.split("/")[3])
+    : "";
   const isAllProjects = url.startsWith("/ui/all-projects/");
 
   const enabled = project.length > 0 && !isAllProjects;
