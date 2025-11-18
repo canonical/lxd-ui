@@ -1,0 +1,20 @@
+# Copyright 2025 Canonical Ltd.  All rights reserved.
+
+name: dev
+base: ubuntu@24.04
+
+sdks:
+- name: project-run-lxd-ui
+  slots:
+    vite-dev-server:
+      interface: tunnel
+      endpoint: localhost:8407        # service in the workshop
+- name: system
+  plugs:
+    vite-dev-server:
+      interface: tunnel
+      endpoint: localhost:8407        # port on the host
+
+actions:
+  serve: source /home/workshop/.nvm/nvm.sh && yarn install && yarn start
+  lint: source /home/workshop/.nvm/nvm.sh && yarn lint-js && yarn lint-scss

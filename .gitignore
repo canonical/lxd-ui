@@ -13,6 +13,7 @@ Thumbs.db
 .spelling
 .vscode
 .idea
+.workshop.lock
 
 # [cache] Cache and backup
 *.bak

@@ -1,0 +1,6 @@
+name: run-lxd-ui
+base: ubuntu@24.04
+slots:
+  dashboard:
+    interface: tunnel
+    endpoint: 8407
