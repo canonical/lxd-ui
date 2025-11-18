@@ -23,6 +23,8 @@ import { updateStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { linkForVolumeDetail } from "util/storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -36,6 +38,8 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
   const { section } = useParams<{ section: string }>();
   const { project } = useParams<{ project: string }>();
   const { canEditVolume } = useStorageVolumeEntitlements();
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -48,6 +52,35 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
   const editRestriction = canEditVolume(volume)
     ? undefined
     : "You do not have permission to edit this volume";
+
+  const handleSuccess = (saveVolume: LxdStorageVolume) => {
+    void formik.setValues(getStorageVolumeEditValues(saveVolume));
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.storage,
+        volume.pool,
+        project,
+        saveVolume.type,
+        saveVolume.name,
+      ],
+    });
+    toastNotify.success(
+      <>
+        Storage volume <VolumeLinkChip volume={volume} /> updated.
+      </>,
+    );
+  };
+
+  const handleFailure = (error: Error) => {
+    notify.failure("Storage volume update failed", error);
+  };
+
+  const handleFinish = () => {
+    formik.setSubmitting(false);
+  };
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: getStorageVolumeEditValues(volume, editRestriction),
@@ -64,32 +97,24 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
         },
         volume.location,
       )
-        .then(() => {
-          void formik.setValues(getStorageVolumeEditValues(saveVolume));
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.storage,
-              volume.pool,
-              project,
-              saveVolume.type,
-              saveVolume.name,
-            ],
-          });
-          toastNotify.success(
-            <>
-              Storage volume <VolumeLinkChip volume={volume} /> updated.
-            </>,
-          );
+        .then((operation) => {
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                handleSuccess(saveVolume);
+              },
+              (msg) => {
+                handleFailure(new Error(msg));
+              },
+              handleFinish,
+            );
+          } else {
+            handleSuccess(saveVolume);
+            handleFinish();
+          }
         })
-        .catch((e) => {
-          notify.failure("Storage volume update failed", e);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-        });
+        .catch(handleFailure);
     },
   });
 

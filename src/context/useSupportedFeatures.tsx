@@ -41,5 +41,8 @@ export const useSupportedFeatures = () => {
     ),
     hasCloudInitSshKeys: apiExtensions.has("cloud_init_ssh_keys"),
     hasBackupMetadataVersion: apiExtensions.has("backup_metadata_version"),
+    hasStorageAndProfileOperations: apiExtensions.has(
+      "storage_and_profile_operations",
+    ),
   };
 };
