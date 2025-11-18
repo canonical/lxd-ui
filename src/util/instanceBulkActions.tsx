@@ -69,7 +69,7 @@ export const instanceActionLabel = (action: LxdInstanceAction): string => {
 };
 
 export const pluralize = (item: string, count: number): string => {
-  const isSingular = count === 1;
+  const isSingular = count <= 1;
 
   if (isSingular) {
     return item;
