@@ -27,7 +27,7 @@ import NetworkAddresses from "pages/networks/forms/NetworkAddresses";
 import NetworkAcls from "pages/networks/forms/NetworkAcls";
 import NetworkVlanField from "pages/networks/forms/NetworkVlanField";
 import NetworkMTUField from "pages/networks/forms/NetworkMTUField";
-import NetworkGVRPField from "pages/networks/forms/NetworkGVRPField";
+import NetworkGARPField from "pages/networks/forms/NetworkGARPField";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 
 interface Props {
@@ -69,20 +69,15 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             {formik.values.isCreating ? (
               <NetworkTypeSelector formik={formik} />
             ) : (
-              renderNetworkType(formik.values.networkType)
+              <>
+                {renderNetworkType(formik.values.networkType)}
+                {!isManagedNetwork && (
+                  <span className="u-text--muted">, not managed</span>
+                )}
+              </>
             )}
           </div>
         </div>
-        {!isManagedNetwork && (
-          <>
-            <div className="general-field">
-              <div className="general-field-label">
-                <Label forId="networkType">Managed</Label>
-              </div>
-              <div className="general-field-content">No</div>
-            </div>
-          </>
-        )}
         {formik.values.isCreating && (
           <div className="general-field">
             <div className="general-field-label">
@@ -115,20 +110,20 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             isClustered={isClustered}
           />
         )}
-        {formik.values.networkType === physicalType && (
+        {formik.values.networkType === physicalType && isManagedNetwork && (
           <>
             <NetworkMTUField formik={formik} />
             <NetworkVlanField formik={formik} />
           </>
         )}
-        {formik.values.networkType === macvlanType && (
+        {formik.values.networkType === macvlanType && isManagedNetwork && (
           <>
             <NetworkMTUField formik={formik} />
             <NetworkVlanField formik={formik} />
-            <NetworkGVRPField formik={formik} />
+            <NetworkGARPField formik={formik} />
           </>
         )}
-        {formik.values.networkType === sriovType && (
+        {formik.values.networkType === sriovType && isManagedNetwork && (
           <>
             <NetworkMTUField formik={formik} />
             <NetworkVlanField formik={formik} />
