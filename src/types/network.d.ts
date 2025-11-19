@@ -164,6 +164,14 @@ export interface LxdNetworkLease {
   type: "string";
 }
 
+export interface LxdNetworkPeer {
+  name: "string";
+  target_network: "string";
+  description: "string";
+  target_project: "string";
+  status: "string";
+}
+
 export interface LxdNetworkAllocation {
   addresses: string;
   hwaddr: string;
