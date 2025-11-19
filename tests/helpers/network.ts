@@ -84,7 +84,7 @@ export const createNetworkForward = async (page: Page, network: string) => {
   const listenAddress = networkSubnet.replace("1/24", "1");
   const targetAddress = networkSubnet.replace("1/24", "3");
 
-  await page.getByTestId("tab-link-Forwards").click();
+  await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByRole("link", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
 
@@ -125,14 +125,14 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page.getByText(`Network forward ${listenAddress} updated.`).click();
   await expect(page.getByText(`My forward description`)).toBeVisible();
 
-  await page.getByTestId("tab-link-Leases").click();
+  await page.getByRole("link", { name: "Leases" }).click();
   await expect(page.getByText(`${network}.gw`).first()).toBeVisible();
 
   await page.getByRole("link", { name: "IPAM", exact: true }).click();
   await expect(page.getByText(`network-forward`).first()).toBeVisible();
 
   await visitNetwork(page, network);
-  await page.getByTestId("tab-link-Forwards").click();
+  await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByRole("button", { name: "Delete network forward" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
