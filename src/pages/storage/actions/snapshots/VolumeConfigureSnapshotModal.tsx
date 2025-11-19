@@ -16,6 +16,8 @@ import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import { updateStorageVolume } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -26,6 +28,32 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
+
+  const handleSuccess = () => {
+    toastNotify.success(
+      <>
+        Snapshot configuration updated for volume{" "}
+        <VolumeLinkChip volume={volume} />.
+      </>,
+    );
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage],
+      predicate: (query) =>
+        query.queryKey[0] === queryKeys.volumes ||
+        query.queryKey[0] === queryKeys.storage,
+    });
+  };
+
+  const handleFailure = (error: Error) => {
+    notify.failure("Configuration update failed", error);
+  };
+
+  const handleFinish = () => {
+    close();
+    formik.setSubmitting(false);
+  };
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: getStorageVolumeEditValues(volume),
@@ -40,27 +68,22 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
         },
         volume.location,
       )
-        .then(() => {
-          toastNotify.success(
-            <>
-              Snapshot configuration updated for volume{" "}
-              <VolumeLinkChip volume={volume} />.
-            </>,
-          );
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage],
-            predicate: (query) =>
-              query.queryKey[0] === queryKeys.volumes ||
-              query.queryKey[0] === queryKeys.storage,
-          });
+        .then((operation) => {
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
+              operation.metadata.id,
+              handleSuccess,
+              (msg) => {
+                handleFailure(new Error(msg));
+              },
+              handleFinish,
+            );
+          } else {
+            handleSuccess();
+            handleFinish();
+          }
         })
-        .catch((e: Error) => {
-          notify.failure("Configuration update failed", e);
-        })
-        .finally(() => {
-          close();
-          formik.setSubmitting(false);
-        });
+        .catch(handleFailure);
     },
   });
 

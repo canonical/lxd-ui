@@ -24,6 +24,9 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { createStorageVolume } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import UploadVolumeFileBtn from "../actions/UploadVolumeFileBtn";
+import { useEventQueue } from "context/eventQueue";
+import type { LxdStorageVolume } from "types/storage";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();
@@ -34,6 +37,8 @@ const CreateStorageVolume: FC = () => {
   const controllerState = useState<AbortController | null>(null);
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -46,6 +51,36 @@ const CreateStorageVolume: FC = () => {
       )
       .required("This field is required"),
   });
+
+  const handleSuccess = (volume: LxdStorageVolume, clusterMember?: string) => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.customVolumes, project],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.projects, project],
+    });
+    queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey[0] === queryKeys.volumes,
+    });
+    navigate(`/ui/project/${encodeURIComponent(project)}/storage/volumes`);
+    const volumeWithLocation = {
+      ...volume,
+      location: clusterMember ?? "none",
+    };
+    toastNotify.success(
+      <>
+        Storage volume <VolumeLinkChip volume={volumeWithLocation} /> created.
+      </>,
+    );
+  };
+
+  const handleFailure = (error: unknown) => {
+    formik.setSubmitting(false);
+    notify.failure("Storage volume creation failed", error);
+  };
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: {
@@ -64,37 +99,22 @@ const CreateStorageVolume: FC = () => {
       const volume = volumeFormToPayload(values, project);
 
       createStorageVolume(values.pool, project, volume, values.clusterMember)
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.customVolumes, project],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.projects, project],
-          });
-          queryClient.invalidateQueries({
-            predicate: (query) => query.queryKey[0] === queryKeys.volumes,
-          });
-          navigate(
-            `/ui/project/${encodeURIComponent(project)}/storage/volumes`,
-          );
-          const volumeWithLocation = {
-            ...volume,
-            location: values.clusterMember ?? "none",
-          };
-          toastNotify.success(
-            <>
-              Storage volume <VolumeLinkChip volume={volumeWithLocation} />{" "}
-              created.
-            </>,
-          );
+        .then((operation) => {
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                handleSuccess(volume, values.clusterMember);
+              },
+              (msg) => {
+                handleFailure(new Error(msg));
+              },
+            );
+          } else {
+            handleSuccess(volume, values.clusterMember);
+          }
         })
-        .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure("Storage volume creation failed", e);
-        });
+        .catch(handleFailure);
     },
   });
 

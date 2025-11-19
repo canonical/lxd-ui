@@ -2,6 +2,7 @@ import { handleEtagResponse, handleResponse } from "util/helpers";
 import type { LxdProfile } from "types/profile";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
+import type { LxdOperationResponse } from "types/operation";
 
 const profileEntitlements = ["can_delete", "can_edit"];
 
@@ -57,11 +58,11 @@ export const createProfile = async (
 export const updateProfile = async (
   profile: LxdProfile,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(
+  return fetch(
     `/1.0/profiles/${encodeURIComponent(profile.name)}?${params.toString()}`,
     {
       method: "PUT",
@@ -71,7 +72,11 @@ export const updateProfile = async (
         "If-Match": profile.etag ?? "invalid-etag",
       },
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const renameProfile = async (

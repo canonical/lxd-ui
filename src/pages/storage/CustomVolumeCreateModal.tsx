@@ -20,6 +20,8 @@ import { useSettings } from "context/useSettings";
 import { useStoragePools } from "context/useStoragePools";
 import { createStorageVolume } from "api/storage-volumes";
 import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   project: string;
@@ -37,6 +39,8 @@ const CustomVolumeCreateModal: FC<Props> = ({
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const { data: settings } = useSettings();
   const { data: pools = [] } = useStoragePools();
@@ -48,6 +52,25 @@ const CustomVolumeCreateModal: FC<Props> = ({
       )
       .required("This field is required"),
   });
+
+  const handleSuccess = (volume: LxdStorageVolume) => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.customVolumes, project],
+    });
+    notify.success(`Storage volume ${volume.name} created.`);
+    onFinish(volume);
+  };
+
+  const handleFailure = (error: unknown) => {
+    notify.failure("Storage volume creation failed", error);
+  };
+
+  const handleFinish = () => {
+    formik.setSubmitting(false);
+  };
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: {
@@ -69,22 +92,24 @@ const CustomVolumeCreateModal: FC<Props> = ({
         : undefined;
 
       createStorageVolume(values.pool, project, volume, target)
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.customVolumes, project],
-          });
-          notify.success(`Storage volume ${values.name} created.`);
-          onFinish(volume);
+        .then((operation) => {
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                handleSuccess(volume);
+              },
+              (msg) => {
+                handleFailure(new Error(msg));
+              },
+              handleFinish,
+            );
+          } else {
+            handleSuccess(volume);
+            handleFinish();
+          }
         })
-        .catch((e) => {
-          notify.failure("Storage volume creation failed", e);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-        });
+        .catch(handleFailure);
     },
   });
 

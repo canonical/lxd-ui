@@ -12,6 +12,8 @@ import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes"
 import { deleteStorageVolume } from "api/storage-volumes";
 import classNames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -38,6 +40,8 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { canDeleteVolume } = useStorageVolumeEntitlements();
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const getDisabledReason = () => {
     if (volume.name.includes("/")) {
@@ -62,35 +66,52 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   };
   const disabledReason = getDisabledReason();
 
+  const handleFailure = (error: Error) => {
+    notify.failure("Storage volume deletion failed", error);
+  };
+
+  const handleFinish = () => {
+    onFinish();
+    setLoading(false);
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.isoVolumes],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.projects, project],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.storage,
+        volume.pool,
+        queryKeys.volumes,
+        project,
+        volume.location,
+      ],
+    });
+    queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey[0] === queryKeys.volumes,
+    });
+  };
+
   const handleDelete = () => {
     setLoading(true);
 
     deleteStorageVolume(volume.name, volume.pool, project, volume.location)
-      .then(onFinish)
-      .catch((e) => {
-        notify.failure("Storage volume deletion failed", e);
+      .then((operation) => {
+        if (hasStorageAndProfileOperations) {
+          eventQueue.set(
+            operation.metadata.id,
+            onFinish,
+            (msg) => {
+              handleFailure(new Error(msg));
+            },
+            handleFinish,
+          );
+        } else {
+          onFinish();
+        }
       })
-      .finally(() => {
-        setLoading(false);
-        queryClient.invalidateQueries({
-          queryKey: [queryKeys.isoVolumes],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [queryKeys.projects, project],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [
-            queryKeys.storage,
-            volume.pool,
-            queryKeys.volumes,
-            project,
-            volume.location,
-          ],
-        });
-        queryClient.invalidateQueries({
-          predicate: (query) => query.queryKey[0] === queryKeys.volumes,
-        });
-      });
+      .catch(handleFailure);
   };
   return (
     <ConfirmationButton

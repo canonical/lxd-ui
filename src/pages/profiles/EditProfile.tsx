@@ -66,6 +66,8 @@ import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -84,6 +86,8 @@ interface Props {
 
 const EditProfile: FC<Props> = ({ profile }) => {
   const notify = useNotify();
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
   const toastNotify = useToastNotification();
   const { project, section } = useParams<{
     project: string;
@@ -112,6 +116,32 @@ const EditProfile: FC<Props> = ({ profile }) => {
     ? undefined
     : "You do not have permission to edit this profile";
 
+  const handleSuccess = (profilePayload: LxdProfile) => {
+    toastNotify.success(
+      <>
+        Profile{" "}
+        <ResourceLink
+          type="profile"
+          value={profile.name}
+          to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}`}
+        />{" "}
+        updated.
+      </>,
+    );
+    void formik.setValues(getProfileEditValues(profilePayload));
+  };
+
+  const handleFailure = (e: Error) => {
+    notify.failure("Profile update failed", e);
+  };
+
+  const handleFinish = () => {
+    formik.setSubmitting(false);
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.profiles],
+    });
+  };
+
   const formik = useFormik<EditProfileFormValues>({
     initialValues: getProfileEditValues(profile, editRestriction),
     validationSchema: ProfileSchema,
@@ -127,29 +157,24 @@ const EditProfile: FC<Props> = ({ profile }) => {
       profilePayload.etag = profile.etag;
 
       updateProfile(profilePayload, project)
-        .then(() => {
-          toastNotify.success(
-            <>
-              Profile{" "}
-              <ResourceLink
-                type="profile"
-                value={profile.name}
-                to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}`}
-              />{" "}
-              updated.
-            </>,
-          );
-          void formik.setValues(getProfileEditValues(profilePayload));
+        .then((operation) => {
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                handleSuccess(profilePayload);
+              },
+              (msg) => {
+                handleFailure(new Error(msg));
+              },
+              handleFinish,
+            );
+          } else {
+            handleSuccess(profilePayload);
+            handleFinish();
+          }
         })
-        .catch((e: Error) => {
-          notify.failure("Profile update failed", e);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.profiles],
-          });
-        });
+        .catch(handleFailure);
     },
   });
 

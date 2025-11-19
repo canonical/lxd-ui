@@ -152,12 +152,12 @@ export const updateVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
   expiresAt: string | null,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", volume.project);
   addTarget(params, volume.location);
 
-  await fetch(
+  return fetch(
     `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "PUT",
@@ -168,7 +168,11 @@ export const updateVolumeSnapshot = async (
         expires_at: expiresAt,
       }),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const fetchStorageVolumeSnapshots = async (
