@@ -509,3 +509,13 @@
     margin-right: $sph--x-small;
   }
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: none;
+}
+
+.is-dark input[type="date"]::-webkit-calendar-picker-indicator,
+.is-dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
