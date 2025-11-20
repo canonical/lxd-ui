@@ -1,7 +1,6 @@
 import { test } from "./fixtures/lxd-test";
 import { getClipPosition } from "./helpers/doc-screenshots";
 import { gotoURL } from "./helpers/navigate";
-import { createPool, deletePool } from "./helpers/storagePool";
 
 test.beforeEach(() => {
   test.skip(
@@ -15,7 +14,7 @@ test.beforeEach(() => {
 test("Clustered storage pools", async ({ page }) => {
   //Clustered storage pool creation
   const poolName = "clustered-pool";
-  page.setViewportSize({ width: 1440, height: 1000 });
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await gotoURL(page, "/ui/");
   await page.getByText("Storage").click();
   await page.getByRole("link", { name: "Pools" }).click();
@@ -35,30 +34,10 @@ test("Clustered storage pools", async ({ page }) => {
   });
 });
 
-test("Clustered storage volumes", async ({ page }) => {
-  const poolName = "pool1";
-  const volumeName = "CustomVol1";
-  page.setViewportSize({ width: 1440, height: 800 });
-  await createPool(page, poolName);
-
-  await page.getByRole("link", { name: "Volumes", exact: true }).click();
-  await page.getByText("Create volume").click();
-  await page.getByPlaceholder("Enter name").fill(volumeName);
-  await page.getByLabel("Storage pool", { exact: true }).click();
-  await page.getByLabel("submenu").getByText("pool1").click();
-
-  // Clustered storage volume creation
-  await page.screenshot({
-    path: "tests/screenshots/doc/images/storage/storage_volumes_create.png",
-    clip: getClipPosition(240, 0, 1420, 750),
-  });
-  await deletePool(page, poolName);
-});
-
 test("LXD - UI Folder - Clustered", async ({ page }) => {
   //This test assumes that there is a cluster member named micro1 within the environment. This is the value within the original screenshot, but it can also be changed to accomodate alternative names.
   const clusterMemberName = "micro1";
-  page.setViewportSize({ width: 1440, height: 800 });
+  await page.setViewportSize({ width: 1440, height: 800 });
   await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();

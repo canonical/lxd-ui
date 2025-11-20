@@ -279,7 +279,7 @@ test("storage volumes", async ({ page }) => {
   });
   await page.getByLabel("Close active modal").click();
 
-  await deleteVolume(page, volumeName.toLowerCase());
+  await deleteVolume(page, volumeName);
   await deletePool(page, poolName);
 });
 
