@@ -8,6 +8,9 @@ import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
+import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
+import { usePlacementGroups } from "context/usePlacementGroups";
+import { getInstanceField } from "util/instanceConfigFields";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
@@ -18,6 +21,12 @@ export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   };
 };
 
+export const instanceEditConfigPayload = (values: EditInstanceFormValues) => {
+  return {
+    [getInstanceField("placement_group")]: values.placement_group,
+  };
+};
+
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;
   project: string;
@@ -25,6 +34,7 @@ interface Props {
 
 const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
   const isClustered = useIsClustered();
+  const { data: placementGroups = [] } = usePlacementGroups(project);
 
   return (
     <ScrollableForm>
@@ -75,6 +85,20 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               value={formik.values.location}
               disabled={true}
               help="Use the migrate button in the header to move the instance to another cluster member"
+            />
+            <PlacementGroupSelect
+              value={formik.values.placement_group}
+              setValue={(value) => {
+                ensureEditMode(formik);
+                formik.setFieldValue("placement_group", value || undefined);
+              }}
+              project={project}
+              hasNoneOption
+              help={
+                placementGroups.length === 0
+                  ? "No placement groups found for this project. "
+                  : "Update does not move the instance. Changed placement policy applies only to future LXD scheduling events such as evacuation. "
+              }
             />
           </Col>
         </Row>

@@ -83,20 +83,36 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <td>{instance.architecture}</td>
               </tr>
               {isClustered && (
-                <tr>
-                  <th className="u-text--muted">Cluster member</th>
-                  <td>
-                    {instance.location ? (
-                      <ResourceLink
-                        type="cluster-member"
-                        value={instance.location}
-                        to={`/ui/cluster/member/${encodeURIComponent(instance.location)}`}
-                      />
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-                </tr>
+                <>
+                  <tr>
+                    <th className="u-text--muted">Cluster member</th>
+                    <td>
+                      {instance.location ? (
+                        <ResourceLink
+                          type="cluster-member"
+                          value={instance.location}
+                          to={`/ui/cluster/member/${encodeURIComponent(instance.location)}`}
+                        />
+                      ) : (
+                        "-"
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th className="u-text--muted">Placement group</th>
+                    <td>
+                      {instance.expanded_config["placement.group"] ? (
+                        <ResourceLink
+                          type="placement-group"
+                          value={instance.expanded_config["placement.group"]}
+                          to={`/ui/project/${instance.project}/placement-groups`}
+                        />
+                      ) : (
+                        "-"
+                      )}
+                    </td>
+                  </tr>
+                </>
               )}
               <tr>
                 <th className="u-text--muted">PID</th>

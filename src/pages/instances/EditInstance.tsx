@@ -76,6 +76,7 @@ export interface InstanceEditDetailsFormValues {
   description?: string;
   instanceType: string;
   location: string;
+  placement_group?: string;
   profiles: string[];
   entityType: "instance";
   isCreating: boolean;

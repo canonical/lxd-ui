@@ -420,7 +420,7 @@ const CreateInstance: FC = () => {
   }, [location.state?.retryFormSection]);
 
   const getPayload = (values: CreateInstanceFormValues) => {
-    return {
+    const result = {
       ...instanceDetailPayload(values),
       devices: formDeviceToPayload(values.devices),
       config: {
@@ -433,6 +433,12 @@ const CreateInstance: FC = () => {
         ...sshKeyPayload(values),
       },
     };
+
+    if (values.placementGroup) {
+      result.config["placement.group"] = values.placementGroup;
+    }
+
+    return result;
   };
 
   const updateSection = (newItem: string) => {
