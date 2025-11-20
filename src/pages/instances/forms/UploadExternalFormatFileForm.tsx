@@ -252,14 +252,14 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           id="image-file"
           name="file"
           type="file"
-          label="External format (.qcow2, .vmdk, etc...)"
+          label="Local file"
           accept=".img, .qcow, .qcow2, .vdi, .vhdx, .vmdk"
           labelClassName="u-hide"
           onChange={(e) => void handleFileChange(e)}
         />
         <Input
           {...formik.getFieldProps("name")}
-          id="name"
+          id="upload-instance-name"
           type="text"
           label="New instance name"
           placeholder="Enter name"

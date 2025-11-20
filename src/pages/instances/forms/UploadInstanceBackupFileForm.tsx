@@ -200,13 +200,13 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           name="instanceFile"
           type="file"
           accept=".tar, application/gzip, application/x-bzip, application/x-xz, application/x-lzma, application/x-squashfs, application/x-qcow2, application/zstd"
-          label="LXD backup archive (.tar.gz)"
+          label="Local file"
           labelClassName={hasInstanceImportConversion ? "u-hide" : ""}
           onChange={(e) => void changeFile(e)}
         />
         <Input
           {...formik.getFieldProps("name")}
-          id="name"
+          id="upload-instance-name"
           type="text"
           label="New instance name"
           placeholder="Enter name"
