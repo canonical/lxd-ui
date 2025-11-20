@@ -44,5 +44,6 @@ export const useSupportedFeatures = () => {
     hasStorageAndProfileOperations: apiExtensions.has(
       "storage_and_profile_operations",
     ),
+    hasProjectForceDelete: apiExtensions.has("projects_force_delete"),
   };
 };
