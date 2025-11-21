@@ -197,8 +197,8 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             "github",
             <Input
               type="text"
-              placeholder="Enter github username"
-              help="Instance must have internet access to import SSH keys from Github."
+              placeholder="Enter GitHub username"
+              help="Instance must have internet access to import SSH keys from GitHub."
               autoFocus
               value={source.github}
               onChange={(e) => {
