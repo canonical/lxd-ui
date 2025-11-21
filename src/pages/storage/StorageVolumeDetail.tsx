@@ -78,7 +78,7 @@ const StorageVolumeDetail: FC = () => {
         <NotificationRow />
         {!activeTab && (
           <div role="tabpanel" aria-labelledby="overview">
-            <StorageVolumeOverview volume={volume} project={project} />
+            <StorageVolumeOverview volume={volume} />
           </div>
         )}
 
