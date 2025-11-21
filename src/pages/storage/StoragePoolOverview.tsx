@@ -72,7 +72,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
           </h2>
         </Col>
         <Col size={7}>
-          <StorageUsedBy storage={pool} project={project} />
+          <StorageUsedBy storage={pool} />
         </Col>
       </Row>
     </div>

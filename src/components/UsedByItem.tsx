@@ -12,6 +12,7 @@ interface Props {
   type: ResourceIconType;
   to: string;
   projectLinkDetailPage?: string;
+  itemProject?: string;
 }
 
 const UsedByItem: FC<Props> = ({
@@ -20,10 +21,11 @@ const UsedByItem: FC<Props> = ({
   type,
   to,
   projectLinkDetailPage = "instances",
+  itemProject,
 }) => {
   const isImageQueryEnabled = type === "image";
   const { data: images = [] } = useImagesInProject(
-    activeProject,
+    itemProject || activeProject,
     isImageQueryEnabled,
   );
 

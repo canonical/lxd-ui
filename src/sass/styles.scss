@@ -400,3 +400,10 @@ body {
 .u-break-all {
   word-break: break-all;
 }
+
+.used-by-row-header {
+  .icon {
+    margin-right: $sph--large;
+    opacity: 0.6;
+  }
+}

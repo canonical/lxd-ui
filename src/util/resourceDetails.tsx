@@ -57,7 +57,7 @@ export const extractResourceDetailsFromUrl = (
     resourceDetail.name = "server";
   }
 
-  if (resourceType === "storage_volume") {
+  if (resourceType === "storage_volume" || resourceType === "volume") {
     resourceDetail.pool = urlSegments[4];
   }
 

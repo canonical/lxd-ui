@@ -58,10 +58,11 @@ const resourceIcons: Record<ResourceIconType, string> = {
 
 interface Props {
   type: ResourceIconType;
+  className?: string;
 }
 
-const ResourceIcon: FC<Props> = ({ type }) => {
-  return <Icon name={resourceIcons[type]} />;
+const ResourceIcon: FC<Props> = ({ type, className }) => {
+  return <Icon name={resourceIcons[type]} className={className} />;
 };
 
 export default ResourceIcon;

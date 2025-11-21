@@ -26,7 +26,6 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   const queryClient = useQueryClient();
   const notify = useNotify();
   const toastNotify = useToastNotification();
-  const [confirmInput, setConfirmInput] = useState("");
   const [disableConfirm, setDisableConfirm] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const confirmText = "confirm-delete-group";
@@ -56,13 +55,7 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   const hasOneGroup = deletableGroups.length === 1;
 
   const handleConfirmInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === confirmText) {
-      setDisableConfirm(false);
-    } else {
-      setDisableConfirm(true);
-    }
-
-    setConfirmInput(e.target.value);
+    setDisableConfirm(e.target.value !== confirmText);
   };
 
   const handleDeleteGroups = () => {
@@ -170,7 +163,6 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
             name="confirm-delete-group-input"
             type="text"
             onChange={handleConfirmInputChange}
-            value={confirmInput}
             placeholder={confirmText}
             className="u-no-margin--bottom"
             disabled={!deletableGroups.length}
@@ -184,7 +176,8 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
           loading={submitting}
           disabled={disableConfirm || submitting}
         >
-          {`Permanently delete ${deletableGroups.length} ${pluralize("group", deletableGroups.length)}`}
+          Permanently delete {deletableGroups.length}{" "}
+          {pluralize("group", deletableGroups.length)}
         </ActionButton>,
       ]}
     >

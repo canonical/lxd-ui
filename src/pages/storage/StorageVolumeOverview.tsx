@@ -11,11 +11,10 @@ import { useSettings } from "context/useSettings";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {
-  project: string;
   volume: LxdStorageVolume;
 }
 
-const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
+const StorageVolumeOverview: FC<Props> = ({ volume }) => {
   const updateContentHeight = () => {
     updateMaxHeight("storage-overview-tab");
   };
@@ -117,7 +116,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
           </h2>
         </Col>
         <Col size={7}>
-          <StorageUsedBy storage={volume} project={project} />
+          <StorageUsedBy storage={volume} />
         </Col>
       </Row>
     </div>

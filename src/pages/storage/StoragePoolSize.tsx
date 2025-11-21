@@ -36,17 +36,18 @@ const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
 
   return (
     <div>
-      {resourceList.map((poolResource) => {
+      {resourceList.map((poolResource, index) => {
         if (!poolResource) {
-          return <>{pool.config?.size}</>;
+          return <div key={`empty-${index}`}>{pool.config?.size}</div>;
         }
 
         const total = poolResource.space.total;
         const used = poolResource.space.used || 0;
+        const resourceKey = poolResource.memberName || `resource-${index}`;
 
         if (!hasMeterBar) {
           return (
-            <div key={poolResource.memberName}>
+            <div key={resourceKey}>
               {`${humanFileSize(used)} of ${humanFileSize(total)} used`}
             </div>
           );
@@ -54,7 +55,7 @@ const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
 
         return (
           <Meter
-            key={poolResource.memberName}
+            key={resourceKey}
             percentage={(100 / total) * used || 0}
             text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
           />
