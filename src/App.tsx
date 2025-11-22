@@ -19,6 +19,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
+import { ALL_PROJECTS } from "util/loginProject";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -172,7 +173,7 @@ const App: FC = () => {
             element={
               <Navigate
                 to={
-                  hasNoProjects
+                  hasNoProjects || defaultProject === ALL_PROJECTS
                     ? "/ui/all-projects/instances"
                     : `/ui/project/${encodeURIComponent(defaultProject)}/instances`
                 }

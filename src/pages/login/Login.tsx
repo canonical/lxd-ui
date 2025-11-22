@@ -1,28 +1,14 @@
-import { useState, type FC } from "react";
-import {
-  Icon,
-  Spinner,
-  CustomLayout,
-  Button,
-} from "@canonical/react-components";
+import { type FC } from "react";
+import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
-import SsoProviderSelector from "components/SsoProviderSelector/SsoProviderSelector";
+import DocLink from "components/DocLink";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes("oidc");
-  const [isModal, setModal] = useState(false);
-
-  const closeModal = () => {
-    setModal(false);
-  };
-
-  const openModal = () => {
-    setModal(true);
-  };
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -49,10 +35,13 @@ const Login: FC = () => {
                 </a>
               )}
               {!hasOidc && (
-                <Button hasIcon onClick={openModal} appearance="positive">
+                <DocLink
+                  className="p-button--positive has-icon"
+                  docPath="/howto/oidc"
+                >
                   <Icon name="security" light />
                   <span>Set up SSO login</span>
-                </Button>
+                </DocLink>
               )}
               <Link
                 className="has-icon p-button"
@@ -65,7 +54,6 @@ const Login: FC = () => {
           </>
         </div>
       </CustomLayout>
-      {isModal && <SsoProviderSelector closeModal={closeModal} />}
     </>
   );
 };

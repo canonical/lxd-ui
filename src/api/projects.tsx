@@ -85,8 +85,17 @@ export const renameProject = async (
     });
 };
 
-export const deleteProject = async (project: LxdProject): Promise<void> => {
-  await fetch(`/1.0/projects/${encodeURIComponent(project.name)}`, {
+export const deleteProject = async (
+  project: LxdProject,
+  force?: boolean,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  if (force) {
+    params.set("force", "1");
+  }
+  const url = `/1.0/projects/${encodeURIComponent(project.name)}?${params.toString()}`;
+
+  await fetch(url, {
     method: "DELETE",
   }).then(handleResponse);
 };

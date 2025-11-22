@@ -15,6 +15,8 @@ import ResourceLink from "components/ResourceLink";
 import { renameStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import StorageVolumeDetailActions from "./StorageVolumeDetailActions";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -27,6 +29,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const { canEditVolume } = useStorageVolumeEntitlements();
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const getDisabledReason = (volume: LxdStorageVolume) => {
     if ((volume.used_by?.length ?? 0) > 0) {
@@ -51,6 +55,29 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       .required("This field is required"),
   });
 
+  const handleSuccess = (values: RenameHeaderValues) => {
+    const url = hasLocation(volume)
+      ? `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/member/${encodeURIComponent(volume.location)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`
+      : `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`;
+
+    navigate(url);
+    toastNotify.success(
+      <>
+        Storage volume <strong>{volume.name}</strong> renamed to{" "}
+        <ResourceLink type="volume" value={values.name} to={url} />.
+      </>,
+    );
+    formik.setFieldValue("isRenaming", false);
+  };
+
+  const handleFailure = (error: unknown) => {
+    notify.failure("Renaming failed", error);
+  };
+
+  const handleFinish = () => {
+    formik.setSubmitting(false);
+  };
+
   const formik = useFormik<RenameHeaderValues>({
     initialValues: {
       name: volume.name,
@@ -64,26 +91,24 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         return;
       }
       renameStorageVolume(project, volume, values.name, volume.location)
-        .then(() => {
-          const url = hasLocation(volume)
-            ? `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/member/${encodeURIComponent(volume.location)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`
-            : `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`;
-
-          navigate(url);
-          toastNotify.success(
-            <>
-              Storage volume <strong>{volume.name}</strong> renamed to{" "}
-              <ResourceLink type="volume" value={values.name} to={url} />.
-            </>,
-          );
-          formik.setFieldValue("isRenaming", false);
+        .then((operation) => {
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                handleSuccess(values);
+              },
+              (msg) => {
+                handleFailure(new Error(msg));
+              },
+              handleFinish,
+            );
+          } else {
+            handleSuccess(values);
+            handleFinish();
+          }
         })
-        .catch((e) => {
-          notify.failure("Renaming failed", e);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-        });
+        .catch(handleFailure);
     },
   });
 

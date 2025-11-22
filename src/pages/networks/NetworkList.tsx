@@ -18,7 +18,6 @@ import {
 } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import NetworkForwardCount from "pages/networks/NetworkForwardCount";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { renderNetworkType } from "util/networks";
@@ -40,9 +39,9 @@ import {
 } from "context/useNetworks";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
+import DocLink from "components/DocLink";
 
 const NetworkList: FC = () => {
-  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -255,7 +254,7 @@ const NetworkList: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <HelpLink
-                href={`${docBaseLink}/explanation/networks/`}
+                docPath="/explanation/networks/"
                 title="Learn more about networking"
               >
                 Networks
@@ -310,14 +309,9 @@ const NetworkList: FC = () => {
           >
             <p>There are no networks in this project.</p>
             <p>
-              <a
-                href={`${docBaseLink}/explanation/networks/`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <DocLink docPath="/explanation/networks/" hasExternalIcon>
                 Learn more about networks
-                <Icon className="external-link-icon" name="external-link" />
-              </a>
+              </DocLink>
             </p>
           </EmptyState>
         )}

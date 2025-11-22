@@ -61,7 +61,6 @@ import { getInstanceName } from "util/operations";
 import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
@@ -81,6 +80,7 @@ import { useProject } from "context/useProjects";
 import InstanceClusterMemberChip from "pages/instances/InstanceClusterMemberChip";
 import InstanceProjectChip from "pages/instances/InstanceProjectChip";
 import { getInstanceKey } from "util/instances";
+import DocLink from "components/DocLink";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -95,7 +95,6 @@ const saveHidden = (columns: string[]) => {
 };
 
 const InstanceList: FC = () => {
-  const docBaseLink = useDocs();
   const instanceLoading = useInstanceLoading();
   const navigate = useNavigate();
   const notify = useNotify();
@@ -661,7 +660,7 @@ const InstanceList: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/explanation/instances/#expl-instances`}
+                  docPath="/explanation/instances/#expl-instances"
                   title="Learn more about instances"
                 >
                   Instances
@@ -817,14 +816,9 @@ const InstanceList: FC = () => {
                     : ""}
                 </p>
                 <p>
-                  <a
-                    href={`${docBaseLink}/howto/instances_create/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <DocLink docPath="/howto/instances_create/" hasExternalIcon>
                     How to create instances
-                    <Icon className="external-link-icon" name="external-link" />
-                  </a>
+                  </DocLink>
                 </p>
                 <Button
                   className="empty-state-button"

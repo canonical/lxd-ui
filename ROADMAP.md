@@ -1,3 +1,17 @@
+# Roadmap for 26.04 from October 2025 until May 2026
+
+- Manage cluster links
+- Manage workload placement
+- Extensive instance view with inherited fields in YAML format
+- Rich chips with tooltip preview of linked entities on hover
+- Delete non-empty projects
+- Report a bug improvement to include version and paths
+- Delete running instances
+- Additional storage driver support
+- Relative URL support
+- Storage volume allow migration to another cluster member
+- Image registry
+
 # Roadmap for 25.10 from May 2025 until October 2025
 
 - Storage buckets

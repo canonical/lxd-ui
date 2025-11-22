@@ -106,3 +106,24 @@
     }
   }
 }
+
+.network-type-label {
+  display: flex;
+
+  .network-type-name {
+    margin-left: $sph--small;
+    width: 5rem;
+  }
+
+  .network-type-explanation {
+    margin-left: $sph--small;
+  }
+
+  @media screen and (width <= 1200px) {
+    flex-direction: column;
+
+    .network-type-explanation {
+      white-space: break-spaces;
+    }
+  }
+}

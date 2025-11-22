@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
@@ -14,7 +14,14 @@ import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 import { useNetwork } from "context/useNetworks";
 import NetworkLeases from "pages/networks/NetworkLeases";
-import { typesWithForwards } from "util/networks";
+import {
+  typesWithForwards,
+  typesWithLeases,
+  // typesWithLocalPeerings,
+} from "util/networks";
+// import NetworkPeers from "./NetworkPeers";
+import { slugify } from "util/slugify";
+import classnames from "classnames";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -35,6 +42,7 @@ const NetworkDetail: FC = () => {
   }
 
   const { data: network, error, isLoading } = useNetwork(name, project, member);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (error) {
@@ -46,16 +54,48 @@ const NetworkDetail: FC = () => {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
-  const isManagedNetwork = network?.managed;
+  const isManagedNetwork = network?.managed ?? false;
+  const hasForwards =
+    typesWithForwards.includes(network?.type ?? "") && isManagedNetwork;
+  const hasLeases =
+    typesWithLeases.includes(network?.type ?? "") && isManagedNetwork;
+  // const isPeeringSupported = typesWithLocalPeerings.includes(
+  //   network?.type ?? "",
+  // );
 
-  const getTabs = () => {
-    const type = network?.type ?? "";
-    if (!typesWithForwards.includes(type) || !isManagedNetwork) {
-      return ["Configuration"];
-    }
+  const networkUrl = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`;
 
-    return ["Configuration", "Forwards", "Leases"];
+  const getTabClassnames = (isDisabled: boolean) => {
+    return classnames("p-tabs__link", {
+      "is-disabled": isDisabled,
+    });
   };
+
+  const getTabLink = (label: string, supported: boolean, path: string) => {
+    const slug = slugify(label);
+    const url = supported ? `${networkUrl}/${path}` : "#";
+
+    return {
+      href: url,
+      className: getTabClassnames(!supported),
+      title: supported ? label : `${label} are not supported on this network`,
+      id: slug,
+      label,
+      onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        notify.clear();
+        navigate(url);
+      },
+      active: slug === activeTab,
+    };
+  };
+
+  const tabs = [
+    "Configuration",
+    getTabLink("Forwards", hasForwards, "forwards"),
+    getTabLink("Leases", hasLeases, "leases"),
+    // getTabLink("Local Peerings", isPeeringSupported, "local-peerings"),
+  ];
 
   return (
     <CustomLayout
@@ -65,11 +105,7 @@ const NetworkDetail: FC = () => {
       contentClassName="edit-network"
     >
       <Row>
-        <TabLinks
-          tabs={getTabs()}
-          activeTab={activeTab}
-          tabUrl={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`}
-        />
+        <TabLinks tabs={tabs} activeTab={activeTab} tabUrl={networkUrl} />
         <NotificationRow />
         {!activeTab && (
           <div role="tabpanel" aria-labelledby="configuration">
@@ -86,6 +122,11 @@ const NetworkDetail: FC = () => {
             {network && <NetworkLeases network={network} project={project} />}
           </div>
         )}
+        {/* {activeTab === "local-peerings" && (
+          <div role="tabpanel" aria-labelledby="local-peerings">
+            {network && <NetworkPeers network={network} project={project} />}
+          </div>
+        )} */}
       </Row>
     </CustomLayout>
   );

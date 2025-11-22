@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Notification } from "@canonical/react-components";
-import SsoProviderSelector from "components/SsoProviderSelector/SsoProviderSelector";
+import DocLink from "components/DocLink";
 
 const loadClosed = () => {
   const saved = localStorage.getItem("ssoNotificationClosed");
@@ -18,15 +18,6 @@ interface Props {
 
 const SsoNotification: FC<Props> = ({ hasOidc }: Props) => {
   const [closed, setClosed] = useState(loadClosed());
-  const [isModal, setModal] = useState(false);
-
-  const closeModal = () => {
-    setModal(false);
-  };
-
-  const openModal = () => {
-    setModal(true);
-  };
 
   if (closed || hasOidc) {
     return null;
@@ -44,18 +35,13 @@ const SsoNotification: FC<Props> = ({ hasOidc }: Props) => {
         title="Did you know?"
         onDismiss={handleClose}
         actions={[
-          {
-            label: "Show me how",
-            onClick: () => {
-              openModal();
-            },
-          },
+          <DocLink docPath="/howto/oidc/" key="sso-doc-link">
+            Show me how
+          </DocLink>,
         ]}
       >
         LXD can be configured to log in using a single sign-on provider.
       </Notification>
-
-      {isModal && <SsoProviderSelector closeModal={closeModal} />}
     </>
   );
 };

@@ -274,7 +274,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
       page.getByRole("button", { name: "Delete network" }),
     ).toBeDisabled();
 
-    await page.getByTestId("tab-link-Forwards").click();
+    await page.getByRole("link", { name: "Forwards" }).click();
     await expect(
       page.getByRole("button", { name: "Create forward" }),
     ).toBeDisabled();

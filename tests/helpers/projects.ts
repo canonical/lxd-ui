@@ -59,9 +59,11 @@ export const deleteProject = async (page: Page, project: string) => {
   await page.waitForLoadState("networkidle");
   await page.getByRole("link", { name: "Configuration" }).click();
   await page.getByRole("button", { name: "Delete" }).click();
+  await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
+  await page.getByPlaceholder(project).fill(project);
   await page
     .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: "Delete" })
+    .getByRole("button", { name: `Permanently delete ${project}` })
     .click();
   await page.waitForSelector(`text=Project ${project} deleted.`);
 };

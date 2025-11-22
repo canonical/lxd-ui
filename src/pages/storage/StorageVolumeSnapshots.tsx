@@ -16,7 +16,6 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { useDocs } from "context/useDocs";
 import type { LxdStorageVolume } from "types/storage";
 import VolumeSnapshotBulkDelete from "./actions/snapshots/VolumeSnapshotBulkDelete";
 import VolumeAddSnapshotBtn from "./actions/snapshots/VolumeAddSnapshotBtn";
@@ -28,13 +27,13 @@ import { isSnapshotsDisabled } from "util/snapshots";
 import { figureCollapsedScreen } from "util/storageVolume";
 import useSortTableData from "util/useSortTableData";
 import ResourceLink from "components/ResourceLink";
+import DocLink from "components/DocLink";
 
 interface Props {
   volume: LxdStorageVolume;
 }
 
 const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
-  const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
@@ -311,14 +310,12 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
             )}
           </p>
           <p>
-            <a
-              href={`${docBaseLink}/howto/storage_backup_volume/#storage-backup-snapshots`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <DocLink
+              docPath="/howto/storage_backup_volume/#storage-backup-snapshots"
+              hasExternalIcon
             >
               Learn more about snapshots
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
+            </DocLink>
           </p>
           <VolumeConfigureSnapshotBtn
             volume={volume}

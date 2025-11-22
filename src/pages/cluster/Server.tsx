@@ -3,17 +3,15 @@ import { EmptyState, Icon, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import ClusterMemberHardware from "pages/cluster/ClusterMemberHardware";
 import BaseLayout from "components/BaseLayout";
-import { useDocs } from "context/useDocs";
 import TabLinks from "components/TabLinks";
 import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
+import DocLink from "components/DocLink";
 
 interface Props {
   activeTab?: string;
 }
 
 const Server: FC<Props> = ({ activeTab }) => {
-  const docBaseLink = useDocs();
-
   const tabs = ["Hardware", "Clustering"];
 
   return (
@@ -32,14 +30,9 @@ const Server: FC<Props> = ({ activeTab }) => {
             title="This server is not clustered"
           >
             <p>
-              <a
-                href={`${docBaseLink}/explanation/clustering/`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <DocLink docPath="/explanation/clustering/" hasExternalIcon>
                 Learn more about clustering
-                <Icon className="external-link-icon" name="external-link" />
-              </a>
+              </DocLink>
             </p>
             <EnableClusteringBtn />
           </EmptyState>

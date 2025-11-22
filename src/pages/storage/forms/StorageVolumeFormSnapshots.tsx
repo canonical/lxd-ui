@@ -4,7 +4,7 @@ import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
-import { useDocs } from "context/useDocs";
+import DocLink from "components/DocLink";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isSnapshotsDisabled } from "util/snapshots";
 import SnapshotDisabledWarningLink from "components/SnapshotDisabledWarningLink";
@@ -15,7 +15,6 @@ interface Props {
 }
 
 const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
-  const docBaseLink = useDocs();
   const { project } = useCurrentProject();
   const snapshotDisabled = isSnapshotsDisabled(project);
 
@@ -43,13 +42,9 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
                   <>
                     Pongo2 template string that represents the snapshot name
                     (used for scheduled snapshots and unnamed snapshots), see{" "}
-                    <a
-                      href={`${docBaseLink}/reference/instance_options/#instance-options-snapshots-names`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <DocLink docPath="/reference/instance_options/#instance-options-snapshots-names">
                       Automatic snapshot names
-                    </a>
+                    </DocLink>
                   </>
                 }
                 type="text"

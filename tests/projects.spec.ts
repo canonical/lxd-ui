@@ -12,6 +12,12 @@ import {
   randomProjectName,
   renameProject,
 } from "./helpers/projects";
+import {
+  createInstance,
+  deleteInstance,
+  randomInstanceName,
+} from "./helpers/instances";
+import { deleteAllImages } from "./helpers/images";
 
 test("project create and remove", async ({ page }) => {
   const project = randomProjectName();
@@ -171,4 +177,110 @@ test("retain custom project selection on browsing pages for all projects", async
   await page.waitForLoadState("networkidle");
 
   expect(page.getByText("Project" + project)).toBeVisible();
+});
+
+test("project deletion with instances - force delete supported", async ({
+  page,
+  lxdVersion,
+}) => {
+  test.skip(
+    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
+    "LXD versions 6.6 and newer support projects_force_delete API extension",
+  );
+
+  const project = randomProjectName();
+  const instance = randomInstanceName();
+
+  await createProject(page, project);
+  await createInstance(page, instance, "container", project);
+  await page.getByRole("link", { name: "Configuration" }).click();
+  await page.waitForSelector("text=Project configuration");
+
+  const deleteButton = page.getByRole("button", { name: "Delete" });
+  await expect(deleteButton).toBeEnabled();
+
+  await deleteButton.hover();
+  await expect(
+    page.getByText("Delete project and all its resources"),
+  ).toBeVisible();
+
+  await deleteButton.click();
+
+  await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
+  await expect(
+    page.getByText("The following items will also be deleted:"),
+  ).toBeVisible();
+
+  await expect(page.getByText("Instances (1)")).toBeVisible();
+  await expect(
+    page.getByRole("row", { name: /Instances \(1\)/ }).getByText(instance),
+  ).toBeVisible();
+
+  await page.getByPlaceholder(project).fill(project);
+  const confirmDeleteButton = page
+    .getByRole("dialog", { name: "Confirm delete" })
+    .getByRole("button", { name: `Permanently delete ${project}` });
+
+  await confirmDeleteButton.click();
+
+  await page.waitForSelector(`text=Project ${project} deleted.`);
+});
+
+test("project deletion with instances - force delete not supported", async ({
+  page,
+  lxdVersion,
+}) => {
+  test.skip(
+    lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge",
+    "This test is specifically for LXD versions that don't support projects_force_delete",
+  );
+
+  const project = randomProjectName();
+  const instance = randomInstanceName();
+
+  await createProject(page, project);
+  await createInstance(page, instance, "container", project);
+  await page.getByRole("link", { name: "Configuration" }).click();
+  await page.waitForSelector("text=Project configuration");
+
+  const deleteButton = page.getByRole("button", { name: "Delete" });
+  await expect(deleteButton).toBeDisabled();
+
+  // Check the tooltip shows detailed explanation with upgrade instructions
+  await deleteButton.hover();
+  await expect(
+    page.getByText("Cannot delete non-empty project."),
+  ).toBeVisible();
+  await expect(page.getByText("Project is used by:")).toBeVisible();
+  await expect(page.getByText("Instances (1)")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Instances" }).first(),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Remove all resources first, or upgrade to LXD 6.6 or newer to use force deletion.",
+    ),
+  ).toBeVisible();
+
+  await deleteInstance(page, instance, project);
+  await deleteAllImages(page, project);
+
+  await page.getByRole("link", { name: "Configuration" }).click();
+  await page.waitForLoadState("networkidle");
+  await page.waitForSelector("text=Project configuration");
+
+  // Now the delete button should be enabled because the project is empty
+  await expect(deleteButton).toBeEnabled();
+
+  await deleteButton.click();
+  await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
+
+  const permanentlyDeleteButton = page
+    .getByRole("dialog", { name: "Confirm delete" })
+    .getByRole("button", { name: `Permanently delete ${project}` });
+  await expect(permanentlyDeleteButton).toBeDisabled();
+  await page.getByPlaceholder(project).fill(project);
+  await expect(permanentlyDeleteButton).toBeEnabled();
+  await permanentlyDeleteButton.click();
+  await page.waitForSelector(`text=Project ${project} deleted.`);
 });

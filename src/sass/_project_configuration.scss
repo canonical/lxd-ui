@@ -1,0 +1,39 @@
+.delete-project-dialog {
+  .p-modal__dialog {
+    @include large {
+      width: 40rem;
+    }
+
+    .delete-project-table {
+      tbody {
+        tr {
+          th:first-child {
+            width: 14rem;
+
+            @include mobile-and-tablet {
+              width: 9rem;
+            }
+          }
+        }
+      }
+
+      .icon {
+        margin-right: $sph--large;
+      }
+    }
+
+    .p-modal__footer {
+      align-items: center;
+      display: flex;
+      gap: $sph--large;
+
+      .confirm-input {
+        flex: 1;
+      }
+
+      .p-action-button {
+        flex: 1;
+      }
+    }
+  }
+}

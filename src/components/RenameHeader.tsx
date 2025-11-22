@@ -118,9 +118,7 @@ const RenameHeader: FC<Props> = ({
               </li>
             )}
           </ol>
-          {relatedChip && (
-            <span style={{ marginLeft: "-1rem" }}>{relatedChip}</span>
-          )}
+          {relatedChip}
         </nav>
         {!formik?.values.isRenaming && centerControls}
       </div>

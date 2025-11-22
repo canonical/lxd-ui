@@ -39,7 +39,7 @@ import { getPoolKey } from "util/storagePool";
 import { slugify } from "util/slugify";
 import YamlForm from "components/forms/YamlForm";
 import { handleConfigKeys } from "util/storagePoolForm";
-import { useDocs } from "context/useDocs";
+import DocLink from "components/DocLink";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
@@ -251,7 +251,6 @@ const StoragePoolForm: FC<Props> = ({
   setSection,
   version = 0,
 }) => {
-  const docBaseLink = useDocs();
   const { data: settings } = useSettings();
   const notify = useNotify();
 
@@ -323,13 +322,9 @@ const StoragePoolForm: FC<Props> = ({
               <Notification severity="information" title="YAML Configuration">
                 {`${isSupportedStorageDriver ? "" : `The ${formik.values.driver} driver is not fully supported in the web interface. `}This is the YAML representation of the storage pool.`}
                 <br />
-                <a
-                  href={`${docBaseLink}/explanation/storage/#storage-pools`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <DocLink docPath="/explanation/storage/#storage-pools">
                   Learn more about storage pools
-                </a>
+                </DocLink>
               </Notification>
             </YamlForm>
           )}

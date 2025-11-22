@@ -13,7 +13,6 @@ import {
 import SettingForm from "./SettingForm";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import { queryKeys } from "util/queryKeys";
 import { fetchConfigOptions } from "api/server";
 import { useQuery } from "@tanstack/react-query";
@@ -26,9 +25,10 @@ import { useServerEntitlements } from "util/entitlements/server";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useClusteredSettings } from "context/useSettings";
 import type { LXDSettingOnClusterMember } from "types/server";
+import { useProjects } from "context/useProjects";
+import { getDefaultProject } from "util/loginProject";
 
 const Settings: FC = () => {
-  const docBaseLink = useDocs();
   const [query, setQuery] = useState("");
   const notify = useNotify();
   const {
@@ -45,6 +45,8 @@ const Settings: FC = () => {
   });
   const { data: clusteredSettings = [], error: clusterError } =
     useClusteredSettings();
+
+  const { data: projects = [] } = useProjects();
 
   if (clusterError) {
     notify.failure("Loading clustered settings failed", clusterError);
@@ -96,14 +98,6 @@ const Settings: FC = () => {
   const configFields = toConfigFields(configOptions?.configs?.server ?? {});
 
   configFields.push({
-    key: "user.ui_title",
-    category: "user",
-    default: "",
-    shortdesc: "Title for the LXD-UI web page. Shows the hostname when unset.",
-    type: "string",
-  });
-
-  configFields.push({
     key: "user.ui_grafana_base_url",
     category: "user",
     default: "",
@@ -115,11 +109,27 @@ const Settings: FC = () => {
   });
 
   configFields.push({
+    key: "user.ui_login_project",
+    category: "user",
+    default: getDefaultProject(projects),
+    shortdesc: "Project to display on login.",
+    type: "string",
+  });
+
+  configFields.push({
     key: "user.ui_theme",
     category: "user",
     default: "",
     shortdesc:
       "Set UI to dark theme, light theme, or to match the system theme.",
+    type: "string",
+  });
+
+  configFields.push({
+    key: "user.ui_title",
+    category: "user",
+    default: "",
+    shortdesc: "Title for the LXD-UI web page. Shows the hostname when unset.",
     type: "string",
   });
 
@@ -198,7 +208,7 @@ const Settings: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/server/`}
+                  docPath="/server/"
                   title="Learn more about server configuration"
                 >
                   Settings

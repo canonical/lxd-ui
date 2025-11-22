@@ -9,7 +9,7 @@ interface Props {
   formik: FormikProps<NetworkFormValues>;
 }
 
-const NetworkGVRPField: FC<Props> = ({ formik }) => {
+const NetworkGARPField: FC<Props> = ({ formik }) => {
   return (
     <div className="general-field">
       <div className="general-field-label can-edit">
@@ -67,4 +67,4 @@ const NetworkGVRPField: FC<Props> = ({ formik }) => {
   );
 };
 
-export default NetworkGVRPField;
+export default NetworkGARPField;

@@ -16,6 +16,7 @@ import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
 import { useToastNotification } from "@canonical/react-components";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -25,6 +26,7 @@ interface Props {
 
 const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -55,6 +57,32 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
         .slice(0, 16)
         .split(" ");
 
+  const continueUpdate = async (values: SnapshotFormValues) => {
+    let shouldShowSuccess = true;
+
+    if (values.name !== snapshot.name) {
+      await rename(values.name).catch((error: Error) => {
+        toastNotify.failure("Snapshot update failed", error);
+        shouldShowSuccess = false;
+      });
+    }
+    if (shouldShowSuccess) {
+      toastNotify.success(
+        <>
+          Snapshot <VolumeSnapshotLinkChip name={values.name} volume={volume} />{" "}
+          saved.
+        </>,
+      );
+    }
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === queryKeys.volumes ||
+        query.queryKey[0] === queryKeys.storage,
+    });
+    formik.setSubmitting(false);
+    close();
+  };
+
   const formik = useFormik<SnapshotFormValues>({
     initialValues: {
       name: snapshot.name,
@@ -68,7 +96,6 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
       snapshot.name,
     ),
     onSubmit: async (values) => {
-      let shouldShowSuccess = true;
       const expiresAt =
         values.expirationDate && values.expirationTime
           ? stringToIsoTime(
@@ -76,34 +103,26 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
             )
           : null;
       if (expiresAt !== snapshot.expires_at) {
-        await updateVolumeSnapshot(volume, snapshot, expiresAt).catch(
-          (error: Error) => {
+        await updateVolumeSnapshot(volume, snapshot, expiresAt)
+          .then((operation) => {
+            if (hasStorageAndProfileOperations) {
+              eventQueue.set(
+                operation.metadata.id,
+                () => {
+                  continueUpdate(values);
+                },
+                (msg) => {
+                  toastNotify.failure("Snapshot update failed", new Error(msg));
+                },
+              );
+            } else {
+              continueUpdate(values);
+            }
+          })
+          .catch((error: Error) => {
             toastNotify.failure("Snapshot update failed", error);
-            shouldShowSuccess = false;
-          },
-        );
+          });
       }
-      if (values.name !== snapshot.name) {
-        await rename(values.name).catch((error: Error) => {
-          toastNotify.failure("Snapshot update failed", error);
-          shouldShowSuccess = false;
-        });
-      }
-      if (shouldShowSuccess) {
-        toastNotify.success(
-          <>
-            Snapshot{" "}
-            <VolumeSnapshotLinkChip name={values.name} volume={volume} /> saved.
-          </>,
-        );
-      }
-      queryClient.invalidateQueries({
-        predicate: (query) =>
-          query.queryKey[0] === queryKeys.volumes ||
-          query.queryKey[0] === queryKeys.storage,
-      });
-      formik.setSubmitting(false);
-      close();
     },
   });
 

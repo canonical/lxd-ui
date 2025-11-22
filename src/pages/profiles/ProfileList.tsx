@@ -24,7 +24,6 @@ import { isProjectWithProfiles } from "util/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import ProfileDetailPanel from "./ProfileDetailPanel";
@@ -34,7 +33,6 @@ import { useProfiles } from "context/useProfiles";
 import ResourceLink from "components/ResourceLink";
 
 const ProfileList: FC = () => {
-  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
@@ -188,7 +186,7 @@ const ProfileList: FC = () => {
             <PageHeader.Left>
               <PageHeader.Title>
                 <HelpLink
-                  href={`${docBaseLink}/profiles/`}
+                  docPath="/profiles/"
                   title="Learn how to use profiles"
                 >
                   Profiles

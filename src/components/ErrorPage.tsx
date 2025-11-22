@@ -8,32 +8,14 @@ import {
   useListener,
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import { UI_VERSION } from "util/version";
+import { getReportBugURL } from "util/reportBug";
 
 interface Props {
   error?: Error;
 }
 
 const ErrorPage: FC<Props> = ({ error }) => {
-  const body = encodeURIComponent(
-    `# Description
-
-A brief description of the problem. Should include what you were
-attempting to do, what you did, what happened and what you expected to
-see happen.
-
-# Metadata
-
-UI Version: ${UI_VERSION}
-Path: ${location.pathname}${location.search}
-
-# Stacktrace
-
-\`\`\`
-${error?.stack ?? "No stack trace"}
-\`\`\``,
-  );
-  const url = `https://github.com/canonical/lxd-ui/issues/new?labels=bug&title=Error%20report&body=${body}`;
+  const url = getReportBugURL(error);
 
   const updateHeight = () => {
     updateMaxHeight("error-info", undefined, 0, "max-height");

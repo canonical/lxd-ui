@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
 import { fetchNetworkForwards } from "api/network-forwards";
-import { useDocs } from "context/useDocs";
 import DeleteNetworkForwardBtn from "pages/networks/actions/DeleteNetworkForwardBtn";
 import { Link } from "react-router-dom";
 import ExpandableList from "components/ExpandableList";
@@ -22,6 +21,7 @@ import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useIsClustered } from "context/useIsClustered";
 import ResourceLink from "components/ResourceLink";
 import { bridgeType } from "util/networks";
+import DocLink from "components/DocLink";
 
 interface Props {
   network: LxdNetwork;
@@ -29,7 +29,6 @@ interface Props {
 }
 
 const NetworkForwards: FC<Props> = ({ network, project }) => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const { canEditNetwork } = useNetworkEntitlements();
   const isClustered = useIsClustered();
@@ -227,14 +226,9 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           >
             <p>There are no network forwards in this project.</p>
             <p>
-              <a
-                href={`${docBaseLink}/howto/network_forwards/`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <DocLink docPath="/howto/network_forwards/" hasExternalIcon>
                 Learn more about network forwards
-                <Icon className="external-link-icon" name="external-link" />
-              </a>
+              </DocLink>
             </p>
           </EmptyState>
         )}

@@ -105,12 +105,12 @@ export const renameStorageVolume = async (
   volume: LxdStorageVolume,
   newName: string,
   target: string | null = null,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "POST",
@@ -121,7 +121,11 @@ export const renameStorageVolume = async (
         name: newName,
       }),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const createIsoStorageVolume = async (
@@ -163,12 +167,12 @@ export const createStorageVolume = async (
   project: string,
   volume: Partial<LxdStorageVolume>,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes?${params.toString()}`,
     {
       method: "POST",
@@ -177,7 +181,11 @@ export const createStorageVolume = async (
       },
       body: JSON.stringify(volume),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const updateStorageVolume = async (
@@ -185,12 +193,12 @@ export const updateStorageVolume = async (
   project: string,
   volume: LxdStorageVolume,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "PUT",
@@ -200,7 +208,11 @@ export const updateStorageVolume = async (
         "If-Match": volume.etag ?? "invalid-etag",
       },
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteStorageVolume = async (
@@ -208,17 +220,21 @@ export const deleteStorageVolume = async (
   pool: string,
   project: string,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `/1.0/storage-pools/${encodeURIComponent(pool)}/volumes/custom/${encodeURIComponent(volume)}?${params.toString()}`,
     {
       method: "DELETE",
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteStorageVolumeBulk = async (

@@ -6,6 +6,7 @@ import { fetchCertificates } from "api/certificates";
 import { fetchProjects } from "api/projects";
 import { fetchCurrentIdentity } from "api/auth-identities";
 import { useSupportedFeatures } from "./useSupportedFeatures";
+import { getLoginProject } from "util/loginProject";
 
 interface ContextProps {
   isAuthenticated: boolean;
@@ -81,10 +82,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     enabled: settings?.auth === "trusted" && isFineGrained() !== null,
   });
 
-  const defaultProject =
-    projects.length < 1 || projects.find((p) => p.name === "default")
-      ? "default"
-      : projects[0].name;
+  const defaultProject = getLoginProject(projects);
 
   const isTls = settings?.auth_user_method === "tls";
 

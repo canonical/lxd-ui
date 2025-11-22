@@ -15,6 +15,7 @@ import { useAuth } from "context/auth";
 import SettingFormCheckbox from "./SettingFormCheckbox";
 import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
+import LoginProjectSelect from "./LoginProjectSelect";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
@@ -54,6 +55,7 @@ const SettingForm: FC<Props> = ({
   const isSecret = isTrustPassword || isLokiAuthPassword;
   const isClusteredInput = isClustered && configField.scope === "local";
   const isThemeSelector = configField.key === "user.ui_theme";
+  const isLoginProjectSelector = configField.key === "user.ui_login_project";
 
   const settingLabel = (
     <ResourceLabel bold type="setting" value={configField.key} />
@@ -134,6 +136,14 @@ const SettingForm: FC<Props> = ({
 
   if (isThemeSelector) {
     return <ThemeSwitcher />;
+  }
+
+  if (isLoginProjectSelector) {
+    return (
+      <div ref={editRef}>
+        <LoginProjectSelect configField={configField} />
+      </div>
+    );
   }
 
   return (
