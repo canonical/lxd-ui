@@ -2,6 +2,9 @@ import type { IpAddress, IpFamily, LxdInstance } from "types/instance";
 import type { LxdNetwork, LxdNetworkConfig } from "types/network";
 import type { LxdConfigOptionsKeys } from "types/config";
 import { capitalizeFirstLetter } from "util/helpers";
+import type { AnyObject, TestFunction } from "yup";
+import { checkDuplicateName } from "./helpers";
+import type { AbortControllerState } from "./helpers";
 
 export const bridgeType = "bridge";
 export const macvlanType = "macvlan";
@@ -215,4 +218,27 @@ export const isTypeOvn = (network?: LxdNetwork) => {
 export const supportsNicDeviceAcls = (network?: LxdNetwork) => {
   if (network) return typesWithNicDeviceAcls.includes(network?.type);
   return false;
+};
+
+export const testDuplicateLocalPeeringName = (
+  project: string,
+  networkName: string,
+  controllerState: AbortControllerState,
+  excludeName?: string,
+): [string, string, TestFunction<string | undefined, AnyObject>] => {
+  return [
+    "deduplicate",
+    "A local peering with this name already exists",
+    async (value?: string) => {
+      return (
+        (excludeName && value === excludeName) ||
+        checkDuplicateName(
+          value,
+          project,
+          controllerState,
+          `networks/${encodeURIComponent(networkName)}/peers`,
+        )
+      );
+    },
+  ];
 };

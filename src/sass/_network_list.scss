@@ -27,3 +27,14 @@
     }
   }
 }
+
+.network-peer-list {
+  .status-header {
+    padding-left: 1.33rem;
+    pointer-events: none;
+
+    > * {
+      pointer-events: all;
+    }
+  }
+}

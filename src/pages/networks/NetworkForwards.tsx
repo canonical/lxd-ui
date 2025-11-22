@@ -22,6 +22,7 @@ import { useIsClustered } from "context/useIsClustered";
 import ResourceLink from "components/ResourceLink";
 import { bridgeType } from "util/networks";
 import DocLink from "components/DocLink";
+import CreateNetworkForwardBtn from "./actions/CreateNetworkForwardBtn";
 
 interface Props {
   network: LxdNetwork;
@@ -179,23 +180,8 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
 
   return (
     <>
-      {canEditNetwork(network) && (
-        <Link
-          className="p-button--positive u-no-margin--bottom u-float-right"
-          to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/create`}
-        >
-          Create forward
-        </Link>
-      )}
-      {!canEditNetwork(network) && (
-        <Button
-          appearance="positive"
-          className="u-float-right u-no-margin--bottom"
-          disabled
-          title="You do not have permission to create network forwards for this network"
-        >
-          <span>Create forward</span>
-        </Button>
+      {hasNetworkForwards && (
+        <CreateNetworkForwardBtn network={network} className="u-float-right" />
       )}
       <Row>
         {hasNetworkForwards && (
@@ -230,6 +216,12 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                 Learn more about network forwards
               </DocLink>
             </p>
+            {!hasNetworkForwards && (
+              <CreateNetworkForwardBtn
+                network={network}
+                className="empty-state-button"
+              />
+            )}
           </EmptyState>
         )}
       </Row>

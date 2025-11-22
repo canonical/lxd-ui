@@ -7,7 +7,7 @@ import {
   SearchBox,
 } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
-import ProjectSelectorList from "pages/projects/ProjectSelectorList";
+import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
 import { defaultFirst } from "util/helpers";
 import { useProjects } from "context/useProjects";
 import { useServerEntitlements } from "util/entitlements/server";
@@ -16,7 +16,9 @@ interface Props {
   activeProject: string;
 }
 
-const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
+const NavigationProjectSelector: FC<Props> = ({
+  activeProject,
+}): React.JSX.Element => {
   const navigate = useNavigate();
   const searchRef = useRef<HTMLInputElement>(null);
   const { canCreateProjects } = useServerEntitlements();
@@ -71,7 +73,10 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
             <Icon name="folder" light />
             <span>All projects</span>
           </Button>
-          <ProjectSelectorList projects={projects} onMount={onChildMount} />
+          <NavigationProjectSelectorList
+            projects={projects}
+            onMount={onChildMount}
+          />
           <hr className="is-dark" />
           <Button
             onClick={() => {
@@ -95,4 +100,4 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
   );
 };
 
-export default ProjectSelector;
+export default NavigationProjectSelector;

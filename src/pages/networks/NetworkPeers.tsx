@@ -8,12 +8,16 @@ import {
   useNotify,
   Spinner,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
-import { fetchNetworkPeers } from "api/network-peering";
 import ResourceLink from "components/ResourceLink";
 import DocLink from "components/DocLink";
+import usePanelParams, { panels } from "util/usePanelParams";
+import CreateLocalPeeringPanel from "./panels/CreateLocalPeeringPanel";
+import { useLocalPeerings } from "context/useLocalPeerings";
+import CreateNetworkPeeringBtn from "./actions/CreateNetworkPeeringBtn";
+import LocalPeeringActions from "./actions/LocalPeeringActions";
+import EditLocalPeeringPanel from "./panels/EditLocalPeeringPanel";
+import LocalPeeringStatusIcon from "./LocalPeeringStatusIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -24,82 +28,93 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
   const notify = useNotify();
 
   const {
-    data: peers = [],
+    data: localPeerings = [],
     error,
     isLoading,
-  } = useQuery({
-    queryKey: [
-      queryKeys.projects,
-      project,
-      queryKeys.networks,
-      network.name,
-      queryKeys.peers,
-    ],
-    queryFn: async () => fetchNetworkPeers(network.name, project),
-  });
+  } = useLocalPeerings(network, project);
+
+  const panelParams = usePanelParams();
+  const hasNetworkPeers = localPeerings.length > 0;
 
   if (error) {
     notify.failure("Loading local network peerings failed", error);
   }
 
-  const hasNetworkPeers = peers.length > 0;
-
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
-    { content: "Peer project", sortKey: "project" },
-    { content: "Peer network", sortKey: "peerNetwork" },
-    { content: "Status", sortKey: "status" },
+    { content: "Target project", sortKey: "targetProject" },
+    { content: "Target network", sortKey: "targetNetwork" },
+    {
+      content: <span className="status-header">Status</span>,
+      sortKey: "status",
+    },
+    { "aria-label": "Actions", className: "actions" },
   ];
 
-  const rows = peers.map((peer) => {
+  const rows = localPeerings.map((localPeering) => {
     return {
-      key: peer.name,
+      key: localPeering.name,
       columns: [
         {
-          content: peer.name,
+          content: localPeering.name,
           role: "rowheader",
           "aria-label": "Name",
         },
         {
-          content: peer.description,
+          content: localPeering.description,
           role: "cell",
           "aria-label": "Description",
         },
         {
-          content: peer.target_project && (
+          content: localPeering.target_project ? (
             <ResourceLink
               type="project"
-              value={peer.target_project}
-              to={`/ui/project/${encodeURIComponent(peer.target_project)}`}
+              value={localPeering.target_project}
+              to={`/ui/project/${encodeURIComponent(localPeering.target_project)}`}
             />
+          ) : (
+            "-"
           ),
           role: "cell",
-          "aria-label": "Project",
+          "aria-label": "Target project",
         },
         {
-          content: (
+          content: localPeering.target_network ? (
             <ResourceLink
               type="network"
-              value={peer.target_network}
-              to={`/ui/project/${encodeURIComponent(peer.target_project ?? "")}/network/${encodeURIComponent(peer.target_network)}`}
+              value={localPeering.target_network}
+              to={`/ui/project/${encodeURIComponent(localPeering.target_project ?? "")}/network/${encodeURIComponent(localPeering.target_network)}`}
             />
+          ) : (
+            "-"
           ),
           role: "cell",
           "aria-label": "Target network",
         },
         {
-          content: peer.status,
+          content: <LocalPeeringStatusIcon localPeering={localPeering} />,
           role: "cell",
           "aria-label": "Status",
         },
+        {
+          content: (
+            <LocalPeeringActions
+              network={network}
+              localPeering={localPeering.name}
+            />
+          ),
+          role: "cell",
+          "aria-label": "Actions",
+          className: "u-align--right actions",
+        },
       ],
       sortData: {
-        name: peer.name?.toLowerCase(),
-        description: peer.description?.toLowerCase(),
-        project: peer.target_project?.toLowerCase(),
-        peerNetwork: peer.target_network,
-        status: peer.status?.toLowerCase(),
+        name: localPeering.name?.toLowerCase(),
+        description: localPeering.description?.toLowerCase(),
+        targetProject: localPeering.target_project?.toLowerCase(),
+        targetNetwork: localPeering.target_network,
+        status: localPeering.status?.toLowerCase(),
       },
     };
   });
@@ -109,39 +124,55 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
   }
 
   return (
-    <Row>
+    <>
       {hasNetworkPeers && (
-        <ScrollableTable
-          dependencies={peers}
-          tableId="network-peer-table"
-          belowIds={["status-bar"]}
-        >
-          <MainTable
-            id="network-peer-table"
-            headers={headers}
-            expanding
-            rows={rows}
-            responsive
-            sortable
-            className="u-table-layout--auto"
-          />
-        </ScrollableTable>
+        <CreateNetworkPeeringBtn network={network} className=" u-float-right" />
       )}
-      {!hasNetworkPeers && (
-        <EmptyState
-          className="empty-state"
-          image={<Icon className="empty-state-icon" name="exposed" />}
-          title="No local peerings found"
-        >
-          <p>There are no local peerings in this network and project.</p>
-          <p>
-            <DocLink docPath={`/howto/network_ovn_peers`}>
-              Learn more about local peering
-            </DocLink>
-          </p>
-        </EmptyState>
+      <Row>
+        {hasNetworkPeers && (
+          <ScrollableTable
+            dependencies={localPeerings}
+            tableId="network-peer-table"
+            belowIds={["status-bar"]}
+          >
+            <MainTable
+              id="network-peer-table"
+              headers={headers}
+              expanding
+              rows={rows}
+              responsive
+              sortable
+              className="network-peer-list u-table-layout--auto"
+            />
+          </ScrollableTable>
+        )}
+        {!hasNetworkPeers && (
+          <EmptyState
+            className="empty-state"
+            image={<Icon className="empty-state-icon" name="exposed" />}
+            title="No local peerings found"
+          >
+            <p>There are no local peerings in this network and project.</p>
+            <p>
+              <DocLink docPath={`/howto/network_ovn_peers`}>
+                Learn more about local peering
+              </DocLink>
+            </p>
+            <CreateNetworkPeeringBtn
+              className="empty-state-button"
+              network={network}
+            />
+          </EmptyState>
+        )}
+      </Row>
+
+      {panelParams.panel === panels.createLocalPeering && (
+        <CreateLocalPeeringPanel network={network} />
       )}
-    </Row>
+      {panelParams.panel === panels.editLocalPeering && (
+        <EditLocalPeeringPanel network={network} />
+      )}
+    </>
   );
 };
 
