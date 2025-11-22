@@ -24,6 +24,7 @@ export const typesWithLeases = [bridgeType, ovnType];
 export const typesWithParent = [physicalType, sriovType, macvlanType];
 export const typesWithStatistics = [bridgeType, ovnType, physicalType];
 export const typesWithNicDeviceAcls = [ovnType];
+export const typesWithNicStaticIPSupport = [bridgeType, ovnType];
 export const typesWithLocalPeerings = [ovnType];
 
 export const getIpAddresses = (
