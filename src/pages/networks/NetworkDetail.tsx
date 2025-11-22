@@ -17,9 +17,9 @@ import NetworkLeases from "pages/networks/NetworkLeases";
 import {
   typesWithForwards,
   typesWithLeases,
-  // typesWithLocalPeerings,
+  typesWithLocalPeerings,
 } from "util/networks";
-// import NetworkPeers from "./NetworkPeers";
+import NetworkPeers from "./NetworkPeers";
 import { slugify } from "util/slugify";
 import classnames from "classnames";
 
@@ -59,9 +59,9 @@ const NetworkDetail: FC = () => {
     typesWithForwards.includes(network?.type ?? "") && isManagedNetwork;
   const hasLeases =
     typesWithLeases.includes(network?.type ?? "") && isManagedNetwork;
-  // const isPeeringSupported = typesWithLocalPeerings.includes(
-  //   network?.type ?? "",
-  // );
+  const isPeeringSupported = typesWithLocalPeerings.includes(
+    network?.type ?? "",
+  );
 
   const networkUrl = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`;
 
@@ -94,7 +94,7 @@ const NetworkDetail: FC = () => {
     "Configuration",
     getTabLink("Forwards", hasForwards, "forwards"),
     getTabLink("Leases", hasLeases, "leases"),
-    // getTabLink("Local Peerings", isPeeringSupported, "local-peerings"),
+    getTabLink("Local Peerings", isPeeringSupported, "local-peerings"),
   ];
 
   return (
@@ -122,11 +122,11 @@ const NetworkDetail: FC = () => {
             {network && <NetworkLeases network={network} project={project} />}
           </div>
         )}
-        {/* {activeTab === "local-peerings" && (
+        {activeTab === "local-peerings" && (
           <div role="tabpanel" aria-labelledby="local-peerings">
             {network && <NetworkPeers network={network} project={project} />}
           </div>
-        )} */}
+        )}
       </Row>
     </CustomLayout>
   );

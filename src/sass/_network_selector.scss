@@ -1,9 +1,11 @@
-.network-select-dropdown {
+.network-select-dropdown,
+.project-select-dropdown {
   .label {
     display: flex;
     gap: $sph--small;
 
-    > .network-option {
+    > .network-option,
+    .project-option {
       &:nth-child(1) {
         width: 12rem;
       }
@@ -33,7 +35,8 @@
       color: $colors--theme--text-default;
     }
 
-    > .network-option {
+    > .network-option,
+    .project-option {
       &:nth-child(1) {
         width: 12rem;
       }
