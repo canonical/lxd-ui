@@ -247,7 +247,7 @@ export const updateInstanceBulkAction = async (
         const item: BulkOperationItem = {
           name,
           type: "instance",
-          href: linkForInstanceDetail(project, name),
+          href: linkForInstanceDetail(name, project),
         };
         await putInstanceAction(name, project, action, isForce)
           .then((operation) => {

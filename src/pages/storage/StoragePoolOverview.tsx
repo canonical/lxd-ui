@@ -67,12 +67,10 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
       </Row>
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--5">
-            Used by ({pool.used_by?.length ?? 0})
-          </h2>
+          <h2 className="p-heading--5">Used by</h2>
         </Col>
         <Col size={7}>
-          <StorageUsedBy storage={pool} project={project} />
+          <StorageUsedBy storage={pool} />
         </Col>
       </Row>
     </div>

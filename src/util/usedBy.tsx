@@ -1,5 +1,9 @@
-import type { ResourceType } from "./resourceDetails";
-import { extractResourceDetailsFromUrl } from "./resourceDetails";
+import type { LxdStorageVolume } from "types/storage";
+import type { ResourceType } from "util/resourceDetails";
+import { extractResourceDetailsFromUrl } from "util/resourceDetails";
+import { linkForVolumeDetail } from "util/storageVolume";
+import { getStorageBucketURL } from "util/storageBucket";
+import { linkForInstanceDetail } from "util/instances";
 
 export interface LxdUsedBy {
   name: string;
@@ -91,4 +95,43 @@ export const getProfileInstances = (
     }
     return project === instance.project;
   });
+};
+
+export const getLinkTarget = (resource: LxdUsedBy, entityType: string) => {
+  if (entityType === "snapshot") {
+    if (resource.instance) {
+      return `${linkForInstanceDetail(resource.instance, resource.project)}/snapshots`;
+    }
+
+    if (resource.volume && resource.pool) {
+      const volumeDetailUrl = linkForVolumeDetail({
+        name: resource.volume,
+        project: resource.project,
+        pool: resource.pool,
+        type: "custom",
+        location: resource.target ?? "",
+      } as LxdStorageVolume);
+      return `${volumeDetailUrl}/snapshots`;
+    }
+  }
+
+  if (entityType === "volume" && resource.pool) {
+    return linkForVolumeDetail({
+      name: resource.name,
+      project: resource.project,
+      pool: resource.pool,
+      type: "custom",
+      location: resource.target ?? "",
+    } as LxdStorageVolume);
+  }
+
+  if (entityType === "bucket" && resource.pool) {
+    return getStorageBucketURL(resource.name, resource.pool, resource.project);
+  }
+
+  if (entityType === "image") {
+    return `/ui/project/${encodeURIComponent(resource.project)}/images`;
+  }
+
+  return `/ui/project/${encodeURIComponent(resource.project)}/${entityType}/${encodeURIComponent(resource.name)}`;
 };

@@ -19,7 +19,7 @@
 
   .section,
   .usage {
-    tr {
+    tr:not(.used-by-row) {
       border: none;
     }
 

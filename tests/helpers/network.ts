@@ -123,13 +123,13 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page.getByRole("button", { name: "Update" }).click();
 
   await page.getByText(`Network forward ${listenAddress} updated.`).click();
-  await expect(page.getByText(`My forward description`)).toBeVisible();
+  await expect(page.getByText("My forward description")).toBeVisible();
 
   await page.getByRole("link", { name: "Leases" }).click();
   await expect(page.getByText(`${network}.gw`).first()).toBeVisible();
 
   await page.getByRole("link", { name: "IPAM", exact: true }).click();
-  await expect(page.getByText(`network-forward`).first()).toBeVisible();
+  await expect(page.getByText("network-forward").first()).toBeVisible();
 
   await visitNetwork(page, network);
   await page.getByRole("link", { name: "Forwards" }).click();
