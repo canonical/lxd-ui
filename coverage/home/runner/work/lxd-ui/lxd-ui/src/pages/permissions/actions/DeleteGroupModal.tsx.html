@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.46% </span>
+                <span class="strong">69.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>165/241</span>
+                <span class='fraction'>160/230</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.04% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>16/47</span>
+                <span class='fraction'>16/44</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.67% </span>
+                <span class="strong">84.12% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>164/196</span>
+                <span class='fraction'>159/189</span>
             </div>
         
             
@@ -252,14 +252,7 @@
 <a name='L187'></a><a href='#L187'>187</a>
 <a name='L188'></a><a href='#L188'>188</a>
 <a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a>
-<a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">47x</span>
+<a name='L190'></a><a href='#L190'>190</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
@@ -284,7 +277,6 @@
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
-<span class="cline-any cline-yes">63x</span>
 <span class="cline-any cline-yes">63x</span>
 <span class="cline-any cline-yes">63x</span>
 <span class="cline-any cline-yes">63x</span>
@@ -317,12 +309,6 @@
 <span class="cline-any cline-yes">63x</span>
 <span class="cline-any cline-yes">63x</span>
 <span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">63x</span>
@@ -483,7 +469,6 @@ const DeleteGroupModal: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const [confirmInput, setConfirmInput] = <span class="cstat-no" title="statement not covered" >useState("");</span>
   const [disableConfirm, setDisableConfirm] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
   const [submitting, setSubmitting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
   const confirmText = <span class="cstat-no" title="statement not covered" >"confirm-delete-group";</span>
@@ -513,13 +498,7 @@ const DeleteGroupModal: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
   const hasOneGroup = <span class="cstat-no" title="statement not covered" >deletableGroups.length === 1;</span>
 &nbsp;
   const handleConfirmInputChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (e.target.value === confirmText) {</span>
-<span class="cstat-no" title="statement not covered" >      setDisableConfirm(false);</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setDisableConfirm(true);</span></span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    setConfirmInput(e.target.value);</span>
+<span class="cstat-no" title="statement not covered" >    setDisableConfirm(e.target.value !== confirmText);</span>
   };
 &nbsp;
   const handleDeleteGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -627,7 +606,6 @@ const DeleteGroupModal: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
             name="confirm-delete-group-input"
             type="text"
             onChange={handleConfirmInputChange}
-            value={confirmInput}
             placeholder={confirmText}
             className="u-no-margin--bottom"
             disabled={!deletableGroups.length}
@@ -641,7 +619,8 @@ const DeleteGroupModal: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
           loading={submitting}
           disabled={disableConfirm || submitting}
         &gt;
-          {`Permanently delete ${deletableGroups.length} ${pluralize("group", deletableGroups.length)}`}
+          Permanently delete {deletableGroups.length}{" "}
+          {pluralize("group", deletableGroups.length)}
         &lt;/ActionButton&gt;,
       ]}
     &gt;
@@ -658,7 +637,7 @@ export default DeleteGroupModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-24T12:50:45.688Z
+                at 2025-11-24T17:01:49.603Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
