@@ -52,6 +52,7 @@ jobs:
         uses: canonical/setup-lxd@v0.1.3
         with:
           group: lxd
+          channel: "latest/edge"
 
       - name: Setup LXD
         shell: bash
