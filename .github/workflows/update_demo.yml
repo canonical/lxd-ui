@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'canonical' }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Fetch rebase and push
       if: github.ref == 'refs/heads/main'
       run: |

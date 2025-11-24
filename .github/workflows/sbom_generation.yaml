@@ -14,7 +14,7 @@ jobs:
       TRIVY_SHA256: ${{'09b8730cf16d63b65f1e282f63dfaa16183a143a045b51467864f5e634025a5f' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install / Setup Trivy
         run: |
           set -x
