@@ -57,7 +57,9 @@ export const extractResourceDetailsFromUrl = (
     resourceDetail.name = "server";
   }
 
-  if (resourceType === "storage_volume") {
+  // permission selectors fetch their options from the metadata api, which uses "storage_volume"
+  // ui internal resourceType from the ResourceIconType is slightly simpler "volume"
+  if (resourceType === "storage_volume" || resourceType === "volume") {
     resourceDetail.pool = urlSegments[4];
   }
 

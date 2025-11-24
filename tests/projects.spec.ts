@@ -211,9 +211,9 @@ test("project deletion with instances - force delete supported", async ({
     page.getByText("The following items will also be deleted:"),
   ).toBeVisible();
 
-  await expect(page.getByText("Instances (1)")).toBeVisible();
+  await expect(page.getByText("Instance (1)")).toBeVisible();
   await expect(
-    page.getByRole("row", { name: /Instances \(1\)/ }).getByText(instance),
+    page.getByRole("row", { name: /Instance \(1\)/ }).getByText(instance),
   ).toBeVisible();
 
   await page.getByPlaceholder(project).fill(project);

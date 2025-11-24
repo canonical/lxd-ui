@@ -1,18 +1,11 @@
 import type { FC } from "react";
-import type { LxdUsedBy } from "util/usedBy";
-import { filterUsedByType } from "util/usedBy";
-import ExpandableList from "components/ExpandableList";
-import UsedByItem from "components/UsedByItem";
 import type { LxdNetworkAcl } from "types/network";
 import { useParams } from "react-router-dom";
+import UsedByRow from "components/UsedByRow";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
 }
-
-const INSTANCES = "Instances";
-const PROFILES = "Profiles";
-const NETWORKS = "Networks";
 
 const NetworkAclUsedBy: FC<Props> = ({ networkAcl }) => {
   const { project } = useParams<{ project: string }>();
@@ -21,65 +14,12 @@ const NetworkAclUsedBy: FC<Props> = ({ networkAcl }) => {
     return null;
   }
 
-  const data: Record<string, LxdUsedBy[]> = {
-    [INSTANCES]: filterUsedByType("instance", networkAcl.used_by),
-    [PROFILES]: filterUsedByType("profile", networkAcl.used_by),
-    [NETWORKS]: filterUsedByType("network", networkAcl.used_by),
-  };
-
   return (
-    <table>
+    <table className="network-acl-used-by-table">
       <tbody>
-        <tr>
-          <th className="u-text--muted">
-            Instances ({data[INSTANCES].length})
-          </th>
-          <td>
-            <ExpandableList
-              items={data[INSTANCES].map((item) => (
-                <UsedByItem
-                  key={`${item.name}-${item.project}`}
-                  item={item}
-                  activeProject={project}
-                  type="instance"
-                  to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`}
-                />
-              ))}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th className="u-text--muted">Profiles ({data[PROFILES].length})</th>
-          <td>
-            <ExpandableList
-              items={data[PROFILES].map((item) => (
-                <UsedByItem
-                  key={`${item.name}-${item.project}`}
-                  item={item}
-                  activeProject={project}
-                  type="profile"
-                  to={`/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
-                />
-              ))}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th className="u-text--muted">Networks ({data[NETWORKS].length})</th>
-          <td>
-            <ExpandableList
-              items={data[NETWORKS].map((item) => (
-                <UsedByItem
-                  key={`${item.name}-${item.project}`}
-                  item={item}
-                  activeProject={project}
-                  type="network"
-                  to={`/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`}
-                />
-              ))}
-            />
-          </td>
-        </tr>
+        <UsedByRow entityType="instance" usedBy={networkAcl.used_by} />
+        <UsedByRow entityType="profile" usedBy={networkAcl.used_by} />
+        <UsedByRow entityType="network" usedBy={networkAcl.used_by} />
       </tbody>
     </table>
   );

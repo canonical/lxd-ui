@@ -23,7 +23,7 @@ const UsedByItem: FC<Props> = ({
 }) => {
   const isImageQueryEnabled = type === "image";
   const { data: images = [] } = useImagesInProject(
-    activeProject,
+    item.project || activeProject,
     isImageQueryEnabled,
   );
 

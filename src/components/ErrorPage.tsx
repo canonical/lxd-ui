@@ -57,7 +57,7 @@ If the problem continues, ensure your connection to the LXD server is active or 
       <Notification severity="negative" title="Error">
         Something has gone wrong. If this issue persists,{" "}
         <a href={url} rel="noopener noreferrer" target="_blank">
-          please raise an issue on Github.
+          please raise an issue on GitHub.
         </a>
       </Notification>
       <CodeSnippet
