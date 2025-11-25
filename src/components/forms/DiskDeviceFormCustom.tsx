@@ -19,7 +19,7 @@ import {
   isDiskDeviceMountPointMissing,
   isRootDisk,
 } from "util/instanceValidation";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
 import { getExistingDeviceNames, isVolumeDevice } from "util/devices";
 import type { LxdProfile } from "types/profile";
 import { focusField } from "util/formFields";
@@ -119,6 +119,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               removeDevice(index, formik);
             }}
             disabledReason={formik.values.editRestriction}
+            isInstanceCreation={isInstanceCreation(formik)}
           />
         ),
       }),

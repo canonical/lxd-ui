@@ -14,7 +14,7 @@ import {
 } from "util/formDevices";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
 import { isHostDiskDevice } from "util/devices";
 
 interface Props {
@@ -72,6 +72,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
               addNoneDevice(item.key, formik);
             }}
             disabledReason={formik.values.editRestriction}
+            isInstanceCreation={isInstanceCreation(formik)}
           />
         ),
       }),

@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import type { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { bootPayload } from "components/forms/BootForm";
 import type { SshKey } from "components/forms/SshKeyForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
@@ -160,4 +161,14 @@ export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
   if (formik.values.readOnly) {
     formik.setFieldValue("readOnly", false);
   }
+};
+
+export const isInstanceCreation = (
+  formik: InstanceAndProfileFormikProps,
+): boolean => {
+  return (
+    formik.values.entityType === "instance" &&
+    "isCreating" in formik.values &&
+    formik.values.isCreating
+  );
 };
