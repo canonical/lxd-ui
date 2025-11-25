@@ -51,6 +51,28 @@ export const renameProject = async (
   await page.waitForSelector(`text=Project ${oldName} renamed to ${newName}.`);
 };
 
+export const confirmDelete = async (page: Page, project: string) => {
+  const projectNameInputBox = page.getByPlaceholder(project);
+  if (await projectNameInputBox.isVisible()) {
+    const permanentlyDeleteButton = page
+      .getByRole("dialog", { name: "Confirm delete" })
+      .getByRole("button", { name: `Permanently delete ${project}` });
+    await expect(permanentlyDeleteButton).toBeDisabled();
+    await projectNameInputBox.fill(project);
+    await page
+      .getByRole("dialog", { name: "Confirm delete" })
+      .getByRole("button", { name: `Permanently delete ${project}` })
+      .click();
+    await page.waitForSelector(`text=Project ${project} deleted.`);
+  } else {
+    await page
+      .getByRole("dialog", { name: "Confirm delete" })
+      .getByRole("button", { name: "Delete" })
+      .click();
+    await page.waitForSelector(`text=Project ${project} deleted.`);
+  }
+};
+
 export const deleteProject = async (page: Page, project: string) => {
   await gotoURL(page, "/ui/");
   await page.waitForLoadState("networkidle");
@@ -60,10 +82,6 @@ export const deleteProject = async (page: Page, project: string) => {
   await page.getByRole("link", { name: "Configuration" }).click();
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
-  await page.getByPlaceholder(project).fill(project);
-  await page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: `Permanently delete ${project}` })
-    .click();
-  await page.waitForSelector(`text=Project ${project} deleted.`);
+
+  await confirmDelete(page, project);
 };
