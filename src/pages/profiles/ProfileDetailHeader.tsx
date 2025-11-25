@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import DeleteProfileBtn from "./actions/DeleteProfileBtn";
 import type { LxdProfile } from "types/profile";
 import type { RenameHeaderValues } from "components/RenameHeader";
 import RenameHeader from "components/RenameHeader";
@@ -12,6 +11,7 @@ import { checkDuplicateName } from "util/helpers";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useProfileEntitlements } from "util/entitlements/profiles";
+import ProfileDetailActions from "./actions/ProfileDetailActions";
 
 interface Props {
   name: string;
@@ -102,9 +102,7 @@ const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
       ]}
       renameDisabledReason={getRenameDisabledReason()}
       controls={
-        profile && (
-          <DeleteProfileBtn key="delete" profile={profile} project={project} />
-        )
+        profile && <ProfileDetailActions profile={profile} project={project} />
       }
       isLoaded={Boolean(profile)}
       formik={formik}

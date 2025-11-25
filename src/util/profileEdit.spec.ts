@@ -1,6 +1,6 @@
 import { getProfileEditValues } from "./instanceEdit";
-import { getProfilePayload } from "util/profileEdit";
 import type { LxdProfile } from "types/profile";
+import { getProfilePayload } from "./profiles";
 
 describe("conversion to form values and back with getProfileEditValues and getProfilePayload", () => {
   it("preserves custom top level profile setting field", () => {

@@ -187,3 +187,17 @@ test("'Other' tab is removed when config/creating Profiles, on LXD Version 5.0",
   await editProfile(page, profile);
   await expect(page.getByText("Other", { exact: true })).not.toBeVisible();
 });
+
+test("Profile copy", async ({ page }) => {
+  await visitProfile(page, profile);
+  await page.getByRole("button", { name: "Copy Profile" }).click();
+
+  const copiedProfileName = profile + "-copy";
+
+  await page.getByLabel("New profile name").fill(copiedProfileName);
+  await page.getByRole("button", { name: "Copy", exact: true }).click();
+
+  await page.waitForSelector(`text=Created profile ${copiedProfileName}.`);
+
+  await deleteProfile(page, copiedProfileName);
+});
