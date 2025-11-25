@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.09% </span>
+                <span class="strong">35.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/31</span>
+                <span class='fraction'>11/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">40.74% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/27</span>
+                <span class='fraction'>11/27</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,33 +90,33 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
 import type { LxdProject } from "types/project";
 import UsedByRow from "components/UsedByRow";
@@ -125,23 +125,23 @@ interface Props {
   project: LxdProject;
 }
 &nbsp;
-const ProjectUsedBy: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> project }) =&gt; {</span>
-  // the default profile is not blocking project deletion and can't be removed itself
-  const usedBy = <span class="cstat-no" title="statement not covered" >project.used_by?.filter(</span>
-<span class="fstat-no" title="function not covered" >    (t</span>) =&gt; <span class="cstat-no" title="statement not covered" >!t.startsWith("/1.0/profiles/default"),</span>
-  );
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;table className="p-main-table delete-project-table"&gt;
-      &lt;tbody&gt;
-        &lt;UsedByRow entityType="instance" usedBy={usedBy} /&gt;
-        &lt;UsedByRow entityType="profile" usedBy={usedBy} /&gt;
-        &lt;UsedByRow entityType="image" usedBy={usedBy} /&gt;
-        &lt;UsedByRow entityType="volume" usedBy={usedBy} /&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  );
-};
+const ProjectUsedBy: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> project }) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  // the default profile is not blocking project deletion and can't be removed itself</span>
+<span class="cstat-no" title="statement not covered" >  const usedBy = <span class="cstat-no" title="statement not covered" >project.used_by?.filter(</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (t</span>) =&gt; <span class="cstat-no" title="statement not covered" >!t.startsWith("/1.0/profiles/default"),</span></span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >    &lt;table className="p-main-table delete-project-table"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;tbody&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;UsedByRow entityType="instance" usedBy={usedBy} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;UsedByRow entityType="profile" usedBy={usedBy} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;UsedByRow entityType="image" usedBy={usedBy} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;UsedByRow entityType="volume" usedBy={usedBy} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/tbody&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/table&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 export default ProjectUsedBy;
 &nbsp;</pre></td></tr></table></pre>
@@ -151,7 +151,7 @@ export default ProjectUsedBy;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-24T17:01:49.603Z
+                at 2025-11-25T16:36:19.655Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
