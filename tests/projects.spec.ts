@@ -7,6 +7,7 @@ import {
 } from "./helpers/configuration";
 import { assertTextVisible } from "./helpers/permissions";
 import {
+  confirmDelete,
   createProject,
   deleteProject,
   randomProjectName,
@@ -181,10 +182,12 @@ test("retain custom project selection on browsing pages for all projects", async
 
 test("project deletion with instances - force delete supported", async ({
   page,
-  lxdVersion,
+  // lxdVersion,
 }) => {
   test.skip(
-    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
+    // TODO: revert back after 6.6 is released
+    // lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
+    true,
     "LXD versions 6.6 and newer support projects_force_delete API extension",
   );
 
@@ -216,14 +219,7 @@ test("project deletion with instances - force delete supported", async ({
     page.getByRole("row", { name: /Instance \(1\)/ }).getByText(instance),
   ).toBeVisible();
 
-  await page.getByPlaceholder(project).fill(project);
-  const confirmDeleteButton = page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: `Permanently delete ${project}` });
-
-  await confirmDeleteButton.click();
-
-  await page.waitForSelector(`text=Project ${project} deleted.`);
+  await confirmDelete(page, project);
 });
 
 test("project deletion with instances - force delete not supported", async ({
@@ -275,12 +271,5 @@ test("project deletion with instances - force delete not supported", async ({
   await deleteButton.click();
   await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
 
-  const permanentlyDeleteButton = page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: `Permanently delete ${project}` });
-  await expect(permanentlyDeleteButton).toBeDisabled();
-  await page.getByPlaceholder(project).fill(project);
-  await expect(permanentlyDeleteButton).toBeEnabled();
-  await permanentlyDeleteButton.click();
-  await page.waitForSelector(`text=Project ${project} deleted.`);
+  await confirmDelete(page, project);
 });
