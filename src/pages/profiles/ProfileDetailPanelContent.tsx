@@ -29,9 +29,7 @@ const ProfileDetailPanelContent: FC<Props> = ({ profile, project }) => {
         <tr>
           <th className="u-text--muted">Name</th>
           <td>
-            <ProfileLink
-              profile={{ name: profile.name, project: project.name }}
-            />
+            <ProfileLink profile={profile} />
           </td>
         </tr>
         <tr>

@@ -119,12 +119,7 @@ const ProfileList: FC = () => {
         {
           content: (
             <div className="u-truncate" title={`Profile ${profile.name}`}>
-              <ProfileLink
-                profile={{
-                  name: profile.name,
-                  project: profile.project ?? "default",
-                }}
-              />
+              <ProfileLink profile={profile} />
             </div>
           ),
           role: "rowheader",

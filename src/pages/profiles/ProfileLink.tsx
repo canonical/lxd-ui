@@ -1,18 +1,16 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
+import type { LxdProfile } from "types/profile";
 
 interface Props {
-  profile: {
-    name: string;
-    project: string;
-  };
+  profile: LxdProfile;
 }
 
 const ProfileLink: FC<Props> = ({ profile }) => {
   return (
     <Link
-      to={`/ui/project/${encodeURIComponent(profile.project)}/profile/${encodeURIComponent(profile.name)}`}
+      to={`/ui/project/${encodeURIComponent(profile?.project ?? "default")}/profile/${encodeURIComponent(profile.name)}`}
       onClick={(e) => {
         e.stopPropagation();
       }}

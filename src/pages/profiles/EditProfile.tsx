@@ -52,7 +52,6 @@ import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { getProfilePayload } from "util/profileEdit";
 import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm from "components/forms/MigrationForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
@@ -68,6 +67,7 @@ import { useProfileEntitlements } from "util/entitlements/profiles";
 import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { getProfilePayload } from "util/profiles";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &

@@ -19,9 +19,10 @@ import { useProfileEntitlements } from "util/entitlements/profiles";
 interface Props {
   profile: LxdProfile;
   project: string;
+  className?: string;
 }
 
-const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
+const DeleteProfileBtn: FC<Props> = ({ profile, project, className }) => {
   const isSmallScreen = useIsScreenBelow();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -66,9 +67,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      className={classnames("u-no-margin--bottom", {
-        "has-icon": !isSmallScreen,
-      })}
+      className={classnames("u-no-margin--bottom has-icon", className)}
       disabled={!canDeleteProfile(profile) || isDefaultProfile || isLoading}
       loading={isLoading}
       confirmationModalProps={{
