@@ -44,9 +44,6 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await page.waitForLoadState("networkidle");
   await page.waitForTimeout(2000); // Wait for the form state to be fully loaded
   await page.getByPlaceholder("Enter description").fill("A-new-description");
-  await page
-    .getByRole("combobox", { name: "Features" })
-    .selectOption("customised");
   await page.locator("span").filter({ hasText: "Networks" }).click();
   if (lxdVersion === "5.0-edge") {
     await expect(
@@ -103,7 +100,12 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setTextarea(page, "Network uplinks", "lxdbr0");
   await setTextarea(page, "Network zones", "foo,bar");
 
-  await page.getByRole("button", { name: "Save 34 changes" }).click();
+  if (lxdVersion === "5.0-edge") {
+    // network zones option is not available in 5.0-edge, so total changes are one less
+    await page.getByRole("button", { name: "Save 33 changes" }).click();
+  } else {
+    await page.getByRole("button", { name: "Save 34 changes" }).click();
+  }
 
   await page.waitForSelector(`text=Project ${project} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
