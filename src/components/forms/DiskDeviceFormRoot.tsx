@@ -13,7 +13,7 @@ import type { LxdStoragePool } from "types/storage";
 import type { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
 
@@ -31,7 +31,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
     rootIndex
   ] as LxdDiskDevice | null;
   const isEditingInstance =
-    formik.values.entityType === "instance" && !formik.values.isCreating;
+    formik.values.entityType === "instance" && !isInstanceCreation(formik);
   const isVirtualMachine =
     formik.values.entityType === "instance" &&
     formik.values.instanceType === "virtual-machine";

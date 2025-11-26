@@ -1,12 +1,33 @@
 import type { FC } from "react";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import { ConfirmationButton, Icon, Button } from "@canonical/react-components";
 
 interface Props {
   onDetach: () => void;
   disabledReason?: string;
+  isInstanceCreation?: boolean;
 }
 
-const DetachDiskDeviceBtn: FC<Props> = ({ onDetach, disabledReason }) => {
+const DetachDiskDeviceBtn: FC<Props> = ({
+  onDetach,
+  disabledReason,
+  isInstanceCreation,
+}) => {
+  if (isInstanceCreation) {
+    return (
+      <Button
+        appearance="base"
+        type="button"
+        title={disabledReason ?? "Detach disk"}
+        className="has-icon u-no-margin--bottom is-dense"
+        onClick={onDetach}
+        disabled={!!disabledReason}
+      >
+        <Icon name="disconnect" />
+        <span>Detach</span>
+      </Button>
+    );
+  }
+
   return (
     <ConfirmationButton
       appearance="base"
