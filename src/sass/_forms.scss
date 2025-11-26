@@ -92,6 +92,18 @@
       margin-top: $spv--small;
     }
 
+    .ip-content {
+      margin-top: $spv--small;
+    }
+
+    .ip-content-edit {
+      margin-top: $sph--x-large;
+
+      .p-form__label {
+        margin-bottom: $spv--small;
+      }
+    }
+
     .image-change-link {
       align-self: end;
       margin-bottom: 6px;
