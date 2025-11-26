@@ -3,7 +3,6 @@ import { useState } from "react";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
   ConfirmationButton,
   Icon,
@@ -20,10 +19,15 @@ interface Props {
   profile: LxdProfile;
   project: string;
   className?: string;
+  onClose?: () => void;
 }
 
-const DeleteProfileBtn: FC<Props> = ({ profile, project, className }) => {
-  const isSmallScreen = useIsScreenBelow();
+const DeleteProfileBtn: FC<Props> = ({
+  profile,
+  project,
+  className,
+  onClose,
+}) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -71,6 +75,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project, className }) => {
       disabled={!canDeleteProfile(profile) || isDefaultProfile || isLoading}
       loading={isLoading}
       confirmationModalProps={{
+        close: onClose,
         title: "Confirm delete",
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
@@ -85,7 +90,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project, className }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      {!isSmallScreen && <Icon name="delete" />}
+      <Icon name="delete" />
       <span>Delete</span>
     </ConfirmationButton>
   );

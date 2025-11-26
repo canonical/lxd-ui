@@ -7,12 +7,15 @@ import CopyProfileForm from "../forms/CopyProfileForm";
 interface Props {
   profile: LxdProfile;
   className?: string;
+  onClose?: () => void;
 }
 
-const CopyProfileBtn: FC<Props> = ({ profile, className }) => {
+const CopyProfileBtn: FC<Props> = ({ profile, className, onClose }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+
   const handleClose = () => {
     closePortal();
+    onClose?.();
   };
 
   return (
