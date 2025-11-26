@@ -15,6 +15,8 @@ import { fetchNetworkLeases } from "api/network-leases";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
 import DocLink from "components/DocLink";
+import { typesWithNicStaticIPSupport } from "util/networks";
+import { InstanceIpEdit } from "components/InstanceIpEdit";
 
 interface Props {
   network: LxdNetwork;
@@ -49,12 +51,12 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   const headers = [
     { content: "Type", sortKey: "type" },
     { content: "Hostname", sortKey: "hostname" },
-    { content: "IP Address", sortKey: "address" },
     { content: "Project", sortKey: "project" },
     ...(isClustered
       ? [{ content: "Cluster member", sortKey: "clusterMember" }]
       : []),
     { content: "MAC address", sortKey: "macAddress" },
+    { content: "IP Address", sortKey: "address" },
   ];
 
   const rows = leases.map((lease) => {
@@ -70,11 +72,6 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
           content: lease.hostname,
           role: "rowheader",
           "aria-label": "Hostname",
-        },
-        {
-          content: lease.address,
-          role: "cell",
-          "aria-label": "MAC address",
         },
         {
           content: lease.project && (
@@ -105,16 +102,31 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
         {
           content: lease.hwaddr,
           role: "cell",
-          "aria-label": "Description",
+          "aria-label": "MAC address",
+        },
+        {
+          content:
+            typesWithNicStaticIPSupport.includes(network.type) &&
+            ["static", "dynamic"].includes(lease.type) ? (
+              <InstanceIpEdit
+                address={lease.address}
+                instanceName={lease.hostname}
+                projectName={lease.project}
+              />
+            ) : (
+              <>{lease.address}</>
+            ),
+          role: "cell",
+          "aria-label": "IP address",
         },
       ],
       sortData: {
         hostname: lease.hostname.toLowerCase(),
         macAddress: lease.hwaddr,
-        address: lease.address,
         type: lease.type,
         project: lease.project?.toLowerCase(),
         clusterMember: lease.location?.toLowerCase(),
+        address: lease.address,
       },
     };
   });

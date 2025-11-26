@@ -22,6 +22,10 @@ import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
 import ResourceLink from "components/ResourceLink";
 import DocLink from "components/DocLink";
+import { InstanceIpEdit } from "components/InstanceIpEdit";
+import { typesWithNicStaticIPSupport } from "util/networks";
+import { useNetworks } from "context/useNetworks";
+import type { LxdNetworkAllocation } from "types/network";
 
 const NetworkIPAM: FC = () => {
   const notify = useNotify();
@@ -36,6 +40,12 @@ const NetworkIPAM: FC = () => {
     queryFn: async () => fetchNetworkAllocations(project ?? "default"),
   });
 
+  const { data: networks } = useNetworks(project ?? "");
+
+  const getNetworkTypeFromAllocation = (allocation: LxdNetworkAllocation) => {
+    return networks?.find((n) => n.name === allocation.network)?.type;
+  };
+
   useEffect(() => {
     if (error) {
       notify.failure("Loading network allocations failed", error);
@@ -49,14 +59,17 @@ const NetworkIPAM: FC = () => {
   const headers = [
     { content: "Type", sortKey: "type", className: "type" },
     { content: "Used by", sortKey: "usedBy", className: "usedBy" },
-    { content: "Address", sortKey: "address", className: "address" },
     { content: "Network", sortKey: "network", className: "network" },
     { content: "NAT", sortKey: "nat", className: "nat" },
     { content: "MAC address", sortKey: "hwaddress", className: "hwaddr" },
+    { content: "Address", sortKey: "address", className: "address" },
   ];
 
   const rows = allocations.map((allocation) => {
-    const usedByItems = filterUsedByType(allocation.type, [allocation.used_by]);
+    const usedByItemArray = filterUsedByType(allocation.type, [
+      allocation.used_by,
+    ]);
+    const usedByItem = usedByItemArray.length === 1 ? usedByItemArray[0] : null;
 
     const getUsedByUrl = (item: LxdUsedBy) => {
       if (allocation.type === "instance") {
@@ -80,27 +93,16 @@ const NetworkIPAM: FC = () => {
           className: "type",
         },
         {
-          content: (
-            <>
-              {usedByItems.length === 1 ? (
-                <UsedByItem
-                  item={usedByItems[0]}
-                  activeProject={project}
-                  type={allocation.type}
-                  to={getUsedByUrl(usedByItems[0])}
-                />
-              ) : (
-                allocation.used_by
-              )}
-            </>
+          content: usedByItem && (
+            <UsedByItem
+              item={usedByItem}
+              activeProject={project}
+              type={allocation.type}
+              to={getUsedByUrl(usedByItem)}
+            />
           ),
           role: "rowheader",
           className: "usedBy",
-        },
-        {
-          content: allocation.addresses,
-          role: "cell",
-          className: "address",
         },
         {
           content: (
@@ -123,14 +125,32 @@ const NetworkIPAM: FC = () => {
           role: "cell",
           className: "hwaddr",
         },
+        {
+          content:
+            allocation.type === "instance" &&
+            usedByItem &&
+            typesWithNicStaticIPSupport.includes(
+              getNetworkTypeFromAllocation(allocation) ?? "",
+            ) ? (
+              <InstanceIpEdit
+                address={allocation.addresses}
+                instanceName={usedByItem.name}
+                projectName={usedByItem.project}
+              />
+            ) : (
+              <>{allocation.addresses}</>
+            ),
+          role: "cell",
+          className: "address",
+        },
       ],
       sortData: {
         usedBy: allocation.used_by.toLowerCase(),
-        address: allocation.addresses,
         type: allocation.type,
         nat: allocation.nat,
         hwaddress: allocation.hwaddr,
         network: allocation.network?.toLowerCase(),
+        address: allocation.addresses,
       },
     };
   });
