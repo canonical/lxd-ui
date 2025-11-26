@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Input, Button, Icon } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
-import { getConfigId } from "./SettingForm";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
@@ -37,7 +36,7 @@ const SettingFormCheckbox: FC<Props> = ({
     <>
       <Input
         label={label}
-        id={getConfigId(configField.key)}
+        id={configField.key}
         wrapperClassName="input-wrapper"
         type="checkbox"
         checked={checked}

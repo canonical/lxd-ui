@@ -38,9 +38,9 @@
     }
   }
 
-  .reset-button {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+  .reset-button,
+  .delete-button {
+    padding: 0 $sph--small;
   }
 
   .cluster-specific-input {
