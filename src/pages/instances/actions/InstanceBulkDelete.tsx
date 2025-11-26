@@ -5,7 +5,7 @@ import type { LxdInstance } from "types/instance";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { deletableStatuses } from "util/instanceDelete";
+import { bulkDeletableStatuses } from "util/instanceDelete";
 import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -30,7 +30,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   );
   const deletableInstances = instances.filter(
     (instance) =>
-      deletableStatuses.includes(instance.status) &&
+      bulkDeletableStatuses.includes(instance.status) &&
       canDeleteInstance(instance),
   );
   const totalCount = instances.length;

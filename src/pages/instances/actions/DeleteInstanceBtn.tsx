@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { deleteInstance } from "api/instances";
+import { deleteInstance, stopInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
 import { deletableStatuses } from "util/instanceDelete";
@@ -17,6 +17,9 @@ import { useInstanceLoading } from "context/instanceLoading";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { isInstanceFrozen, isInstanceRunning } from "util/instanceStatus";
+import { Notification } from "@canonical/react-components";
+import ConfirmationForce from "components/ConfirmationForce";
 
 interface Props {
   instance: LxdInstance;
@@ -38,9 +41,12 @@ const DeleteInstanceBtn: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { canDeleteInstance } = useInstanceEntitlements();
+  const [isForce, setForce] = useState(false);
 
-  const handleDelete = () => {
-    setLoading(true);
+  const isRunningOrFrozen =
+    isInstanceRunning(instance) || isInstanceFrozen(instance);
+
+  const doDelete = () => {
     const instanceLink = <InstanceLinkChip instance={instance} />;
 
     deleteInstance(instance)
@@ -83,6 +89,36 @@ const DeleteInstanceBtn: FC<Props> = ({
       });
   };
 
+  const handleDelete = () => {
+    if (isRunningOrFrozen && !isForce) {
+      return;
+    }
+
+    setLoading(true);
+
+    if (isRunningOrFrozen) {
+      const instanceLink = <InstanceLinkChip instance={instance} />;
+
+      stopInstance(instance, true)
+        .then((operation) => {
+          eventQueue.set(operation.metadata.id, doDelete, (msg) => {
+            toastNotify.failure(
+              "Instance stop failed",
+              new Error(msg),
+              instanceLink,
+            );
+            setLoading(false);
+          });
+        })
+        .catch((e) => {
+          toastNotify.failure("Instance stop failed", e, instanceLink);
+          setLoading(false);
+        });
+    } else {
+      doDelete();
+    }
+  };
+
   const isDeletableStatus = deletableStatuses.includes(instance.status);
   const isDisabled =
     isLoading ||
@@ -106,22 +142,41 @@ const DeleteInstanceBtn: FC<Props> = ({
       className={classnames("u-no-margin--bottom has-icon", classname)}
       loading={isLoading}
       confirmationModalProps={{
-        close: onClose,
+        close: () => {
+          setForce(false);
+          onClose?.();
+        },
         title: "Confirm delete",
         children: (
-          <p>
+          <div>
             This will permanently delete instance{" "}
             <ResourceLabel type={instance.type} value={instance.name} bold />.
             <br />
             This action cannot be undone, and can result in data loss.
-          </p>
+            {isRunningOrFrozen && (
+              <>
+                <br />
+                <br />
+                <Notification
+                  severity="caution"
+                  title={`The instance is currently ${isInstanceFrozen(instance) ? "frozen" : "running"}.`}
+                >
+                  Confirm to force delete it.
+                </Notification>
+              </>
+            )}
+          </div>
         ),
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
+        confirmExtra: isRunningOrFrozen ? (
+          <ConfirmationForce label="Force delete" force={[isForce, setForce]} />
+        ) : undefined,
+        confirmButtonDisabled: isRunningOrFrozen && !isForce,
       }}
       disabled={isDisabled || isLoading}
-      shiftClickEnabled
-      showShiftClickHint
+      shiftClickEnabled={!isRunningOrFrozen}
+      showShiftClickHint={!isRunningOrFrozen}
     >
       <Icon name="delete" />
       {label && <span>{label}</span>}
