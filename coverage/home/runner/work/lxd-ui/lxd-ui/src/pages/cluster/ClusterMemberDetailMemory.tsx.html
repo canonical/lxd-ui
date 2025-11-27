@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.73% </span>
+                <span class="strong">16.49% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/89</span>
+                <span class='fraction'>16/97</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">17.39% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/84</span>
+                <span class='fraction'>16/92</span>
             </div>
         
             
@@ -147,7 +147,15 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -159,6 +167,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -235,20 +251,28 @@
 import type { LxdResources } from "types/resources";
 import { humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
-import type { LxdClusterMemberState } from "types/cluster";
+import type { LxdClusterMemberState, LxdClusterMember } from "types/cluster";
+import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
 &nbsp;
 interface Props {
   resources: LxdResources;
   state?: LxdClusterMemberState;
+  member: LxdClusterMember;
 }
 &nbsp;
-const ClusterMemberDetailMemory: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> resources, state }) =&gt; {</span></span>
+const ClusterMemberDetailMemory: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> resources, state, member }) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >  const totalSwap = <span class="cstat-no" title="statement not covered" >state?.sysinfo.free_swap ?? 0;</span></span>
 <span class="cstat-no" title="statement not covered" >  const freeSwap = <span class="cstat-no" title="statement not covered" >state?.sysinfo.free_swap ?? 0;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;table&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;tbody&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;tr&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;th className="u-text--muted"&gt;Overview&lt;/th&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;td&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;ClusterMemberMemoryUsage member={member} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/td&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/tr&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;tr&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;th className="u-text--muted"&gt;Total&lt;/th&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;td&gt;{humanFileSize(resources?.memory?.total ?? 0)}&lt;/td&gt;</span>
@@ -322,7 +346,7 @@ export default ClusterMemberDetailMemory;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-26T19:24:11.592Z
+                at 2025-11-27T10:02:26.844Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
