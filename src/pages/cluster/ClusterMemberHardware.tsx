@@ -106,10 +106,11 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
                 {sectionName === "CPU" && (
                   <ClusterMemberDetailCPU resources={resources} state={state} />
                 )}
-                {sectionName === "Memory" && (
+                {sectionName === "Memory" && member && (
                   <ClusterMemberDetailMemory
                     resources={resources}
                     state={state}
+                    member={member}
                   />
                 )}
                 {sectionName === "GPU" && (

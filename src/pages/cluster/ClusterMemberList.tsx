@@ -17,6 +17,7 @@ import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
 import { useClusterMembers } from "context/useClusterMembers";
 import usePanelParams from "util/usePanelParams";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
+import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
 import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
 
@@ -44,9 +45,8 @@ const ClusterMemberList: FC = () => {
     },
     { content: "Roles", sortKey: "roles", className: "roles" },
     {
-      content: "Failure domain",
-      className: "failure-domain",
-      sortKey: "failureDomain",
+      content: "Memory",
+      className: "memory",
     },
     {
       content: "Description",
@@ -111,10 +111,10 @@ const ClusterMemberList: FC = () => {
           className: "roles",
         },
         {
-          content: member.failure_domain,
+          content: <ClusterMemberMemoryUsage member={member} />,
           role: "cell",
-          "aria-label": "Failure domain",
-          className: "failure-domain",
+          "aria-label": "Memory",
+          className: "memory",
         },
         {
           content: member.description,
@@ -144,7 +144,6 @@ const ClusterMemberList: FC = () => {
       sortData: {
         name: member.server_name.toLowerCase(),
         status: member.status.toLowerCase(),
-        failureDomain: member.failure_domain.toLowerCase(),
         roles: member.roles,
         description: member.description?.toLowerCase(),
         groups: groupCount,

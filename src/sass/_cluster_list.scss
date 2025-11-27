@@ -30,7 +30,8 @@
   }
 
   @media screen and (width <= 1300px) {
-    .failure-domain {
+    .memory,
+    .description {
       display: none;
     }
   }

@@ -2,20 +2,28 @@ import type { FC } from "react";
 import type { LxdResources } from "types/resources";
 import { humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
-import type { LxdClusterMemberState } from "types/cluster";
+import type { LxdClusterMemberState, LxdClusterMember } from "types/cluster";
+import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
 
 interface Props {
   resources: LxdResources;
   state?: LxdClusterMemberState;
+  member: LxdClusterMember;
 }
 
-const ClusterMemberDetailMemory: FC<Props> = ({ resources, state }) => {
+const ClusterMemberDetailMemory: FC<Props> = ({ resources, state, member }) => {
   const totalSwap = state?.sysinfo.free_swap ?? 0;
   const freeSwap = state?.sysinfo.free_swap ?? 0;
 
   return (
     <table>
       <tbody>
+        <tr>
+          <th className="u-text--muted">Overview</th>
+          <td>
+            <ClusterMemberMemoryUsage member={member} />
+          </td>
+        </tr>
         <tr>
           <th className="u-text--muted">Total</th>
           <td>{humanFileSize(resources?.memory?.total ?? 0)}</td>
