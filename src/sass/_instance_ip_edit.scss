@@ -1,0 +1,17 @@
+.instance-ip-edit-content {
+  align-items: center;
+  display: flex;
+}
+
+.instance-ip-edit-address {
+  flex: 1;
+  min-width: 0;
+}
+
+.instance-ip-edit-link {
+  padding: 0 $sph--small;
+}
+
+.instance-ip-edit-link:hover {
+  background-color: $colors--theme--background-hover;
+}
