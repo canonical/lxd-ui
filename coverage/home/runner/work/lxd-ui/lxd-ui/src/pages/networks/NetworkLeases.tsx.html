@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.45% </span>
+                <span class="strong">77.72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>142/181</span>
+                <span class='fraction'>150/193</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">28.94% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/33</span>
+                <span class='fraction'>11/38</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.02% </span>
+                <span class="strong">83.79% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>142/167</span>
+                <span class='fraction'>150/179</span>
             </div>
         
             
@@ -230,7 +230,21 @@
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -275,7 +289,6 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -290,11 +303,7 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -334,6 +343,21 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -414,6 +438,8 @@ import { fetchNetworkLeases } from "api/network-leases";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
 import DocLink from "components/DocLink";
+import { typesWithNicStaticIPSupport } from "util/networks";
+import { InstanceIpEdit } from "components/InstanceIpEdit";
 &nbsp;
 interface Props {
   network: LxdNetwork;
@@ -448,12 +474,12 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
   const headers = <span class="cstat-no" title="statement not covered" >[</span>
     { content: "Type", sortKey: "type" },
     { content: "Hostname", sortKey: "hostname" },
-    { content: "IP Address", sortKey: "address" },
     { content: "Project", sortKey: "project" },
     ...(isClustered
       ? [{ content: "Cluster member", sortKey: "clusterMember" }]
       : []),
     { content: "MAC address", sortKey: "macAddress" },
+    { content: "IP Address", sortKey: "address" },
   ];
 &nbsp;
   const rows = <span class="cstat-no" title="statement not covered" >leases.map((lease) =&gt; {</span>
@@ -469,11 +495,6 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
           content: lease.hostname,
           role: "rowheader",
           "aria-label": "Hostname",
-        },
-        {
-          content: lease.address,
-          role: "cell",
-          "aria-label": "MAC address",
         },
         {
           content: lease.<span class="branch-0 cbranch-no" title="branch not covered" >project &amp;&amp; (</span>
@@ -504,16 +525,31 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
         {
           content: lease.hwaddr,
           role: "cell",
-          "aria-label": "Description",
+          "aria-label": "MAC address",
+        },
+        {
+          content:
+            typesWithNicStaticIPSupport.includes(network.type) &amp;&amp;
+            ["static", "dynamic"].includes(lease.type<span class="branch-0 cbranch-no" title="branch not covered" >) ? (</span>
+<span class="cstat-no" title="statement not covered" >              &lt;InstanceIpEdit</span>
+<span class="cstat-no" title="statement not covered" >                address={lease.address}</span>
+<span class="cstat-no" title="statement not covered" >                instanceName={lease.hostname}</span>
+<span class="cstat-no" title="statement not covered" >                projectName={lease.project}</span>
+              /&gt;
+            ) : (
+              &lt;&gt;{lease.address}&lt;/&gt;
+            ),
+          role: "cell",
+          "aria-label": "IP address",
         },
       ],
       sortData: {
         hostname: lease.hostname.toLowerCase(),
         macAddress: lease.hwaddr,
-        address: lease.address,
         type: lease.type,
         project: lease.project?.toLowerCase(),
         clusterMember: lease.location?.toLowerCase(),
+        address: lease.address,
       },
     };
   });
@@ -571,7 +607,7 @@ export default NetworkLeases;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-28T12:15:37.094Z
+                at 2025-11-28T13:06:25.087Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
