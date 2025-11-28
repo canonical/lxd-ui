@@ -48,7 +48,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           <div className="mono-font">
             <b>
               <CloudInitConfig
-                key={`cloud-init-${name}`}
+                key={`cloud-init-${name}-${metadata.value}`}
                 config={metadata.value as string}
               />
             </b>
