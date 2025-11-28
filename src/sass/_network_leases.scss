@@ -1,0 +1,27 @@
+.network-leases-table {
+  .type,
+  .hostname,
+  .project,
+  .clusterMember,
+  .macAddress {
+    width: 10rem;
+  }
+
+  .ipAddress {
+    width: 18rem;
+  }
+
+  @media screen and (width < 1500px) {
+    .type,
+    .hostname,
+    .project,
+    .clusterMember,
+    .macAddress {
+      width: 8rem;
+    }
+
+    .ipAddress {
+      width: 12rem;
+    }
+  }
+}

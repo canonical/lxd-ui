@@ -49,14 +49,20 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   const hasNetworkLeases = leases.length > 0;
 
   const headers = [
-    { content: "Type", sortKey: "type" },
-    { content: "Hostname", sortKey: "hostname" },
-    { content: "Project", sortKey: "project" },
+    { content: "Type", sortKey: "type", className: "type" },
+    { content: "Hostname", sortKey: "hostname", className: "hostname" },
+    { content: "Project", sortKey: "project", className: "project" },
     ...(isClustered
-      ? [{ content: "Cluster member", sortKey: "clusterMember" }]
+      ? [
+          {
+            content: "Cluster member",
+            sortKey: "clusterMember",
+            className: "clusterMember",
+          },
+        ]
       : []),
-    { content: "MAC address", sortKey: "macAddress" },
-    { content: "IP Address", sortKey: "address" },
+    { content: "MAC address", sortKey: "macAddress", className: "macAddress" },
+    { content: "IP Address", sortKey: "address", className: "ipAddress" },
   ];
 
   const rows = leases.map((lease) => {
@@ -67,11 +73,13 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
           content: lease.type,
           role: "cell",
           "aria-label": "Type",
+          className: "type",
         },
         {
           content: lease.hostname,
           role: "rowheader",
           "aria-label": "Hostname",
+          className: "hostname",
         },
         {
           content: lease.project && (
@@ -83,6 +91,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
           ),
           role: "cell",
           "aria-label": "project",
+          className: "project",
         },
         ...(isClustered
           ? [
@@ -96,6 +105,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
                 ),
                 role: "cell",
                 "aria-label": "Cluster member",
+                className: "clusterMember",
               },
             ]
           : []),
@@ -103,6 +113,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
           content: lease.hwaddr,
           role: "cell",
           "aria-label": "MAC address",
+          className: "macAddress",
         },
         {
           content:
@@ -118,6 +129,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
             ),
           role: "cell",
           "aria-label": "IP address",
+          className: "ipAddress",
         },
       ],
       sortData: {
@@ -150,7 +162,9 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
             rows={rows}
             responsive
             sortable
-            className="u-table-layout--auto"
+            defaultSort="address"
+            defaultSortDirection="ascending"
+            className="network-leases-table"
             emptyStateMsg="No data to display"
           />
         </ScrollableTable>

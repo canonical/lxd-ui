@@ -189,6 +189,8 @@ const NetworkIPAM: FC = () => {
               id="network-ipam-table"
               headers={headers}
               rows={rows}
+              defaultSort="address"
+              defaultSortDirection="ascending"
               responsive
               sortable
               emptyStateMsg="No data to display"
