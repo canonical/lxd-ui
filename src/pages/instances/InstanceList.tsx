@@ -171,13 +171,13 @@ const InstanceList: FC = () => {
     saveHidden(columns);
   };
 
-  const { data: operationList } = useQuery({
+  const { data: operationList, error: operationError } = useQuery({
     queryKey: [queryKeys.operations, project?.name],
     queryFn: async () => fetchOperations(project?.name ?? null),
   });
 
-  if (error) {
-    notify.failure("Loading operations failed", error);
+  if (operationError && !error) {
+    notify.failure("Loading operations failed", operationError);
   }
 
   const creationNames: string[] = [];
