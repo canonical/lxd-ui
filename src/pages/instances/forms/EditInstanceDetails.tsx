@@ -8,6 +8,8 @@ import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
+import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
+import { getInstanceField } from "util/instanceConfigFields";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
@@ -15,6 +17,12 @@ export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
     description: values.description,
     type: values.instanceType,
     profiles: values.profiles,
+  };
+};
+
+export const instanceEditConfigPayload = (values: EditInstanceFormValues) => {
+  return {
+    [getInstanceField("placement_group")]: values.placement_group,
   };
 };
 
@@ -75,6 +83,16 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               value={formik.values.location}
               disabled={true}
               help="Use the migrate button in the header to move the instance to another cluster member"
+            />
+            <PlacementGroupSelect
+              value={formik.values.placement_group}
+              setValue={(value) => {
+                ensureEditMode(formik);
+                formik.setFieldValue("placement_group", value || undefined);
+              }}
+              project={project}
+              profileNames={formik.values.profiles}
+              hasNoneOption
             />
           </Col>
         </Row>

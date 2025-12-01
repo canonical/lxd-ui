@@ -70,6 +70,9 @@ const NetworkList = lazy(async () => import("pages/networks/NetworkList"));
 const OperationList = lazy(
   async () => import("pages/operations/OperationList"),
 );
+const PlacementGroupList = lazy(
+  async () => import("pages/placement-groups/PlacementGroupList"),
+);
 const ProfileDetail = lazy(async () => import("pages/profiles/ProfileDetail"));
 const ProfileList = lazy(async () => import("pages/profiles/ProfileList"));
 const ProjectConfig = lazy(
@@ -259,6 +262,14 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/placement-groups"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<PlacementGroupList />} />}
             />
           }
         />

@@ -1,0 +1,61 @@
+.instance-target-selector {
+  display: flex;
+  gap: $sph--large;
+
+  @media screen and (width <= 860px) {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .select-input {
+    flex: 1;
+  }
+}
+
+.instance-target-dropdown {
+  .header {
+    background-color: $colors--theme--background-alt;
+    display: flex;
+    gap: $sph--small;
+    padding: $sph--x-small $sph--small;
+    position: sticky;
+    top: 0;
+
+    span {
+      @extend %table-header-label;
+    }
+  }
+
+  .label {
+    display: flex;
+    gap: $sph--small;
+  }
+
+  .header,
+  .label {
+    .name {
+      display: inline-block;
+      width: 6rem;
+    }
+
+    .members {
+      display: inline-block;
+      width: 4rem;
+    }
+
+    .policy {
+      display: inline-block;
+      width: 6rem;
+    }
+
+    .rigor {
+      display: inline-block;
+      width: 6rem;
+    }
+
+    .used_by {
+      display: inline-block;
+      width: 6rem;
+    }
+  }
+}

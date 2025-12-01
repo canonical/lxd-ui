@@ -3,7 +3,10 @@ import type { LxdInstance } from "types/instance";
 import { formDeviceToPayload, parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { getInstanceConfigKeys } from "util/instanceConfigFields";
-import { instanceEditDetailPayload } from "pages/instances/forms/EditInstanceDetails";
+import {
+  instanceEditConfigPayload,
+  instanceEditDetailPayload,
+} from "pages/instances/forms/EditInstanceDetails";
 import { resourceLimitsPayload } from "components/forms/ResourceLimitsForm";
 import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
 import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
@@ -37,6 +40,8 @@ const getEditValues = (
     limits_processes: item.config["limits.processes"]
       ? parseInt(item.config["limits.processes"])
       : undefined,
+
+    placement_group: item.config["placement.group"],
 
     security_protection_delete: item.config["security.protection.delete"],
     security_privileged: item.config["security.privileged"],
@@ -136,6 +141,7 @@ export const getInstancePayload = (
     ...instanceEditDetailPayload(values),
     devices: formDeviceToPayload(values.devices),
     config: {
+      ...instanceEditConfigPayload(values),
       ...resourceLimitsPayload(values),
       ...securityPoliciesPayload(values),
       ...snapshotsPayload(values),

@@ -213,7 +213,11 @@ const EditProfile: FC<Props> = ({ profile }) => {
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
-              <ProfileDetailsForm formik={formik} isEdit={true} />
+              <ProfileDetailsForm
+                formik={formik}
+                isEdit={true}
+                project={project}
+              />
             )}
 
             {section === slugify(DISK_DEVICES) && (

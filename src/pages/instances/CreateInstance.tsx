@@ -50,16 +50,16 @@ import InstanceFormMenu, {
   BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
+  GPU_DEVICES,
   MAIN_CONFIGURATION,
   MIGRATION,
+  NETWORK_DEVICES,
+  OTHER_DEVICES,
+  PROXY_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  NETWORK_DEVICES,
-  GPU_DEVICES,
-  OTHER_DEVICES,
-  PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
@@ -431,6 +431,9 @@ const CreateInstance: FC = () => {
         ...bootPayload(values),
         ...cloudInitPayload(values),
         ...sshKeyPayload(values),
+        ...(values.placementGroup && {
+          "placement.group": values.placementGroup,
+        }),
       },
     };
   };

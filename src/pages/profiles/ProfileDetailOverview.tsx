@@ -12,12 +12,15 @@ import { slugify } from "util/slugify";
 import { getProfileInstances } from "util/usedBy";
 import NetworkListTable from "components/NetworkListTable";
 import DeviceListTable from "components/DeviceListTable";
+import ResourceLink from "components/ResourceLink";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   profile: LxdProfile;
 }
 
 const ProfileDetailOverview: FC<Props> = ({ profile }) => {
+  const isClustered = useIsClustered();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
@@ -66,6 +69,22 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                 <th className="u-text--muted">Description</th>
                 <td>{profile.description ? profile.description : "-"}</td>
               </tr>
+              {isClustered && (
+                <tr>
+                  <th className="u-text--muted">Placement group</th>
+                  <td>
+                    {profile.config["placement.group"] ? (
+                      <ResourceLink
+                        type="placement-group"
+                        value={profile.config["placement.group"]}
+                        to={`/ui/project/${project}/placement-groups`}
+                      />
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </Col>
