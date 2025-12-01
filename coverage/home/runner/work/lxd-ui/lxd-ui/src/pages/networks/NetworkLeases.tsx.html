@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.72% </span>
+                <span class="strong">79.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>150/193</span>
+                <span class='fraction'>164/207</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.79% </span>
+                <span class="strong">84.97% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>150/179</span>
+                <span class='fraction'>164/193</span>
             </div>
         
             
@@ -242,7 +242,21 @@
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -298,6 +312,12 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -319,10 +339,13 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -343,6 +366,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -356,6 +381,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -378,6 +404,8 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -472,14 +500,20 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
   const hasNetworkLeases = <span class="cstat-no" title="statement not covered" >leases.length &gt; 0;</span>
 &nbsp;
   const headers = <span class="cstat-no" title="statement not covered" >[</span>
-    { content: "Type", sortKey: "type" },
-    { content: "Hostname", sortKey: "hostname" },
-    { content: "Project", sortKey: "project" },
+    { content: "Type", sortKey: "type", className: "type" },
+    { content: "Hostname", sortKey: "hostname", className: "hostname" },
+    { content: "Project", sortKey: "project", className: "project" },
     ...(isClustered
-      ? [{ content: "Cluster member", sortKey: "clusterMember" }]
+      ? [
+          {
+            content: "Cluster member",
+            sortKey: "clusterMember",
+            className: "clusterMember",
+          },
+        ]
       : []),
-    { content: "MAC address", sortKey: "macAddress" },
-    { content: "IP Address", sortKey: "address" },
+    { content: "MAC address", sortKey: "macAddress", className: "macAddress" },
+    { content: "IP Address", sortKey: "address", className: "ipAddress" },
   ];
 &nbsp;
   const rows = <span class="cstat-no" title="statement not covered" >leases.map((lease) =&gt; {</span>
@@ -490,11 +524,13 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
           content: lease.type,
           role: "cell",
           "aria-label": "Type",
+          className: "type",
         },
         {
           content: lease.hostname,
           role: "rowheader",
           "aria-label": "Hostname",
+          className: "hostname",
         },
         {
           content: lease.<span class="branch-0 cbranch-no" title="branch not covered" >project &amp;&amp; (</span>
@@ -506,6 +542,7 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
           ),
           role: "cell",
           "aria-label": "project",
+          className: "project",
         },
         ...(isClustered
           ? [
@@ -519,6 +556,7 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
                 ),
                 role: "cell",
                 "aria-label": "Cluster member",
+                className: "clusterMember",
               },
             ]
           : []),
@@ -526,6 +564,7 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
           content: lease.hwaddr,
           role: "cell",
           "aria-label": "MAC address",
+          className: "macAddress",
         },
         {
           content:
@@ -541,6 +580,7 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
             ),
           role: "cell",
           "aria-label": "IP address",
+          className: "ipAddress",
         },
       ],
       sortData: {
@@ -573,7 +613,9 @@ const NetworkLeases: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
             rows={rows}
             responsive
             sortable
-            className="u-table-layout--auto"
+            defaultSort="address"
+            defaultSortDirection="ascending"
+            className="network-leases-table"
             emptyStateMsg="No data to display"
           /&gt;
         &lt;/ScrollableTable&gt;
@@ -607,7 +649,7 @@ export default NetworkLeases;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-28T13:06:25.087Z
+                at 2025-12-01T10:13:41.206Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
