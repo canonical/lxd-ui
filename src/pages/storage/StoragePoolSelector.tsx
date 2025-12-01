@@ -51,6 +51,12 @@ const StoragePoolSelector: FC<Props> = ({
           value: pool.name,
           disabled: false,
           text: `${pool.name} (${pool.driver})`,
+          selectedLabel: (
+            <span>
+              {pool.name}&nbsp;
+              <span className="u-text--muted">&#40;{pool.driver}&#41;</span>
+            </span>
+          ),
         });
       });
       if (poolsToUse.length === 0) {

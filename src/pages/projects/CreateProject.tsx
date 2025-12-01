@@ -112,6 +112,12 @@ const CreateProject: FC = () => {
       default_project_network: defaultProjectDefaultProfile
         ? getDefaultNetwork(defaultProjectDefaultProfile)
         : "",
+      features_images: true,
+      features_profiles: true,
+      features_networks: false,
+      features_networks_zones: false,
+      features_storage_buckets: true,
+      features_storage_volumes: true,
     },
     enableReinitialize: true,
     validationSchema: ProjectSchema,

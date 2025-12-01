@@ -529,10 +529,6 @@ test("LXD - UI Folder - Project", async ({ page }) => {
   await page.getByRole("button", { name: "Create project" }).click();
   await page.waitForLoadState("networkidle");
   await page.getByPlaceholder("Enter name").fill("my-project");
-  await page
-    .getByRole("combobox", { name: "Features" })
-    .selectOption("customised");
-  await page.getByRole("combobox", { name: "Features" }).focus();
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/create_project.png",
     clip: getClipPosition(240, 0, 1440, 960),
@@ -540,9 +536,6 @@ test("LXD - UI Folder - Project", async ({ page }) => {
 
   await page.getByPlaceholder("Enter name").fill("my-restricted-project");
   await page.getByText("Allow custom restrictions on").click();
-  await page
-    .getByRole("combobox", { name: "Features" })
-    .selectOption("default");
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/create_restr_project1.png",
     clip: getClipPosition(240, 0, 1440, 760),
