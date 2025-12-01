@@ -184,13 +184,11 @@ test("retain custom project selection on browsing pages for all projects", async
 
 test("project deletion with instances - force delete supported", async ({
   page,
-  // lxdVersion,
+  lxdVersion,
 }) => {
   test.skip(
-    // TODO: revert back after 6.6 is released
-    // lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
-    true,
-    "LXD versions 6.6 and newer support projects_force_delete API extension",
+    lxdVersion === "5.0-edge",
+    "The necessary projects_force_delete API extension is not backported to LXD 5.0",
   );
 
   const project = randomProjectName();
@@ -229,7 +227,7 @@ test("project deletion with instances - force delete not supported", async ({
   lxdVersion,
 }) => {
   test.skip(
-    lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge",
+    lxdVersion !== "5.0-edge",
     "This test is specifically for LXD versions that don't support projects_force_delete",
   );
 
