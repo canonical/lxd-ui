@@ -72,7 +72,7 @@ const EditPlacementGroupPanel: FC = () => {
                 value={placementGroup.name ?? ""}
                 to={`/ui/project/${project?.name ?? "default"}/placement-groups/`}
               />{" "}
-              updated
+              updated.
             </>,
           );
 
