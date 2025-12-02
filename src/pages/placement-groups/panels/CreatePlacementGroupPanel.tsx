@@ -87,7 +87,7 @@ const CreatePlacementGroupPanel: FC = () => {
                 value={placementGroup.name ?? ""}
                 to={`/ui/project/${project?.name ?? "default"}/placement-groups/`}
               />{" "}
-              created
+              created.
             </>,
           );
 
@@ -135,7 +135,7 @@ const CreatePlacementGroupPanel: FC = () => {
             }
             loading={formik.isSubmitting}
           >
-            Create placement group
+            Create
           </ActionButton>
         </SidePanel.Footer>
       </SidePanel>
