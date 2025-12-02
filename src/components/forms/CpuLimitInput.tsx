@@ -26,15 +26,14 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
     enabled: canViewResources(),
   });
 
-  if (isLoading) {
-    return <Spinner className="u-loader" text="Loading resources..." />;
-  }
-
   if (error) {
     notify.failure("Loading resources failed", error);
   }
 
   const getNumberOfCores = () => {
+    if (isLoading) {
+      return <Spinner className="u-loader" text="Loading resources..." />;
+    }
     if (!project?.config["limits.cpu"]) {
       return resources?.cpu.total;
     }
