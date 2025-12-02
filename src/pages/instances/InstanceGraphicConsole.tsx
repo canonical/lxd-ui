@@ -8,6 +8,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
+import { useMounted } from "context/useMounted";
 
 declare global {
   interface Window {
@@ -39,11 +40,14 @@ const InstanceGraphicConsole: FC<Props> = ({
   const notify = useNotify();
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
+  const isMounted = useMounted();
 
   const isRunning = isInstanceRunning(instance);
 
-  const handleError = (e: object) => {
-    onFailure("Console error", e);
+  const handleError = (e: object, message?: string) => {
+    if (isMounted.current) {
+      onFailure("Console error", e, message);
+    }
   };
 
   const handleResize = () => {
@@ -82,7 +86,7 @@ const InstanceGraphicConsole: FC<Props> = ({
     control.onerror = handleError;
 
     control.onclose = (event) => {
-      if (1005 !== event.code) {
+      if (1005 !== event.code && isMounted.current) {
         onFailure("Console error", event.reason, getWsErrorMsg(event.code));
       }
     };
