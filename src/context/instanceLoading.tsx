@@ -43,6 +43,8 @@ const getLoadingType = (operation: LxdOperation): LoadingTypes | null => {
       return "Starting";
     case "Restarting instance":
       return "Restarting";
+    case "Migrating instance":
+      return "Migrating";
     default:
       return null;
   }

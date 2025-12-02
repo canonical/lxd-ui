@@ -123,6 +123,12 @@ export const useInstanceMigration = ({
     queryClient.invalidateQueries({
       queryKey: [queryKeys.instances, instance.name, instance.project],
     });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.instances, instance.project],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.operations, instance.project],
+    });
     instanceLoading.setFinish(instance);
   };
 
