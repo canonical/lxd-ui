@@ -43,7 +43,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "7.5.2",
-    "vanilla-framework": "4.37.1",
+    "vanilla-framework": "4.37.2",
     "@xterm/xterm": "5.5.0",
     "@xterm/addon-fit": "0.10.0",
     "yup": "1.6.1"
