@@ -16,6 +16,7 @@ export interface PanelHelper {
   key: string | null;
   pool: string | null;
   target: string | null;
+  deviceName: string | null;
   localPeering: string | null;
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
@@ -36,6 +37,8 @@ export interface PanelHelper {
   openEditClusterGroup: (group: string) => void;
   openCreateStorageBucketKey: (project: string) => void;
   openEditStorageBucketKey: (key: string) => void;
+  openEditNetworkDevice: (deviceName: string) => void;
+  openCreateNetworkDevice: () => void;
   openCreateLocalPeering: () => void;
   openEditLocalPeering: (peering: string) => void;
 }
@@ -59,6 +62,8 @@ export const panels = {
   createClusterGroup: "create-cluster-group",
   editClusterGroups: "edit-cluster-group",
   editClusterMember: "edit-cluster-member",
+  createNetworkDevice: "create-network-device",
+  editNetworkDevice: "edit-network-device",
   createLocalPeering: "create-local-peering",
   editLocalPeering: "edit-local-peering",
 };
@@ -102,6 +107,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("bucket-key");
     newParams.delete("panel-pool");
     newParams.delete("target");
+    newParams.delete("device-name");
     newParams.delete("local-peering");
     setParams(newParams);
     craftResizeEvent();
@@ -121,6 +127,7 @@ const usePanelParams = (): PanelHelper => {
     key: params.get("bucket-key"),
     pool: params.get("panel-pool"),
     target: params.get("target") ?? "",
+    deviceName: params.get("device-name"),
     localPeering: params.get("local-peering"),
 
     clear: () => {
@@ -225,6 +232,17 @@ const usePanelParams = (): PanelHelper => {
         "bucket-key": key || "",
       };
       setPanelParams(panels.editStorageBucketKey, params);
+    },
+
+    openEditNetworkDevice: (deviceName) => {
+      const params: Record<string, string> = {
+        "device-name": deviceName,
+      };
+      setPanelParams(panels.editNetworkDevice, params);
+    },
+
+    openCreateNetworkDevice: () => {
+      setPanelParams(panels.createNetworkDevice);
     },
 
     openCreateLocalPeering: () => {

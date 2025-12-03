@@ -2,12 +2,10 @@ import { type FC } from "react";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import type { LxdNetwork } from "types/network";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { useNetworks } from "context/useNetworks";
-import NetworkDeviceActionButtons from "./NetworkDeviceActionButtons";
-import NetworkDeviceContent from "./NetworkDeviceContent";
+import NetworkDeviceActionButtons from "components/forms/NetworkDevicesForm/read/NetworkDeviceActionButtons";
+import NetworkDeviceContent from "components/forms/NetworkDevicesForm/read/NetworkDeviceContent";
 import { getIndex } from "util/devices";
 import type { InheritedNetwork } from "util/configInheritance";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 
 interface Props {
   project: string;
@@ -24,9 +22,6 @@ const NetworkDevice: FC<Props> = ({
   network,
   inheritedDevice,
 }) => {
-  const readOnly = (formik.values as EditInstanceFormValues).readOnly;
-  const { data: networks = [] } = useNetworks(project);
-  const managedNetworks = networks.filter((network) => network.managed);
   const index = getIndex(device?.name || "", formik);
 
   return (
@@ -34,20 +29,15 @@ const NetworkDevice: FC<Props> = ({
       <div className="network-device-content">
         {device && (
           <NetworkDeviceContent
-            readOnly={readOnly}
             project={project}
             device={device}
             formik={formik}
-            index={index}
-            managedNetworks={managedNetworks}
             network={network}
           />
         )}
       </div>
       <NetworkDeviceActionButtons
-        readOnly={readOnly}
         formik={formik}
-        index={index}
         device={device}
         inheritedDevice={inheritedDevice}
       />

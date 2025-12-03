@@ -108,6 +108,38 @@ const getDevicePairFieldChanges = (a: FormDevice, b: FormDevice): number => {
   return changeCount;
 };
 
+export const isDeviceModified = (
+  formik: ConfigurationRowFormikProps,
+  deviceName: string,
+): boolean => {
+  if (!Object.hasOwn(formik.values, "devices")) {
+    return false;
+  }
+
+  const initDevices = (formik.initialValues as FormDeviceValues).devices;
+  const devices = (formik.values as FormDeviceValues).devices;
+
+  const initDevice = initDevices.find((device) => device.name === deviceName);
+  const currentDevice = devices.find((device) => device.name === deviceName);
+
+  // Device is new (not in initial values)
+  if (!initDevice && currentDevice) {
+    return true;
+  }
+
+  // Device was removed or doesn't exist in current values
+  if (initDevice && !currentDevice) {
+    return false;
+  }
+
+  // Both devices exist, check for changes
+  if (initDevice && currentDevice) {
+    return getDevicePairFieldChanges(initDevice, currentDevice) > 0;
+  }
+
+  return false;
+};
+
 const getDeviceChanges = (formik: ConfigurationRowFormikProps): number => {
   let changeCount = 0;
 
