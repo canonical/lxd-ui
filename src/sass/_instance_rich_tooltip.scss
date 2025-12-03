@@ -1,0 +1,15 @@
+body.is-dark .instance-rich-tooltip-table .p-icon--status-queued-small {
+  @include vf-icon-status-small($colors--light-theme--icon);
+}
+
+.instance-rich-tooltip-table .p-icon--status-queued-small {
+  @include vf-icon-status-small($colors--dark-theme--icon);
+}
+
+.instance-rich-tooltip-table {
+  min-height: 350px;
+
+  td {
+    max-width: 350px;
+  }
+}
