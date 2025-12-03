@@ -70,6 +70,8 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
 import { useProfiles } from "context/useProfiles";
 import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import usePanelParams, { panels } from "util/usePanelParams";
+import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -106,6 +108,8 @@ const EditInstance: FC<Props> = ({ instance }) => {
     project: string;
     section?: string;
   }>();
+
+  const panelParams = usePanelParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
@@ -148,7 +152,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
             operation.metadata.id,
             () => {
               toastNotify.success(<>Instance {instanceLink} updated.</>);
-              void formik.setValues(getInstanceEditValues(instancePayload));
+              formik.resetForm({
+                values: getInstanceEditValues(instancePayload),
+              });
             },
             (msg) =>
               toastNotify.failure(
@@ -296,7 +302,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
             <Button
               appearance="base"
               onClick={() => {
-                void formik.setValues(getInstanceEditValues(instance));
+                formik.resetForm({
+                  values: getInstanceEditValues(instance),
+                });
                 setVersion((old) => old + 1);
               }}
             >
@@ -311,6 +319,17 @@ const EditInstance: FC<Props> = ({ instance }) => {
           </>
         )}
       </FormFooterLayout>
+
+      {(panelParams.panel === panels.editNetworkDevice ||
+        panelParams.panel === panels.createNetworkDevice) && (
+        <NetworkDevicePanel
+          project={project}
+          formik={formik}
+          onSave={() => {
+            ensureEditMode(formik);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -68,6 +68,8 @@ import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { getProfilePayload } from "util/profiles";
+import usePanelParams, { panels } from "util/usePanelParams";
+import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -97,6 +99,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
   const { canEditProfile } = useProfileEntitlements();
+  const panelParams = usePanelParams();
 
   if (!project) {
     return <>Missing project</>;
@@ -128,7 +131,9 @@ const EditProfile: FC<Props> = ({ profile }) => {
         updated.
       </>,
     );
-    void formik.setValues(getProfileEditValues(profilePayload));
+    formik.resetForm({
+      values: getProfileEditValues(profilePayload),
+    });
   };
 
   const handleFailure = (e: Error) => {
@@ -291,7 +296,9 @@ const EditProfile: FC<Props> = ({ profile }) => {
               appearance="base"
               onClick={() => {
                 setVersion((old) => old + 1);
-                void formik.setValues(getProfileEditValues(profile));
+                formik.resetForm({
+                  values: getProfileEditValues(profile),
+                });
               }}
             >
               Cancel
@@ -305,6 +312,17 @@ const EditProfile: FC<Props> = ({ profile }) => {
           </>
         )}
       </FormFooterLayout>
+
+      {(panelParams.panel === panels.editNetworkDevice ||
+        panelParams.panel === panels.createNetworkDevice) && (
+        <NetworkDevicePanel
+          project={project}
+          formik={formik}
+          onSave={() => {
+            ensureEditMode(formik);
+          }}
+        />
+      )}
     </div>
   );
 };

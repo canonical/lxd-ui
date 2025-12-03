@@ -2,31 +2,25 @@ import { Button, Icon } from "@canonical/react-components";
 import type { FC } from "react";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { ensureEditMode } from "util/instanceEdit";
-import {
-  addNicDevice,
-  addNoneDevice,
-  focusNicDevice,
-  removeNicDevice,
-} from "util/formDevices";
+import { addNoneDevice, removeNicDevice } from "util/formDevices";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import { isNicDevice, isNoneDevice } from "util/devices";
 import type { InheritedNetwork } from "util/configInheritance";
+import usePanelParams from "util/usePanelParams";
 
 interface Props {
-  readOnly: boolean;
   formik: InstanceAndProfileFormikProps;
-  index: number;
   device?: LxdNicDevice | LxdNoneDevice;
   inheritedDevice?: InheritedNetwork;
 }
 
 const NetworkDeviceActionButtons: FC<Props> = ({
-  readOnly,
   formik,
-  index,
   device,
   inheritedDevice,
 }: Props) => {
+  const panelParams = usePanelParams();
+
   const isPurelyInherited = inheritedDevice && !device;
   const hasNicOverride = inheritedDevice && device && isNicDevice(device);
   const hasNoneOverride = inheritedDevice && device && isNoneDevice(device);
@@ -43,17 +37,10 @@ const NetworkDeviceActionButtons: FC<Props> = ({
   const editTitle = getEditTitle();
 
   const onEdit = () => {
-    ensureEditMode(formik);
     if (isPurelyInherited || hasNoneOverride) {
-      const newDeviceIndex = formik.values.devices.length;
-      addNicDevice({
-        formik,
-        deviceName: inheritedDevice.key,
-        deviceNetworkName: inheritedDevice.network?.network ?? "",
-      });
-      focusNicDevice(newDeviceIndex);
-    } else {
-      focusNicDevice(index);
+      panelParams.openEditNetworkDevice(inheritedDevice.key);
+    } else if (device && isNicDevice(device)) {
+      panelParams.openEditNetworkDevice(device.name || "");
     }
   };
 
@@ -74,7 +61,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
 
   return (
     <div className="network-device-actions">
-      {(readOnly || isPurelyInherited) && (
+      {(isPurelyInherited || isLocal || hasNicOverride) && (
         <Button
           onClick={onEdit}
           type="button"

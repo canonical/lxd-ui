@@ -220,6 +220,21 @@ export const supportsNicDeviceAcls = (network?: LxdNetwork) => {
   return false;
 };
 
+export const combineAcls = (
+  networkAcls: string[],
+  deviceAcls: string[],
+): string[] => {
+  return Array.from(new Set(networkAcls.concat(deviceAcls)));
+};
+
+export const supportsStaticIPs = (network?: LxdNetwork) => {
+  if (network)
+    return (
+      network.managed && typesWithNicStaticIPSupport.includes(network?.type)
+    );
+  return false;
+};
+
 export const testDuplicateLocalPeeringName = (
   project: string,
   networkName: string,

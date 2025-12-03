@@ -1,14 +1,16 @@
 import ResourceLink from "components/ResourceLink";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import ReadOnlyAclsList from "components/forms/NetworkDevicesForm/ReadOnlyAclsList";
+import NetworkDeviceAclListRead from "components/forms/NetworkDevicesForm/read/NetworkDeviceAclListRead";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import type { InheritedNetwork } from "util/configInheritance";
 import type { LxdNetwork } from "types/network";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
-import NetworkDevice from "./NetworkDevice";
+import NetworkDevice from "components/forms/NetworkDevicesForm/read/NetworkDevice";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import { isNoneDevice } from "util/devices";
+import { isDeviceModified } from "util/formChangeCount";
+import NetworkDeviceName from "./read/NetworkDeviceName";
 
 interface Props {
   device: InheritedNetwork;
@@ -29,20 +31,25 @@ export const getInheritedNetworkRow = ({
   const isOverridden = overrideDevice !== undefined;
   const isDetached = overrideDevice && isNoneDevice(overrideDevice);
 
+  const deviceModified = overrideDevice && isDeviceModified(formik, device.key);
+  const initialOverrideDevice = formik.initialValues.devices.find(
+    (t) => t.name === device.key,
+  );
+  const hasOverrideBeenRemoved = initialOverrideDevice && !overrideDevice;
+  const hasChanges = deviceModified || hasOverrideBeenRemoved;
+
   const overrideNetwork = managedNetworks.find(
     (t) => t.name === (overrideDevice as LxdNicDevice)?.network,
   );
 
   return getConfigurationRowBase({
     configuration: (
-      <b
-        className={classnames({
-          "u-text--muted": isDetached,
-          "u-text--line-through": isDetached,
-        })}
-      >
-        {device.key}
-      </b>
+      <NetworkDeviceName
+        name={device.key}
+        hasChanges={hasChanges}
+        isDetached={isDetached}
+        isInherited
+      />
     ),
     inherited: (
       <div>
@@ -77,7 +84,7 @@ export const getInheritedNetworkRow = ({
             "u-text--line-through": isOverridden,
           })}
         />
-        <ReadOnlyAclsList
+        <NetworkDeviceAclListRead
           project={project}
           network={managedNetworks.find(
             (t) => t.name === device.network?.network,
