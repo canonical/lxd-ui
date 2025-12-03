@@ -16,6 +16,7 @@ export interface PanelHelper {
   key: string | null;
   pool: string | null;
   target: string | null;
+  localPeering: string | null;
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
   openProfileSummary: (profile: string, project: string) => void;
@@ -35,6 +36,8 @@ export interface PanelHelper {
   openEditClusterGroup: (group: string) => void;
   openCreateStorageBucketKey: (project: string) => void;
   openEditStorageBucketKey: (key: string) => void;
+  openCreateLocalPeering: () => void;
+  openEditLocalPeering: (peering: string) => void;
 }
 
 export const panels = {
@@ -56,6 +59,8 @@ export const panels = {
   createClusterGroup: "create-cluster-group",
   editClusterGroups: "edit-cluster-group",
   editClusterMember: "edit-cluster-member",
+  createLocalPeering: "create-local-peering",
+  editLocalPeering: "edit-local-peering",
 };
 
 type ParamMap = Record<string, string>;
@@ -97,6 +102,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("bucket-key");
     newParams.delete("panel-pool");
     newParams.delete("target");
+    newParams.delete("local-peering");
     setParams(newParams);
     craftResizeEvent();
   };
@@ -115,6 +121,7 @@ const usePanelParams = (): PanelHelper => {
     key: params.get("bucket-key"),
     pool: params.get("panel-pool"),
     target: params.get("target") ?? "",
+    localPeering: params.get("local-peering"),
 
     clear: () => {
       clearParams();
@@ -218,6 +225,17 @@ const usePanelParams = (): PanelHelper => {
         "bucket-key": key || "",
       };
       setPanelParams(panels.editStorageBucketKey, params);
+    },
+
+    openCreateLocalPeering: () => {
+      setPanelParams(panels.createLocalPeering);
+    },
+
+    openEditLocalPeering: (localPeering) => {
+      const params: ParamMap = {
+        "local-peering": localPeering || "",
+      };
+      setPanelParams(panels.editLocalPeering, params);
     },
   };
 };

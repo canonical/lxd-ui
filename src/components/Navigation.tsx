@@ -13,7 +13,7 @@ import {
 import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
-import ProjectSelector from "pages/projects/ProjectSelector";
+import NavigationProjectSelector from "pages/projects/NavigationProjectSelector";
 import {
   capitalizeFirstLetter,
   getElementAbsoluteHeight,
@@ -276,7 +276,7 @@ const Navigation: FC = () => {
                           e.stopPropagation();
                         }}
                       >
-                        <ProjectSelector
+                        <NavigationProjectSelector
                           key={location.pathname}
                           activeProject={projectName}
                         />

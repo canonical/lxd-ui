@@ -92,7 +92,7 @@ const NetworkDeviceContent: FC<Props> = ({
         }}
         id={`devices.${index}.network`}
         name={`devices.${index}.network`}
-        managedNetworks={managedNetworks}
+        networkList={managedNetworks}
       />
       <NetworkDeviceAcls
         project={project}

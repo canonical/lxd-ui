@@ -10,7 +10,7 @@ import type { LxdNetwork } from "types/network";
 interface Props {
   value: string;
   setValue: (value: string) => void;
-  managedNetworks: LxdNetwork[];
+  networkList: LxdNetwork[];
   hasNoneOption?: boolean;
 }
 
@@ -19,12 +19,12 @@ const NetworkSelector: FC<
 > = ({
   value,
   setValue,
-  managedNetworks,
+  networkList,
   hasNoneOption = false,
   ...selectProps
 }) => {
   const getNetworkOptions = () => {
-    const options: CustomSelectOption[] = managedNetworks.map((network) => {
+    const options: CustomSelectOption[] = networkList.map((network) => {
       return {
         label: (
           <div className="label">

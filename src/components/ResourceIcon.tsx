@@ -28,7 +28,8 @@ export type ResourceIconType =
   | "auth-group"
   | "idp-group"
   | "device"
-  | "setting";
+  | "setting"
+  | "peering";
 
 const resourceIcons: Record<ResourceIconType, string> = {
   container: "pods",
@@ -40,6 +41,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   "cluster-group": "cluster-host",
   "cluster-member": "single-host",
   network: "exposed",
+  peering: "exposed",
   "network-acl": "security-tick",
   "network-forward": "exposed",
   pool: "status-queued-small",

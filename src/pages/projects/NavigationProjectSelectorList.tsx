@@ -11,7 +11,7 @@ interface Props {
   onMount: (val: Dispatch<SetStateAction<string>>) => void;
 }
 
-const ProjectSelectorList: FC<Props> = ({
+const NavigationProjectSelectorList: FC<Props> = ({
   projects,
   onMount,
 }): React.JSX.Element => {
@@ -69,4 +69,4 @@ const ProjectSelectorList: FC<Props> = ({
   );
 };
 
-export default ProjectSelectorList;
+export default NavigationProjectSelectorList;

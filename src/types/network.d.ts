@@ -170,6 +170,7 @@ export interface LxdNetworkPeer {
   description: "string";
   target_project: "string";
   status: "string";
+  etag?: string;
 }
 
 export interface LxdNetworkAllocation {

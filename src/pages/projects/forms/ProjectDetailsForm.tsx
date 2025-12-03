@@ -164,7 +164,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             hasNoneOption
             label="Default instance network"
             disabled={hasNoProfiles || hasIsolatedNetworks || isEdit}
-            managedNetworks={managedNetworks}
+            networkList={managedNetworks}
             help={
               isEdit ? (
                 <>
