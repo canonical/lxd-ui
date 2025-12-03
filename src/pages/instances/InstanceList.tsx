@@ -180,6 +180,10 @@ const InstanceList: FC = () => {
     notify.failure("Loading operations failed", operationError);
   }
 
+  const migrationNames = (operationList?.running ?? [])
+    .filter((operation) => "Migrating instance" === operation.description)
+    .map(getInstanceName);
+
   const creationNames: string[] = [];
   const creationOperations = (operationList?.running ?? [])
     .concat(operationList?.success ?? [])
@@ -187,7 +191,8 @@ const InstanceList: FC = () => {
       const name = getInstanceName(operation);
       const isCreating = operation.description === "Creating instance";
       const isProcessing = processingNames.includes(name);
-      if (!isCreating || isProcessing) {
+      const isMigrating = migrationNames.includes(name);
+      if (!isCreating || isProcessing || isMigrating) {
         return false;
       }
       const isInInstanceList = instances.some((item) => item.name === name);

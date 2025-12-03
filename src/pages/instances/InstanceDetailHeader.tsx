@@ -19,6 +19,7 @@ import InstanceLinkChip from "./InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useToastNotification } from "@canonical/react-components";
+import { useInstanceLoading } from "context/instanceLoading";
 
 interface Props {
   name: string;
@@ -39,6 +40,9 @@ const InstanceDetailHeader: FC<Props> = ({
   const { canEditInstance } = useInstanceEntitlements();
   const controllerState = useState<AbortController | null>(null);
   const { canViewProject } = useCurrentProject();
+  const instanceLoading = useInstanceLoading();
+
+  const loadingType = instance ? instanceLoading.getType(instance) : undefined;
 
   const RenameSchema = Yup.object().shape({
     name: instanceNameValidation(project, controllerState, name).required(
@@ -147,7 +151,9 @@ const InstanceDetailHeader: FC<Props> = ({
         centerControls={
           instance ? (
             <div className="instance-header-state-controls">
-              <i className="status u-text--muted">{instance.status}</i>
+              <i className="status u-text--muted">
+                {loadingType ?? instance.status}
+              </i>
               <InstanceStateActions key="state" instance={instance} />
             </div>
           ) : null
