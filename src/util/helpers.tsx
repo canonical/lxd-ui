@@ -277,8 +277,13 @@ export const defaultFirst = (
   p2: { name: string },
 ): number => (p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0);
 
-export const isWidthBelow = (width: number): boolean =>
-  window.innerWidth < width;
+export const isDimensionBelow = (
+  dimension: number,
+  mode: "width" | "height" = "height",
+): boolean =>
+  mode === "width"
+    ? window.innerWidth < dimension
+    : window.innerHeight < dimension;
 
 export const logout = (hasOidc?: boolean, hasCertificate?: boolean): void => {
   if (window.location.href.includes("/ui/login")) {

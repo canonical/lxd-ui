@@ -86,7 +86,6 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
-import InstanceLinkChip from "./InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
@@ -95,6 +94,7 @@ import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
+import { InstanceRichChip } from "./InstanceRichChip";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -231,12 +231,9 @@ const CreateInstance: FC = () => {
     instanceName: string,
     shouldStart: boolean,
     isIsoImage: boolean,
-    instanceType: InstanceIconType,
   ) => {
     const instanceLink = (
-      <InstanceLinkChip
-        instance={{ name: instanceName, type: instanceType, project }}
-      />
+      <InstanceRichChip instanceName={instanceName} projectName={project} />
     );
 
     // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
@@ -323,12 +320,7 @@ const CreateInstance: FC = () => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            creationCompletedHandler(
-              instanceName,
-              shouldStart,
-              isIsoImage,
-              values.instanceType,
-            );
+            creationCompletedHandler(instanceName, shouldStart, isIsoImage);
           },
           (msg) => {
             notifyCreationFailed(

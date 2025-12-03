@@ -63,7 +63,6 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import InstanceLinkChip from "./InstanceLinkChip";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -72,6 +71,7 @@ import { useProfiles } from "context/useProfiles";
 import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
+import { InstanceRichChip } from "./InstanceRichChip";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -144,7 +144,12 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
       // ensure the etag is set (it is missing on the yaml)
       instancePayload.etag = instance.etag;
-      const instanceLink = <InstanceLinkChip instance={instance} />;
+      const instanceLink = (
+        <InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        />
+      );
 
       updateInstance(instancePayload, project)
         .then((operation) => {

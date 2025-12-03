@@ -18,8 +18,8 @@ import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
 import { instanceLinkFromOperation } from "util/instances";
 import ResourceLink from "components/ResourceLink";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -48,7 +48,12 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       instance,
       values,
     ) as LxdInstance;
-    const instanceLink = <InstanceLinkChip instance={instance} />;
+    const instanceLink = (
+      <InstanceRichChip
+        instanceName={instance.name}
+        projectName={instance.project}
+      />
+    );
     updateInstance(instanceMinusIso, project ?? "")
       .then((operation) => {
         eventQueue.set(
@@ -97,7 +102,6 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         const instanceLink = instanceLinkFromOperation({
           operation,
           project,
-          instanceType: instance.type,
         });
         eventQueue.set(
           operation.metadata.id,

@@ -4,32 +4,28 @@ import type { ReactNode } from "react";
 import type { AbortControllerState } from "./helpers";
 import { checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
-import InstanceLinkChip from "pages/instances/InstanceLinkChip";
-import type { InstanceIconType } from "components/ResourceIcon";
 import type { LxdInstance } from "types/instance";
 import { useImagesInProject } from "context/useImages";
 import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import { instanceCreationTypes } from "./instanceOptions";
 
 export const CLUSTER_GROUP_PREFIX = "@";
 
 export const instanceLinkFromOperation = (args: {
   operation?: LxdOperationResponse;
   project?: string;
-  instanceType: InstanceIconType;
 }): ReactNode | undefined => {
-  const { operation, project, instanceType } = args;
-  const linkText = getInstanceName(operation?.metadata);
-  if (!linkText) {
+  const { operation, project } = args;
+  const instanceName = getInstanceName(operation?.metadata);
+  if (!instanceName) {
     return;
   }
   return (
-    <InstanceLinkChip
-      instance={{
-        name: linkText,
-        project: project || "default",
-        type: instanceType,
-      }}
+    <InstanceRichChip
+      instanceName={instanceName}
+      projectName={project || "default"}
     />
   );
 };
@@ -99,4 +95,25 @@ export const getImageLink = (instance: LxdInstance) => {
       to={`/ui/project/${encodeURIComponent(instance.project)}/images`}
     />
   );
+};
+
+export const getInstanceMacAddresses = (instance: LxdInstance) => {
+  const hwaddrs = [];
+
+  for (const [key, value] of Object.entries(instance.config)) {
+    if (
+      key.startsWith("volatile.") &&
+      key.endsWith(".hwaddr") &&
+      key.split(".").length === 3 &&
+      value
+    ) {
+      hwaddrs.push(value);
+    }
+  }
+  return hwaddrs;
+};
+
+export const getInstanceType = (instance: LxdInstance) => {
+  return instanceCreationTypes.find((item) => item.value === instance.type)
+    ?.label;
 };

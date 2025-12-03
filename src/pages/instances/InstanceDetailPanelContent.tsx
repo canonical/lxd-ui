@@ -2,7 +2,6 @@ import type { FC } from "react";
 import InstanceLink from "./InstanceLink";
 import type { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";
-import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceIps from "./InstanceIps";
 import { getRootPool, isoTimeToString } from "util/helpers";
 import { Link } from "react-router-dom";
@@ -14,7 +13,7 @@ import { useIsClustered } from "context/useIsClustered";
 import InstanceMACAddresses from "pages/instances/InstaceMACAddresses";
 import ResourceLink from "components/ResourceLink";
 import InstanceClusterMemberChip from "./InstanceClusterMemberChip";
-import { getImageLink } from "util/instances";
+import { getImageLink, getInstanceType } from "util/instances";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -68,13 +67,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         </tr>
         <tr>
           <th className="u-text--muted">Type</th>
-          <td>
-            {
-              instanceCreationTypes.filter(
-                (item) => item.value === instance.type,
-              )[0].label
-            }
-          </td>
+          <td>{getInstanceType(instance)}</td>
         </tr>
         <tr>
           <th className="u-text--muted">IPv4</th>

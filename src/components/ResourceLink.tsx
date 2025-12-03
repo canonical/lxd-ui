@@ -9,10 +9,18 @@ interface Props {
   value: string;
   to: string;
   disabled?: boolean;
+  hasTitle?: boolean;
   className?: string;
 }
 
-const ResourceLink: FC<Props> = ({ type, value, to, disabled, className }) => {
+const ResourceLink: FC<Props> = ({
+  type,
+  value,
+  to,
+  disabled,
+  hasTitle = true,
+  className,
+}) => {
   return (
     <Link
       className={classnames(
@@ -23,7 +31,7 @@ const ResourceLink: FC<Props> = ({ type, value, to, disabled, className }) => {
         className,
       )}
       to={to}
-      title={value}
+      title={hasTitle ? value : undefined}
     >
       <ResourceIcon type={type} />
       <span className="p-chip__value">{value}</span>

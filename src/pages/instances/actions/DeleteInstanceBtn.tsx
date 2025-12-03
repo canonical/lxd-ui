@@ -15,10 +15,10 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useInstanceLoading } from "context/instanceLoading";
 import ResourceLabel from "components/ResourceLabel";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceFrozen, isInstanceRunning } from "util/instanceStatus";
 import { Notification } from "@canonical/react-components";
+import { InstanceRichChip } from "../InstanceRichChip";
 import ConfirmationForce from "components/ConfirmationForce";
 
 interface Props {
@@ -47,7 +47,12 @@ const DeleteInstanceBtn: FC<Props> = ({
     isInstanceRunning(instance) || isInstanceFrozen(instance);
 
   const doDelete = () => {
-    const instanceLink = <InstanceLinkChip instance={instance} />;
+    const instanceLink = (
+      <InstanceRichChip
+        instanceName={instance.name}
+        projectName={instance.project}
+      />
+    );
 
     deleteInstance(instance)
       .then((operation) => {
@@ -97,7 +102,12 @@ const DeleteInstanceBtn: FC<Props> = ({
     setLoading(true);
 
     if (isRunningOrFrozen) {
-      const instanceLink = <InstanceLinkChip instance={instance} />;
+      const instanceLink = (
+        <InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        />
+      );
 
       stopInstance(instance, true)
         .then((operation) => {

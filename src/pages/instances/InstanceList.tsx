@@ -20,7 +20,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import classnames from "classnames";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
@@ -65,7 +64,6 @@ import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
-import InstanceListIps from "./InstanceListIps";
 import {
   mediumScreenBreakpoint,
   useIsScreenBelow,
@@ -79,8 +77,9 @@ import { useIsClustered } from "context/useIsClustered";
 import { useProject } from "context/useProjects";
 import InstanceClusterMemberChip from "pages/instances/InstanceClusterMemberChip";
 import InstanceProjectChip from "pages/instances/InstanceProjectChip";
-import { getInstanceKey } from "util/instances";
+import { getInstanceKey, getInstanceType } from "util/instances";
 import DocLink from "components/DocLink";
+import InstanceListAddresses from "./InstanceListAddresses";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -459,15 +458,7 @@ const InstanceList: FC = () => {
             onClick: openSummary,
           },
           {
-            content: (
-              <>
-                {
-                  instanceCreationTypes.find(
-                    (item) => item.value === instance.type,
-                  )?.label
-                }
-              </>
-            ),
+            content: getInstanceType(instance),
             role: "cell",
             "aria-label": TYPE,
             onClick: openSummary,
@@ -524,7 +515,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv4-${ipv4.length}`,
-            content: <InstanceListIps ips={ipv4} />,
+            content: <InstanceListAddresses addresses={ipv4} />,
             role: "cell",
             className: "u-align--right clickable-cell",
             "aria-label": IPV4,
@@ -533,7 +524,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv6-${ipv6.length}`,
-            content: <InstanceListIps ips={ipv6} />,
+            content: <InstanceListAddresses addresses={ipv6} />,
             role: "cell",
             "aria-label": IPV6,
             onClick: openSummary,

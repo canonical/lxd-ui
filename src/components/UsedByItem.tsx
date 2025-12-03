@@ -5,6 +5,7 @@ import type { ResourceIconType } from "./ResourceIcon";
 import { useImagesInProject } from "context/useImages";
 import { linkForVolumeDetail } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 interface Props {
   item: LxdUsedBy;
@@ -68,7 +69,12 @@ const UsedByItem: FC<Props> = ({
           /{" "}
         </>
       )}
-      <ResourceLink type={type} value={label} to={to} />
+      {type === "instance" && (
+        <InstanceRichChip instanceName={item.name} projectName={item.project} />
+      )}
+      {type !== "instance" && (
+        <ResourceLink type={type} value={label} to={to} />
+      )}
     </div>
   );
 };

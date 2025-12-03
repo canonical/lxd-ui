@@ -34,10 +34,10 @@ import classnames from "classnames";
 import type { InstanceFileType } from "./InstanceFileTypeSelector";
 import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
-import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { useClusterMembers } from "context/useClusterMembers";
 import { fileToSanitisedName } from "util/helpers";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   close: () => void;
@@ -110,7 +110,11 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     const message = (
       <>
         Created instance{" "}
-        <ResourceLink type="instance" value={instanceName} to={instanceUrl} />.
+        <InstanceRichChip
+          instanceName={instanceName}
+          projectName={project?.name ?? ""}
+        />
+        .
       </>
     );
 

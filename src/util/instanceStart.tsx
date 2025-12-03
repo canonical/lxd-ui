@@ -4,8 +4,8 @@ import { useInstanceLoading } from "context/instanceLoading";
 import type { LxdInstance } from "types/instance";
 import { queryKeys } from "./queryKeys";
 import { useEventQueue } from "context/eventQueue";
-import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import { useToastNotification } from "@canonical/react-components";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 export const useInstanceStart = (instance: LxdInstance) => {
   const eventQueue = useEventQueue();
@@ -34,7 +34,12 @@ export const useInstanceStart = (instance: LxdInstance) => {
     const mutation =
       instance.status === "Frozen" ? unfreezeInstance : startInstance;
 
-    const instanceLink = <InstanceLinkChip instance={instance} />;
+    const instanceLink = (
+      <InstanceRichChip
+        instanceName={instance.name}
+        projectName={instance.project}
+      />
+    );
     mutation(instance)
       .then((operation) => {
         eventQueue.set(

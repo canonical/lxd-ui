@@ -45,27 +45,32 @@ const AppProviders: FC<AppProvidersProps> = ({ children }) => {
   const pathname = location.pathname;
 
   return (
-    <ToastNotificationProvider>
-      <NotificationProvider state={notificationState} pathname={pathname}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <ProjectProvider>
-              <OperationsProvider>
-                <InstanceLoadingProvider>
-                  <MemberLoadingProvider>
-                    <EventQueueProvider>
-                      <MetricHistoryProvider>
-                        <ModalProvider>{children}</ModalProvider>
-                      </MetricHistoryProvider>
-                    </EventQueueProvider>
-                  </MemberLoadingProvider>
-                </InstanceLoadingProvider>
-              </OperationsProvider>
-            </ProjectProvider>
-          </AuthProvider>
-        </QueryClientProvider>
-      </NotificationProvider>
-    </ToastNotificationProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ProjectProvider>
+          <OperationsProvider>
+            <InstanceLoadingProvider>
+              <MemberLoadingProvider>
+                <EventQueueProvider>
+                  <ModalProvider>
+                    <ToastNotificationProvider>
+                      <NotificationProvider
+                        state={notificationState}
+                        pathname={pathname}
+                      >
+                        <MetricHistoryProvider>
+                          {children}
+                        </MetricHistoryProvider>
+                      </NotificationProvider>
+                    </ToastNotificationProvider>
+                  </ModalProvider>
+                </EventQueueProvider>
+              </MemberLoadingProvider>
+            </InstanceLoadingProvider>
+          </OperationsProvider>
+        </ProjectProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 

@@ -16,8 +16,8 @@ import CreateImageFromInstanceSnapshotBtn from "pages/instances/actions/snapshot
 import CreateInstanceFromSnapshotBtn from "./CreateInstanceFromSnapshotBtn";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
-import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -53,7 +53,12 @@ const InstanceSnapshotActions: FC<Props> = ({
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
-                deleted for instance <InstanceLinkChip instance={instance} />.
+                deleted for instance{" "}
+                <InstanceRichChip
+                  instanceName={instance.name}
+                  projectName={instance.project}
+                />
+                .
               </>,
             );
           },
@@ -88,7 +93,12 @@ const InstanceSnapshotActions: FC<Props> = ({
                   name={snapshot.name}
                   instance={instance}
                 />{" "}
-                restored for instance <InstanceLinkChip instance={instance} />.
+                restored for instance{" "}
+                <InstanceRichChip
+                  instanceName={instance.name}
+                  projectName={instance.project}
+                />
+                .
               </>,
             );
           },

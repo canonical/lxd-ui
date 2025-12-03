@@ -8,10 +8,10 @@ import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationForce from "components/ConfirmationForce";
 import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -35,7 +35,12 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Stopping" ||
     instance.status === "Stopping";
 
-  const instanceLink = <InstanceLinkChip instance={instance} />;
+  const instanceLink = (
+    <InstanceRichChip
+      instanceName={instance.name}
+      projectName={instance.project}
+    />
+  );
 
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");

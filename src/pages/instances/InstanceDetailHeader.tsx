@@ -15,11 +15,11 @@ import {
 } from "util/instances";
 import { getInstanceName } from "util/operations";
 import InstanceDetailActions from "./InstanceDetailActions";
-import InstanceLinkChip from "./InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useToastNotification } from "@canonical/react-components";
 import { useInstanceLoading } from "context/instanceLoading";
+import { InstanceRichChip } from "./InstanceRichChip";
 
 interface Props {
   name: string;
@@ -65,12 +65,9 @@ const InstanceDetailHeader: FC<Props> = ({
       renameInstance(name, values.name, project)
         .then((operation) => {
           const instanceLink = (
-            <InstanceLinkChip
-              instance={{
-                name: values.name,
-                project: project,
-                type: instance?.type || "instance",
-              }}
+            <InstanceRichChip
+              instanceName={values.name}
+              projectName={project}
             />
           );
           eventQueue.set(
@@ -95,7 +92,6 @@ const InstanceDetailHeader: FC<Props> = ({
                 instanceLinkFromOperation({
                   operation,
                   project,
-                  instanceType: instance?.type || "instance",
                 }),
               ),
             () => {
@@ -108,7 +104,12 @@ const InstanceDetailHeader: FC<Props> = ({
           toastNotify.failure(
             `Renaming instance failed.`,
             e,
-            instance && <InstanceLinkChip instance={instance} />,
+            instance && (
+              <InstanceRichChip
+                instanceName={instance.name}
+                projectName={instance.project}
+              />
+            ),
           );
         });
     },

@@ -25,9 +25,9 @@ import classnames from "classnames";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { InstanceFileType } from "./InstanceFileTypeSelector";
 import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
-import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { fileToSanitisedName } from "util/helpers";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 export interface UploadInstanceBackupFileFormValues {
   instanceFile: File | null;
@@ -67,7 +67,11 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
     const message = (
       <>
         Created instance{" "}
-        <ResourceLink type="instance" value={instanceName} to={instanceUrl} />.
+        <InstanceRichChip
+          instanceName={instanceName}
+          projectName={project?.name ?? ""}
+        />
+        .
       </>
     );
 

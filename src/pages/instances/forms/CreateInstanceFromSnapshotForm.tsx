@@ -18,14 +18,13 @@ import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";
-import InstanceLinkChip from "../InstanceLinkChip";
-import type { InstanceIconType } from "components/ResourceIcon";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useStoragePools } from "context/useStoragePools";
 import { useIsClustered } from "context/useIsClustered";
 import { truncateEntityName } from "util/helpers";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -98,13 +97,9 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
 
   const { data: instances = [] } = useInstances(instance.project);
 
-  const notifySuccess = (
-    name: string,
-    project: string,
-    type: InstanceIconType,
-  ) => {
+  const notifySuccess = (name: string, project: string) => {
     const instanceLink = (
-      <InstanceLinkChip instance={{ name, project, type }} />
+      <InstanceRichChip instanceName={name} projectName={project} />
     );
 
     const message = <>Created instance {instanceLink}.</>;
@@ -173,7 +168,12 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
     }),
 
     onSubmit: (values) => {
-      const instanceLink = <InstanceLinkChip instance={instance} />;
+      const instanceLink = (
+        <InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        />
+      );
       createInstance(
         JSON.stringify(instanceFromSnapshotPayload(values, instance, snapshot)),
         values.targetProject,
@@ -194,11 +194,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
           eventQueue.set(
             operation.metadata.id,
             () => {
-              notifySuccess(
-                values.instanceName,
-                values.targetProject,
-                instance.type,
-              );
+              notifySuccess(values.instanceName, values.targetProject);
             },
             (msg) =>
               toastNotify.failure(

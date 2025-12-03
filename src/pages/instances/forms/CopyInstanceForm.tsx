@@ -20,7 +20,6 @@ import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { getUniqueResourceName, truncateEntityName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
-import InstanceLinkChip from "../InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
@@ -28,6 +27,7 @@ import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useStoragePools } from "context/useStoragePools";
 import { useIsClustered } from "context/useIsClustered";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -105,7 +105,12 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
       ).required(),
     }),
     onSubmit: (values) => {
-      const instanceLink = <InstanceLinkChip instance={instance} />;
+      const instanceLink = (
+        <InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        />
+      );
       createInstance(
         JSON.stringify({
           description: instance.description,
