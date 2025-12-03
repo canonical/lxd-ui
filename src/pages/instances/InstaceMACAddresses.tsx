@@ -1,28 +1,14 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import ExpandableList from "components/ExpandableList";
+import { getInstanceMacAddresses } from "util/instances";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const InstanceMACAddresses: FC<Props> = ({ instance }) => {
-  const extractAddressesFromConfig = () => {
-    const hwaddrs = [];
-
-    for (const [key, value] of Object.entries(instance.config)) {
-      if (
-        key.startsWith("volatile.") &&
-        key.endsWith(".hwaddr") &&
-        key.split(".").length === 3
-      ) {
-        hwaddrs.push(value);
-      }
-    }
-    return hwaddrs;
-  };
-
-  const macAddresses = extractAddressesFromConfig();
+  const macAddresses = getInstanceMacAddresses(instance);
 
   return macAddresses.length ? (
     <ExpandableList
