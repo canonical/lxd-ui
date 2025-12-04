@@ -8,6 +8,8 @@
 @include vf-p-icon-add-canvas;
 @include vf-p-icon-add-logical-volume;
 @include vf-p-icon-applications;
+@include vf-p-icon-arrow-left;
+@include vf-p-icon-arrow-right;
 @include vf-p-icon-begin-downloading;
 @include vf-p-icon-book;
 @include vf-p-icon-canvas;
@@ -104,6 +106,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "meter";
 @import "migrate_instance";
 @import "modified_actions";
+@import "network_default_acl_selector";
 @import "network_form";
 @import "network_forwards_form";
 @import "network_ipam";

@@ -435,3 +435,7 @@ export const fileToSanitisedName = (
   const newName = truncateEntityName(sanitisedFileName, suffix);
   return newName;
 };
+
+export const conjugateACLAction = (action: string) => {
+  return action === "drop" ? "dropped" : action + "ed";
+};
