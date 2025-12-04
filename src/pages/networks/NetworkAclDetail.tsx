@@ -1,20 +1,12 @@
 import type { FC } from "react";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import NotificationRow from "components/NotificationRow";
-import {
-  Row,
-  useNotify,
-  CustomLayout,
-  Spinner,
-} from "@canonical/react-components";
+import { Row, CustomLayout, Spinner } from "@canonical/react-components";
 import NetworkAclDetailHeader from "pages/networks/NetworkAclDetailHeader";
 import EditNetworkAcl from "pages/networks/forms/EditNetworkAcl";
 import { useNetworkAcl } from "context/useNetworkAcls";
+import NotFound from "components/NotFound";
 
 const NetworkAclDetail: FC = () => {
-  const notify = useNotify();
-
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -29,12 +21,6 @@ const NetworkAclDetail: FC = () => {
   }
 
   const { data: networkAcl, error, isLoading } = useNetworkAcl(name, project);
-
-  useEffect(() => {
-    if (error) {
-      notify.failure("Loading ACL failed", error);
-    }
-  }, [error]);
 
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -51,12 +37,18 @@ const NetworkAclDetail: FC = () => {
       }
       contentClassName="edit-network-acl"
     >
-      <Row>
-        <NotificationRow />
-        {networkAcl && (
+      {!isLoading && !networkAcl && (
+        <NotFound
+          entityType="network-acl"
+          entityName={name}
+          errorMessage={error?.message}
+        />
+      )}
+      {!isLoading && networkAcl && (
+        <Row>
           <EditNetworkAcl networkAcl={networkAcl} project={project} />
-        )}
-      </Row>
+        </Row>
+      )}
     </CustomLayout>
   );
 };

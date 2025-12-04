@@ -112,6 +112,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "network_topology";
 @import "network_selector";
 @import "no_match";
+@import "not_found";
 @import "operation_list";
 @import "page_header";
 @import "pattern_navigation";
@@ -295,6 +296,11 @@ body {
 .u-flex {
   align-items: center;
   display: flex;
+}
+
+.u-flex-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .u-no-border {

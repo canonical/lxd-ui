@@ -1,11 +1,6 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Row,
-  useNotify,
-  Spinner,
-  CustomLayout,
-} from "@canonical/react-components";
+import { Row, Spinner, CustomLayout } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import StorageVolumeHeader from "pages/storage/StorageVolumeHeader";
 import StorageVolumeOverview from "pages/storage/StorageVolumeOverview";
@@ -14,11 +9,11 @@ import TabLinks from "components/TabLinks";
 import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
 import { useStorageVolume } from "context/useVolumes";
 import { linkForVolumeDetail } from "util/storageVolume";
+import NotFound from "components/NotFound";
 
 const tabs: string[] = ["Overview", "Configuration", "Snapshots"];
 
 const StorageVolumeDetail: FC = () => {
-  const notify = useNotify();
   const {
     pool,
     project,
@@ -54,14 +49,16 @@ const StorageVolumeDetail: FC = () => {
     isLoading,
   } = useStorageVolume(pool, project, type, volumeName, member);
 
-  if (error) {
-    notify.failure("Loading storage volume failed", error);
-  }
-
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!volume) {
-    return <>Loading storage volume failed</>;
+    return (
+      <NotFound
+        entityType="volume"
+        entityName={volumeName}
+        errorMessage={error?.message}
+      />
+    );
   }
 
   return (

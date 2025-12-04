@@ -66,10 +66,22 @@ interface ErrorResponse {
   error: string;
 }
 
+export class LxdApiError extends Error {
+  status: number;
+  data: ErrorResponse;
+
+  constructor(message: string, status: number, data: ErrorResponse) {
+    super(message);
+    this.name = "LxdApiError";
+    this.status = status;
+    this.data = data;
+  }
+}
+
 export const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const result = (await response.json()) as ErrorResponse;
-    throw Error(result.error);
+    throw new LxdApiError(result.error, response.status, result);
   }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return response.json();

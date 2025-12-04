@@ -14,8 +14,25 @@ import OperationsProvider from "context/operationsProvider";
 import { MetricHistoryProvider } from "context/metricHistory";
 import { MemberLoadingProvider } from "context/memberLoading";
 import { ModalProvider } from "context/useModal";
+import { LxdApiError } from "util/helpers";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount, error: unknown) => {
+        if (error instanceof LxdApiError) {
+          // Do not retry for 404 errors
+          if (error.status === 404) {
+            return false;
+          }
+        }
+
+        // Retry a maximum of 3 times for other errors
+        return failureCount < 3;
+      },
+    },
+  },
+});
 
 interface AppProvidersProps {
   children: ReactNode;

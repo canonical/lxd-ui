@@ -1,12 +1,5 @@
 import type { FC } from "react";
-import {
-  Icon,
-  Notification,
-  Row,
-  Strip,
-  Spinner,
-  CustomLayout,
-} from "@canonical/react-components";
+import { Icon, Row, CustomLayout, Spinner } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useParams } from "react-router-dom";
@@ -20,6 +13,7 @@ import { useSettings } from "context/useSettings";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useInstance } from "context/useInstances";
 import { buildGrafanaUrl } from "util/grafanaUrl";
+import NotFound from "components/NotFound";
 
 const tabs: string[] = [
   "Overview",
@@ -82,15 +76,18 @@ const InstanceDetail: FC = () => {
       contentClassName="detail-page"
     >
       {isLoading && (
-        <Spinner className="u-loader" text="Loading instance details..." />
+        <Spinner
+          className="u-loader"
+          text="Loading instance details..."
+          isMainComponent
+        />
       )}
-      {!isLoading && !instance && !error && <>Loading instance failed</>}
-      {error && (
-        <Strip>
-          <Notification severity="negative" title="Error">
-            {error.message}
-          </Notification>
-        </Strip>
+      {!isLoading && !instance && (
+        <NotFound
+          entityType="instance"
+          entityName={name}
+          errorMessage={error?.message}
+        />
       )}
       {!isLoading && instance && (
         <Row>
