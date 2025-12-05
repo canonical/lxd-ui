@@ -6,15 +6,12 @@ import { queryKeys } from "util/queryKeys";
 import { restartInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationForce from "components/ConfirmationForce";
-import {
-  ConfirmationButton,
-  Icon,
-  useToastNotification,
-} from "@canonical/react-components";
+import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
+import MountedConfirmationButton from "components/MountedConfirmationButton";
 
 interface Props {
   instance: LxdInstance;
@@ -67,7 +64,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Migrating";
 
   return (
-    <ConfirmationButton
+    <MountedConfirmationButton
       appearance="base"
       loading={isLoading}
       className="has-icon is-dense"
@@ -98,7 +95,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       showShiftClickHint
     >
       <Icon name="restart" />
-    </ConfirmationButton>
+    </MountedConfirmationButton>
   );
 };
 
