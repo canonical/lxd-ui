@@ -5,13 +5,13 @@ import type { LxdProfile } from "types/profile";
 import type { LxdNetwork, LxdNetworkAcl } from "types/network";
 import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
-import crypto from "crypto";
 import { isDiskDevice, isNicDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
 import { addTarget } from "util/target";
 import { debounceAsync } from "util/debounce";
+import crypto from "crypto";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -316,7 +316,10 @@ export const getAbsoluteHeightBelowBySelector = (selector: string): number => {
 };
 
 export const generateUUID = (): string => {
-  return crypto.randomBytes(16).toString("hex");
+  if (typeof window !== "undefined") {
+    return self.crypto.randomUUID();
+  }
+  return crypto.randomUUID();
 };
 
 export const getClientOS = (userAgent: string) => {

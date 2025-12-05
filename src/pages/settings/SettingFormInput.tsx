@@ -2,13 +2,13 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Button, Form, Icon, Input } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
-import { getConfigId } from "./SettingForm";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
   initialValue: string;
   configField: ConfigField;
   onSubmit: (newValue: string | boolean) => void;
+  onDelete: (key: string) => void;
   onCancel: () => void;
 }
 
@@ -16,6 +16,7 @@ const SettingFormInput: FC<Props> = ({
   initialValue,
   configField,
   onSubmit,
+  onDelete,
   onCancel,
 }) => {
   const [value, setValue] = useState(initialValue);
@@ -29,7 +30,8 @@ const SettingFormInput: FC<Props> = ({
     }
   };
 
-  const canBeReset = String(configField.default) !== String(value);
+  const canBeReset =
+    !configField.isUserDefined && String(configField.default) !== String(value);
 
   const resetToDefault = () => {
     setValue(configField.default);
@@ -46,7 +48,7 @@ const SettingFormInput: FC<Props> = ({
       <Input type="submit" hidden value="Hidden input" />
       <Input
         aria-label={configField.key}
-        id={getConfigId(configField.key)}
+        id={configField.key}
         wrapperClassName="input-wrapper"
         type={getInputType()}
         value={configField.type === "bool" ? undefined : String(value)}
@@ -61,6 +63,20 @@ const SettingFormInput: FC<Props> = ({
       <Button appearance="positive" type="submit">
         Save
       </Button>
+      {configField.isUserDefined && (
+        <Button
+          appearance="base"
+          hasIcon
+          className="delete-button"
+          type="button"
+          onClick={() => {
+            onDelete(configField.key);
+          }}
+        >
+          <Icon name="delete"></Icon>
+          <span>Delete</span>
+        </Button>
+      )}
       {canBeReset && (
         <Button
           className="reset-button"

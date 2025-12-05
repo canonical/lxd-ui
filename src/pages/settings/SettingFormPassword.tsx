@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Button, Form, Icon, Input } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
-import { getConfigId } from "./SettingForm";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
@@ -36,7 +35,7 @@ const SettingFormPassword: FC<Props> = ({
           <div className="input-row">
             <Input
               aria-label={configField.key}
-              id={getConfigId(configField.key)}
+              id={configField.key}
               wrapperClassName="input-wrapper"
               type={showPassword ? "text" : "password"}
               value={password}

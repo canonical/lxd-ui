@@ -1,8 +1,17 @@
 import type { Locator, Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 import { gotoURL } from "./navigate";
+import { randomNameSuffix } from "./name";
 
 export type ServerSettingType = "checkbox" | "text" | "number" | "password";
+
+export const randomSettingKey = (): string => {
+  return `playwright-setting-key-${randomNameSuffix()}`;
+};
+
+export const randomSettingValue = (): string => {
+  return `playwright-setting-value-${randomNameSuffix()}`;
+};
 
 export const visitServerSettings = async (page: Page) => {
   await gotoURL(page, "/ui/");
@@ -98,4 +107,27 @@ export const openServerSetting = async (page: Page, setting: string) => {
     .locator("css=tr", { hasText: setting })
     .getByRole("button")
     .click();
+};
+
+export const addUserSetting = async (
+  page: Page,
+  key: string,
+  value: string,
+) => {
+  await page
+    .getByRole("button", { name: "Add user setting", exact: true })
+    .click();
+  await page.getByPlaceholder("User key").fill(key);
+  await page.getByPlaceholder("Value").fill(value);
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+};
+
+export const deleteUserSetting = async (page: Page, value: string) => {
+  const button = page.locator("button", {
+    has: page.locator("div", { hasText: value }),
+  });
+
+  await button.click();
+  await page.getByRole("button", { name: "Delete", exact: true }).click();
+  await expect(button).toHaveCount(0);
 };

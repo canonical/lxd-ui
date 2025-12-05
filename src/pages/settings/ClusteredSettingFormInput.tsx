@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Button, Form, Icon } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
-import { getConfigId } from "./SettingForm";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import { useClusterMembers } from "context/useClusterMembers";
@@ -62,7 +61,7 @@ const ClusteredSettingFormInput: FC<Props> = ({
           aria-label={configField.key}
           classname={readonly ? "read-only" : ""}
           disableReason={disableReason}
-          id={getConfigId(configField.key)}
+          id={configField.key}
           values={value}
           isReadOnly={readonly}
           onChange={(value) => {
@@ -83,7 +82,7 @@ const ClusteredSettingFormInput: FC<Props> = ({
           aria-label={configField.key}
           classname={readonly ? "read-only" : ""}
           disableReason={disableReason}
-          id={getConfigId(configField.key)}
+          id={configField.key}
           values={value}
           isReadOnly={readonly}
           onChange={(value) => {
