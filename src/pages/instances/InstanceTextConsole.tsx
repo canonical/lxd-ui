@@ -14,6 +14,7 @@ import Xterm from "components/Xterm";
 import type { Terminal } from "@xterm/xterm";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
+import { useMounted } from "context/useMounted";
 
 interface Props {
   instance: LxdInstance;
@@ -38,6 +39,7 @@ const InstanceTextConsole: FC<Props> = ({
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef<Terminal>(null);
   const notify = useNotify();
+  const isMounted = useMounted();
 
   usePrompt({
     when: userInteracted,
@@ -54,7 +56,9 @@ const InstanceTextConsole: FC<Props> = ({
   const isRunning = isInstanceRunning(instance);
 
   const handleError = (e: object) => {
-    onFailure("Error", e);
+    if (isMounted.current) {
+      onFailure("Error", e);
+    }
   };
 
   const openWebsockets = async () => {
@@ -98,7 +102,7 @@ const InstanceTextConsole: FC<Props> = ({
     control.onerror = handleError;
 
     control.onclose = (event) => {
-      if (1005 !== event.code) {
+      if (1005 !== event.code && isMounted.current) {
         onFailure("Error", event.reason, getWsErrorMsg(event.code));
       }
     };
@@ -110,7 +114,7 @@ const InstanceTextConsole: FC<Props> = ({
     data.onerror = handleError;
 
     data.onclose = (event) => {
-      if (1005 !== event.code) {
+      if (1005 !== event.code && isMounted.current) {
         onFailure("Error", event.reason, getWsErrorMsg(event.code));
       }
       setDataWs(null);
