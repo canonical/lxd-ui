@@ -4,7 +4,7 @@ import type { FC } from "react";
 import type { LxdNicDevice } from "types/device";
 import type { LxdNetwork } from "types/network";
 import { getDeviceAcls } from "util/devices";
-import { getNetworkAcls } from "util/networks";
+import { combineAcls, getNetworkAcls } from "util/networks";
 import classnames from "classnames";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   isOverridden?: boolean;
 }
 
-const ReadOnlyAclsList: FC<Props> = ({
+const NetworkDeviceAclListRead: FC<Props> = ({
   project,
   network,
   device,
@@ -22,7 +22,7 @@ const ReadOnlyAclsList: FC<Props> = ({
 }) => {
   const networkAcls = getNetworkAcls(network);
   const deviceAcls = getDeviceAcls(device);
-  const allAcls = Array.from(new Set(networkAcls.concat(deviceAcls)));
+  const allAcls = combineAcls(networkAcls, deviceAcls);
 
   if (!allAcls.length) return null;
 
@@ -53,4 +53,4 @@ const ReadOnlyAclsList: FC<Props> = ({
   );
 };
 
-export default ReadOnlyAclsList;
+export default NetworkDeviceAclListRead;
