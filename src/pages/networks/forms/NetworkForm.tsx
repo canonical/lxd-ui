@@ -100,6 +100,8 @@ export interface NetworkFormValues {
   entityType: "network";
   bareNetwork?: LxdNetwork;
   editRestriction?: string;
+  security_acls_default_egress?: string;
+  security_acls_default_ingress?: string;
 }
 
 export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
@@ -178,6 +180,10 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
         values.security_acls.length > 0
           ? values.security_acls.join(",")
           : undefined,
+      [getNetworkKey("security_acls_default_egress")]:
+        values.security_acls_default_egress,
+      [getNetworkKey("security_acls_default_ingress")]:
+        values.security_acls_default_ingress,
       [getNetworkKey("vlan")]: values.vlan ? values.vlan.toString() : undefined,
     },
   };
@@ -234,7 +240,7 @@ const NetworkForm: FC<Props> = ({
     return filteredRows;
   };
 
-  const isManageed = formik.values.bareNetwork?.managed ?? true;
+  const isManaged = formik.values.bareNetwork?.managed ?? true;
 
   // see https://documentation.ubuntu.com/lxd/en/latest/reference/networks/
   // for details on available sections per type
@@ -246,19 +252,19 @@ const NetworkForm: FC<Props> = ({
   const isPhysical = formik.values.networkType === physicalType;
   const isSriov = formik.values.networkType === sriovType;
 
-  if (isManageed && !isPhysical && !isMacvlan && !isSriov) {
+  if (isManaged && !isPhysical && !isMacvlan && !isSriov) {
     availableSections.push(BRIDGE);
   }
-  if (isManageed && hasIpV4 && !isMacvlan && !isSriov) {
+  if (isManaged && hasIpV4 && !isMacvlan && !isSriov) {
     availableSections.push(IPV4);
   }
-  if (isManageed && hasIpV6 && !isMacvlan && !isSriov) {
+  if (isManaged && hasIpV6 && !isMacvlan && !isSriov) {
     availableSections.push(IPV6);
   }
-  if (isManageed && !isMacvlan && !isSriov) {
+  if (isManaged && !isMacvlan && !isSriov) {
     availableSections.push(DNS);
   }
-  if (isManageed && isPhysical) {
+  if (isManaged && isPhysical) {
     availableSections.push(OVN);
   }
 
