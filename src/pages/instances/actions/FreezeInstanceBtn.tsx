@@ -4,16 +4,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { freezeInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import {
-  ConfirmationButton,
-  Icon,
-  useToastNotification,
-} from "@canonical/react-components";
+import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import ResourceLabel from "components/ResourceLabel";
+import MountedConfirmationButton from "components/MountedConfirmationButton";
 
 interface Props {
   instance: LxdInstance;
@@ -76,7 +73,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Migrating";
 
   return (
-    <ConfirmationButton
+    <MountedConfirmationButton
       appearance="base"
       loading={isLoading}
       confirmationModalProps={{
@@ -98,7 +95,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
       showShiftClickHint
     >
       <Icon name="pause" />
-    </ConfirmationButton>
+    </MountedConfirmationButton>
   );
 };
 
