@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.25% </span>
+                <span class="strong">9.4% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/281</span>
+                <span class='fraction'>27/287</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.57% </span>
+                <span class="strong">2.94% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/28</span>
+                <span class='fraction'>1/34</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.26% </span>
+                <span class="strong">13.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/196</span>
+                <span class='fraction'>27/200</span>
             </div>
         
             
@@ -259,30 +259,35 @@
 <a name='L194'></a><a href='#L194'>194</a>
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -453,8 +458,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -471,6 +479,7 @@ import Xterm from "components/Xterm";
 import type { Terminal } from "@xterm/xterm";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
+import { useMounted } from "context/useMounted";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -495,6 +504,7 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" >  const [userInteracted, setUserInteracted] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
 <span class="cstat-no" title="statement not covered" >  const xtermRef = <span class="cstat-no" title="statement not covered" >useRef&lt;Terminal&gt;(null);</span></span>
 <span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
+<span class="cstat-no" title="statement not covered" >  const isMounted = <span class="cstat-no" title="statement not covered" >useMounted();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  usePrompt({</span></span>
 <span class="cstat-no" title="statement not covered" >    when: userInteracted,</span>
@@ -511,7 +521,9 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" >  const isRunning = <span class="cstat-no" title="statement not covered" >isInstanceRunning(instance);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const handleError = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: object) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onFailure("Error", e);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isMounted.current) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Error", e);</span></span>
+<span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const openWebsockets = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
@@ -555,7 +567,7 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onerror = handleError;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onclose = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Error", event.reason, getWsErrorMsg(event.code));</span></span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
@@ -567,7 +579,7 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.onerror = handleError;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.onclose = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Error", event.reason, getWsErrorMsg(event.code));</span></span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setDataWs(null);</span></span>
@@ -658,7 +670,7 @@ export default InstanceTextConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-03T17:05:17.158Z
+                at 2025-12-05T12:35:56.315Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
