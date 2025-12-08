@@ -6,15 +6,12 @@ import { stopInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationForce from "components/ConfirmationForce";
-import {
-  ConfirmationButton,
-  Icon,
-  useToastNotification,
-} from "@canonical/react-components";
+import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
+import MountedConfirmationButton from "components/MountedConfirmationButton";
 
 interface Props {
   instance: LxdInstance;
@@ -81,7 +78,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
     !canUpdateInstanceState(instance);
 
   return (
-    <ConfirmationButton
+    <MountedConfirmationButton
       appearance="base"
       loading={isLoading}
       disabled={isDisabled}
@@ -109,7 +106,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       showShiftClickHint
     >
       <Icon name="stop" />
-    </ConfirmationButton>
+    </MountedConfirmationButton>
   );
 };
 
