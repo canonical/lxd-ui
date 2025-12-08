@@ -521,7 +521,9 @@ const CreateInstance: FC = () => {
 
             {section === BOOT && <BootForm formik={formik} />}
 
-            {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+            {section === CLOUD_INIT && (
+              <CloudInitForm formik={formik} project={project} />
+            )}
 
             {section === YAML_CONFIGURATION && (
               <YamlForm
