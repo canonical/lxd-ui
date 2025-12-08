@@ -18,6 +18,7 @@ import CreateNetworkPeeringBtn from "./actions/CreateNetworkPeeringBtn";
 import LocalPeeringActions from "./actions/LocalPeeringActions";
 import EditLocalPeeringPanel from "./panels/EditLocalPeeringPanel";
 import LocalPeeringStatusIcon from "./LocalPeeringStatusIcon";
+import LocalPeeringWarning from "./LocalPeeringWarning";
 
 interface Props {
   network: LxdNetwork;
@@ -125,6 +126,7 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
 
   return (
     <>
+      <LocalPeeringWarning network={network} />
       {hasNetworkPeers && (
         <CreateNetworkPeeringBtn network={network} className=" u-float-right" />
       )}
