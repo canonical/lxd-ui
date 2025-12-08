@@ -6,6 +6,7 @@ import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import classnames from "classnames";
 import { useListener } from "@canonical/react-components";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 export interface YamlFormValues {
   yaml?: string;
@@ -30,6 +31,7 @@ const YamlForm: FC<Props> = ({
 }) => {
   const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isSmallScreen = useIsScreenBelow();
 
   loader.config({ paths: { vs: "/ui/monaco-editor/min/vs" } });
 
@@ -76,6 +78,7 @@ const YamlForm: FC<Props> = ({
             overviewRulerLanes: 0,
             readOnly: readOnly,
             readOnlyMessage: { value: readOnlyMessage ?? "" },
+            lineNumbersMinChars: isSmallScreen ? 2 : 5,
           }}
           onMount={(editor: IStandaloneCodeEditor) => {
             setEditor(editor);
