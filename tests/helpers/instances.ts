@@ -3,6 +3,8 @@ import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 
+const DEFAULT_IMAGE = "alpine/3.23/cloud";
+
 export const randomInstanceName = (): string => {
   return `playwright-instance-${randomNameSuffix()}`;
 };
@@ -26,7 +28,7 @@ export const createInstance = async (
   instance: string,
   type = "container",
   project = "default",
-  image = "alpine/3.19/cloud",
+  image = DEFAULT_IMAGE,
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page.waitForLoadState("networkidle");
@@ -158,7 +160,7 @@ export const createAndStartInstance = async (
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "Browse images" }).click();
   await page.getByPlaceholder("Search an image").click();
-  await page.getByPlaceholder("Search an image").fill("alpine/3.19/cloud");
+  await page.getByPlaceholder("Search an image").fill(DEFAULT_IMAGE);
   await page
     .getByRole("row")
     .filter({ hasNotText: "cached" })
