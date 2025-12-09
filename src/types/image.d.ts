@@ -11,7 +11,7 @@ export interface LxdImage {
   fingerprint: string;
   public: boolean;
   properties?: {
-    description: string;
+    description?: string;
     os: string;
     release: string;
     variant?: string;

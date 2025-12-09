@@ -44,7 +44,7 @@ export const LOCAL_IMAGE = "local-image";
 
 export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
   const isLTS = image.properties?.description
-    .toLocaleLowerCase()
+    ?.toLocaleLowerCase()
     .includes("lts");
   const releaseTitle = `${image.properties?.version ?? ""}${isLTS ? " LTS" : ""}`;
 
