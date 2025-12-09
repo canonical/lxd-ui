@@ -93,6 +93,8 @@ import BootForm, { bootPayload } from "components/forms/BootForm";
 import { useProfiles } from "context/useProfiles";
 import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
+import usePanelParams, { panels } from "util/usePanelParams";
+import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -123,6 +125,7 @@ const CreateInstance: FC = () => {
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(MAIN_CONFIGURATION);
   const { hasInstanceCreateStart } = useSupportedFeatures();
+  const panelParams = usePanelParams();
 
   if (!project) {
     return <>Missing project</>;
@@ -578,6 +581,11 @@ const CreateInstance: FC = () => {
           </ActionButton>
         )}
       </FormFooterLayout>
+
+      {(panelParams.panel === panels.editNetworkDevice ||
+        panelParams.panel === panels.createNetworkDevice) && (
+        <NetworkDevicePanel project={project} formik={formik} />
+      )}
     </BaseLayout>
   );
 };

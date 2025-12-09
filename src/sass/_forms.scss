@@ -11,7 +11,6 @@
 .create-project,
 .edit-project,
 .edit-snapshot-config,
-.cluster-group-form,
 .storage-volume-form,
 .edit-storage-volume,
 .volume-create-form,
@@ -95,14 +94,6 @@
 
     .ip-content {
       margin-top: $spv--small;
-    }
-
-    .ip-content-edit {
-      margin-top: $sph--x-large;
-
-      .p-form__label {
-        margin-bottom: $spv--small;
-      }
     }
 
     .image-change-link {
@@ -545,4 +536,16 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .is-dark input[type="date"]::-webkit-calendar-picker-indicator,
 .is-dark input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+.network-device-name {
+  align-items: center;
+  display: flex;
+  gap: $sph--small;
+
+  .network-device-label {
+    &:not(.has-changes) {
+      margin-left: calc(1rem + $sph--small);
+    }
+  }
 }
