@@ -110,6 +110,24 @@ export const fetchResources = async (
     });
 };
 
+export const fetchClusterMembersResources = async (
+  clusterMembers: LxdClusterMember[],
+): Promise<LxdResources[]> => {
+  const results = await Promise.allSettled(
+    clusterMembers.map(async (member) => fetchResources(member.server_name)),
+  );
+  const data: LxdResources[] = [];
+  for (let i = 0; i < clusterMembers.length; i++) {
+    const member = clusterMembers[i];
+    const result = results[i];
+    if (result.status === "rejected") {
+      throw constructMemberError(result, member.server_name);
+    }
+    data.push(result.value);
+  }
+  return data;
+};
+
 export const fetchConfigOptions = async (
   hasMetadataConfiguration: boolean,
 ): Promise<LxdMetadata | null> => {

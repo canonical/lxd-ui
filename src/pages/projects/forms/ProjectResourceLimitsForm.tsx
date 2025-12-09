@@ -8,7 +8,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
 import CpuLimitInput from "components/forms/CpuLimitInput";
-import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
+import { ProjectMemoryLimit } from "../ProjectMemoryLimit";
 
 export interface ProjectResourceLimitsFormValues {
   limits_instances?: number;
@@ -109,7 +109,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
               setMemoryLimit={(val?: string) =>
                 void formik.setFieldValue("limits_memory", val)
               }
-              helpTotal={<MemoryLimitAvailable />}
+              helpTotal={<ProjectMemoryLimit />}
             />
           ),
         }),

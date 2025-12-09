@@ -4,13 +4,19 @@ import type { MemoryLimit } from "types/limits";
 import { BYTES_UNITS, MEM_LIMIT_TYPE } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
 import { useCurrentProject } from "context/useCurrentProject";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 
 interface Props {
+  formik: InstanceAndProfileFormikProps;
   memoryLimit?: MemoryLimit;
   setMemoryLimit: (memoryLimit: MemoryLimit) => void;
 }
 
-const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
+const MemoryLimitSelector: FC<Props> = ({
+  formik,
+  memoryLimit,
+  setMemoryLimit,
+}) => {
   const { project } = useCurrentProject();
 
   if (!memoryLimit) {
@@ -58,7 +64,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             setMemoryLimit({ ...memoryLimit, value: +e.target.value });
           }}
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-          help={<MemoryLimitAvailable project={project} />}
+          help={<MemoryLimitAvailable project={project} formik={formik} />}
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
@@ -74,7 +80,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
               setMemoryLimit({ ...memoryLimit, value: +e.target.value });
             }}
             value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-            help={<MemoryLimitAvailable project={project} />}
+            help={<MemoryLimitAvailable project={project} formik={formik} />}
           />
           <Select
             id="memUnitSelect"

@@ -76,6 +76,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
             memoryLimitToPayload(val as MemoryLimit | undefined) ?? "",
           children: (
             <MemoryLimitSelector
+              formik={formik}
               memoryLimit={formik.values.limits_memory}
               setMemoryLimit={(memoryLimit) =>
                 void formik.setFieldValue("limits_memory", memoryLimit)

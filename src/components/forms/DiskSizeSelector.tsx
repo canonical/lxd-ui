@@ -76,12 +76,11 @@ const DiskSizeSelector: FC<Props> = ({
           title={disabledReason}
         />
       </div>
-      {(help || helpTotal) && (
-        <p className="p-form-help-text">
-          {help}
-          {helpTotal}
-        </p>
-      )}
+      <p className="p-form-help-text">
+        {help}
+        {help && helpTotal && <br />}
+        {helpTotal}
+      </p>
     </div>
   );
 };
