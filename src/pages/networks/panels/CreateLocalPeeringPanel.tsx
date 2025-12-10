@@ -176,7 +176,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create Local peering</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>Create local peering</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

@@ -94,7 +94,7 @@ const NetworkDetail: FC = () => {
     "Configuration",
     getTabLink("Forwards", hasForwards, "forwards"),
     getTabLink("Leases", hasLeases, "leases"),
-    getTabLink("Local Peerings", isPeeringSupported, "local-peerings"),
+    getTabLink("Local peerings", isPeeringSupported, "local-peerings"),
   ];
 
   return (
