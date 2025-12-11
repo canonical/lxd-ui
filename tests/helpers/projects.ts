@@ -32,6 +32,12 @@ export const createProject = async (page: Page, project: string) => {
   await submitProjectCreationForm(page, project);
 };
 
+export const openProjectConfiguration = async (page: Page) => {
+  await page.getByRole("link", { name: "Configuration" }).click();
+  await page.waitForLoadState("networkidle");
+  await page.waitForTimeout(2000); // Wait for the form state to be fully loaded
+};
+
 export const createCustomProject = async (page: Page, project: string) => {
   await openProjectCreationForm(page);
   await submitProjectCreationForm(page, project);

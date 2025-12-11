@@ -10,6 +10,7 @@ import {
   confirmDelete,
   createProject,
   deleteProject,
+  openProjectConfiguration,
   randomProjectName,
   renameProject,
 } from "./helpers/projects";
@@ -39,10 +40,8 @@ test("project rename", async ({ page }) => {
 test("project edit configuration", async ({ page, lxdVersion }) => {
   const project = randomProjectName();
   await createProject(page, project);
+  await openProjectConfiguration(page);
 
-  await page.getByRole("link", { name: "Configuration" }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForTimeout(2000); // Wait for the form state to be fully loaded
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await page.locator("span").filter({ hasText: "Networks" }).click();
   if (lxdVersion === "5.0-edge") {
@@ -52,8 +51,8 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   } else {
     await page.locator("label").filter({ hasText: "Network zones" }).click();
   }
-
   await page.getByText("Allow custom restrictions on a project level").click();
+
   await page.getByText("Resource limits").click();
   await setInput(page, "Max number of instances", "Enter number", "1");
   await setInput(page, "Max number of containers", "Enter number", "2");

@@ -9,6 +9,7 @@ import { assertTextVisible } from "./helpers/permissions";
 import {
   createProject,
   deleteProject,
+  openProjectConfiguration,
   randomProjectName,
 } from "./helpers/projects";
 
@@ -17,12 +18,9 @@ test("project edit configuration", async ({ page, lxdVersion }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
   const project = randomProjectName();
   await createProject(page, project);
+  await openProjectConfiguration(page);
 
-  await page.getByRole("link", { name: "Configuration" }).click();
-  await page.waitForLoadState("networkidle");
-  await page.waitForTimeout(2000); // Wait for the form state to be fully loaded
   await page.getByPlaceholder("Enter description").fill("A-new-description");
-
   await page.getByText("Allow custom restrictions on a project level").click();
 
   await page.getByText("Clusters").click();
