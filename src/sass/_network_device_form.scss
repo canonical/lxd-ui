@@ -1,0 +1,39 @@
+.network-device-form {
+  .content-details {
+    .custom-devices {
+      .custom-devices-container {
+        display: flex;
+        flex-direction: column;
+        gap: $sph--small;
+        max-width: calc(100% - 3rem);
+
+        .device-section {
+          border: 1.5px solid var(--vf-color-border-default);
+          max-width: 30rem;
+
+          .device-section-header {
+            gap: $sph--small;
+            justify-content: space-between;
+
+            .network-device-actions {
+              border: 1.5px solid var(--vf-color-border-high-contrast);
+
+              .p-button--base {
+                border: none;
+                padding-bottom: 0;
+              }
+            }
+          }
+
+          .network-device-form-custom {
+            margin-left: 3rem;
+
+            .configuration {
+              width: 6rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
