@@ -33,7 +33,10 @@ export const isNoneDevice = (device: LxdDeviceValue): device is LxdNoneDevice =>
 export const isVolumeDevice = (
   device: FormDiskDevice | LxdDiskDevice,
 ): boolean => {
-  return device.type === "disk" && !!device.pool && device.path !== "/";
+  // A volume device has a pool and is not a root disk
+  // Root disks have path="/" AND no source
+  const isRoot = device.path === "/" && !device.source;
+  return device.type === "disk" && !!device.pool && !isRoot;
 };
 
 export const isGPUDevice = (device: LxdDeviceValue): device is LxdGPUDevice =>
@@ -132,4 +135,16 @@ export const getIndex = (
   if (!formik) return -1;
 
   return formik?.values.devices.findIndex((t) => t.name === deviceName);
+};
+
+export const getProfileFromSource = (source: string) => {
+  if (!source || !source.includes(" profile")) {
+    return "";
+  }
+
+  if (!source.includes(" profile")) {
+    return source;
+  }
+
+  return source.split(" profile")[0];
 };

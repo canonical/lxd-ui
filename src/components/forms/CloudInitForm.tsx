@@ -14,6 +14,7 @@ import classnames from "classnames";
 import { getConfigRowMetadata } from "util/configInheritance";
 import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
 import ResourceLink from "components/ResourceLink";
+import { getProfileFromSource } from "util/devices";
 
 export interface CloudInitFormValues {
   cloud_init_network_config?: string;
@@ -54,16 +55,8 @@ const CloudInitForm: FC<Props> = ({ formik, project }) => {
     const metadataSource = metadata?.source || "";
     const isInherited = metadataSource && metadataSource !== formik.values.name;
 
-    const profileNameFromSource = (source: string) => {
-      if (!source || !source.includes(" profile")) {
-        return null;
-      }
-
-      return source.split(" profile")[0];
-    };
-
     const profileName = isInherited
-      ? profileNameFromSource(metadataSource)
+      ? getProfileFromSource(metadataSource)
       : null;
 
     const source = profileName ? (

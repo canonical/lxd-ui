@@ -17,19 +17,27 @@ import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import classnames from "classnames";
 import {
   addNoneDevice,
   deduplicateName,
   findNoneDeviceIndex,
   removeDevice,
 } from "util/formDevices";
-import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
-import { deviceKeyToLabel, getExistingDeviceNames } from "util/devices";
+import {
+  getInheritedDeviceRow,
+  getInheritedSourceRow,
+} from "components/forms/InheritedDeviceRow";
+import {
+  deviceKeyToLabel,
+  getExistingDeviceNames,
+  getProfileFromSource,
+} from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
 import GPUDeviceInput from "components/forms/GPUDeviceInput";
 import { useProfiles } from "context/useProfiles";
 import DocLink from "components/DocLink";
+import DeviceName from "components/forms/DeviceName";
+import { isDeviceModified } from "util/formChangeCount";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -80,19 +88,13 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       getConfigurationRowBase({
         className: "no-border-top override-with-form",
         configuration: (
-          <div
-            className={classnames("device-name", {
-              "u-text--muted": isNoneDevice,
-            })}
-          >
-            <b>{item.key}</b>
-          </div>
+          <DeviceName
+            name={item.key}
+            hasChanges={isDeviceModified(formik, item.key)}
+            isDetached={isNoneDevice}
+          />
         ),
-        inherited: (
-          <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
-          </div>
-        ),
+        inherited: null,
         override: isNoneDevice ? (
           <Button
             appearance="base"
@@ -116,7 +118,6 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
               addNoneDevice(item.key, formik);
             }}
             className="has-icon u-no-margin--bottom"
-            dense
             title={formik.values.editRestriction ?? "Detach GPU"}
             disabled={!!formik.values.editRestriction}
           >
@@ -124,6 +125,14 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             <span>Detach</span>
           </Button>
         ),
+      }),
+    );
+
+    inheritedRows.push(
+      getInheritedSourceRow({
+        project,
+        profile: getProfileFromSource(item.source),
+        isDetached: isNoneDevice,
       }),
     );
 
@@ -162,6 +171,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
               formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
+            formik={formik}
           />
         ),
         inherited: "",

@@ -1,0 +1,38 @@
+.network-device-form {
+  .scrollable-container {
+    .content-details {
+      .inherited-network-device-configuration-table,
+      .custom-network-device-configuration-table {
+        min-width: 48rem;
+
+        thead {
+          display: none;
+        }
+
+        tbody tr.device-first-row td {
+          > :first-child {
+            padding-top: $sph--large;
+          }
+        }
+
+        tbody tr.device-last-row td {
+          > :first-child {
+            padding-bottom: $sph--large;
+          }
+        }
+
+        .configuration {
+          overflow: visible;
+
+          .p-form__label {
+            max-width: 20rem;
+          }
+        }
+
+        .override {
+          min-width: 16rem;
+        }
+      }
+    }
+  }
+}

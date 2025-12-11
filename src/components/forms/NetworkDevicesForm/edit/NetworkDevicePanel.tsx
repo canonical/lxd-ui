@@ -96,6 +96,8 @@ const NetworkDevicePanel: FC<Props> = ({
         ...(!isOverride && {
           name: Yup.string()
             .required("Device name is required")
+            .min(1, "Name must be at least 1 character long")
+            .max(63, "Name must be at most 63 characters long")
             .matches(/^[A-Za-z0-9/\-:_.]+$/, {
               message:
                 "Name can only contain alphanumeric, forward slash, hyphen, colon, underscore and full stop characters",
@@ -114,15 +116,7 @@ const NetworkDevicePanel: FC<Props> = ({
       getNetworkAclsByNetworkName(defaultNetworkName).join(",");
 
     if (isCreatingLocal) {
-      const inheritedNetworkNames = inheritedNetworks.map((item) => item.key);
-      const existingNetworkNames = parentFormik.values.devices.map(
-        (d) => d.name,
-      );
-      const allNetworkNames = [
-        ...existingNetworkNames,
-        ...inheritedNetworkNames,
-      ];
-      const deviceName = deduplicateName("eth", 1, allNetworkNames);
+      const deviceName = deduplicateName("eth", 1, existingDeviceNames);
 
       return {
         name: deviceName,

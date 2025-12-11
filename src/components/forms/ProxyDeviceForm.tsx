@@ -16,15 +16,17 @@ import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import classnames from "classnames";
 import {
   addNoneDevice,
   deduplicateName,
   findNoneDeviceIndex,
   removeDevice,
 } from "util/formDevices";
-import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
-import { deviceKeyToLabel } from "util/devices";
+import {
+  getInheritedDeviceRow,
+  getInheritedSourceRow,
+} from "components/forms/InheritedDeviceRow";
+import { deviceKeyToLabel, getProfileFromSource } from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
 import NewProxyBtn from "components/forms/NewProxyBtn";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
@@ -32,6 +34,8 @@ import { optionEnabledDisabled } from "util/instanceOptions";
 import { getProxyAddress } from "util/proxyDevices";
 import { useProfiles } from "context/useProfiles";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import DeviceName from "components/forms/DeviceName";
+import { isDeviceModified } from "util/formChangeCount";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -122,23 +126,28 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
     const noneDeviceId = findNoneDeviceIndex(item.key, formik);
     const isNoneDevice = noneDeviceId !== -1;
 
+    const initialOverrideExists = formik.initialValues.devices.some(
+      (device) => device.name === item.key,
+    );
+    const currentOverrideExists = formik.values.devices.some(
+      (device) => device.name === item.key,
+    );
+    const hasOverrideBeenRemoved =
+      initialOverrideExists && !currentOverrideExists;
+    const hasChanges =
+      isDeviceModified(formik, item.key) || hasOverrideBeenRemoved;
+
     inheritedRows.push(
       getConfigurationRowBase({
         className: "no-border-top override-with-form",
         configuration: (
-          <div
-            className={classnames("device-name", {
-              "u-text--muted": isNoneDevice,
-            })}
-          >
-            <b>{item.key}</b>
-          </div>
+          <DeviceName
+            name={item.key}
+            hasChanges={hasChanges}
+            isDetached={isNoneDevice}
+          />
         ),
-        inherited: (
-          <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
-          </div>
-        ),
+        inherited: null,
         override: isNoneDevice ? (
           <Button
             appearance="base"
@@ -164,12 +173,19 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
               addNoneDevice(item.key, formik);
             }}
             className="has-icon u-no-margin--bottom"
-            dense
           >
             <Icon name="disconnect"></Icon>
             <span>Detach</span>
           </Button>
         ),
+      }),
+    );
+
+    inheritedRows.push(
+      getInheritedSourceRow({
+        project,
+        profile: getProfileFromSource(item.source),
+        isDetached: isNoneDevice,
       }),
     );
 
@@ -218,6 +234,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
               formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
+            formik={formik}
           />
         ),
         inherited: "",

@@ -56,34 +56,6 @@
       }
     }
 
-    .network-device {
-      display: flex;
-
-      @media screen and (width <= 1420px) {
-        flex-direction: column-reverse;
-
-        > .network-device-actions {
-          margin-bottom: $spv--medium;
-        }
-      }
-
-      .network-device-content {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        margin-right: $sph--large;
-        min-width: 19rem;
-      }
-
-      .network-device-actions {
-        align-items: flex-start;
-        display: flex;
-        flex-direction: column;
-        max-width: 8.5rem;
-        min-width: 8.5rem;
-      }
-    }
-
     .acl-chip {
       margin-bottom: 0.25rem;
     }
@@ -508,14 +480,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
-.network-device-name {
-  align-items: center;
-  display: flex;
-  gap: $sph--small;
+.device-header {
+  white-space: nowrap;
 
-  .network-device-label {
-    &:not(.has-changes) {
-      margin-left: calc(1rem + $sph--small);
-    }
+  > .p-icon--status-in-progress-small {
+    flex-shrink: 0;
+  }
+
+  .device-header-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
