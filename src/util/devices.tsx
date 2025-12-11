@@ -133,3 +133,15 @@ export const getIndex = (
 
   return formik?.values.devices.findIndex((t) => t.name === deviceName);
 };
+
+export const getProfileFromSource = (source: string) => {
+  if (!source || !source.includes(" profile")) {
+    return "";
+  }
+
+  if (!source.includes(" profile")) {
+    return source;
+  }
+
+  return source.split(" profile")[0];
+};

@@ -99,7 +99,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
 
     rows.push(
       getConfigurationRowBase({
-        className: "no-border-top custom-device-name",
+        className: "custom-device-name device-first-row",
         configuration: (
           <RenameDeviceInput
             name={item.name}
@@ -109,27 +109,34 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
+            formik={formik}
           />
         ),
         inherited: "",
         override: (
-          <DetachDiskDeviceBtn
-            onDetach={() => {
-              ensureEditMode(formik);
-              removeDevice(index, formik);
-            }}
-            disabledReason={formik.values.editRestriction}
-            isInstanceCreation={isInstanceCreation(formik)}
-          />
+          <div>
+            <DetachDiskDeviceBtn
+              onDetach={() => {
+                ensureEditMode(formik);
+                removeDevice(index, formik);
+              }}
+              disabledReason={formik.values.editRestriction}
+              isInstanceCreation={isInstanceCreation(formik)}
+            />
+          </div>
         ),
       }),
     );
 
     const volumeDeviceSource = () =>
       getConfigurationRowBase({
-        className: "no-border-top inherited-with-form",
+        className: classnames("no-border-top inherited-with-form", {
+          "device-last-row": isVolumeDevice(item) && item.path === undefined,
+        }),
         configuration: (
-          <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
+          <Label forId={`devices.${index}.pool`} className="u-text--muted">
+            Pool / volume
+          </Label>
         ),
         inherited: (
           <div className="custom-disk-volume-source">
@@ -166,9 +173,13 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
 
     const hostDeviceSource = () =>
       getConfigurationRowBase({
-        className: "no-border-top inherited-with-form",
+        className: classnames("no-border-top inherited-with-form", {
+          "device-last-row": !isVolumeDevice(item) && item.path === undefined,
+        }),
         configuration: (
-          <Label forId={`devices.${index}.source`}>Host path</Label>
+          <Label forId={`devices.${index}.source`} className="u-text--muted">
+            Host path
+          </Label>
         ),
         inherited: readOnly ? (
           <div className="custom-disk-read-mode">
@@ -201,9 +212,13 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       const hasError = isDiskDeviceMountPointMissing(formik, index);
       rows.push(
         getConfigurationRowBase({
-          className: "no-border-top inherited-with-form",
+          className: "no-border-top inherited-with-form device-last-row",
           configuration: (
-            <Label forId={`devices.${index}.path`} required>
+            <Label
+              forId={`devices.${index}.path`}
+              required
+              className="u-text--muted"
+            >
               Mount point
             </Label>
           ),
@@ -241,10 +256,11 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
     <div className="custom-devices">
       {customDiskDeviceCount > 0 && (
         <>
-          <h2 className="p-heading--4 custom-devices-heading">
-            Custom disk devices
-          </h2>
-          <ConfigurationTable rows={rows} />
+          <h2 className="p-heading--4">Custom disk devices</h2>
+          <ConfigurationTable
+            rows={rows}
+            className="custom-disk-device-configuration-table"
+          />
         </>
       )}
       <AttachDiskDeviceBtn

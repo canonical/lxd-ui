@@ -53,10 +53,16 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
       <ScrollableForm>
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
-        <DiskDeviceFormRoot formik={formik} pools={pools} profiles={profiles} />
+        <DiskDeviceFormRoot
+          formik={formik}
+          pools={pools}
+          profiles={profiles}
+          project={project}
+        />
         <DiskDeviceFormInherited
           formik={formik}
           inheritedDiskDevices={inheritedDiskDevices}
+          project={project}
         />
         <DiskDeviceFormCustom
           formik={formik}

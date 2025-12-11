@@ -7,13 +7,46 @@
     }
   }
 
-  .custom-disk-volume-source,
-  .custom-disk-device-limits {
+  .custom-disk-device-limits,
+  .custom-disk-volume-source {
     align-items: center;
     display: flex;
 
     > :first-child {
       margin-right: $sph--large;
+    }
+  }
+}
+
+.disk-device-root-configuration-table {
+  thead {
+    display: none;
+  }
+
+  .configuration,
+  .inherited {
+    padding-top: calc(1rem - 3px);
+  }
+
+  tbody .has-margin-left .configuration {
+    > :first-child {
+      margin-left: $sph--x-large;
+    }
+  }
+
+  .override-with-form {
+    &.disk-device-root-header-row {
+      .configuration {
+        .disk-device-root-header {
+          align-items: baseline;
+        }
+      }
+
+      .override {
+        > :first-child {
+          padding-top: calc($sph--large - 3px);
+        }
+      }
     }
   }
 }
@@ -30,5 +63,26 @@
     .configuration {
       padding-top: calc(1rem - 3px);
     }
+  }
+}
+
+.custom-disk-device-configuration-table,
+.inherited-disk-device-configuration-table {
+  tbody tr.device-first-row td {
+    > :first-child {
+      padding-top: $sph--large;
+    }
+  }
+
+  tbody tr.device-last-row td {
+    > :first-child {
+      padding-bottom: $sph--large;
+    }
+  }
+}
+
+.inherited-disk-device-configuration-table {
+  thead {
+    display: none;
   }
 }
