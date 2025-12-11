@@ -8,6 +8,7 @@ import {
 import {
   createProject,
   deleteProject,
+  openProjectConfiguration,
   randomProjectName,
 } from "./helpers/projects";
 import { validateLink } from "./helpers/doc-links";
@@ -124,11 +125,11 @@ test("Ensure the documentation link text and link targets are present: Project >
   );
   const project = randomProjectName();
   await createProject(page, project);
-  await page.getByRole("link", { name: "Configuration" }).click();
+  await openProjectConfiguration(page);
+
   await page.getByText("Allow custom restrictions on a project level").click();
 
   await page.getByText("Resource limits").click();
-
   await activateOverride(page, "Max sum of CPU");
   await validateLink(
     page,
