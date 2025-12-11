@@ -68,21 +68,26 @@ test("only user server setting available for lxd v5.0/edge", async ({
 
 test("add and delete user defined setting", async ({ page }) => {
   const key = randomSettingKey();
+  const userKey = `user.${key}`;
   const value = randomSettingValue();
 
   await visitServerSettings(page);
   await addUserSetting(page, key, value);
 
-  await page.getByText(`Setting user.${key} added`).click();
+  await page.waitForSelector(`text=Setting ${userKey} added.`);
   await dismissNotification(page);
 
-  const keyElement = page.getByText(`user.${key}`);
+  const keyElement = page.getByText(userKey);
   await keyElement.click();
 
   const valueElement = page.getByText(value);
   await expect(valueElement).toHaveCount(1);
 
   await deleteUserSetting(page, value);
+
+  await page.waitForSelector(`text=Setting ${userKey} deleted.`);
+  await dismissNotification(page);
+
   await expect(keyElement).toHaveCount(0);
   await expect(valueElement).toHaveCount(0);
 });

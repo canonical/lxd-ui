@@ -72,25 +72,25 @@ const Settings: FC = () => {
           copy[index].key = key;
           return copy;
         });
-        toastNotify.success(<>Setting {settingLabel} added</>);
+        toastNotify.success(<>Setting {settingLabel} added.</>);
       })
       .catch((e) => {
         notify.failure(`Setting add failed`, e, settingLabel);
       });
   };
 
-  const deleteUserSetting = (userKey: string) => {
-    const index = userSettings.findIndex((s) => s.key === userKey);
+  const deleteUserSetting = (key: string) => {
+    const index = userSettings.findIndex((s) => s.key === key);
 
-    const settingLabel = <ResourceLabel bold type="setting" value={userKey} />;
-    updateSettings({ [userKey]: "" })
+    const settingLabel = <ResourceLabel bold type="setting" value={key} />;
+    updateSettings({ [key]: "" })
       .then(() => {
         setUserSettings((prev) => {
           const copy = [...prev];
           copy.splice(index, 1);
           return copy;
         });
-        toastNotify.success(<>Setting {settingLabel} deleted</>);
+        toastNotify.success(<>Setting {settingLabel} deleted.</>);
       })
       .catch((e) => {
         notify.failure(`Setting delete failed`, e, settingLabel);
