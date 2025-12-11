@@ -26,19 +26,19 @@ test("cluster group add and remove members", async ({
 }, testInfo) => {
   skipIfNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
-  const group = randomGroupName().replace(/[01]/g, "3");
+  const group = randomGroupName();
   const member = await getFirstClusterMember(page);
   await createClusterGroup(page, group);
   await toggleClusterGroupMember(page, group, member);
 
   await expect(
-    page.getByRole("row", { name: group }).getByText("1"),
+    page.getByRole("row", { name: group }).getByText("1", { exact: true }),
   ).toBeVisible();
 
   await toggleClusterGroupMember(page, group, member);
 
   await expect(
-    page.getByRole("row", { name: group }).getByText("0"),
+    page.getByRole("row", { name: group }).getByText("0", { exact: true }),
   ).toBeVisible();
 
   await deleteClusterGroup(page, group);
