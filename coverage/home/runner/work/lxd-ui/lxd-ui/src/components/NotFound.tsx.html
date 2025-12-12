@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/CopyToClipboard.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/NotFound.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> CopyToClipboard.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> NotFound.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.21% </span>
+                <span class="strong">25.37% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/74</span>
+                <span class='fraction'>17/67</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.35% </span>
+                <span class="strong">26.98% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/62</span>
+                <span class='fraction'>17/63</span>
             </div>
         
             
@@ -125,16 +125,22 @@
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -181,74 +187,71 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState } from "react";
-import type { FC, ReactNode } from "react";
-import { Button, Icon, Tooltip } from "@canonical/react-components";
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { Row, Col, Notification } from "@canonical/react-components";
+import { capitalizeFirstLetter } from "util/helpers";
+import type { ResourceIconType } from "components/ResourceIcon";
+import ResourceIcon from "components/ResourceIcon";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
+import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 &nbsp;
 interface Props {
-  value: string;
-  children?: ReactNode;
+  entityType: ResourceIconType;
+  entityName?: string;
+  errorMessage?: string;
 }
 &nbsp;
-const CopyToClipboard: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> value, children }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const [copied, setCopied] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleCopy = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    try {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      await navigator.clipboard.writeText(value);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setCopied(true);</span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setCopied(false);</span></span>
-<span class="cstat-no" title="statement not covered" >      }, 2000);</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.error(error);</span></span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (undefined === navigator.clipboard) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;{children}&lt;/&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+const NotFound: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> entityType, entityName, errorMessage }) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow();</span></span>
+<span class="cstat-no" title="statement not covered" >  const entityLabel = <span class="cstat-no" title="statement not covered" >entityType.replace(/-/g, " ");</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="copy-to-clipboard-container"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="u-truncate"&gt;{children}&lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >        appearance="base"</span>
-<span class="cstat-no" title="statement not covered" >        type="button"</span>
-<span class="cstat-no" title="statement not covered" >        hasIcon</span>
-<span class="cstat-no" title="statement not covered" >        dense</span>
-<span class="cstat-no" title="statement not covered" >        className="u-no-margin--bottom copy-to-clipboard-button"</span>
-<span class="cstat-no" title="statement not covered" >        aria-label={copied ? "Copied to clipboard" : "Copy to clipboard"}</span>
-<span class="cstat-no" title="statement not covered" >        onClick={handleCopy}</span>
-<span class="cstat-no" title="statement not covered" >      &gt;</span>
-<span class="cstat-no" title="statement not covered" >        {copied ? (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Icon</span>
-<span class="cstat-no" title="statement not covered" >            className="copy-to-clipboard-button-wrapper"</span>
-<span class="cstat-no" title="statement not covered" >            name="task-outstanding"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        ) : (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Tooltip</span>
-<span class="cstat-no" title="statement not covered" >            message="Copy"</span>
-<span class="cstat-no" title="statement not covered" >            position="top-center"</span>
-<span class="cstat-no" title="statement not covered" >            className="copy-to-clipboard-button-wrapper"</span>
-<span class="cstat-no" title="statement not covered" >            zIndex={999}</span>
-<span class="cstat-no" title="statement not covered" >          &gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Icon name="copy-to-clipboard" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/Tooltip&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Row</span>
+<span class="cstat-no" title="statement not covered" >      className={classnames("not-found u-no-margin--left", {</span>
+<span class="cstat-no" title="statement not covered" >        "u-flex-column": isSmallScreen,</span>
+<span class="cstat-no" title="statement not covered" >      })}</span>
+<span class="cstat-no" title="statement not covered" >    &gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Col</span>
+<span class="cstat-no" title="statement not covered" >        size={4}</span>
+<span class="cstat-no" title="statement not covered" >        className={classnames(</span>
+<span class="cstat-no" title="statement not covered" >          {</span>
+<span class="cstat-no" title="statement not covered" >            "u-align--right": !isSmallScreen,</span>
+<span class="cstat-no" title="statement not covered" >            "u-align--center": isSmallScreen,</span>
+<span class="cstat-no" title="statement not covered" >          },</span>
+<span class="cstat-no" title="statement not covered" >          "col-4 col-medium-2 col-small-1",</span>
 <span class="cstat-no" title="statement not covered" >        )}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;ResourceIcon type={entityType} className="not-found-icon" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/Col&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Col size={8} className="u-align--left col-8 col-medium-4 col-small-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;p</span>
+<span class="cstat-no" title="statement not covered" >          className={classnames(</span>
+<span class="cstat-no" title="statement not covered" >            {</span>
+<span class="cstat-no" title="statement not covered" >              "margin-bottom-large": isSmallScreen,</span>
+<span class="cstat-no" title="statement not covered" >            },</span>
+<span class="cstat-no" title="statement not covered" >            "p-heading--4",</span>
+<span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >        &gt;</span>
+<span class="cstat-no" title="statement not covered" >          {capitalizeFirstLetter(entityLabel)}{" "}</span>
+<span class="cstat-no" title="statement not covered" >          {entityName &amp;&amp; &lt;code&gt;{entityName}&lt;/code&gt;} could not be loaded</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          The {entityLabel} is missing or you do not have the{" "}</span>
+<span class="cstat-no" title="statement not covered" >          &lt;code&gt;viewer&lt;/code&gt; permission for it.</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >        {errorMessage &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Notification severity="negative" borderless&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;code className="no-background"&gt;{errorMessage}&lt;/code&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/Notification&gt;</span>
+<span class="cstat-no" title="statement not covered" >        )}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/Col&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Row&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default CopyToClipboard;
+export default NotFound;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

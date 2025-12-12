@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
@@ -142,10 +142,7 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,11 +154,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -194,12 +186,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -229,12 +223,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Row,
-  useNotify,
-  CustomLayout,
-  Spinner,
-} from "@canonical/react-components";
+import { Row, CustomLayout, Spinner } from "@canonical/react-components";
 import { useBucket } from "context/useBuckets";
 import StorageBucketHeader from "./StorageBucketHeader";
 import StorageBucketKeys from "./StorageBucketKeys";
@@ -242,9 +231,9 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import CreateStorageBucketKeyPanel from "./panels/CreateStorageBucketKeyPanel";
 import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 import EditStorageBucketKeyPanel from "./panels/EditStorageBucketKeyPanel";
+import NotFound from "components/NotFound";
 &nbsp;
 const StorageBucketDetail: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const {
     pool,
     project,
@@ -274,14 +263,16 @@ const StorageBucketDetail: FC = <span class="cstat-no" title="statement not cove
 &nbsp;
   const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (error) {</span>
-<span class="cstat-no" title="statement not covered" >    notify.failure("Loading storage bucket failed", error);</span>
-  }
-&nbsp;
 <span class="cstat-no" title="statement not covered" >  if (isLoading) {</span>
 <span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading..." isMainComponent /&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  } else if (!bucket) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;&gt;Loading storage bucket failed&lt;/&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
+      &lt;NotFound
+        entityType="bucket"
+        entityName={bucketName}
+        errorMessage={error?.message}
+      /&gt;
+    );
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
@@ -316,7 +307,7 @@ export default StorageBucketDetail;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-11T14:59:40.401Z
+                at 2025-12-12T08:38:53.804Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
