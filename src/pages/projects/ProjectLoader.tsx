@@ -1,6 +1,6 @@
 import { Spinner } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
-import ProjectNotFound from "components/ProjectNotFound";
+import NotFound from "components/NotFound";
 
 interface Props {
   outlet: React.JSX.Element;
@@ -14,7 +14,11 @@ const ProjectLoader = ({ outlet }: Props) => {
   }
 
   if (!project) {
-    return <ProjectNotFound />;
+    const url = location.pathname;
+    const hasProjectInUrl = url.startsWith("/ui/project/");
+    const project = hasProjectInUrl ? url.split("/")[3] : "default";
+
+    return <NotFound entityType="project" entityName={project} />;
   }
 
   return outlet;

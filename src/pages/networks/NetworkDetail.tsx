@@ -22,6 +22,7 @@ import {
 import NetworkPeers from "./NetworkPeers";
 import { slugify } from "util/slugify";
 import classnames from "classnames";
+import NotFound from "components/NotFound";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -104,30 +105,41 @@ const NetworkDetail: FC = () => {
       }
       contentClassName="edit-network"
     >
-      <Row>
-        <TabLinks tabs={tabs} activeTab={activeTab} tabUrl={networkUrl} />
-        <NotificationRow />
-        {!activeTab && (
-          <div role="tabpanel" aria-labelledby="configuration">
-            {network && <EditNetwork network={network} project={project} />}
-          </div>
-        )}
-        {activeTab === "forwards" && (
-          <div role="tabpanel" aria-labelledby="forwards">
-            {network && <NetworkForwards network={network} project={project} />}
-          </div>
-        )}
-        {activeTab === "leases" && (
-          <div role="tabpanel" aria-labelledby="leases">
-            {network && <NetworkLeases network={network} project={project} />}
-          </div>
-        )}
-        {activeTab === "local-peerings" && (
-          <div role="tabpanel" aria-labelledby="local-peerings">
-            {network && <NetworkPeers network={network} project={project} />}
-          </div>
-        )}
-      </Row>
+      {!isLoading && !network && (
+        <NotFound
+          entityType="network"
+          entityName={name}
+          errorMessage={error?.message}
+        />
+      )}
+      {!isLoading && network && (
+        <Row>
+          <TabLinks tabs={tabs} activeTab={activeTab} tabUrl={networkUrl} />
+          <NotificationRow />
+          {!activeTab && (
+            <div role="tabpanel" aria-labelledby="configuration">
+              {network && <EditNetwork network={network} project={project} />}
+            </div>
+          )}
+          {activeTab === "forwards" && (
+            <div role="tabpanel" aria-labelledby="forwards">
+              {network && (
+                <NetworkForwards network={network} project={project} />
+              )}
+            </div>
+          )}
+          {activeTab === "leases" && (
+            <div role="tabpanel" aria-labelledby="leases">
+              {network && <NetworkLeases network={network} project={project} />}
+            </div>
+          )}
+          {activeTab === "local-peerings" && (
+            <div role="tabpanel" aria-labelledby="local-peerings">
+              {network && <NetworkPeers network={network} project={project} />}
+            </div>
+          )}
+        </Row>
+      )}
     </CustomLayout>
   );
 };

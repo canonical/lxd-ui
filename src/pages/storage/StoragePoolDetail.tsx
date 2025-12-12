@@ -1,12 +1,6 @@
 import type { FC } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  Icon,
-  Row,
-  useNotify,
-  Spinner,
-  CustomLayout,
-} from "@canonical/react-components";
+import { Icon, Row, Spinner, CustomLayout } from "@canonical/react-components";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
 import NotificationRow from "components/NotificationRow";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
@@ -16,9 +10,9 @@ import type { TabLink } from "@canonical/react-components/dist/components/Tabs/T
 import { useStoragePool } from "context/useStoragePools";
 import classnames from "classnames";
 import { cephObject, isBucketCompatibleDriver } from "util/storageOptions";
+import NotFound from "components/NotFound";
 
 const StoragePoolDetail: FC = () => {
-  const notify = useNotify();
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -36,14 +30,16 @@ const StoragePoolDetail: FC = () => {
   const isVolumeCompatible = pool?.driver !== cephObject;
   const isBucketCompatible = isBucketCompatibleDriver(pool?.driver || "");
 
-  if (error) {
-    notify.failure("Loading storage details failed", error);
-  }
-
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!pool) {
-    return <>Loading storage details failed</>;
+    return (
+      <NotFound
+        entityType="pool"
+        entityName={name}
+        errorMessage={error?.message}
+      />
+    );
   }
 
   const tabs: (string | TabLink)[] = [

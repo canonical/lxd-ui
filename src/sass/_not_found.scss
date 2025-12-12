@@ -1,0 +1,34 @@
+.not-found {
+  margin: min(5dvh, $spv--strip-regular) auto;
+
+  .not-found-icon {
+    height: 2.5rem;
+    opacity: 0.25;
+    width: 2.5rem;
+  }
+
+  @include large {
+    width: 67%;
+  }
+
+  @include extra-large {
+    width: 50%;
+  }
+
+  &__full-width {
+    width: 100%;
+  }
+
+  p {
+    margin-bottom: $spv--medium;
+    padding-top: 0;
+  }
+
+  p.margin-bottom-large {
+    margin-bottom: $spv--large;
+  }
+
+  code.no-background {
+    background-color: unset;
+  }
+}

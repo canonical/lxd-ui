@@ -1,22 +1,16 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Row,
-  useNotify,
-  Spinner,
-  CustomLayout,
-} from "@canonical/react-components";
+import { Row, Spinner, CustomLayout } from "@canonical/react-components";
 import EditProfile from "pages/profiles/EditProfile";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
-import NotificationRow from "components/NotificationRow";
 import TabLinks from "components/TabLinks";
 import { useProfile } from "context/useProfiles";
+import NotFound from "components/NotFound";
 
 const tabs: string[] = ["Overview", "Configuration"];
 
 const ProfileDetail: FC = () => {
-  const notify = useNotify();
   const {
     name,
     project: projectName,
@@ -36,10 +30,6 @@ const ProfileDetail: FC = () => {
 
   const { data: profile, error, isLoading } = useProfile(name, projectName);
 
-  if (error) {
-    notify.failure("Loading profile failed", error);
-  }
-
   return (
     <CustomLayout
       header={
@@ -51,11 +41,16 @@ const ProfileDetail: FC = () => {
       }
       contentClassName="detail-page"
     >
-      <NotificationRow />
       {isLoading && (
         <Spinner className="u-loader" text="Loading profile details..." />
       )}
-      {!isLoading && !profile && <>Loading profile failed</>}
+      {!isLoading && !profile && (
+        <NotFound
+          entityType="profile"
+          entityName={name}
+          errorMessage={error?.message}
+        />
+      )}
       {!isLoading && profile && (
         <Row>
           <TabLinks

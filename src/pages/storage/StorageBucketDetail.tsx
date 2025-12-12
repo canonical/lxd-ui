@@ -1,11 +1,6 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Row,
-  useNotify,
-  CustomLayout,
-  Spinner,
-} from "@canonical/react-components";
+import { Row, CustomLayout, Spinner } from "@canonical/react-components";
 import { useBucket } from "context/useBuckets";
 import StorageBucketHeader from "./StorageBucketHeader";
 import StorageBucketKeys from "./StorageBucketKeys";
@@ -13,9 +8,9 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import CreateStorageBucketKeyPanel from "./panels/CreateStorageBucketKeyPanel";
 import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 import EditStorageBucketKeyPanel from "./panels/EditStorageBucketKeyPanel";
+import NotFound from "components/NotFound";
 
 const StorageBucketDetail: FC = () => {
-  const notify = useNotify();
   const {
     pool,
     project,
@@ -45,14 +40,16 @@ const StorageBucketDetail: FC = () => {
 
   const panelParams = usePanelParams();
 
-  if (error) {
-    notify.failure("Loading storage bucket failed", error);
-  }
-
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   } else if (!bucket) {
-    return <>Loading storage bucket failed</>;
+    return (
+      <NotFound
+        entityType="bucket"
+        entityName={bucketName}
+        errorMessage={error?.message}
+      />
+    );
   }
 
   return (
