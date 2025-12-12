@@ -20,6 +20,7 @@ import { useClusterMembers } from "context/useClusterMembers";
 import type { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 import { PLACEMENT_GROUP_POLICY_COMPACT } from "pages/placement-groups/PlacementGroupForm";
+import { CLUSTER_GROUP_PREFIX } from "util/instances";
 
 export const TARGET = {
   AUTO: "auto",
@@ -27,8 +28,6 @@ export const TARGET = {
   CLUSTER_MEMBER: "clusterMember",
   PLACEMENT_GROUP: "placementGroup",
 };
-
-export const CLUSTER_GROUP_PREFIX = "@";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;

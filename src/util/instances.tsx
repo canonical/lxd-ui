@@ -11,6 +11,8 @@ import { useImagesInProject } from "context/useImages";
 import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
 
+export const CLUSTER_GROUP_PREFIX = "@";
+
 export const instanceLinkFromOperation = (args: {
   operation?: LxdOperationResponse;
   project?: string;
