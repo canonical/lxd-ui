@@ -113,6 +113,8 @@ export const networkFormFieldToPayloadName: Record<
   parent: "parent",
   security_acls: "security.acls",
   vlan: "vlan",
+  security_acls_default_egress: "security.acls.default.egress.action",
+  security_acls_default_ingress: "security.acls.default.ingress.action",
 };
 
 export const getHandledNetworkConfigKeys = () => {
