@@ -60,56 +60,27 @@ const NetworkDeviceActionButtons: FC<Props> = ({
   };
 
   return (
-    <div className="network-device-actions">
-      {(isPurelyInherited || isLocal || hasNicOverride) && (
-        <Button
-          onClick={onEdit}
-          type="button"
-          appearance="base"
-          title={editTitle}
-          className="u-no-margin--top"
-          hasIcon
-          dense
-          disabled={isDisabled}
-        >
-          <Icon name="edit" />
-          <span>Edit</span>
-        </Button>
-      )}
-
-      {isPurelyInherited && (
-        <Button
-          className="u-no-margin--top"
-          onClick={detachInherited}
-          type="button"
-          appearance="base"
-          hasIcon
-          dense
-          title={formik.values.editRestriction || "Detach network"}
-          disabled={isDisabled}
-        >
-          <Icon name="disconnect" />
-          <span>Detach</span>
-        </Button>
-      )}
-
-      {hasNicOverride && (
-        <>
+    <div className="network-device-actions p-segmented-control">
+      <div className="p-segmented-control__list">
+        {(isPurelyInherited || isLocal || hasNicOverride) && (
           <Button
-            className="u-no-margin--top"
-            onClick={clearOverride}
+            onClick={onEdit}
             type="button"
             appearance="base"
+            title={editTitle}
+            className="p-segmented-control__button p-action-button p-button"
             hasIcon
             dense
-            title={formik.values.editRestriction || "Clear override"}
             disabled={isDisabled}
           >
-            <Icon name="close" />
-            <span>Clear</span>
+            <Icon name="edit" />
+            <span>Edit</span>
           </Button>
+        )}
+
+        {isPurelyInherited && (
           <Button
-            className="u-no-margin--top"
+            className="p-segmented-control__button p-action-button p-button"
             onClick={detachInherited}
             type="button"
             appearance="base"
@@ -121,40 +92,73 @@ const NetworkDeviceActionButtons: FC<Props> = ({
             <Icon name="disconnect" />
             <span>Detach</span>
           </Button>
-        </>
-      )}
+        )}
 
-      {hasNoneOverride && (
-        <Button
-          className="u-no-margin--top"
-          onClick={clearOverride}
-          type="button"
-          appearance="base"
-          hasIcon
-          dense
-          title={formik.values.editRestriction || "Reattach inherited network"}
-          disabled={isDisabled}
-        >
-          <Icon name="connected" />
-          <span>Reattach</span>
-        </Button>
-      )}
+        {hasNicOverride && (
+          <>
+            <Button
+              className="p-segmented-control__button p-action-button p-button"
+              onClick={clearOverride}
+              type="button"
+              appearance="base"
+              hasIcon
+              dense
+              title={formik.values.editRestriction || "Clear override"}
+              disabled={isDisabled}
+            >
+              <Icon name="close" />
+              <span>Clear</span>
+            </Button>
+            <Button
+              className="p-segmented-control__button p-action-button p-button"
+              onClick={detachInherited}
+              type="button"
+              appearance="base"
+              hasIcon
+              dense
+              title={formik.values.editRestriction || "Detach network"}
+              disabled={isDisabled}
+            >
+              <Icon name="disconnect" />
+              <span>Detach</span>
+            </Button>
+          </>
+        )}
 
-      {isLocal && (
-        <Button
-          className="u-no-margin--top"
-          onClick={detachOverridden}
-          type="button"
-          appearance="base"
-          hasIcon
-          dense
-          title={formik.values.editRestriction || "Detach network"}
-          disabled={isDisabled}
-        >
-          <Icon name="disconnect" />
-          <span>Detach</span>
-        </Button>
-      )}
+        {hasNoneOverride && (
+          <Button
+            className="p-segmented-control__button p-action-button p-button"
+            onClick={clearOverride}
+            type="button"
+            appearance="base"
+            hasIcon
+            dense
+            title={
+              formik.values.editRestriction || "Reattach inherited network"
+            }
+            disabled={isDisabled}
+          >
+            <Icon name="connected" />
+            <span>Reattach</span>
+          </Button>
+        )}
+
+        {isLocal && (
+          <Button
+            className="p-segmented-control__button p-action-button p-button"
+            onClick={detachOverridden}
+            type="button"
+            appearance="base"
+            hasIcon
+            dense
+            title={formik.values.editRestriction || "Detach network"}
+            disabled={isDisabled}
+          >
+            <Icon name="disconnect" />
+            <span>Detach</span>
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

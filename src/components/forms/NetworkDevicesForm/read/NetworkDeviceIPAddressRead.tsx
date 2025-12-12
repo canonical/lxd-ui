@@ -23,13 +23,9 @@ export const NetworkDeviceIPAddressRead: FC<Props> = ({
 
   return (
     networkIP !== "none" && (
-      <div className="ip-content">
-        <>
-          <div>{family}</div>
-          <div className="mono-font">
-            <b>{deviceIP || "dynamic"}</b>
-          </div>
-        </>
+      <div className="ip-content u-flex u-gap--small">
+        <div>{family}</div>
+        <b className="mono-font">{deviceIP || "dynamic"}</b>
       </div>
     )
   );

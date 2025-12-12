@@ -29,12 +29,15 @@ const NetworkDeviceContent: FC<Props> = ({
   }
   return (
     <>
-      <div>Network</div>
-      <ResourceLink
-        type="network"
-        value={device.network}
-        to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(device.network)}`}
-      />
+      <div className="u-flex u-gap--small">
+        <div>Network</div>
+        <ResourceLink
+          type="network"
+          value={device.network}
+          to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(device.network)}`}
+        />
+      </div>
+
       <NetworkDeviceAclListRead
         project={project}
         network={network}
