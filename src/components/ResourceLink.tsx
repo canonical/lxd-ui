@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import type { ResourceIconType } from "./ResourceIcon";
 import ResourceIcon from "./ResourceIcon";
@@ -10,9 +10,17 @@ interface Props {
   to: string;
   disabled?: boolean;
   className?: string;
+  onClick?: (e?: MouseEvent<HTMLElement>) => void;
 }
 
-const ResourceLink: FC<Props> = ({ type, value, to, disabled, className }) => {
+const ResourceLink: FC<Props> = ({
+  type,
+  value,
+  to,
+  disabled,
+  className,
+  onClick,
+}) => {
   return (
     <Link
       className={classnames(
@@ -24,6 +32,7 @@ const ResourceLink: FC<Props> = ({ type, value, to, disabled, className }) => {
       )}
       to={to}
       title={value}
+      onClick={onClick}
     >
       <ResourceIcon type={type} />
       <span className="p-chip__value">{value}</span>

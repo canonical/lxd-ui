@@ -271,7 +271,11 @@ const EditInstance: FC<Props> = ({ instance }) => {
             {section === slugify(BOOT) && <BootForm formik={formik} />}
 
             {section === slugify(CLOUD_INIT) && (
-              <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
+              <CloudInitForm
+                key={`yaml-form-${version}`}
+                formik={formik}
+                project={project}
+              />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (
