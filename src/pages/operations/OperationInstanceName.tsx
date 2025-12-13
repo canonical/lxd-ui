@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import type { LxdOperation } from "types/operation";
-import ResourceLink from "components/ResourceLink";
 import { getInstanceName, getProjectName } from "util/operations";
 import ResourceLabel from "components/ResourceLabel";
+import { InstanceRichTooltip } from "components/InstanceRichTooltip";
 
 interface Props {
   operation: LxdOperation;
@@ -38,10 +38,9 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
 
   if (isLinkable && projectName) {
     return (
-      <ResourceLink
-        type="instance"
-        value={instanceName}
-        to={`/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}`}
+      <InstanceRichTooltip
+        instanceName={instanceName}
+        projectName={projectName}
       />
     );
   }

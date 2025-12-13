@@ -100,3 +100,19 @@ export const getImageLink = (instance: LxdInstance) => {
     />
   );
 };
+
+export const getInstanceMacAddresses = (instance: LxdInstance) => {
+  const hwaddrs = [];
+
+  for (const [key, value] of Object.entries(instance.config)) {
+    if (
+      key.startsWith("volatile.") &&
+      key.endsWith(".hwaddr") &&
+      key.split(".").length === 3 &&
+      value
+    ) {
+      hwaddrs.push(value);
+    }
+  }
+  return hwaddrs;
+};

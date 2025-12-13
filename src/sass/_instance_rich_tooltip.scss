@@ -1,0 +1,29 @@
+body.is-dark .instance-rich-tooltip-table .p-icon--status-queued-small {
+  @include vf-icon-status-small($colors--light-theme--icon);
+}
+
+.instance-rich-tooltip-table .p-icon--status-queued-small {
+  @include vf-icon-status-small($colors--dark-theme--icon);
+}
+
+.instance-rich-tooltip-table {
+  margin: $sp-small 0 0;
+  min-height: 400px;
+  min-width: 350px;
+
+  td {
+    max-width: 300px;
+  }
+
+  th {
+    padding: $sp-small 0 0;
+  }
+
+  div {
+    margin: 0;
+  }
+
+  .actions-list {
+    margin: 0;
+  }
+}

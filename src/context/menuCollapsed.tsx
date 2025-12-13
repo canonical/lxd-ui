@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { isWidthBelow } from "util/helpers";
+import { isDimensionBelow } from "util/helpers";
 import {
   mediumScreenBreakpoint,
   smallScreenBreakpoint,
 } from "./useIsScreenBelow";
 import { useListener } from "@canonical/react-components";
 
-const isSmallScreen = () => isWidthBelow(smallScreenBreakpoint);
-const isMediumScreen = () => isWidthBelow(mediumScreenBreakpoint);
+const isSmallScreen = () => isDimensionBelow(smallScreenBreakpoint, "width");
+const isMediumScreen = () => isDimensionBelow(mediumScreenBreakpoint, "width");
 
 const noCollapseEvents = new Set(["search-and-filter"]);
 
