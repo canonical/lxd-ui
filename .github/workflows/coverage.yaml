@@ -103,7 +103,7 @@ jobs:
             rm -rf coverage
             mkdir coverage
         - name: Download coverage report artifact
-          uses: actions/download-artifact@v6
+          uses: actions/download-artifact@v7
           with:
             name: lxd-coverage
             path: coverage
