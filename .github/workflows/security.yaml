@@ -39,7 +39,7 @@ jobs:
           severity: "LOW,MEDIUM,HIGH,CRITICAL"
 
       - name: Cache trivy and vulnerability database
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: /home/runner/vuln-cache
           key: trivy-cache
