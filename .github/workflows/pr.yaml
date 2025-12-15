@@ -180,7 +180,7 @@ jobs:
         node-version: 22
 
     - name: Download blob reports from GitHub Actions Artifacts
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v7
       with:
         path: blob-reports
         pattern: blob-report-*
