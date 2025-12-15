@@ -43,7 +43,7 @@ jobs:
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Install LXD
-        uses: canonical/setup-lxd@v0.1.3
+        uses: canonical/setup-lxd@v1
         with:
           channel: "latest/edge"
 
