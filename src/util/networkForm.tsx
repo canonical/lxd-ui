@@ -82,5 +82,9 @@ export const toNetworkFormValues = (
     entityType: "network",
     bareNetwork: network,
     editRestriction,
+    security_acls_default_egress:
+      network.config[getNetworkKey("security_acls_default_egress")],
+    security_acls_default_ingress:
+      network.config[getNetworkKey("security_acls_default_ingress")],
   };
 };

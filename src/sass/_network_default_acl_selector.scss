@@ -1,0 +1,15 @@
+.network-default-acl-selector {
+  align-items: center;
+  display: grid;
+  gap: $sp-medium;
+  grid-template-columns: fit-content(50%) 1fr;
+  margin-left: $sph--small;
+  margin-right: $sph--small;
+  padding-bottom: $spv--large;
+}
+
+.network-default-acl-icon {
+  margin-left: $sph--small;
+  margin-right: $sph--small;
+  opacity: 0.66;
+}

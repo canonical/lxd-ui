@@ -7,6 +7,8 @@ import FormEditButton from "components/FormEditButton";
 import { ensureEditMode } from "util/instanceEdit";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 import { Label } from "@canonical/react-components";
+import NetworkDefaultACLSelector from "./NetworkDefaultACLSelector";
+import NetworkDefaultACLRead from "./NetworkDefaultACLRead";
 
 interface Props {
   project: string;
@@ -15,6 +17,10 @@ interface Props {
 
 const NetworkAcls: FC<Props> = ({ formik, project }) => {
   const networlAclSelectorId = useId();
+  const defaultEgressIngress = {
+    Egress: formik.values.security_acls_default_egress ?? "",
+    Ingress: formik.values.security_acls_default_ingress ?? "",
+  };
 
   return (
     <div className="general-field">
@@ -67,6 +73,19 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
               formik.setFieldValue("security_acls", selectedItems);
             }}
             id={networlAclSelectorId}
+          />
+        )}
+        {formik.values.readOnly ? (
+          formik.values.security_acls.length !== 0 && (
+            <NetworkDefaultACLRead values={defaultEgressIngress} />
+          )
+        ) : (
+          <NetworkDefaultACLSelector
+            onChange={(fieldValue, value) => {
+              formik.setFieldValue(fieldValue, value);
+            }}
+            values={defaultEgressIngress}
+            disabled={formik.values.security_acls.length === 0}
           />
         )}
       </div>

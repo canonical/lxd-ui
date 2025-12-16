@@ -62,6 +62,8 @@ export interface LxdNetworkConfig {
   vlan?: string;
   [key: `user.${string}`]: string;
   [key: `volatile.${string}`]: string;
+  "security.acls.default.egress.action"?: string;
+  "security.acls.default.ingress.action"?: string;
 }
 
 export interface LxdNetwork {
