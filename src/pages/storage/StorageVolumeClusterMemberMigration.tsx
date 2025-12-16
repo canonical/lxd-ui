@@ -1,42 +1,41 @@
 import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
-import type { LxdInstance } from "types/instance";
-import StoragePoolSelectTable from "../storage/StoragePoolSelectTable";
-import { getRootPool } from "util/helpers";
+import ClusterMemberSelectTable from "../cluster/ClusterMemberSelectTable";
+import type { LxdStorageVolume } from "types/storage";
 
 interface Props {
-  instance: LxdInstance;
-  onSelect: (pool: string) => void;
-  targetPool: string;
+  volume: LxdStorageVolume;
+  onSelect: (member: string) => void;
+  targetMember: string;
   onCancel: () => void;
-  migrate: (pool: string) => void;
+  migrate: (member: string) => void;
 }
 
-const InstanceStoragePoolMigration: FC<Props> = ({
-  instance,
+const StorageVolumeClusterMemberMigration: FC<Props> = ({
+  volume,
   onSelect,
-  targetPool,
+  targetMember,
   onCancel,
   migrate,
 }) => {
   const summary = (
     <div className="migrate-instance-summary">
       <p>
-        This will migrate the instance <strong>{instance.name}</strong> root
-        storage to pool <b>{targetPool}</b>.
+        This will migrate volume <strong>{volume.name}</strong> to cluster
+        member <b>{targetMember}</b>.
       </p>
     </div>
   );
 
   return (
     <>
-      {targetPool && summary}
-      {!targetPool && (
-        <StoragePoolSelectTable
+      {targetMember && summary}
+      {!targetMember && (
+        <ClusterMemberSelectTable
           onSelect={onSelect}
-          disablePool={{
-            name: getRootPool(instance),
-            reason: "Instance root storage already in this pool",
+          disableMember={{
+            name: volume.location,
+            reason: "Volume already on this member",
           }}
         />
       )}
@@ -54,9 +53,9 @@ const InstanceStoragePoolMigration: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           onClick={() => {
-            migrate(targetPool);
+            migrate(targetMember);
           }}
-          disabled={!targetPool}
+          disabled={!targetMember}
         >
           Migrate
         </ActionButton>
@@ -65,4 +64,4 @@ const InstanceStoragePoolMigration: FC<Props> = ({
   );
 };
 
-export default InstanceStoragePoolMigration;
+export default StorageVolumeClusterMemberMigration;

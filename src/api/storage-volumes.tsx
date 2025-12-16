@@ -271,12 +271,13 @@ export const deleteStorageVolumeBulk = async (
 
 export const migrateStorageVolume = async (
   volume: LxdStorageVolume,
-  targetPool: string,
-  targetProject: string,
+  project: string,
+  targetPool?: string,
   target?: string,
+  targetProject?: string,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
-  params.set("project", targetProject);
+  params.set("project", project);
   addTarget(params, target);
 
   return fetch(
@@ -287,8 +288,9 @@ export const migrateStorageVolume = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        project: targetProject,
         name: volume.name,
-        pool: targetPool,
+        pool: targetPool ?? volume.pool,
       }),
     },
   )

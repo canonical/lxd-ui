@@ -1,52 +1,59 @@
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
-import type { LxdInstance } from "types/instance";
-import StoragePoolSelectTable from "../storage/StoragePoolSelectTable";
-import { getRootPool } from "util/helpers";
+import type { LxdStorageVolume } from "types/storage";
+import StoragePoolSelectTable from "./StoragePoolSelectTable";
 
 interface Props {
-  instance: LxdInstance;
+  volume: LxdStorageVolume;
+  project: string;
   onSelect: (pool: string) => void;
-  targetPool: string;
   onCancel: () => void;
   migrate: (pool: string) => void;
 }
 
-const InstanceStoragePoolMigration: FC<Props> = ({
-  instance,
+const StorageVolumePoolMigration: FC<Props> = ({
+  volume,
   onSelect,
-  targetPool,
   onCancel,
   migrate,
 }) => {
+  const [selectedPool, setSelectedPool] = useState("");
   const summary = (
     <div className="migrate-instance-summary">
       <p>
-        This will migrate the instance <strong>{instance.name}</strong> root
-        storage to pool <b>{targetPool}</b>.
+        This will migrate volume <strong>{volume.name}</strong> to storage pool{" "}
+        <b>{selectedPool}</b>.
       </p>
     </div>
   );
 
   return (
     <>
-      {targetPool && summary}
-      {!targetPool && (
+      {selectedPool ? (
+        summary
+      ) : (
         <StoragePoolSelectTable
-          onSelect={onSelect}
+          onSelect={(selectedPool) => {
+            setSelectedPool(selectedPool);
+            onSelect(selectedPool);
+          }}
           disablePool={{
-            name: getRootPool(instance),
-            reason: "Instance root storage already in this pool",
+            name: volume.pool,
+            reason: "Volume is already in this pool",
           }}
         />
       )}
+
       <footer id="migrate-volume-actions" className="p-modal__footer">
         <Button
           className="u-no-margin--bottom"
           type="button"
           aria-label="cancel migrate"
           appearance="base"
-          onClick={onCancel}
+          onClick={() => {
+            onCancel();
+            setSelectedPool("");
+          }}
         >
           Cancel
         </Button>
@@ -54,9 +61,9 @@ const InstanceStoragePoolMigration: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           onClick={() => {
-            migrate(targetPool);
+            migrate(selectedPool);
           }}
-          disabled={!targetPool}
+          disabled={!selectedPool}
         >
           Migrate
         </ActionButton>
@@ -65,4 +72,4 @@ const InstanceStoragePoolMigration: FC<Props> = ({
   );
 };
 
-export default InstanceStoragePoolMigration;
+export default StorageVolumePoolMigration;

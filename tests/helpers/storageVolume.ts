@@ -81,14 +81,15 @@ export const migrateVolume = async (
   const serverClustered = await isServerClustered(page);
   await visitVolume(page, volume);
   await page.getByRole("button", { name: "Migrate", exact: true }).click();
+  await page.getByRole("button", { name: "Choose storage pool for" }).click();
   await page
-    .getByRole("dialog", { name: `Choose storage pool for volume ${volume}` })
+    .getByRole("dialog")
     .locator("tr")
     .filter({ hasText: targetPool })
     .getByRole("button")
     .click();
   await page
-    .getByLabel("Confirm migration")
+    .locator("#migrate-volume-actions")
     .getByRole("button", { name: "Migrate", exact: true })
     .click();
 
