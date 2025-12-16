@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">82% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/48</span>
+                <span class='fraction'>41/50</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/8</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>38/38</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -99,7 +99,9 @@
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">318x</span>
@@ -114,44 +116,48 @@
 <span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
-<span class="cline-any cline-yes">2185x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
+<span class="cline-any cline-yes">2161x</span>
 <span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { ReactNode } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { ReactNode, SyntheticEvent } from <span class="branch-0 cbranch-no" title="branch not covered" >"react";</span>
 import { createContext, useContext, useState, useCallback } from "react";
 import { usePortal } from "@canonical/react-components";
 &nbsp;
 export interface ModalType {
-  showModal: (content: ReactNode) =&gt; void;
+  showModal: (content: ReactNode, event?: SyntheticEvent&lt;HTMLElement&gt;) =&gt; void;
   hideModal: () =&gt; void;
 }
 &nbsp;
-const ModalContext = <span class="cstat-no" title="statement not covered" >createContext&lt;ModalType&gt;({</span>
+const ModalContext = createContext&lt;ModalType&gt;({
   showModal: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span>},</span>
   hideModal: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span>},</span>
 });
 &nbsp;
-export const ModalProvider = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> children }: { children: ReactNode }) =&gt; {</span>
+export const ModalProvider = <span class="fstat-no" title="function not covered" >({</span> children }: { children: ReactNode }) =&gt; {
   const [content, setContent] = <span class="cstat-no" title="statement not covered" >useState&lt;ReactNode | null&gt;(null);</span>
-  const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal();</span>
+  const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal({</span>
+    programmaticallyOpen: true,
+  });
 &nbsp;
   const showModal = <span class="cstat-no" title="statement not covered" >useCallback((content: ReactNode) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setContent(content);</span>
@@ -170,7 +176,7 @@ export const ModalProvider = <span class="cstat-no" title="statement not covered
   );
 };
 &nbsp;
-export const useModal = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >u</span>seContext(ModalContext);</span></span>
+export const useModal = <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >u</span>seContext(ModalContext);</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -178,7 +184,7 @@ export const useModal = <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-15T09:47:39.575Z
+                at 2025-12-16T09:42:34.421Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
