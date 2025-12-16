@@ -8,7 +8,7 @@ import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
 interface Props {
   resources: LxdResources;
   state?: LxdClusterMemberState;
-  member: LxdClusterMember;
+  member?: LxdClusterMember;
 }
 
 const ClusterMemberDetailMemory: FC<Props> = ({ resources, state, member }) => {
@@ -18,12 +18,14 @@ const ClusterMemberDetailMemory: FC<Props> = ({ resources, state, member }) => {
   return (
     <table>
       <tbody>
-        <tr>
-          <th className="u-text--muted">Overview</th>
-          <td>
-            <ClusterMemberMemoryUsage member={member} />
-          </td>
-        </tr>
+        {member && (
+          <tr>
+            <th className="u-text--muted">Overview</th>
+            <td>
+              <ClusterMemberMemoryUsage member={member} />
+            </td>
+          </tr>
+        )}
         <tr>
           <th className="u-text--muted">Total</th>
           <td>{humanFileSize(resources?.memory?.total ?? 0)}</td>
