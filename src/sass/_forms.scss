@@ -209,13 +209,6 @@
     }
   }
 
-  .cloud-init-config {
-    .code-editor-wrapper {
-      max-height: 35dvh;
-      min-height: 7.5rem;
-    }
-  }
-
   .checkbox-label-tooltip {
     > span {
       display: inherit !important;
@@ -235,29 +228,6 @@
 
   .configuration-table {
     margin-bottom: $spv--x-large;
-  }
-
-  .cloud-init {
-    .configuration {
-      width: 9rem;
-    }
-
-    .inherited {
-      width: auto;
-    }
-
-    .override {
-      width: auto;
-    }
-
-    .override-form {
-      align-items: flex-end;
-      flex-direction: column;
-
-      > :first-child {
-        width: 100%;
-      }
-    }
   }
 
   .device-form {

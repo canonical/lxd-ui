@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useState } from "react";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
 import type {
@@ -11,12 +12,16 @@ import { getInstanceField } from "util/instanceConfigFields";
 import { ensureEditMode } from "util/instanceEdit";
 import classnames from "classnames";
 import { getConfigRowMetadata } from "util/configInheritance";
+import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
+import ResourceLink from "components/ResourceLink";
 
 export interface CloudInitFormValues {
   cloud_init_network_config?: string;
   cloud_init_user_data?: string;
   cloud_init_vendor_data?: string;
 }
+
+export type CloudInitKey = keyof CloudInitFormValues;
 
 export const cloudInitPayload = (values: InstanceAndProfileFormValues) => {
   return {
@@ -29,12 +34,53 @@ export const cloudInitPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
+  project: string;
 }
 
-const CloudInitForm: FC<Props> = ({ formik }) => {
-  const getCloudInitRow = (label: string, name: string, value?: string) => {
+const CloudInitForm: FC<Props> = ({ formik, project }) => {
+  const getCloudInitRow = (
+    label: string,
+    name: CloudInitKey,
+    value: string | undefined,
+  ) => {
+    const [rowVersion, setRowVersion] = useState(0);
     const metadata = getConfigRowMetadata(formik.values, name);
     const isOverridden = value !== undefined;
+
+    const forceUpdate = () => {
+      setRowVersion((prev) => prev + 1);
+    };
+
+    const metadataSource = metadata?.source || "";
+    const isInherited = metadataSource && metadataSource !== formik.values.name;
+
+    const profileNameFromSource = (source: string) => {
+      if (!source || !source.includes(" profile")) {
+        return null;
+      }
+
+      return source.split(" profile")[0];
+    };
+
+    const profileName = isInherited
+      ? profileNameFromSource(metadataSource)
+      : null;
+
+    const source = profileName ? (
+      <>
+        profile{" "}
+        <ResourceLink
+          type="profile"
+          value={profileName}
+          className={classnames({
+            "u-text--line-through": isOverridden,
+          })}
+          to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profileName)}`}
+        />
+      </>
+    ) : (
+      metadataSource
+    );
 
     return getConfigurationRowBase({
       configuration: <strong>{label}</strong>,
@@ -54,8 +100,20 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             </b>
           </div>
           {metadata && (
-            <div className="p-text--small u-text--muted">
-              From: {metadata.source}
+            <div className="u-d-flex u-margin-top--small">
+              <span className="p-text--small u-text--muted">From {source}</span>
+
+              {metadata.value && (
+                <CloudInitExpandButton
+                  formik={formik}
+                  project={project}
+                  name={name}
+                  source={source}
+                  initialValue={metadata.value}
+                  isReadOnly
+                  className="u-no-margin--top u-margin-left--small"
+                />
+              )}
             </div>
           )}
         </div>
@@ -63,6 +121,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
       override: isOverridden ? (
         <>
           <CloudInitConfig
+            key={`cloud-init-override-${name}-${rowVersion}`}
             config={value ?? ""}
             setConfig={(config) => {
               ensureEditMode(formik);
@@ -79,10 +138,18 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             title={formik.values.editRestriction ?? "Clear override"}
             disabled={!!formik.values.editRestriction}
             hasIcon
-            className="u-no-margin--bottom"
+            className="u-no-margin--bottom u-no-margin--right"
           >
             <Icon name="close" className="clear-configuration-icon" />
           </Button>
+          <CloudInitExpandButton
+            formik={formik}
+            project={project}
+            name={name}
+            initialValue={value ?? ""}
+            onApplyChanges={forceUpdate}
+            isReadOnly={!!formik.values.editRestriction}
+          />
         </>
       ) : (
         <Button

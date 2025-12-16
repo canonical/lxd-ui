@@ -73,6 +73,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
 @import "certificate_add";
 @import "certificates";
+@import "cloud_init_form";
 @import "cluster_group_form";
 @import "cluster_list";
 @import "cluster_specific_input";

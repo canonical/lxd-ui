@@ -1,0 +1,58 @@
+.cloud-init {
+  .configuration-table {
+    .configuration {
+      width: 9rem;
+    }
+
+    .inherited {
+      width: auto;
+    }
+
+    .override {
+      width: auto;
+    }
+
+    .override-form {
+      align-items: flex-end;
+      flex-direction: column;
+
+      > :first-child {
+        width: 100%;
+      }
+    }
+  }
+
+  .cloud-init-config {
+    .code-editor-wrapper {
+      max-height: 35dvh;
+      min-height: 7.5rem;
+    }
+  }
+}
+
+.cloud-init-full-editor-modal {
+  .p-modal__dialog {
+    display: flex;
+    flex-direction: column;
+    height: 80dvh;
+
+    @include large {
+      width: 80dvw;
+    }
+
+    .p-modal__header + div {
+      flex: 1;
+
+      .cloud-init-modal-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-right: 2px;
+
+        .code-editor-wrapper {
+          min-height: 100%;
+        }
+      }
+    }
+  }
+}
