@@ -73,7 +73,7 @@ export const saveVolume = async (page: Page, volume: string) => {
   await page.waitForSelector(`text=Storage volume ${volume} updated.`);
 };
 
-export const migrateVolume = async (
+export const migrateVolumePool = async (
   page: Page,
   volume: string,
   targetPool: string,
@@ -82,13 +82,16 @@ export const migrateVolume = async (
   await visitVolume(page, volume);
   await page.getByRole("button", { name: "Migrate", exact: true }).click();
   await page
-    .getByRole("dialog", { name: `Choose storage pool for volume ${volume}` })
+    .getByRole("button", { name: "Move volume to a different storage pool" })
+    .click();
+  await page
+    .getByRole("dialog")
     .locator("tr")
     .filter({ hasText: targetPool })
     .getByRole("button")
     .click();
   await page
-    .getByLabel("Confirm migration")
+    .locator("#migrate-volume-actions")
     .getByRole("button", { name: "Migrate", exact: true })
     .click();
 
