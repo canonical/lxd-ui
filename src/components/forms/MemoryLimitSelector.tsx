@@ -3,7 +3,6 @@ import { Input, RadioInput, Select } from "@canonical/react-components";
 import type { MemoryLimit } from "types/limits";
 import { BYTES_UNITS, MEM_LIMIT_TYPE } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
-import { useCurrentProject } from "context/useCurrentProject";
 import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 
 interface Props {
@@ -17,8 +16,6 @@ const MemoryLimitSelector: FC<Props> = ({
   memoryLimit,
   setMemoryLimit,
 }) => {
-  const { project } = useCurrentProject();
-
   if (!memoryLimit) {
     return null;
   }
@@ -64,7 +61,7 @@ const MemoryLimitSelector: FC<Props> = ({
             setMemoryLimit({ ...memoryLimit, value: +e.target.value });
           }}
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-          help={<MemoryLimitAvailable project={project} formik={formik} />}
+          help={<MemoryLimitAvailable formik={formik} />}
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
@@ -80,7 +77,7 @@ const MemoryLimitSelector: FC<Props> = ({
               setMemoryLimit({ ...memoryLimit, value: +e.target.value });
             }}
             value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-            help={<MemoryLimitAvailable project={project} formik={formik} />}
+            help={<MemoryLimitAvailable formik={formik} />}
           />
           <Select
             id="memUnitSelect"

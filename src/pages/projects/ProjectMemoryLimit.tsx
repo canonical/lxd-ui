@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
 import { Spinner } from "@canonical/react-components";
+import { ensureArray } from "context/useResourceLimit";
 
 export const ProjectMemoryLimit: FC = () => {
   const notify = useNotify();
@@ -15,8 +16,7 @@ export const ProjectMemoryLimit: FC = () => {
     notify.failure("Loading resources failed", error);
     return null;
   }
-  const resourceArray = Array.isArray(resources) ? resources : [resources];
-
+  const resourceArray = ensureArray(resources);
   const sumMemoryLimit = resourceArray.reduce(
     (sum, resource) => sum + resource.memory.total,
     0,
