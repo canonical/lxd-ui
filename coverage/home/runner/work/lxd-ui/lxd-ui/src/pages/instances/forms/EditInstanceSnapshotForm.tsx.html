@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.08% </span>
+                <span class="strong">63.8% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>131/211</span>
+                <span class='fraction'>141/221</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.97% </span>
+                <span class="strong">79.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>131/168</span>
+                <span class='fraction'>141/178</span>
             </div>
         
             
@@ -231,7 +231,17 @@
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
 <a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -274,6 +284,11 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -292,6 +307,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -419,9 +439,9 @@ import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
 import type { SnapshotFormValues } from "util/snapshots";
 import { getExpiresAt } from "util/snapshots";
-import InstanceLinkChip from "../InstanceLinkChip";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { useToastNotification } from "@canonical/react-components";
+import { InstanceRichChip } from "../InstanceRichChip";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -448,7 +468,12 @@ const EditInstanceSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >    onSuccess(</span>
       &lt;&gt;
         Snapshot &lt;InstanceSnapshotLinkChip name={name} instance={instance} /&gt;{" "}
-        saved for instance &lt;InstanceLinkChip instance={instance} /&gt;.
+        saved for instance{" "}
+        &lt;InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        /&gt;
+        .
       &lt;/&gt;,
     );
 <span class="cstat-no" title="statement not covered" >    close();</span>
@@ -460,7 +485,12 @@ const EditInstanceSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
           name: newName,
 <span class="branch-0 cbranch-no" title="branch not covered" >        } as LxdInstanceSnapshot)</span>
 <span class="cstat-no" title="statement not covered" >      : snapshot;</span>
-    const instanceLink = <span class="cstat-no" title="statement not covered" >&lt;InstanceLinkChip instance={instance} /&gt;;</span>
+    const instanceLink = (
+<span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip</span>
+        instanceName={instance.name}
+        projectName={instance.project}
+      /&gt;
+    );
 <span class="cstat-no" title="statement not covered" >    updateInstanceSnapshot(instance, targetSnapshot, expiresAt)</span>
       .then((operation) =&gt; {
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
@@ -574,7 +604,7 @@ export default EditInstanceSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

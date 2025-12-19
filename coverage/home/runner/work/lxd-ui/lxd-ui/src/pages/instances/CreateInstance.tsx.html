@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.08% </span>
+                <span class="strong">67.72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>497/730</span>
+                <span class='fraction'>489/722</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.36% </span>
+                <span class="strong">83.13% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>496/595</span>
+                <span class='fraction'>488/587</span>
             </div>
         
             
@@ -650,15 +650,7 @@
 <a name='L585'></a><a href='#L585'>585</a>
 <a name='L586'></a><a href='#L586'>586</a>
 <a name='L587'></a><a href='#L587'>587</a>
-<a name='L588'></a><a href='#L588'>588</a>
-<a name='L589'></a><a href='#L589'>589</a>
-<a name='L590'></a><a href='#L590'>590</a>
-<a name='L591'></a><a href='#L591'>591</a>
-<a name='L592'></a><a href='#L592'>592</a>
-<a name='L593'></a><a href='#L593'>593</a>
-<a name='L594'></a><a href='#L594'>594</a>
-<a name='L595'></a><a href='#L595'>595</a>
-<a name='L596'></a><a href='#L596'>596</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">16x</span>
+<a name='L588'></a><a href='#L588'>588</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -898,9 +890,6 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -978,11 +967,6 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
@@ -1341,7 +1325,6 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
-import InstanceLinkChip from "./InstanceLinkChip";
 import type { InstanceIconType } from "components/ResourceIcon";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
@@ -1350,6 +1333,7 @@ import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
+import { InstanceRichChip } from "./InstanceRichChip";
 &nbsp;
 export type CreateInstanceFormValues = InstanceDetailsFormValues &amp;
   FormDeviceValues &amp;
@@ -1486,12 +1470,9 @@ const CreateInstance: FC = <span class="cstat-no" title="statement not covered" 
     instanceName: string,
     shouldStart: boolean,
     isIsoImage: boolean,
-    instanceType: InstanceIconType,
   ) =&gt; {
     const instanceLink = (
-<span class="cstat-no" title="statement not covered" >      &lt;InstanceLinkChip</span>
-        instance={{ name: instanceName, type: instanceType, project }}
-      /&gt;
+<span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip instanceName={instanceName} projectName={project} /&gt;</span>
     );
 &nbsp;
     // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
@@ -1578,12 +1559,7 @@ const CreateInstance: FC = <span class="cstat-no" title="statement not covered" 
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
           operation.metadata.id,
 <span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            creationCompletedHandler(</span>
-              instanceName,
-              shouldStart,
-              isIsoImage,
-              values.instanceType,
-            );
+<span class="cstat-no" title="statement not covered" >            creationCompletedHandler(instanceName, shouldStart, isIsoImage);</span>
           },
 <span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt; {
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            notifyCreationFailed(</span></span>
@@ -1855,7 +1831,7 @@ export default CreateInstance;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

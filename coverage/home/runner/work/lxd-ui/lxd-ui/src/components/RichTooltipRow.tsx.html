@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/instances/InstanceLinkChip.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/RichTooltipRow.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.png" />
+    <link rel="stylesheet" href="../../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../../../../../sort-arrow-sprite.png);
+            background-image: url(../../../../../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/instances</a> InstanceLinkChip.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> RichTooltipRow.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.15% </span>
+                <span class="strong">96% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/26</span>
+                <span class='fraction'>24/25</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
@@ -86,55 +86,52 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import type { LxdInstance } from "types/instance";
-import ResourceLink from "components/ResourceLink";
-import type { InstanceIconType } from "components/ResourceIcon";
-import { linkForInstanceDetail } from "util/instances";
-&nbsp;
-interface Props {
-  instance: Partial&lt;Omit&lt;LxdInstance, "type"&gt;&gt; &amp; {
-    name: string;
-    type: InstanceIconType;
-  };
+export interface TooltipRow {
+  title: string;
+  value: React.ReactNode;
+  valueTitle?: string;
+  className?: string;
 }
 &nbsp;
-const InstanceLinkChip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {
+export const RichTooltipRow: FC&lt;TooltipRow&gt; = <span class="fstat-no" title="function not covered" >({</span>
+  title,
+  value,
+  valueTitle,
+  className,
+}) =&gt; {
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;ResourceLink
-      type={instance.type}
-      value={instance.name}
-      to={linkForInstanceDetail(instance.name, instance.project)}
-    /&gt;
+    &lt;tr className={className}&gt;
+      &lt;th className="u-text--muted rich-tooltip-row-title"&gt;{title}&lt;/th&gt;
+      &lt;td title={valueTitle} className="u-truncate rich-tooltip-row-content"&gt;
+        {value}
+      &lt;/td&gt;
+    &lt;/tr&gt;
   );
 };
-&nbsp;
-export default InstanceLinkChip;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -142,16 +139,16 @@ export default InstanceLinkChip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
-        <script src="../../../../../../../../prettify.js"></script>
+        <script src="../../../../../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../../../../../sorter.js"></script>
-        <script src="../../../../../../../../block-navigation.js"></script>
+        <script src="../../../../../../../sorter.js"></script>
+        <script src="../../../../../../../block-navigation.js"></script>
     </body>
 </html>
     

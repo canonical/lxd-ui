@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.34% </span>
+                <span class="strong">65.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>35/58</span>
+                <span class='fraction'>38/58</span>
             </div>
         
             
@@ -102,41 +102,41 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
 <a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">174x</span>
-<span class="cline-any cline-yes">174x</span>
-<span class="cline-any cline-yes">174x</span>
-<span class="cline-any cline-yes">174x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">586x</span>
-<span class="cline-any cline-yes">802x</span>
-<span class="cline-any cline-yes">356x</span>
-<span class="cline-any cline-yes">356x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">940x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">942x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">571x</span>
+<span class="cline-any cline-yes">794x</span>
+<span class="cline-any cline-yes">353x</span>
+<span class="cline-any cline-yes">353x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">922x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">924x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -145,7 +145,7 @@
 import type { LxdOperation, LxdOperationList } from "types/operation";
 import type { LxdApiResponse } from "types/apiResponse";
 &nbsp;
-const sortOperationList = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(o</span>perations: LxdOperationList) =&gt; {</span>
+const sortOperationList = <span class="fstat-no" title="function not covered" >(o</span>perations: LxdOperationList) =&gt; {
   const newestFirst = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>: LxdOperation, b: LxdOperation) =&gt; {</span>
     const aTime = <span class="cstat-no" title="statement not covered" >new Date(a.created_at).getTime();</span>
     const bTime = <span class="cstat-no" title="statement not covered" >new Date(b.created_at).getTime();</span>
@@ -156,7 +156,7 @@ const sortOperationList = <span class="cstat-no" title="statement not covered" >
 <span class="cstat-no" title="statement not covered" >  operations.running?.sort(newestFirst);</span>
 };
 &nbsp;
-export const fetchOperations = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const fetchOperations = <span class="fstat-no" title="function not covered" >async (</span>
   project: string | null,
 ): Promise&lt;LxdOperationList&gt; =&gt; {
   const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
@@ -175,7 +175,7 @@ export const fetchOperations = <span class="cstat-no" title="statement not cover
     });
 };
 &nbsp;
-export const cancelOperation = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (i</span>d: string): Promise&lt;void&gt; =&gt; {</span></span>
+export const cancelOperation = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (i</span>d: string): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/operations/${encodeURIComponent(id)}`, {</span></span>
 <span class="cstat-no" title="statement not covered" >    method: "DELETE",</span>
 <span class="cstat-no" title="statement not covered" >  }).then(handleResponse);</span>
@@ -187,7 +187,7 @@ export const cancelOperation = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

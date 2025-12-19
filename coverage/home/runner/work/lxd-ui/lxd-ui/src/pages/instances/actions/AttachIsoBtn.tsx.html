@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.95% </span>
+                <span class="strong">13.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/215</span>
+                <span class='fraction'>30/219</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.34% </span>
+                <span class="strong">16.94% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>30/173</span>
+                <span class='fraction'>30/177</span>
             </div>
         
             
@@ -236,7 +236,11 @@
 <a name='L171'></a><a href='#L171'>171</a>
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -264,6 +268,10 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -429,8 +437,8 @@ import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
 import { instanceLinkFromOperation } from "util/instances";
 import ResourceLink from "components/ResourceLink";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { InstanceRichChip } from "../InstanceRichChip";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -459,7 +467,12 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >      instance,</span>
 <span class="cstat-no" title="statement not covered" >      values,</span>
 <span class="cstat-no" title="statement not covered" >    ) as LxdInstance;</span>
-<span class="cstat-no" title="statement not covered" >    const instanceLink = <span class="cstat-no" title="statement not covered" >&lt;InstanceLinkChip instance={instance} /&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >    const instanceLink = (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip</span></span>
+<span class="cstat-no" title="statement not covered" >        instanceName={instance.name}</span>
+<span class="cstat-no" title="statement not covered" >        projectName={instance.project}</span>
+<span class="cstat-no" title="statement not covered" >      /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateInstance(instanceMinusIso, project ?? "")</span></span>
 <span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        eventQueue.set(</span></span>
@@ -508,7 +521,6 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >        const instanceLink = <span class="cstat-no" title="statement not covered" >instanceLinkFromOperation({</span></span>
 <span class="cstat-no" title="statement not covered" >          operation,</span>
 <span class="cstat-no" title="statement not covered" >          project,</span>
-<span class="cstat-no" title="statement not covered" >          instanceType: instance.type,</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        eventQueue.set(</span></span>
 <span class="cstat-no" title="statement not covered" >          operation.metadata.id,</span>
@@ -589,7 +601,7 @@ export default AttachIsoBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

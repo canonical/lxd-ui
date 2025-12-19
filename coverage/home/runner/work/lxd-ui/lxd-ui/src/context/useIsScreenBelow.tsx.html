@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">77.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/32</span>
+                <span class='fraction'>27/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">92% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/22</span>
+                <span class='fraction'>23/25</span>
             </div>
         
             
@@ -85,30 +85,36 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">1572x</span>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">1550x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1572x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
-<span class="cline-any cline-yes">21089x</span>
+<span class="cline-any cline-yes">1550x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
+<span class="cline-any cline-yes">20826x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState } from "react"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
-import { isWidthBelow } from "util/helpers";
+import { isDimensionBelow } from "util/helpers";
 import { useListener } from "@canonical/react-components";
 &nbsp;
 export const smallScreenBreakpoint = 620;
@@ -117,11 +123,14 @@ export const largeScreenBreakpoint = 1200;
 &nbsp;
 export const useIsScreenBelow = <span class="fstat-no" title="function not covered" >(</span>
   breakpoint = <span class="branch-0 cbranch-no" title="branch not covered" >smallScreenBreakpoint,</span>
+  mode: "width" | "height" = <span class="branch-0 cbranch-no" title="branch not covered" >"width",</span>
 ): boolean =&gt; {
-  const [isScreenBelow, setScreenBelow] = <span class="cstat-no" title="statement not covered" >useState(isWidthBelow(breakpoint));</span>
+  const [isScreenBelow, setScreenBelow] = <span class="cstat-no" title="statement not covered" >useState(</span>
+    isDimensionBelow(breakpoint, mode),
+  );
 &nbsp;
   const updateIsBelow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (isWidthBelow(breakpoint) !== isScreenBelow) {</span>
+<span class="cstat-no" title="statement not covered" >    if (isDimensionBelow(breakpoint, mode) !== isScreenBelow) {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setScreenBelow(!isScreenBelow);</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
   };
@@ -136,7 +145,7 @@ export const useIsScreenBelow = <span class="fstat-no" title="function not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

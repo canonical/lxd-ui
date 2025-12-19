@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.29% </span>
+                <span class="strong">13.16% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/361</span>
+                <span class='fraction'>47/357</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.63% </span>
+                <span class="strong">15.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>48/307</span>
+                <span class='fraction'>47/303</span>
             </div>
         
             
@@ -366,12 +366,7 @@
 <a name='L301'></a><a href='#L301'>301</a>
 <a name='L302'></a><a href='#L302'>302</a>
 <a name='L303'></a><a href='#L303'>303</a>
-<a name='L304'></a><a href='#L304'>304</a>
-<a name='L305'></a><a href='#L305'>305</a>
-<a name='L306'></a><a href='#L306'>306</a>
-<a name='L307'></a><a href='#L307'>307</a>
-<a name='L308'></a><a href='#L308'>308</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
+<a name='L304'></a><a href='#L304'>304</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -453,9 +448,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -697,14 +689,13 @@ import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";
-import InstanceLinkChip from "../InstanceLinkChip";
-import type { InstanceIconType } from "components/ResourceIcon";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useStoragePools } from "context/useStoragePools";
 import { useIsClustered } from "context/useIsClustered";
 import { truncateEntityName } from "util/helpers";
+import { InstanceRichChip } from "../InstanceRichChip";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -777,13 +768,9 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const { data: instances = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useInstances(instance.project);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
-<span class="cstat-no" title="statement not covered" >    name: string,</span>
-<span class="cstat-no" title="statement not covered" >    project: string,</span>
-<span class="cstat-no" title="statement not covered" >    type: InstanceIconType,</span>
-<span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ame: string, project: string) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const instanceLink = (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      &lt;InstanceLinkChip instance={{ name, project, type }} /&gt;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip instanceName={name} projectName={project} /&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const message = <span class="cstat-no" title="statement not covered" >&lt;&gt;Created instance {instanceLink}.&lt;/&gt;;</span></span>
@@ -852,7 +839,12 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >    }),</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      const instanceLink = <span class="cstat-no" title="statement not covered" >&lt;InstanceLinkChip instance={instance} /&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >      const instanceLink = (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        &lt;InstanceRichChip</span></span>
+<span class="cstat-no" title="statement not covered" >          instanceName={instance.name}</span>
+<span class="cstat-no" title="statement not covered" >          projectName={instance.project}</span>
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      createInstance(</span></span>
 <span class="cstat-no" title="statement not covered" >        JSON.stringify(instanceFromSnapshotPayload(values, instance, snapshot)),</span>
 <span class="cstat-no" title="statement not covered" >        values.targetProject,</span>
@@ -873,11 +865,7 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          eventQueue.set(</span></span>
 <span class="cstat-no" title="statement not covered" >            operation.metadata.id,</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              notifySuccess(</span></span>
-<span class="cstat-no" title="statement not covered" >                values.instanceName,</span>
-<span class="cstat-no" title="statement not covered" >                values.targetProject,</span>
-<span class="cstat-no" title="statement not covered" >                instance.type,</span>
-<span class="cstat-no" title="statement not covered" >              );</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              notifySuccess(values.instanceName, values.targetProject);</span></span>
 <span class="cstat-no" title="statement not covered" >            },</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt;</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span></span>
@@ -991,7 +979,7 @@ export default CreateInstanceFromSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -100,53 +100,53 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">815x</span>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">780x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">136x</span>
-<span class="cline-any cline-yes">136x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">898x</span>
+<span class="cline-any cline-yes">780x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">780x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">872x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">898x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
-<span class="cline-any cline-yes">6750x</span>
+<span class="cline-any cline-yes">872x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
+<span class="cline-any cline-yes">6642x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState } from "react"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
-import { isWidthBelow } from "util/helpers";
+import { isDimensionBelow } from "util/helpers";
 import {
   mediumScreenBreakpoint,
   smallScreenBreakpoint,
 } from "./useIsScreenBelow";
 import { useListener } from "@canonical/react-components";
 &nbsp;
-const isSmallScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >i</span>sWidthBelow(smallScreenBreakpoint);</span></span>
-const isMediumScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >i</span>sWidthBelow(mediumScreenBreakpoint);</span></span>
+const isSmallScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >i</span>sDimensionBelow(smallScreenBreakpoint, "width");</span></span>
+const isMediumScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >i</span>sDimensionBelow(mediumScreenBreakpoint, "width");</span></span>
 &nbsp;
 const noCollapseEvents = <span class="cstat-no" title="statement not covered" >new Set(["search-and-filter"]);</span>
 &nbsp;
@@ -181,7 +181,7 @@ export const useMenuCollapsed = <span class="cstat-no" title="statement not cove
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-16T16:53:13.370Z
+                at 2025-12-19T14:58:08.446Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
