@@ -54,7 +54,7 @@ export const createInstance = async (
 
   if (project !== "default") {
     await page.getByText("Disk", { exact: true }).click();
-    await page.getByRole("button", { name: "Create override" }).click();
+    await page.getByRole("button", { name: "Edit" }).click();
   }
 
   await page.getByRole("button", { name: "Create" }).first().click();

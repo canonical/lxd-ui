@@ -90,7 +90,7 @@ test("profile edit custom volumes", async ({ page }) => {
 
   await startProfileCreation(page, profile);
   await page.getByText("Disk", { exact: true }).click();
-  await page.getByRole("button", { name: "Create override" }).click();
+  await page.getByRole("button", { name: "Edit" }).click();
   await page.getByPlaceholder("Enter value").fill("3");
   await attachVolume(page, volume, "/foo");
   await attachHostPath(page, "/home", "/data");

@@ -109,6 +109,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "migrate_instance";
 @import "modified_actions";
 @import "network_default_acl_selector";
+@import "network_device_form";
 @import "network_form";
 @import "network_forwards_form";
 @import "network_ipam";
@@ -421,4 +422,12 @@ body {
     margin-right: $sph--large;
     opacity: 0.6;
   }
+}
+
+.u-gap--small {
+  gap: $sph--small;
+}
+
+.u-margin-left--small {
+  margin-left: $sph--small;
 }
