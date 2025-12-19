@@ -4,16 +4,22 @@ import type { CpuLimit } from "types/limits";
 import { CPU_LIMIT_TYPE } from "types/limits";
 import CpuLimitInput from "components/forms/CpuLimitInput";
 import { useCurrentProject } from "context/useCurrentProject";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 
 interface Props {
   cpuLimit?: CpuLimit;
   setCpuLimit: (cpuLimit: CpuLimit) => void;
   help?: string;
+  formik: InstanceAndProfileFormikProps;
 }
 
-const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
+const CpuLimitSelector: FC<Props> = ({
+  cpuLimit,
+  setCpuLimit,
+  help,
+  formik,
+}) => {
   const { project } = useCurrentProject();
-
   if (!cpuLimit) {
     return null;
   }
@@ -50,6 +56,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
           value={cpuLimit.dynamicValue ?? ""}
           project={project}
           help={help}
+          formik={formik}
         />
       )}
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED && (
@@ -64,6 +71,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
           value={cpuLimit.fixedValue ?? ""}
           project={project}
           help={help}
+          formik={formik}
         />
       )}
     </div>

@@ -7,8 +7,8 @@ import type { FormikProps } from "formik/dist/types";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
-import CpuLimitInput from "components/forms/CpuLimitInput";
 import { ProjectMemoryLimit } from "../ProjectMemoryLimit";
+import { ProjectCpuLimitInput } from "../ProjectCpuLimitInput";
 
 export interface ProjectResourceLimitsFormValues {
   limits_instances?: number;
@@ -96,7 +96,9 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_cpu",
           label: "Max sum of CPU",
           defaultValue: "",
-          children: <CpuLimitInput placeholder="Enter number" type="number" />,
+          children: (
+            <ProjectCpuLimitInput placeholder="Enter number" type="number" />
+          ),
         }),
 
         getConfigurationRow({
