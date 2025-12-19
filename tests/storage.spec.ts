@@ -69,7 +69,7 @@ test("storage volume create, edit and remove", async ({ page }) => {
   await assertTextVisible(page, "size2GiB");
 });
 
-test("storage volume migrate", async ({ page }) => {
+test("storage volume migrate pool", async ({ page }) => {
   const pool2 = randomPoolName();
   await createPool(page, pool2);
 
