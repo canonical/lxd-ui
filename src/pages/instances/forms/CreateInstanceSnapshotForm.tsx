@@ -23,9 +23,9 @@ import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { createInstanceSnapshot } from "api/instance-snapshots";
 import { queryKeys } from "util/queryKeys";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { getInstanceSnapshotName } from "util/operations";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   close: () => void;
@@ -61,7 +61,12 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
-      const instanceLink = <InstanceLinkChip instance={instance} />;
+      const instanceLink = (
+        <InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        />
+      );
       createInstanceSnapshot(
         instance,
         values.name,

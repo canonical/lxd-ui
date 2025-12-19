@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import InstanceLinkChip from "../InstanceLinkChip";
+import { InstanceRichChip } from "../InstanceRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 
@@ -28,7 +28,12 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const instanceLink = <InstanceLinkChip instance={instance} />;
+  const instanceLink = (
+    <InstanceRichChip
+      instanceName={instance.name}
+      projectName={instance.project}
+    />
+  );
   const { data: project } = useProject(instance.project);
   const { canCreateImageAliases } = useProjectEntitlements();
 

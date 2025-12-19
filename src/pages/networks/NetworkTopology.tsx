@@ -12,6 +12,7 @@ import classnames from "classnames";
 import { useParams } from "react-router-dom";
 import { useNetworks } from "context/useNetworks";
 import { clusteredTypes } from "util/networks";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -52,6 +53,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
   });
 
   const instances = filterUsedByType("instance", network.used_by);
+
   const uplink = formik.values.parent ?? formik.values.network;
 
   const clusterUplinks = Object.keys(
@@ -180,10 +182,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
                       /{" "}
                     </>
                   )}
-                  <ResourceLink
-                    type="instance"
-                    value={item.name}
-                    to={instanceUrl}
+                  <InstanceRichChip
+                    instanceName={item.name}
+                    projectName={item.project}
                   />
                 </div>
               );

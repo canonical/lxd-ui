@@ -6,11 +6,11 @@ import { freezeInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
 import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -33,7 +33,12 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Freezing" ||
     instance.status === "Freezing";
 
-  const instanceLink = <InstanceLinkChip instance={instance} />;
+  const instanceLink = (
+    <InstanceRichChip
+      instanceName={instance.name}
+      projectName={instance.project}
+    />
+  );
 
   const handleFreeze = () => {
     instanceLoading.setLoading(instance, "Freezing");

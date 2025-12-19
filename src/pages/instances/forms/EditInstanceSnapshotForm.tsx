@@ -18,9 +18,9 @@ import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
 import type { SnapshotFormValues } from "util/snapshots";
 import { getExpiresAt } from "util/snapshots";
-import InstanceLinkChip from "../InstanceLinkChip";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { useToastNotification } from "@canonical/react-components";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -47,7 +47,12 @@ const EditInstanceSnapshotForm: FC<Props> = ({
     onSuccess(
       <>
         Snapshot <InstanceSnapshotLinkChip name={name} instance={instance} />{" "}
-        saved for instance <InstanceLinkChip instance={instance} />.
+        saved for instance{" "}
+        <InstanceRichChip
+          instanceName={instance.name}
+          projectName={instance.project}
+        />
+        .
       </>,
     );
     close();
@@ -59,7 +64,12 @@ const EditInstanceSnapshotForm: FC<Props> = ({
           name: newName,
         } as LxdInstanceSnapshot)
       : snapshot;
-    const instanceLink = <InstanceLinkChip instance={instance} />;
+    const instanceLink = (
+      <InstanceRichChip
+        instanceName={instance.name}
+        projectName={instance.project}
+      />
+    );
     updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
       .then((operation) => {
         eventQueue.set(

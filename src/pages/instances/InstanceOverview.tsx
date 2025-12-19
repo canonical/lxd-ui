@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { isoTimeToString } from "util/helpers";
 import { Col, Row, useListener, useNotify } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
-import { instanceCreationTypes } from "util/instanceOptions";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
@@ -15,7 +14,7 @@ import NetworkListTable from "components/NetworkListTable";
 import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import { getIpAddresses } from "util/networks";
-import { getImageLink } from "util/instances";
+import { getImageLink, getInstanceType } from "util/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -58,13 +57,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">Type</th>
-                <td>
-                  {
-                    instanceCreationTypes.filter(
-                      (item) => item.value === instance.type,
-                    )[0].label
-                  }
-                </td>
+                <td>{getInstanceType(instance)}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">IPv4</th>

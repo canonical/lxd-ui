@@ -13,13 +13,13 @@ import {
 } from "@canonical/react-components";
 import { createInstanceBackup } from "api/instances";
 import { useEventQueue } from "context/eventQueue";
-import InstanceLinkChip from "../InstanceLinkChip";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useSettings } from "context/useSettings";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { isDiskDevice } from "util/devices";
 import { pluralize } from "util/instanceBulkActions";
+import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -37,7 +37,12 @@ export interface LxdInstanceExport {
 const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
-  const instanceLink = <InstanceLinkChip instance={instance} />;
+  const instanceLink = (
+    <InstanceRichChip
+      instanceName={instance.name}
+      projectName={instance.project}
+    />
+  );
   const { hasBackupMetadataVersion } = useSupportedFeatures();
   const queryClient = useQueryClient();
   const { data: settings } = useSettings();

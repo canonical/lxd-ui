@@ -7,7 +7,7 @@ import type { LxdInstance } from "types/instance";
 import type { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
 import ResourceLink from "components/ResourceLink";
-import InstanceLinkChip from "pages/instances/InstanceLinkChip";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import { useNavigate } from "react-router-dom";
 import { useToastNotification } from "@canonical/react-components";
 
@@ -41,8 +41,12 @@ export const useInstanceMigration = ({
     if (type === "cluster member") {
       successMessage = (
         <>
-          Instance <InstanceLinkChip instance={instance} /> successfully
-          migrated to cluster member{" "}
+          Instance{" "}
+          <InstanceRichChip
+            instanceName={instance.name}
+            projectName={instance.project}
+          />{" "}
+          successfully migrated to cluster member{" "}
           <ResourceLink
             type="cluster-member"
             value={target}
@@ -55,8 +59,12 @@ export const useInstanceMigration = ({
     if (type === "root storage pool") {
       successMessage = (
         <>
-          Instance <InstanceLinkChip instance={instance} /> root storage
-          successfully moved to pool{" "}
+          Instance{" "}
+          <InstanceRichChip
+            instanceName={instance.name}
+            projectName={instance.project}
+          />{" "}
+          root storage successfully moved to pool{" "}
           <ResourceLink
             type="pool"
             value={target}
@@ -70,7 +78,7 @@ export const useInstanceMigration = ({
       successMessage = (
         <>
           Instance{" "}
-          <InstanceLinkChip instance={{ ...instance, project: target }} />
+          <InstanceRichChip instanceName={instance.name} projectName={target} />
           successfully moved to project{" "}
           <ResourceLink
             type="project"
@@ -111,7 +119,10 @@ export const useInstanceMigration = ({
     toastNotify.failure(
       failureMessage,
       e,
-      <InstanceLinkChip instance={instance} />,
+      <InstanceRichChip
+        instanceName={instance.name}
+        projectName={instance.project}
+      />,
     );
   };
 
@@ -156,7 +167,11 @@ export const useInstanceMigration = ({
         toastNotify.info(
           <>
             {capitalizeFirstLetter(type)} migration started for{" "}
-            <InstanceLinkChip instance={instance} />.
+            <InstanceRichChip
+              instanceName={instance.name}
+              projectName={instance.project}
+            />
+            .
           </>,
         );
         queryClient.invalidateQueries({

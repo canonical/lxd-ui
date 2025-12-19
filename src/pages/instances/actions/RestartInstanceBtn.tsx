@@ -8,7 +8,7 @@ import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationForce from "components/ConfirmationForce";
 import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import InstanceLinkChip from "../InstanceLinkChip";
+import { InstanceRichChip } from "../InstanceRichChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
@@ -28,7 +28,12 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
     instance.status === "Restarting";
   const { canUpdateInstanceState } = useInstanceEntitlements();
 
-  const instanceLink = <InstanceLinkChip instance={instance} />;
+  const instanceLink = (
+    <InstanceRichChip
+      instanceName={instance.name}
+      projectName={instance.project}
+    />
+  );
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
