@@ -46,7 +46,9 @@
     "vanilla-framework": "4.38.0",
     "@xterm/xterm": "5.5.0",
     "@xterm/addon-fit": "0.10.0",
-    "yup": "1.6.1"
+    "yup": "1.6.1",
+    "asn1js": "3.0.5",
+    "pkijs": "3.2.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.25.9",

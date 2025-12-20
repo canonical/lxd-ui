@@ -29,7 +29,7 @@ const details = [
 const generateCert = (password: string) => {
   const validDays = 1000;
 
-  const keys = forge.pki.rsa.generateKeyPair(2048);
+  const keys = forge.pki.rsa.generateKeyPair(2048 * 2);
   const cert = forge.pki.createCertificate();
   cert.publicKey = keys.publicKey;
 
