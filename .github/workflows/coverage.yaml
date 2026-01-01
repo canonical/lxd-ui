@@ -57,7 +57,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
 
       - name: Install Playwright Browser
         run: npx playwright install --with-deps chromium
