@@ -13,7 +13,7 @@ import { ensureEditMode } from "util/instanceEdit";
 import classnames from "classnames";
 import { getConfigRowMetadata } from "util/configInheritance";
 import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
-import ResourceLink from "components/ResourceLink";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { getProfileFromSource } from "util/devices";
 
 export interface CloudInitFormValues {
@@ -62,13 +62,12 @@ const CloudInitForm: FC<Props> = ({ formik, project }) => {
     const source = profileName ? (
       <>
         profile{" "}
-        <ResourceLink
-          type="profile"
-          value={profileName}
+        <ProfileRichChip
+          profileName={profileName}
+          projectName={project}
           className={classnames({
             "u-text--line-through": isOverridden,
           })}
-          to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profileName)}`}
         />
       </>
     ) : (

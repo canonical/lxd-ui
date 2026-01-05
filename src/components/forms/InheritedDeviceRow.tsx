@@ -3,7 +3,7 @@ import { Button, Icon, Label } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import ResourceLink from "components/ResourceLink";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 interface Props {
   id?: string;
@@ -131,10 +131,9 @@ export const getInheritedSourceRow = ({
     label: "From profile",
     inheritValue: (
       <>
-        <ResourceLink
-          type="profile"
-          value={profile}
-          to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile)}`}
+        <ProfileRichChip
+          profileName={profile}
+          projectName={project}
           className={classnames({
             "u-text--line-through": hasLocalOverride || isDetached,
           })}

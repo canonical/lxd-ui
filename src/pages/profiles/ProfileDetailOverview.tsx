@@ -14,6 +14,7 @@ import NetworkListTable from "components/NetworkListTable";
 import DeviceListTable from "components/DeviceListTable";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
+import { hasCloudInit } from "util/profiles";
 
 interface Props {
   profile: LxdProfile;
@@ -37,11 +38,6 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
   };
   useEffect(updateContentHeight, []);
   useListener(window, updateContentHeight, "resize", true);
-
-  const hasCloudInit =
-    profile.config["cloud-init.user-data"] ||
-    profile.config["cloud-init.vendor-data"] ||
-    profile.config["cloud-init.network-config"];
 
   const isDefaultProject = project === "default";
   const usageCount = getProfileInstances(
@@ -111,7 +107,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
       </Row>
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--5">Limits</h2>
+          <h2 className="p-heading--5">Resource limits</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -130,7 +126,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
       </Row>
       <Row
         className={classnames("section", {
-          "u-hide": !hasCloudInit,
+          "u-hide": !hasCloudInit(profile),
         })}
       >
         <Col size={3}>
@@ -146,7 +142,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
       </Row>
       <Row className="usage list-wrapper">
         <Col size={3}>
-          <h2 className="p-heading--5">Usage ({usageCount})</h2>
+          <h2 className="p-heading--5">Used by ({usageCount})</h2>
         </Col>
         <Col size={7}>
           {usageCount > 0 ? (

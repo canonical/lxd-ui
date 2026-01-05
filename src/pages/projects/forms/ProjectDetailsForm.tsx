@@ -17,7 +17,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { LxdConfigPair } from "types/config";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import ResourceLink from "components/ResourceLink";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import NetworkSelector from "./NetworkSelector";
 import { useNetworks } from "context/useNetworks";
 
@@ -144,10 +144,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               help: isEdit ? (
                 <>
                   Edit the storage pool in the{" "}
-                  <ResourceLink
-                    type="profile"
-                    value="default"
-                    to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/profile/default`}
+                  <ProfileRichChip
+                    profileName="default"
+                    projectName={project?.name ?? ""}
                   />{" "}
                   {" profile"}
                 </>
@@ -169,10 +168,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               isEdit ? (
                 <>
                   Configure networks in the{" "}
-                  <ResourceLink
-                    type="profile"
-                    value="default"
-                    to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/profile/default`}
+                  <ProfileRichChip
+                    profileName="default"
+                    projectName={project?.name ?? ""}
                   />{" "}
                   profile
                 </>

@@ -6,6 +6,7 @@ import { useImagesInProject } from "context/useImages";
 import { linkForVolumeDetail } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 interface Props {
   item: LxdUsedBy;
@@ -72,7 +73,10 @@ const UsedByItem: FC<Props> = ({
       {type === "instance" && (
         <InstanceRichChip instanceName={item.name} projectName={item.project} />
       )}
-      {type !== "instance" && (
+      {type === "profile" && (
+        <ProfileRichChip profileName={item.name} projectName={item.project} />
+      )}
+      {type !== "instance" && type !== "profile" && (
         <ResourceLink type={type} value={label} to={to} />
       )}
     </div>

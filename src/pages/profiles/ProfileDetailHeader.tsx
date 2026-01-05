@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useNotify, useToastNotification } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 import ProfileDetailActions from "./actions/ProfileDetailActions";
 
@@ -58,10 +58,9 @@ const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
           toastNotify.success(
             <>
               Profile <strong>{name}</strong> renamed to{" "}
-              <ResourceLink
-                type="profile"
-                value={values.name}
-                to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`}
+              <ProfileRichChip
+                profileName={values.name}
+                projectName={project}
               />
               .
             </>,

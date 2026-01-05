@@ -3,10 +3,14 @@ import type { LxdProfile } from "types/profile";
 import ProfileLink from "./ProfileLink";
 import { getProfileInstances } from "util/usedBy";
 import ProfileNetworkList from "./ProfileNetworkList";
-import ProfileStorageList from "./ProfileStorageList";
 import ProfileInstances from "./ProfileInstances";
+import DevicesSummaryList from "components/DevicesSummaryList";
 import type { LxdProject } from "types/project";
 import { isProjectWithProfiles } from "util/projects";
+import ResourceLink from "components/ResourceLink";
+import { getDefaultStoragePool } from "util/helpers";
+import ProfileConfigurationSections from "pages/profiles/ProfileConfigurationSections";
+import ProfileResourceLimits from "pages/profiles/ProfileResourceLimits";
 
 interface Props {
   profile: LxdProfile;
@@ -22,6 +26,7 @@ const ProfileDetailPanelContent: FC<Props> = ({ profile, project }) => {
   ).length;
 
   const featuresProfiles = isProjectWithProfiles(project);
+  const defaultStoragePool = getDefaultStoragePool(profile);
 
   return (
     <table className="u-table-layout--auto u-no-margin--bottom">
@@ -37,24 +42,45 @@ const ProfileDetailPanelContent: FC<Props> = ({ profile, project }) => {
           <td>{profile.description ? profile.description : "-"}</td>
         </tr>
         <tr>
-          <th className="u-text--muted last-of-section">Defined in</th>
+          <th className="u-text--muted">Defined in</th>
           <td>{featuresProfiles ? "Current" : "Default"} project</td>
         </tr>
-        <tr className="u-no-border">
-          <th colSpan={2}>
-            <h3 className="p-muted-heading p-heading--5">Devices</h3>
-          </th>
+        <tr>
+          <th className="u-text--muted">Root storage</th>
+          <td>
+            {defaultStoragePool ? (
+              <ResourceLink
+                type="pool"
+                value={defaultStoragePool}
+                to={`/ui/project/${encodeURIComponent(project.name)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
+              />
+            ) : (
+              "-"
+            )}
+          </td>
         </tr>
-        <tr className="u-no-border list-wrapper">
+        <tr className="list-wrapper">
           <th className="u-text--muted">Networks</th>
           <td>
             <ProfileNetworkList profile={profile} project={project.name} />
           </td>
         </tr>
-        <tr className="u-no-border list-wrapper">
-          <th className="u-text--muted last-of-section">Storage</th>
+        <tr className="list-wrapper">
+          <th className="u-text--muted">Devices</th>
           <td>
-            <ProfileStorageList profile={profile} project={project.name} />
+            <DevicesSummaryList devices={Object.values(profile.devices)} />
+          </td>
+        </tr>
+        <tr className="list-wrapper">
+          <th className="u-text--muted">Limits</th>
+          <td>
+            <ProfileResourceLimits profile={profile} />
+          </td>
+        </tr>
+        <tr>
+          <th className="u-text--muted">Configuration</th>
+          <td>
+            <ProfileConfigurationSections profile={profile} />
           </td>
         </tr>
         <tr className="used-by-header">

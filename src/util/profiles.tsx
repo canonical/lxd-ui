@@ -74,3 +74,13 @@ export const profileNameValidation = (
     .matches(/^[A-Za-z].*$/, {
       message: "Profile name must start with a letter",
     });
+
+export const hasCloudInit = (profile: LxdProfile): boolean => {
+  const cloudInitKeys = [
+    "cloud-init.user-data",
+    "cloud-init.vendor-data",
+    "cloud-init.network-config",
+  ];
+
+  return cloudInitKeys.some((key) => Boolean(profile.config[key]));
+};

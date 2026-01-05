@@ -27,6 +27,7 @@ export const RichTooltipTable: FC<Props> = ({ rows, className }) => {
             value={row.value}
             valueTitle={row.valueTitle}
             className={row.className}
+            truncate={row.truncate}
           />
         ))}
       </tbody>

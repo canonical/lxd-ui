@@ -79,7 +79,7 @@ import InstanceClusterMemberChip from "pages/instances/InstanceClusterMemberChip
 import InstanceProjectChip from "pages/instances/InstanceProjectChip";
 import { getInstanceKey, getInstanceType } from "util/instances";
 import DocLink from "components/DocLink";
-import InstanceListAddresses from "./InstanceListAddresses";
+import TruncatedList from "components/TruncatedList";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -515,7 +515,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv4-${ipv4.length}`,
-            content: <InstanceListAddresses addresses={ipv4} />,
+            content: <TruncatedList items={ipv4} />,
             role: "cell",
             className: "u-align--right clickable-cell",
             "aria-label": IPV4,
@@ -524,7 +524,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv6-${ipv6.length}`,
-            content: <InstanceListAddresses addresses={ipv6} />,
+            content: <TruncatedList items={ipv6} />,
             role: "cell",
             "aria-label": IPV6,
             onClick: openSummary,

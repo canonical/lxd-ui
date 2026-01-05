@@ -5,7 +5,7 @@ import type {
 import type { FormDevice, FormDeviceValues } from "util/formDevices";
 import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import type { InstanceEditDetailsFormValues } from "pages/instances/EditInstance";
-import { isRootDisk } from "util/instanceValidation";
+import { isRootDisk } from "util/devices";
 import isEqual from "lodash.isequal";
 
 const getPrimitiveFieldChanges = (

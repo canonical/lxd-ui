@@ -14,6 +14,10 @@ import InstanceMACAddresses from "pages/instances/InstaceMACAddresses";
 import ResourceLink from "components/ResourceLink";
 import InstanceClusterMemberChip from "./InstanceClusterMemberChip";
 import { getImageLink, getInstanceType } from "util/instances";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import ExpandableList from "components/ExpandableList";
+import DevicesSummaryList from "components/DevicesSummaryList";
+import type { LxdDevices } from "types/device";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -100,12 +104,47 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           </tr>
         )}
         <tr>
-          <th className="u-text--muted">Root storage pool</th>
+          <th className="u-text--muted">Root storage</th>
           <td>
             <ResourceLink
               type="pool"
               value={rootPool}
               to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(rootPool)}`}
+            />
+          </td>
+        </tr>
+        <tr className="list-wrapper">
+          <th className="u-text--muted">Networks</th>
+          <td>
+            {networkDevices.length > 0 ? (
+              <ExpandableList
+                items={networkDevices.map((device) => (
+                  <ResourceLink
+                    key={device.network}
+                    type="network"
+                    value={device.network}
+                    to={`/ui/project/${encodeURIComponent(instance.project)}/network/${encodeURIComponent(device.network)}`}
+                  />
+                ))}
+              />
+            ) : (
+              <p>
+                No networks found.
+                <br />
+                <Link
+                  to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration/networks`}
+                >
+                  Configure instance networks
+                </Link>
+              </p>
+            )}
+          </td>
+        </tr>
+        <tr className="list-wrapper">
+          <th className="u-text--muted">Devices</th>
+          <td>
+            <DevicesSummaryList
+              devices={Object.values(instance.expanded_devices as LxdDevices)}
             />
           </td>
         </tr>
@@ -135,51 +174,15 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
             <List
               className="list"
               items={instance.profiles.map((name) => (
-                <ResourceLink
+                <ProfileRichChip
                   key={name}
-                  type="profile"
-                  value={name}
-                  to={`/ui/project/${encodeURIComponent(instance.project)}/profile/${encodeURIComponent(name)}`}
+                  profileName={name}
+                  projectName={instance.project}
                 />
               ))}
             />
           </td>
         </tr>
-        {networkDevices.length > 0 ? (
-          <tr>
-            <th>
-              <h3 className="p-muted-heading p-heading--5">Networks</h3>
-            </th>
-            <td>
-              <List
-                className="list"
-                items={networkDevices.map((item) => (
-                  <ResourceLink
-                    key={item.network}
-                    type="network"
-                    value={item.network}
-                    to={`/ui/project/${encodeURIComponent(instance.project)}/network/${encodeURIComponent(item.network)}`}
-                  />
-                ))}
-              />
-            </td>
-          </tr>
-        ) : (
-          <tr>
-            <td colSpan={2}>
-              <h3 className="p-muted-heading p-heading--5">Networks</h3>
-              <p>
-                No networks found.
-                <br />
-                <Link
-                  to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration/networks`}
-                >
-                  Configure instance networks
-                </Link>
-              </p>
-            </td>
-          </tr>
-        )}
         <tr className="u-no-border">
           <th colSpan={2} className="snapshots-header">
             <h3 className="p-muted-heading p-heading--5">
