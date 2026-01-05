@@ -1,5 +1,10 @@
 .p-terminal {
   height: calc(100dvh - 240px);
+
+  .xterm .xterm-viewport {
+    background-color: #292c2f;
+    overflow: hidden;
+  }
 }
 
 @media screen and (min-width: $breakpoint-small) {

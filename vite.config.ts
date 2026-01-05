@@ -1,11 +1,11 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 
 // Load .env.local if it exists to override default environment variables
-dotenv.config({ path: ".env" });
+dotenv.config({ path: ".env", quiet: true });
 if (fs.existsSync(".env.local")) {
   dotenv.config({ path: ".env.local" });
 }
@@ -19,7 +19,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: "modern-compiler",
-        silenceDeprecations: ["mixed-decls", "global-builtin", "import"],
+        silenceDeprecations: ["global-builtin", "import", "if-function"],
         additionalData: scssSettings,
       },
     },

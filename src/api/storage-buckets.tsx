@@ -185,7 +185,7 @@ export const fetchStorageBucketKey = async (
   keyName: string,
   isFineGrained: boolean | null,
   project: string,
-): Promise<LxdStorageBucketKey[]> => {
+): Promise<LxdStorageBucketKey> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addEntitlements(params, isFineGrained, storageBucketEntitlements);
@@ -194,7 +194,7 @@ export const fetchStorageBucketKey = async (
     `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,
   )
     .then(handleResponse)
-    .then((data: LxdApiResponse<LxdStorageBucketKey[]>) => {
+    .then((data: LxdApiResponse<LxdStorageBucketKey>) => {
       return data.metadata;
     });
 };
