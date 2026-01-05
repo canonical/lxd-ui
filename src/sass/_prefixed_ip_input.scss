@@ -1,0 +1,16 @@
+.prefixed-input {
+  position: relative;
+
+  .prefixed-input__text {
+    padding-left: $spv--small;
+    padding-top: 0.25rem;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  &--with-label {
+    .prefixed-input__text {
+      top: 2.5rem;
+    }
+  }
+}
