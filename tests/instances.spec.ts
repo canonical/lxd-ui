@@ -66,7 +66,9 @@ test("instance terminal operations", async ({ page }) => {
   await page.getByTestId("tab-link-Terminal").click();
   await assertTextVisible(page, "~#");
   await page.waitForTimeout(1000); // ensure the terminal is ready
-  await page.locator(".xterm-rows").click();
+  await page.locator(".xterm-rows").evaluate((e) => {
+    (e as HTMLElement).click();
+  });
   await page.keyboard.type("cat /etc/issue", { delay: 100 });
   await page.keyboard.press("Enter");
   await expect(page.locator(".xterm-rows")).toContainText("Alpine Linux");
