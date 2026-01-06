@@ -1,6 +1,7 @@
 import parsePrometheusTextFormat from "parse-prometheus-text-format";
 import type { LxdMetricGroup } from "types/metrics";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 export const fetchMetrics = async (
   target: string,
@@ -10,7 +11,7 @@ export const fetchMetrics = async (
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  return fetch(`/1.0/metrics?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/metrics?${params.toString()}`)
     .then(async (response) => {
       return response.text();
     })

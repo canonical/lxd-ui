@@ -10,6 +10,7 @@ import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
 import ResourceLink from "components/ResourceLink";
 import ClusterGroupSelector from "pages/cluster/ClusterGroupSelector";
+import { ROOT_PATH } from "util/rootPath";
 
 export interface ClusterRestrictionFormValues {
   restricted_cluster_groups?: string;
@@ -54,7 +55,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
                     key={group}
                     type="cluster-group"
                     value={group}
-                    to="/ui/cluster/groups"
+                    to={`${ROOT_PATH}/ui/cluster/groups`}
                   />
                 ))}
               </span>

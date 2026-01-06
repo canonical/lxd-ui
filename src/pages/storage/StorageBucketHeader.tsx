@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import RenameHeader from "components/RenameHeader";
 import type { LxdStorageBucket } from "types/storage";
 import StorageBucketActions from "./actions/StorageBucketActions";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -15,7 +16,7 @@ const StorageBucketHeader: FC<Props> = ({ bucket, project }) => {
       name={bucket.name}
       parentItems={[
         <Link
-          to={`/ui/project/${encodeURIComponent(project)}/storage/buckets`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/buckets`}
           key={1}
         >
           Storage buckets

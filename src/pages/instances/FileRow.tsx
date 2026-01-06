@@ -7,6 +7,7 @@ import { fetchInstanceLogFile } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import DownloadButton from "pages/instances/DownloadButton";
 import { getUrlParam } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 
 interface FileRowProps {
   instance: LxdInstance;
@@ -15,7 +16,7 @@ interface FileRowProps {
 
 const FileRow: FC<FileRowProps> = ({ instance, path }) => {
   const fileName = path.split("/").at(-1) ?? "";
-  const fileUrl = `/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/logs/?file=${encodeURIComponent(fileName)}`;
+  const fileUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/logs/?file=${encodeURIComponent(fileName)}`;
   const [isOpen, setOpen] = useState(getUrlParam("file") === fileName);
 
   const {

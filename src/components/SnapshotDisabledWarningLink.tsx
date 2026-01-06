@@ -3,6 +3,7 @@ import { useAuth } from "context/auth";
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import type { LxdProject } from "types/project";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project?: LxdProject;
@@ -17,7 +18,7 @@ const SnapshotDisabledWarningLink: FC<Props> = ({ project }) => {
     <>
       You can change this setting in{" "}
       <Link
-        to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/configuration`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/configuration`}
       >
         project configuration
         <Icon className="external-link-icon" name="external-link" />

@@ -26,6 +26,7 @@ import { typesWithNicStaticIPSupport } from "util/networks";
 import { useNetworks } from "context/useNetworks";
 import type { LxdNetworkAllocation } from "types/network";
 import NetworkRichChip from "./NetworkRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 const NetworkIPAM: FC = () => {
   const notify = useNotify();
@@ -73,13 +74,13 @@ const NetworkIPAM: FC = () => {
 
     const getUsedByUrl = (item: LxdUsedBy) => {
       if (allocation.type === "instance") {
-        return `/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
+        return `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
       }
       if (allocation.type === "network") {
-        return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`;
+        return `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`;
       }
       if (allocation.type === "network-forward" && item.network) {
-        return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.network)}/forwards`;
+        return `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.network)}/forwards`;
       }
 
       return "";

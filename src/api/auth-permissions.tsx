@@ -1,6 +1,7 @@
 import { handleResponse } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdPermission } from "types/permissions";
+import { ROOT_PATH } from "util/rootPath";
 
 export const fetchPermissions = async (
   resourceType: string,
@@ -8,7 +9,7 @@ export const fetchPermissions = async (
   const params = new URLSearchParams();
   params.set("entity-type", resourceType);
 
-  return fetch(`/1.0/auth/permissions?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/auth/permissions?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdPermission[]>) => {
       return (

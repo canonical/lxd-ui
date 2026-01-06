@@ -13,6 +13,7 @@ import ResourceLink from "components/ResourceLink";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   className?: string;
@@ -36,7 +37,7 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
       <>
         Custom ISO{" "}
         <ResourceLink
-          to={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
           type="iso-volume"
           value={name}
         />{" "}

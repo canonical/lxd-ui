@@ -21,6 +21,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import DeleteProjectModal from "./DeleteProjectModal";
 import { filterUsedByType } from "util/usedBy";
 import type { ResourceType } from "util/resourceDetails";
+import { ROOT_PATH } from "util/rootPath";
 
 const generateTooltipMessage = (
   project: LxdProject,
@@ -49,19 +50,19 @@ const generateTooltipMessage = (
     > = {
       instance: {
         label: "Instances",
-        link: `/ui/project/${encodeURIComponent(project.name)}/instances`,
+        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/instances`,
       },
       profile: {
         label: "Profiles",
-        link: `/ui/project/${encodeURIComponent(project.name)}/profiles`,
+        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/profiles`,
       },
       image: {
         label: "Images",
-        link: `/ui/project/${encodeURIComponent(project.name)}/images`,
+        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/images`,
       },
       volume: {
         label: "Custom volumes",
-        link: `/ui/project/${encodeURIComponent(project.name)}/storage/volumes`,
+        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/storage/volumes`,
       },
     };
 
@@ -72,7 +73,7 @@ const generateTooltipMessage = (
       const usedBy = filterUsedByType(
         resourceType as ResourceType,
         project.used_by?.filter(
-          (item) => !item.startsWith("/1.0/profiles/default"),
+          (item) => !item.includes("/1.0/profiles/default"),
         ),
       );
 
@@ -135,7 +136,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     const force = !isEmpty && hasProjectForceDelete;
     deleteProject(project, force)
       .then(() => {
-        navigate(`/ui/project/default/instances`);
+        navigate(`${ROOT_PATH}/ui/project/default/instances`);
         toastNotify.success(
           <>
             Project <ResourceLabel bold type="project" value={project.name} />{" "}

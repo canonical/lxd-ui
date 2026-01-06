@@ -21,6 +21,7 @@ import useEditHistory from "util/useEditHistory";
 import ResourceLink from "components/ResourceLink";
 import { useAuthGroups } from "context/useAuthGroups";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
+import { ROOT_PATH } from "util/rootPath";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -78,7 +79,7 @@ const CreateIdpGroupPanel: FC = () => {
             <ResourceLink
               type="idp-group"
               value={values.name}
-              to="/ui/permissions/idp-groups"
+              to={`${ROOT_PATH}/ui/permissions/idp-groups`}
             />{" "}
             created.
           </>,

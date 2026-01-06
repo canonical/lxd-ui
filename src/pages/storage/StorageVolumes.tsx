@@ -60,6 +60,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { isProjectWithVolumes } from "util/projects";
 import DocLink from "components/DocLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -252,7 +253,7 @@ const StorageVolumes: FC = () => {
             <ResourceLink
               type="pool"
               value={volume.pool}
-              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
             />
           ),
           role: "cell",
@@ -269,7 +270,7 @@ const StorageVolumes: FC = () => {
                   <ResourceLink
                     type="cluster-group"
                     value="Cluster wide"
-                    to="/ui/cluster/members"
+                    to={`${ROOT_PATH}/ui/cluster/members`}
                   />
                 ),
                 role: "cell",
@@ -391,7 +392,7 @@ const StorageVolumes: FC = () => {
     <Notification severity="information">
       Showing volumes from the{" "}
       <ResourceLink
-        to="/ui/project/default/storage/volumes"
+        to={`${ROOT_PATH}/ui/project/default/storage/volumes`}
         type="project"
         value="default"
       />

@@ -20,6 +20,7 @@ import { isInstanceFrozen, isInstanceRunning } from "util/instanceStatus";
 import { Notification } from "@canonical/react-components";
 import { InstanceRichChip } from "../InstanceRichChip";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: LxdInstance;
@@ -63,7 +64,7 @@ const DeleteInstanceBtn: FC<Props> = ({
               queryKey: [queryKeys.projects, instance.project],
             });
             navigate(
-              `/ui/project/${encodeURIComponent(instance.project)}/instances`,
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instances`,
             );
             toastNotify.success(
               <>

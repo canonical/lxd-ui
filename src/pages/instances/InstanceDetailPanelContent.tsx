@@ -4,6 +4,7 @@ import type { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import InstanceIps from "./InstanceIps";
 import { getRootPool, isoTimeToString } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
 import { isNicDevice } from "util/devices";
@@ -34,7 +35,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
   const instanceLoading = useInstanceLoading();
   const loadingType = instanceLoading.getType(instance);
 
-  const instanceUrl = `/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}`;
+  const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}`;
 
   const isClustered = useIsClustered();
 
@@ -112,7 +113,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
             <ResourceLink
               type="pool"
               value={rootPool}
-              to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(rootPool)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(rootPool)}`}
             />
           </td>
         </tr>
@@ -134,7 +135,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                 No networks found.
                 <br />
                 <Link
-                  to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration/networks`}
+                  to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration/networks`}
                 >
                   Configure instance networks
                 </Link>

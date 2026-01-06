@@ -15,6 +15,7 @@ import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import ResourceLabel from "components/ResourceLabel";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   pool: LxdStoragePool;
@@ -42,7 +43,9 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
-        navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);
+        navigate(
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
+        );
         toastNotify.success(
           <>
             Storage pool <ResourceLabel bold type="pool" value={pool.name} />{" "}

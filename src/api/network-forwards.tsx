@@ -2,6 +2,7 @@ import { handleRawResponse, handleResponse } from "util/helpers";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 export const fetchNetworkForwards = async (
   network: string,
@@ -12,7 +13,7 @@ export const fetchNetworkForwards = async (
   params.set("recursion", "1");
 
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkForward[]>) => {
@@ -36,7 +37,7 @@ export const fetchNetworkForward = async (
   addTarget(params, target);
 
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(listenAddress)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(listenAddress)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkForward>) => {
@@ -54,7 +55,7 @@ export const createNetworkForward = async (
   addTarget(params, forward.location);
 
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -81,7 +82,7 @@ export const updateNetworkForward = async (
   addTarget(params, forward.location);
 
   await fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -102,7 +103,7 @@ export const deleteNetworkForward = async (
   addTarget(params, forward.location);
 
   await fetch(
-    `/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "DELETE",
     },

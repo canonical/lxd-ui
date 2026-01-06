@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";
 import type { CustomSelectOption } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown/CustomSelectDropdown";
 import { useProfiles } from "context/useProfiles";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   value?: string;
@@ -89,7 +90,10 @@ const PlacementGroupSelect: FC<Props> = ({
   }
 
   const placementGroupLink = (count: number) => (
-    <Link to={`/ui/project/${project}/placement-groups`} target="_blank">
+    <Link
+      to={`${ROOT_PATH}/ui/project/${project}/placement-groups`}
+      target="_blank"
+    >
       {pluralize("placement group", count)}
     </Link>
   );

@@ -3,6 +3,7 @@ import { useClusterMembers } from "context/useClusterMembers";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import type { FC } from "react";
 import type { LxdStoragePool } from "types/storage";
+import { ROOT_PATH } from "util/rootPath";
 import { isClusterLocalDriver } from "util/storagePool";
 
 interface Props {
@@ -25,7 +26,7 @@ export const StoragePoolClusterMember: FC<Props> = ({ pool }) => {
         })
       ) : (
         <ResourceLink
-          to="/ui/cluster/members"
+          to={`${ROOT_PATH}/ui/cluster/members`}
           type="cluster-group"
           value="Cluster wide"
         />

@@ -12,6 +12,7 @@ import SelectableMainTable from "components/SelectableMainTable";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";
 import useSortTableData from "util/useSortTableData";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -168,7 +169,7 @@ const GroupSelection: FC<Props> = ({
             Groups are an easy way to manage the structured assignment of
             permissions.
           </p>
-          <Link to={`/ui/permissions/groups?panel=create-groups`}>
+          <Link to={`${ROOT_PATH}/ui/permissions/groups?panel=create-groups`}>
             Create group
             <Icon className="external-link-icon" name="external-link" />
           </Link>

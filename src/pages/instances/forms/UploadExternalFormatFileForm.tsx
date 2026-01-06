@@ -37,6 +37,7 @@ import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";
 import { useClusterMembers } from "context/useClusterMembers";
 import { fileToSanitisedName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
@@ -88,7 +89,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
         </>,
       );
       navigate(
-        `/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
+        `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
       );
     }
   };
@@ -106,7 +107,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   };
 
   const handleSuccess = (instanceName: string) => {
-    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
+    const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
     const message = (
       <>
         Created instance{" "}
@@ -154,8 +155,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
 
         // establish websocket connection based on the instance creation operation
         const protocol = location.protocol === "https:" ? "wss" : "ws";
-        const wsUrl = `${protocol}://${location.host}/1.0/operations/${encodeURIComponent(operationId)}/websocket?secret=${encodeURIComponent(operationSecret)}`;
-
+        const wsUrl = `${protocol}://${location.host}${ROOT_PATH}/1.0/operations/${encodeURIComponent(operationId)}/websocket?secret=${encodeURIComponent(operationSecret)}`;
         const ws = sendFileByWebSocket(
           wsUrl,
           formik.values.file,

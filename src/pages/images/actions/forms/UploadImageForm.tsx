@@ -14,6 +14,7 @@ import {
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { humanFileSize } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ProgressBar from "components/ProgressBar";
 import type { UploadState } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
@@ -38,7 +39,9 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
 
   const notifySuccess = () => {
     const uploaded = (
-      <Link to={`/ui/project/${encodeURIComponent(projectName)}/images`}>
+      <Link
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/images`}
+      >
         uploaded
       </Link>
     );

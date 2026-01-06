@@ -16,6 +16,7 @@ import type { LxdStorageVolume } from "types/storage";
 import VolumeLinkChip from "../VolumeLinkChip";
 import { createVolumeBackup } from "api/storage-volumes";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -44,7 +45,7 @@ const ExportVolumeModal: FC<Props> = ({ volume, close }) => {
     params.set("project", volume.project);
     addTarget(params, volume.location);
 
-    const url = `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?${params.toString()}`;
+    const url = `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?${params.toString()}`;
 
     const a = document.createElement("a");
     a.href = url;

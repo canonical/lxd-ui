@@ -72,6 +72,7 @@ import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { InstanceRichChip } from "./InstanceRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -182,7 +183,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instance.name)}/configuration`;
+  const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instance.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
     if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {

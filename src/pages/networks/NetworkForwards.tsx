@@ -23,6 +23,7 @@ import { bridgeType } from "util/networks";
 import DocLink from "components/DocLink";
 import CreateNetworkForwardBtn from "./actions/CreateNetworkForwardBtn";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -128,8 +129,8 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                   className="p-button--base u-no-margin--bottom has-icon"
                   to={
                     isClusterMemberSpecific
-                      ? `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/member/${encodeURIComponent(forward.location ?? "")}/forwards/${encodeURIComponent(forward.listen_address)}/edit`
-                      : `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}/edit`
+                      ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/member/${encodeURIComponent(forward.location ?? "")}/forwards/${encodeURIComponent(forward.listen_address)}/edit`
+                      : `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}/edit`
                   }
                   title="Edit network forward"
                 >

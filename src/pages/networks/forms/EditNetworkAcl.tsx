@@ -26,6 +26,7 @@ import NetworkAclForm, {
 import { updateNetworkAcl } from "api/network-acls";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
@@ -80,7 +81,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
               <ResourceLink
                 type="network-acl"
                 value={networkAcl.name}
-                to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`}
               />{" "}
               updated.
             </>,
@@ -95,7 +96,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`;
+  const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`;
 
   const setSection = (newSection: string) => {
     if (newSection === GENERAL) {

@@ -10,12 +10,13 @@ import type { LxdResources } from "types/resources";
 import type { LxdClusterMember } from "types/cluster";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 export const fetchSettings = async (target?: string): Promise<LxdSettings> => {
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  return fetch(`/1.0?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdSettings>) => {
       return data.metadata;
@@ -59,7 +60,7 @@ export const updateSettings = async (
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  await fetch(`/1.0?${params.toString()}`, {
+  await fetch(`${ROOT_PATH}/1.0?${params.toString()}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -103,7 +104,7 @@ export const fetchResources = async (
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  return fetch(`/1.0/resources?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/resources?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdResources>) => {
       return data.metadata;
@@ -135,7 +136,7 @@ export const fetchConfigOptions = async (
     return null;
   }
 
-  return fetch("/1.0/metadata/configuration")
+  return fetch(`${ROOT_PATH}/1.0/metadata/configuration`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdMetadata>) => {
       return data.metadata;
@@ -149,7 +150,7 @@ export const fetchDocObjects = async (
     return [];
   }
 
-  return fetch("/documentation/objects.inv.txt")
+  return fetch(`${ROOT_PATH}/documentation/objects.inv.txt`)
     .then(handleTextResponse)
     .then((data) => {
       return data.split("\n");

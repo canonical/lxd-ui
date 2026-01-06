@@ -10,6 +10,7 @@ import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useFormik } from "formik";
 import { renameStoragePool } from "api/storage-pools";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   name: string;
@@ -43,7 +44,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       }
       renameStoragePool(name, values.name)
         .then(() => {
-          const url = `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`;
+          const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`;
           navigate(url);
           toastNotify.success(
             <>
@@ -67,7 +68,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       name={name}
       parentItems={[
         <Link
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pools`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`}
           key={1}
         >
           Storage pools

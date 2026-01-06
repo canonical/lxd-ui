@@ -14,6 +14,7 @@ import type { LxdClusterMember } from "types/cluster";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 export const storagePoolEntitlements = ["can_edit", "can_delete"];
 
@@ -28,7 +29,7 @@ export const fetchStoragePool = async (
   addEntitlements(params, isFineGrained, storagePoolEntitlements);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}?${params.toString()}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -43,7 +44,7 @@ export const fetchStoragePools = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, storagePoolEntitlements);
 
-  return fetch(`/1.0/storage-pools?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/storage-pools?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePool[]>) => {
       return data.metadata;
@@ -58,7 +59,7 @@ export const fetchStoragePoolResources = async (
   addTarget(params, target);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/resources?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/resources?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStoragePoolResources>) => {
@@ -104,7 +105,7 @@ export const createPool = async (
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  await fetch(`/1.0/storage-pools?${params.toString()}`, {
+  await fetch(`${ROOT_PATH}/1.0/storage-pools?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -179,7 +180,7 @@ export const updatePool = async (
   addTarget(params, target);
 
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool.name)}?${params.toString()}`,
     {
       method: "PATCH",
       headers: {
@@ -230,7 +231,7 @@ export const renameStoragePool = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  await fetch(`/1.0/storage-pools/${encodeURIComponent(oldName)}`, {
+  await fetch(`${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(oldName)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -242,7 +243,7 @@ export const renameStoragePool = async (
 };
 
 export const deleteStoragePool = async (pool: string): Promise<void> => {
-  await fetch(`/1.0/storage-pools/${encodeURIComponent(pool)}`, {
+  await fetch(`${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

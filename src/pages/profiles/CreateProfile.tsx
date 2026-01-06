@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { FormDeviceValues } from "util/formDevices";
@@ -140,7 +141,9 @@ const CreateProfile: FC = () => {
 
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          navigate(`/ui/project/${encodeURIComponent(project)}/profiles`);
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profiles`,
+          );
           toastNotify.success(
             <>
               Profile{" "}
@@ -283,7 +286,9 @@ const CreateProfile: FC = () => {
         <Button
           appearance="base"
           onClick={async () =>
-            navigate(`/ui/project/${encodeURIComponent(project)}/profiles`)
+            navigate(
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profiles`,
+            )
           }
         >
           Cancel

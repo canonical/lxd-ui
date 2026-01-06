@@ -1,6 +1,7 @@
 import { handleResponse } from "util/helpers";
 import type { LxdOperation, LxdOperationList } from "types/operation";
 import type { LxdApiResponse } from "types/apiResponse";
+import { ROOT_PATH } from "util/rootPath";
 
 const sortOperationList = (operations: LxdOperationList) => {
   const newestFirst = (a: LxdOperation, b: LxdOperation) => {
@@ -24,7 +25,7 @@ export const fetchOperations = async (
     params.append("all-projects", "true");
   }
 
-  return fetch(`/1.0/operations?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/operations?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdOperationList>) => {
       sortOperationList(data.metadata);
@@ -33,7 +34,7 @@ export const fetchOperations = async (
 };
 
 export const cancelOperation = async (id: string): Promise<void> => {
-  await fetch(`/1.0/operations/${encodeURIComponent(id)}`, {
+  await fetch(`${ROOT_PATH}/1.0/operations/${encodeURIComponent(id)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

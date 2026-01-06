@@ -4,6 +4,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ResourceLink from "components/ResourceLink";
 import ProfileRichTooltip from "pages/profiles/ProfileRichTooltip";
 import { SMALL_TOOLTIP_BREAKPOINT } from "components/RichTooltipTable";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   profileName: string;
@@ -20,7 +21,7 @@ const ProfileRichChip: FC<Props> = ({
 }) => {
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
 
-  const profileUrl = `/ui/project/${encodeURIComponent(projectName)}/profile/${encodeURIComponent(profileName)}`;
+  const profileUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/profile/${encodeURIComponent(profileName)}`;
   const resourceLink = (
     <ResourceLink
       type="profile"

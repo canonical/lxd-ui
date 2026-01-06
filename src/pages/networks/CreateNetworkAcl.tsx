@@ -13,6 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import NotificationRow from "components/NotificationRow";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import BaseLayout from "components/BaseLayout";
@@ -75,14 +76,16 @@ const CreateNetworkAcl: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networkAcls],
           });
-          navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,
+          );
           toastNotify.success(
             <>
               Network ACL{" "}
               <ResourceLink
                 type="network-acl"
                 value={values.name}
-                to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`}
               />{" "}
               created.
             </>,
@@ -140,7 +143,9 @@ const CreateNetworkAcl: FC = () => {
         <Button
           appearance="base"
           onClick={async () =>
-            navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`)
+            navigate(
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,
+            )
           }
         >
           Cancel
