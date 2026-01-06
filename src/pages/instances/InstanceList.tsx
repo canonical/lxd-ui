@@ -80,6 +80,7 @@ import { getInstanceKey, getInstanceType } from "util/instances";
 import DocLink from "components/DocLink";
 import TruncatedList from "components/TruncatedList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -701,7 +702,7 @@ const InstanceList: FC = () => {
                   className="u-float-right u-no-margin--bottom"
                   onClick={async () =>
                     navigate(
-                      `/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
+                      `${ROOT_PATH}/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
                     )
                   }
                   hasIcon={!isSmallScreen}
@@ -823,7 +824,7 @@ const InstanceList: FC = () => {
                   appearance="positive"
                   onClick={async () =>
                     navigate(
-                      `/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
+                      `${ROOT_PATH}/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
                     )
                   }
                   disabled={!!createInstanceRestriction}

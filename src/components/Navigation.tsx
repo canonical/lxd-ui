@@ -19,6 +19,7 @@ import {
   getElementAbsoluteHeight,
   logout,
 } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import NavLink from "components/NavLink";
@@ -81,7 +82,7 @@ const initializeProjectName = (
 };
 
 const Navigation: FC = () => {
-  const { isRestricted, isOidc } = useAuth();
+  const { isRestricted, isOidc, isAuthenticated } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const {
     project,
@@ -89,6 +90,7 @@ const Navigation: FC = () => {
     canViewProject,
     isLoading,
   } = useCurrentProject();
+
   const isSmallScreen = useIsScreenBelow();
   const [projectName, setProjectName] = useState(
     initializeProjectName(isAllProjectsFromUrl, isLoading, project),
@@ -101,6 +103,7 @@ const Navigation: FC = () => {
   const [openNavMenus, setOpenNavMenus] = useState<AccordionNavMenu[]>(() =>
     initialiseOpenNavMenus(location),
   );
+
   const onGenerate = location.pathname.includes("certificate-generate");
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
@@ -132,8 +135,6 @@ const Navigation: FC = () => {
       setScroll(false);
     }
   }, [menuCollapsed, scroll, openNavMenus]);
-
-  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     adjustNavigationScrollForOverflow();
@@ -285,8 +286,8 @@ const Navigation: FC = () => {
                         <NavLink
                           to={
                             isAllProjects
-                              ? "/ui/all-projects/instances"
-                              : `/ui/project/${encodeURIComponent(projectName)}/instances`
+                              ? `${ROOT_PATH}/ui/all-projects/instances`
+                              : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instances`
                           }
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
@@ -300,7 +301,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${encodeURIComponent(projectName)}/profiles`}
+                          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/profiles`}
                           title={getNavTitle("profiles")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
@@ -315,7 +316,7 @@ const Navigation: FC = () => {
 
                       <SideNavigationItem>
                         <NavAccordion
-                          baseUrl={`/ui/project/${encodeURIComponent(projectName)}/network`}
+                          baseUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network`}
                           title={getNavTitle("networking")}
                           disabled={isAllProjects}
                           iconName="exposed"
@@ -330,7 +331,7 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/networks`}
                             >
                               <NavLink
-                                to={`/ui/project/${encodeURIComponent(projectName)}/networks`}
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/networks`}
                                 title={`Networks (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -347,7 +348,7 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/network-acls`}
                             >
                               <NavLink
-                                to={`/ui/project/${encodeURIComponent(projectName)}/network-acls`}
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-acls`}
                                 title={`ACLs (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -359,7 +360,7 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
                             >
                               <NavLink
-                                to={`/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
                                 title={`IPAM (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -372,7 +373,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavAccordion
-                          baseUrl={`/ui/project/${encodeURIComponent(projectName)}/storage`}
+                          baseUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage`}
                           title={getNavTitle("storage")}
                           disabled={isAllProjects}
                           iconName="switcher-dashboard"
@@ -387,7 +388,7 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
                             >
                               <NavLink
-                                to={`/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
                                 title="Pools"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -403,7 +404,7 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
                             >
                               <NavLink
-                                to={`/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
                                 title="Volumes"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -418,7 +419,7 @@ const Navigation: FC = () => {
                                     key={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
                                   >
                                     <NavLink
-                                      to={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
+                                      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
                                       title="Custom ISOs"
                                       onClick={softToggleMenu}
                                       className="accordion-nav-secondary"
@@ -432,7 +433,7 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
                             >
                               <NavLink
-                                to={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
                                 title="Buckets"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -446,7 +447,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${encodeURIComponent(projectName)}/images`}
+                          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/images`}
                           title={getNavTitle("images")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
@@ -460,7 +461,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${encodeURIComponent(projectName)}/configuration`}
+                          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/configuration`}
                           title={getNavTitle("configuration")}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
@@ -480,7 +481,7 @@ const Navigation: FC = () => {
                       {isClustered && (
                         <SideNavigationItem>
                           <NavAccordion
-                            baseUrl="/ui/cluster"
+                            baseUrl={`${ROOT_PATH}/ui/cluster`}
                             title={getNavTitle("clustering")}
                             iconName="cluster-host"
                             label="Clustering"
@@ -492,7 +493,7 @@ const Navigation: FC = () => {
                             {[
                               <SideNavigationItem key="members">
                                 <NavLink
-                                  to="/ui/cluster/members"
+                                  to={`${ROOT_PATH}/ui/cluster/members`}
                                   title="Members"
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
@@ -502,7 +503,7 @@ const Navigation: FC = () => {
                               </SideNavigationItem>,
                               <SideNavigationItem key="groups">
                                 <NavLink
-                                  to="/ui/cluster/groups"
+                                  to={`${ROOT_PATH}/ui/cluster/groups`}
                                   title="Groups"
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
@@ -512,7 +513,7 @@ const Navigation: FC = () => {
                               </SideNavigationItem>,
                               <SideNavigationItem key="placement">
                                 <NavLink
-                                  to={`/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
+                                  to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
                                   title={`Placement groups (${projectName})`}
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
@@ -527,7 +528,7 @@ const Navigation: FC = () => {
                       {!isClustered && (
                         <SideNavigationItem>
                           <NavLink
-                            to="/ui/server"
+                            to={`${ROOT_PATH}/ui/server`}
                             title="Server"
                             onClick={softToggleMenu}
                           >
@@ -541,7 +542,7 @@ const Navigation: FC = () => {
                       )}
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/operations`}
+                          to={`${ROOT_PATH}/ui/operations`}
                           title={`Operations (${projectName})`}
                           onClick={softToggleMenu}
                         >
@@ -555,7 +556,7 @@ const Navigation: FC = () => {
                       {!isRestricted && (
                         <SideNavigationItem>
                           <NavLink
-                            to="/ui/warnings?status=new"
+                            to={`${ROOT_PATH}/ui/warnings?status=new`}
                             title="Warnings"
                             onClick={softToggleMenu}
                           >
@@ -570,7 +571,7 @@ const Navigation: FC = () => {
                       {hasAccessManagement && (
                         <SideNavigationItem>
                           <NavAccordion
-                            baseUrl="/ui/permissions"
+                            baseUrl={`${ROOT_PATH}/ui/permissions`}
                             title={`Permissions`}
                             iconName="user"
                             label="Permissions"
@@ -582,11 +583,11 @@ const Navigation: FC = () => {
                             {[
                               <SideNavigationItem key="/ui/permissions/identities">
                                 <NavLink
-                                  to="/ui/permissions/identities?system-identities=hide"
+                                  to={`${ROOT_PATH}/ui/permissions/identities?system-identities=hide`}
                                   title="Identities"
                                   onClick={softToggleMenu}
                                   activeUrlMatches={[
-                                    "/ui/permissions/identities",
+                                    `${ROOT_PATH}/ui/permissions/identities`,
                                   ]}
                                   className="accordion-nav-secondary"
                                 >
@@ -595,7 +596,7 @@ const Navigation: FC = () => {
                               </SideNavigationItem>,
                               <SideNavigationItem key="/ui/permissions/groups">
                                 <NavLink
-                                  to="/ui/permissions/groups"
+                                  to={`${ROOT_PATH}/ui/permissions/groups`}
                                   title="Groups"
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
@@ -605,7 +606,7 @@ const Navigation: FC = () => {
                               </SideNavigationItem>,
                               <SideNavigationItem key="/ui/permissions/idp-groups">
                                 <NavLink
-                                  to="/ui/permissions/idp-groups"
+                                  to={`${ROOT_PATH}/ui/permissions/idp-groups`}
                                   title="Identity provider groups"
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
@@ -619,7 +620,7 @@ const Navigation: FC = () => {
                       )}
                       <SideNavigationItem>
                         <NavLink
-                          to="/ui/settings"
+                          to={`${ROOT_PATH}/ui/settings`}
                           title="Settings"
                           onClick={softToggleMenu}
                         >
@@ -641,7 +642,7 @@ const Navigation: FC = () => {
                       {hasOidc && !menuCollapsed && (
                         <a
                           className="p-button has-icon sso-login-button"
-                          href="/oidc/login"
+                          href={`${ROOT_PATH}/oidc/login`}
                         >
                           <Icon name="security" />
                           <span>Login with SSO instead</span>
@@ -652,7 +653,9 @@ const Navigation: FC = () => {
                           <Step
                             key="Step 1"
                             handleClick={() => {
-                              navigate("/ui/login/certificate-generate");
+                              navigate(
+                                `${ROOT_PATH}/ui/login/certificate-generate`,
+                              );
                             }}
                             index={1}
                             title="Browser certificate"
@@ -665,7 +668,7 @@ const Navigation: FC = () => {
                           <Step
                             key="Step 2"
                             handleClick={() => {
-                              navigate("/ui/login/certificate-add");
+                              navigate(`${ROOT_PATH}/ui/login/certificate-add`);
                             }}
                             index={2}
                             title="Identity trust token"

@@ -13,6 +13,7 @@ import { useClusterMember } from "context/useClusterMembers";
 import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
 import ClusterMemberHardware from "pages/cluster/ClusterMemberHardware";
 import ClusterMemberOverview from "pages/cluster/ClusterMemberOverview";
+import { ROOT_PATH } from "util/rootPath";
 
 const ClusterMemberDetail: FC = () => {
   const notify = useNotify();
@@ -39,7 +40,7 @@ const ClusterMemberDetail: FC = () => {
         <RenameHeader
           name={memberName ?? ""}
           parentItems={[
-            <Link to="/ui/cluster/members" key={1}>
+            <Link to={`${ROOT_PATH}/ui/cluster/members`} key={1}>
               Cluster members
             </Link>,
           ]}
@@ -55,7 +56,7 @@ const ClusterMemberDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/cluster/member/${encodeURIComponent(memberName ?? "")}`}
+          tabUrl={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(memberName ?? "")}`}
         />
 
         {!activeTab && member && <ClusterMemberOverview member={member} />}

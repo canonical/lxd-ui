@@ -1,8 +1,9 @@
 import type { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
 import type { ReactNode } from "react";
-import type { AbortControllerState } from "./helpers";
-import { checkDuplicateName } from "./helpers";
+import type { AbortControllerState } from "util/helpers";
+import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import * as Yup from "yup";
 import type { LxdInstance } from "types/instance";
 import { useImagesInProject } from "context/useImages";
@@ -31,7 +32,7 @@ export const instanceLinkFromOperation = (args: {
 };
 
 export const linkForInstanceDetail = (name: string, project?: string) => {
-  return `/ui/project/${encodeURIComponent(project ?? "default")}/instance/${encodeURIComponent(name)}`;
+  return `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "default")}/instance/${encodeURIComponent(name)}`;
 };
 
 export const instanceNameValidation = (
@@ -92,7 +93,7 @@ export const getImageLink = (instance: LxdInstance) => {
     <ResourceLink
       type="image"
       value={imageDescription}
-      to={`/ui/project/${encodeURIComponent(instance.project)}/images`}
+      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/images`}
     />
   );
 };

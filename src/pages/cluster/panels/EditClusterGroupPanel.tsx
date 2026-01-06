@@ -17,6 +17,7 @@ import ResourceLink from "components/ResourceLink";
 import { useClusterGroup } from "context/useClusterGroups";
 import type { ClusterGroupFormValues } from "pages/cluster/ClusterGroupForm";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
+import { ROOT_PATH } from "util/rootPath";
 
 const EditClusterGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -54,7 +55,7 @@ const EditClusterGroupPanel: FC = () => {
               <ResourceLink
                 type="cluster-group"
                 value={values.name}
-                to="/ui/cluster/groups"
+                to={`${ROOT_PATH}/ui/cluster/groups`}
               />{" "}
               saved.
             </>,

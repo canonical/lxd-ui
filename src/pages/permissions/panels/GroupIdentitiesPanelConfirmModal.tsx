@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { updateIdentities } from "api/auth-identities";
 import { queryKeys } from "util/queryKeys";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   onConfirm: () => void;
@@ -94,7 +95,7 @@ const GroupIdentitiesPanelConfirmModal: FC<Props> = ({
               <ResourceLink
                 type="auth-group"
                 value={modifiedGroupNames[0]}
-                to="/ui/permissions/groups"
+                to={`${ROOT_PATH}/ui/permissions/groups`}
               />
             </>
           );

@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: {
@@ -12,7 +13,7 @@ interface Props {
 const InstanceLink: FC<Props> = ({ instance }) => {
   return (
     <Link
-      to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}`}
+      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}`}
       onClick={(e) => {
         e.stopPropagation();
       }}

@@ -31,6 +31,7 @@ import { yamlToObject } from "util/yaml";
 import type { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -86,14 +87,16 @@ const CreateStoragePool: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
+          );
           toastNotify.success(
             <>
               Storage pool{" "}
               <ResourceLink
                 type="pool"
                 value={storagePool.name}
-                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`}
               />{" "}
               created.
             </>,
@@ -137,7 +140,9 @@ const CreateStoragePool: FC = () => {
         <Button
           appearance="base"
           onClick={async () =>
-            navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`)
+            navigate(
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
+            )
           }
         >
           Cancel

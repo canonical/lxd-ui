@@ -1,20 +1,29 @@
 <!doctype html>
-
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>LXD UI</title>
-    <link rel="shortcut icon" href="/assets/img/favicon-32x32.png" type="image/x-icon">
-    <link rel="manifest" href="/manifest.json" id="manifest">
-    <script src="/ui/assets/js/manifest.js"></script>
+    <script>
+      (function() {
+        const path = window.location.pathname;
+
+        const uiIndex = path.indexOf("/ui/");
+        const rootPath = uiIndex > -1 ? path.substring(0, uiIndex) : "";
+        window.ROOT_PATH = rootPath;
+        
+        const basePath = rootPath + "/ui/";
+        const baseTag = document.createElement('base');
+        baseTag.href = window.location.origin + basePath;
+        document.head.appendChild(baseTag);
+      })();
+    </script>
+    
+    <link rel="shortcut icon" href="assets/img/favicon-32x32.png" id="favicon">
     <script>const global = globalThis;</script>
+    <script type="module" src="/src/index.tsx"></script>
   </head>
   <body>
-
     <div id="app"></div>
-    <script type="module" src="/src/index.tsx"></script>
-
   </body>
 </html>

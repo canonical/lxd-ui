@@ -6,6 +6,7 @@ import usePanelParams from "util/usePanelParams";
 import type { LxdNetwork } from "types/network";
 import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -24,7 +25,7 @@ const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
       hasIcon={!isSmallScreen}
       onClick={() => {
         navigate(
-          `/ui/project/${encodeURIComponent(panelParams.project)}/network/${encodeURIComponent(network.name)}/forwards/create`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(panelParams.project)}/network/${encodeURIComponent(network.name)}/forwards/create`,
         );
       }}
       className={classnames(

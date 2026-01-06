@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
 import { defaultFirst } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { useProjects } from "context/useProjects";
 import { useServerEntitlements } from "util/entitlements/server";
 
@@ -65,7 +66,7 @@ const NavigationProjectSelector: FC<Props> = ({
           )}
           <Button
             onClick={() => {
-              navigate("/ui/all-projects/instances");
+              navigate(`${ROOT_PATH}/ui/all-projects/instances`);
             }}
             className="p-contextual-menu__link all-projects"
             hasIcon
@@ -80,7 +81,7 @@ const NavigationProjectSelector: FC<Props> = ({
           <hr className="is-dark" />
           <Button
             onClick={() => {
-              navigate("/ui/projects/create");
+              navigate(`${ROOT_PATH}/ui/projects/create`);
             }}
             className="p-contextual-menu__link"
             hasIcon

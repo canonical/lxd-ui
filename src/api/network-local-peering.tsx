@@ -1,6 +1,7 @@
 import { handleResponse } from "util/helpers";
 import type { LxdNetworkPeer } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
+import { ROOT_PATH } from "util/rootPath";
 
 export const fetchNetworkPeers = async (
   network: string,
@@ -11,7 +12,7 @@ export const fetchNetworkPeers = async (
   params.set("recursion", "1");
 
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/peers?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/peers?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkPeer[]>) => {
@@ -29,7 +30,7 @@ export const fetchNetworkPeer = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkPeer>) => {
@@ -46,7 +47,7 @@ export const createNetworkPeer = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/peers?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/peers?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -66,7 +67,7 @@ export const deleteNetworkPeer = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/networks/${encodeURIComponent(
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(
       network,
     )}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
     {
@@ -85,7 +86,7 @@ export const updateNetworkPeer = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/networks/${encodeURIComponent(network)}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {

@@ -6,6 +6,7 @@ import {
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
+import { ROOT_PATH } from "util/rootPath";
 
 export const identitiesEntitlements = ["can_delete", "can_edit"];
 
@@ -16,7 +17,7 @@ export const fetchIdentities = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, identitiesEntitlements);
 
-  return fetch(`/1.0/auth/identities?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/auth/identities?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity[]>) => {
       data.metadata.map(ensureStableSorting);
@@ -25,7 +26,7 @@ export const fetchIdentities = async (
 };
 
 export const fetchCurrentIdentity = async (): Promise<LxdIdentity> => {
-  return fetch(`/1.0/auth/identities/current?recursion=1`)
+  return fetch(`${ROOT_PATH}/1.0/auth/identities/current?recursion=1`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity>) => {
       return data.metadata;
@@ -42,7 +43,7 @@ export const fetchIdentity = async (
   addEntitlements(params, isFineGrained, identitiesEntitlements);
 
   return fetch(
-    `/1.0/auth/identities/${encodeURIComponent(authMethod)}/${encodeURIComponent(id)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/auth/identities/${encodeURIComponent(authMethod)}/${encodeURIComponent(id)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdIdentity>) => {
@@ -52,7 +53,7 @@ export const fetchIdentity = async (
 
 export const updateIdentity = async (identity: LxdIdentity): Promise<void> => {
   await fetch(
-    `/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
+    `${ROOT_PATH}/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
     {
       method: "PUT",
       headers: {
@@ -73,7 +74,7 @@ export const updateIdentities = async (
 
 export const deleteIdentity = async (identity: LxdIdentity): Promise<void> => {
   await fetch(
-    `/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
+    `${ROOT_PATH}/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
     {
       method: "DELETE",
     },
@@ -92,7 +93,7 @@ export const createFineGrainedTlsIdentity = async (
   name: string,
   groups: string[],
 ): Promise<TlsIdentityTokenDetail> => {
-  return fetch(`/1.0/auth/identities/tls`, {
+  return fetch(`${ROOT_PATH}/1.0/auth/identities/tls`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

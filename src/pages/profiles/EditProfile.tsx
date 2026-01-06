@@ -70,6 +70,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { getProfilePayload } from "util/profiles";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
+import { ROOT_PATH } from "util/rootPath";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -179,7 +180,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`;
+  const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {

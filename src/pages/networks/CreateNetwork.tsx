@@ -14,6 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import {
   createClusterNetwork,
   createNetwork,
@@ -110,7 +111,9 @@ const CreateNetwork: FC = () => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
-          navigate(`/ui/project/${encodeURIComponent(project)}/networks`);
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
+          );
           toastNotify.success(
             <>
               Network{" "}
@@ -134,7 +137,7 @@ const CreateNetwork: FC = () => {
                 deleteNetwork(values.name, project).catch(() => {
                   // deleting the errored network failed, forward to network list page and show the creation failure
                   navigate(
-                    `/ui/project/${encodeURIComponent(project)}/networks`,
+                    `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
                   );
                   toastNotify.failure(
                     "Error during network creation",
@@ -207,7 +210,9 @@ const CreateNetwork: FC = () => {
         <Button
           appearance="base"
           onClick={async () =>
-            navigate(`/ui/project/${encodeURIComponent(project)}/networks`)
+            navigate(
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
+            )
           }
         >
           Cancel

@@ -26,6 +26,7 @@ import type { FormPermission } from "pages/permissions/panels/EditGroupPermissio
 import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 export type GroupSubForm = "identity" | "permission" | null;
 
@@ -61,7 +62,7 @@ const CreateGroupPanel: FC = () => {
         <ResourceLink
           type="auth-group"
           value={groupName}
-          to="/ui/permissions/groups"
+          to={`${ROOT_PATH}/ui/permissions/groups`}
         />{" "}
         created.
       </>,

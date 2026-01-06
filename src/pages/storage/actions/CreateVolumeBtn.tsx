@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   projectName: string;
@@ -23,7 +24,7 @@ const CreateVolumeBtn: FC<Props> = ({
 
   const handleAdd = () => {
     navigate(
-      `/ui/project/${encodeURIComponent(projectName)}/storage/volumes/create${defaultPool ? `?pool=${encodeURIComponent(defaultPool)}` : ""}`,
+      `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/volumes/create${defaultPool ? `?pool=${encodeURIComponent(defaultPool)}` : ""}`,
     );
   };
 

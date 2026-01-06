@@ -4,6 +4,7 @@ import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { FitAddon } from "@xterm/addon-fit";
 import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import type { TerminalConnectPayload } from "types/terminal";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -129,8 +130,8 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
 
     const operationUrl = result.operation.split("?")[0];
     const protocol = location.protocol === "https:" ? "wss" : "ws";
-    const dataUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
+    const dataUrl = `${protocol}://${location.host}${ROOT_PATH}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `${protocol}://${location.host}${ROOT_PATH}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
 
     const data = new WebSocket(dataUrl);
     const control = new WebSocket(controlUrl);

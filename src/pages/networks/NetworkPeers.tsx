@@ -20,6 +20,7 @@ import EditLocalPeeringPanel from "./panels/EditLocalPeeringPanel";
 import LocalPeeringStatusIcon from "./LocalPeeringStatusIcon";
 import LocalPeeringWarning from "./LocalPeeringWarning";
 import NetworkRichChip from "./NetworkRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -73,7 +74,7 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
             <ResourceLink
               type="project"
               value={localPeering.target_project}
-              to={`/ui/project/${encodeURIComponent(localPeering.target_project)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(localPeering.target_project)}`}
             />
           ) : (
             "-"

@@ -15,6 +15,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import classnames from "classnames";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { deleteNetworkAcl } from "api/network-acls";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
@@ -40,7 +41,9 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
             query.queryKey[1] === project &&
             query.queryKey[2] === queryKeys.networkAcls,
         });
-        navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);
+        navigate(
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,
+        );
         toastNotify.success(
           <>
             Network ACL{" "}

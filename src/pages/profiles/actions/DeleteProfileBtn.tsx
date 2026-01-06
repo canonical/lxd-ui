@@ -15,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import ResourceLabel from "components/ResourceLabel";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   profile: LxdProfile;
@@ -43,7 +44,9 @@ const DeleteProfileBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, project],
         });
-        navigate(`/ui/project/${encodeURIComponent(project)}/profiles`);
+        navigate(
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profiles`,
+        );
         toastNotify.success(
           <>
             Profile <ResourceLabel bold type="profile" value={profile.name} />{" "}

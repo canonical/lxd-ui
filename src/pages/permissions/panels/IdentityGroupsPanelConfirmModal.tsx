@@ -17,6 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   onConfirm: () => void;
@@ -84,7 +85,7 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
               <ResourceLink
                 type="oidc-identity"
                 value={modifiedGroupNames[0]}
-                to="/ui/permissions/identities"
+                to={`${ROOT_PATH}/ui/permissions/identities`}
               />
             </>
           );

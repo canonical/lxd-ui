@@ -21,6 +21,7 @@ import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
 import { useAuthGroups } from "context/useAuthGroups";
+import { ROOT_PATH } from "util/rootPath";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -156,7 +157,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
             <ResourceLink
               type="idp-group"
               value={values.name}
-              to="/ui/permissions/idp-groups"
+              to={`${ROOT_PATH}/ui/permissions/idp-groups`}
             />{" "}
             updated.
           </>,
