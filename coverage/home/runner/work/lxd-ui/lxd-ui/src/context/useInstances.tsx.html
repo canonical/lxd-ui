@@ -30,16 +30,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/9</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
@@ -93,44 +93,44 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">1326x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">1198x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-yes">455x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { fetchInstance, fetchInstances } from "api/instances";
 import { useAuth } from "./auth";
 import type { LxdInstance } from "types/instance";
 &nbsp;
-export const useInstances = <span class="fstat-no" title="function not covered" >(</span>
+export const useInstances = (
   project: string | null,
 ): UseQueryResult&lt;LxdInstance[]&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
@@ -141,7 +141,7 @@ export const useInstances = <span class="fstat-no" title="function not covered" 
   });
 };
 &nbsp;
-export const useInstance = <span class="fstat-no" title="function not covered" >(</span>
+export const useInstance = (
   name: string,
   project: string,
   enabled?: boolean,
@@ -160,7 +160,7 @@ export const useInstance = <span class="fstat-no" title="function not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

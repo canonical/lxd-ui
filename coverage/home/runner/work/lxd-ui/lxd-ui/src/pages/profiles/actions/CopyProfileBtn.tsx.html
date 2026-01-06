@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>42/48</span>
+                <span class='fraction'>42/42</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -118,39 +118,39 @@
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
-<span class="cline-any cline-yes">281x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
+<span class="cline-any cline-yes">285x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import type { LxdProfile } from "types/profile";
 import { Button, Icon, usePortal } from "@canonical/react-components";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import CopyProfileForm from "../forms/CopyProfileForm";
 &nbsp;
 interface Props {
@@ -159,15 +159,15 @@ interface Props {
   onClose?: () =&gt; void;
 }
 &nbsp;
-const CopyProfileBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> profile, className, onClose }) =&gt; {</span>
-  const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal();</span>
+const CopyProfileBtn: FC&lt;Props&gt; = ({ profile, className, onClose }) =&gt; {
+  const { openPortal, closePortal, isOpen, Portal } = usePortal();
 &nbsp;
-  const handleClose = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    closePortal();</span>
-<span class="cstat-no" title="statement not covered" >    onClose?.();</span>
+  const handleClose = () =&gt; {
+    closePortal();
+    onClose?.();
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       {isOpen &amp;&amp; (
         &lt;Portal&gt;
@@ -196,7 +196,7 @@ export default CopyProfileBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

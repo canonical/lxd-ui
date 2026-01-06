@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">86.2% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/39</span>
+                <span class='fraction'>25/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.65% </span>
+                <span class="strong">86.2% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/29</span>
+                <span class='fraction'>25/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,11 +92,11 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">56x</span>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -117,7 +117,7 @@
 <span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -125,28 +125,28 @@
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdPermission } from "types/permissions";
 &nbsp;
-export const fetchPermissions = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const fetchPermissions = async (
   resourceType: string,
 ): Promise&lt;LxdPermission[]&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("entity-type", resourceType);</span>
+  const params = new URLSearchParams();
+  params.set("entity-type", resourceType);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/auth/permissions?${params.toString()}`)</span>
+  return fetch(`/1.0/auth/permissions?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdPermission[]&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return (</span>
+      return (
         // permission data returned from the server is not sorted, this may cause unwanted side effects in UI components
         // see issue in lxd: https://github.com/canonical/lxd/issues/14285
         // TODO: we should remove this sort once the issue is fixed in lxd
         data.metadata.sort((a, b) =&gt; {
-<span class="cstat-no" title="statement not covered" >          if (a.url === b.url) {</span>
-<span class="cstat-no" title="statement not covered" >            if (a.entitlement === b.entitlement) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              return a.entity_type.localeCompare(b.entity_type);</span></span>
+          if (a.url === b.url) {
+            if (a.entitlement === b.entitlement) {
+<span class="cstat-no" title="statement not covered" >              return a.entity_type.localeCompare(b.entity_type);</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
-<span class="cstat-no" title="statement not covered" >            return a.entitlement.localeCompare(b.entitlement);</span>
+            return a.entitlement.localeCompare(b.entitlement);
           }
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return a.url.localeCompare(b.url);</span></span>
-        })
+<span class="cstat-no" title="statement not covered" >          return a.url.localeCompare(b.url);</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
       );
     });
 };
@@ -157,7 +157,7 @@ export const fetchPermissions = <span class="cstat-no" title="statement not cove
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

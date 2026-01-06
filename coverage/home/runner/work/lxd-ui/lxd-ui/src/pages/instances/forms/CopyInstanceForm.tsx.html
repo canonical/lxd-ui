@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.89% </span>
+                <span class="strong">97.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>252/290</span>
+                <span class='fraction'>252/258</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.97% </span>
+                <span class="strong">90.47% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>23/39</span>
+                <span class='fraction'>19/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.38% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/21</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
@@ -474,12 +474,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -624,58 +624,58 @@ export interface LxdInstanceCopy {
   instanceOnly: boolean;
 }
 &nbsp;
-const CopyInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance, close }) =&gt; {</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
+const CopyInstanceForm: FC&lt;Props&gt; = ({ instance, close }) =&gt; {
+  const toastNotify = useToastNotification();
+  const isClustered = useIsClustered();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
+  const navigate = useNavigate();
+  const eventQueue = useEventQueue();
 &nbsp;
-  const { data: projects = [], isLoading: projectsLoading } = <span class="cstat-no" title="statement not covered" >useProjects();</span>
-  const { canCreateInstances } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span>
+  const { data: projects = [], isLoading: projectsLoading } = useProjects();
+  const { canCreateInstances } = useProjectEntitlements();
 &nbsp;
   const { data: storagePools = [], isLoading: storagePoolsLoading } =
-<span class="cstat-no" title="statement not covered" >    useStoragePools();</span>
+    useStoragePools();
 &nbsp;
-  const { data: instances = [] } = <span class="cstat-no" title="statement not covered" >useInstances(instance.project);</span>
+  const { data: instances = [] } = useInstances(instance.project);
 &nbsp;
-  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+  const notifySuccess = (
     name: string,
     project: string,
     type: InstanceIconType,
   ) =&gt; {
-    const instanceUrl = <span class="cstat-no" title="statement not covered" >`/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`;</span>
+    const instanceUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`;
     const message = (
-<span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
+      &lt;&gt;
         Created instance{" "}
         &lt;ResourceLink type={type} value={name} to={instanceUrl} /&gt;.
       &lt;/&gt;
     );
 &nbsp;
-    const actions = <span class="cstat-no" title="statement not covered" >[</span>
+    const actions = [
       {
         label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${instanceUrl}/configuration`),</span></span>
+        onClick: <span class="fstat-no" title="function not covered" >async () =&gt; navigate(`${instanceUrl}/configuration`),</span>
       },
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(message, actions);</span>
+    toastNotify.success(message, actions);
   };
 &nbsp;
-  const getCopiedInstanceName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nstance: LxdInstance): string =&gt; {</span>
-    const newInstanceName = <span class="cstat-no" title="statement not covered" >truncateEntityName(instance.name, "-copy");</span>
-<span class="cstat-no" title="statement not covered" >    return getUniqueResourceName(newInstanceName, instances);</span>
+  const getCopiedInstanceName = (instance: LxdInstance): string =&gt; {
+    const newInstanceName = truncateEntityName(instance.name, "-copy");
+    return getUniqueResourceName(newInstanceName, instances);
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;LxdInstanceCopy&gt;({</span>
+  const formik = useFormik&lt;LxdInstanceCopy&gt;({
     initialValues: {
       instanceName: getCopiedInstanceName(instance),
       targetProject: instance.project,
       allowInconsistent: false,
       instanceOnly: false,
-      targetClusterMember: <span class="branch-0 cbranch-no" title="branch not covered" >isClustered ? instance.location : "</span>",
+      targetClusterMember: <span class="branch-0 cbranch-no" title="branch not covered" >isClustered ? instance.location </span>: "",
       targetStoragePool:
-        (instance.devices["root"<span class="branch-0 cbranch-no" title="branch not covered" >] as LxdDiskDevice)?.pool ??</span>
+        (instance.devices["root"]<span class="branch-0 cbranch-no" title="branch not covered" > as LxdDiskDevice)?.pool ??</span>
         storagePools[0]?.name,
     },
     enableReinitialize: true,
@@ -685,14 +685,14 @@ const CopyInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
         controllerState,
       ).required(),
     }),
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
+    onSubmit: (values) =&gt; {
       const instanceLink = (
-<span class="cstat-no" title="statement not covered" >        &lt;InstanceRichChip</span>
+        &lt;InstanceRichChip
           instanceName={instance.name}
           projectName={instance.project}
         /&gt;
       );
-<span class="cstat-no" title="statement not covered" >      createInstance(</span>
+      createInstance(
         JSON.stringify({
           description: instance.description,
           name: values.instanceName,
@@ -717,34 +717,34 @@ const CopyInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
         values.targetClusterMember,
       )
         .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >          toastNotify.info(&lt;&gt;Copy of instance {instanceLink} started.&lt;/&gt;);</span>
-<span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
+          toastNotify.info(&lt;&gt;Copy of instance {instanceLink} started.&lt;/&gt;);
+          eventQueue.set(
             operation.metadata.id,
-<span class="fstat-no" title="function not covered" >            () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              notifySuccess(</span>
+            () =&gt; {
+              notifySuccess(
                 values.instanceName,
                 values.targetProject,
                 instance.type,
               );
             },
-<span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span></span>
+            (msg) =&gt;
+<span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >                "Instance copy failed.",</span>
 <span class="cstat-no" title="statement not covered" >                new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >                instanceLink,</span>
-<span class="cstat-no" title="statement not covered" >              ),</span>
+              ),
           );
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Instance copy failed.", e, instanceLink);</span></span>
-        })
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure("Instance copy failed.", e, instanceLink);</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
         .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          close();</span>
+          close();
         });
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="copy-instances-modal"
@@ -769,7 +769,7 @@ const CopyInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
               storagePoolsLoading ||
               projectsLoading
             }
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+            onClick={() =&gt; void formik.submitForm()}
           &gt;
             Copy
           &lt;/ActionButton&gt;
@@ -792,8 +792,8 @@ const CopyInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
         /&gt;
         &lt;StoragePoolSelector
           {...formik.getFieldProps("targetStoragePool")}
-          setValue={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt;
-<span class="cstat-no" title="statement not covered" >            void formik.setFieldValue("targetStoragePool", value)</span>
+          setValue={(value) =&gt;
+            void formik.setFieldValue("targetStoragePool", value)
           }
           selectProps={{
             id: "storagePool",
@@ -805,7 +805,7 @@ const CopyInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
           id="project"
           label="Target project"
           options={projects.filter(canCreateInstances).map((project) =&gt; {
-<span class="cstat-no" title="statement not covered" >            return {</span>
+            return {
               label: project.name,
               value: project.name,
             };
@@ -844,7 +844,7 @@ export default CopyInstanceForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

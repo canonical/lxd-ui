@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.5% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/40</span>
+                <span class='fraction'>30/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">57.89% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/18</span>
+                <span class='fraction'>11/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -90,34 +90,34 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">201x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">207x</span>
-<span class="cline-any cline-yes">207x</span>
-<span class="cline-any cline-yes">207x</span>
-<span class="cline-any cline-yes">207x</span>
-<span class="cline-any cline-yes">207x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">470x</span>
-<span class="cline-any cline-yes">470x</span>
-<span class="cline-any cline-yes">470x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">437x</span>
+<span class="cline-any cline-yes">437x</span>
+<span class="cline-any cline-yes">437x</span>
 <span class="cline-any cline-yes">118x</span>
 <span class="cline-any cline-yes">118x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">352x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const scrollToElement = <span class="fstat-no" title="function not covered" >(i</span>d: string) =&gt; {
+<span class="cline-any cline-yes">325x</span>
+<span class="cline-any cline-yes">325x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const scrollToElement = (id: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >  document.getElementById(id)?.scrollIntoView({</span>
     inline: "nearest",
     block: "nearest",
@@ -127,13 +127,13 @@
 /**
  * Returns the first section that is in the viewport.
  */
-export const getFirstVisibleSection = <span class="fstat-no" title="function not covered" >(</span>
+export const getFirstVisibleSection = (
   sections: string[],
   wrapper: HTMLElement | null,
 ) =&gt; {
   const scrollTop = <span class="cstat-no" title="statement not covered" >wrapper ? wrapper.scrollTop : 0;</span>
   const offsetTop = <span class="cstat-no" title="statement not covered" >wrapper ? wrapper.offsetTop : 0;</span>
-  let previousCandidate = <span class="cstat-no" title="statement not covered" >sections[0];</span>
+  let previousCandidate = sections[0];
 <span class="cstat-no" title="statement not covered" >  for (const candidate of sections) {</span>
     const element = <span class="cstat-no" title="statement not covered" >document.getElementById(candidate.toLowerCase());</span>
     const elementOffset = <span class="cstat-no" title="statement not covered" >element?.offsetTop ?? 0;</span>
@@ -151,7 +151,7 @@ export const getFirstVisibleSection = <span class="fstat-no" title="function not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

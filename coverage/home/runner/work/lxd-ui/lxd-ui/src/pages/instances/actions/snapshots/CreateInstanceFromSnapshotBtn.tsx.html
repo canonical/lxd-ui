@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">98.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>49/63</span>
+                <span class='fraction'>56/57</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.71% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/14</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.96% </span>
+                <span class="strong">98.24% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>49/57</span>
+                <span class='fraction'>56/57</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -149,13 +149,13 @@
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -191,28 +191,28 @@ interface Props {
   isRestoring: boolean;
 }
 &nbsp;
-const CreateInstanceFromSnapshotBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const CreateInstanceFromSnapshotBtn: FC&lt;Props&gt; = ({
   instance,
   snapshot,
   isDeleting,
   isRestoring,
 }) =&gt; {
-  const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal();</span>
-  const { data: projects = [] } = <span class="cstat-no" title="statement not covered" >useProjects();</span>
-  const { canCreateInstances } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span>
+  const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { data: projects = [] } = useProjects();
+  const { canCreateInstances } = useProjectEntitlements();
 &nbsp;
-  const validTargetProjects = <span class="cstat-no" title="statement not covered" >projects.filter(canCreateInstances);</span>
+  const validTargetProjects = projects.filter(canCreateInstances);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
-      {<span class="branch-0 cbranch-no" title="branch not covered" >isOpen &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Portal&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CreateInstanceFromSnapshotForm</span>
-<span class="cstat-no" title="statement not covered" >            close={closePortal}</span>
-<span class="cstat-no" title="statement not covered" >            instance={instance}</span>
-<span class="cstat-no" title="statement not covered" >            snapshot={snapshot}</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Portal&gt;</span>
+      {isOpen &amp;&amp; (
+        &lt;Portal&gt;
+          &lt;CreateInstanceFromSnapshotForm
+            close={closePortal}
+            instance={instance}
+            snapshot={snapshot}
+          /&gt;
+        &lt;/Portal&gt;
       )}
       &lt;Button
         appearance="base"
@@ -241,7 +241,7 @@ export default CreateInstanceFromSnapshotBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

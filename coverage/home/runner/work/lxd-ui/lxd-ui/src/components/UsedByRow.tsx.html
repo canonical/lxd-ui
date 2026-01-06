@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.93% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>55/64</span>
+                <span class='fraction'>55/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.66% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/15</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -135,27 +135,27 @@
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">85x</span>
-<span class="cline-any cline-yes">512x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">99x</span>
+<span class="cline-any cline-yes">589x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -165,12 +165,12 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
-<span class="cline-any cline-yes">597x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
+<span class="cline-any cline-yes">688x</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
@@ -189,20 +189,20 @@ interface Props {
   usedBy: string[] | undefined;
 }
 &nbsp;
-const UsedByRow: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> entityType, usedBy }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (!usedBy) <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >return null;</span></span></span>
+const UsedByRow: FC&lt;Props&gt; = ({ entityType, usedBy }) =&gt; {
+  if (!usedBy) <span class="branch-0 cbranch-no" title="branch not covered" >return null;</span>
 &nbsp;
-  const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span>
+  const { project } = useCurrentProject();
 &nbsp;
-  const filteredResources = <span class="cstat-no" title="statement not covered" >filterUsedByType(entityType, usedBy);</span>
+  const filteredResources = filterUsedByType(entityType, usedBy);
 &nbsp;
   const entityNameSingular =
-<span class="cstat-no" title="statement not covered" >    entityType === "volume"</span>
+    entityType === "volume"
       ? "Custom volume"
       : capitalizeFirstLetter(entityType.replaceAll("-", " "));
-  const entityName = <span class="cstat-no" title="statement not covered" >pluralize(entityNameSingular, filteredResources.length);</span>
+  const entityName = pluralize(entityNameSingular, filteredResources.length);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;tr className="used-by-row"&gt;
       &lt;th className="u-text--muted used-by-row-header"&gt;
         &lt;ResourceIcon type={entityType as ResourceIconType} className="icon" /&gt;
@@ -211,9 +211,9 @@ const UsedByRow: FC&lt;Props&gt; = <span class="cstat-no" title="statement not c
       &lt;td&gt;
         &lt;ExpandableList
           items={filteredResources.map((item) =&gt; {
-<span class="cstat-no" title="statement not covered" >            return (</span>
+            return (
               &lt;UsedByItem
-                key={`${item.name}-${item.project}-${item.target ?? <span class="branch-1 cbranch-no" title="branch not covered" >""}</span>`}
+                key={`${item.name}-${item.project}-${item.target ?? ""}`}
                 item={item}
                 activeProject={project?.name || "default"}
                 type={entityType as ResourceIconType}
@@ -235,7 +235,7 @@ export default UsedByRow;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

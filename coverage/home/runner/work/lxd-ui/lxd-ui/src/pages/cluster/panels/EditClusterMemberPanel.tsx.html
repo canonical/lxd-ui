@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.74% </span>
+                <span class="strong">19.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/221</span>
+                <span class='fraction'>37/186</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/25</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -469,21 +469,21 @@ interface Props {
   onClose?: () =&gt; void;
 }
 &nbsp;
-const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> onClose }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span></span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
-<span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { data: member } = <span class="cstat-no" title="statement not covered" >useClusterMember(panelParams.member ?? "");</span></span>
-<span class="cstat-no" title="statement not covered" >  const { data: clusterGroups = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useClusterGroups();</span></span>
+const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ onClose }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const panelParams = usePanelParams();</span>
+<span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
+<span class="cstat-no" title="statement not covered" >  const toastNotify = useToastNotification();</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
+<span class="cstat-no" title="statement not covered" >  const { data: member } = useClusterMember(panelParams.member ?? "");</span>
+<span class="cstat-no" title="statement not covered" >  const { data: clusterGroups = [] } = useClusterGroups();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const closePanel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    panelParams.clear();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onClose?.();</span></span>
+<span class="cstat-no" title="statement not covered" >  const closePanel = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    panelParams.clear();</span>
+<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+<span class="cstat-no" title="statement not covered" >    onClose?.();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;EditClusterMemberForm&gt;({</span></span>
+<span class="cstat-no" title="statement not covered" >  const formik = useFormik&lt;EditClusterMemberForm&gt;({</span>
 <span class="cstat-no" title="statement not covered" >    initialValues: {</span>
 <span class="cstat-no" title="statement not covered" >      name: member?.server_name ?? "",</span>
 <span class="cstat-no" title="statement not covered" >      description: member?.description ?? "",</span>
@@ -491,8 +491,8 @@ const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >      groups: member?.groups ?? [],</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >    enableReinitialize: true,</span>
-<span class="cstat-no" title="statement not covered" >    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      const payload = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    onSubmit: (values) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      const payload = {</span>
 <span class="cstat-no" title="statement not covered" >        server_name: values.name,</span>
 <span class="cstat-no" title="statement not covered" >        description: values.description,</span>
 <span class="cstat-no" title="statement not covered" >        failure_domain: values.failureDomain,</span>
@@ -500,9 +500,9 @@ const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >        roles: member?.roles,</span>
 <span class="cstat-no" title="statement not covered" >      } as LxdClusterMember;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      updateClusterMember(payload)</span></span>
-<span class="cstat-no" title="statement not covered" >        .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.success(</span></span>
+<span class="cstat-no" title="statement not covered" >      updateClusterMember(payload)</span>
+<span class="cstat-no" title="statement not covered" >        .then(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Cluster member{" "}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;ResourceLink</span>
@@ -513,32 +513,32 @@ const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >              saved.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          closePanel();</span></span>
+<span class="cstat-no" title="statement not covered" >          closePanel();</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          notify.failure("Cluster member update failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >        .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          notify.failure("Cluster member update failed", e);</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .finally(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >        .finally(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >            queryKey: [queryKeys.cluster, queryKeys.members],</span>
 <span class="cstat-no" title="statement not covered" >          });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >            queryKey: [queryKeys.cluster, queryKeys.members, values.name],</span>
 <span class="cstat-no" title="statement not covered" >          });</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const addedGroups = <span class="cstat-no" title="statement not covered" >formik.values.groups.filter(</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (g</span>roup) =&gt; <span class="cstat-no" title="statement not covered" >!member?.groups?.includes(group) || false,</span></span>
+<span class="cstat-no" title="statement not covered" >  const addedGroups = formik.values.groups.filter(</span>
+<span class="cstat-no" title="statement not covered" >    (group) =&gt; !member?.groups?.includes(group) || false,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >  const removedGroups =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    member?.groups?.filter(<span class="fstat-no" title="function not covered" >(g</span>roup) =&gt; <span class="cstat-no" title="statement not covered" >!formik.values.groups.includes(group))</span> ??</span></span>
+<span class="cstat-no" title="statement not covered" >    member?.groups?.filter((group) =&gt; !formik.values.groups.includes(group)) ??</span>
 <span class="cstat-no" title="statement not covered" >    [];</span>
-<span class="cstat-no" title="statement not covered" >  const modifiedGroups = <span class="cstat-no" title="statement not covered" >new Set([...addedGroups, ...removedGroups]);</span></span>
+<span class="cstat-no" title="statement not covered" >  const modifiedGroups = new Set([...addedGroups, ...removedGroups]);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;SidePanel&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;SidePanel.Header&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;SidePanel.HeaderTitle&gt;</span>
@@ -573,23 +573,23 @@ const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >              parentItemName="member"</span>
 <span class="cstat-no" title="statement not covered" >              parentItems={[{ name: formik.values.name }]}</span>
 <span class="cstat-no" title="statement not covered" >              selectedGroups={new Set(formik.values.groups)}</span>
-<span class="cstat-no" title="statement not covered" >              setSelectedGroups={<span class="fstat-no" title="function not covered" >(v</span>al, isUnselectAll) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                if (isUnselectAll) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  formik.setFieldValue("groups", []);</span></span>
+<span class="cstat-no" title="statement not covered" >              setSelectedGroups={(val, isUnselectAll) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                if (isUnselectAll) {</span>
+<span class="cstat-no" title="statement not covered" >                  formik.setFieldValue("groups", []);</span>
 <span class="cstat-no" title="statement not covered" >                } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  formik.setFieldValue("groups", val);</span></span>
+<span class="cstat-no" title="statement not covered" >                  formik.setFieldValue("groups", val);</span>
 <span class="cstat-no" title="statement not covered" >                }</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >              preselectedGroups={new Set(member?.groups ?? [])}</span>
 <span class="cstat-no" title="statement not covered" >              indeterminateGroups={new Set()}</span>
-<span class="cstat-no" title="statement not covered" >              toggleGroup={<span class="fstat-no" title="function not covered" >(g</span>roup) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                const newGroups = <span class="cstat-no" title="statement not covered" >new Set([...formik.values.groups]);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                if (newGroups.has(group)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  newGroups.delete(group);</span></span>
+<span class="cstat-no" title="statement not covered" >              toggleGroup={(group) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                const newGroups = new Set([...formik.values.groups]);</span>
+<span class="cstat-no" title="statement not covered" >                if (newGroups.has(group)) {</span>
+<span class="cstat-no" title="statement not covered" >                  newGroups.delete(group);</span>
 <span class="cstat-no" title="statement not covered" >                } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  newGroups.add(group);</span></span>
+<span class="cstat-no" title="statement not covered" >                  newGroups.add(group);</span>
 <span class="cstat-no" title="statement not covered" >                }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                formik.setFieldValue("groups", [...newGroups]);</span></span>
+<span class="cstat-no" title="statement not covered" >                formik.setFieldValue("groups", [...newGroups]);</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >              scrollDependencies={[notify.notification]}</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;</span>
@@ -607,7 +607,7 @@ const EditClusterMemberPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >        &lt;ActionButton</span>
 <span class="cstat-no" title="statement not covered" >          appearance="positive"</span>
 <span class="cstat-no" title="statement not covered" >          loading={formik.isSubmitting}</span>
-<span class="cstat-no" title="statement not covered" >          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span></span>
+<span class="cstat-no" title="statement not covered" >          onClick={() =&gt; void formik.submitForm()}</span>
 <span class="cstat-no" title="statement not covered" >          className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >          disabled={</span>
 <span class="cstat-no" title="statement not covered" >            !formik.isValid || formik.isSubmitting || !formik.values.name</span>
@@ -628,7 +628,7 @@ export default EditClusterMemberPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

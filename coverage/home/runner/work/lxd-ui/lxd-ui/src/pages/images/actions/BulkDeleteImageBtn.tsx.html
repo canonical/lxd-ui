@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.53% </span>
+                <span class="strong">74.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>104/169</span>
+                <span class='fraction'>99/133</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/25</span>
+                <span class='fraction'>9/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.23% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/13</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.69% </span>
+                <span class="strong">74.43% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>102/133</span>
+                <span class='fraction'>99/133</span>
             </div>
         
             
@@ -290,8 +290,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -302,8 +302,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -350,41 +350,41 @@ interface Props {
   onFinish: () =&gt; void;
 }
 &nbsp;
-const BulkDeleteImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const BulkDeleteImageBtn: FC&lt;Props&gt; = ({
   images,
   project,
   onStart,
   onFinish,
 }) =&gt; {
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const { canDeleteImage } = <span class="cstat-no" title="statement not covered" >useImageEntitlements();</span>
-  const viewBulkDetails = <span class="cstat-no" title="statement not covered" >useBulkDetails();</span>
+  const eventQueue = useEventQueue();
+  const toastNotify = useToastNotification();
+  const [isLoading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const { canDeleteImage } = useImageEntitlements();
+  const viewBulkDetails = useBulkDetails();
 &nbsp;
-  const totalCount = <span class="cstat-no" title="statement not covered" >images.length;</span>
-  const deletableImages = <span class="cstat-no" title="statement not covered" >images.filter((image) =&gt; canDeleteImage(image));</span>
-  const fingerprints = <span class="cstat-no" title="statement not covered" >deletableImages.map((image) =&gt; image.fingerprint);</span>
-  const deleteCount = <span class="cstat-no" title="statement not covered" >deletableImages.length;</span>
+  const totalCount = images.length;
+  const deletableImages = images.filter((image) =&gt; canDeleteImage(image));
+  const fingerprints = deletableImages.map((image) =&gt; image.fingerprint);
+  const deleteCount = deletableImages.length;
 &nbsp;
-  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    onStart();</span>
-<span class="cstat-no" title="statement not covered" >    deleteImageBulk(fingerprints, project, eventQueue)</span>
+  const handleDelete = () =&gt; {
+    setLoading(true);
+    onStart();
+    deleteImageBulk(fingerprints, project, eventQueue)
       .then((results) =&gt; {
         const { fulfilledCount, rejectedCount } =
-<span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span>
-<span class="cstat-no" title="statement not covered" >        if (fulfilledCount === deleteCount) {</span>
-<span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
+          getPromiseSettledCounts(results);
+        if (fulfilledCount === deleteCount) {
+          toastNotify.success(
             &lt;&gt;
               &lt;b&gt;{fingerprints.length}&lt;/b&gt;{" "}
               {pluralize("image", fingerprints.length)} deleted.
             &lt;/&gt;,
             viewBulkDetails(results),
           );
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        } else if (rejectedCount === deleteCount) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        } else if (rejectedCount === deleteCount) {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >            "Image bulk deletion failed",</span>
 <span class="cstat-no" title="statement not covered" >            undefined,</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -394,7 +394,7 @@ const BulkDeleteImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >            "Image bulk deletion partially failed",</span>
 <span class="cstat-no" title="statement not covered" >            undefined,</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -407,38 +407,38 @@ const BulkDeleteImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
-          predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {
-            const firstKey = <span class="cstat-no" title="statement not covered" >query.queryKey[0];</span>
-<span class="cstat-no" title="statement not covered" >            return (</span>
+        queryClient.invalidateQueries({
+          predicate: (query) =&gt; {
+            const firstKey = query.queryKey[0];
+            return (
               firstKey === queryKeys.images ||
               // Invalidate projects to update used_by field
               firstKey === queryKeys.projects
             );
           },
         });
-<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >        onFinish();</span>
+        setLoading(false);
+        onFinish();
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Image bulk deletion failed", e);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure("Image bulk deletion failed", e);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-  const getBulkDeleteBreakdown = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (deleteCount === totalCount) {</span>
-<span class="cstat-no" title="statement not covered" >      return undefined;</span>
+  const getBulkDeleteBreakdown = () =&gt; {
+    if (deleteCount === totalCount) {
+      return undefined;
 <span class="branch-0 cbranch-no" title="branch not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const restrictedCount = <span class="cstat-no" title="statement not covered" >totalCount - deleteCount;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return [</span></span>
+<span class="cstat-no" title="statement not covered" >    const restrictedCount = totalCount - deleteCount;</span>
+<span class="cstat-no" title="statement not covered" >    return [</span>
 <span class="cstat-no" title="statement not covered" >      `${deleteCount} ${pluralize("image", deleteCount)} will be deleted.`,</span>
 <span class="cstat-no" title="statement not covered" >      `${restrictedCount} ${pluralize("image", restrictedCount)} that you do not have permission to delete will be ignored.`,</span>
-    ];
-  };
+<span class="cstat-no" title="statement not covered" >    ];</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;BulkDeleteButton
       entities={images}
       deletableEntities={deletableImages}
@@ -469,7 +469,7 @@ export default BulkDeleteImageBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.72% </span>
+                <span class="strong">94.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>67/83</span>
+                <span class='fraction'>67/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.41% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/17</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -212,7 +212,7 @@ import { getInheritedDiskDevices } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
 import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
 import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import ScrollableForm from "components/ScrollableForm";
 import { useProfiles } from "context/useProfiles";
 import { useStoragePools } from "context/useStoragePools";
@@ -222,36 +222,36 @@ interface Props {
   project: string;
 }
 &nbsp;
-const DiskDeviceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> formik, project }) =&gt; {</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
+const DiskDeviceForm: FC&lt;Props&gt; = ({ formik, project }) =&gt; {
+  const notify = useNotify();
 &nbsp;
   const {
-    data: profiles = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
+    data: profiles = [],
     isLoading: isProfileLoading,
     error: profileError,
-  } = <span class="cstat-no" title="statement not covered" >useProfiles(project);</span>
+  } = useProfiles(project);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (profileError) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading profiles failed", profileError);</span></span>
+  if (profileError) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Loading profiles failed", profileError);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   const {
-    data: pools = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
+    data: pools = [],
     isLoading: isStorageLoading,
     error: storageError,
-  } = <span class="cstat-no" title="statement not covered" >useStoragePools();</span>
+  } = useStoragePools();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (storageError) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading storage pools failed", storageError);</span></span>
+  if (storageError) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Loading storage pools failed", storageError);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (isProfileLoading || <span class="branch-1 cbranch-no" title="branch not covered" >isStorageLoading) {</span></span>
-<span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading..." /&gt;;</span>
+  if (isProfileLoading || isStorageLoading) {
+    return &lt;Spinner className="u-loader" text="Loading..." /&gt;;
   }
 &nbsp;
-  const inheritedDiskDevices = <span class="cstat-no" title="statement not covered" >getInheritedDiskDevices(formik.values, profiles);</span>
+  const inheritedDiskDevices = getInheritedDiskDevices(formik.values, profiles);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div
       className={classnames("disk-device-form", "device-form", {
         "disk-device-form--edit": !formik.values.readOnly,
@@ -283,7 +283,7 @@ export default DiskDeviceForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

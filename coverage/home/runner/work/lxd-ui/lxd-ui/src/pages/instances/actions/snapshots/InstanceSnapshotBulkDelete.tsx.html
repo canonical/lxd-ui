@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.98% </span>
+                <span class="strong">26.49% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/141</span>
+                <span class='fraction'>31/117</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -325,7 +325,7 @@ interface Props {
   ) =&gt; void;
 }
 &nbsp;
-const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  instance,</span>
 <span class="cstat-no" title="statement not covered" >  snapshotNames,</span>
 <span class="cstat-no" title="statement not covered" >  onStart,</span>
@@ -333,31 +333,31 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >  onSuccess,</span>
 <span class="cstat-no" title="statement not covered" >  onFailure,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canManageInstanceSnapshots } = <span class="cstat-no" title="statement not covered" >useInstanceEntitlements();</span></span>
-<span class="cstat-no" title="statement not covered" >  const viewBulkDetails = <span class="cstat-no" title="statement not covered" >useBulkDetails();</span></span>
+<span class="cstat-no" title="statement not covered" >  const eventQueue = useEventQueue();</span>
+<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
+<span class="cstat-no" title="statement not covered" >  const { canManageInstanceSnapshots } = useInstanceEntitlements();</span>
+<span class="cstat-no" title="statement not covered" >  const viewBulkDetails = useBulkDetails();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const count = <span class="cstat-no" title="statement not covered" >snapshotNames.length;</span></span>
+<span class="cstat-no" title="statement not covered" >  const count = snapshotNames.length;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onStart();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue)</span></span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(r</span>esults) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const handleDelete = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    onStart();</span>
+<span class="cstat-no" title="statement not covered" >    deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue)</span>
+<span class="cstat-no" title="statement not covered" >      .then((results) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const { fulfilledCount, rejectedCount } =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        if (fulfilledCount === count) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          onSuccess(</span></span>
+<span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span>
+<span class="cstat-no" title="statement not covered" >        if (fulfilledCount === count) {</span>
+<span class="cstat-no" title="statement not covered" >          onSuccess(</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;b&gt;{snapshotNames.length}&lt;/b&gt;{" "}</span>
 <span class="cstat-no" title="statement not covered" >              {pluralize("snapshot", snapshotNames.length)} deleted.</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        } else if (rejectedCount === count) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          onFailure(</span></span>
+<span class="cstat-no" title="statement not covered" >        } else if (rejectedCount === count) {</span>
+<span class="cstat-no" title="statement not covered" >          onFailure(</span>
 <span class="cstat-no" title="statement not covered" >            "Snapshot bulk deletion failed",</span>
 <span class="cstat-no" title="statement not covered" >            undefined,</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -367,7 +367,7 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          onFailure(</span></span>
+<span class="cstat-no" title="statement not covered" >          onFailure(</span>
 <span class="cstat-no" title="statement not covered" >            "Snapshot bulk deletion partially failed",</span>
 <span class="cstat-no" title="statement not covered" >            undefined,</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -380,19 +380,19 @@ const InstanceSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
-<span class="cstat-no" title="statement not covered" >          predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.instances,</span></span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >          predicate: (query) =&gt; query.queryKey[0] === queryKeys.instances,</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFinish();</span></span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        onFinish();</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Snapshot bulk deletion failed", e);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Snapshot bulk deletion failed", e);</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;BulkDeleteButton</span>
 <span class="cstat-no" title="statement not covered" >      confirmationButtonProps={{</span>
 <span class="cstat-no" title="statement not covered" >        loading: isLoading,</span>
@@ -421,7 +421,7 @@ export default InstanceSnapshotBulkDelete;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

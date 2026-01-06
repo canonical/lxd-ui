@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.61% </span>
+                <span class="strong">97.7% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>82/103</span>
+                <span class='fraction'>85/87</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.84% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/19</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/9</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.25% </span>
+                <span class="strong">97.7% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>82/87</span>
+                <span class='fraction'>85/87</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -203,33 +203,33 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -256,10 +256,10 @@ interface Props {
   title?: ReactNode;
 }
 &nbsp;
-const SELECT_VOLUME = <span class="cstat-no" title="statement not covered" >"selectVolume";</span>
-const CREATE_VOLUME = <span class="cstat-no" title="statement not covered" >"createVolume";</span>
+const SELECT_VOLUME = "selectVolume";
+const CREATE_VOLUME = "createVolume";
 &nbsp;
-const CustomVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const CustomVolumeModal: FC&lt;Props&gt; = ({
   formik,
   project,
   onFinish,
@@ -267,36 +267,36 @@ const CustomVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
   onClose,
   title,
 }) =&gt; {
-  const [content, setContent] = <span class="cstat-no" title="statement not covered" >useState(SELECT_VOLUME);</span>
-  const [primaryVolume, setPrimaryVolume] = <span class="cstat-no" title="statement not covered" >useState&lt;</span>
+  const [content, setContent] = useState(SELECT_VOLUME);
+  const [primaryVolume, setPrimaryVolume] = useState&lt;
     LxdStorageVolume | undefined
   &gt;(undefined);
 &nbsp;
-  const instanceLocation = <span class="cstat-no" title="statement not covered" >getInstanceLocation(formik);</span>
+  const instanceLocation = getInstanceLocation(formik);
 &nbsp;
-  const handleCreateVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume: LxdStorageVolume) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setContent(SELECT_VOLUME);</span>
-<span class="cstat-no" title="statement not covered" >    setPrimaryVolume(volume);</span>
+  const handleCreateVolume = (volume: LxdStorageVolume) =&gt; {
+    setContent(SELECT_VOLUME);
+    setPrimaryVolume(volume);
   };
 &nbsp;
-  const handleGoBack = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setContent(SELECT_VOLUME);</span></span>
+  const handleGoBack = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setContent(SELECT_VOLUME);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  let modalTitle = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >title ?? "Choose custom volume";</span></span>
-<span class="cstat-no" title="statement not covered" >  if (content === CREATE_VOLUME) {</span>
-<span class="cstat-no" title="statement not covered" >    modalTitle = title ? (</span>
+  let modalTitle = <span class="branch-0 cbranch-no" title="branch not covered" >title ?? "Choose custom volume";</span>
+  if (content === CREATE_VOLUME) {
+    modalTitle = title ? (
       &lt;BackLink
         title="Create volume"
         onClick={handleGoBack}
         linkText="Attach custom volume"
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >      /&gt;</span></span>
-<span class="cstat-no" title="statement not covered" >    ) : (</span>
-<span class="cstat-no" title="statement not covered" >      "Create volume"</span>
+      /&gt;
+    ) : (
+<span class="branch-0 cbranch-no" title="branch not covered" >      "Create volume"</span>
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal className="custom-volume-modal" close={onClose} title={modalTitle}&gt;
       {content === SELECT_VOLUME &amp;&amp; (
         &lt;CustomVolumeSelectModal
@@ -305,8 +305,8 @@ const CustomVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
           instanceLocation={instanceLocation}
           onFinish={onFinish}
           onCancel={onCancel}
-          onCreate={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            setContent(CREATE_VOLUME);</span>
+          onCreate={() =&gt; {
+            setContent(CREATE_VOLUME);
           }}
           hasPrevStep={!!title}
         /&gt;
@@ -331,7 +331,7 @@ export default CustomVolumeModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

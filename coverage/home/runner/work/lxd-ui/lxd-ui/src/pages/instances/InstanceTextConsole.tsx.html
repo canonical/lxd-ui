@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.4% </span>
+                <span class="strong">13.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/287</span>
+                <span class='fraction'>27/200</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">2.94% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/34</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.76% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/21</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -487,162 +487,162 @@ interface Props {
   showNotRunningInfo: () =&gt; void;
 }
 &nbsp;
-const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const InstanceTextConsole: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  instance,</span>
 <span class="cstat-no" title="statement not covered" >  onFailure,</span>
 <span class="cstat-no" title="statement not covered" >  showNotRunningInfo,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { name, project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{</span></span>
+<span class="cstat-no" title="statement not covered" >  const { name, project } = useParams&lt;{</span>
 <span class="cstat-no" title="statement not covered" >    name: string;</span>
 <span class="cstat-no" title="statement not covered" >    project: string;</span>
 <span class="cstat-no" title="statement not covered" >  }&gt;();</span>
-<span class="cstat-no" title="statement not covered" >  const textEncoder = <span class="cstat-no" title="statement not covered" >new TextEncoder();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const [textBuffer, setTextBuffer] = <span class="cstat-no" title="statement not covered" >useState("");</span></span>
-<span class="cstat-no" title="statement not covered" >  const [dataWs, setDataWs] = <span class="cstat-no" title="statement not covered" >useState&lt;WebSocket | null&gt;(null);</span></span>
-<span class="cstat-no" title="statement not covered" >  const [fitAddon] = <span class="cstat-no" title="statement not covered" >useState&lt;FitAddon&gt;(new FitAddon());</span></span>
-<span class="cstat-no" title="statement not covered" >  const [userInteracted, setUserInteracted] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const xtermRef = <span class="cstat-no" title="statement not covered" >useRef&lt;Terminal&gt;(null);</span></span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
-<span class="cstat-no" title="statement not covered" >  const isMounted = <span class="cstat-no" title="statement not covered" >useMounted();</span></span>
+<span class="cstat-no" title="statement not covered" >  const textEncoder = new TextEncoder();</span>
+<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = useState&lt;boolean&gt;(false);</span>
+<span class="cstat-no" title="statement not covered" >  const [textBuffer, setTextBuffer] = useState("");</span>
+<span class="cstat-no" title="statement not covered" >  const [dataWs, setDataWs] = useState&lt;WebSocket | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" >  const [fitAddon] = useState&lt;FitAddon&gt;(new FitAddon());</span>
+<span class="cstat-no" title="statement not covered" >  const [userInteracted, setUserInteracted] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const xtermRef = useRef&lt;Terminal&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
+<span class="cstat-no" title="statement not covered" >  const isMounted = useMounted();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  usePrompt({</span></span>
+<span class="cstat-no" title="statement not covered" >  usePrompt({</span>
 <span class="cstat-no" title="statement not covered" >    when: userInteracted,</span>
 <span class="cstat-no" title="statement not covered" >    message: "Are you sure you want to leave this page?",</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleCloseTab = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: BeforeUnloadEvent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (userInteracted) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      e.returnValue = "Are you sure you want to leave this page?";</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleCloseTab = (e: BeforeUnloadEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (userInteracted) {</span>
+<span class="cstat-no" title="statement not covered" >      e.returnValue = "Are you sure you want to leave this page?";</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(window, handleCloseTab, "beforeunload");</span></span>
+<span class="cstat-no" title="statement not covered" >  useListener(window, handleCloseTab, "beforeunload");</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const isRunning = <span class="cstat-no" title="statement not covered" >isInstanceRunning(instance);</span></span>
+<span class="cstat-no" title="statement not covered" >  const isRunning = isInstanceRunning(instance);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleError = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: object) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isMounted.current) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Error", e);</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleError = (e: object) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (isMounted.current) {</span>
+<span class="cstat-no" title="statement not covered" >      onFailure("Error", e);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const openWebsockets = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!name) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Missing name", new Error());</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >  const openWebsockets = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (!name) {</span>
+<span class="cstat-no" title="statement not covered" >      onFailure("Missing name", new Error());</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!project) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Missing project", new Error());</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!project) {</span>
+<span class="cstat-no" title="statement not covered" >      onFailure("Missing project", new Error());</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    fetchInstanceConsoleBuffer(name, project)</span></span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    fetchInstanceConsoleBuffer(name, project)</span>
 <span class="cstat-no" title="statement not covered" >      .then(setTextBuffer)</span>
 <span class="cstat-no" title="statement not covered" >      .catch(console.error);</span>
-<span class="cstat-no" title="statement not covered" >    const result = <span class="cstat-no" title="statement not covered" >await connectInstanceConsole(name, project).catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (isRunning) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Connection failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >    const result = await connectInstanceConsole(name, project).catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >      if (isRunning) {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Connection failed", e);</span>
 <span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        showNotRunningInfo();</span></span>
+<span class="cstat-no" title="statement not covered" >        showNotRunningInfo();</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!result) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!result) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const operationUrl = <span class="cstat-no" title="statement not covered" >result.operation.split("?")[0];</span></span>
-<span class="cstat-no" title="statement not covered" >    const protocol = <span class="cstat-no" title="statement not covered" >location.protocol === "https:" ? "wss" : "ws";</span></span>
-<span class="cstat-no" title="statement not covered" >    const dataUrl = <span class="cstat-no" title="statement not covered" >`${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;</span></span>
-<span class="cstat-no" title="statement not covered" >    const controlUrl = <span class="cstat-no" title="statement not covered" >`${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;</span></span>
+<span class="cstat-no" title="statement not covered" >    const operationUrl = result.operation.split("?")[0];</span>
+<span class="cstat-no" title="statement not covered" >    const protocol = location.protocol === "https:" ? "wss" : "ws";</span>
+<span class="cstat-no" title="statement not covered" >    const dataUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;</span>
+<span class="cstat-no" title="statement not covered" >    const controlUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const data = <span class="cstat-no" title="statement not covered" >new WebSocket(dataUrl);</span></span>
-<span class="cstat-no" title="statement not covered" >    const control = <span class="cstat-no" title="statement not covered" >new WebSocket(controlUrl);</span></span>
+<span class="cstat-no" title="statement not covered" >    const data = new WebSocket(dataUrl);</span>
+<span class="cstat-no" title="statement not covered" >    const control = new WebSocket(controlUrl);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onopen = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setLoading(false);</span></span>
+<span class="cstat-no" title="statement not covered" >    control.onopen = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onerror = handleError;</span></span>
+<span class="cstat-no" title="statement not covered" >    control.onerror = handleError;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onclose = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Error", event.reason, getWsErrorMsg(event.code));</span></span>
+<span class="cstat-no" title="statement not covered" >    control.onclose = (event) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Error", event.reason, getWsErrorMsg(event.code));</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.onopen = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setDataWs(data);</span></span>
+<span class="cstat-no" title="statement not covered" >    data.onopen = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      setDataWs(data);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.onerror = handleError;</span></span>
+<span class="cstat-no" title="statement not covered" >    data.onerror = handleError;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.onclose = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Error", event.reason, getWsErrorMsg(event.code));</span></span>
+<span class="cstat-no" title="statement not covered" >    data.onclose = (event) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Error", event.reason, getWsErrorMsg(event.code));</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setDataWs(null);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setUserInteracted(false);</span></span>
+<span class="cstat-no" title="statement not covered" >      setDataWs(null);</span>
+<span class="cstat-no" title="statement not covered" >      setUserInteracted(false);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.binaryType = "arraybuffer";</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    data.onmessage = <span class="fstat-no" title="function not covered" >(m</span>essage: MessageEvent&lt;ArrayBuffer&gt;) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      xtermRef.current?.write(new Uint8Array(message.data));</span></span>
+<span class="cstat-no" title="statement not covered" >    data.binaryType = "arraybuffer";</span>
+<span class="cstat-no" title="statement not covered" >    data.onmessage = (message: MessageEvent&lt;ArrayBuffer&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      xtermRef.current?.write(new Uint8Array(message.data));</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return [data, control];</span></span>
+<span class="cstat-no" title="statement not covered" >    return [data, control];</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isRunning) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      xtermRef.current?.focus();</span></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (isRunning) {</span>
+<span class="cstat-no" title="statement not covered" >      xtermRef.current?.focus();</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  }, [isRunning]);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (dataWs) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (dataWs) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
-<span class="cstat-no" title="statement not covered" >    const websocketPromise = <span class="cstat-no" title="statement not covered" >openWebsockets();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      void websocketPromise.then(<span class="fstat-no" title="function not covered" >(w</span>ebsockets) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        websockets?.map(<span class="fstat-no" title="function not covered" >(w</span>ebsocket) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          websocket.close();</span></span>
+<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+<span class="cstat-no" title="statement not covered" >    const websocketPromise = openWebsockets();</span>
+<span class="cstat-no" title="statement not covered" >    return () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      void websocketPromise.then((websockets) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        websockets?.map((websocket) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          websocket.close();</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" >  }, [fitAddon, instance.status]);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!textBuffer || !xtermRef.current || isLoading) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (!textBuffer || !xtermRef.current || isLoading) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    xtermRef.current.write(textBuffer);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setTextBuffer("");</span></span>
+<span class="cstat-no" title="statement not covered" >    xtermRef.current.write(textBuffer);</span>
+<span class="cstat-no" title="statement not covered" >    setTextBuffer("");</span>
 <span class="cstat-no" title="statement not covered" >  }, [textBuffer, isLoading]);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleResize = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateMaxHeight("p-terminal", undefined, 10);</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleResize = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    updateMaxHeight("p-terminal", undefined, 10);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    xtermRef.current?.element?.style.setProperty("padding", "1rem");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    fitAddon.fit();</span></span>
+<span class="cstat-no" title="statement not covered" >    xtermRef.current?.element?.style.setProperty("padding", "1rem");</span>
+<span class="cstat-no" title="statement not covered" >    fitAddon.fit();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  // calling handleResize again after a timeout to fix a race condition</span>
 <span class="cstat-no" title="statement not covered" >  // between updateMaxHeight and fitAddon.fit</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(</span></span>
+<span class="cstat-no" title="statement not covered" >  useListener(</span>
 <span class="cstat-no" title="statement not covered" >    window,</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      handleResize();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setTimeout(handleResize, 500);</span></span>
+<span class="cstat-no" title="statement not covered" >    () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      handleResize();</span>
+<span class="cstat-no" title="statement not covered" >      setTimeout(handleResize, 500);</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >    "resize",</span>
 <span class="cstat-no" title="statement not covered" >    true,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isLoading ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Spinner className="u-loader" text="Loading text console..." /&gt;</span>
@@ -650,9 +650,9 @@ const InstanceTextConsole: FC&lt;Props&gt; = <span class="cstat-no" title="state
 <span class="cstat-no" title="statement not covered" >        &lt;Xterm</span>
 <span class="cstat-no" title="statement not covered" >          ref={xtermRef}</span>
 <span class="cstat-no" title="statement not covered" >          addons={[fitAddon]}</span>
-<span class="cstat-no" title="statement not covered" >          onData={<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setUserInteracted(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            dataWs?.send(textEncoder.encode(data));</span></span>
+<span class="cstat-no" title="statement not covered" >          onData={(data) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setUserInteracted(true);</span>
+<span class="cstat-no" title="statement not covered" >            dataWs?.send(textEncoder.encode(data));</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >          className="p-terminal"</span>
 <span class="cstat-no" title="statement not covered" >          onOpen={handleResize}</span>
@@ -670,7 +670,7 @@ export default InstanceTextConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.49% </span>
+                <span class="strong">15.74% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/138</span>
+                <span class='fraction'>20/127</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -323,7 +323,7 @@ import {
   MainTable,
   ScrollableTable,
 } from "@canonical/react-components";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { useClusterMembers } from "context/useClusterMembers";
 &nbsp;
 interface Props {
@@ -334,10 +334,10 @@ interface Props {
   };
 }
 &nbsp;
-const ClusterMemberSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> onSelect, disableMember }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const { data: members = <span class="branch-0 cbranch-no" title="branch not covered" >[], i</span>sLoading } = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span></span>
+const ClusterMemberSelectTable: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ onSelect, disableMember }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const { data: members = [], isLoading } = useClusterMembers();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const headers = <span class="cstat-no" title="statement not covered" >[</span></span>
+<span class="cstat-no" title="statement not covered" >  const headers = [</span>
 <span class="cstat-no" title="statement not covered" >    { content: "Name", sortKey: "name" },</span>
 <span class="cstat-no" title="statement not covered" >    { content: "Roles", sortKey: "roles" },</span>
 <span class="cstat-no" title="statement not covered" >    { content: "Architecture", sortKey: "architecture" },</span>
@@ -345,17 +345,17 @@ const ClusterMemberSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >    { "aria-label": "Actions", className: "actions" },</span>
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const rows = <span class="cstat-no" title="statement not covered" >members.map(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  const rows = members.map((member) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const disableReason =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      disableMember?.name === member.server_name ? disableMember?.reason : null;</span></span>
-<span class="cstat-no" title="statement not covered" >    const selectMember = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (disableReason) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+<span class="cstat-no" title="statement not covered" >      disableMember?.name === member.server_name ? disableMember?.reason : null;</span>
+<span class="cstat-no" title="statement not covered" >    const selectMember = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (disableReason) {</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onSelect(member.server_name);</span></span>
+<span class="cstat-no" title="statement not covered" >      onSelect(member.server_name);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return {</span></span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
 <span class="cstat-no" title="statement not covered" >      key: member.server_name,</span>
 <span class="cstat-no" title="statement not covered" >      className: classnames("u-row", {</span>
 <span class="cstat-no" title="statement not covered" >        "u-text--muted": disableReason,</span>
@@ -419,7 +419,7 @@ const ClusterMemberSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="migrate-instance-table u-selectable-table-rows"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;ScrollableTable</span>
 <span class="cstat-no" title="statement not covered" >        dependencies={[members]}</span>
@@ -451,7 +451,7 @@ export default ClusterMemberSelectTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.08% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>109/121</span>
+                <span class='fraction'>108/114</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.73% </span>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/38</span>
+                <span class='fraction'>15/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.61% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/114</span>
+                <span class='fraction'>108/114</span>
             </div>
         
             
@@ -245,7 +245,7 @@
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">82x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
@@ -312,19 +312,19 @@ interface Props {
   additionalFormInput?: React.JSX.Element;
 }
 &nbsp;
-const SnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>rops) =&gt; {</span>
-  const { isEdit, formik, close, additionalFormInput } = <span class="cstat-no" title="statement not covered" >props;</span>
-  const handleEscKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (e.key === "Escape") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      close();</span></span>
+const SnapshotForm: FC&lt;Props&gt; = (props) =&gt; {
+  const { isEdit, formik, close, additionalFormInput } = props;
+  const handleEscKey = <span class="fstat-no" title="function not covered" >(e: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (e.key === "Escape") {</span>
+<span class="cstat-no" title="statement not covered" >      close();</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       className="snapshot-creation-modal"
       close={close}
-      title={`${isEdit ? "Edit" : <span class="branch-1 cbranch-no" title="branch not covered" >"Create"}</span> snapshot`}
+      title={`${isEdit ? "Edit" : "Create"} snapshot`}
       buttonRow={
         &lt;&gt;
           &lt;Button
@@ -339,7 +339,7 @@ const SnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
             appearance="positive"
             loading={formik.isSubmitting}
             disabled={!formik.isValid || formik.isSubmitting}
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+            onClick={() =&gt; void formik.submitForm()}
           &gt;
             {isEdit ? "Save changes" : "Create snapshot"}
           &lt;/ActionButton&gt;
@@ -357,9 +357,9 @@ const SnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
           onBlur={formik.handleBlur}
           value={formik.values.name}
           error={
-            (formik.touched.name || isEdit) &amp;&amp; formik.errors.<span class="branch-0 cbranch-no" title="branch not covered" >name ? (</span>
+            (formik.touched.name || isEdit) &amp;&amp; formik.errors.name<span class="branch-0 cbranch-no" title="branch not covered" > ? (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="name-error"&gt;{formik.errors.name}&lt;/span&gt;</span>
-            ) : null
+<span class="cstat-no" title="statement not covered" >            ) : null</span>
           }
           takeFocus
         /&gt;
@@ -412,7 +412,7 @@ export default SnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

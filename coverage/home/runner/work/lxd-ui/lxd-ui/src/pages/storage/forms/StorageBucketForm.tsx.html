@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.09% </span>
+                <span class="strong">98% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>98/110</span>
+                <span class='fraction'>98/100</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.25% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/32</span>
+                <span class='fraction'>9/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/10</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -216,7 +216,7 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">100x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">100x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -224,8 +224,8 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -286,10 +286,10 @@ interface Props {
   bucket?: LxdStorageBucket;
 }
 &nbsp;
-const StorageBucketForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> formik, bucket }) =&gt; {</span>
-  const { canEditBucket } = <span class="cstat-no" title="statement not covered" >useStorageBucketEntitlements();</span>
-  const getFormProps = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>d: "name" | "description") =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return {</span>
+const StorageBucketForm: FC&lt;Props&gt; = ({ formik, bucket }) =&gt; {
+  const { canEditBucket } = useStorageBucketEntitlements();
+  const getFormProps = (id: "name" | "description") =&gt; {
+    return {
       id: id,
       name: id,
       onBlur: formik.handleBlur,
@@ -300,22 +300,22 @@ const StorageBucketForm: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
     };
   };
 &nbsp;
-  const isEditing = <span class="cstat-no" title="statement not covered" >!!bucket;</span>
+  const isEditing = !!bucket;
 &nbsp;
   const bucketEditRestriction =
-<span class="cstat-no" title="statement not covered" >    !<span class="branch-0 cbranch-no" title="branch not covered" >isEditing || canEditBucket(bucket)</span></span>
+    !<span class="branch-0 cbranch-no" title="branch not covered" >isEditing || canEditBucket(bucket)</span>
       ? <span class="branch-0 cbranch-no" title="branch not covered" >""</span>
 <span class="cstat-no" title="statement not covered" >      : "You do not have permission to modify this bucket";</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Form onSubmit={formik.handleSubmit} className={"bucket-create-form"}&gt;
       {/* hidden submit to enable enter key in inputs */}
       &lt;Input type="submit" hidden value="Hidden input" /&gt;
       &lt;StoragePoolSelector
         value={formik.values.pool}
-        setValue={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >void formik.setFieldValue("pool", value)}</span></span>
+        setValue={<span class="fstat-no" title="function not covered" >(value) =&gt; void formik.setFieldValue("pool", value)}</span>
         invalidDrivers={Object.keys(storageDriverLabels).filter((key) =&gt; {
-<span class="cstat-no" title="statement not covered" >          return key !== cephObject;</span>
+          return key !== cephObject;
         })}
         selectProps={{
           id: "bucket-create-pool",
@@ -346,8 +346,8 @@ const StorageBucketForm: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
       &lt;DiskSizeSelector
         label="Size"
         value={formik.values.size}
-        setMemoryLimit={<span class="fstat-no" title="function not covered" >(v</span>al?: string) =&gt; {
-<span class="cstat-no" title="statement not covered" >          formik.setFieldValue("size", val);</span>
+        setMemoryLimit={(val?: string) =&gt; {
+          formik.setFieldValue("size", val);
         }}
         disabled={!!bucketEditRestriction}
         disabledReason={bucketEditRestriction}
@@ -370,7 +370,7 @@ export default StorageBucketForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

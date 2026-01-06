@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75.67% </span>
+                <span class="strong">94.91% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>56/74</span>
+                <span class='fraction'>56/59</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.94% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/17</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/11</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -156,21 +156,21 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -194,44 +194,44 @@ interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) =&gt; void;
 }
 &nbsp;
-const SELECT_ISO = <span class="cstat-no" title="statement not covered" >"selectIso";</span>
-const UPLOAD_ISO = <span class="cstat-no" title="statement not covered" >"uploadIso";</span>
+const SELECT_ISO = "selectIso";
+const UPLOAD_ISO = "uploadIso";
 &nbsp;
-const CustomIsoModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> onClose, onSelect }) =&gt; {</span>
-  const [content, setContent] = <span class="cstat-no" title="statement not covered" >useState(SELECT_ISO);</span>
-  const [primary, setPrimary] = <span class="cstat-no" title="statement not covered" >useState&lt;IsoImage | null&gt;(null);</span>
+const CustomIsoModal: FC&lt;Props&gt; = ({ onClose, onSelect }) =&gt; {
+  const [content, setContent] = useState(SELECT_ISO);
+  const [primary, setPrimary] = useState&lt;IsoImage | null&gt;(null);
 &nbsp;
-  const getTitle = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    switch (content) {</span>
+  const getTitle = () =&gt; {
+    switch (content) {
       case SELECT_ISO:
-<span class="cstat-no" title="statement not covered" >        return "Select custom ISO";</span>
+        return "Select custom ISO";
       case UPLOAD_ISO:
-<span class="cstat-no" title="statement not covered" >        return "Upload custom ISO";</span>
+        return "Upload custom ISO";
 <span class="branch-0 cbranch-no" title="branch not covered" >      default:</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return "";</span></span>
+<span class="cstat-no" title="statement not covered" >        return "";</span>
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal close={onClose} title={getTitle()} className="custom-iso-modal"&gt;
       {content === SELECT_ISO &amp;&amp; (
         &lt;CustomIsoSelector
           primaryImage={primary}
           onSelect={onSelect}
-          onUpload={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            setContent(UPLOAD_ISO);</span>
+          onUpload={() =&gt; {
+            setContent(UPLOAD_ISO);
           }}
           onCancel={onClose}
         /&gt;
       )}
       {content === UPLOAD_ISO &amp;&amp; (
         &lt;UploadCustomIso
-          onCancel={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setContent(SELECT_ISO);</span></span>
-<span class="cstat-no" title="statement not covered" >          }}</span>
-          onFinish={<span class="fstat-no" title="function not covered" >(n</span>ame, pool) =&gt; {
+          onCancel={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setContent(SELECT_ISO);</span>
-<span class="cstat-no" title="statement not covered" >            setPrimary({ name, pool });</span>
+<span class="cstat-no" title="statement not covered" >          }}</span>
+          onFinish={(name, pool) =&gt; {
+            setContent(SELECT_ISO);
+            setPrimary({ name, pool });
           }}
         /&gt;
       )}
@@ -247,7 +247,7 @@ export default CustomIsoModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

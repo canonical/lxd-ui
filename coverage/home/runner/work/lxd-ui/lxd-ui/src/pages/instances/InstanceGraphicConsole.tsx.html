@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.41% </span>
+                <span class="strong">18.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/246</span>
+                <span class='fraction'>33/177</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.7% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/27</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/16</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -447,105 +447,105 @@ interface Props {
   onFailure: (title: string, e: unknown, message?: string) =&gt; void;
 }
 &nbsp;
-const InstanceGraphicConsole: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const InstanceGraphicConsole: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  instance,</span>
 <span class="cstat-no" title="statement not covered" >  onMount,</span>
 <span class="cstat-no" title="statement not covered" >  onFailure,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { name, project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{</span></span>
+<span class="cstat-no" title="statement not covered" >  const { name, project } = useParams&lt;{</span>
 <span class="cstat-no" title="statement not covered" >    name: string;</span>
 <span class="cstat-no" title="statement not covered" >    project: string;</span>
 <span class="cstat-no" title="statement not covered" >  }&gt;();</span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
-<span class="cstat-no" title="statement not covered" >  const spiceRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLDivElement&gt;(null);</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isVgaLoading, setVgaLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const isMounted = <span class="cstat-no" title="statement not covered" >useMounted();</span></span>
+<span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
+<span class="cstat-no" title="statement not covered" >  const spiceRef = useRef&lt;HTMLDivElement&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" >  const [isVgaLoading, setVgaLoading] = useState&lt;boolean&gt;(false);</span>
+<span class="cstat-no" title="statement not covered" >  const isMounted = useMounted();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const isRunning = <span class="cstat-no" title="statement not covered" >isInstanceRunning(instance);</span></span>
+<span class="cstat-no" title="statement not covered" >  const isRunning = isInstanceRunning(instance);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleError = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: object, message?: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isMounted.current) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Console error", e, message);</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleError = (e: object, message?: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (isMounted.current) {</span>
+<span class="cstat-no" title="statement not covered" >      onFailure("Console error", e, message);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleResize = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateMaxHeight("spice-wrapper");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    SpiceHtml5.handle_resize();</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleResize = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    updateMaxHeight("spice-wrapper");</span>
+<span class="cstat-no" title="statement not covered" >    SpiceHtml5.handle_resize();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const openVgaConsole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!name) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Missing name", new Error());</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >  const openVgaConsole = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (!name) {</span>
+<span class="cstat-no" title="statement not covered" >      onFailure("Missing name", new Error());</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!project) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onFailure("Missing project", new Error());</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!project) {</span>
+<span class="cstat-no" title="statement not covered" >      onFailure("Missing project", new Error());</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setVgaLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" >    const result = <span class="cstat-no" title="statement not covered" >await connectInstanceVga(name, project).catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setVgaLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (isRunning) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Connection failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >    setVgaLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    const result = await connectInstanceVga(name, project).catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      setVgaLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >      if (isRunning) {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Connection failed", e);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!result) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!result) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const operationUrl = <span class="cstat-no" title="statement not covered" >result.operation.split("?")[0];</span></span>
-<span class="cstat-no" title="statement not covered" >    const protocol = <span class="cstat-no" title="statement not covered" >location.protocol === "https:" ? "wss" : "ws";</span></span>
-<span class="cstat-no" title="statement not covered" >    const dataUrl = <span class="cstat-no" title="statement not covered" >`${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;</span></span>
-<span class="cstat-no" title="statement not covered" >    const controlUrl = <span class="cstat-no" title="statement not covered" >`${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;</span></span>
+<span class="cstat-no" title="statement not covered" >    const operationUrl = result.operation.split("?")[0];</span>
+<span class="cstat-no" title="statement not covered" >    const protocol = location.protocol === "https:" ? "wss" : "ws";</span>
+<span class="cstat-no" title="statement not covered" >    const dataUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;</span>
+<span class="cstat-no" title="statement not covered" >    const controlUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const control = <span class="cstat-no" title="statement not covered" >new WebSocket(controlUrl);</span></span>
+<span class="cstat-no" title="statement not covered" >    const control = new WebSocket(controlUrl);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onerror = handleError;</span></span>
+<span class="cstat-no" title="statement not covered" >    control.onerror = handleError;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onclose = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Console error", event.reason, getWsErrorMsg(event.code));</span></span>
+<span class="cstat-no" title="statement not covered" >    control.onclose = (event) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Console error", event.reason, getWsErrorMsg(event.code));</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // TODO: remove this and other console.log calls</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    control.onmessage = <span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.log("control message", message);</span></span>
+<span class="cstat-no" title="statement not covered" >    control.onmessage = (message) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      console.log("control message", message);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    try {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      window.spice_connection = new SpiceHtml5.SpiceMainConn({</span></span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      window.spice_connection = new SpiceHtml5.SpiceMainConn({</span>
 <span class="cstat-no" title="statement not covered" >        uri: dataUrl,</span>
 <span class="cstat-no" title="statement not covered" >        screen_id: "spice-screen",</span>
 <span class="cstat-no" title="statement not covered" >        onerror: handleError,</span>
-<span class="cstat-no" title="statement not covered" >        onsuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          setVgaLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          handleResize();</span></span>
+<span class="cstat-no" title="statement not covered" >        onsuccess: () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          setVgaLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >          handleResize();</span>
 <span class="cstat-no" title="statement not covered" >        },</span>
 <span class="cstat-no" title="statement not covered" >        onagent: handleResize,</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    } catch (e) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (isRunning) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Connection failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      if (isRunning) {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Connection failed", e);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return control;</span></span>
+<span class="cstat-no" title="statement not covered" >    return control;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(window, handleResize, "resize", true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(handleResize, [notify.notification?.message]);</span></span>
+<span class="cstat-no" title="statement not covered" >  useListener(window, handleResize, "resize", true);</span>
+<span class="cstat-no" title="statement not covered" >  useEffect(handleResize, [notify.notification?.message]);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(</span></span>
+<span class="cstat-no" title="statement not covered" >  useListener(</span>
 <span class="cstat-no" title="statement not covered" >    window,</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (!spiceRef.current?.parentElement || !("detail" in e)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+<span class="cstat-no" title="statement not covered" >    (e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (!spiceRef.current?.parentElement || !("detail" in e)) {</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      const wheelEvent = (<span class="cstat-no" title="statement not covered" >e as unknown as SpiceWheelEvent).detail.wheelEvent;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      spiceRef.current.parentElement.scrollBy(</span></span>
+<span class="cstat-no" title="statement not covered" >      const wheelEvent = (e as unknown as SpiceWheelEvent).detail.wheelEvent;</span>
+<span class="cstat-no" title="statement not covered" >      spiceRef.current.parentElement.scrollBy(</span>
 <span class="cstat-no" title="statement not covered" >        wheelEvent.deltaX,</span>
 <span class="cstat-no" title="statement not covered" >        wheelEvent.deltaY,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
@@ -553,34 +553,34 @@ const InstanceGraphicConsole: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >    "spice-wheel",</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
-<span class="cstat-no" title="statement not covered" >    const websocketPromise = <span class="cstat-no" title="statement not covered" >openVgaConsole();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      try {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        window.spice_connection?.stop();</span></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+<span class="cstat-no" title="statement not covered" >    const websocketPromise = openVgaConsole();</span>
+<span class="cstat-no" title="statement not covered" >    return () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      try {</span>
+<span class="cstat-no" title="statement not covered" >        window.spice_connection?.stop();</span>
 <span class="cstat-no" title="statement not covered" >      } catch (e) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        console.error(e);</span></span>
+<span class="cstat-no" title="statement not covered" >        console.error(e);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      void websocketPromise.then(<span class="fstat-no" title="function not covered" >(w</span>ebsocket) =&gt; <span class="cstat-no" title="statement not covered" >websocket?.close())</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >      void websocketPromise.then((websocket) =&gt; websocket?.close());</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" >  }, [instance.status]);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleFullScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const container = <span class="cstat-no" title="statement not covered" >spiceRef.current;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!container) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleFullScreen = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const container = spiceRef.current;</span>
+<span class="cstat-no" title="statement not covered" >    if (!container) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    container</span></span>
+<span class="cstat-no" title="statement not covered" >    container</span>
 <span class="cstat-no" title="statement not covered" >      .requestFullscreen()</span>
 <span class="cstat-no" title="statement not covered" >      .then(handleResize)</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Failed to enter full-screen mode", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        onFailure("Failed to enter full-screen mode", e);</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  onMount(handleFullScreen);</span></span>
+<span class="cstat-no" title="statement not covered" >  onMount(handleFullScreen);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isVgaLoading ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Spinner className="u-loader" text="Loading VGA session..." /&gt;</span>
@@ -601,7 +601,7 @@ export default InstanceGraphicConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

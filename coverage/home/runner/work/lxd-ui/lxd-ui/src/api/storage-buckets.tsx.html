@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.09% </span>
+                <span class="strong">18.12% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>54/383</span>
+                <span class='fraction'>54/298</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.65% </span>
+                <span class="strong">7.69% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/43</span>
+                <span class='fraction'>1/13</span>
             </div>
         
             
@@ -403,7 +403,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -671,77 +671,77 @@ import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";
 import { getStorageBucketURL } from "util/storageBucket";
 &nbsp;
-export const storageBucketEntitlements = <span class="cstat-no" title="statement not covered" >["can_delete", "can_edit"];</span>
+export const storageBucketEntitlements = ["can_delete", "can_edit"];
 &nbsp;
-export const fetchStorageBucketsFromPool = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const fetchStorageBucketsFromPool = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  isFineGrained: boolean | null,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;LxdStorageBucket[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
+<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdStorageBucket[]&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return data.metadata.map(<span class="fstat-no" title="function not covered" >(b</span>ucket) =&gt; (<span class="cstat-no" title="statement not covered" >{ ...bucket, pool }))</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucket[]&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return data.metadata.map((bucket) =&gt; ({ ...bucket, pool }));</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const fetchAllStorageBuckets = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const fetchAllStorageBuckets = async (
   isFineGrained: boolean | null,
   project: string,
 ): Promise&lt;LxdStorageBucket[]&gt; =&gt; {
-  const pools = <span class="cstat-no" title="statement not covered" >await fetchStoragePools(isFineGrained);</span>
+  const pools = await fetchStoragePools(isFineGrained);
 &nbsp;
-  const fetches = <span class="cstat-no" title="statement not covered" >pools</span>
+  const fetches = pools
     .filter((pool) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return isBucketCompatibleDriver(pool.driver);</span>
+      return isBucketCompatibleDriver(pool.driver);
     })
-    .map(<span class="fstat-no" title="function not covered" >async (p</span>ool) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      fetchStorageBucketsFromPool(pool.name, isFineGrained, project),</span></span>
+    .map(async (pool) =&gt;
+<span class="cstat-no" title="statement not covered" >      fetchStorageBucketsFromPool(pool.name, isFineGrained, project),</span>
     );
 &nbsp;
-  const allBuckets = <span class="cstat-no" title="statement not covered" >await Promise.all(fetches);</span>
-<span class="cstat-no" title="statement not covered" >  return allBuckets.flat();</span>
+  const allBuckets = await Promise.all(fetches);
+  return allBuckets.flat();
 };
 &nbsp;
-export const fetchStorageBucket = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const fetchStorageBucket = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  bucketName: string,</span>
 <span class="cstat-no" title="statement not covered" >  isFineGrained: boolean | null,</span>
 <span class="cstat-no" title="statement not covered" >  target?: string | null,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;LxdStorageBucket&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
+<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucketName)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdStorageBucket&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return { ...data.metadata, pool } as LxdStorageBucket;</span></span>
+<span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucket&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return { ...data.metadata, pool } as LxdStorageBucket;</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const createStorageBucket = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const createStorageBucket = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  body: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  target?: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;LxdOperationResponse&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "POST",</span>
@@ -752,22 +752,22 @@ export const createStorageBucket = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdOperationResponse) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return data;</span></span>
+<span class="cstat-no" title="statement not covered" >    .then((data: LxdOperationResponse) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return data;</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const updateStorageBucket = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const updateStorageBucket = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  target?: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "PUT",</span>
@@ -779,15 +779,15 @@ export const updateStorageBucket = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >  ).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const deleteStorageBucket = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const deleteStorageBucket = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: string,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "DELETE",</span>
@@ -795,81 +795,81 @@ export const deleteStorageBucket = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >  ).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const deleteStorageBucketBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const deleteStorageBucketBulk = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  buckets: LxdStorageBucket[],</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;BulkOperationResult[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const results: BulkOperationResult[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span></span>
-<span class="cstat-no" title="statement not covered" >      buckets.map(<span class="fstat-no" title="function not covered" >async (b</span>ucket) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const item: BulkOperationItem = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  const results: BulkOperationResult[] = [];</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span>
+<span class="cstat-no" title="statement not covered" >      buckets.map(async (bucket) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const item: BulkOperationItem = {</span>
 <span class="cstat-no" title="statement not covered" >          name: bucket.name,</span>
 <span class="cstat-no" title="statement not covered" >          type: "bucket",</span>
 <span class="cstat-no" title="statement not covered" >          href: getStorageBucketURL(bucket.name, bucket.pool, project),</span>
 <span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return deleteStorageBucket(bucket.name, bucket.pool, project)</span></span>
-<span class="cstat-no" title="statement not covered" >          .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushSuccess(results, item);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, buckets.length, resolve);</span></span>
+<span class="cstat-no" title="statement not covered" >        return deleteStorageBucket(bucket.name, bucket.pool, project)</span>
+<span class="cstat-no" title="statement not covered" >          .then(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            pushSuccess(results, item);</span>
+<span class="cstat-no" title="statement not covered" >            continueOrFinish(results, buckets.length, resolve);</span>
 <span class="cstat-no" title="statement not covered" >          })</span>
-<span class="cstat-no" title="statement not covered" >          .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : <span class="branch-1 cbranch-no" title="branch not covered" >"", i</span>tem);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, buckets.length, resolve);</span></span>
+<span class="cstat-no" title="statement not covered" >          .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : "", item);</span>
+<span class="cstat-no" title="statement not covered" >            continueOrFinish(results, buckets.length, resolve);</span>
 <span class="cstat-no" title="statement not covered" >          });</span>
 <span class="cstat-no" title="statement not covered" >      }),</span>
 <span class="cstat-no" title="statement not covered" >    ).catch(reject);</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const fetchStorageBucketKeys = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const fetchStorageBucketKeys = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  isFineGrained: boolean | null,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;LxdStorageBucketKey[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
+<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdStorageBucketKey[]&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return data.metadata;</span></span>
+<span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucketKey[]&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const fetchStorageBucketKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const fetchStorageBucketKey = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  keyName: string,</span>
 <span class="cstat-no" title="statement not covered" >  isFineGrained: boolean | null,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): Promise&lt;LxdStorageBucketKey[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span></span>
+<span class="cstat-no" title="statement not covered" >): Promise&lt;LxdStorageBucketKey&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdStorageBucketKey[]&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return data.metadata;</span></span>
+<span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucketKey&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const createStorageBucketKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const createStorageBucketKey = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  body: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  bucket: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;LxdOperationResponse&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  return fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "POST",</span>
@@ -880,23 +880,23 @@ export const createStorageBucketKey = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdOperationResponse) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return data;</span></span>
+<span class="cstat-no" title="statement not covered" >    .then((data: LxdOperationResponse) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return data;</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const updateStorageBucketKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const updateStorageBucketKey = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: string,</span>
 <span class="cstat-no" title="statement not covered" >  key: LxdStorageBucketKey,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  target?: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+<span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "PUT",</span>
@@ -908,16 +908,16 @@ export const updateStorageBucketKey = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >  ).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const deleteStorageBucketKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const deleteStorageBucketKey = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: string,</span>
 <span class="cstat-no" title="statement not covered" >  key: string,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
+<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
+<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >  await fetch(</span>
 <span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "DELETE",</span>
@@ -925,33 +925,33 @@ export const deleteStorageBucketKey = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >  ).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const deleteStorageBucketKeyBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const deleteStorageBucketKeyBulk = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  keys: LxdStorageBucketKey[],</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;BulkOperationResult[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const results: BulkOperationResult[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span></span>
-<span class="cstat-no" title="statement not covered" >      keys.map(<span class="fstat-no" title="function not covered" >async (k</span>ey) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const item: BulkOperationItem = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  const results: BulkOperationResult[] = [];</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span>
+<span class="cstat-no" title="statement not covered" >      keys.map(async (key) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const item: BulkOperationItem = {</span>
 <span class="cstat-no" title="statement not covered" >          name: key.name,</span>
 <span class="cstat-no" title="statement not covered" >          type: "bucket-key",</span>
 <span class="cstat-no" title="statement not covered" >          href: getStorageBucketURL(bucket.name, bucket.pool, project),</span>
 <span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return deleteStorageBucketKey(</span></span>
+<span class="cstat-no" title="statement not covered" >        return deleteStorageBucketKey(</span>
 <span class="cstat-no" title="statement not covered" >          bucket.name,</span>
 <span class="cstat-no" title="statement not covered" >          key.name,</span>
 <span class="cstat-no" title="statement not covered" >          bucket.pool,</span>
 <span class="cstat-no" title="statement not covered" >          project,</span>
 <span class="cstat-no" title="statement not covered" >        )</span>
-<span class="cstat-no" title="statement not covered" >          .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushSuccess(results, item);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, keys.length, resolve);</span></span>
+<span class="cstat-no" title="statement not covered" >          .then(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            pushSuccess(results, item);</span>
+<span class="cstat-no" title="statement not covered" >            continueOrFinish(results, keys.length, resolve);</span>
 <span class="cstat-no" title="statement not covered" >          })</span>
-<span class="cstat-no" title="statement not covered" >          .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : <span class="branch-1 cbranch-no" title="branch not covered" >"", i</span>tem);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            continueOrFinish(results, keys.length, resolve);</span></span>
+<span class="cstat-no" title="statement not covered" >          .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            pushFailure(results, e instanceof Error ? e.message : "", item);</span>
+<span class="cstat-no" title="statement not covered" >            continueOrFinish(results, keys.length, resolve);</span>
 <span class="cstat-no" title="statement not covered" >          });</span>
 <span class="cstat-no" title="statement not covered" >      }),</span>
 <span class="cstat-no" title="statement not covered" >    ).catch(reject);</span>
@@ -964,7 +964,7 @@ export const deleteStorageBucketKeyBulk = <span class="cstat-no" title="statemen
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

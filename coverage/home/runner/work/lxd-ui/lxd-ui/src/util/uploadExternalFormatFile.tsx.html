@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.51% </span>
+                <span class="strong">88.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>149/224</span>
+                <span class='fraction'>149/168</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.89% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/49</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.9% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/22</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -322,7 +322,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">294x</span>
 <span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">295x</span>
+<span class="cline-any cline-yes">294x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">294x</span>
@@ -409,34 +409,34 @@
   architecture: string;
 }
 &nbsp;
-export const supportedVMArchOptions = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(h</span>ostArchitectures: string[]) =&gt; {</span>
-  const vmArchitectureOptions = <span class="cstat-no" title="statement not covered" >[</span>
+export const supportedVMArchOptions = (hostArchitectures: string[]) =&gt; {
+  const vmArchitectureOptions = [
     { value: "x86_64", label: "x86_64" },
     { value: "aarch64", label: "aarch64" },
     { value: "ppc64le", label: "ppc64le" },
     { value: "s390x", label: "s390x" },
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return vmArchitectureOptions.filter(<span class="fstat-no" title="function not covered" >(a</span>rch) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >    hostArchitectures.includes(arch.value),</span>
+  return vmArchitectureOptions.filter((arch) =&gt;
+    hostArchitectures.includes(arch.value),
   );
 };
 &nbsp;
-export const uploadExternalFormatFilePayload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const uploadExternalFormatFilePayload = (
   values: UploadExternalFormatFileFormValues,
 ) =&gt; {
-  const fileSize = <span class="cstat-no" title="statement not covered" >values.file?.size || 0;</span>
-  const conversionOptions = <span class="cstat-no" title="statement not covered" >[];</span>
+  const fileSize = values.file?.size || 0;
+  const conversionOptions = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (values.formatConversion) {</span>
-<span class="cstat-no" title="statement not covered" >    conversionOptions.push("format");</span>
+  if (values.formatConversion) {
+    conversionOptions.push("format");
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (values.virtioConversion) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    conversionOptions.push("virtio");</span></span>
+  if (values.virtioConversion) {
+<span class="cstat-no" title="statement not covered" >    conversionOptions.push("virtio");</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const instanceArgs = <span class="cstat-no" title="statement not covered" >{</span>
+  const instanceArgs = {
     source: {
       type: "conversion",
       mode: "push",
@@ -455,7 +455,7 @@ export const uploadExternalFormatFilePayload = <span class="cstat-no" title="sta
     architecture: values.architecture,
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return JSON.stringify(instanceArgs);</span>
+  return JSON.stringify(instanceArgs);
 };
 &nbsp;
 // This method facilitates the uploading of a file to a server via a websocket connection.
@@ -465,68 +465,68 @@ export const uploadExternalFormatFilePayload = <span class="cstat-no" title="sta
 // 4. The FileReader.onload event handler processes indiviual file chunks as they get read, which sends them
 // through the websocket connection. This is done so that we don't have to load the entire file into memory. For large files this is important.
 // 5. For each chunk read from the file and sent through the websocket, the onProgress callback is called to track the progress of the file upload.
-export const sendFileByWebSocket = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const sendFileByWebSocket = (
   socketURL: string,
   file: File | null,
   onProgress?: (current: number, total: number) =&gt; void,
   onError?: (error: Error) =&gt; void,
 ) =&gt; {
-  const chunkSize = <span class="cstat-no" title="statement not covered" >1024 * 1024; // 1MB</span>
-  const ws = <span class="cstat-no" title="statement not covered" >new WebSocket(socketURL);</span>
+  const chunkSize = 1024 * 1024; // 1MB
+  const ws = new WebSocket(socketURL);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  ws.onopen = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const reader = <span class="cstat-no" title="statement not covered" >new FileReader();</span>
-    let sentFileSize = <span class="cstat-no" title="statement not covered" >0;</span>
+  ws.onopen = () =&gt; {
+    const reader = new FileReader();
+    let sentFileSize = 0;
 &nbsp;
-    const readNextFileChunk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      if (!file) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-      const chunk = <span class="cstat-no" title="statement not covered" >file.slice(sentFileSize, sentFileSize + chunkSize);</span>
-<span class="cstat-no" title="statement not covered" >      if (!chunk.size) {</span>
-        // NOTE: if we close the connection without a code, the default 1005 is used which will cause backend to throw an error
-<span class="cstat-no" title="statement not covered" >        ws.close(1000, "File upload complete");</span>
+    const readNextFileChunk = () =&gt; {
+      if (!file) {
 <span class="cstat-no" title="statement not covered" >        return;</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+      const chunk = file.slice(sentFileSize, sentFileSize + chunkSize);
+      if (!chunk.size) {
+        // NOTE: if we close the connection without a code, the default 1005 is used which will cause backend to throw an error
+        ws.close(1000, "File upload complete");
+        return;
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      reader.readAsArrayBuffer(chunk);</span>
+      reader.readAsArrayBuffer(chunk);
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    reader.onload = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (</span>
+    reader.onload = (event) =&gt; {
+      if (
         !file ||
         // in case if the upload is cancelled and the websocket is closed, stop streaming data and don't track progress
         ws.readyState === WebSocket.CLOSING ||
         ws.readyState === WebSocket.CLOSED
       ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
-      const result = <span class="cstat-no" title="statement not covered" >event.target?.result;</span>
+      const result = event.target?.result;
       let data: ArrayBuffer | ArrayBufferLike;
-<span class="cstat-no" title="statement not covered" >      if (result &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >typeof result === "string") {</span></span>
+      if (result &amp;&amp; typeof result === "string") {
 <span class="cstat-no" title="statement not covered" >        // Convert string to ArrayBuffer</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        data = new TextEncoder().encode(result).buffer;</span></span>
+<span class="cstat-no" title="statement not covered" >        data = new TextEncoder().encode(result).buffer;</span>
       } else {
-<span class="cstat-no" title="statement not covered" >        data = result as ArrayBuffer;</span>
+        data = result as ArrayBuffer;
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      ws.send(data);</span>
+      ws.send(data);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      sentFileSize += data.byteLength;</span>
-<span class="cstat-no" title="statement not covered" >      if (onProgress) {</span>
-<span class="cstat-no" title="statement not covered" >        onProgress(sentFileSize, file.size);</span>
+      sentFileSize += data.byteLength;
+      if (onProgress) {
+        onProgress(sentFileSize, file.size);
       }
 &nbsp;
       // setTimeout is used to prevent the stack from increasing and
       // causing a memory leak on larger files,
       // because readNextFileChunk is called recursively
-<span class="cstat-no" title="statement not covered" >      setTimeout(readNextFileChunk, 0);</span>
+      setTimeout(readNextFileChunk, 0);
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    reader.onerror = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (onError) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onError(</span></span>
+    reader.onerror = <span class="fstat-no" title="function not covered" >(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (onError) {</span>
+<span class="cstat-no" title="statement not covered" >        onError(</span>
 <span class="cstat-no" title="statement not covered" >          e.target?.error</span>
 <span class="cstat-no" title="statement not covered" >            ? e.target.error</span>
 <span class="cstat-no" title="statement not covered" >            : new Error("Failed to read read file"),</span>
@@ -534,37 +534,37 @@ export const sendFileByWebSocket = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    readNextFileChunk();</span>
+    readNextFileChunk();
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return ws;</span>
+  return ws;
 };
 &nbsp;
-export const isImageTypeRaw = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (f</span>ile: File): Promise&lt;boolean&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve) =&gt; {</span>
-    const reader = <span class="cstat-no" title="statement not covered" >new FileReader();</span>
+export const isImageTypeRaw = async (file: File): Promise&lt;boolean&gt; =&gt; {
+  return new Promise((resolve) =&gt; {
+    const reader = new FileReader();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    reader.onload = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
-      const arrayBuffer = <span class="cstat-no" title="statement not covered" >event.target?.result;</span>
-      const bytes = <span class="cstat-no" title="statement not covered" >new Uint8Array(arrayBuffer as ArrayBuffer);</span>
+    reader.onload = (event) =&gt; {
+      const arrayBuffer = event.target?.result;
+      const bytes = new Uint8Array(arrayBuffer as ArrayBuffer);
 &nbsp;
       // Checking for the DOS/MBR boot sector signature (0x55AA at the end of the first sector)
       // NOTE: this is not a foolproof method to determine if a file is a raw image
       // not all raw VM images will contain a boot sector with this signature
-<span class="cstat-no" title="statement not covered" >      if (bytes[510] === 0x55 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >bytes[511] === 0xaa) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        resolve(true);</span></span>
+      if (bytes[510] === 0x55 &amp;&amp; bytes[511] === 0xaa) {
+<span class="cstat-no" title="statement not covered" >        resolve(true);</span>
       } else {
         // Further checks can be added here for other raw formats
-<span class="cstat-no" title="statement not covered" >        resolve(false);</span>
+        resolve(false);
       }
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    reader.onerror = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      resolve(false);</span></span>
+    reader.onerror = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      resolve(false);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 &nbsp;
     // Read the first 512 bytes (typically the size of a boot sector for a raw vm image)
-<span class="cstat-no" title="statement not covered" >    reader.readAsArrayBuffer(file.slice(0, 512));</span>
+    reader.readAsArrayBuffer(file.slice(0, 512));
   });
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -574,7 +574,7 @@ export const isImageTypeRaw = <span class="cstat-no" title="statement not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

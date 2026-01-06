@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.7% </span>
+                <span class="strong">16.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/204</span>
+                <span class='fraction'>30/177</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.54% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/22</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.14% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/14</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -444,51 +444,51 @@ interface Props {
   instance: LxdInstance;
 }
 &nbsp;
-const InstanceConsole: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
-<span class="cstat-no" title="statement not covered" >  const isVm = <span class="cstat-no" title="statement not covered" >instance.type === "virtual-machine";</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isGraphic, setGraphic] = <span class="cstat-no" title="statement not covered" >useState(isVm);</span></span>
-<span class="cstat-no" title="statement not covered" >  const { hasCustomVolumeIso } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span></span>
+const InstanceConsole: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ instance }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
+<span class="cstat-no" title="statement not covered" >  const isVm = instance.type === "virtual-machine";</span>
+<span class="cstat-no" title="statement not covered" >  const [isGraphic, setGraphic] = useState(isVm);</span>
+<span class="cstat-no" title="statement not covered" >  const { hasCustomVolumeIso } = useSupportedFeatures();</span>
 <span class="cstat-no" title="statement not covered" >  const { canUpdateInstanceState, canAccessInstanceConsole } =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    useInstanceEntitlements();</span></span>
+<span class="cstat-no" title="statement not covered" >    useInstanceEntitlements();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const isRunning = <span class="cstat-no" title="statement not covered" >isInstanceRunning(instance);</span></span>
+<span class="cstat-no" title="statement not covered" >  const isRunning = isInstanceRunning(instance);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const onFailure = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>itle: string, e: unknown, message?: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure(title, e, message);</span></span>
+<span class="cstat-no" title="statement not covered" >  const onFailure = (title: string, e: unknown, message?: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure(title, e, message);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const showNotRunningInfo = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.info(</span></span>
+<span class="cstat-no" title="statement not covered" >  const showNotRunningInfo = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    notify.info(</span>
 <span class="cstat-no" title="statement not covered" >      "Start the instance to interact with the text console.",</span>
 <span class="cstat-no" title="statement not covered" >      "Instance not running",</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  let handleFullScreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" >  let handleFullScreen = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    /**/</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const onChildMount = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>hildHandleFullScreen: () =&gt; void) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    handleFullScreen = childHandleFullScreen;</span></span>
+<span class="cstat-no" title="statement not covered" >  const onChildMount = (childHandleFullScreen: () =&gt; void) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    handleFullScreen = childHandleFullScreen;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const setGraphicConsole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>sGraphic: boolean) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setGraphic(isGraphic);</span></span>
+<span class="cstat-no" title="statement not covered" >  const setGraphicConsole = (isGraphic: boolean) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+<span class="cstat-no" title="statement not covered" >    setGraphic(isGraphic);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { handleStart, isLoading } = <span class="cstat-no" title="statement not covered" >useInstanceStart(instance);</span></span>
+<span class="cstat-no" title="statement not covered" >  const { handleStart, isLoading } = useInstanceStart(instance);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (!canAccessInstanceConsole(instance)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+<span class="cstat-no" title="statement not covered" >  if (!canAccessInstanceConsole(instance)) {</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Notification severity="caution" title="Restricted permissions"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        You do not have permission to access the console for this instance.</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/Notification&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="instance-console-tab"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isVm &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="p-panel__controls"&gt;</span>
@@ -497,15 +497,15 @@ const InstanceConsole: FC&lt;Props&gt; = <span class="cstat-no" title="statement
 <span class="cstat-no" title="statement not covered" >              labelClassName="right-margin"</span>
 <span class="cstat-no" title="statement not covered" >              label="Graphic"</span>
 <span class="cstat-no" title="statement not covered" >              checked={isGraphic}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setGraphicConsole(true);</span></span>
+<span class="cstat-no" title="statement not covered" >              onChange={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setGraphicConsole(true);</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;RadioInput</span>
 <span class="cstat-no" title="statement not covered" >              label="Text console"</span>
 <span class="cstat-no" title="statement not covered" >              checked={!isGraphic}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setGraphicConsole(false);</span></span>
+<span class="cstat-no" title="statement not covered" >              onChange={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setGraphicConsole(false);</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
@@ -514,8 +514,8 @@ const InstanceConsole: FC&lt;Props&gt; = <span class="cstat-no" title="statement
 <span class="cstat-no" title="statement not covered" >              {hasCustomVolumeIso &amp;&amp; &lt;AttachIsoBtn instance={instance} /&gt;}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >                className="u-no-margin--bottom"</span>
-<span class="cstat-no" title="statement not covered" >                onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  handleFullScreen();</span></span>
+<span class="cstat-no" title="statement not covered" >                onClick={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                  handleFullScreen();</span>
 <span class="cstat-no" title="statement not covered" >                }}</span>
 <span class="cstat-no" title="statement not covered" >              &gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;span&gt;Fullscreen&lt;/span&gt;</span>
@@ -527,20 +527,20 @@ const InstanceConsole: FC&lt;Props&gt; = <span class="cstat-no" title="statement
 <span class="cstat-no" title="statement not covered" >                links={[</span>
 <span class="cstat-no" title="statement not covered" >                  {</span>
 <span class="cstat-no" title="statement not covered" >                    children: "Send Ctrl + Alt + Del",</span>
-<span class="cstat-no" title="statement not covered" >                    onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                      sendCtrlAltDel(window.spice_connection);</span></span>
+<span class="cstat-no" title="statement not covered" >                    onClick: () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                      sendCtrlAltDel(window.spice_connection);</span>
 <span class="cstat-no" title="statement not covered" >                    },</span>
 <span class="cstat-no" title="statement not covered" >                  },</span>
 <span class="cstat-no" title="statement not covered" >                  {</span>
 <span class="cstat-no" title="statement not covered" >                    children: "Send Alt + TAB",</span>
-<span class="cstat-no" title="statement not covered" >                    onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                      sendAltTab(window.spice_connection);</span></span>
+<span class="cstat-no" title="statement not covered" >                    onClick: () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                      sendAltTab(window.spice_connection);</span>
 <span class="cstat-no" title="statement not covered" >                    },</span>
 <span class="cstat-no" title="statement not covered" >                  },</span>
 <span class="cstat-no" title="statement not covered" >                  {</span>
 <span class="cstat-no" title="statement not covered" >                    children: "Send Alt + F4",</span>
-<span class="cstat-no" title="statement not covered" >                    onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                      sendAltF4(window.spice_connection);</span></span>
+<span class="cstat-no" title="statement not covered" >                    onClick: () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                      sendAltF4(window.spice_connection);</span>
 <span class="cstat-no" title="statement not covered" >                    },</span>
 <span class="cstat-no" title="statement not covered" >                  },</span>
 <span class="cstat-no" title="statement not covered" >                ]}</span>
@@ -601,7 +601,7 @@ export default InstanceConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

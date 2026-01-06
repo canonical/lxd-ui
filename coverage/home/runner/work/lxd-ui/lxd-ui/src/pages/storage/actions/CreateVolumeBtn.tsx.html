@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.96% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>49/57</span>
+                <span class='fraction'>49/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/12</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -126,39 +126,39 @@
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-yes">125x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">116x</span>
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -174,23 +174,23 @@ interface Props {
   className?: string;
 }
 &nbsp;
-const CreateVolumeBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const CreateVolumeBtn: FC&lt;Props&gt; = ({
   projectName,
   className,
   defaultPool,
 }) =&gt; {
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow();</span>
-  const { canCreateStorageVolumes } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span>
-  const { data: project } = <span class="cstat-no" title="statement not covered" >useProject(projectName);</span>
+  const navigate = useNavigate();
+  const isSmallScreen = useIsScreenBelow();
+  const { canCreateStorageVolumes } = useProjectEntitlements();
+  const { data: project } = useProject(projectName);
 &nbsp;
-  const handleAdd = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    navigate(</span>
-      `/ui/project/${encodeURIComponent(projectName)}/storage/volumes/create${defaultPool ? `?pool=${encodeURIComponent(defaultPool)}` : <span class="branch-1 cbranch-no" title="branch not covered" >""}</span>`,
+  const handleAdd = () =&gt; {
+    navigate(
+      `/ui/project/${encodeURIComponent(projectName)}/storage/volumes/create${defaultPool ? `?pool=${encodeURIComponent(defaultPool)}` : ""}`,
     );
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Button
       appearance="positive"
       hasIcon={!isSmallScreen}
@@ -217,7 +217,7 @@ export default CreateVolumeBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

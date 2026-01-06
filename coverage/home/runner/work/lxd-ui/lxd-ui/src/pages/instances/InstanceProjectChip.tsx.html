@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.63% </span>
+                <span class="strong">60.6% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/38</span>
+                <span class='fraction'>20/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -96,24 +96,24 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -127,8 +127,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useSearchParams } from "react-router-dom";
 import ResourceLink from "components/ResourceLink";
@@ -146,13 +146,13 @@ interface Props {
   instance: LxdInstance;
 }
 &nbsp;
-const InstanceProjectChip: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const [searchParams] = <span class="cstat-no" title="statement not covered" >useSearchParams();</span></span>
+const InstanceProjectChip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ instance }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const [searchParams] = useSearchParams();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const preserveParams = <span class="cstat-no" title="statement not covered" >[QUERY, STATUS, TYPE, PROFILE, CLUSTER_MEMBER];</span></span>
-<span class="cstat-no" title="statement not covered" >  const baseUrl = <span class="cstat-no" title="statement not covered" >searchChipBaseUrl(searchParams, preserveParams);</span></span>
+<span class="cstat-no" title="statement not covered" >  const preserveParams = [QUERY, STATUS, TYPE, PROFILE, CLUSTER_MEMBER];</span>
+<span class="cstat-no" title="statement not covered" >  const baseUrl = searchChipBaseUrl(searchParams, preserveParams);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >      type="project"</span>
 <span class="cstat-no" title="statement not covered" >      value={instance.project}</span>
@@ -169,7 +169,7 @@ export default InstanceProjectChip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.24% </span>
+                <span class="strong">90.98% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>223/313</span>
+                <span class='fraction'>222/244</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.84% </span>
+                <span class="strong">72% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>21/57</span>
+                <span class='fraction'>18/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/20</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.39% </span>
+                <span class="strong">90.98% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>223/244</span>
+                <span class='fraction'>222/244</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -477,7 +477,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -585,125 +585,125 @@ interface Props {
   onClose?: () =&gt; void;
 }
 &nbsp;
-const EditIdpGroupPanel: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> idpGroup, onClose }) =&gt; {</span>
-  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
+const EditIdpGroupPanel: FC&lt;Props&gt; = ({ idpGroup, onClose }) =&gt; {
+  const panelParams = usePanelParams();
+  const notify = useNotify();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
 &nbsp;
-  const { data: groups = [], error, isLoading } = <span class="cstat-no" title="statement not covered" >useAuthGroups();</span>
+  const { data: groups = [], error, isLoading } = useAuthGroups();
 &nbsp;
   const {
     desiredState,
     save: saveToPanelHistory,
     undo: undoMappingChanges,
-  } = <span class="cstat-no" title="statement not covered" >useEditHistory&lt;GroupEditHistory&gt;({</span>
+  } = useEditHistory&lt;GroupEditHistory&gt;({
     initialState: {
       groupsAdded: new Set(),
       groupsRemoved: new Set(),
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading panel details failed", error);</span></span>
+  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Loading panel details failed", error);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const selectedGroups = <span class="cstat-no" title="statement not covered" >new Set&lt;string&gt;(desiredState.groupsAdded);</span>
-<span class="cstat-no" title="statement not covered" >  for (const group of idpGroup.groups) {</span>
-<span class="cstat-no" title="statement not covered" >    if (!desiredState.groupsRemoved.has(group)) {</span>
-<span class="cstat-no" title="statement not covered" >      selectedGroups.add(group);</span>
+  const selectedGroups = new Set&lt;string&gt;(desiredState.groupsAdded);
+  for (const group of idpGroup.groups) {
+    if (!desiredState.groupsRemoved.has(group)) {
+      selectedGroups.add(group);
     }
   }
 &nbsp;
-  const calculateModifiedGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const modifiedGroups = <span class="cstat-no" title="statement not covered" >new Set&lt;string&gt;();</span>
+  const calculateModifiedGroups = () =&gt; {
+    const modifiedGroups = new Set&lt;string&gt;();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const group of idpGroup.groups) {</span>
-<span class="cstat-no" title="statement not covered" >      if (!selectedGroups.has(group)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        modifiedGroups.add(group);</span></span>
+    for (const group of idpGroup.groups) {
+      if (!selectedGroups.has(group)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        modifiedGroups.add(group);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const group of groups) {</span>
-<span class="cstat-no" title="statement not covered" >      if (</span>
+    for (const group of groups) {
+      if (
         !idpGroup.groups.includes(group.name) &amp;&amp;
         selectedGroups.has(group.name)
       ) {
-<span class="cstat-no" title="statement not covered" >        modifiedGroups.add(group.name);</span>
+        modifiedGroups.add(group.name);
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return modifiedGroups;</span>
+    return modifiedGroups;
   };
 &nbsp;
-  const modifyGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(n</span>ewGroups: string[], isUnselectAll?: boolean) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isUnselectAll) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span></span>
+  const modifyGroups = <span class="fstat-no" title="function not covered" >(newGroups: string[], isUnselectAll?: boolean) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (isUnselectAll) {</span>
+<span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span>
 <span class="cstat-no" title="statement not covered" >        groupsAdded: new Set(),</span>
-<span class="cstat-no" title="statement not covered" >        groupsRemoved: new Set(groups.map(<span class="fstat-no" title="function not covered" >(g</span>roup) =&gt; <span class="cstat-no" title="statement not covered" >group.name)</span>),</span>
+<span class="cstat-no" title="statement not covered" >        groupsRemoved: new Set(groups.map((group) =&gt; group.name)),</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span></span>
+<span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span>
 <span class="cstat-no" title="statement not covered" >        groupsAdded: new Set(newGroups),</span>
 <span class="cstat-no" title="statement not covered" >        groupsRemoved: new Set(),</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const toggleRow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>owName: string) =&gt; {</span>
-    const isRowSelected = <span class="cstat-no" title="statement not covered" >selectedGroups.has(rowName);</span>
+  const toggleRow = (rowName: string) =&gt; {
+    const isRowSelected = selectedGroups.has(rowName);
 &nbsp;
-    const groupsAdded = <span class="cstat-no" title="statement not covered" >new Set(desiredState.groupsAdded);</span>
-    const groupsRemoved = <span class="cstat-no" title="statement not covered" >new Set(desiredState.groupsRemoved);</span>
+    const groupsAdded = new Set(desiredState.groupsAdded);
+    const groupsRemoved = new Set(desiredState.groupsRemoved);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (isRowSelected) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      groupsAdded.delete(rowName);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      groupsRemoved.add(rowName);</span></span>
+    if (isRowSelected) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      groupsAdded.delete(rowName);</span>
+<span class="cstat-no" title="statement not covered" >      groupsRemoved.add(rowName);</span>
     } else {
-<span class="cstat-no" title="statement not covered" >      groupsAdded.add(rowName);</span>
-<span class="cstat-no" title="statement not covered" >      groupsRemoved.delete(rowName);</span>
+      groupsAdded.add(rowName);
+      groupsRemoved.delete(rowName);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    saveToPanelHistory({</span>
+    saveToPanelHistory({
       groupsAdded,
       groupsRemoved,
     });
   };
 &nbsp;
-  const closePanel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    panelParams.clear();</span>
-<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
-<span class="cstat-no" title="statement not covered" >    onClose?.();</span>
+  const closePanel = () =&gt; {
+    panelParams.clear();
+    notify.clear();
+    onClose?.();
   };
 &nbsp;
-  const saveIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: IdpGroupFormValues) =&gt; {</span>
-    const newGroupMappings = <span class="cstat-no" title="statement not covered" >new Set(idpGroup.groups);</span>
-<span class="cstat-no" title="statement not covered" >    for (const group of desiredState.groupsAdded) {</span>
-<span class="cstat-no" title="statement not covered" >      newGroupMappings.add(group);</span>
+  const saveIdpGroup = (values: IdpGroupFormValues) =&gt; {
+    const newGroupMappings = new Set(idpGroup.groups);
+    for (const group of desiredState.groupsAdded) {
+      newGroupMappings.add(group);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const group of desiredState.groupsRemoved) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      newGroupMappings.delete(group);</span></span>
+    for (const group of desiredState.groupsRemoved) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      newGroupMappings.delete(group);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    let mutationPromise = <span class="cstat-no" title="statement not covered" >updateIdpGroup({</span>
+    let mutationPromise = updateIdpGroup({
       ...idpGroup,
       groups: Array.from(newGroupMappings),
     });
 &nbsp;
-    const nameChanged = <span class="cstat-no" title="statement not covered" >idpGroup.name !== values.name;</span>
+    const nameChanged = idpGroup.name !== values.name;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (nameChanged) {</span>
-<span class="cstat-no" title="statement not covered" >      mutationPromise = mutationPromise.then(<span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" >        renameIdpGroup(idpGroup?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? <span class="branch-1 cbranch-no" title="branch not covered" >"", v</span></span>alues.name),</span>
+    if (nameChanged) {
+      mutationPromise = mutationPromise.then(async () =&gt;
+        renameIdpGroup(idpGroup?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "", v</span>alues.name),
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    formik.setSubmitting(true);</span>
-<span class="cstat-no" title="statement not covered" >    mutationPromise</span>
+    formik.setSubmitting(true);
+    mutationPromise
       .then(() =&gt; {
-<span class="cstat-no" title="statement not covered" >        toastNotify.success(</span>
+        toastNotify.success(
           &lt;&gt;
             IDP group{" "}
             &lt;ResourceLink
@@ -714,31 +714,31 @@ const EditIdpGroupPanel: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
             updated.
           &lt;/&gt;,
         );
-<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
-<span class="cstat-no" title="statement not covered" >        closePanel();</span>
+        closePanel();
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure(`IDP group update failed`, e);</span></span>
-      })
+<span class="cstat-no" title="statement not covered" >        notify.failure(`IDP group update failed`, e);</span>
+<span class="cstat-no" title="statement not covered" >      })</span>
       .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span>
+        formik.setSubmitting(false);
       });
   };
 &nbsp;
-  const groupSchema = <span class="cstat-no" title="statement not covered" >Yup.object().shape({</span>
+  const groupSchema = Yup.object().shape({
     name: Yup.string()
       .test(
         ...testDuplicateIdpGroupName(
           controllerState,
-          panelParams.<span class="branch-0 cbranch-no" title="branch not covered" >idpGroup ?? "",</span>
+          panelParams.idpGroup<span class="branch-0 cbranch-no" title="branch not covered" > ?? "",</span>
         ),
       )
       .required("IDP group name is required"),
   });
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;IdpGroupFormValues&gt;({</span>
+  const formik = useFormik&lt;IdpGroupFormValues&gt;({
     initialValues: {
       name: idpGroup?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "",</span>
     },
@@ -747,14 +747,14 @@ const EditIdpGroupPanel: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
     onSubmit: saveIdpGroup,
   });
 &nbsp;
-  const modifiedGroups = <span class="cstat-no" title="statement not covered" >calculateModifiedGroups();</span>
-  const nameModified = <span class="cstat-no" title="statement not covered" >!!formik.touched.name;</span>
-  const nameIsValid = <span class="cstat-no" title="statement not covered" >formik.isValid &amp;&amp; formik.values.name;</span>
-  const groupsModified = <span class="cstat-no" title="statement not covered" >!!modifiedGroups.size;</span>
+  const modifiedGroups = calculateModifiedGroups();
+  const nameModified = !!formik.touched.name;
+  const nameIsValid = formik.isValid &amp;&amp; formik.values.name;
+  const groupsModified = !!modifiedGroups.size;
   const enableSubmission =
-    (<span class="cstat-no" title="statement not covered" >nameModified &amp;&amp; nameIsValid) || (nameIsValid &amp;&amp; groupsModified);</span>
+    (nameModified &amp;&amp; nameIsValid) || (nameIsValid &amp;&amp; groupsModified);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;SidePanel loading={isLoading} hasError={!groups}&gt;
       &lt;SidePanel.Header&gt;
         &lt;SidePanel.HeaderTitle className="u-truncate"&gt;{`Edit IDP group ${idpGroup?.name}`}&lt;/SidePanel.HeaderTitle&gt;
@@ -784,7 +784,7 @@ const EditIdpGroupPanel: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
           modifiedGroups={modifiedGroups}
           undoChange={undoMappingChanges}
           closePanel={closePanel}
-          onSubmit={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onSubmit={() =&gt; void formik.submitForm()}
           loading={formik.isSubmitting}
           disabled={!enableSubmission || formik.isSubmitting}
           isEdit
@@ -802,7 +802,7 @@ export default EditIdpGroupPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

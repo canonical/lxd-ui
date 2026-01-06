@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.59% </span>
+                <span class="strong">81.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>283/445</span>
+                <span class='fraction'>289/353</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.86% </span>
+                <span class="strong">44.18% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>24/115</span>
+                <span class='fraction'>19/43</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.62% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/32</span>
+                <span class='fraction'>7/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.75% </span>
+                <span class="strong">81.86% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>278/353</span>
+                <span class='fraction'>289/353</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -628,7 +628,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -734,18 +734,18 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -816,52 +816,52 @@ interface Props {
   onSave?: () =&gt; void;
 }
 &nbsp;
-const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const NetworkDevicePanel: FC&lt;Props&gt; = ({
   project,
   formik: parentFormik,
   onSave,
 }) =&gt; {
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
+  const notify = useNotify();
+  const panelParams = usePanelParams();
   const { data: profiles = [], isLoading: isLoadingProfiles } =
-<span class="cstat-no" title="statement not covered" >    useProfiles(project);</span>
+    useProfiles(project);
   const { data: networks = [], isLoading: isLoadingNetworks } =
-<span class="cstat-no" title="statement not covered" >    useNetworks(project);</span>
-  const isLoading = <span class="cstat-no" title="statement not covered" >isLoadingProfiles || isLoadingNetworks;</span>
+    useNetworks(project);
+  const isLoading = isLoadingProfiles || isLoadingNetworks;
 &nbsp;
-  const existingDeviceNames = <span class="cstat-no" title="statement not covered" >getExistingDeviceNames(</span>
+  const existingDeviceNames = getExistingDeviceNames(
     parentFormik.values,
     profiles,
   );
 &nbsp;
-  const isInstance = <span class="cstat-no" title="statement not covered" >parentFormik.values.entityType === "instance";</span>
+  const isInstance = parentFormik.values.entityType === "instance";
 &nbsp;
-  const deviceName = <span class="cstat-no" title="statement not covered" >panelParams?.deviceName;</span>
-  const device = <span class="cstat-no" title="statement not covered" >parentFormik.values.devices.find(</span>
-<span class="fstat-no" title="function not covered" >    (d</span>) =&gt; <span class="cstat-no" title="statement not covered" >d.name === <span class="branch-0 cbranch-no" title="branch not covered" >deviceName &amp;&amp; d.type === "nic",</span></span>
+  const deviceName = panelParams?.deviceName;
+  const device = parentFormik.values.devices.find(
+    (d) =&gt; d.name === <span class="branch-0 cbranch-no" title="branch not covered" >deviceName &amp;&amp; d.type === "nic",</span>
   ) as LxdNicDevice | undefined;
 &nbsp;
-  const inheritedNetworks = <span class="cstat-no" title="statement not covered" >getInheritedNetworks(parentFormik.values, profiles);</span>
-  const inheritedDevice = <span class="cstat-no" title="statement not covered" >inheritedNetworks.find((d) =&gt; d.key === deviceName);</span>
+  const inheritedNetworks = getInheritedNetworks(parentFormik.values, profiles);
+  const inheritedDevice = inheritedNetworks.find((d) =&gt; d.key === deviceName);
 &nbsp;
-  const isCreatingLocal = <span class="cstat-no" title="statement not covered" >panelParams?.panel === panels.createNetworkDevice;</span>
-  const isCreatingOverride = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >inheritedDevice &amp;&amp; !device;</span></span>
-  const isEditingOverride = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >inheritedDevice &amp;&amp; device;</span></span>
+  const isCreatingLocal = panelParams?.panel === panels.createNetworkDevice;
+  const isCreatingOverride = <span class="branch-0 cbranch-no" title="branch not covered" >inheritedDevice &amp;&amp; !device;</span>
+  const isEditingOverride = <span class="branch-0 cbranch-no" title="branch not covered" >inheritedDevice &amp;&amp; device;</span>
 &nbsp;
-  const isOverride = <span class="cstat-no" title="statement not covered" >Boolean(isCreatingOverride || <span class="branch-1 cbranch-no" title="branch not covered" >isEditingOverride)</span>;</span>
+  const isOverride = Boolean(isCreatingOverride || isEditingOverride);
 &nbsp;
-  const managedNetworks = <span class="cstat-no" title="statement not covered" >networks.filter((network) =&gt; network.managed);</span>
+  const managedNetworks = networks.filter((network) =&gt; network.managed);
 &nbsp;
-  const getNetworkAclsByNetworkName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>etworkName: string) =&gt; {</span>
-    const network = <span class="cstat-no" title="statement not covered" >managedNetworks.find((n) =&gt; n.name === networkName);</span>
-<span class="cstat-no" title="statement not covered" >    return getNetworkAcls(network);</span>
+  const getNetworkAclsByNetworkName = (networkName: string) =&gt; {
+    const network = managedNetworks.find((n) =&gt; n.name === networkName);
+    return getNetworkAcls(network);
   };
 &nbsp;
-  const invalidDeviceNames = <span class="cstat-no" title="statement not covered" >existingDeviceNames.filter(</span>
-<span class="fstat-no" title="function not covered" >    (n</span>ame) =&gt; <span class="cstat-no" title="statement not covered" >name !== <span class="branch-0 cbranch-no" title="branch not covered" >device?.name,</span></span>
+  const invalidDeviceNames = existingDeviceNames.filter(
+    (name) =&gt; name !== <span class="branch-0 cbranch-no" title="branch not covered" >device?.name,</span>
   );
 &nbsp;
-  const validationSchema = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isLoading</span></span>
+  const validationSchema = <span class="branch-0 cbranch-no" title="branch not covered" >isLoading</span>
 <span class="cstat-no" title="statement not covered" >    ? Yup.object({})</span>
     : Yup.object({
         ...(!isOverride &amp;&amp; {
@@ -879,23 +879,23 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
         network: Yup.string().required("Network is required"),
       });
 &nbsp;
-  const getInitialValues = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): NetworkDeviceFormValues =&gt; {</span></span>
-    const defaultNetworkName = <span class="cstat-no" title="statement not covered" >managedNetworks[0]?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "";</span></span>
+  const getInitialValues = (): NetworkDeviceFormValues =&gt; {
+    const defaultNetworkName = managedNetworks[0]?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "";</span>
     const defaultAcls =
-<span class="cstat-no" title="statement not covered" >      getNetworkAclsByNetworkName(defaultNetworkName).join(",");</span>
+      getNetworkAclsByNetworkName(defaultNetworkName).join(",");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (isCreatingLocal) {</span>
-      const inheritedNetworkNames = <span class="cstat-no" title="statement not covered" >inheritedNetworks.map((item) =&gt; item.key);</span>
-      const existingNetworkNames = <span class="cstat-no" title="statement not covered" >parentFormik.values.devices.map(</span>
-<span class="fstat-no" title="function not covered" >        (d</span>) =&gt; <span class="cstat-no" title="statement not covered" >d.name,</span>
+    if (isCreatingLocal) {
+      const inheritedNetworkNames = inheritedNetworks.map((item) =&gt; item.key);
+      const existingNetworkNames = parentFormik.values.devices.map(
+        (d) =&gt; d.name,
       );
-      const allNetworkNames = <span class="cstat-no" title="statement not covered" >[</span>
+      const allNetworkNames = [
         ...existingNetworkNames,
         ...inheritedNetworkNames,
       ];
-      const deviceName = <span class="cstat-no" title="statement not covered" >deduplicateName("eth", 1, allNetworkNames);</span>
+      const deviceName = deduplicateName("eth", 1, allNetworkNames);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return {</span>
+      return {
         name: deviceName,
         network: defaultNetworkName,
         acls: defaultAcls,
@@ -904,8 +904,8 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
       };
 <span class="branch-0 cbranch-no" title="branch not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isCreatingOverride) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (isCreatingOverride) {</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
 <span class="cstat-no" title="statement not covered" >        name: inheritedDevice.key,</span>
 <span class="cstat-no" title="statement not covered" >        network: inheritedDevice.network?.network || defaultNetworkName,</span>
 <span class="cstat-no" title="statement not covered" >        acls: combineAcls(</span>
@@ -917,36 +917,36 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >      };</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-    const deviceNetworkName = <span class="cstat-no" title="statement not covered" >device?.<span class="branch-0 cbranch-no" title="branch not covered" >network || defaultNetworkName;</span></span>
+    const deviceNetworkName = device?.<span class="branch-0 cbranch-no" title="branch not covered" >network || defaultNetworkName;</span>
 &nbsp;
-    const combinedAcls = <span class="cstat-no" title="statement not covered" >combineAcls(</span>
+    const combinedAcls = combineAcls(
       getNetworkAclsByNetworkName(deviceNetworkName),
       getDeviceAcls(device),
     ).join(",");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
-      name: device?.<span class="branch-0 cbranch-no" title="branch not covered" >name || "",</span>
+    return {
+      name: <span class="branch-0 cbranch-no" title="branch not covered" >device?.<span class="branch-0 cbranch-no" title="branch not covered" >name || "</span>",</span>
       network: deviceNetworkName,
       acls: combinedAcls,
-      ipv4: device?.["ipv4.address"<span class="branch-0 cbranch-no" title="branch not covered" >] || "",</span>
-      ipv6: device?.["ipv6.address"<span class="branch-0 cbranch-no" title="branch not covered" >] || "",</span>
+      ipv4: <span class="branch-0 cbranch-no" title="branch not covered" >device?.["ipv4.address"]<span class="branch-0 cbranch-no" title="branch not covered" > </span>|| "",</span>
+      ipv6: <span class="branch-0 cbranch-no" title="branch not covered" >device?.["ipv6.address"]<span class="branch-0 cbranch-no" title="branch not covered" > </span>|| "",</span>
     };
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;NetworkDeviceFormValues&gt;({</span>
+  const formik = useFormik&lt;NetworkDeviceFormValues&gt;({
     enableReinitialize: true,
     initialValues: getInitialValues(),
     validationSchema,
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const allSelectedAcls = <span class="cstat-no" title="statement not covered" >values.<span class="branch-0 cbranch-no" title="branch not covered" >acls ? values.acls.split(",") : [</span>];</span>
-      const networkAcls = <span class="cstat-no" title="statement not covered" >getNetworkAcls(</span>
+    onSubmit: (values) =&gt; {
+      const allSelectedAcls = values.acls<span class="branch-0 cbranch-no" title="branch not covered" > ? values.acls.split(",") : [</span>];
+      const networkAcls = getNetworkAcls(
         managedNetworks.find((n) =&gt; n.name === values.network),
       );
-      const userSelectedAcls = <span class="cstat-no" title="statement not covered" >allSelectedAcls.filter(</span>
-<span class="fstat-no" title="function not covered" >        (a</span>cl) =&gt; <span class="cstat-no" title="statement not covered" >!networkAcls.includes(acl),</span>
+      const userSelectedAcls = allSelectedAcls.filter(
+        (acl) =&gt; !networkAcls.includes(acl),
       );
 &nbsp;
-      const deviceData: FormNetworkDevice = <span class="cstat-no" title="statement not covered" >{</span>
+      const deviceData: FormNetworkDevice = {
         name: values.name,
         type: "nic",
         network: values.network,
@@ -956,59 +956,59 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
         "ipv6.address": values.ipv6 || undefined,
       };
 &nbsp;
-      const originalDeviceName = <span class="cstat-no" title="statement not covered" >deviceName;</span>
-      const { devices } = <span class="cstat-no" title="statement not covered" >parentFormik.values;</span>
-      const existingDeviceIndex = <span class="cstat-no" title="statement not covered" >devices.findIndex(</span>
-<span class="fstat-no" title="function not covered" >        (d</span>) =&gt; <span class="cstat-no" title="statement not covered" >d.name === originalDeviceName,</span>
+      const originalDeviceName = deviceName;
+      const { devices } = parentFormik.values;
+      const existingDeviceIndex = devices.findIndex(
+        (d) =&gt; d.name === originalDeviceName,
       );
       let updatedDevices: FormDevice[];
-<span class="cstat-no" title="statement not covered" >      if (existingDeviceIndex !== -1) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        updatedDevices = [...devices];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        updatedDevices[existingDeviceIndex] = deviceData;</span></span>
+      if (existingDeviceIndex !== -1) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        updatedDevices = [...devices];</span>
+<span class="cstat-no" title="statement not covered" >        updatedDevices[existingDeviceIndex] = deviceData;</span>
       } else {
-<span class="cstat-no" title="statement not covered" >        updatedDevices = [...devices, deviceData];</span>
+        updatedDevices = [...devices, deviceData];
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      parentFormik.setFieldValue("devices", updatedDevices);</span>
+      parentFormik.setFieldValue("devices", updatedDevices);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      onSave?.();</span>
-<span class="cstat-no" title="statement not covered" >      panelParams.clear();</span>
+      onSave?.();
+      panelParams.clear();
     },
   });
 &nbsp;
-  const getTitle = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (isCreatingLocal) <span class="cstat-no" title="statement not covered" >return <span class="branch-0 cbranch-no" title="branch not covered" >"Create network device";</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isCreatingOverride) <span class="cstat-no" title="statement not covered" >return "Create override";</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isEditingOverride) <span class="cstat-no" title="statement not covered" >return "Edit override";</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return "Edit network device";</span></span>
-  };
+  const getTitle = () =&gt; {
+    if (isCreatingLocal) return <span class="branch-0 cbranch-no" title="branch not covered" >"Create network device";</span>
+<span class="cstat-no" title="statement not covered" >    if (isCreatingOverride) return "Create override";</span>
+<span class="cstat-no" title="statement not covered" >    if (isEditingOverride) return "Edit override";</span>
+<span class="cstat-no" title="statement not covered" >    return "Edit network device";</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const selectedNetwork = <span class="cstat-no" title="statement not covered" >managedNetworks.find(</span>
-<span class="fstat-no" title="function not covered" >    (n</span>) =&gt; <span class="cstat-no" title="statement not covered" >n.name === formik.values.network,</span>
+  const selectedNetwork = managedNetworks.find(
+    (n) =&gt; n.name === formik.values.network,
   );
-  const networkAcls = <span class="cstat-no" title="statement not covered" >getNetworkAclsByNetworkName(formik.values.network);</span>
-  const allSelectedAcls = <span class="cstat-no" title="statement not covered" >formik.values.<span class="branch-0 cbranch-no" title="branch not covered" >acls</span></span>
-<span class="cstat-no" title="statement not covered" >    ? formik.values.acls.split(",")</span>
+  const networkAcls = getNetworkAclsByNetworkName(formik.values.network);
+  const allSelectedAcls = formik.values.acls
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    ? formik.values.acls.split(",")</span></span>
     : [];
-  const selectedAcls = <span class="cstat-no" title="statement not covered" >Array.from(new Set(networkAcls.concat(allSelectedAcls)));</span>
+  const selectedAcls = Array.from(new Set(networkAcls.concat(allSelectedAcls)));
 &nbsp;
-  const getAclHelperText = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): ReactNode =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (supportsNicDeviceAcls(selectedNetwork)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return networkAcls.length &gt; 0</span></span>
+  const getAclHelperText = (): ReactNode =&gt; {
+    if (supportsNicDeviceAcls(selectedNetwork)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return networkAcls.length &gt; 0</span>
 <span class="cstat-no" title="statement not covered" >        ? "Some ACLs are inherited from the network. They cannot be deselected here."</span>
 <span class="cstat-no" title="statement not covered" >        : undefined;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    return "Network must be of type OVN to customize ACLs.";</span>
+    return "Network must be of type OVN to customize ACLs.";
   };
 &nbsp;
-  const handleCancel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    formik.resetForm();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    panelParams.clear();</span></span>
+  const handleCancel = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    formik.resetForm();</span>
+<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+<span class="cstat-no" title="statement not covered" >    panelParams.clear();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!isLoading &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!<span class="branch-0 cbranch-no" title="branch not covered" >isCreatingLocal &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >!<span class="branch-0 cbranch-no" title="branch not covered" ></span>device &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >!</span></span>inheritedDevice) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+  if (!isLoading &amp;&amp; !<span class="branch-0 cbranch-no" title="branch not covered" >isCreatingLocal &amp;&amp; !<span class="branch-0 cbranch-no" title="branch not covered" >device &amp;&amp; !</span>inheritedDevice) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;SidePanel&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;SidePanel.Header&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;SidePanel.HeaderTitle&gt;Device not found&lt;/SidePanel.HeaderTitle&gt;</span>
@@ -1033,7 +1033,7 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;SidePanel&gt;
       &lt;SidePanel.Header&gt;
         &lt;SidePanel.HeaderTitle&gt;{getTitle()}&lt;/SidePanel.HeaderTitle&gt;
@@ -1058,14 +1058,14 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 &nbsp;
             &lt;NetworkSelector
               value={formik.values.network}
-              setValue={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("network", value);</span></span>
+              setValue={<span class="fstat-no" title="function not covered" >(value) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("network", value);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >                const newNetworkAcls = <span class="cstat-no" title="statement not covered" >getNetworkAclsByNetworkName(value);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("acls", newNetworkAcls.join(","));</span></span>
+<span class="cstat-no" title="statement not covered" >                const newNetworkAcls = getNetworkAclsByNetworkName(value);</span>
+<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("acls", newNetworkAcls.join(","));</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("ipv4", "");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("ipv6", "");</span></span>
+<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("ipv4", "");</span>
+<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("ipv6", "");</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
               networkList={managedNetworks}
               id="network"
@@ -1077,8 +1077,8 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
             &lt;NetworkAclSelector
               project={project}
               selectedAcls={selectedAcls}
-              setSelectedAcls={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(s</span>electedItems) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("acls", selectedItems.join(","));</span></span>
+              setSelectedAcls={<span class="fstat-no" title="function not covered" >(selectedItems) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("acls", selectedItems.join(","));</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
               inheritedAcls={networkAcls}
               canSelectManualAcls={supportsNicDeviceAcls(selectedNetwork)}
@@ -1086,19 +1086,19 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
               label="ACLs"
             /&gt;
 &nbsp;
-            {<span class="branch-0 cbranch-no" title="branch not covered" >isInstance &amp;&amp; <span class="branch-0 cbranch-no" title="branch not covered" >selectedNetwork &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;NetworkDeviceIPAddressEdit</span>
-<span class="cstat-no" title="statement not covered" >                  formik={formik}</span>
-<span class="cstat-no" title="statement not covered" >                  network={selectedNetwork}</span>
-<span class="cstat-no" title="statement not covered" >                  family="IPv4"</span>
-<span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;NetworkDeviceIPAddressEdit</span>
-<span class="cstat-no" title="statement not covered" >                  formik={formik}</span>
-<span class="cstat-no" title="statement not covered" >                  network={selectedNetwork}</span>
-<span class="cstat-no" title="statement not covered" >                  family="IPv6"</span>
-<span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/&gt;</span>
+            {<span class="branch-0 cbranch-no" title="branch not covered" >isInstance &amp;&amp; selectedNetwork &amp;&amp; (</span>
+              &lt;&gt;
+                &lt;NetworkDeviceIPAddressEdit
+                  formik={formik}
+                  network={selectedNetwork}
+                  family="IPv4"
+                /&gt;
+                &lt;NetworkDeviceIPAddressEdit
+                  formik={formik}
+                  network={selectedNetwork}
+                  family="IPv6"
+                /&gt;
+              &lt;/&gt;
             )}
           &lt;/Form&gt;
         &lt;/ScrollableContainer&gt;
@@ -1111,7 +1111,7 @@ const NetworkDevicePanel: FC&lt;Props&gt; = <span class="cstat-no" title="statem
           appearance="positive"
           loading={formik.isSubmitting}
           disabled={isLoading || !formik.isValid}
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onClick={() =&gt; void formik.submitForm()}
           type="submit"
         &gt;
           Apply changes
@@ -1129,7 +1129,7 @@ export default NetworkDevicePanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

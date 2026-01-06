@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.57% </span>
+                <span class="strong">89.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/28</span>
+                <span class='fraction'>25/28</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.52% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/23</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,52 +86,52 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">331x</span>
+<span class="cline-any cline-yes">331x</span>
+<span class="cline-any cline-yes">331x</span>
+<span class="cline-any cline-yes">331x</span>
+<span class="cline-any cline-yes">331x</span>
+<span class="cline-any cline-yes">331x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { handleResponse } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdCertificate } from "types/certificate";
 &nbsp;
-export const fetchCertificates = <span class="fstat-no" title="function not covered" >async (): Promise&lt;LxdCertificate[]&gt; =&gt; {</span>
+export const fetchCertificates = async (): Promise&lt;LxdCertificate[]&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >  return fetch("/1.0/certificates?recursion=1")</span>
     .then(handleResponse)
-    .then((data: LxdApiResponse&lt;LxdCertificate[]&gt;) =&gt; {
+    .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdCertificate[]&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
     });
 };
 &nbsp;
 export const addCertificate = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (t</span>oken: string): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identities/tls`, {</span></span>
-<span class="cstat-no" title="statement not covered" >    method: "POST",</span>
-<span class="cstat-no" title="statement not covered" >    headers: {</span>
-<span class="cstat-no" title="statement not covered" >      "Content-Type": "application/json",</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    body: JSON.stringify({</span>
-<span class="cstat-no" title="statement not covered" >      trust_token: token,</span>
-<span class="cstat-no" title="statement not covered" >    }),</span>
-<span class="cstat-no" title="statement not covered" >  }).then(handleResponse);</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identities/tls`, {</span>
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      trust_token: token,
+    }),
+  }).then(handleResponse);
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -139,7 +139,7 @@ export const addCertificate = <span class="fstat-no" title="function not covered
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.56% </span>
+                <span class="strong">21.95% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/92</span>
+                <span class='fraction'>18/82</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.88% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/17</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -242,27 +242,27 @@ interface FileRowProps {
   path: string;
 }
 &nbsp;
-const FileRow: FC&lt;FileRowProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> instance, path }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const fileName = <span class="cstat-no" title="statement not covered" >path.split("/").at(-1) ?? "";</span></span>
-<span class="cstat-no" title="statement not covered" >  const fileUrl = <span class="cstat-no" title="statement not covered" >`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/logs/?file=${encodeURIComponent(fileName)}`;</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isOpen, setOpen] = <span class="cstat-no" title="statement not covered" >useState(getUrlParam("file") === fileName);</span></span>
+const FileRow: FC&lt;FileRowProps&gt; = <span class="fstat-no" title="function not covered" >({ instance, path }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const fileName = path.split("/").at(-1) ?? "";</span>
+<span class="cstat-no" title="statement not covered" >  const fileUrl = `/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/logs/?file=${encodeURIComponent(fileName)}`;</span>
+<span class="cstat-no" title="statement not covered" >  const [isOpen, setOpen] = useState(getUrlParam("file") === fileName);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const {</span>
 <span class="cstat-no" title="statement not covered" >    data: logContent,</span>
 <span class="cstat-no" title="statement not covered" >    isLoading,</span>
 <span class="cstat-no" title="statement not covered" >    isSuccess,</span>
-<span class="cstat-no" title="statement not covered" >  } = <span class="cstat-no" title="statement not covered" >useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >  } = useQuery({</span>
 <span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.logs, instance.name, instance.project, fileName],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      fetchInstanceLogFile(instance.name, instance.project, fileName),</span></span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      fetchInstanceLogFile(instance.name, instance.project, fileName),</span>
 <span class="cstat-no" title="statement not covered" >    enabled: isOpen,</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const toggleVisibility = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setOpen(<span class="fstat-no" title="function not covered" >(p</span>revState) =&gt; <span class="cstat-no" title="statement not covered" >!prevState)</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >  const toggleVisibility = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setOpen((prevState) =&gt; !prevState);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="p-code-snippet file-row"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="p-code-snippet__header file-row-header"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Button</span>
@@ -316,7 +316,7 @@ export default FileRow;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

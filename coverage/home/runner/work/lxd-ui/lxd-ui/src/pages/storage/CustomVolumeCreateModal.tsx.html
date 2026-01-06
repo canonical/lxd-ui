@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.56% </span>
+                <span class="strong">94.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>147/192</span>
+                <span class='fraction'>147/156</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.42% </span>
+                <span class="strong">73.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/28</span>
+                <span class='fraction'>11/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/18</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -407,22 +407,22 @@ interface Props {
   onFinish: (volume: LxdStorageVolume) =&gt; void;
 }
 &nbsp;
-const CustomVolumeCreateModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const CustomVolumeCreateModal: FC&lt;Props&gt; = ({
   project,
   instanceLocation,
   onCancel,
   onFinish,
 }) =&gt; {
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const { hasStorageAndProfileOperations } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
+  const notify = useNotify();
+  const queryClient = useQueryClient();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
+  const eventQueue = useEventQueue();
+  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 &nbsp;
-  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
-  const { data: pools = [] } = <span class="cstat-no" title="statement not covered" >useStoragePools();</span>
+  const { data: settings } = useSettings();
+  const { data: pools = [] } = useStoragePools();
 &nbsp;
-  const StorageVolumeSchema = <span class="cstat-no" title="statement not covered" >Yup.object().shape({</span>
+  const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
       .test(
         ...testDuplicateStorageVolumeName(project, "custom", controllerState),
@@ -430,26 +430,26 @@ const CustomVolumeCreateModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
       .required("This field is required"),
   });
 &nbsp;
-  const handleSuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume: LxdStorageVolume) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
+  const handleSuccess = (volume: LxdStorageVolume) =&gt; {
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.storage],
     });
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.customVolumes, project],
     });
-<span class="cstat-no" title="statement not covered" >    notify.success(`Storage volume ${volume.name} created.`);</span>
-<span class="cstat-no" title="statement not covered" >    onFinish(volume);</span>
+    notify.success(`Storage volume ${volume.name} created.`);
+    onFinish(volume);
   };
 &nbsp;
-  const handleFailure = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>rror: unknown) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Storage volume creation failed", error);</span></span>
+  const handleFailure = <span class="fstat-no" title="function not covered" >(error: unknown) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Storage volume creation failed", error);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    formik.setSubmitting(false);</span>
+  const handleFinish = () =&gt; {
+    formik.setSubmitting(false);
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;StorageVolumeFormValues&gt;({</span>
+  const formik = useFormik&lt;StorageVolumeFormValues&gt;({
     initialValues: {
       content_type: "filesystem",
       name: "",
@@ -462,28 +462,28 @@ const CustomVolumeCreateModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
       entityType: "storageVolume",
     },
     validationSchema: StorageVolumeSchema,
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const volume = <span class="cstat-no" title="statement not covered" >volumeFormToPayload(values, project);</span>
-      const target = <span class="cstat-no" title="statement not covered" >hasMemberLocalVolumes(values.pool, pools, settings)</span>
+    onSubmit: (values) =&gt; {
+      const volume = volumeFormToPayload(values, project);
+      const target = hasMemberLocalVolumes(values.pool, pools, settings)
         ? <span class="branch-0 cbranch-no" title="branch not covered" >instanceLocation</span>
 <span class="cstat-no" title="statement not covered" >        : undefined;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      createStorageVolume(values.pool, project, volume, target)</span>
+      createStorageVolume(values.pool, project, volume, target)
         .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >          if (hasStorageAndProfileOperations) {</span>
-<span class="cstat-no" title="statement not covered" >            eventQueue.set(</span>
+          if (hasStorageAndProfileOperations) {
+            eventQueue.set(
               operation.metadata.id,
-<span class="fstat-no" title="function not covered" >              () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                handleSuccess(volume);</span>
+              () =&gt; {
+                handleSuccess(volume);
               },
-<span class="fstat-no" title="function not covered" >              (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                handleFailure(new Error(msg));</span></span>
+              (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >                handleFailure(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
               handleFinish,
             );
 <span class="branch-0 cbranch-no" title="branch not covered" >          } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            handleSuccess(volume);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            handleFinish();</span></span>
+<span class="cstat-no" title="statement not covered" >            handleSuccess(volume);</span>
+<span class="cstat-no" title="statement not covered" >            handleFinish();</span>
 <span class="cstat-no" title="statement not covered" >          }</span>
         })
         .catch(handleFailure);
@@ -491,19 +491,19 @@ const CustomVolumeCreateModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
   });
 &nbsp;
   const validPool =
-<span class="cstat-no" title="statement not covered" >    !hasMemberLocalVolumes(formik.values.pool, pools, settings) ||</span>
+    !hasMemberLocalVolumes(formik.values.pool, pools, settings) ||
     instanceLocation !== "any";
-  const poolError = <span class="cstat-no" title="statement not covered" >validPool</span>
+  const poolError = validPool
     ? <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
 <span class="cstat-no" title="statement not covered" >    : "Please select a remote storage pool, or set a cluster member for the instance";</span>
 &nbsp;
-  const updateFormHeight = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    updateMaxHeight("volume-create-form", "p-modal__footer", 32, undefined, []);</span>
+  const updateFormHeight = () =&gt; {
+    updateMaxHeight("volume-create-form", "p-modal__footer", 32, undefined, []);
   };
-<span class="cstat-no" title="statement not covered" >  useEffect(updateFormHeight, [notify.<span class="branch-0 cbranch-no" title="branch not covered" >notification?.message]</span>);</span>
-<span class="cstat-no" title="statement not covered" >  useListener(window, updateFormHeight, "resize", true);</span>
+  useEffect(updateFormHeight, [notify.notification<span class="branch-0 cbranch-no" title="branch not covered" >?.message])</span>;
+  useListener(window, updateFormHeight, "resize", true);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;div className="volume-create-form"&gt;
         &lt;StorageVolumeFormMain formik={formik} poolError={poolError} /&gt;
@@ -519,7 +519,7 @@ const CustomVolumeCreateModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
         &lt;ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onClick={() =&gt; void formik.submitForm()}
           disabled={!formik.isValid || formik.isSubmitting || !validPool}
           loading={formik.isSubmitting}
         &gt;
@@ -538,7 +538,7 @@ export default CustomVolumeCreateModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

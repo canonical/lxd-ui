@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/45</span>
+                <span class='fraction'>34/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/11</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,63 +102,63 @@
 <span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">550x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">351x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">378x</span>
-<span class="cline-any cline-yes">378x</span>
-<span class="cline-any cline-yes">378x</span>
-<span class="cline-any cline-yes">378x</span>
-<span class="cline-any cline-yes">378x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-yes">815x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useAuth } from "context/auth"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">494x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">270x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-yes">767x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
 import type { LxdStorageVolume } from "types/storage";
 &nbsp;
-export const useStorageVolumeEntitlements = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+export const useStorageVolumeEntitlements = () =&gt; {
+  const { isFineGrained } = useAuth();
 &nbsp;
-  const canDeleteVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_delete", volume?.access_entitlements);</span>
+  const canDeleteVolume = (volume?: LxdStorageVolume) =&gt;
+    hasEntitlement(isFineGrained, "can_delete", volume?.access_entitlements);
 &nbsp;
-  const canEditVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_edit", volume?.access_entitlements);</span>
+  const canEditVolume = (volume?: LxdStorageVolume) =&gt;
+    hasEntitlement(isFineGrained, "can_edit", volume?.access_entitlements);
 &nbsp;
-  const canManageStorageVolumeSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >    hasEntitlement(</span>
+  const canManageStorageVolumeSnapshots = (volume?: LxdStorageVolume) =&gt;
+    hasEntitlement(
       isFineGrained,
       "can_manage_snapshots",
       volume?.access_entitlements,
     );
 &nbsp;
-  const canManageVolumeBackups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >    hasEntitlement(</span>
+  const canManageVolumeBackups = (volume?: LxdStorageVolume) =&gt;
+    hasEntitlement(
       isFineGrained,
       "can_manage_backups",
       volume?.access_entitlements,
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     canDeleteVolume,
     canEditVolume,
     canManageStorageVolumeSnapshots,
@@ -172,7 +172,7 @@ export const useStorageVolumeEntitlements = <span class="cstat-no" title="statem
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

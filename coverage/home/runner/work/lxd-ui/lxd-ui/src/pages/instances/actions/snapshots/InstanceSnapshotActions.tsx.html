@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.6% </span>
+                <span class="strong">91.74% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>204/250</span>
+                <span class='fraction'>200/218</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.22% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/36</span>
+                <span class='fraction'>16/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.47% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/23</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.57% </span>
+                <span class="strong">91.74% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>204/218</span>
+                <span class='fraction'>200/218</span>
             </div>
         
             
@@ -359,7 +359,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -399,8 +399,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -439,8 +439,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -509,7 +509,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ConfirmationButton, Icon, List } from "@canonical/react-components";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import ConfirmationForce from "components/ConfirmationForce";
 import { useEventQueue } from "context/eventQueue";
 import InstanceEditSnapshotBtn from "./InstanceEditSnapshotBtn";
@@ -527,30 +527,30 @@ interface Props {
   onFailure: (title: string, e: unknown) =&gt; void;
 }
 &nbsp;
-const InstanceSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const InstanceSnapshotActions: FC&lt;Props&gt; = ({
   instance,
   snapshot,
   onSuccess,
   onFailure,
 }) =&gt; {
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const [isDeleting, setDeleting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [isRestoring, setRestoring] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [restoreState, setRestoreState] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const { canManageInstanceSnapshots } = <span class="cstat-no" title="statement not covered" >useInstanceEntitlements();</span>
-  const disabledReason = <span class="cstat-no" title="statement not covered" >canManageInstanceSnapshots(instance)</span>
+  const eventQueue = useEventQueue();
+  const [isDeleting, setDeleting] = useState(false);
+  const [isRestoring, setRestoring] = useState(false);
+  const [restoreState, setRestoreState] = useState(true);
+  const queryClient = useQueryClient();
+  const { canManageInstanceSnapshots } = useInstanceEntitlements();
+  const disabledReason = canManageInstanceSnapshots(instance)
     ? <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
 <span class="cstat-no" title="statement not covered" >    : "You do not have permission to manage snapshots for this instance";</span>
 &nbsp;
-  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setDeleting(true);</span>
-<span class="cstat-no" title="statement not covered" >    deleteInstanceSnapshot(instance, snapshot)</span>
+  const handleDelete = () =&gt; {
+    setDeleting(true);
+    deleteInstanceSnapshot(instance, snapshot)
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            onSuccess(</span>
+          () =&gt; {
+            onSuccess(
               &lt;&gt;
                 Snapshot{" "}
                 &lt;ResourceLabel bold type="snapshot" value={snapshot.name} /&gt;{" "}
@@ -563,31 +563,31 @@ const InstanceSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="s
               &lt;/&gt;,
             );
           },
-<span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            onFailure("Snapshot deletion failed", new Error(msg));</span></span>
+          (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >            onFailure("Snapshot deletion failed", new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            setDeleting(false);</span>
-<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
-              predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.instances,</span>
+          () =&gt; {
+            setDeleting(false);
+            queryClient.invalidateQueries({
+              predicate: (query) =&gt; query.queryKey[0] === queryKeys.instances,
             });
           },
         );
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Snapshot deletion failed", e);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setDeleting(false);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        onFailure("Snapshot deletion failed", e);</span>
+<span class="cstat-no" title="statement not covered" >        setDeleting(false);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-  const handleRestore = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setRestoring(true);</span>
-<span class="cstat-no" title="statement not covered" >    restoreInstanceSnapshot(instance, snapshot, restoreState)</span>
+  const handleRestore = () =&gt; {
+    setRestoring(true);
+    restoreInstanceSnapshot(instance, snapshot, restoreState)
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            onSuccess(</span>
+          () =&gt; {
+            onSuccess(
               &lt;&gt;
                 Snapshot{" "}
                 &lt;InstanceSnapshotLinkChip
@@ -603,24 +603,24 @@ const InstanceSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="s
               &lt;/&gt;,
             );
           },
-<span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            onFailure("Snapshot restore failed", new Error(msg));</span></span>
+          (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >            onFailure("Snapshot restore failed", new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            setRestoring(false);</span>
-<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
-              predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.instances,</span>
+          () =&gt; {
+            setRestoring(false);
+            queryClient.invalidateQueries({
+              predicate: (query) =&gt; query.queryKey[0] === queryKeys.instances,
             });
           },
         );
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFailure("Snapshot restore failed", e);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setRestoring(false);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        onFailure("Snapshot restore failed", e);</span>
+<span class="cstat-no" title="statement not covered" >        setRestoring(false);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;List
         inline
@@ -653,16 +653,16 @@ const InstanceSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="s
                   This action cannot be undone, and can result in data loss.
                 &lt;/p&gt;
               ),
-              confirmExtra: snapshot.<span class="branch-0 cbranch-no" title="branch not covered" >stateful ? (</span>
+              confirmExtra: snapshot.stateful<span class="branch-0 cbranch-no" title="branch not covered" > ? (</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ConfirmationForce</span>
 <span class="cstat-no" title="statement not covered" >                  label="Restore the instance state"</span>
 <span class="cstat-no" title="statement not covered" >                  force={[restoreState, setRestoreState]}</span>
-                /&gt;
-              ) : undefined,
+<span class="cstat-no" title="statement not covered" >                /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              ) : undefined,</span>
               confirmButtonLabel: disabledReason ?? "Restore snapshot",
               confirmButtonAppearance: "positive",
-              close: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setRestoreState(true);</span></span>
+              close: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setRestoreState(true);</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
               onConfirm: handleRestore,
             }}
@@ -724,7 +724,7 @@ export default InstanceSnapshotActions;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

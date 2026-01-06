@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.23% </span>
+                <span class="strong">98.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>94/109</span>
+                <span class='fraction'>94/95</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/22</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/13</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -224,29 +224,29 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -267,36 +267,36 @@ interface Props {
   onCancel: () =&gt; void;
 }
 &nbsp;
-const SettingFormInput: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const SettingFormInput: FC&lt;Props&gt; = ({
   initialValue,
   configField,
   onSubmit,
   onDelete,
   onCancel,
 }) =&gt; {
-  const [value, setValue] = <span class="cstat-no" title="statement not covered" >useState(initialValue);</span>
+  const [value, setValue] = useState(initialValue);
 &nbsp;
-  const getInputType = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    switch (configField.type) {</span>
+  const getInputType = () =&gt; {
+    switch (configField.type) {
 <span class="branch-0 cbranch-no" title="branch not covered" >      case "integer":</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return "number";</span></span>
+<span class="cstat-no" title="statement not covered" >        return "number";</span>
       default:
-<span class="cstat-no" title="statement not covered" >        return "text";</span>
+        return "text";
     }
   };
 &nbsp;
   const canBeReset =
-<span class="cstat-no" title="statement not covered" >    !configField.isUserDefined &amp;&amp; String(configField.default) !== String(value);</span>
+    !configField.isUserDefined &amp;&amp; String(configField.default) !== String(value);
 &nbsp;
-  const resetToDefault = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setValue(configField.default);</span>
+  const resetToDefault = () =&gt; {
+    setValue(configField.default);
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Form
-      onSubmit={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >        e.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >        onSubmit(value);</span>
+      onSubmit={(e) =&gt; {
+        e.preventDefault();
+        onSubmit(value);
       }}
     &gt;
       {/* hidden submit to enable enter key in inputs */}
@@ -307,8 +307,8 @@ const SettingFormInput: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
         wrapperClassName="input-wrapper"
         type={getInputType()}
         value={configField.type === <span class="branch-0 cbranch-no" title="branch not covered" >"bool" ? undefined : S</span>tring(value)}
-        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >          setValue(e.target.value);</span>
+        onChange={(e) =&gt; {
+          setValue(e.target.value);
         }}
         help={&lt;ConfigFieldDescription description={configField.longdesc} /&gt;}
       /&gt;
@@ -324,8 +324,8 @@ const SettingFormInput: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
           hasIcon
           className="delete-button"
           type="button"
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            onDelete(configField.key);</span>
+          onClick={() =&gt; {
+            onDelete(configField.key);
           }}
         &gt;
           &lt;Icon name="delete"&gt;&lt;/Icon&gt;
@@ -355,7 +355,7 @@ export default SettingFormInput;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

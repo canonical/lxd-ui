@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.05% </span>
+                <span class="strong">98.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>108/142</span>
+                <span class='fraction'>108/110</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/16</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/14</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -173,12 +173,12 @@
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
 <a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
+<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-yes">66x</span>
@@ -198,8 +198,8 @@
 <span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -218,8 +218,8 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -245,8 +245,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -266,8 +266,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -288,57 +288,57 @@ import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addTarget } from "util/target";
 &nbsp;
-export const fetchNetworkForwards = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const fetchNetworkForwards = async (
   network: string,
   project: string,
 ): Promise&lt;LxdNetworkForward[]&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+  return fetch(
     `/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdNetworkForward[]&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return data.metadata.sort(</span>
-<span class="fstat-no" title="function not covered" >        (a</span>, b) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          a.listen_address.localeCompare(b.listen_address) * 10 +</span></span>
-<span class="cstat-no" title="statement not covered" >          (a.location &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >b.location ? a</span>.location.localeCompare(b.location) : 0),</span>
+      return data.metadata.sort(
+        (a, b) =&gt;
+<span class="cstat-no" title="statement not covered" >          a.listen_address.localeCompare(b.listen_address) * 10 +</span>
+<span class="cstat-no" title="statement not covered" >          (a.location &amp;&amp; b.location ? a.location.localeCompare(b.location) : 0),</span>
       );
     });
 };
 &nbsp;
-export const fetchNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const fetchNetworkForward = async (
   network: string,
   listenAddress: string,
   project: string,
   target?: string,
 ): Promise&lt;LxdNetworkForward&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
-<span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+  addTarget(params, target);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+  return fetch(
     `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(listenAddress)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdNetworkForward&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+      return data.metadata;
     });
 };
 &nbsp;
-export const createNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const createNetworkForward = async (
   network: string,
   forward: Partial&lt;LxdNetworkForward&gt;,
   project: string,
 ): Promise&lt;string&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  addTarget(params, forward.location);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, forward.location);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+  return fetch(
     `/1.0/networks/${encodeURIComponent(network)}/forwards?${params.toString()}`,
     {
       method: "POST",
@@ -350,22 +350,22 @@ export const createNetworkForward = <span class="cstat-no" title="statement not 
   )
     .then(handleRawResponse)
     .then((response) =&gt; {
-      const locationHeader = <span class="cstat-no" title="statement not covered" >response.headers.get("Location");</span>
-      const listenAddress = <span class="cstat-no" title="statement not covered" >locationHeader?.split("/").pop() ?? "";</span>
-<span class="cstat-no" title="statement not covered" >      return listenAddress;</span>
+      const locationHeader = response.headers.get("Location");
+      const listenAddress = locationHeader?.split("/").pop() ?? "";
+      return listenAddress;
     });
 };
 &nbsp;
-export const updateNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const updateNetworkForward = async (
   network: string,
   forward: LxdNetworkForward,
   project: string,
 ): Promise&lt;void&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  addTarget(params, forward.location);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, forward.location);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+  await fetch(
     `/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "PUT",
@@ -377,16 +377,16 @@ export const updateNetworkForward = <span class="cstat-no" title="statement not 
   ).then(handleResponse);
 };
 &nbsp;
-export const deleteNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const deleteNetworkForward = async (
   network: LxdNetwork,
   forward: LxdNetworkForward,
   project: string,
 ): Promise&lt;void&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  addTarget(params, forward.location);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addTarget(params, forward.location);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+  await fetch(
     `/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "DELETE",
@@ -400,7 +400,7 @@ export const deleteNetworkForward = <span class="cstat-no" title="statement not 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

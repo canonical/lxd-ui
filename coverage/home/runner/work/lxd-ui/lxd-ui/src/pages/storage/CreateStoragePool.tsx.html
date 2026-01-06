@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.2% </span>
+                <span class="strong">90.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>149/193</span>
+                <span class='fraction'>149/165</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.33% </span>
+                <span class="strong">78.57% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/30</span>
+                <span class='fraction'>11/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/16</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -308,31 +308,31 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
@@ -378,7 +378,7 @@
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-yes">25x</span>
@@ -427,27 +427,27 @@ import type { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
 &nbsp;
-const CreateStoragePool: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ project: string }&gt;();</span>
-  const [section, setSection] = <span class="cstat-no" title="statement not covered" >useState(slugify(MAIN_CONFIGURATION));</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const { data: clusterMembers = [] } = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span>
+const CreateStoragePool: FC = () =&gt; {
+  const navigate = useNavigate();
+  const notify = useNotify();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
+  const { project } = useParams&lt;{ project: string }&gt;();
+  const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
+  const controllerState = useState&lt;AbortController | null&gt;(null);
+  const { data: clusterMembers = [] } = useClusterMembers();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!project) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;Missing project&lt;/&gt;;</span></span>
+  if (!project) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;&gt;Missing project&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const CreateStoragePoolSchema = <span class="cstat-no" title="statement not covered" >Yup.object().shape({</span>
+  const CreateStoragePoolSchema = Yup.object().shape({
     name: Yup.string()
       .test(...testDuplicateStoragePoolName(project, controllerState))
       .required("This field is required"),
   });
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;StoragePoolFormValues&gt;({</span>
+  const formik = useFormik&lt;StoragePoolFormValues&gt;({
     initialValues: {
       isCreating: true,
       readOnly: false,
@@ -459,30 +459,30 @@ const CreateStoragePool: FC = <span class="cstat-no" title="statement not covere
       entityType: "storagePool",
     },
     validationSchema: CreateStoragePoolSchema,
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const storagePool = <span class="cstat-no" title="statement not covered" >values.<span class="branch-0 cbranch-no" title="branch not covered" >yaml</span></span>
-<span class="cstat-no" title="statement not covered" >        ? (yamlToObject(values.yaml) as LxdStoragePool)</span>
+    onSubmit: (values) =&gt; {
+      const storagePool = values.yaml
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        ? (yamlToObject(values.yaml) as LxdStoragePool)</span></span>
         : toStoragePool(values);
 &nbsp;
       const mutation =
-<span class="cstat-no" title="statement not covered" >        clusterMembers.length &gt; <span class="branch-0 cbranch-no" title="branch not covered" >0</span></span>
-<span class="cstat-no" title="statement not covered" >          ? <span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              createClusteredPool(</span></span>
+        clusterMembers.length &gt; <span class="branch-0 cbranch-no" title="branch not covered" >0</span>
+<span class="cstat-no" title="statement not covered" >          ? async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >              createClusteredPool(</span>
 <span class="cstat-no" title="statement not covered" >                storagePool,</span>
 <span class="cstat-no" title="statement not covered" >                clusterMembers,</span>
 <span class="cstat-no" title="statement not covered" >                values.sourcePerClusterMember,</span>
 <span class="cstat-no" title="statement not covered" >                values.zfsPoolNamePerClusterMember,</span>
 <span class="cstat-no" title="statement not covered" >                values.sizePerClusterMember,</span>
-<span class="cstat-no" title="statement not covered" >              )</span>
-          : <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >c</span>reatePool(storagePool);</span>
+              )
+          : async () =&gt; createPool(storagePool);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      mutation()</span>
+      mutation()
         .then(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-<span class="cstat-no" title="statement not covered" >          navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);</span>
-<span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
+          navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);
+          toastNotify.success(
             &lt;&gt;
               Storage pool{" "}
               &lt;ResourceLink
@@ -495,17 +495,17 @@ const CreateStoragePool: FC = <span class="cstat-no" title="statement not covere
           );
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          notify.failure("Storage pool creation failed", e);</span></span>
-        });
+<span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >          notify.failure("Storage pool creation failed", e);</span>
+<span class="cstat-no" title="statement not covered" >        });</span>
     },
   });
 &nbsp;
-  const updateSection = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(n</span>ewSection: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setSection(slugify(newSection));</span></span>
+  const updateSection = <span class="fstat-no" title="function not covered" >(newSection: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setSection(slugify(newSection));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;BaseLayout
       title="Create a storage pool"
       contentClassName="create-storage-pool"
@@ -531,8 +531,8 @@ const CreateStoragePool: FC = <span class="cstat-no" title="statement not covere
         &lt;/div&gt;
         &lt;Button
           appearance="base"
-          onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`)</span></span>
+          onClick={<span class="fstat-no" title="function not covered" >async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`)</span>
           }
         &gt;
           Cancel
@@ -548,7 +548,7 @@ const CreateStoragePool: FC = <span class="cstat-no" title="statement not covere
             isPureStorageIncomplete(formik) ||
             isAlletraIncomplete(formik)
           }
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onClick={() =&gt; void formik.submitForm()}
         &gt;
           Create
         &lt;/ActionButton&gt;
@@ -565,7 +565,7 @@ export default CreateStoragePool;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

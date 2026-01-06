@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.91% </span>
+                <span class="strong">86.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>175/240</span>
+                <span class='fraction'>172/199</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/39</span>
+                <span class='fraction'>10/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.88% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/18</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.93% </span>
+                <span class="strong">86.43% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>175/199</span>
+                <span class='fraction'>172/199</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -356,7 +356,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -379,7 +379,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -411,6 +411,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -427,16 +428,15 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -484,7 +484,7 @@ import StoragePoolSelector from "./StoragePoolSelector";
 import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { createIsoStorageVolume } from "api/storage-volumes";
 &nbsp;
 interface Props {
@@ -492,34 +492,34 @@ interface Props {
   onCancel: () =&gt; void;
 }
 &nbsp;
-const UploadCustomIso: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> onCancel, onFinish }) =&gt; {</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span>
-  const [file, setFile] = <span class="cstat-no" title="statement not covered" >useState&lt;File | null&gt;(null);</span>
-  const [name, setName] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;("");</span>
-  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [pool, setPool] = <span class="cstat-no" title="statement not covered" >useState("");</span>
-  const [uploadState, setUploadState] = <span class="cstat-no" title="statement not covered" >useState&lt;UploadState | null&gt;(null);</span>
-  const [uploadAbort, setUploadAbort] = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;NotificationType | null&gt;(null);</span>
+const UploadCustomIso: FC&lt;Props&gt; = ({ onCancel, onFinish }) =&gt; {
+  const eventQueue = useEventQueue();
+  const queryClient = useQueryClient();
+  const { project } = useCurrentProject();
+  const [file, setFile] = useState&lt;File | null&gt;(null);
+  const [name, setName] = useState&lt;string&gt;("");
+  const [isLoading, setLoading] = useState(false);
+  const [pool, setPool] = useState("");
+  const [uploadState, setUploadState] = useState&lt;UploadState | null&gt;(null);
+  const [uploadAbort, setUploadAbort] = useState&lt;AbortController | null&gt;(null);
+  const [error, setError] = useState&lt;NotificationType | null&gt;(null);
 &nbsp;
-  const projectName = <span class="cstat-no" title="statement not covered" >project?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "";</span></span>
+  const projectName = project?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "";</span>
 &nbsp;
-  const handleCancel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    uploadAbort?.abort();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onCancel();</span></span>
+  const handleCancel = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    uploadAbort?.abort();</span>
+<span class="cstat-no" title="statement not covered" >    onCancel();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const importFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!file) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+  const importFile = () =&gt; {
+    if (!file) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    setError(null);</span>
-<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
-    const uploadController = <span class="cstat-no" title="statement not covered" >new AbortController();</span>
-<span class="cstat-no" title="statement not covered" >    setUploadAbort(uploadController);</span>
-<span class="cstat-no" title="statement not covered" >    createIsoStorageVolume(</span>
+    setError(null);
+    setLoading(true);
+    const uploadController = new AbortController();
+    setUploadAbort(uploadController);
+    createIsoStorageVolume(
       pool,
       file,
       name,
@@ -528,18 +528,18 @@ const UploadCustomIso: FC&lt;Props&gt; = <span class="cstat-no" title="statement
       uploadController,
     )
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            onFinish(name, pool);</span>
+          () =&gt; {
+            onFinish(name, pool);
           },
-<span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setError(failure("Custom ISO upload failed", new Error(msg)));</span></span>
+          (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >            setError(failure("Custom ISO upload failed", new Error(msg)));</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            setLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >            setUploadState(null);</span>
-<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
+          () =&gt; {
+            setLoading(false);
+            setUploadState(null);
+            queryClient.invalidateQueries({
               queryKey: [
                 queryKeys.storage,
                 pool,
@@ -551,34 +551,34 @@ const UploadCustomIso: FC&lt;Props&gt; = <span class="cstat-no" title="statement
         );
       })
       .catch((e: AxiosError&lt;LxdSyncResponse&lt;null&gt;&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >        const error = <span class="cstat-no" title="statement not covered" >new Error(e.response?.data.error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setError(failure("Custom ISO upload failed", error));</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setUploadState(null);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        const error = new Error(e.response?.data.error);</span>
+<span class="cstat-no" title="statement not covered" >        setError(failure("Custom ISO upload failed", error));</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        setUploadState(null);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-  const changeFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (e.target.files) {</span>
-      const file = <span class="cstat-no" title="statement not covered" >e.target.files[0];</span>
-<span class="cstat-no" title="statement not covered" >      setFile(file);</span>
-<span class="cstat-no" title="statement not covered" >      setName(sanitizeISOAlias(file.name));</span>
+  const changeFile = (e: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      setFile(file);
+      setName(sanitizeISOAlias(file.name));
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       {<span class="branch-0 cbranch-no" title="branch not covered" >error ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Notification</span>
 <span class="cstat-no" title="statement not covered" >          title={error.title}</span>
 <span class="cstat-no" title="statement not covered" >          severity="negative"</span>
-<span class="cstat-no" title="statement not covered" >          onDismiss={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setError(null);</span></span>
+<span class="cstat-no" title="statement not covered" >          onDismiss={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >            setError(null);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
 <span class="cstat-no" title="statement not covered" >          {error.message}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/Notification&gt;</span>
-      ) : (
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
         &lt;UploadCustomImageHint /&gt;
       )}
       &lt;div
@@ -600,17 +600,17 @@ const UploadCustomIso: FC&lt;Props&gt; = <span class="cstat-no" title="statement
           id="name"
           label="Alias"
           value={name}
-          onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >            setName(e.target.value);</span>
+          onChange={(e) =&gt; {
+            setName(e.target.value);
           }}
           disabled={file === null}
           error={
-            name &amp;&amp; !isValidISOAlias(name<span class="branch-0 cbranch-no" title="branch not covered" >) ? (</span>
+            name &amp;&amp; !isValidISOAlias(<span class="branch-0 cbranch-no" title="branch not covered" >name) ? (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div className="alias-error"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                Only alphanumeric characters, periods or hyphens are allowed in</span>
 <span class="cstat-no" title="statement not covered" >                this field</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-            ) : undefined
+<span class="cstat-no" title="statement not covered" >            ) : undefined</span>
           }
           stacked
         /&gt;
@@ -630,7 +630,7 @@ const UploadCustomIso: FC&lt;Props&gt; = <span class="cstat-no" title="statement
           &lt;ProgressBar percentage={Math.floor(uploadState.percentage)} /&gt;
           &lt;p&gt;
             {humanFileSize(uploadState.loaded)} loaded of{" "}
-            {humanFileSize(uploadState.<span class="branch-0 cbranch-no" title="branch not covered" >total ?? <span class="branch-1 cbranch-no" title="branch not covered" >0)</span></span>}
+            {humanFileSize(uploadState.total<span class="branch-0 cbranch-no" title="branch not covered" > ?? 0)}</span>
           &lt;/p&gt;
           {uploadState.loaded === uploadState.total &amp;&amp; (
             &lt;Spinner className="u-loader" text="Validating ISO" /&gt;
@@ -667,7 +667,7 @@ export default UploadCustomIso;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

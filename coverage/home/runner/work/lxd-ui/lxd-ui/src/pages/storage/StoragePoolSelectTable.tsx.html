@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.66% </span>
+                <span class="strong">93.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>130/150</span>
+                <span class='fraction'>129/138</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.13% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/23</span>
+                <span class='fraction'>7/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.2% </span>
+                <span class="strong">93.47% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>130/138</span>
+                <span class='fraction'>129/138</span>
             </div>
         
             
@@ -280,7 +280,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -346,7 +346,7 @@ import {
   ScrollableTable,
 } from "@canonical/react-components";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { useStoragePools } from "context/useStoragePools";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
 import { useIsClustered } from "context/useIsClustered";
@@ -359,11 +359,11 @@ interface Props {
   };
 }
 &nbsp;
-const StoragePoolSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> onSelect, disablePool }) =&gt; {</span>
-  const { data: pools = [], isLoading } = <span class="cstat-no" title="statement not covered" >useStoragePools();</span>
-  const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span>
+const StoragePoolSelectTable: FC&lt;Props&gt; = ({ onSelect, disablePool }) =&gt; {
+  const { data: pools = [], isLoading } = useStoragePools();
+  const isClustered = useIsClustered();
 &nbsp;
-  const headers = <span class="cstat-no" title="statement not covered" >[</span>
+  const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Driver", sortKey: "driver" },
     { content: "Status", sortKey: "status" },
@@ -372,17 +372,17 @@ const StoragePoolSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="st
     { "aria-label": "Actions", className: "actions" },
   ];
 &nbsp;
-  const rows = <span class="cstat-no" title="statement not covered" >pools.map((pool) =&gt; {</span>
+  const rows = pools.map((pool) =&gt; {
     const disableReason =
-<span class="cstat-no" title="statement not covered" >      disablePool?.name === pool.name ? disablePool?.reason : null;</span>
-    const selectPool = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      if (disableReason) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+      disablePool?.name === pool.name ? disablePool?.reason : null;
+    const selectPool = () =&gt; {
+      if (disableReason) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      onSelect(pool.name);</span>
+      onSelect(pool.name);
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       key: pool.name,
       className: classnames("u-row", {
         "u-text--muted": disableReason,
@@ -418,7 +418,7 @@ const StoragePoolSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >                role: "cell",</span>
 <span class="cstat-no" title="statement not covered" >                "aria-label": "Cluster member",</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
-            ]
+<span class="cstat-no" title="statement not covered" >            ]</span>
           : []),
         {
           content: &lt;StoragePoolSize pool={pool} hasMeterBar /&gt;,
@@ -452,7 +452,7 @@ const StoragePoolSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="st
     };
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div className="migrate-instance-table u-selectable-table-rows"&gt;
       &lt;ScrollableTable
         dependencies={[pools]}
@@ -484,7 +484,7 @@ export default StoragePoolSelectTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.69% </span>
+                <span class="strong">16.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/219</span>
+                <span class='fraction'>30/177</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.76% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/21</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/16</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -444,41 +444,41 @@ interface Props {
   instance: LxdInstance;
 }
 &nbsp;
-const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ project: string }&gt;();</span></span>
-<span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canEditInstance } = <span class="cstat-no" title="statement not covered" >useInstanceEntitlements();</span></span>
+const AttachIsoBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ instance }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const eventQueue = useEventQueue();</span>
+<span class="cstat-no" title="statement not covered" >  const { project } = useParams&lt;{ project: string }&gt;();</span>
+<span class="cstat-no" title="statement not covered" >  const toastNotify = useToastNotification();</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
+<span class="cstat-no" title="statement not covered" >  const { openPortal, closePortal, isOpen, Portal } = usePortal();</span>
+<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const { canEditInstance } = useInstanceEntitlements();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const attachedIso = <span class="cstat-no" title="statement not covered" >instance.devices["iso-volume"] as</span></span>
+<span class="cstat-no" title="statement not covered" >  const attachedIso = instance.devices["iso-volume"] as</span>
 <span class="cstat-no" title="statement not covered" >    | LxdIsoDevice</span>
 <span class="cstat-no" title="statement not covered" >    | undefined;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const detachIso = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" >    const values = <span class="cstat-no" title="statement not covered" >getInstanceEditValues(instance);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    values.devices = values.devices.filter(<span class="fstat-no" title="function not covered" >(d</span>evice) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return device.name !== "iso-volume";</span></span>
+<span class="cstat-no" title="statement not covered" >  const detachIso = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    const values = getInstanceEditValues(instance);</span>
+<span class="cstat-no" title="statement not covered" >    values.devices = values.devices.filter((device) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return device.name !== "iso-volume";</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >    const instanceMinusIso = <span class="cstat-no" title="statement not covered" >getInstancePayload(</span></span>
+<span class="cstat-no" title="statement not covered" >    const instanceMinusIso = getInstancePayload(</span>
 <span class="cstat-no" title="statement not covered" >      instance,</span>
 <span class="cstat-no" title="statement not covered" >      values,</span>
 <span class="cstat-no" title="statement not covered" >    ) as LxdInstance;</span>
 <span class="cstat-no" title="statement not covered" >    const instanceLink = (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip</span></span>
+<span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip</span>
 <span class="cstat-no" title="statement not covered" >        instanceName={instance.name}</span>
 <span class="cstat-no" title="statement not covered" >        projectName={instance.project}</span>
 <span class="cstat-no" title="statement not covered" >      /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateInstance(instanceMinusIso, project ?? "")</span></span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        eventQueue.set(</span></span>
+<span class="cstat-no" title="statement not covered" >    updateInstance(instanceMinusIso, project ?? "")</span>
+<span class="cstat-no" title="statement not covered" >      .then((operation) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
 <span class="cstat-no" title="statement not covered" >          operation.metadata.id,</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.success(</span></span>
+<span class="cstat-no" title="statement not covered" >          () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            toastNotify.success(</span>
 <span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >                ISO{" "}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ResourceLink</span>
@@ -489,43 +489,43 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >                detached from {instanceLink}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >          (msg) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >              "Detaching ISO failed.",</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >          () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >              queryKey: [queryKeys.instances, instance.name, project],</span>
 <span class="cstat-no" title="statement not covered" >            });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setLoading(false);</span></span>
+<span class="cstat-no" title="statement not covered" >            setLoading(false);</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Detaching ISO failed.", e, instanceLink);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure("Detaching ISO failed.", e, instanceLink);</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleSelect = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>mage: RemoteImage) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    closePortal();</span></span>
-<span class="cstat-no" title="statement not covered" >    const values = <span class="cstat-no" title="statement not covered" >getInstanceEditValues(instance);</span></span>
-<span class="cstat-no" title="statement not covered" >    const isoDevice = <span class="cstat-no" title="statement not covered" >remoteImageToIsoDevice(image);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    values.devices.push(isoDevice);</span></span>
-<span class="cstat-no" title="statement not covered" >    const instancePlusIso = <span class="cstat-no" title="statement not covered" >getInstancePayload(instance, values) as LxdInstance;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateInstance(instancePlusIso, project ?? "")</span></span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const instanceLink = <span class="cstat-no" title="statement not covered" >instanceLinkFromOperation({</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleSelect = (image: RemoteImage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    closePortal();</span>
+<span class="cstat-no" title="statement not covered" >    const values = getInstanceEditValues(instance);</span>
+<span class="cstat-no" title="statement not covered" >    const isoDevice = remoteImageToIsoDevice(image);</span>
+<span class="cstat-no" title="statement not covered" >    values.devices.push(isoDevice);</span>
+<span class="cstat-no" title="statement not covered" >    const instancePlusIso = getInstancePayload(instance, values) as LxdInstance;</span>
+<span class="cstat-no" title="statement not covered" >    updateInstance(instancePlusIso, project ?? "")</span>
+<span class="cstat-no" title="statement not covered" >      .then((operation) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const instanceLink = instanceLinkFromOperation({</span>
 <span class="cstat-no" title="statement not covered" >          operation,</span>
 <span class="cstat-no" title="statement not covered" >          project,</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        eventQueue.set(</span></span>
+<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
 <span class="cstat-no" title="statement not covered" >          operation.metadata.id,</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.success(</span></span>
+<span class="cstat-no" title="statement not covered" >          () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            toastNotify.success(</span>
 <span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >                ISO{" "}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ResourceLink</span>
@@ -536,31 +536,31 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >                attached to {instanceLink}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >          (msg) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >              "Attaching ISO failed.",</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >          () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >              queryKey: [queryKeys.instances, instance.name, project],</span>
 <span class="cstat-no" title="statement not covered" >            });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setLoading(false);</span></span>
+<span class="cstat-no" title="statement not covered" >            setLoading(false);</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Attaching ISO failed.", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure("Attaching ISO failed.", e);</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const disabledReason = <span class="cstat-no" title="statement not covered" >canEditInstance(instance)</span></span>
+<span class="cstat-no" title="statement not covered" >  const disabledReason = canEditInstance(instance)</span>
 <span class="cstat-no" title="statement not covered" >    ? undefined</span>
 <span class="cstat-no" title="statement not covered" >    : "You do not have permission to edit this instance.";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return attachedIso ? (</span></span>
+<span class="cstat-no" title="statement not covered" >  return attachedIso ? (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span className="u-text--muted margin-right"&gt;{attachedIso.source}&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;ActionButton</span>
@@ -601,7 +601,7 @@ export default AttachIsoBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

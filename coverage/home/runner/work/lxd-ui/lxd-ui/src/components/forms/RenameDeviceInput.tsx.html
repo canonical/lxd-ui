@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.64% </span>
+                <span class="strong">73.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/67</span>
+                <span class='fraction'>45/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/9</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.68% </span>
+                <span class="strong">73.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>48/61</span>
+                <span class='fraction'>45/61</span>
             </div>
         
             
@@ -157,9 +157,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">174x</span>
-<span class="cline-any cline-yes">174x</span>
-<span class="cline-any cline-yes">174x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">174x</span>
 <span class="cline-any cline-yes">174x</span>
 <span class="cline-any cline-yes">174x</span>
@@ -196,15 +196,15 @@ interface Props {
   disableReason?: string;
 }
 &nbsp;
-const RenameDeviceInput: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const RenameDeviceInput: FC&lt;Props&gt; = ({
   name,
   index,
   setName,
   disableReason,
 }) =&gt; {
-  const [isEditing, setEditing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [isEditing, setEditing] = useState(false);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div className="rename-device device-name"&gt;
       {<span class="branch-0 cbranch-no" title="branch not covered" >isEditing ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Input</span>
@@ -212,15 +212,15 @@ const RenameDeviceInput: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
 <span class="cstat-no" title="statement not covered" >          className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >          type="text"</span>
 <span class="cstat-no" title="statement not covered" >          value={name}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setName(e.target.value);</span></span>
+<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >(e) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >            setName(e.target.value);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
-<span class="cstat-no" title="statement not covered" >          onBlur={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setEditing(false);</span></span>
+<span class="cstat-no" title="statement not covered" >          onBlur={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >            setEditing(false);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
-        /&gt;
-      ) : (
-        &lt;&gt;
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
           &lt;Label forId={`device-${index}-name`}&gt;
             &lt;b&gt;{name}&lt;/b&gt;
           &lt;/Label&gt;
@@ -228,8 +228,8 @@ const RenameDeviceInput: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
             id={`device-${index}-name`}
             hasIcon
             dense
-            onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              setEditing(true);</span></span>
+            onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              setEditing(true);</span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
             appearance="base"
             className="u-no-margin--bottom"
@@ -253,7 +253,7 @@ export default RenameDeviceInput;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

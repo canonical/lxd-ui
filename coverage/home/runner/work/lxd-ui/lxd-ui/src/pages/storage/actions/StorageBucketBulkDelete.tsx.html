@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.93% </span>
+                <span class="strong">19.32% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/154</span>
+                <span class='fraction'>23/119</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -321,35 +321,35 @@ interface Props {
   onFinish: () =&gt; void;
 }
 &nbsp;
-const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> buckets, onStart, onFinish }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canDeleteBucket } = <span class="cstat-no" title="statement not covered" >useStorageBucketEntitlements();</span></span>
-<span class="cstat-no" title="statement not covered" >  const viewBulkDetails = <span class="cstat-no" title="statement not covered" >useBulkDetails();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span></span>
-<span class="cstat-no" title="statement not covered" >  const projectName = <span class="cstat-no" title="statement not covered" >project?.name || "";</span></span>
+const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ buckets, onStart, onFinish }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const toastNotify = useToastNotification();</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
+<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const { canDeleteBucket } = useStorageBucketEntitlements();</span>
+<span class="cstat-no" title="statement not covered" >  const viewBulkDetails = useBulkDetails();</span>
+<span class="cstat-no" title="statement not covered" >  const { project } = useCurrentProject();</span>
+<span class="cstat-no" title="statement not covered" >  const projectName = project?.name || "";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const deleteableBuckets = <span class="cstat-no" title="statement not covered" >buckets.filter(<span class="fstat-no" title="function not covered" >(b</span>ucket) =&gt; <span class="cstat-no" title="statement not covered" >canDeleteBucket(bucket))</span>;</span></span>
-<span class="cstat-no" title="statement not covered" >  const totalCount = <span class="cstat-no" title="statement not covered" >buckets.length;</span></span>
-<span class="cstat-no" title="statement not covered" >  const deleteCount = <span class="cstat-no" title="statement not covered" >deleteableBuckets.length;</span></span>
+<span class="cstat-no" title="statement not covered" >  const deleteableBuckets = buckets.filter((bucket) =&gt; canDeleteBucket(bucket));</span>
+<span class="cstat-no" title="statement not covered" >  const totalCount = buckets.length;</span>
+<span class="cstat-no" title="statement not covered" >  const deleteCount = deleteableBuckets.length;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const buttonText = <span class="cstat-no" title="statement not covered" >`Delete ${buckets.length} ${pluralize("bucket", buckets.length)}`;</span></span>
+<span class="cstat-no" title="statement not covered" >  const buttonText = `Delete ${buckets.length} ${pluralize("bucket", buckets.length)}`;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onStart();</span></span>
-<span class="cstat-no" title="statement not covered" >    const successMessage = <span class="cstat-no" title="statement not covered" >`${deleteableBuckets.length} ${pluralize("bucket", deleteableBuckets.length)} successfully deleted`;</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleDelete = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    onStart();</span>
+<span class="cstat-no" title="statement not covered" >    const successMessage = `${deleteableBuckets.length} ${pluralize("bucket", deleteableBuckets.length)} successfully deleted`;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    deleteStorageBucketBulk(deleteableBuckets, projectName)</span></span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(r</span>esults) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    deleteStorageBucketBulk(deleteableBuckets, projectName)</span>
+<span class="cstat-no" title="statement not covered" >      .then((results) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const { fulfilledCount, rejectedCount } =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span></span>
+<span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        if (fulfilledCount === deleteCount) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.success(successMessage, viewBulkDetails(results));</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        } else if (rejectedCount === deleteCount) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >        if (fulfilledCount === deleteCount) {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.success(successMessage, viewBulkDetails(results));</span>
+<span class="cstat-no" title="statement not covered" >        } else if (rejectedCount === deleteCount) {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >            "Bucket bulk deletion failed",</span>
 <span class="cstat-no" title="statement not covered" >            undefined,</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -359,7 +359,7 @@ const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" >            viewBulkDetails(results),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >            "Bucket bulk deletion partially failed",</span>
 <span class="cstat-no" title="statement not covered" >            undefined,</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -373,31 +373,31 @@ const StorageBucketBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >          queryKey: [queryKeys.storage, projectName, queryKeys.buckets],</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFinish();</span></span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        onFinish();</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Bucket bulk deletion failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure("Bucket bulk deletion failed", e);</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const getBulkDeleteBreakdown = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (deleteCount === totalCount) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return undefined;</span></span>
+<span class="cstat-no" title="statement not covered" >  const getBulkDeleteBreakdown = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (deleteCount === totalCount) {</span>
+<span class="cstat-no" title="statement not covered" >      return undefined;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const restrictedCount = <span class="cstat-no" title="statement not covered" >totalCount - deleteCount;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return [</span></span>
+<span class="cstat-no" title="statement not covered" >    const restrictedCount = totalCount - deleteCount;</span>
+<span class="cstat-no" title="statement not covered" >    return [</span>
 <span class="cstat-no" title="statement not covered" >      `${deleteCount} ${pluralize("bucket", deleteCount)} will be deleted.`,</span>
 <span class="cstat-no" title="statement not covered" >      `${restrictedCount} ${pluralize("bucket", restrictedCount)} that you do not have permission to delete will be ignored.`,</span>
 <span class="cstat-no" title="statement not covered" >    ];</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;BulkDeleteButton</span>
 <span class="cstat-no" title="statement not covered" >      entities={buckets}</span>
 <span class="cstat-no" title="statement not covered" >      deletableEntities={deleteableBuckets}</span>
@@ -427,7 +427,7 @@ export default StorageBucketBulkDelete;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

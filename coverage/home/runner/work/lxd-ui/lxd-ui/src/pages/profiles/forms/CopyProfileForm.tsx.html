@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.16% </span>
+                <span class="strong">98.49% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>132/155</span>
+                <span class='fraction'>131/133</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.14% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/27</span>
+                <span class='fraction'>9/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.25% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/16</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.24% </span>
+                <span class="strong">98.49% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>132/133</span>
+                <span class='fraction'>131/133</span>
             </div>
         
             
@@ -280,7 +280,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -358,69 +358,69 @@ export interface LxdInstanceCopy {
   profileName: string;
 }
 &nbsp;
-const CopyProfileForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> profile, close }) =&gt; {</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const { data: profiles = [] } = <span class="cstat-no" title="statement not covered" >useProfiles(profile?.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>;</span>
+const CopyProfileForm: FC&lt;Props&gt; = ({ profile, close }) =&gt; {
+  const toastNotify = useToastNotification();
+  const navigate = useNavigate();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
+  const { data: profiles = [] } = useProfiles(profile?.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? "");</span>
 &nbsp;
-  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ame: string, project: string) =&gt; {</span>
-    const profileURL = <span class="cstat-no" title="statement not covered" >`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(name)}`;</span>
+  const notifySuccess = (name: string, project: string) =&gt; {
+    const profileURL = `/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(name)}`;
     const message = (
-<span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
+      &lt;&gt;
         Created profile{" "}
         &lt;ResourceLink type={"profile"} value={name} to={profileURL} /&gt;.
       &lt;/&gt;
     );
-    const actions = <span class="cstat-no" title="statement not covered" >[</span>
+    const actions = [
       {
         label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${profileURL}/configuration`),</span></span>
+        onClick: <span class="fstat-no" title="function not covered" >async () =&gt; navigate(`${profileURL}/configuration`),</span>
       },
     ];
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(message, actions);</span>
+    toastNotify.success(message, actions);
   };
 &nbsp;
-  const getCopiedProfileName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(o</span>ldProfileName: string): string =&gt; {</span>
-    const newProfileName = <span class="cstat-no" title="statement not covered" >truncateEntityName(oldProfileName, "-copy");</span>
-<span class="cstat-no" title="statement not covered" >    return getUniqueResourceName(newProfileName, profiles);</span>
+  const getCopiedProfileName = (oldProfileName: string): string =&gt; {
+    const newProfileName = truncateEntityName(oldProfileName, "-copy");
+    return getUniqueResourceName(newProfileName, profiles);
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;LxdInstanceCopy&gt;({</span>
+  const formik = useFormik&lt;LxdInstanceCopy&gt;({
     initialValues: {
       profileName: getCopiedProfileName(profile.name),
     },
     enableReinitialize: true,
     validationSchema: Yup.object().shape({
       profileName: profileNameValidation(
-        profile.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? "default",</span>
+        profile.project<span class="branch-0 cbranch-no" title="branch not covered" > ?? "default",</span>
         controllerState,
       ).required(),
     }),
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const profileLink = <span class="cstat-no" title="statement not covered" >&lt;ProfileLink profile={profile} /&gt;;</span>
-<span class="cstat-no" title="statement not covered" >      createProfile(</span>
+    onSubmit: (values) =&gt; {
+      const profileLink = &lt;ProfileLink profile={profile} /&gt;;
+      createProfile(
         JSON.stringify({
           name: values.profileName,
           description: profile.description,
           config: profile.config,
           devices: profile.devices,
         }),
-        profile.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? "",</span>
+        profile.project<span class="branch-0 cbranch-no" title="branch not covered" > ?? "",</span>
       )
         .then(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          notifySuccess(values.profileName, profile.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>;</span>
+          notifySuccess(values.profileName, profile.project<span class="branch-0 cbranch-no" title="branch not covered" > ?? "");</span>
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Profile copy failed.", e, profileLink);</span></span>
-        })
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure("Profile copy failed.", e, profileLink);</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
         .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          close();</span>
+          close();
         });
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="copy-instances-modal"
@@ -440,7 +440,7 @@ const CopyProfileForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
             disabled={!formik.isValid || formik.isSubmitting}
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+            onClick={() =&gt; void formik.submitForm()}
           &gt;
             Copy
           &lt;/ActionButton&gt;
@@ -469,7 +469,7 @@ export default CopyProfileForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

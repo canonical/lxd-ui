@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">87.91% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>80/112</span>
+                <span class='fraction'>80/91</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/16</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/12</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -198,7 +198,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -208,7 +208,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">64x</span>
-<span class="cline-any cline-yes">61x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -220,21 +219,22 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -268,14 +268,14 @@ interface Props {
   volume: LxdStorageVolume;
 }
 &nbsp;
-const CreateVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> close, volume }) =&gt; {</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
+const CreateVolumeSnapshotForm: FC&lt;Props&gt; = ({ close, volume }) =&gt; {
+  const eventQueue = useEventQueue();
+  const notify = useNotify();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;SnapshotFormValues&gt;({</span>
+  const formik = useFormik&lt;SnapshotFormValues&gt;({
     initialValues: {
       name: "",
       expirationDate: null,
@@ -283,25 +283,25 @@ const CreateVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
     },
     validateOnMount: true,
     validationSchema: getVolumeSnapshotSchema(volume, controllerState),
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues, { resetForm }) =&gt; {
-<span class="cstat-no" title="statement not covered" >      notify.clear();</span>
+    onSubmit: (values, { resetForm }) =&gt; {
+      notify.clear();
       const expiresAt =
-<span class="cstat-no" title="statement not covered" >        values.<span class="branch-0 cbranch-no" title="branch not covered" >expirationDate &amp;&amp; values.<span class="branch-0 cbranch-no" title="branch not covered" >expirationTime</span></span></span>
-<span class="cstat-no" title="statement not covered" >          ? stringToIsoTime(</span>
+        values.expirationDate<span class="branch-0 cbranch-no" title="branch not covered" > &amp;&amp; values.expirationTime</span>
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >          ? stringToIsoTime(</span></span>
 <span class="cstat-no" title="statement not covered" >              getExpiresAt(values.expirationDate, values.expirationTime),</span>
-<span class="cstat-no" title="statement not covered" >            )</span>
+            )
           : UNDEFINED_DATE;
-<span class="cstat-no" title="statement not covered" >      createVolumeSnapshot(volume, values.name, expiresAt)</span>
+      createVolumeSnapshot(volume, values.name, expiresAt)
         .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
+          eventQueue.set(
             operation.metadata.id,
-<span class="fstat-no" title="function not covered" >            () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              queryClient.invalidateQueries({</span>
-                predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt;
-<span class="cstat-no" title="statement not covered" >                  query.queryKey[0] === queryKeys.volumes ||</span>
+            () =&gt; {
+              queryClient.invalidateQueries({
+                predicate: (query) =&gt;
+                  query.queryKey[0] === queryKeys.volumes ||
                   query.queryKey[0] === queryKeys.storage,
               });
-<span class="cstat-no" title="statement not covered" >              toastNotify.success(</span>
+              toastNotify.success(
                 &lt;&gt;
                   Snapshot{" "}
                   &lt;VolumeSnapshotLinkChip
@@ -311,28 +311,28 @@ const CreateVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
                   created for volume &lt;VolumeLinkChip volume={volume} /&gt;.
                 &lt;/&gt;,
               );
-<span class="cstat-no" title="statement not covered" >              resetForm();</span>
+              resetForm();
             },
-<span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span></span>
+            (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >                `Snapshot ${values.name} creation failed`,</span>
 <span class="cstat-no" title="statement not covered" >                new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              formik.setSubmitting(false);</span></span>
+<span class="cstat-no" title="statement not covered" >              formik.setSubmitting(false);</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
           );
         })
         .catch((error: Error) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          notify.failure("Snapshot creation failed", error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span></span>
-        })
+<span class="cstat-no" title="statement not covered" >          notify.failure("Snapshot creation failed", error);</span>
+<span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
         .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          close();</span>
+          close();
         });
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return &lt;SnapshotForm isEdit={false} formik={formik} close={close} /&gt;;</span>
+  return &lt;SnapshotForm isEdit={false} formik={formik} close={close} /&gt;;
 };
 &nbsp;
 export default CreateVolumeSnapshotForm;
@@ -343,7 +343,7 @@ export default CreateVolumeSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

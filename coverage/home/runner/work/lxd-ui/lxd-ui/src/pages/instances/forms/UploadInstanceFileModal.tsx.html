@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.02% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>63/67</span>
+                <span class='fraction'>63/63</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/14</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -154,34 +154,34 @@
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">295x</span>
-<span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
-<span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">294x</span>
-<span class="cline-any cline-yes">294x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
 <span class="cline-any cline-yes">298x</span>
@@ -204,11 +204,11 @@ interface Props {
   name?: string;
 }
 &nbsp;
-const UploadInstanceFileModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> close, name }) =&gt; {</span>
-  const [fileType, setFileType] = <span class="cstat-no" title="statement not covered" >useState&lt;InstanceFileType&gt;("instance-backup");</span>
-  const [uploadState, setUploadState] = <span class="cstat-no" title="statement not covered" >useState&lt;UploadState | null&gt;(null);</span>
+const UploadInstanceFileModal: FC&lt;Props&gt; = ({ close, name }) =&gt; {
+  const [fileType, setFileType] = useState&lt;InstanceFileType&gt;("instance-backup");
+  const [uploadState, setUploadState] = useState&lt;UploadState | null&gt;(null);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="upload-instance-modal"
@@ -221,7 +221,7 @@ const UploadInstanceFileModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
           &lt;ProgressBar percentage={Math.floor(uploadState.percentage)} /&gt;
           &lt;p&gt;
             {humanFileSize(uploadState.loaded)} loaded of{" "}
-            {humanFileSize(uploadState.<span class="branch-0 cbranch-no" title="branch not covered" >total ?? <span class="branch-1 cbranch-no" title="branch not covered" >0)</span></span>}
+            {humanFileSize(uploadState.total<span class="branch-0 cbranch-no" title="branch not covered" > ?? 0)}</span>
           &lt;/p&gt;
         &lt;/&gt;
       )}
@@ -259,7 +259,7 @@ export default UploadInstanceFileModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

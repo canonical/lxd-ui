@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.19% </span>
+                <span class="strong">93.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>69/93</span>
+                <span class='fraction'>69/74</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/14</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -226,48 +226,48 @@ interface Props {
   project: string;
 }
 &nbsp;
-const DownloadImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> image, project }) =&gt; {</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const description = <span class="cstat-no" title="statement not covered" >image.properties?.<span class="branch-0 cbranch-no" title="branch not covered" >description ?? image.fingerprint;</span></span>
-  const isUnifiedTarball = <span class="cstat-no" title="statement not covered" >image.update_source == null; //Only Split Tarballs have an update_source.</span>
-  const url = <span class="cstat-no" title="statement not covered" >`/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;</span>
+const DownloadImageBtn: FC&lt;Props&gt; = ({ image, project }) =&gt; {
+  const toastNotify = useToastNotification();
+  const [isLoading, setLoading] = useState(false);
+  const description = image.properties?.<span class="branch-0 cbranch-no" title="branch not covered" >description ?? image.fingerprint;</span>
+  const isUnifiedTarball = image.update_source == null; //Only Split Tarballs have an update_source.
+  const url = `/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;
 &nbsp;
-  const handleExport = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+  const handleExport = () =&gt; {
+    setLoading(true);
     const imageLink = (
-<span class="cstat-no" title="statement not covered" >      &lt;ResourceLink</span>
+      &lt;ResourceLink
         to={`/ui/project/${encodeURIComponent(project)}/images`}
         type="image"
         value={description}
       /&gt;
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const a = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span>
-<span class="cstat-no" title="statement not covered" >      a.href = url;</span>
-<span class="cstat-no" title="statement not covered" >      a.download = "download";</span>
-<span class="cstat-no" title="statement not covered" >      a.click();</span>
-<span class="cstat-no" title="statement not covered" >      window.URL.revokeObjectURL(url);</span>
+    try {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "download";
+      a.click();
+      window.URL.revokeObjectURL(url);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      toastNotify.success(</span>
+      toastNotify.success(
         &lt;&gt;
           Image {imageLink} download started. Please check your downloads
           folder.
         &lt;/&gt;,
       );
     } catch (e) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >      toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >        `Image ${description} was unable to download.`,</span>
 <span class="cstat-no" title="statement not covered" >        e,</span>
 <span class="cstat-no" title="statement not covered" >        imageLink,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
     } finally {
-<span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
+      setLoading(false);
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;ActionButton
       title={
         isUnifiedTarball ? "Export image" : "Cannot export this image format."
@@ -292,7 +292,7 @@ export default DownloadImageBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

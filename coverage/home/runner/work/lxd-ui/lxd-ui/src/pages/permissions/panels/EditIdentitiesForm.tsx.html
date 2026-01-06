@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.05% </span>
+                <span class="strong">80.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>180/281</span>
+                <span class='fraction'>171/213</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.1% </span>
+                <span class="strong">78.57% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>25/58</span>
+                <span class='fraction'>22/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>14/26</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -407,7 +407,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">24x</span>
@@ -444,7 +444,7 @@
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -520,91 +520,91 @@ interface Props {
   group?: LxdAuthGroup;
 }
 &nbsp;
-const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const EditIdentitiesForm: FC&lt;Props&gt; = ({
   selected,
   setSelected,
   groupName,
   group,
 }) =&gt; {
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const [filter, setFilter] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const notify = useNotify();
+  const [filter, setFilter] = useState&lt;string | null&gt;(null);
 &nbsp;
-  const { data: identities = [], error } = <span class="cstat-no" title="statement not covered" >useIdentities();</span>
-  const { canEditIdentity } = <span class="cstat-no" title="statement not covered" >useIdentityEntitlements();</span>
-  const restrictedIdentityNames = <span class="cstat-no" title="statement not covered" >identities</span>
+  const { data: identities = [], error } = useIdentities();
+  const { canEditIdentity } = useIdentityEntitlements();
+  const restrictedIdentityNames = identities
     .filter((identity) =&gt; !canEditIdentity(identity))
     .map((identity) =&gt; identity.id);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading details failed", error);</span></span>
+  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Loading details failed", error);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const fineGrainedIdentities = <span class="cstat-no" title="statement not covered" >identities.filter(</span>
-<span class="fstat-no" title="function not covered" >    (i</span>dentity) =&gt; <span class="cstat-no" title="statement not covered" >!isUnrestricted(identity),</span>
+  const fineGrainedIdentities = identities.filter(
+    (identity) =&gt; !isUnrestricted(identity),
   );
 &nbsp;
-  const preselectedIdentities = <span class="cstat-no" title="statement not covered" >new Set(getIdentityIdsForGroup(group));</span>
-  const hasPreselectedIdentities = <span class="cstat-no" title="statement not covered" >preselectedIdentities.size &gt; 0;</span>
+  const preselectedIdentities = new Set(getIdentityIdsForGroup(group));
+  const hasPreselectedIdentities = preselectedIdentities.size &gt; 0;
 &nbsp;
-  const toggleRow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>d: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (restrictedIdentityNames.includes(id)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+  const toggleRow = (id: string) =&gt; {
+    if (restrictedIdentityNames.includes(id)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    const existing = <span class="cstat-no" title="statement not covered" >selected.find((identity) =&gt; identity.id === id);</span>
-<span class="cstat-no" title="statement not covered" >    if (existing) {</span>
-      const filtered = <span class="cstat-no" title="statement not covered" >selected.filter((identity) =&gt; identity.id !== id);</span>
-      const newEntry = <span class="cstat-no" title="statement not covered" >{</span>
+    const existing = selected.find((identity) =&gt; identity.id === id);
+    if (existing) {
+      const filtered = selected.filter((identity) =&gt; identity.id !== id);
+      const newEntry = {
         ...existing,
         isAdded: !existing.isAdded,
         isRemoved: !existing.isRemoved,
       };
-      const wasInGroup = <span class="cstat-no" title="statement not covered" >existing.groups?.includes(groupName);</span>
-      const excludeEntry = <span class="cstat-no" title="statement not covered" >newEntry.isRemoved &amp;&amp; !wasInGroup;</span>
-<span class="cstat-no" title="statement not covered" >      if (excludeEntry) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setSelected(filtered);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+      const wasInGroup = existing.groups?.includes(groupName);
+      const excludeEntry = newEntry.isRemoved &amp;&amp; !wasInGroup;
+      if (excludeEntry) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        setSelected(filtered);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      newEntry.isAdded = !wasInGroup;</span>
-<span class="cstat-no" title="statement not covered" >      setSelected([...filtered, newEntry]);</span>
+      newEntry.isAdded = !wasInGroup;
+      setSelected([...filtered, newEntry]);
     } else {
-      const addMe = <span class="cstat-no" title="statement not covered" >identities.find((identity) =&gt; identity.id === id);</span>
-<span class="cstat-no" title="statement not covered" >      if (!addMe) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Selection failed", new Error("Identity not found"));</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+      const addMe = identities.find((identity) =&gt; identity.id === id);
+      if (!addMe) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        notify.failure("Selection failed", new Error("Identity not found"));</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      setSelected([...selected, { ...addMe, isAdded: true, isRemoved: false }]);</span>
+      setSelected([...selected, { ...addMe, isAdded: true, isRemoved: false }]);
     }
   };
 &nbsp;
-  const bulkSelect = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(n</span>ames: string[]) =&gt; {</span></span>
+  const bulkSelect = <span class="fstat-no" title="function not covered" >(names: string[]) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    // select none</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (names.length === 0) {</span></span>
-<span class="cstat-no" title="statement not covered" >      const updated: FormIdentity[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      selected.forEach(<span class="fstat-no" title="function not covered" >(i</span>dentity) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        if (identity.groups?.includes(groupName)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          updated.push({ ...identity, isAdded: false, isRemoved: true });</span></span>
+<span class="cstat-no" title="statement not covered" >    if (names.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      const updated: FormIdentity[] = [];</span>
+<span class="cstat-no" title="statement not covered" >      selected.forEach((identity) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (identity.groups?.includes(groupName)) {</span>
+<span class="cstat-no" title="statement not covered" >          updated.push({ ...identity, isAdded: false, isRemoved: true });</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setSelected(updated);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >      setSelected(updated);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    // select all</span>
-<span class="cstat-no" title="statement not covered" >    const updated: FormIdentity[] = <span class="cstat-no" title="statement not covered" >identities</span></span>
-<span class="cstat-no" title="statement not covered" >      .filter(<span class="fstat-no" title="function not covered" >(i</span>dentity) =&gt; <span class="cstat-no" title="statement not covered" >names.includes(identity.id))</span></span>
-<span class="cstat-no" title="statement not covered" >      .map(<span class="fstat-no" title="function not covered" >(i</span>dentity) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return {</span></span>
+<span class="cstat-no" title="statement not covered" >    const updated: FormIdentity[] = identities</span>
+<span class="cstat-no" title="statement not covered" >      .filter((identity) =&gt; names.includes(identity.id))</span>
+<span class="cstat-no" title="statement not covered" >      .map((identity) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return {</span>
 <span class="cstat-no" title="statement not covered" >          ...identity,</span>
 <span class="cstat-no" title="statement not covered" >          isAdded: !identity.groups?.includes(groupName),</span>
 <span class="cstat-no" title="statement not covered" >          isRemoved: false,</span>
 <span class="cstat-no" title="statement not covered" >        };</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setSelected(updated);</span></span>
+<span class="cstat-no" title="statement not covered" >    setSelected(updated);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const headers = <span class="cstat-no" title="statement not covered" >[</span>
+  const headers = [
     { content: "Identity", sortKey: "name" },
     {
       content: "",
@@ -613,24 +613,24 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
     },
   ];
 &nbsp;
-  const filteredIdentities = <span class="cstat-no" title="statement not covered" >fineGrainedIdentities.filter((identity) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (filter) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      const name = <span class="cstat-no" title="statement not covered" >getIdentityName(identity);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return name.toLowerCase().includes(filter.toLowerCase());</span></span>
+  const filteredIdentities = fineGrainedIdentities.filter((identity) =&gt; {
+    if (filter) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      const name = getIdentityName(identity);</span>
+<span class="cstat-no" title="statement not covered" >      return name.toLowerCase().includes(filter.toLowerCase());</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+    return true;
   });
 &nbsp;
-  const rows = <span class="cstat-no" title="statement not covered" >filteredIdentities.map((identity) =&gt; {</span>
-    const clickRow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      toggleRow(identity.id);</span></span>
+  const rows = filteredIdentities.map((identity) =&gt; {
+    const clickRow = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      toggleRow(identity.id);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
-    const formIdentity = <span class="cstat-no" title="statement not covered" >selected.find((id) =&gt; id.id === identity.id);</span>
-    const isModified = <span class="cstat-no" title="statement not covered" >formIdentity?.isAdded || <span class="branch-1 cbranch-no" title="branch not covered" >formIdentity?.isRemoved;</span></span>
-    const name = <span class="cstat-no" title="statement not covered" >getIdentityName(identity);</span>
+    const formIdentity = selected.find((id) =&gt; id.id === identity.id);
+    const isModified = formIdentity?.isAdded || formIdentity?.isRemoved;
+    const name = getIdentityName(identity);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       key: identity.id,
       name: identity.id,
       className: "u-row",
@@ -659,17 +659,17 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
     };
   });
 &nbsp;
-  const { rows: sortedRows } = <span class="cstat-no" title="statement not covered" >useSortTableData({</span>
+  const { rows: sortedRows } = useSortTableData({
     rows,
     defaultSort: hasPreselectedIdentities ? "isPreselected" : "name",
     defaultSortDirection: hasPreselectedIdentities ? "descending" : "ascending",
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;SearchBox
-        onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          setFilter(value);</span></span>
+        onChange={<span class="fstat-no" title="function not covered" >(value) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          setFilter(value);</span>
 <span class="cstat-no" title="statement not covered" >        }}</span>
       /&gt;
       &lt;ScrollableTable
@@ -709,7 +709,7 @@ export default EditIdentitiesForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

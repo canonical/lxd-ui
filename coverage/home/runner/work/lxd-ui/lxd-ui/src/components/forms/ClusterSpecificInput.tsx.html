@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.86% </span>
+                <span class="strong">14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/202</span>
+                <span class='fraction'>28/200</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">2.27% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/44</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.14% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/14</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -446,7 +446,7 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >  isReadOnly,</span>
 <span class="cstat-no" title="statement not covered" >  memberNames,</span>
 <span class="cstat-no" title="statement not covered" >  onChange,</span>
-<span class="cstat-no" title="statement not covered" >  toggleReadOnly = <span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >() =&gt; {</span>},</span></span>
+<span class="cstat-no" title="statement not covered" >  toggleReadOnly = <span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >() =&gt; {}</span>,</span></span>
 <span class="cstat-no" title="statement not covered" >  canToggleSpecific = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span></span>
 <span class="cstat-no" title="statement not covered" >  isDefaultSpecific = <span class="branch-0 cbranch-no" title="branch not covered" >null,</span></span>
 <span class="cstat-no" title="statement not covered" >  disabled = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span></span>
@@ -472,7 +472,7 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const setValueForAllMembers = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue: string) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const update: ClusterSpecificValues = <span class="cstat-no" title="statement not covered" >{};</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    memberNames.forEach(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; (<span class="cstat-no" title="statement not covered" >update[member] = value))</span>;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    memberNames.forEach(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; (<span class="cstat-no" title="statement not covered" >update[member] = value));</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onChange(update);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -484,7 +484,7 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onChange(update);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className={classname}&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {canToggleSpecific &amp;&amp; !isReadOnly &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;CheckboxInput</span>
@@ -496,18 +496,18 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            if (isSpecific) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              setValueForAllMembers(firstValue ?? "");</span></span>
 <span class="cstat-no" title="statement not covered" >            }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val)</span>;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val);</span></span></span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >          disabled={!!disabledReason}</span>
 <span class="cstat-no" title="statement not covered" >          title={disabledReason}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      {isSpecific &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >      {<span class="branch-0 cbranch-no" title="branch not covered" >isSpecific &amp;&amp; (</span></span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="cluster-specific-input"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {memberNames.map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            const activeValue = <span class="cstat-no" title="statement not covered" >values?.[item];</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return (</span></span>
+<span class="cstat-no" title="statement not covered" >            return (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;Fragment key={item}&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div className="cluster-specific-member"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;ResourceLink</span>
@@ -518,11 +518,11 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div className="cluster-specific-value-wrapper"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  {isReadOnly ? (</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >                    &lt;&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >                      &lt;span className="cluster-specific-value"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                        {activeValue}</span>
 <span class="cstat-no" title="statement not covered" >                      &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      {!disabled &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >                      {<span class="branch-0 cbranch-no" title="branch not covered" >!disabled &amp;&amp; (</span></span>
 <span class="cstat-no" title="statement not covered" >                        &lt;FormEditButton</span>
 <span class="cstat-no" title="statement not covered" >                          disableReason={disableReason}</span>
 <span class="cstat-no" title="statement not covered" >                          toggleReadOnly={toggleReadOnly}</span>
@@ -556,14 +556,14 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >          )}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      {!isSpecific &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >      {<span class="branch-0 cbranch-no" title="branch not covered" >!isSpecific &amp;&amp; (</span></span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="cluster-specific-value-wrapper"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {isReadOnly ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >            &lt;&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="cluster-specific-value"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                {firstValue === "" ? "-" : firstValue}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >              {!disabled &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >              {<span class="branch-0 cbranch-no" title="branch not covered" >!disabled &amp;&amp; (</span></span>
 <span class="cstat-no" title="statement not covered" >                &lt;FormEditButton</span>
 <span class="cstat-no" title="statement not covered" >                  disableReason={disableReason}</span>
 <span class="cstat-no" title="statement not covered" >                  toggleReadOnly={toggleReadOnly}</span>
@@ -598,7 +598,7 @@ export default ClusterSpecificInput;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

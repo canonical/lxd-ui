@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.21% </span>
+                <span class="strong">19.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/74</span>
+                <span class='fraction'>12/62</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -196,27 +196,27 @@ interface Props {
   children?: ReactNode;
 }
 &nbsp;
-const CopyToClipboard: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> value, children }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const [copied, setCopied] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
+const CopyToClipboard: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ value, children }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const [copied, setCopied] = useState(false);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleCopy = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    try {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      await navigator.clipboard.writeText(value);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setCopied(true);</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleCopy = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await navigator.clipboard.writeText(value);</span>
+<span class="cstat-no" title="statement not covered" >      setCopied(true);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setCopied(false);</span></span>
+<span class="cstat-no" title="statement not covered" >      setTimeout(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setCopied(false);</span>
 <span class="cstat-no" title="statement not covered" >      }, 2000);</span>
 <span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.error(error);</span></span>
+<span class="cstat-no" title="statement not covered" >      console.error(error);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (undefined === navigator.clipboard) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;{children}&lt;/&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >  if (undefined === navigator.clipboard) {</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;&gt;{children}&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="copy-to-clipboard-container"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="u-truncate"&gt;{children}&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Button</span>
@@ -256,7 +256,7 @@ export default CopyToClipboard;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

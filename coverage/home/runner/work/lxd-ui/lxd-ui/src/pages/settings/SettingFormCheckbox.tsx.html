@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.95% </span>
+                <span class="strong">98.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>73/83</span>
+                <span class='fraction'>73/74</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/14</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -196,15 +196,15 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -224,28 +224,28 @@ interface Props {
   onCancel: () =&gt; void;
 }
 &nbsp;
-const SettingFormCheckbox: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const SettingFormCheckbox: FC&lt;Props&gt; = ({
   initialValue,
   configField,
   onSubmit,
   onCancel,
 }) =&gt; {
-  const [checked, setChecked] = <span class="cstat-no" title="statement not covered" >useState(</span>
+  const [checked, setChecked] = useState(
     initialValue
       ? initialValue === <span class="branch-0 cbranch-no" title="branch not covered" >"true"</span>
 <span class="cstat-no" title="statement not covered" >      : String(configField.default) === "true",</span>
   );
 &nbsp;
-  const canBeReset = <span class="cstat-no" title="statement not covered" >String(configField.default) !== String(checked);</span>
+  const canBeReset = String(configField.default) !== String(checked);
 &nbsp;
-  const resetToDefault = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setChecked(String(configField.default) === "true");</span>
+  const resetToDefault = () =&gt; {
+    setChecked(String(configField.default) === "true");
   };
 &nbsp;
   const label =
-<span class="cstat-no" title="statement not covered" >    configField.key.split(".")?.pop()?.replaceAll("_", " "<span class="branch-0 cbranch-no" title="branch not covered" >) ?? configField.key;</span></span>
+    configField.key.split(".")?.pop()?.replaceAll("_", <span class="branch-0 cbranch-no" title="branch not covered" >" ") ?? configField.key;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;Input
         label={label}
@@ -253,8 +253,8 @@ const SettingFormCheckbox: FC&lt;Props&gt; = <span class="cstat-no" title="state
         wrapperClassName="input-wrapper"
         type="checkbox"
         checked={checked}
-        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >          setChecked(e.target.checked);</span>
+        onChange={(e) =&gt; {
+          setChecked(e.target.checked);
         }}
         help={&lt;ConfigFieldDescription description={configField.longdesc} /&gt;}
       /&gt;
@@ -263,8 +263,8 @@ const SettingFormCheckbox: FC&lt;Props&gt; = <span class="cstat-no" title="state
       &lt;/Button&gt;
       &lt;Button
         appearance="positive"
-        onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          onSubmit(checked);</span>
+        onClick={() =&gt; {
+          onSubmit(checked);
         }}
       &gt;
         Save
@@ -292,7 +292,7 @@ export default SettingFormCheckbox;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

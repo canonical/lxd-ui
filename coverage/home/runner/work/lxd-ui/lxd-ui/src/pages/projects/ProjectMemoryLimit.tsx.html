@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/42</span>
+                <span class='fraction'>32/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">46.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/16</span>
+                <span class='fraction'>7/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/30</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -100,54 +100,54 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useResources } from "context/useResources";
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
 import { Spinner } from "@canonical/react-components";
 &nbsp;
-export const ProjectMemoryLimit: FC = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+export const ProjectMemoryLimit: FC = () =&gt; {
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
 &nbsp;
   const { data: resources = [], error, isLoading } = <span class="cstat-no" title="statement not covered" >useResources();</span>
 <span class="cstat-no" title="statement not covered" >  if (isLoading) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading resources..." /&gt;;</span>
+    return &lt;Spinner className="u-loader" text="Loading resources..." /&gt;;
   }
 <span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading resources failed", error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return null;</span></span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-  const resourceArray = <span class="cstat-no" title="statement not covered" >Array.isArray(resources<span class="branch-0 cbranch-no" title="branch not covered" >) ? resources : [</span>resources];</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Loading resources failed", error);</span>
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  }
+  const resourceArray = <span class="cstat-no" title="statement not covered" >Array.isArray(<span class="branch-0 cbranch-no" title="branch not covered" >resources) ? resources : [</span>resources];</span>
 &nbsp;
   const sumMemoryLimit = <span class="cstat-no" title="statement not covered" >resourceArray.reduce(</span>
-<span class="fstat-no" title="function not covered" >    (s</span>um, resource) =&gt; <span class="cstat-no" title="statement not covered" >sum + resource.memory.total,</span>
+    (sum, resource) =&gt; sum + resource.memory.total,
     0,
   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       Total memory: &lt;b&gt;{humanFileSize(sumMemoryLimit)}&lt;/b&gt;
     &lt;/&gt;
@@ -160,7 +160,7 @@ export const ProjectMemoryLimit: FC = <span class="fstat-no" title="function not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

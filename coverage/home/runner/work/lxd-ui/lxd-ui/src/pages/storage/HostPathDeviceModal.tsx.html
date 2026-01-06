@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.99% </span>
+                <span class="strong">98.16% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>107/123</span>
+                <span class='fraction'>107/109</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.47% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/23</span>
+                <span class='fraction'>9/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -296,35 +296,35 @@ interface Props {
   title?: ReactNode;
 }
 &nbsp;
-const HostPathDeviceModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const HostPathDeviceModal: FC&lt;Props&gt; = ({
   formik,
   onFinish,
   onCancel,
   onClose,
   title,
 }) =&gt; {
-  const [source, setSource] = <span class="cstat-no" title="statement not covered" >useState("");</span>
-  const [path, setPath] = <span class="cstat-no" title="statement not covered" >useState("");</span>
-  const touchedRef = <span class="cstat-no" title="statement not covered" >useRef({</span>
+  const [source, setSource] = useState("");
+  const [path, setPath] = useState("");
+  const touchedRef = useRef({
     source: false,
     path: false,
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    focusField("host-path");</span>
+  useEffect(() =&gt; {
+    focusField("host-path");
   }, []);
 &nbsp;
-  const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const device: LxdDiskDevice = <span class="cstat-no" title="statement not covered" >{</span>
+  const handleFinish = () =&gt; {
+    const device: LxdDiskDevice = {
       type: "disk",
       source,
       path,
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    onFinish(device);</span>
+    onFinish(device);
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       className="host-path-device-modal"
       close={onClose}
@@ -355,32 +355,32 @@ const HostPathDeviceModal: FC&lt;Props&gt; = <span class="cstat-no" title="state
       &lt;Input
         id="host-path"
         value={source}
-        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >          touchedRef.current.source = true;</span>
-<span class="cstat-no" title="statement not covered" >          setSource(e.target.value);</span>
+        onChange={(e) =&gt; {
+          touchedRef.current.source = true;
+          setSource(e.target.value);
         }}
         type="text"
         label="Host path"
         required
         error={
-          !source &amp;&amp; touchedRef.current.<span class="branch-0 cbranch-no" title="branch not covered" >source</span>
-<span class="cstat-no" title="statement not covered" >            ? "Host path is required"</span>
+          !source &amp;&amp; touchedRef.current.source
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >            ? "Host path is required"</span></span>
             : undefined
         }
         placeholder="Enter full path (e.g. /home)"
       /&gt;
       &lt;Input
         value={path}
-        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >          touchedRef.current.path = true;</span>
-<span class="cstat-no" title="statement not covered" >          setPath(e.target.value);</span>
+        onChange={(e) =&gt; {
+          touchedRef.current.path = true;
+          setPath(e.target.value);
         }}
         type="text"
         label="Mount point"
         required
         error={
-          !path &amp;&amp; touchedRef.current.<span class="branch-0 cbranch-no" title="branch not covered" >path</span>
-<span class="cstat-no" title="statement not covered" >            ? "Mount point is required"</span>
+          !path &amp;&amp; touchedRef.current.path
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >            ? "Mount point is required"</span></span>
             : undefined
         }
         placeholder="Enter full path (e.g. /data)"
@@ -397,7 +397,7 @@ export default HostPathDeviceModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

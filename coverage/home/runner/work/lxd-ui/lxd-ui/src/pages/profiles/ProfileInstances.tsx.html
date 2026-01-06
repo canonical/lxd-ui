@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.75% </span>
+                <span class="strong">23.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/81</span>
+                <span class='fraction'>16/68</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -212,46 +212,46 @@ interface Props {
   headingClassName?: string;
 }
 &nbsp;
-const ProfileInstances: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const ProfileInstances: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  profile,</span>
 <span class="cstat-no" title="statement not covered" >  project,</span>
 <span class="cstat-no" title="statement not covered" >  headingClassName,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const isDefaultProject = <span class="cstat-no" title="statement not covered" >project === "default";</span></span>
+<span class="cstat-no" title="statement not covered" >  const isDefaultProject = project === "default";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const usedByInstances = <span class="cstat-no" title="statement not covered" >getProfileInstances(</span></span>
+<span class="cstat-no" title="statement not covered" >  const usedByInstances = getProfileInstances(</span>
 <span class="cstat-no" title="statement not covered" >    project,</span>
 <span class="cstat-no" title="statement not covered" >    isDefaultProject,</span>
 <span class="cstat-no" title="statement not covered" >    profile.used_by,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const affectedProjects = <span class="cstat-no" title="statement not covered" >isDefaultProject</span></span>
+<span class="cstat-no" title="statement not covered" >  const affectedProjects = isDefaultProject</span>
 <span class="cstat-no" title="statement not covered" >    ? [</span>
 <span class="cstat-no" title="statement not covered" >        {</span>
 <span class="cstat-no" title="statement not covered" >          name: project,</span>
 <span class="cstat-no" title="statement not covered" >          instances: usedByInstances.filter(</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            (i</span>nstance) =&gt; <span class="cstat-no" title="statement not covered" >instance.project === project,</span></span>
+<span class="cstat-no" title="statement not covered" >            (instance) =&gt; instance.project === project,</span>
 <span class="cstat-no" title="statement not covered" >          ),</span>
 <span class="cstat-no" title="statement not covered" >        },</span>
 <span class="cstat-no" title="statement not covered" >      ]</span>
 <span class="cstat-no" title="statement not covered" >    : undefined;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (isDefaultProject) {</span></span>
-<span class="cstat-no" title="statement not covered" >    const { data: projects = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useProjects();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    projects</span></span>
-<span class="cstat-no" title="statement not covered" >      .filter(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; <span class="cstat-no" title="statement not covered" >project.config["features.profiles"] === "false")</span></span>
-<span class="cstat-no" title="statement not covered" >      .map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; <span class="cstat-no" title="statement not covered" >project.name)</span></span>
-<span class="cstat-no" title="statement not covered" >      .forEach(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        affectedProjects?.push({</span></span>
+<span class="cstat-no" title="statement not covered" >  if (isDefaultProject) {</span>
+<span class="cstat-no" title="statement not covered" >    const { data: projects = [] } = useProjects();</span>
+<span class="cstat-no" title="statement not covered" >    projects</span>
+<span class="cstat-no" title="statement not covered" >      .filter((project) =&gt; project.config["features.profiles"] === "false")</span>
+<span class="cstat-no" title="statement not covered" >      .map((project) =&gt; project.name)</span>
+<span class="cstat-no" title="statement not covered" >      .forEach((project) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >        affectedProjects?.push({</span>
 <span class="cstat-no" title="statement not covered" >          name: project,</span>
 <span class="cstat-no" title="statement not covered" >          instances: usedByInstances.filter(</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            (i</span>nstance) =&gt; <span class="cstat-no" title="statement not covered" >instance.project === project,</span></span>
+<span class="cstat-no" title="statement not covered" >            (instance) =&gt; instance.project === project,</span>
 <span class="cstat-no" title="statement not covered" >          ),</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return isDefaultProject ? (</span></span>
+<span class="cstat-no" title="statement not covered" >  return isDefaultProject ? (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ProfileUsedByDefaultProject</span>
 <span class="cstat-no" title="statement not covered" >      profile={profile.name}</span>
 <span class="cstat-no" title="statement not covered" >      affectedProjects={affectedProjects}</span>
@@ -274,7 +274,7 @@ export default ProfileInstances;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.76% </span>
+                <span class="strong">96.72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>59/68</span>
+                <span class='fraction'>59/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -131,9 +131,9 @@
 <span class="cline-any cline-yes">271x</span>
 <span class="cline-any cline-yes">271x</span>
 <span class="cline-any cline-yes">271x</span>
-<span class="cline-any cline-yes">76x</span>
-<span class="cline-any cline-yes">76x</span>
-<span class="cline-any cline-yes">76x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -170,7 +170,7 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -184,19 +184,19 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">76x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { BulkOperationResult } from "util/promises"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { BulkOperationResult } from "util/promises";
 import type { NotificationAction } from "@canonical/react-components";
 import { Icon, MainTable, Modal } from "@canonical/react-components";
 import { useModal } from "context/useModal";
 import ResourceLink from "components/ResourceLink";
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >useBulkDetails() {</span>
-  const { showModal, hideModal } = <span class="cstat-no" title="statement not covered" >useModal();</span>
+export function useBulkDetails() {
+  const { showModal, hideModal } = useModal();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >(r</span>esults: BulkOperationResult[]): NotificationAction[] =&gt; {</span>
+  return (results: BulkOperationResult[]): NotificationAction[] =&gt; {
     const modal = (
-<span class="cstat-no" title="statement not covered" >      &lt;Modal close={hideModal} title="Bulk operation details"&gt;</span>
+      &lt;Modal close={hideModal} title="Bulk operation details"&gt;
         &lt;MainTable
           style={{ width: "auto" }}
           headers={[
@@ -208,9 +208,9 @@ export function <span class="fstat-no" title="function not covered" >useBulkDeta
             },
           ]}
           rows={results.map((result) =&gt; {
-            const isSuccess = <span class="cstat-no" title="statement not covered" >result.status === "fulfilled";</span>
+            const isSuccess = result.status === "fulfilled";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return {</span>
+            return {
               columns: [
                 {
                   content: (
@@ -224,7 +224,7 @@ export function <span class="fstat-no" title="function not covered" >useBulkDeta
                 {
                   content: (
                     &lt;&gt;
-                      &lt;Icon name={isSuccess ? "success" : <span class="branch-1 cbranch-no" title="branch not covered" >"error"} /</span>&gt;{" "}
+                      &lt;Icon name={isSuccess ? "success" : "error"} /&gt;{" "}
                       {isSuccess ? "Success" : "Error: " + result.reason}
                     &lt;/&gt;
                   ),
@@ -236,11 +236,11 @@ export function <span class="fstat-no" title="function not covered" >useBulkDeta
       &lt;/Modal&gt;
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return [</span>
+    return [
       {
         label: "View details",
-        onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          showModal(modal);</span></span>
+        onClick: () =&gt; {
+<span class="cstat-no" title="statement not covered" >          showModal(modal);</span>
 <span class="cstat-no" title="statement not covered" >        },</span>
       },
     ];
@@ -253,7 +253,7 @@ export function <span class="fstat-no" title="function not covered" >useBulkDeta
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

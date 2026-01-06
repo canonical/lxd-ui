@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.15% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>139/190</span>
+                <span class='fraction'>138/161</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">80% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">42.85% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>9/21</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/18</span>
+                <span class='fraction'>3/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.33% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>139/161</span>
+                <span class='fraction'>138/161</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -317,7 +317,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -418,31 +418,31 @@ import NetworkAclForm, {
 import { createNetworkAcl } from "api/network-acls";
 import type { LxdNetworkAcl } from "types/network";
 &nbsp;
-const CreateNetworkAcl: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ project: string }&gt;();</span>
-  const [section, setSection] = <span class="cstat-no" title="statement not covered" >useState(slugify(GENERAL));</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
+const CreateNetworkAcl: FC = () =&gt; {
+  const navigate = useNavigate();
+  const notify = useNotify();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
+  const { project } = useParams&lt;{ project: string }&gt;();
+  const [section, setSection] = useState(slugify(GENERAL));
+  const controllerState = useState&lt;AbortController | null&gt;(null);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!project) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;Missing project&lt;/&gt;;</span></span>
+  if (!project) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;&gt;Missing project&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const NetworkAclSchema = <span class="cstat-no" title="statement not covered" >Yup.object().shape({</span>
+  const NetworkAclSchema = Yup.object().shape({
     name: Yup.string()
       .test(
         "deduplicate",
         "An ACL with this name already exists",
-<span class="fstat-no" title="function not covered" >        async (v</span>alue) =&gt;
-<span class="cstat-no" title="statement not covered" >          checkDuplicateName(value, project, controllerState, "network-acls"),</span>
+        async (value) =&gt;
+          checkDuplicateName(value, project, controllerState, "network-acls"),
       )
       .required("ACL name is required"),
   });
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;NetworkAclFormValues&gt;({</span>
+  const formik = useFormik&lt;NetworkAclFormValues&gt;({
     initialValues: {
       readOnly: false,
       isCreating: true,
@@ -452,18 +452,18 @@ const CreateNetworkAcl: FC = <span class="cstat-no" title="statement not covered
       entityType: "network-acl",
     },
     validationSchema: NetworkAclSchema,
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const networkAcl = <span class="cstat-no" title="statement not covered" >values.<span class="branch-0 cbranch-no" title="branch not covered" >yaml</span></span>
-<span class="cstat-no" title="statement not covered" >        ? (yamlToObject(values.yaml) as LxdNetworkAcl)</span>
+    onSubmit: (values) =&gt; {
+      const networkAcl = values.yaml
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        ? (yamlToObject(values.yaml) as LxdNetworkAcl)</span></span>
         : toNetworkAcl(formik.values);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      createNetworkAcl(networkAcl, project)</span>
+      createNetworkAcl(networkAcl, project)
         .then(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networkAcls],
           });
-<span class="cstat-no" title="statement not covered" >          navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);</span>
-<span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
+          navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);
+          toastNotify.success(
             &lt;&gt;
               Network ACL{" "}
               &lt;ResourceLink
@@ -476,27 +476,27 @@ const CreateNetworkAcl: FC = <span class="cstat-no" title="statement not covered
           );
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          notify.failure("Network ACL creation failed", e);</span></span>
-        });
+<span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >          notify.failure("Network ACL creation failed", e);</span>
+<span class="cstat-no" title="statement not covered" >        });</span>
     },
   });
 &nbsp;
-  const updateSection = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(n</span>ewSection: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setSection(slugify(newSection));</span></span>
+  const updateSection = <span class="fstat-no" title="function not covered" >(newSection: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setSection(slugify(newSection));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const getYaml = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const payload = <span class="cstat-no" title="statement not covered" >{</span></span>
+  const getYaml = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const payload = {</span>
 <span class="cstat-no" title="statement not covered" >      name: formik.values.name,</span>
 <span class="cstat-no" title="statement not covered" >      description: formik.values.description,</span>
 <span class="cstat-no" title="statement not covered" >      ingress: formik.values.ingress,</span>
 <span class="cstat-no" title="statement not covered" >      egress: formik.values.egress,</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return objectToYaml(payload);</span></span>
+<span class="cstat-no" title="statement not covered" >    return objectToYaml(payload);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;BaseLayout
       title="Create a network ACL"
       contentClassName="create-network-acl"
@@ -510,8 +510,8 @@ const CreateNetworkAcl: FC = <span class="cstat-no" title="statement not covered
           &lt;YamlSwitch
             formik={formik}
             section={section}
-            setSection={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              updateSection(</span></span>
+            setSection={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              updateSection(</span>
 <span class="cstat-no" title="statement not covered" >                section === slugify(YAML_CONFIGURATION)</span>
 <span class="cstat-no" title="statement not covered" >                  ? GENERAL</span>
 <span class="cstat-no" title="statement not covered" >                  : YAML_CONFIGURATION,</span>
@@ -526,8 +526,8 @@ const CreateNetworkAcl: FC = <span class="cstat-no" title="statement not covered
         &lt;/div&gt;
         &lt;Button
           appearance="base"
-          onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`)</span></span>
+          onClick={<span class="fstat-no" title="function not covered" >async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`)</span>
           }
         &gt;
           Cancel
@@ -536,7 +536,7 @@ const CreateNetworkAcl: FC = <span class="cstat-no" title="statement not covered
           appearance="positive"
           loading={formik.isSubmitting}
           disabled={formik.values.name.length === 0 || formik.isSubmitting}
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onClick={() =&gt; void formik.submitForm()}
         &gt;
           Create
         &lt;/ActionButton&gt;
@@ -553,7 +553,7 @@ export default CreateNetworkAcl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

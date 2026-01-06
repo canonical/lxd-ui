@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.37% </span>
+                <span class="strong">97.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>254/320</span>
+                <span class='fraction'>253/260</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.06% </span>
+                <span class="strong">92% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/59</span>
+                <span class='fraction'>23/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.14% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/27</span>
+                <span class='fraction'>9/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.69% </span>
+                <span class="strong">97.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>254/260</span>
+                <span class='fraction'>253/260</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -461,7 +461,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-yes">25x</span>
@@ -606,7 +606,7 @@ import { useFormik } from "formik";
 import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import * as Yup from "yup";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { InstanceFileType } from "./InstanceFileTypeSelector";
 import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
@@ -629,7 +629,7 @@ interface Props {
   defaultInstanceName?: string;
 }
 &nbsp;
-const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const UploadInstanceBackupFileForm: FC&lt;Props&gt; = ({
   close,
   uploadState,
   setUploadState,
@@ -637,20 +637,20 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
   setFileType,
   defaultInstanceName,
 }) =&gt; {
-  const { project, isLoading } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const [uploadAbort, setUploadAbort] = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const instanceNameAbort = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const { hasInstanceImportConversion } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
+  const { project, isLoading } = useCurrentProject();
+  const eventQueue = useEventQueue();
+  const toastNotify = useToastNotification();
+  const notify = useNotify();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [uploadAbort, setUploadAbort] = useState&lt;AbortController | null&gt;(null);
+  const instanceNameAbort = useState&lt;AbortController | null&gt;(null);
+  const { hasInstanceImportConversion } = useSupportedFeatures();
 &nbsp;
-  const handleSuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nstanceName: string) =&gt; {</span>
-    const instanceUrl = <span class="cstat-no" title="statement not covered" >`/ui/project/${encodeURIComponent(project?.name ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>}/instance/${encodeURIComponent(instanceName)}`;</span>
+  const handleSuccess = (instanceName: string) =&gt; {
+    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
     const message = (
-<span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
+      &lt;&gt;
         Created instance{" "}
         &lt;InstanceRichChip
           instanceName={instanceName}
@@ -660,33 +660,33 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
       &lt;/&gt;
     );
 &nbsp;
-    const actions = <span class="cstat-no" title="statement not covered" >[</span>
+    const actions = [
       {
         label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${instanceUrl}/configuration`),</span></span>
+        onClick: <span class="fstat-no" title="function not covered" >async () =&gt; navigate(`${instanceUrl}/configuration`),</span>
       },
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(message, actions);</span>
+    toastNotify.success(message, actions);
   };
 &nbsp;
-  const handleFailure = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(m</span>sg: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.failure("Instance creation failed.", new Error(msg));</span></span>
+  const handleFailure = <span class="fstat-no" title="function not covered" >(msg: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    toastNotify.failure("Instance creation failed.", new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
-      predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {
-<span class="cstat-no" title="statement not covered" >        return query.queryKey[0] === queryKeys.instances;</span>
+  const handleFinish = () =&gt; {
+    queryClient.invalidateQueries({
+      predicate: (query) =&gt; {
+        return query.queryKey[0] === queryKeys.instances;
       },
     });
   };
 &nbsp;
-  const handleUpload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: UploadInstanceBackupFileFormValues) =&gt; {</span>
-    const uploadController = <span class="cstat-no" title="statement not covered" >new AbortController();</span>
-<span class="cstat-no" title="statement not covered" >    setUploadAbort(uploadController);</span>
+  const handleUpload = (values: UploadInstanceBackupFileFormValues) =&gt; {
+    const uploadController = new AbortController();
+    setUploadAbort(uploadController);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    uploadInstance(</span>
+    uploadInstance(
       values.instanceFile,
       values.name,
       project?.name,
@@ -695,36 +695,36 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
       uploadController,
     )
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        toastNotify.info(</span>
+        toastNotify.info(
           &lt;&gt;
             Upload completed. Now creating instance{" "}
             &lt;ResourceLabel bold type="instance" value={values.name} /&gt;.
           &lt;/&gt;,
         );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            handleSuccess(values.name);</span>
+          () =&gt; {
+            handleSuccess(values.name);
           },
           handleFailure,
           handleFinish,
         );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        handleCloseModal();</span>
-<span class="cstat-no" title="statement not covered" >        navigate(</span>
-          `/ui/project/${encodeURIComponent(project?.name ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>}/instances`,
+        handleCloseModal();
+        navigate(
+          `/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
         );
       })
       .catch((e: AxiosError&lt;LxdSyncResponse&lt;null&gt;&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >        const error = <span class="cstat-no" title="statement not covered" >new Error(e.response?.data.error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Instance upload failed", error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setUploadState(null);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        const error = new Error(e.response?.data.error);</span>
+<span class="cstat-no" title="statement not covered" >        notify.failure("Instance upload failed", error);</span>
+<span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >        setUploadState(null);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;UploadInstanceBackupFileFormValues&gt;({</span>
+  const formik = useFormik&lt;UploadInstanceBackupFileFormValues&gt;({
     initialValues: {
       name: defaultInstanceName || "",
       pool: "",
@@ -740,42 +740,42 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
     onSubmit: handleUpload,
   });
 &nbsp;
-  const handleCloseModal = <span class="cstat-no" title="statement not covered" >useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    uploadAbort?.abort();</span>
-<span class="cstat-no" title="statement not covered" >    setUploadState(null);</span>
-<span class="cstat-no" title="statement not covered" >    setUploadAbort(null);</span>
-<span class="cstat-no" title="statement not covered" >    formik.resetForm();</span>
-<span class="cstat-no" title="statement not covered" >    close();</span>
-<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+  const handleCloseModal = useCallback(() =&gt; {
+    uploadAbort?.abort();
+    setUploadState(null);
+    setUploadAbort(null);
+    formik.resetForm();
+    close();
+    notify.clear();
   }, [uploadAbort, formik.resetForm, close, notify]);
 &nbsp;
-  const changeFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
-    const { onChange } = <span class="cstat-no" title="statement not covered" >formik.getFieldProps("instanceFile");</span>
-<span class="cstat-no" title="statement not covered" >    onChange(e);</span>
+  const changeFile = async (e: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    const { onChange } = formik.getFieldProps("instanceFile");
+    onChange(e);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (e.currentTarget.files) {</span>
-      const file = <span class="cstat-no" title="statement not covered" >e.currentTarget.files[0];</span>
-<span class="cstat-no" title="statement not covered" >      await formik.setFieldValue("instanceFile", file);</span>
+    if (e.currentTarget.files) {
+      const file = e.currentTarget.files[0];
+      await formik.setFieldValue("instanceFile", file);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (!defaultInstanceName) {</span>
-        const instanceName = <span class="cstat-no" title="statement not covered" >fileToSanitisedName(file.name, "-import");</span>
-<span class="cstat-no" title="statement not covered" >        await formik.setFieldValue("name", instanceName);</span>
+      if (!defaultInstanceName) {
+        const instanceName = fileToSanitisedName(file.name, "-import");
+        await formik.setFieldValue("name", instanceName);
 &nbsp;
         // validate instance name
-<span class="cstat-no" title="statement not covered" >        await formik.validateField("name");</span>
-<span class="cstat-no" title="statement not covered" >        void formik.setFieldTouched("name", true, true);</span>
-<span class="cstat-no" title="statement not covered" >        if (!formik.errors.name) {</span>
-<span class="cstat-no" title="statement not covered" >          formik.setFieldError("name", undefined);</span>
+        await formik.validateField("name");
+        void formik.setFieldTouched("name", true, true);
+        if (!formik.errors.name) {
+          formik.setFieldError("name", undefined);
         }
       }
     }
   };
 &nbsp;
-  const noFileSelectedMessage = <span class="cstat-no" title="statement not covered" >!formik.values.instanceFile</span>
+  const noFileSelectedMessage = !formik.values.instanceFile
     ? "Please select a file before adding custom configuration."
     : "";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;Form
         onSubmit={formik.handleSubmit}
@@ -791,7 +791,7 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
           accept=".tar, application/gzip, application/x-bzip, application/x-xz, application/x-lzma, application/x-squashfs, application/x-qcow2, application/zstd"
           label="Local file"
           labelClassName={hasInstanceImportConversion ? <span class="branch-0 cbranch-no" title="branch not covered" >"u-hide" : ""}</span>
-          onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >void changeFile(e)}</span>
+          onChange={(e) =&gt; void changeFile(e)}
         /&gt;
         &lt;Input
           {...formik.getFieldProps("name")}
@@ -805,7 +805,7 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
         /&gt;
         &lt;StoragePoolSelector
           value={formik.values.pool}
-          setValue={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >void formik.setFieldValue("pool", value)}</span>
+          setValue={(value) =&gt; void formik.setFieldValue("pool", value)}
           selectProps={{
             id: "pool",
             label: "Root storage pool",
@@ -833,7 +833,7 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
             isLoading ||
             !formik.values.instanceFile
           }
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onClick={() =&gt; void formik.submitForm()}
         &gt;
           Upload and create
         &lt;/ActionButton&gt;
@@ -850,7 +850,7 @@ export default UploadInstanceBackupFileForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

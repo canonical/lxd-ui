@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.08% </span>
+                <span class="strong">18.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/143</span>
+                <span class='fraction'>23/122</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/12</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -327,42 +327,42 @@ interface Props {
   toggleReadOnly: () =&gt; void;
 }
 &nbsp;
-const ClusteredSettingFormInput: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const ClusteredSettingFormInput: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  disableReason,</span>
 <span class="cstat-no" title="statement not covered" >  initialValue,</span>
 <span class="cstat-no" title="statement not covered" >  configField,</span>
 <span class="cstat-no" title="statement not covered" >  onSubmit,</span>
 <span class="cstat-no" title="statement not covered" >  onCancel,</span>
-<span class="cstat-no" title="statement not covered" >  readonly = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span></span>
+<span class="cstat-no" title="statement not covered" >  readonly = false,</span>
 <span class="cstat-no" title="statement not covered" >  toggleReadOnly,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [value, setValue] = <span class="cstat-no" title="statement not covered" >useState&lt;ClusterSpecificValues&gt;(initialValue);</span></span>
-<span class="cstat-no" title="statement not covered" >  const { data: clusterMembers = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span></span>
-<span class="cstat-no" title="statement not covered" >  const memberNames = <span class="cstat-no" title="statement not covered" >clusterMembers.map(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; <span class="cstat-no" title="statement not covered" >member.server_name)</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >  const [value, setValue] = useState&lt;ClusterSpecificValues&gt;(initialValue);</span>
+<span class="cstat-no" title="statement not covered" >  const { data: clusterMembers = [] } = useClusterMembers();</span>
+<span class="cstat-no" title="statement not covered" >  const memberNames = clusterMembers.map((member) =&gt; member.server_name);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const isSelect = <span class="cstat-no" title="statement not covered" >configField.key === "core.syslog_socket";</span></span>
+<span class="cstat-no" title="statement not covered" >  const isSelect = configField.key === "core.syslog_socket";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const canBeReset = <span class="cstat-no" title="statement not covered" >Object.values(value).some(</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (v</span>) =&gt; <span class="cstat-no" title="statement not covered" >v !== configField.default,</span></span>
+<span class="cstat-no" title="statement not covered" >  const canBeReset = Object.values(value).some(</span>
+<span class="cstat-no" title="statement not covered" >    (v) =&gt; v !== configField.default,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const resetToDefault = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const defaultValues: { [key: string]: string } = <span class="cstat-no" title="statement not covered" >{};</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    memberNames.forEach(<span class="fstat-no" title="function not covered" >(n</span>ame) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      defaultValues[name] = configField.default;</span></span>
+<span class="cstat-no" title="statement not covered" >  const resetToDefault = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const defaultValues: { [key: string]: string } = {};</span>
+<span class="cstat-no" title="statement not covered" >    memberNames.forEach((name) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      defaultValues[name] = configField.default;</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setValue(defaultValues);</span></span>
+<span class="cstat-no" title="statement not covered" >    setValue(defaultValues);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const helpText = (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    &lt;ConfigFieldDescription description={configField.longdesc} /&gt;</span></span>
+<span class="cstat-no" title="statement not covered" >    &lt;ConfigFieldDescription description={configField.longdesc} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Form</span>
-<span class="cstat-no" title="statement not covered" >      onSubmit={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        e.preventDefault();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onSubmit(value);</span></span>
+<span class="cstat-no" title="statement not covered" >      onSubmit={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >        onSubmit(value);</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isSelect ? (</span>
@@ -373,17 +373,17 @@ const ClusteredSettingFormInput: FC&lt;Props&gt; = <span class="cstat-no" title=
 <span class="cstat-no" title="statement not covered" >          id={configField.key}</span>
 <span class="cstat-no" title="statement not covered" >          values={value}</span>
 <span class="cstat-no" title="statement not covered" >          isReadOnly={readonly}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setValue(value);</span></span>
+<span class="cstat-no" title="statement not covered" >          onChange={(value) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setValue(value);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >          toggleReadOnly={toggleReadOnly}</span>
 <span class="cstat-no" title="statement not covered" >          helpText={helpText}</span>
-<span class="cstat-no" title="statement not covered" >          options={memberNames.map(<span class="fstat-no" title="function not covered" >(m</span>emberName) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >          options={memberNames.map((memberName) =&gt; ({</span>
 <span class="cstat-no" title="statement not covered" >            memberName,</span>
 <span class="cstat-no" title="statement not covered" >            values: ["true", "false"],</span>
 <span class="cstat-no" title="statement not covered" >          }))}</span>
 <span class="cstat-no" title="statement not covered" >          isDefaultSpecific={Object.values(value).some(</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            (i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item !== Object.values(value)[0],</span></span>
+<span class="cstat-no" title="statement not covered" >            (item) =&gt; item !== Object.values(value)[0],</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      ) : (</span>
@@ -394,8 +394,8 @@ const ClusteredSettingFormInput: FC&lt;Props&gt; = <span class="cstat-no" title=
 <span class="cstat-no" title="statement not covered" >          id={configField.key}</span>
 <span class="cstat-no" title="statement not covered" >          values={value}</span>
 <span class="cstat-no" title="statement not covered" >          isReadOnly={readonly}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setValue(value);</span></span>
+<span class="cstat-no" title="statement not covered" >          onChange={(value) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setValue(value);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >          memberNames={memberNames}</span>
 <span class="cstat-no" title="statement not covered" >          toggleReadOnly={toggleReadOnly}</span>
@@ -436,7 +436,7 @@ export default ClusteredSettingFormInput;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

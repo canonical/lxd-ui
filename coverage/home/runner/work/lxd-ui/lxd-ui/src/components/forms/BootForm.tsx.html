@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.8% </span>
+                <span class="strong">47.31% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/94</span>
+                <span class='fraction'>44/93</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">12.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/9</span>
+                <span class='fraction'>1/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -173,18 +173,18 @@
 <span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-yes">200x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
 <span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-yes">200x</span>
@@ -263,15 +263,15 @@ export interface BootFormValues {
 &nbsp;
 export const bootPayload = (values: InstanceAndProfileFormValues) =&gt; {
   return {
-    [getInstanceField("boot_autostart")]: values.<span class="branch-0 cbranch-no" title="branch not covered" >boot_autostart?.toString()</span>,
+    [getInstanceField("boot_autostart")]: values.boot_autostart<span class="branch-0 cbranch-no" title="branch not covered" >?.toString(),</span>
     [getInstanceField("boot_autostart_delay")]:
-      values.<span class="branch-0 cbranch-no" title="branch not covered" >boot_autostart_delay?.toString()</span>,
+      values.boot_autostart_delay<span class="branch-0 cbranch-no" title="branch not covered" >?.toString(),</span>
     [getInstanceField("boot_autostart_priority")]:
-      values.<span class="branch-0 cbranch-no" title="branch not covered" >boot_autostart_priority?.toString()</span>,
+      values.boot_autostart_priority<span class="branch-0 cbranch-no" title="branch not covered" >?.toString(),</span>
     [getInstanceField("boot_host_shutdown_timeout")]:
-      values.<span class="branch-0 cbranch-no" title="branch not covered" >boot_host_shutdown_timeout?.toString()</span>,
+      values.boot_host_shutdown_timeout<span class="branch-0 cbranch-no" title="branch not covered" >?.toString(),</span>
     [getInstanceField("boot_stop_priority")]:
-      values.<span class="branch-0 cbranch-no" title="branch not covered" >boot_stop_priority?.toString()</span>,
+      values.boot_stop_priority<span class="branch-0 cbranch-no" title="branch not covered" >?.toString(),</span>
   };
 };
 &nbsp;
@@ -280,7 +280,7 @@ interface Props {
 }
 &nbsp;
 const BootForm: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ScrollableConfigurationTable</span>
 <span class="cstat-no" title="statement not covered" >      rows={[</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
@@ -337,7 +337,7 @@ export default BootForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

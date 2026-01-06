@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.62% </span>
+                <span class="strong">89.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/29</span>
+                <span class='fraction'>17/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/16</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -82,42 +82,42 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">643x</span>
-<span class="cline-any cline-yes">643x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-yes">5218x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect } from "react"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">645x</span>
+<span class="cline-any cline-yes">645x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-yes">5233x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect } from "react";
 import { useSettings } from "context/useSettings";
 import { hasMicroCloudFlag } from "util/settings";
 &nbsp;
-export const setTitle = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): void =&gt; {</span></span>
-  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
-  const isMicroCloud = <span class="cstat-no" title="statement not covered" >hasMicroCloudFlag(settings);</span>
-  const suffix = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isMicroCloud ? "MicroCloud" : "</span>LXD UI";</span>
+export const setTitle = (): void =&gt; {
+  const { data: settings } = useSettings();
+  const isMicroCloud = hasMicroCloudFlag(settings);
+  const suffix = <span class="branch-0 cbranch-no" title="branch not covered" >isMicroCloud ? "MicroCloud" : "</span>LXD UI";
 &nbsp;
-  const favicon = <span class="cstat-no" title="statement not covered" >document.querySelector("link[rel='shortcut icon']");</span>
-<span class="cstat-no" title="statement not covered" >  if (favicon &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >isMicroCloud) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span></span>
-<span class="cstat-no" title="statement not covered" >    (<span class="cstat-no" title="statement not covered" >favicon as HTMLLinkElement).href = "/assets/img/microCloud-32x32.png";</span></span>
+  const favicon = document.querySelector("link[rel='shortcut icon']");
+  if (favicon &amp;&amp; isMicroCloud) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    (favicon as HTMLLinkElement).href = "/assets/img/microCloud-32x32.png";</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-    const host = <span class="cstat-no" title="statement not covered" >settings?.config?.["user.ui_title"] ?? <span class="branch-1 cbranch-no" title="branch not covered" >location.hostname;</span></span>
-<span class="cstat-no" title="statement not covered" >    document.title = `${host} | ${suffix}`;</span>
+  useEffect(() =&gt; {
+    const host = settings?.config?.["user.ui_title"] ?? location.hostname;
+    document.title = `${host} | ${suffix}`;
   }, [settings?.config]);
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -127,7 +127,7 @@ export const setTitle = <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

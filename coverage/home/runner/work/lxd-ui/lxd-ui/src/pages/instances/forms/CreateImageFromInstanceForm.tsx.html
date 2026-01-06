@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.25% </span>
+                <span class="strong">88.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>167/219</span>
+                <span class='fraction'>165/187</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>15/33</span>
+                <span class='fraction'>14/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>12/21</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.3% </span>
+                <span class="strong">88.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>167/187</span>
+                <span class='fraction'>165/187</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -354,20 +354,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -375,7 +366,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -463,43 +463,43 @@ interface Props {
   close: () =&gt; void;
 }
 &nbsp;
-const CreateImageFromInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance, close }) =&gt; {</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
+const CreateImageFromInstanceForm: FC&lt;Props&gt; = ({ instance, close }) =&gt; {
+  const eventQueue = useEventQueue();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
   const instanceLink = (
-<span class="cstat-no" title="statement not covered" >    &lt;InstanceRichChip</span>
+    &lt;InstanceRichChip
       instanceName={instance.name}
       projectName={instance.project}
     /&gt;
   );
-  const { data: project } = <span class="cstat-no" title="statement not covered" >useProject(instance.project);</span>
-  const { canCreateImageAliases } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span>
+  const { data: project } = useProject(instance.project);
+  const { canCreateImageAliases } = useProjectEntitlements();
 &nbsp;
-  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+  const notifySuccess = () =&gt; {
     const created = (
-<span class="cstat-no" title="statement not covered" >      &lt;Link to={`/ui/project/${encodeURIComponent(instance.project)}/images`}&gt;</span>
+      &lt;Link to={`/ui/project/${encodeURIComponent(instance.project)}/images`}&gt;
         created
       &lt;/Link&gt;
     );
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(</span>
+    toastNotify.success(
       &lt;&gt;
         Image {created} from instance {instanceLink}.
       &lt;/&gt;,
     );
   };
 &nbsp;
-  const clearCache = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
-      predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.images,</span>
+  const clearCache = () =&gt; {
+    queryClient.invalidateQueries({
+      predicate: (query) =&gt; query.queryKey[0] === queryKeys.images,
     });
   };
 &nbsp;
-  const getInstanceToImageBody = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+  const getInstanceToImageBody = (
     instance: LxdInstance,
     isPublic: boolean,
   ): string =&gt; {
-    const body = <span class="cstat-no" title="statement not covered" >JSON.stringify({</span>
+    const body = JSON.stringify({
       public: isPublic,
       source: {
         name: instance.name,
@@ -507,48 +507,48 @@ const CreateImageFromInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" titl
       },
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return body;</span>
+    return body;
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;{ alias: string; isPublic: boolean }&gt;({</span>
+  const formik = useFormik&lt;{ alias: string; isPublic: boolean }&gt;({
     initialValues: {
       alias: canCreateImageAliases(project)
-        ? `from-instance-${instance.name<span class="branch-0 cbranch-no" title="branch not covered" >}`</span>
-<span class="cstat-no" title="statement not covered" >        : "",</span>
+        ? `from-instance-${instance.name}`
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        : "",</span></span>
       isPublic: false,
     },
     validationSchema: Yup.object().shape({
       alias: Yup.string(),
     }),
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const alias = <span class="cstat-no" title="statement not covered" >values.alias;</span>
+    onSubmit: (values) =&gt; {
+      const alias = values.alias;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      createImage(getInstanceToImageBody(instance, values.isPublic), instance)</span>
+      createImage(getInstanceToImageBody(instance, values.isPublic), instance)
         .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >          toastNotify.info(</span>
+          toastNotify.info(
             &lt;&gt;Creation of image from instance {instanceLink} started.&lt;/&gt;,
           );
-<span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
+          eventQueue.set(
             operation.metadata.id,
-<span class="fstat-no" title="function not covered" >            (e</span>vent) =&gt; {
-<span class="cstat-no" title="statement not covered" >              if (alias) {</span>
-                const fingerprint = <span class="cstat-no" title="statement not covered" >event.metadata.metadata?.<span class="branch-0 cbranch-no" title="branch not covered" >fingerprint ?? "";</span></span>
-<span class="cstat-no" title="statement not covered" >                createImageAlias(fingerprint, alias, instance.project)</span>
+            (event) =&gt; {
+              if (alias) {
+                const fingerprint = event.metadata.metadata?.<span class="branch-0 cbranch-no" title="branch not covered" >fingerprint ?? "";</span>
+                createImageAlias(fingerprint, alias, instance.project)
                   .then(clearCache)
                   .then(notifySuccess)
                   .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                    toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >                    toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >                      `Image creation from instance "${instance.name}" succeeded. Failed to create an alias.`,</span>
 <span class="cstat-no" title="statement not covered" >                      e,</span>
 <span class="cstat-no" title="statement not covered" >                    );</span>
-                  });
+<span class="cstat-no" title="statement not covered" >                  });</span>
 <span class="branch-0 cbranch-no" title="branch not covered" >              } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                clearCache();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                notifySuccess();</span></span>
+<span class="cstat-no" title="statement not covered" >                clearCache();</span>
+<span class="cstat-no" title="statement not covered" >                notifySuccess();</span>
 <span class="cstat-no" title="statement not covered" >              }</span>
             },
-<span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span></span>
+            (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >                `Image creation from instance "${instance.name}" failed.`,</span>
 <span class="cstat-no" title="statement not covered" >                new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >                instanceLink,</span>
@@ -557,19 +557,19 @@ const CreateImageFromInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" titl
           );
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >            `Image creation from instance "${instance.name}" failed.`,</span>
 <span class="cstat-no" title="statement not covered" >            e,</span>
 <span class="cstat-no" title="statement not covered" >            instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
-        })
+<span class="cstat-no" title="statement not covered" >        })</span>
         .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          close();</span>
+          close();
         });
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="create-image-from-instance-modal"
@@ -589,7 +589,7 @@ const CreateImageFromInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" titl
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
             disabled={!formik.isValid || formik.isSubmitting}
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+            onClick={() =&gt; void formik.submitForm()}
           &gt;
             Create image
           &lt;/ActionButton&gt;
@@ -631,7 +631,7 @@ export default CreateImageFromInstanceForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

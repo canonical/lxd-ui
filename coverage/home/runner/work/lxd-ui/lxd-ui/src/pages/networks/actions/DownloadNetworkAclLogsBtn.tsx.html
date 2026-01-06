@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.24% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/79</span>
+                <span class='fraction'>31/62</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/7</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -142,10 +142,10 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -177,14 +177,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -203,28 +203,28 @@ interface Props {
   project: string;
 }
 &nbsp;
-const DownloadNetworkAclLogsBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> networkAcl, project }) =&gt; {</span>
-  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
+const DownloadNetworkAclLogsBtn: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
+  const isSmallScreen = useIsScreenBelow();
+  const toastNotify = useToastNotification();
 &nbsp;
-  const startDownload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    fetchNetworkAclLog(networkAcl.name, project)</span></span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(l</span>ogData) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const blob = <span class="cstat-no" title="statement not covered" >new Blob([logData], { type: "text/plain" });</span></span>
-<span class="cstat-no" title="statement not covered" >        const url = <span class="cstat-no" title="statement not covered" >URL.createObjectURL(blob);</span></span>
-<span class="cstat-no" title="statement not covered" >        const <span class="cstat-no" title="statement not covered" >currentTime = new Date()</span></span>
+  const startDownload = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    fetchNetworkAclLog(networkAcl.name, project)</span>
+<span class="cstat-no" title="statement not covered" >      .then((logData) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const blob = new Blob([logData], { type: "text/plain" });</span>
+<span class="cstat-no" title="statement not covered" >        const url = URL.createObjectURL(blob);</span>
+<span class="cstat-no" title="statement not covered" >        const currentTime = new Date()</span>
 <span class="cstat-no" title="statement not covered" >          .toISOString()</span>
 <span class="cstat-no" title="statement not covered" >          .replaceAll(":", "-")</span>
 <span class="cstat-no" title="statement not covered" >          .split(".")[0];</span>
-<span class="cstat-no" title="statement not covered" >        const backupName = <span class="cstat-no" title="statement not covered" >`${networkAcl.name}-${currentTime}.log`;</span></span>
+<span class="cstat-no" title="statement not covered" >        const backupName = `${networkAcl.name}-${currentTime}.log`;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        const a = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        a.href = url;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        a.download = backupName;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        a.click();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        window.URL.revokeObjectURL(url);</span></span>
+<span class="cstat-no" title="statement not covered" >        const a = document.createElement("a");</span>
+<span class="cstat-no" title="statement not covered" >        a.href = url;</span>
+<span class="cstat-no" title="statement not covered" >        a.download = backupName;</span>
+<span class="cstat-no" title="statement not covered" >        a.click();</span>
+<span class="cstat-no" title="statement not covered" >        window.URL.revokeObjectURL(url);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.success(</span></span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.success(</span>
 <span class="cstat-no" title="statement not covered" >          &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >            Logs download for ACL{" "}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;ResourceLabel bold type="network-acl" value={networkAcl.name} /&gt;{" "}</span>
@@ -232,15 +232,15 @@ const DownloadNetworkAclLogsBtn: FC&lt;Props&gt; = <span class="cstat-no" title=
 <span class="cstat-no" title="statement not covered" >          &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((error) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >          `Failed to download logs for ACL ${networkAcl.name}`,</span>
 <span class="cstat-no" title="statement not covered" >          error,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Button appearance="" type="button" onClick={startDownload} hasIcon&gt;
       {!isSmallScreen &amp;&amp; &lt;Icon name="begin-downloading" /&gt;}
       &lt;span&gt;Download logs&lt;/span&gt;
@@ -256,7 +256,7 @@ export default DownloadNetworkAclLogsBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

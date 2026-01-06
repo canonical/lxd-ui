@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.93% </span>
+                <span class="strong">95.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>208/257</span>
+                <span class='fraction'>210/219</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/26</span>
+                <span class='fraction'>12/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.63% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/19</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.97% </span>
+                <span class="strong">95.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>208/219</span>
+                <span class='fraction'>210/219</span>
             </div>
         
             
@@ -387,15 +387,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -476,7 +476,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -533,29 +533,29 @@ export interface LxdVolumeExport {
   volumeOnly: boolean;
 }
 &nbsp;
-const ExportVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> volume, close }) =&gt; {</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const volumeLink = <span class="cstat-no" title="statement not covered" >&lt;VolumeLinkChip volume={volume} /&gt;;</span>
-  const { hasBackupMetadataVersion } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
-  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
+const ExportVolumeModal: FC&lt;Props&gt; = ({ volume, close }) =&gt; {
+  const eventQueue = useEventQueue();
+  const toastNotify = useToastNotification();
+  const volumeLink = &lt;VolumeLinkChip volume={volume} /&gt;;
+  const { hasBackupMetadataVersion } = useSupportedFeatures();
+  const { data: settings } = useSettings();
   const backupMetadataVersionRange =
-<span class="cstat-no" title="statement not covered" >    settings?.environment?.<span class="branch-0 cbranch-no" title="branch not covered" >backup_metadata_version_range ?? [];</span></span>
+    settings?.environment?.<span class="branch-0 cbranch-no" title="branch not covered" >backup_metadata_version_range ?? [];</span>
 &nbsp;
-  const startDownload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(b</span>ackupName: string) =&gt; {</span>
-    const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >    params.set("project", volume.project);</span>
-<span class="cstat-no" title="statement not covered" >    addTarget(params, volume.location);</span>
+  const startDownload = (backupName: string) =&gt; {
+    const params = new URLSearchParams();
+    params.set("project", volume.project);
+    addTarget(params, volume.location);
 &nbsp;
-    const url = <span class="cstat-no" title="statement not covered" >`/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?${params.toString()}`;</span>
+    const url = `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/backups/${encodeURIComponent(backupName)}/export?${params.toString()}`;
 &nbsp;
-    const a = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span>
-<span class="cstat-no" title="statement not covered" >    a.href = url;</span>
-<span class="cstat-no" title="statement not covered" >    a.download = backupName;</span>
-<span class="cstat-no" title="statement not covered" >    a.click();</span>
-<span class="cstat-no" title="statement not covered" >    window.URL.revokeObjectURL(url);</span>
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = backupName;
+    a.click();
+    window.URL.revokeObjectURL(url);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(</span>
+    toastNotify.success(
       &lt;&gt;
         Volume {volumeLink} download started:
         &lt;br /&gt;
@@ -564,20 +564,20 @@ const ExportVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
     );
   };
 &nbsp;
-  const getNowInHours = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(h</span>ours: number) =&gt; {</span>
-    const result = <span class="cstat-no" title="statement not covered" >new Date();</span>
-<span class="cstat-no" title="statement not covered" >    result.setHours(result.getHours() + hours);</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+  const getNowInHours = (hours: number) =&gt; {
+    const result = new Date();
+    result.setHours(result.getHours() + hours);
+    return result;
   };
 &nbsp;
-  const exportVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: LxdVolumeExport) =&gt; {</span>
-    const <span class="cstat-no" title="statement not covered" >currentTime = new Date()</span>
+  const exportVolume = (values: LxdVolumeExport) =&gt; {
+    const currentTime = new Date()
       .toISOString()
       .replaceAll(":", "-")
       .split(".")[0];
-    const backupName = <span class="cstat-no" title="statement not covered" >`${volume.name}-${currentTime}.tar${values.compression === "gzip" ? <span class="branch-0 cbranch-no" title="branch not covered" >".gz" : <span class="branch-1 cbranch-no" title="branch not covered" >""}</span></span>`;</span>
+    const backupName = `${volume.name}-${currentTime}.tar${values.compression === "gzip" ? <span class="branch-0 cbranch-no" title="branch not covered" >".gz" : ""}`;</span>
 &nbsp;
-    const payload = <span class="cstat-no" title="statement not covered" >JSON.stringify({</span>
+    const payload = JSON.stringify({
       name: backupName,
       expires_at: getNowInHours(values.expirationHours).toISOString(),
       compression_algorithm: values.compression,
@@ -588,40 +588,40 @@ const ExportVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
 <span class="cstat-no" title="statement not covered" >        : undefined,</span>
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    createVolumeBackup(volume, payload)</span>
+    createVolumeBackup(volume, payload)
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        toastNotify.info(</span>
+        toastNotify.info(
           &lt;&gt;
             Backing up volume {volumeLink}.&lt;br /&gt;
             Download will start, when the export is ready.
           &lt;/&gt;,
         );
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            startDownload(backupName);</span>
+          () =&gt; {
+            startDownload(backupName);
           },
-<span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span></span>
+          (msg) =&gt;
+<span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >              `Could not download volume ${volume.name}`,</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              volumeLink,</span>
-<span class="cstat-no" title="statement not covered" >            ),</span>
+            ),
         );
       })
-      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
+      .catch((e) =&gt;
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >          `Could not download volume ${volume.name}`,</span>
 <span class="cstat-no" title="statement not covered" >          e,</span>
 <span class="cstat-no" title="statement not covered" >          volumeLink,</span>
-<span class="cstat-no" title="statement not covered" >        ),</span>
+        ),
       )
       .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >        close();</span>
+        close();
       });
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;LxdVolumeExport&gt;({</span>
+  const formik = useFormik&lt;LxdVolumeExport&gt;({
     initialValues: {
       compression: "gzip",
       exportVersion: "2",
@@ -629,12 +629,12 @@ const ExportVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
       volumeOnly: false,
       optimizedStorage: true,
     },
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-<span class="cstat-no" title="statement not covered" >      exportVolume(values);</span>
+    onSubmit: (values) =&gt; {
+      exportVolume(values);
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="export-volume-modal"
@@ -654,7 +654,7 @@ const ExportVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
             disabled={formik.isSubmitting}
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+            onClick={() =&gt; void formik.submitForm()}
           &gt;
             Export volume
           &lt;/ActionButton&gt;
@@ -692,7 +692,7 @@ const ExportVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
             id="exportVersion"
             label="Export version"
             help="Lower versions allow imports on older LXD versions"
-            options={backupMetadataVersionRange.map((version) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+            options={backupMetadataVersionRange.map((version) =&gt; ({
               value: version.toString(),
               label: version.toString(),
             }))}
@@ -727,7 +727,7 @@ export default ExportVolumeModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

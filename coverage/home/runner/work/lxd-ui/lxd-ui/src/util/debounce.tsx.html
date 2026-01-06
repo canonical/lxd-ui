@@ -101,33 +101,33 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">346x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">717x</span>
-<span class="cline-any cline-yes">717x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">858x</span>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">147x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">328x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">714x</span>
+<span class="cline-any cline-yes">714x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">855x</span>
 <span class="cline-any cline-yes">129x</span>
 <span class="cline-any cline-yes">129x</span>
 <span class="cline-any cline-yes">129x</span>
@@ -135,11 +135,11 @@
 <span class="cline-any cline-yes">129x</span>
 <span class="cline-any cline-yes">129x</span>
 <span class="cline-any cline-yes">129x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">858x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const debounce = <span class="fstat-no" title="function not covered" >(m</span>ethod: () =&gt; void, delay: number) =&gt; {
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">855x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const debounce = (method: () =&gt; void, delay: number) =&gt; {
   interface DebouncedCallback {
     _timeoutId: NodeJS.Timeout;
   }
@@ -157,13 +157,13 @@ export function debounceAsync&lt;F extends (...args: any[]) =&gt; Promise&lt;any
   let timeoutId: NodeJS.Timeout;
   let pendingResolve: ((value: ReturnType&lt;F&gt;) =&gt; void) | null = null;
 &nbsp;
-  return <span class="fstat-no" title="function not covered" >async (...a</span>rgs: Parameters&lt;F&gt;) =&gt; {
+  return <span class="fstat-no" title="function not covered" >async (.</span>..args: Parameters&lt;F&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >    if (timeoutId) <span class="cstat-no" title="statement not covered" >clearTimeout(timeoutId);</span></span>
 <span class="cstat-no" title="statement not covered" >    if (pendingResolve) {</span>
 <span class="cstat-no" title="statement not covered" >      pendingResolve(defaultValue);</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return new Promise&lt;ReturnType&lt;F&gt;&gt;((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return new Promise&lt;ReturnType&lt;F&gt;&gt;(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      pendingResolve = resolve;</span>
 <span class="cstat-no" title="statement not covered" >      timeoutId = setTimeout(() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        try {</span>
@@ -184,7 +184,7 @@ export function debounceAsync&lt;F extends (...args: any[]) =&gt; Promise&lt;any
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

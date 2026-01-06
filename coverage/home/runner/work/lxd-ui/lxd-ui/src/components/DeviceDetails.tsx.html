@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.88% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>73/85</span>
+                <span class='fraction'>73/73</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.55% </span>
+                <span class="strong">68.18% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/47</span>
+                <span class='fraction'>15/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -149,23 +149,23 @@
 <span class="cline-any cline-yes">84x</span>
 <span class="cline-any cline-yes">84x</span>
 <span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">214x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">188x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">215x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -173,17 +173,17 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -221,53 +221,53 @@ interface Props {
   project: string;
 }
 &nbsp;
-const DeviceDetails: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> device, project }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (device.type === "disk") {</span>
-<span class="cstat-no" title="statement not covered" >    if (isRootDisk(device as FormDevice)) {</span>
-<span class="cstat-no" title="statement not covered" >      return (</span>
+const DeviceDetails: FC&lt;Props&gt; = ({ device, project }) =&gt; {
+  if (device.type === "disk") {
+    if (isRootDisk(device as FormDevice)) {
+      return (
         &lt;&gt;
           Pool{" "}
           &lt;ResourceLink
             type="pool"
-            value={device.<span class="branch-0 cbranch-no" title="branch not covered" >pool || ""}</span>
-            to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.<span class="branch-0 cbranch-no" title="branch not covered" >pool ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}`}
+            value={device.pool<span class="branch-0 cbranch-no" title="branch not covered" > || ""}</span>
+            to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool<span class="branch-0 cbranch-no" title="branch not covered" > ?? "")}`}</span>
           /&gt;
         &lt;/&gt;
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (isHostDiskDevice(device)) {</span>
-<span class="cstat-no" title="statement not covered" >      return device.source;</span>
+    if (isHostDiskDevice(device)) {
+      return device.source;
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
       &lt;&gt;
         Volume{" "}
         &lt;ResourceLink
           type="volume"
           value={device.source as string}
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.<span class="branch-0 cbranch-no" title="branch not covered" >pool ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}/volumes/custom/${encodeURIComponent(device.<span class="branch-0 cbranch-no" title="branch not covered" >source ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}`}
+          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool<span class="branch-0 cbranch-no" title="branch not covered" > ?? "")}/</span>volumes/custom/${encodeURIComponent(device.source<span class="branch-0 cbranch-no" title="branch not covered" > ?? "")}`}</span>
         /&gt;{" "}
         on pool{" "}
         &lt;ResourceLink
           type="pool"
-          value={device.<span class="branch-0 cbranch-no" title="branch not covered" >pool || ""}</span>
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.<span class="branch-0 cbranch-no" title="branch not covered" >pool ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}`}
+          value={device.pool<span class="branch-0 cbranch-no" title="branch not covered" > || ""}</span>
+          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool<span class="branch-0 cbranch-no" title="branch not covered" > ?? "")}`}</span>
         /&gt;
       &lt;/&gt;
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (device.type === "gpu") {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
+  if (device.type === "gpu") {
+    return (
       &lt;span title={device.pci} className="u-truncate"&gt;
-        {device.<span class="branch-0 cbranch-no" title="branch not covered" >pci ? `PCI  ${device.pci}` : `</span>ID ${device.id}`}
+        {device.pci<span class="branch-0 cbranch-no" title="branch not covered" > ? `PCI  ${device.pci}` </span>: `ID ${device.id}`}
       &lt;/span&gt;
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (device.type === "proxy") {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
+  if (device.type === "proxy") {
+    return (
       &lt;&gt;
         &lt;div title={device.listen} className="u-truncate"&gt;
           Listen: {device.listen}
@@ -278,7 +278,7 @@ const DeviceDetails: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
       &lt;/&gt;
     );
   }
-<span class="cstat-no" title="statement not covered" >  return "-";</span>
+  return "-";
 };
 &nbsp;
 export default DeviceDetails;
@@ -289,7 +289,7 @@ export default DeviceDetails;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

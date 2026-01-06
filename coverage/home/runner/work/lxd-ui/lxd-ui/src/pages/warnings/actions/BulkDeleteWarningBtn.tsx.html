@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.56% </span>
+                <span class="strong">25.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/107</span>
+                <span class='fraction'>22/87</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -256,42 +256,42 @@ interface Props {
   onFinish?: () =&gt; void;
 }
 &nbsp;
-const BulkDeleteWarningBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> warningIds, onStart, onFinish }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canEditServerConfiguration } = <span class="cstat-no" title="statement not covered" >useServerEntitlements();</span></span>
-<span class="cstat-no" title="statement not covered" >  const canDeleteWarnings = <span class="cstat-no" title="statement not covered" >canEditServerConfiguration();</span></span>
+const BulkDeleteWarningBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ warningIds, onStart, onFinish }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const toastNotify = useToastNotification();</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
+<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const { canEditServerConfiguration } = useServerEntitlements();</span>
+<span class="cstat-no" title="statement not covered" >  const canDeleteWarnings = canEditServerConfiguration();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onStart?.();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    deleteWarningBulk(warningIds)</span></span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleDelete = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    onStart?.();</span>
+<span class="cstat-no" title="statement not covered" >    deleteWarningBulk(warningIds)</span>
+<span class="cstat-no" title="statement not covered" >      .then(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >          queryKey: [queryKeys.warnings],</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.success(</span></span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.success(</span>
 <span class="cstat-no" title="statement not covered" >          &lt;&gt;{pluralize("Warning", warningIds.length)} deleted.&lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Warning deletion failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure("Warning deletion failed", e);</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .finally(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onFinish?.();</span></span>
+<span class="cstat-no" title="statement not covered" >      .finally(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        onFinish?.();</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const getHoverText = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!canDeleteWarnings) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return "You do not have permission to delete warnings";</span></span>
+<span class="cstat-no" title="statement not covered" >  const getHoverText = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (!canDeleteWarnings) {</span>
+<span class="cstat-no" title="statement not covered" >      return "You do not have permission to delete warnings";</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return "Delete Warning";</span></span>
+<span class="cstat-no" title="statement not covered" >    return "Delete Warning";</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ConfirmationButton</span>
 <span class="cstat-no" title="statement not covered" >      onHoverText={getHoverText()}</span>
 <span class="cstat-no" title="statement not covered" >      appearance="default"</span>
@@ -331,7 +331,7 @@ export default BulkDeleteWarningBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

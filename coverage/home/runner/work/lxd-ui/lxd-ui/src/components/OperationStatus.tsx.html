@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.47% </span>
+                <span class="strong">96.29% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/34</span>
+                <span class='fraction'>26/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/11</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,52 +90,52 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4410x</span>
-<span class="cline-any cline-yes">4410x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4342x</span>
+<span class="cline-any cline-yes">4342x</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">37x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">4447x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">4379x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 &nbsp;
-const OperationStatus = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow();</span>
-  const { runningOperations } = <span class="cstat-no" title="statement not covered" >useOperations();</span>
+const OperationStatus = () =&gt; {
+  const isSmallScreen = useIsScreenBelow();
+  const { runningOperations } = useOperations();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (runningOperations.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
+  if (runningOperations.length === 0) {
+    return null;
   }
 &nbsp;
-  const operationsStatus = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isSmallScreen</span></span>
+  const operationsStatus = <span class="branch-0 cbranch-no" title="branch not covered" >isSmallScreen</span>
 <span class="cstat-no" title="statement not covered" >    ? `${runningOperations.length} ${pluralize("op", runningOperations.length)}...`</span>
     : `${runningOperations.length} ${pluralize("operation", runningOperations.length)} in progress...`;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div className="operation-status" role="alert"&gt;
       &lt;Icon name="status-in-progress-small" className="status-icon" /&gt;
       &lt;Link to="/ui/operations"&gt;{operationsStatus}&lt;/Link&gt;
@@ -151,7 +151,7 @@ export default OperationStatus;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

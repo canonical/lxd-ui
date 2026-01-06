@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.77% </span>
+                <span class="strong">92.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>79/88</span>
+                <span class='fraction'>77/83</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/11</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.18% </span>
+                <span class="strong">92.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>79/83</span>
+                <span class='fraction'>77/83</span>
             </div>
         
             
@@ -217,8 +217,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -244,17 +244,17 @@ interface Props {
   project: LxdProject;
 }
 &nbsp;
-const ProfileDetailPanelContent: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> profile, project }) =&gt; {</span>
-  const isDefaultProject = <span class="cstat-no" title="statement not covered" >project.name === "default";</span>
-  const usageCount = <span class="cstat-no" title="statement not covered" >getProfileInstances(</span>
+const ProfileDetailPanelContent: FC&lt;Props&gt; = ({ profile, project }) =&gt; {
+  const isDefaultProject = project.name === "default";
+  const usageCount = getProfileInstances(
     project.name,
     isDefaultProject,
     profile.used_by,
   ).length;
 &nbsp;
-  const featuresProfiles = <span class="cstat-no" title="statement not covered" >isProjectWithProfiles(project);</span>
+  const featuresProfiles = isProjectWithProfiles(project);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;table className="u-table-layout--auto u-no-margin--bottom"&gt;
       &lt;tbody&gt;
         &lt;tr&gt;
@@ -265,11 +265,11 @@ const ProfileDetailPanelContent: FC&lt;Props&gt; = <span class="cstat-no" title=
         &lt;/tr&gt;
         &lt;tr&gt;
           &lt;th className="u-text--muted"&gt;Description&lt;/th&gt;
-          &lt;td&gt;{profile.<span class="branch-0 cbranch-no" title="branch not covered" >description ? profile.description : <span class="branch-1 cbranch-no" title="branch not covered" >"</span>-"}&lt;</span>/td&gt;
+          &lt;td&gt;{profile.description<span class="branch-0 cbranch-no" title="branch not covered" > ? profile.description </span>: "-"}&lt;/td&gt;
         &lt;/tr&gt;
         &lt;tr&gt;
           &lt;th className="u-text--muted last-of-section"&gt;Defined in&lt;/th&gt;
-          &lt;td&gt;{featuresProfiles ? <span class="branch-0 cbranch-no" title="branch not covered" >"Current" : <span class="branch-1 cbranch-no" title="branch not covered" >"Default"} </span></span>project&lt;/td&gt;
+          &lt;td&gt;{featuresProfiles ? <span class="branch-0 cbranch-no" title="branch not covered" >"Current" : "Default"} </span>project&lt;/td&gt;
         &lt;/tr&gt;
         &lt;tr className="u-no-border"&gt;
           &lt;th colSpan={2}&gt;
@@ -300,8 +300,8 @@ const ProfileDetailPanelContent: FC&lt;Props&gt; = <span class="cstat-no" title=
 <span class="cstat-no" title="statement not covered" >            profile={profile}</span>
 <span class="cstat-no" title="statement not covered" >            project={project.name}</span>
 <span class="cstat-no" title="statement not covered" >            headingClassName="u-text--muted"</span>
-          /&gt;
-        ) : (
+<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        ) : (</span>
           &lt;tr&gt;
             &lt;td colSpan={2}&gt;No items found.&lt;/td&gt;
           &lt;/tr&gt;
@@ -319,7 +319,7 @@ export default ProfileDetailPanelContent;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

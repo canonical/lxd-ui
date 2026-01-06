@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.28% </span>
+                <span class="strong">65.1% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>126/241</span>
+                <span class='fraction'>125/192</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.75% </span>
+                <span class="strong">54.54% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/32</span>
+                <span class='fraction'>6/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.17% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/17</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.62% </span>
+                <span class="strong">65.1% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>126/192</span>
+                <span class='fraction'>125/192</span>
             </div>
         
             
@@ -437,7 +437,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -447,7 +447,7 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQueryClient } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQueryClient } from "@tanstack/react-query";
 import { useEventQueue } from "context/eventQueue";
 import { useInstanceLoading } from "context/instanceLoading";
 import { queryKeys } from "./queryKeys";
@@ -473,22 +473,22 @@ interface Props {
   close: () =&gt; void;
 }
 &nbsp;
-export const useInstanceMigration = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+export const useInstanceMigration = ({
   instance,
   close,
   type,
   target,
 }: Props) =&gt; {
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const instanceLoading = <span class="cstat-no" title="statement not covered" >useInstanceLoading();</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
+  const toastNotify = useToastNotification();
+  const instanceLoading = useInstanceLoading();
+  const eventQueue = useEventQueue();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 &nbsp;
-  const handleSuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    let successMessage: ReactNode = <span class="cstat-no" title="statement not covered" >"";</span>
-<span class="cstat-no" title="statement not covered" >    if (type === "cluster member") <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      successMessage = (</span></span>
+  const handleSuccess = () =&gt; {
+    let successMessage: ReactNode = "";
+    if (type === "cluster member") <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      successMessage = (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Instance{" "}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;InstanceRichChip</span>
@@ -505,8 +505,8 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (type === "root storage pool") {</span>
-<span class="cstat-no" title="statement not covered" >      successMessage = (</span>
+    if (type === "root storage pool") {
+      successMessage = (
         &lt;&gt;
           Instance{" "}
           &lt;InstanceRichChip
@@ -523,8 +523,8 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (type === "project") <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      successMessage = (</span></span>
+    if (type === "project") <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      successMessage = (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Instance{" "}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;InstanceRichChip instanceName={instance.name} projectName={target} /&gt;</span>
@@ -537,35 +537,35 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const oldUrl = <span class="cstat-no" title="statement not covered" >window.location.pathname;</span></span>
-<span class="cstat-no" title="statement not covered" >      const newUrl = <span class="cstat-no" title="statement not covered" >oldUrl.replace(</span></span>
+<span class="cstat-no" title="statement not covered" >      const oldUrl = window.location.pathname;</span>
+<span class="cstat-no" title="statement not covered" >      const newUrl = oldUrl.replace(</span>
 <span class="cstat-no" title="statement not covered" >        `/project/${instance.project}/instance/${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >        `/project/${target}/instance/${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (oldUrl !== newUrl) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        navigate(newUrl);</span></span>
+<span class="cstat-no" title="statement not covered" >      if (oldUrl !== newUrl) {</span>
+<span class="cstat-no" title="statement not covered" >        navigate(newUrl);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(successMessage);</span>
+    toastNotify.success(successMessage);
   };
 &nbsp;
-  const notifyFailure = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>: unknown) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    let failureMessage = <span class="cstat-no" title="statement not covered" >"";</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (type === "cluster member") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      failureMessage = `Cluster member migration failed for instance ${instance.name}`;</span></span>
+  const notifyFailure = <span class="fstat-no" title="function not covered" >(e: unknown) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    let failureMessage = "";</span>
+<span class="cstat-no" title="statement not covered" >    if (type === "cluster member") {</span>
+<span class="cstat-no" title="statement not covered" >      failureMessage = `Cluster member migration failed for instance ${instance.name}`;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (type === "root storage pool") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      failureMessage = `Root storage move failed for instance ${instance.name}`;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (type === "root storage pool") {</span>
+<span class="cstat-no" title="statement not covered" >      failureMessage = `Root storage move failed for instance ${instance.name}`;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (type === "project") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      failureMessage = `Project move failed for instance ${instance.name}`;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (type === "project") {</span>
+<span class="cstat-no" title="statement not covered" >      failureMessage = `Project move failed for instance ${instance.name}`;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    instanceLoading.setFinish(instance);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >    instanceLoading.setFinish(instance);</span>
+<span class="cstat-no" title="statement not covered" >    toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >      failureMessage,</span>
 <span class="cstat-no" title="statement not covered" >      e,</span>
 <span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip</span>
@@ -575,29 +575,29 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const handleFailure = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(m</span>sg: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notifyFailure(new Error(msg));</span></span>
+  const handleFailure = <span class="fstat-no" title="function not covered" >(msg: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    notifyFailure(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
+  const handleFinish = () =&gt; {
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances, instance.name, instance.project],
     });
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances, instance.project],
     });
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.operations, instance.project],
     });
-<span class="cstat-no" title="statement not covered" >    instanceLoading.setFinish(instance);</span>
+    instanceLoading.setFinish(instance);
   };
 &nbsp;
-  const handleMigrate = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    instanceLoading.setLoading(instance, "Migrating");</span>
-    const targetMember = <span class="cstat-no" title="statement not covered" >type === <span class="branch-0 cbranch-no" title="branch not covered" >"cluster member" ? target : u</span>ndefined;</span>
-    const targetPool = <span class="cstat-no" title="statement not covered" >type === "root storage pool" ? <span class="branch-0 cbranch-no" title="branch not covered" >target : undefined;</span></span>
-    const targetProject = <span class="cstat-no" title="statement not covered" >type === <span class="branch-0 cbranch-no" title="branch not covered" >"project" ? target : u</span>ndefined;</span>
-<span class="cstat-no" title="statement not covered" >    migrateInstance(</span>
+  const handleMigrate = () =&gt; {
+    instanceLoading.setLoading(instance, "Migrating");
+    const targetMember = type === <span class="branch-0 cbranch-no" title="branch not covered" >"cluster member" ? target : u</span>ndefined;
+    const targetPool = type === "root storage pool" ? <span class="branch-0 cbranch-no" title="branch not covered" >target : undefined;</span>
+    const targetProject = type === <span class="branch-0 cbranch-no" title="branch not covered" >"project" ? target : u</span>ndefined;
+    migrateInstance(
       instance.name,
       instance.project,
       targetMember,
@@ -605,15 +605,15 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
       targetProject,
     )
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
           handleSuccess,
-<span class="fstat-no" title="function not covered" >          (e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            handleFailure(err);</span></span>
+          (err) =&gt; {
+<span class="cstat-no" title="statement not covered" >            handleFailure(err);</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
           handleFinish,
         );
-<span class="cstat-no" title="statement not covered" >        toastNotify.info(</span>
+        toastNotify.info(
           &lt;&gt;
             {capitalizeFirstLetter(type)} migration started for{" "}
             &lt;InstanceRichChip
@@ -623,19 +623,19 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
             .
           &lt;/&gt;,
         );
-<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],
         });
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notifyFailure(e);</span></span>
-      })
+<span class="cstat-no" title="statement not covered" >        notifyFailure(e);</span>
+<span class="cstat-no" title="statement not covered" >      })</span>
       .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >        close();</span>
+        close();
       });
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     handleMigrate,
   };
 };
@@ -646,7 +646,7 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

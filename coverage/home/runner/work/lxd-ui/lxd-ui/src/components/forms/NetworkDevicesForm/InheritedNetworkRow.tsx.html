@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">20.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/121</span>
+                <span class='fraction'>22/107</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/16</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -284,7 +284,7 @@ import type { InstanceAndProfileFormikProps } from "components/forms/instanceAnd
 import type { InheritedNetwork } from "util/configInheritance";
 import type { LxdNetwork } from "types/network";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import NetworkDevice from "components/forms/NetworkDevicesForm/read/NetworkDevice";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import { isNoneDevice } from "util/devices";
@@ -298,30 +298,30 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
 }
 &nbsp;
-export const getInheritedNetworkRow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+export const getInheritedNetworkRow = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  device,</span>
 <span class="cstat-no" title="statement not covered" >  project,</span>
 <span class="cstat-no" title="statement not covered" >  managedNetworks,</span>
 <span class="cstat-no" title="statement not covered" >  formik,</span>
 <span class="cstat-no" title="statement not covered" >}: Props): MainTableRow =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const overrideDevice = <span class="cstat-no" title="statement not covered" >formik.values.devices.find(</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.name === device.key,</span></span>
+<span class="cstat-no" title="statement not covered" >  const overrideDevice = formik.values.devices.find(</span>
+<span class="cstat-no" title="statement not covered" >    (t) =&gt; t.name === device.key,</span>
 <span class="cstat-no" title="statement not covered" >  ) as LxdNicDevice | LxdNoneDevice | undefined;</span>
-<span class="cstat-no" title="statement not covered" >  const isOverridden = <span class="cstat-no" title="statement not covered" >overrideDevice !== undefined;</span></span>
-<span class="cstat-no" title="statement not covered" >  const isDetached = <span class="cstat-no" title="statement not covered" >overrideDevice &amp;&amp; isNoneDevice(overrideDevice);</span></span>
+<span class="cstat-no" title="statement not covered" >  const isOverridden = overrideDevice !== undefined;</span>
+<span class="cstat-no" title="statement not covered" >  const isDetached = overrideDevice &amp;&amp; isNoneDevice(overrideDevice);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const deviceModified = <span class="cstat-no" title="statement not covered" >overrideDevice &amp;&amp; isDeviceModified(formik, device.key);</span></span>
-<span class="cstat-no" title="statement not covered" >  const initialOverrideDevice = <span class="cstat-no" title="statement not covered" >formik.initialValues.devices.find(</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.name === device.key,</span></span>
+<span class="cstat-no" title="statement not covered" >  const deviceModified = overrideDevice &amp;&amp; isDeviceModified(formik, device.key);</span>
+<span class="cstat-no" title="statement not covered" >  const initialOverrideDevice = formik.initialValues.devices.find(</span>
+<span class="cstat-no" title="statement not covered" >    (t) =&gt; t.name === device.key,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >  const hasOverrideBeenRemoved = <span class="cstat-no" title="statement not covered" >initialOverrideDevice &amp;&amp; !overrideDevice;</span></span>
-<span class="cstat-no" title="statement not covered" >  const hasChanges = <span class="cstat-no" title="statement not covered" >deviceModified || hasOverrideBeenRemoved;</span></span>
+<span class="cstat-no" title="statement not covered" >  const hasOverrideBeenRemoved = initialOverrideDevice &amp;&amp; !overrideDevice;</span>
+<span class="cstat-no" title="statement not covered" >  const hasChanges = deviceModified || hasOverrideBeenRemoved;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const overrideNetwork = <span class="cstat-no" title="statement not covered" >managedNetworks.find(</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.name === (overrideDevice as LxdNicDevice)?.network,</span></span>
+<span class="cstat-no" title="statement not covered" >  const overrideNetwork = managedNetworks.find(</span>
+<span class="cstat-no" title="statement not covered" >    (t) =&gt; t.name === (overrideDevice as LxdNicDevice)?.network,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return getConfigurationRowBase({</span></span>
+<span class="cstat-no" title="statement not covered" >  return getConfigurationRowBase({</span>
 <span class="cstat-no" title="statement not covered" >    configuration: (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;NetworkDeviceName</span>
 <span class="cstat-no" title="statement not covered" >        name={device.key}</span>
@@ -358,7 +358,7 @@ export const getInheritedNetworkRow = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >          type="network"</span>
 <span class="cstat-no" title="statement not covered" >          value={device.network?.network || ""}</span>
-<span class="cstat-no" title="statement not covered" >          to={`/ui/project/${encodeURIComponent(project ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>}/network/${encodeURIComponent(device.network?.network || <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>}`}</span>
+<span class="cstat-no" title="statement not covered" >          to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(device.network?.network || "")}`}</span>
 <span class="cstat-no" title="statement not covered" >          className={classnames({</span>
 <span class="cstat-no" title="statement not covered" >            "u-text--line-through": isOverridden,</span>
 <span class="cstat-no" title="statement not covered" >          })}</span>
@@ -366,7 +366,7 @@ export const getInheritedNetworkRow = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >        &lt;NetworkDeviceAclListRead</span>
 <span class="cstat-no" title="statement not covered" >          project={project}</span>
 <span class="cstat-no" title="statement not covered" >          network={managedNetworks.find(</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            (t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.name === device.network?.network,</span></span>
+<span class="cstat-no" title="statement not covered" >            (t) =&gt; t.name === device.network?.network,</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
 <span class="cstat-no" title="statement not covered" >          device={device.network}</span>
 <span class="cstat-no" title="statement not covered" >          isOverridden={isOverridden}</span>
@@ -391,7 +391,7 @@ export const getInheritedNetworkRow = <span class="cstat-no" title="statement no
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.43% </span>
+                <span class="strong">94.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>205/283</span>
+                <span class='fraction'>205/218</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/38</span>
+                <span class='fraction'>17/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.46% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/13</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -499,7 +499,7 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Icon, useListener } from <span class="branch-0 cbranch-no" title="branch not covered" >"@canonical/react-components";</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Icon, useListener } from "@canonical/react-components";
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { ChangeSummary } from "util/permissionIdentities";
@@ -521,36 +521,36 @@ interface Props {
   initialGroupBy: "identity" | "group";
 }
 &nbsp;
-const generateRowsFromIdentityGroupChanges = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+const generateRowsFromIdentityGroupChanges = (
   identityGroupsChangeSummary: ChangeSummary,
   loggedInIdentityID: string,
 ) =&gt; {
-  const identityIDs = <span class="cstat-no" title="statement not covered" >Object.keys(identityGroupsChangeSummary);</span>
+  const identityIDs = Object.keys(identityGroupsChangeSummary);
 &nbsp;
-  const rows: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >  for (const id of identityIDs) {</span>
-    const groupChangesForIdentity = <span class="cstat-no" title="statement not covered" >identityGroupsChangeSummary[id];</span>
-    const identityLoggedIn = <span class="cstat-no" title="statement not covered" >id === loggedInIdentityID;</span>
-    const addedGroups: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    const removedGroups: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
+  const rows: React.JSX.Element[] = [];
+  for (const id of identityIDs) {
+    const groupChangesForIdentity = identityGroupsChangeSummary[id];
+    const identityLoggedIn = id === loggedInIdentityID;
+    const addedGroups: React.JSX.Element[] = [];
+    const removedGroups: React.JSX.Element[] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const group of groupChangesForIdentity.added) {</span>
-<span class="cstat-no" title="statement not covered" >      addedGroups.push(</span>
+    for (const group of groupChangesForIdentity.added) {
+      addedGroups.push(
         &lt;p className="u-no-padding--top u-sv-1" key={`${id}-${group}-added`}&gt;
           + {group}
         &lt;/p&gt;,
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const group of groupChangesForIdentity.removed) {</span>
-<span class="cstat-no" title="statement not covered" >      removedGroups.push(</span>
+    for (const group of groupChangesForIdentity.removed) {
+      removedGroups.push(
         &lt;p className="u-no-padding--top u-sv-1" key={`${id}-${group}-removed`}&gt;
           - &lt;span className="removed"&gt;{group}&lt;/span&gt;
         &lt;/p&gt;,
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    rows.push(</span>
+    rows.push(
       &lt;tr key={id} className="modified-row"&gt;
         &lt;td&gt;
           &lt;p className="u-no-padding--top u-sv-1"&gt;
@@ -563,29 +563,29 @@ const generateRowsFromIdentityGroupChanges = <span class="cstat-no" title="state
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return rows;</span>
+  return rows;
 };
 &nbsp;
-const generateRowsFromGroupIdentityChanges = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+const generateRowsFromGroupIdentityChanges = (
   groupIdentitiesChangeSummary: ChangeSummary,
   loggedInIdentityID: string,
   identities: LxdIdentity[],
 ) =&gt; {
-  const groups = <span class="cstat-no" title="statement not covered" >Object.keys(groupIdentitiesChangeSummary);</span>
-  const identityNameLookup: Record&lt;string, string&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >  identities.forEach(</span>
-<span class="fstat-no" title="function not covered" >    (i</span>dentity) =&gt; (<span class="cstat-no" title="statement not covered" >identityNameLookup[identity.id] = getIdentityName(identity)),</span>
+  const groups = Object.keys(groupIdentitiesChangeSummary);
+  const identityNameLookup: Record&lt;string, string&gt; = {};
+  identities.forEach(
+    (identity) =&gt; (identityNameLookup[identity.id] = getIdentityName(identity)),
   );
 &nbsp;
-  const rows: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >  for (const group of groups) {</span>
-    const identityChangesForGroup = <span class="cstat-no" title="statement not covered" >groupIdentitiesChangeSummary[group];</span>
-    const addedIdentities: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    const removedIdentities: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
+  const rows: React.JSX.Element[] = [];
+  for (const group of groups) {
+    const identityChangesForGroup = groupIdentitiesChangeSummary[group];
+    const addedIdentities: React.JSX.Element[] = [];
+    const removedIdentities: React.JSX.Element[] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const identity of identityChangesForGroup.added) {</span>
-      const identityLoggedIn = <span class="cstat-no" title="statement not covered" >identity === loggedInIdentityID;</span>
-<span class="cstat-no" title="statement not covered" >      addedIdentities.push(</span>
+    for (const identity of identityChangesForGroup.added) {
+      const identityLoggedIn = identity === loggedInIdentityID;
+      addedIdentities.push(
         &lt;p
           className="u-no-padding--top u-sv-1"
           key={`${group}-${identity}-added`}
@@ -596,9 +596,9 @@ const generateRowsFromGroupIdentityChanges = <span class="cstat-no" title="state
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const identity of identityChangesForGroup.removed) {</span>
-      const identityLoggedIn = <span class="cstat-no" title="statement not covered" >identity === loggedInIdentityID;</span>
-<span class="cstat-no" title="statement not covered" >      removedIdentities.push(</span>
+    for (const identity of identityChangesForGroup.removed) {
+      const identityLoggedIn = identity === loggedInIdentityID;
+      removedIdentities.push(
         &lt;p
           className="u-no-padding--top u-sv-1"
           key={`${group}-${identity}-removed`}
@@ -609,7 +609,7 @@ const generateRowsFromGroupIdentityChanges = <span class="cstat-no" title="state
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    rows.push(</span>
+    rows.push(
       &lt;tr key={group} className="modified-row"&gt;
         &lt;td&gt;
           &lt;p className="u-no-padding--top u-sv-1"&gt;{group}&lt;/p&gt;
@@ -619,75 +619,75 @@ const generateRowsFromGroupIdentityChanges = <span class="cstat-no" title="state
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return rows;</span>
+  return rows;
 };
 &nbsp;
-const GroupsOrIdentityChangesTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const GroupsOrIdentityChangesTable: FC&lt;Props&gt; = ({
   groupIdentitiesChangeSummary,
   identityGroupsChangeSummary,
   identities,
   initialGroupBy,
 }) =&gt; {
-  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
-  const containerRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLDivElement&gt;(null);</span>
-  const [groupBy, setGroupBy] = <span class="cstat-no" title="statement not covered" >useState(initialGroupBy);</span>
-  const loggedInIdentityID = <span class="cstat-no" title="statement not covered" >settings?.<span class="branch-0 cbranch-no" title="branch not covered" >auth_user_name ?? "";</span></span>
+  const { data: settings } = useSettings();
+  const containerRef = useRef&lt;HTMLDivElement&gt;(null);
+  const [groupBy, setGroupBy] = useState(initialGroupBy);
+  const loggedInIdentityID = settings?.<span class="branch-0 cbranch-no" title="branch not covered" >auth_user_name ?? "";</span>
   const loggedInIdentityModified =
-<span class="cstat-no" title="statement not covered" >    loggedInIdentityID in identityGroupsChangeSummary;</span>
+    loggedInIdentityID in identityGroupsChangeSummary;
 &nbsp;
-  const updateModalTableHeight = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const tableContainer = <span class="cstat-no" title="statement not covered" >containerRef.current;</span>
-<span class="cstat-no" title="statement not covered" >    if (!tableContainer) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+  const updateModalTableHeight = () =&gt; {
+    const tableContainer = containerRef.current;
+    if (!tableContainer) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
     // first let the table grow vertically as much as needed
-<span class="cstat-no" title="statement not covered" >    tableContainer.setAttribute("style", "height: auto;");</span>
-    const modalMaxHeight = <span class="cstat-no" title="statement not covered" >window.innerHeight - 64;</span>
-    const headerHeight = <span class="cstat-no" title="statement not covered" >getAbsoluteHeightBelowBySelector(".p-modal__header");</span>
-    const notificationHeight = <span class="cstat-no" title="statement not covered" >getAbsoluteHeightBelowById(</span>
+    tableContainer.setAttribute("style", "height: auto;");
+    const modalMaxHeight = window.innerHeight - 64;
+    const headerHeight = getAbsoluteHeightBelowBySelector(".p-modal__header");
+    const notificationHeight = getAbsoluteHeightBelowById(
       "current-user-warning",
     );
-    const footerHeight = <span class="cstat-no" title="statement not covered" >getAbsoluteHeightBelowBySelector(".p-modal__footer");</span>
-    const tableHeight = <span class="cstat-no" title="statement not covered" >getElementAbsoluteHeight(tableContainer);</span>
+    const footerHeight = getAbsoluteHeightBelowBySelector(".p-modal__footer");
+    const tableHeight = getElementAbsoluteHeight(tableContainer);
 &nbsp;
     const remainingTableHeight =
-<span class="cstat-no" title="statement not covered" >      modalMaxHeight - notificationHeight - headerHeight - footerHeight;</span>
-<span class="cstat-no" title="statement not covered" >    if (tableHeight &gt;= remainingTableHeight) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      const style = <span class="cstat-no" title="statement not covered" >`height: ${remainingTableHeight}px;`;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      tableContainer.setAttribute("style", style);</span></span>
+      modalMaxHeight - notificationHeight - headerHeight - footerHeight;
+    if (tableHeight &gt;= remainingTableHeight) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      const style = `height: ${remainingTableHeight}px;`;</span>
+<span class="cstat-no" title="statement not covered" >      tableContainer.setAttribute("style", style);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useListener(window, updateModalTableHeight, "resize", true);</span>
-<span class="cstat-no" title="statement not covered" >  useEffect(updateModalTableHeight, [groupBy]);</span>
+  useListener(window, updateModalTableHeight, "resize", true);
+  useEffect(updateModalTableHeight, [groupBy]);
 &nbsp;
-  const handleChangeGroupBy = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setGroupBy(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (prev === "identity") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return "group";</span></span>
+  const handleChangeGroupBy = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setGroupBy((prev) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (prev === "identity") {</span>
+<span class="cstat-no" title="statement not covered" >        return "group";</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return "identity";</span></span>
+<span class="cstat-no" title="statement not covered" >      return "identity";</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  let rows: React.JSX.Element[] = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >  if (groupBy === "identity") {</span>
-<span class="cstat-no" title="statement not covered" >    rows = generateRowsFromIdentityGroupChanges(</span>
+  let rows: React.JSX.Element[] = [];
+  if (groupBy === "identity") {
+    rows = generateRowsFromIdentityGroupChanges(
       identityGroupsChangeSummary,
       loggedInIdentityID,
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (groupBy === "group") {</span>
-<span class="cstat-no" title="statement not covered" >    rows = generateRowsFromGroupIdentityChanges(</span>
+  if (groupBy === "group") {
+    rows = generateRowsFromGroupIdentityChanges(
       groupIdentitiesChangeSummary,
       loggedInIdentityID,
       identities,
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;div ref={containerRef} className="confirm-table"&gt;
         &lt;table&gt;
@@ -705,7 +705,7 @@ const GroupsOrIdentityChangesTable: FC&lt;Props&gt; = <span class="cstat-no" tit
                   &lt;Icon name="change-version" /&gt;
                 &lt;/Button&gt;
               &lt;/th&gt;
-              &lt;th&gt;{groupBy === "identity" ? "Group" : <span class="branch-1 cbranch-no" title="branch not covered" >"Identity"}&lt;</span>/th&gt;
+              &lt;th&gt;{groupBy === "identity" ? "Group" : "Identity"}&lt;/th&gt;
             &lt;/tr&gt;
           &lt;/thead&gt;
           &lt;tbody&gt;{rows}&lt;/tbody&gt;
@@ -724,7 +724,7 @@ export default GroupsOrIdentityChangesTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

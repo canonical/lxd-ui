@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.11% </span>
+                <span class="strong">92.91% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>225/274</span>
+                <span class='fraction'>223/240</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.06% </span>
+                <span class="strong">88.46% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/49</span>
+                <span class='fraction'>23/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>12/22</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.75% </span>
+                <span class="strong">92.91% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>225/240</span>
+                <span class='fraction'>223/240</span>
             </div>
         
             
@@ -407,7 +407,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
@@ -458,7 +458,7 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -524,7 +524,7 @@
 <span class="cline-any cline-yes">156x</span>
 <span class="cline-any cline-yes">156x</span>
 <span class="cline-any cline-yes">156x</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-yes">156x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
@@ -581,47 +581,47 @@ export interface StorageVolumeCopyFormValues {
   location: string;
 }
 &nbsp;
-const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> volume, close }) =&gt; {</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
+const CopyVolumeForm: FC&lt;Props&gt; = ({ volume, close }) =&gt; {
+  const toastNotify = useToastNotification();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
+  const eventQueue = useEventQueue();
 &nbsp;
-  const { data: projects = [], isLoading: projectsLoading } = <span class="cstat-no" title="statement not covered" >useProjects();</span>
-  const { data: pool } = <span class="cstat-no" title="statement not covered" >useStoragePool(volume.pool);</span>
+  const { data: projects = [], isLoading: projectsLoading } = useProjects();
+  const { data: pool } = useStoragePool(volume.pool);
   const { data: volumes = [], isLoading: volumesLoading } =
-<span class="cstat-no" title="statement not covered" >    useLoadCustomVolumes(volume.project);</span>
+    useLoadCustomVolumes(volume.project);
 &nbsp;
-  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: StorageVolumeCopyFormValues) =&gt; {</span>
-    const newVolume = <span class="cstat-no" title="statement not covered" >{</span>
+  const notifySuccess = (values: StorageVolumeCopyFormValues) =&gt; {
+    const newVolume = {
       ...volume,
       name: values.name,
       project: values.project,
       pool: values.pool,
       location: values.location,
     };
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(</span>
+    toastNotify.success(
       &lt;&gt;
         Created volume &lt;VolumeLinkChip volume={newVolume} /&gt;.
       &lt;/&gt;,
     );
   };
 &nbsp;
-  const notifyError = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>rror: Error) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.failure(</span></span>
+  const notifyError = <span class="fstat-no" title="function not covered" >(error: Error) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >      "Volume copy failed.",</span>
 <span class="cstat-no" title="statement not covered" >      error,</span>
 <span class="cstat-no" title="statement not covered" >      &lt;VolumeLinkChip volume={volume} /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const getCopiedVolumeName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume: LxdStorageVolume): string =&gt; {</span>
-    const newVolumeName = <span class="cstat-no" title="statement not covered" >volume.name + "-copy";</span>
-<span class="cstat-no" title="statement not covered" >    return getUniqueResourceName(newVolumeName, volumes);</span>
+  const getCopiedVolumeName = (volume: LxdStorageVolume): string =&gt; {
+    const newVolumeName = volume.name + "-copy";
+    return getUniqueResourceName(newVolumeName, volumes);
   };
 &nbsp;
   // this validation checks given changes in any one of the fields (name, project, pool)
   // if the volume name already exists in the target project and storage pool
-  const validationSchema = <span class="cstat-no" title="statement not covered" >Yup.object()</span>
+  const validationSchema = Yup.object()
     .shape({
       name: Yup.string().required("Volume name is required"),
       project: Yup.string().required(),
@@ -629,8 +629,8 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
       location: Yup.string().optional(),
     })
     .test("deduplicate", "", async function (values) {
-      const { name, project, pool, location } = <span class="cstat-no" title="statement not covered" >values;</span>
-      const notFound = <span class="cstat-no" title="statement not covered" >await checkDuplicateName(</span>
+      const { name, project, pool, location } = values;
+      const notFound = await checkDuplicateName(
         name,
 <span class="branch-0 cbranch-no" title="branch not covered" >        project || "default",</span>
         controllerState,
@@ -638,29 +638,29 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
         location,
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (notFound) {</span>
-<span class="cstat-no" title="statement not covered" >        return true;</span>
+      if (notFound) {
+        return true;
 <span class="branch-0 cbranch-no" title="branch not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return this.createError({</span></span>
+<span class="cstat-no" title="statement not covered" >      return this.createError({</span>
 <span class="cstat-no" title="statement not covered" >        path: "name",</span>
 <span class="cstat-no" title="statement not covered" >        message:</span>
 <span class="cstat-no" title="statement not covered" >          "A volume with this name already exist in the target project and storage pool",</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
-    });
+<span class="cstat-no" title="statement not covered" >    });</span>
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;StorageVolumeCopyFormValues&gt;({</span>
+  const formik = useFormik&lt;StorageVolumeCopyFormValues&gt;({
     initialValues: {
       name: getCopiedVolumeName(volume),
       project: volume.project,
       copySnapshots: true,
       pool: volume.pool,
-      location: isRemoteStorage(pool?.driver ?? <span class="branch-1 cbranch-no" title="branch not covered" >""<span class="branch-0 cbranch-no" title="branch not covered" >)</span> ? "" : v</span>olume.location,
+      location: isRemoteStorage(pool?.driver ?? <span class="branch-0 cbranch-no" title="branch not covered" >"") ? "" : v</span>olume.location,
     },
     enableReinitialize: true,
     validationSchema,
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const payload: Partial&lt;LxdStorageVolume&gt; = <span class="cstat-no" title="statement not covered" >{</span>
+    onSubmit: (values) =&gt; {
+      const payload: Partial&lt;LxdStorageVolume&gt; = {
         name: values.name,
         type: "custom",
         config: volume.config,
@@ -679,33 +679,33 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
         },
       };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      copyStorageVolume(payload, values.pool, values.project, values.location)</span>
+      copyStorageVolume(payload, values.pool, values.project, values.location)
         .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >          toastNotify.info(</span>
+          toastNotify.info(
             &lt;&gt;
               Copy of volume &lt;VolumeLinkChip volume={volume} /&gt; started.
             &lt;/&gt;,
           );
-<span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
+          eventQueue.set(
             operation.metadata.id,
-<span class="fstat-no" title="function not covered" >            () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              notifySuccess(values);</span>
+            () =&gt; {
+              notifySuccess(values);
             },
-<span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              notifyError(new Error(msg));</span></span>
+            (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >              notifyError(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
           );
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Volume copy failed.", e);</span></span>
-        })
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure("Volume copy failed.", e);</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
         .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          close();</span>
+          close();
         });
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="copy-volumes-modal"
@@ -730,7 +730,7 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
               projectsLoading ||
               volumesLoading
             }
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+            onClick={() =&gt; void formik.submitForm()}
           &gt;
             Copy
           &lt;/ActionButton&gt;
@@ -746,13 +746,13 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
         /&gt;
         &lt;StoragePoolSelector
           value={formik.values.pool}
-          setValue={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >void formik.setFieldValue("pool", value)}</span>
+          setValue={(value) =&gt; void formik.setFieldValue("pool", value)}
           selectProps={{
             id: "pool",
             label: "Storage pool",
           }}
         /&gt;
-        {!isRemoteStorage(pool?.driver ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span> &amp;&amp; (
+        {!isRemoteStorage(pool?.driver ?? "") &amp;&amp; (
           &lt;ClusterMemberSelector {...formik.getFieldProps("location")} /&gt;
         )}
         &lt;Select
@@ -760,7 +760,7 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
           id="project"
           label="Target project"
           options={projects.map((project) =&gt; {
-<span class="cstat-no" title="statement not covered" >            return {</span>
+            return {
               label: project.name,
               value: project.name,
             };
@@ -790,7 +790,7 @@ export default CopyVolumeForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

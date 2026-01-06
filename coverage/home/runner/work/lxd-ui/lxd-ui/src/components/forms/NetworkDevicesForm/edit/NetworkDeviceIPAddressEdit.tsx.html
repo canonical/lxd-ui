@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25.8% </span>
+                <span class="strong">30.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/62</span>
+                <span class='fraction'>16/52</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/16</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -180,21 +180,21 @@ interface Props {
   family: "IPv4" | "IPv6";
 }
 &nbsp;
-const NetworkDeviceIPAddressEdit: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik, network, family }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (!network || !network.config) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return null;</span></span>
+const NetworkDeviceIPAddressEdit: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ formik, network, family }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (!network || !network.config) {</span>
+<span class="cstat-no" title="statement not covered" >    return null;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const networkFieldName = <span class="cstat-no" title="statement not covered" >family === "IPv4" ? "ipv4.address" : "ipv6.address";</span></span>
-<span class="cstat-no" title="statement not covered" >  const ipAddressConfigValue = <span class="cstat-no" title="statement not covered" >network.config?.[networkFieldName];</span></span>
-<span class="cstat-no" title="statement not covered" >  const formikFieldName = <span class="cstat-no" title="statement not covered" >family.toLowerCase() as keyof NetworkDeviceFormValues;</span></span>
+<span class="cstat-no" title="statement not covered" >  const networkFieldName = family === "IPv4" ? "ipv4.address" : "ipv6.address";</span>
+<span class="cstat-no" title="statement not covered" >  const ipAddressConfigValue = network.config?.[networkFieldName];</span>
+<span class="cstat-no" title="statement not covered" >  const formikFieldName = family.toLowerCase() as keyof NetworkDeviceFormValues;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const isEnabled =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    network?.managed &amp;&amp;</span></span>
+<span class="cstat-no" title="statement not covered" >    network?.managed &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >    typesWithNicStaticIPSupport.includes(network.type) &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >    ipAddressConfigValue !== "none";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Input</span>
 <span class="cstat-no" title="statement not covered" >      id={formikFieldName}</span>
 <span class="cstat-no" title="statement not covered" >      name={formikFieldName}</span>
@@ -202,11 +202,11 @@ const NetworkDeviceIPAddressEdit: FC&lt;Props&gt; = <span class="cstat-no" title
 <span class="cstat-no" title="statement not covered" >      label={`${family} address reservation`}</span>
 <span class="cstat-no" title="statement not covered" >      placeholder={`Enter ${family} address`}</span>
 <span class="cstat-no" title="statement not covered" >      value={formik.values[formikFieldName] || ""}</span>
-<span class="cstat-no" title="statement not covered" >      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        void formik.setFieldValue(formikFieldName, e.target.value);</span></span>
+<span class="cstat-no" title="statement not covered" >      onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        void formik.setFieldValue(formikFieldName, e.target.value);</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
-<span class="cstat-no" title="statement not covered" >      onBlur={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        void formik.setFieldTouched(formikFieldName, true);</span></span>
+<span class="cstat-no" title="statement not covered" >      onBlur={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        void formik.setFieldTouched(formikFieldName, true);</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
 <span class="cstat-no" title="statement not covered" >      disabled={!isEnabled}</span>
 <span class="cstat-no" title="statement not covered" >      help={</span>
@@ -226,7 +226,7 @@ export default NetworkDeviceIPAddressEdit;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

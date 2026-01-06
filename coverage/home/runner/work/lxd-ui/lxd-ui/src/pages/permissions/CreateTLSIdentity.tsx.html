@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.1% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/49</span>
+                <span class='fraction'>36/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.5% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/40</span>
+                <span class='fraction'>36/40</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -120,18 +120,18 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,32 +149,32 @@ import CreateTLSIdentityPanel from "./panels/CreateTLSIdentityPanel";
 import { usePortal } from "@canonical/react-components";
 import usePanelParams, { panels } from "util/usePanelParams";
 &nbsp;
-const CreateTLSIdentity: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
-  const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal({</span>
+const CreateTLSIdentity: FC = () =&gt; {
+  const panelParams = usePanelParams();
+  const { openPortal, closePortal, isOpen, Portal } = usePortal({
     programmaticallyOpen: true,
   });
-  const [token, setToken] = <span class="cstat-no" title="statement not covered" >useState("");</span>
-  const [identityName, setIdentityName] = <span class="cstat-no" title="statement not covered" >useState("");</span>
+  const [token, setToken] = useState("");
+  const [identityName, setIdentityName] = useState("");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
-      {<span class="branch-0 cbranch-no" title="branch not covered" >isOpen &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Portal&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CreateIdentityModal</span>
-<span class="cstat-no" title="statement not covered" >            onClose={closePortal}</span>
-<span class="cstat-no" title="statement not covered" >            token={token}</span>
-<span class="cstat-no" title="statement not covered" >            identityName={identityName}</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Portal&gt;</span>
+      {isOpen &amp;&amp; (
+        &lt;Portal&gt;
+          &lt;CreateIdentityModal
+            onClose={closePortal}
+            token={token}
+            identityName={identityName}
+          /&gt;
+        &lt;/Portal&gt;
       )}
 &nbsp;
-      {panelParams.panel === panels.<span class="branch-0 cbranch-no" title="branch not covered" >createTLSIdentity &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CreateTLSIdentityPanel</span>
-<span class="cstat-no" title="statement not covered" >          onSuccess={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(i</span>dentityName: string, token: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIdentityName(identityName);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setToken(token);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            openPortal();</span></span>
+      {panelParams.panel === panels.createTLSIdentity &amp;&amp; (
+        &lt;CreateTLSIdentityPanel
+          onSuccess={<span class="fstat-no" title="function not covered" >(identityName: string, token: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setIdentityName(identityName);</span>
+<span class="cstat-no" title="statement not covered" >            setToken(token);</span>
+<span class="cstat-no" title="statement not covered" >            openPortal();</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
         /&gt;
       )}
@@ -190,7 +190,7 @@ export default CreateTLSIdentity;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/45</span>
+                <span class='fraction'>9/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
@@ -141,17 +141,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { queryKeys } from "util/queryKeys"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { queryKeys } from "util/queryKeys";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import type { LxdNetwork, LxdNetworkPeer } from "types/network";
 import { fetchNetworkPeer, fetchNetworkPeers } from "api/network-local-peering";
 &nbsp;
-export const useLocalPeerings = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const useLocalPeerings = <span class="fstat-no" title="function not covered" >(</span>
 <span class="cstat-no" title="statement not covered" >  network: LxdNetwork,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdNetworkPeer[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
 <span class="cstat-no" title="statement not covered" >    queryKey: [</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
 <span class="cstat-no" title="statement not covered" >      project,</span>
@@ -159,16 +159,16 @@ export const useLocalPeerings = <span class="cstat-no" title="statement not cove
 <span class="cstat-no" title="statement not covered" >      network.name,</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.peers,</span>
 <span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchNetworkPeers(network.name, project),</span></span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchNetworkPeers(network.name, project),</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const useLocalPeering = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const useLocalPeering = <span class="fstat-no" title="function not covered" >(</span>
 <span class="cstat-no" title="statement not covered" >  network: LxdNetwork,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  localPeering: string,</span>
 <span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdNetworkPeer&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
 <span class="cstat-no" title="statement not covered" >    queryKey: [</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
 <span class="cstat-no" title="statement not covered" >      project,</span>
@@ -177,7 +177,7 @@ export const useLocalPeering = <span class="cstat-no" title="statement not cover
 <span class="cstat-no" title="statement not covered" >      queryKeys.peers,</span>
 <span class="cstat-no" title="statement not covered" >      localPeering,</span>
 <span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchNetworkPeer(network.name, project, localPeering),</span></span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchNetworkPeer(network.name, project, localPeering),</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
@@ -187,7 +187,7 @@ export const useLocalPeering = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

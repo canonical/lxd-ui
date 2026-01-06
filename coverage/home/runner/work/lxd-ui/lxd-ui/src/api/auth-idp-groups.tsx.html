@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.29% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>79/96</span>
+                <span class='fraction'>78/78</span>
             </div>
         
             
@@ -37,9 +37,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/14</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -224,26 +224,26 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { IdpGroup } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
 &nbsp;
-const idpGroupEntitlements = <span class="cstat-no" title="statement not covered" >["can_delete", "can_edit"];</span>
+const idpGroupEntitlements = ["can_delete", "can_edit"];
 &nbsp;
-export const fetchIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const fetchIdpGroups = async (
   isFineGrained: boolean | null,
 ): Promise&lt;IdpGroup[]&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
-<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, idpGroupEntitlements);</span>
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, idpGroupEntitlements);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/auth/identity-provider-groups?${params.toString()}`)</span>
+  return fetch(`/1.0/auth/identity-provider-groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;IdpGroup[]&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+      return data.metadata;
     });
 };
 &nbsp;
-export const createIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const createIdpGroup = async (
   group: Partial&lt;IdpGroup&gt;,
 ): Promise&lt;void&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/auth/identity-provider-groups`, {</span>
+  await fetch(`/1.0/auth/identity-provider-groups`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -252,8 +252,8 @@ export const createIdpGroup = <span class="cstat-no" title="statement not covere
   }).then(handleResponse);
 };
 &nbsp;
-export const updateIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roup: IdpGroup): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+export const updateIdpGroup = async (group: IdpGroup): Promise&lt;void&gt; =&gt; {
+  await fetch(
     `/1.0/auth/identity-provider-groups/${encodeURIComponent(group.name)}`,
     {
       method: "PUT",
@@ -265,11 +265,11 @@ export const updateIdpGroup = <span class="cstat-no" title="statement not covere
   ).then(handleResponse);
 };
 &nbsp;
-export const renameIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const renameIdpGroup = async (
   oldName: string,
   newName: string,
 ): Promise&lt;void&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+  await fetch(
     `/1.0/auth/identity-provider-groups/${encodeURIComponent(oldName)}`,
     {
       method: "POST",
@@ -283,8 +283,8 @@ export const renameIdpGroup = <span class="cstat-no" title="statement not covere
   ).then(handleResponse);
 };
 &nbsp;
-export const deleteIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roup: string): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+export const deleteIdpGroup = async (group: string): Promise&lt;void&gt; =&gt; {
+  await fetch(
     `/1.0/auth/identity-provider-groups/${encodeURIComponent(group)}`,
     {
       method: "DELETE",
@@ -292,8 +292,8 @@ export const deleteIdpGroup = <span class="cstat-no" title="statement not covere
   ).then(handleResponse);
 };
 &nbsp;
-export const deleteIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roups: string[]): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return Promise.allSettled(</span>
+export const deleteIdpGroups = async (groups: string[]): Promise&lt;void&gt; =&gt; {
+  return Promise.allSettled(
     groups.map(async (group) =&gt; deleteIdpGroup(group)),
   ).then(handleSettledResult);
 };
@@ -304,7 +304,7 @@ export const deleteIdpGroups = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

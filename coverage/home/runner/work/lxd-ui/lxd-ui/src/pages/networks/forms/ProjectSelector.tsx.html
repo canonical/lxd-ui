@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.2% </span>
+                <span class="strong">23.25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/99</span>
+                <span class='fraction'>20/86</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -252,10 +252,10 @@ interface Props {
 &nbsp;
 const ProjectSelector: FC&lt;
   Props &amp; Omit&lt;CustomSelectProps, "onChange" | "options" | "value"&gt;
-&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> value, setValue, projects, hasNoneOption = <span class="branch-0 cbranch-no" title="branch not covered" >false, .</span>..selectProps }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const getProjectOptions = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const options: CustomSelectOption[] = <span class="cstat-no" title="statement not covered" >projects.map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return {</span></span>
+&gt; = <span class="fstat-no" title="function not covered" >({ value, setValue, projects, hasNoneOption = false, ...selectProps }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const getProjectOptions = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const options: CustomSelectOption[] = projects.map((project) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
 <span class="cstat-no" title="statement not covered" >        label: (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="label"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;span title={project.name} className="project-option u-truncate"&gt;</span>
@@ -269,8 +269,8 @@ const ProjectSelector: FC&lt;
 <span class="cstat-no" title="statement not covered" >      };</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (options.length === 0) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      options.unshift({</span></span>
+<span class="cstat-no" title="statement not covered" >    if (options.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      options.unshift({</span>
 <span class="cstat-no" title="statement not covered" >        label: &lt;span&gt;No projects available&lt;/span&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        value: "",</span>
 <span class="cstat-no" title="statement not covered" >        text: "None",</span>
@@ -278,8 +278,8 @@ const ProjectSelector: FC&lt;
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (hasNoneOption) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      options.push({</span></span>
+<span class="cstat-no" title="statement not covered" >    if (hasNoneOption) {</span>
+<span class="cstat-no" title="statement not covered" >      options.push({</span>
 <span class="cstat-no" title="statement not covered" >        label: (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="label"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;span title="No project" className="project-option u-truncate"&gt;</span>
@@ -293,23 +293,23 @@ const ProjectSelector: FC&lt;
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return options;</span></span>
+<span class="cstat-no" title="statement not covered" >    return options;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const getHeader = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+<span class="cstat-no" title="statement not covered" >  const getHeader = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="header"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;span className="project-option u-no-margin--bottom"&gt;Name&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;CustomSelect</span>
 <span class="cstat-no" title="statement not covered" >      label="Project"</span>
 <span class="cstat-no" title="statement not covered" >      {...selectProps}</span>
-<span class="cstat-no" title="statement not covered" >      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setValue(e);</span></span>
+<span class="cstat-no" title="statement not covered" >      onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setValue(e);</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
 <span class="cstat-no" title="statement not covered" >      value={value}</span>
 <span class="cstat-no" title="statement not covered" >      options={getProjectOptions()}</span>
@@ -328,7 +328,7 @@ export default ProjectSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.35% </span>
+                <span class="strong">26.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/85</span>
+                <span class='fraction'>19/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -134,23 +134,23 @@
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
+<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -203,8 +203,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">316x</span>
-<span class="cline-any cline-yes">316x</span>
+<span class="cline-any cline-yes">317x</span>
+<span class="cline-any cline-yes">317x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useEffect } from "react";
 import {
@@ -221,18 +221,18 @@ interface Props {
   error?: Error;
 }
 &nbsp;
-const ErrorPage: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> error }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const url = <span class="cstat-no" title="statement not covered" >getReportBugURL(error);</span></span>
+const ErrorPage: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ error }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const url = getReportBugURL(error);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const updateHeight = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateMaxHeight("error-info", undefined, 0, "max-height");</span></span>
+<span class="cstat-no" title="statement not covered" >  const updateHeight = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    updateMaxHeight("error-info", undefined, 0, "max-height");</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(updateHeight, []);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useListener(window, updateHeight, "resize", true);</span></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(updateHeight, []);</span>
+<span class="cstat-no" title="statement not covered" >  useListener(window, updateHeight, "resize", true);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const errorBlocks = <span class="cstat-no" title="statement not covered" >[];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (error?.message) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    errorBlocks.push({</span></span>
+<span class="cstat-no" title="statement not covered" >  const errorBlocks = [];</span>
+<span class="cstat-no" title="statement not covered" >  if (error?.message) {</span>
+<span class="cstat-no" title="statement not covered" >    errorBlocks.push({</span>
 <span class="cstat-no" title="statement not covered" >      title: "Error",</span>
 <span class="cstat-no" title="statement not covered" >      appearance: CodeSnippetBlockAppearance.NUMBERED,</span>
 <span class="cstat-no" title="statement not covered" >      wrapLines: true,</span>
@@ -240,8 +240,8 @@ const ErrorPage: FC&lt;Props&gt; = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (error?.message.toLowerCase().includes("dynamically imported module")) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    errorBlocks.push({</span></span>
+<span class="cstat-no" title="statement not covered" >  if (error?.message.toLowerCase().includes("dynamically imported module")) {</span>
+<span class="cstat-no" title="statement not covered" >    errorBlocks.push({</span>
 <span class="cstat-no" title="statement not covered" >      title: "Possible causes",</span>
 <span class="cstat-no" title="statement not covered" >      appearance: CodeSnippetBlockAppearance.NUMBERED,</span>
 <span class="cstat-no" title="statement not covered" >      wrapLines: true,</span>
@@ -250,8 +250,8 @@ const ErrorPage: FC&lt;Props&gt; = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (error?.stack) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    errorBlocks.push({</span></span>
+<span class="cstat-no" title="statement not covered" >  if (error?.stack) {</span>
+<span class="cstat-no" title="statement not covered" >    errorBlocks.push({</span>
 <span class="cstat-no" title="statement not covered" >      title: "Stack trace",</span>
 <span class="cstat-no" title="statement not covered" >      appearance: CodeSnippetBlockAppearance.NUMBERED,</span>
 <span class="cstat-no" title="statement not covered" >      wrapLines: true,</span>
@@ -259,7 +259,7 @@ const ErrorPage: FC&lt;Props&gt; = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Strip className="u-no-padding--bottom"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Notification severity="negative" title="Error"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        Something has gone wrong. If this issue persists,{" "}</span>
@@ -283,7 +283,7 @@ export default ErrorPage;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

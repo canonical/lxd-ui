@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.16% </span>
+                <span class="strong">15.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/357</span>
+                <span class='fraction'>47/303</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/30</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.26% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/19</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
@@ -711,12 +711,12 @@ interface CreateInstanceFromSnapshotValues {
   stateful: boolean;
 }
 &nbsp;
-const instanceFromSnapshotPayload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+const instanceFromSnapshotPayload = <span class="fstat-no" title="function not covered" >(</span>
 <span class="cstat-no" title="statement not covered" >  values: CreateInstanceFromSnapshotValues,</span>
 <span class="cstat-no" title="statement not covered" >  instance: LxdInstance,</span>
 <span class="cstat-no" title="statement not covered" >  snapshot: LxdInstanceSnapshot,</span>
 <span class="cstat-no" title="statement not covered" >) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const basePayload: Record&lt;string, unknown&gt; = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  const basePayload: Record&lt;string, unknown&gt; = {</span>
 <span class="cstat-no" title="statement not covered" >    name: values.instanceName,</span>
 <span class="cstat-no" title="statement not covered" >    description: instance.description,</span>
 <span class="cstat-no" title="statement not covered" >    architecture: instance.architecture,</span>
@@ -732,92 +732,92 @@ const instanceFromSnapshotPayload = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const source: Record&lt;string, unknown&gt; = <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  const source: Record&lt;string, unknown&gt; = {</span>
 <span class="cstat-no" title="statement not covered" >    project: instance.project,</span>
 <span class="cstat-no" title="statement not covered" >    type: "copy",</span>
 <span class="cstat-no" title="statement not covered" >    source: `${instance.name}/${snapshot.name}`,</span>
 <span class="cstat-no" title="statement not covered" >    base_image: snapshot.config["volatile.base_image"] ?? "",</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (snapshot.stateful &amp;&amp; values.stateful) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    basePayload["stateful"] = true;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    source["live"] = false;</span></span>
+<span class="cstat-no" title="statement not covered" >  if (snapshot.stateful &amp;&amp; values.stateful) {</span>
+<span class="cstat-no" title="statement not covered" >    basePayload["stateful"] = true;</span>
+<span class="cstat-no" title="statement not covered" >    source["live"] = false;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return {</span></span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
 <span class="cstat-no" title="statement not covered" >    ...basePayload,</span>
 <span class="cstat-no" title="statement not covered" >    source,</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  instance,</span>
 <span class="cstat-no" title="statement not covered" >  snapshot,</span>
 <span class="cstat-no" title="statement not covered" >  close,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
-<span class="cstat-no" title="statement not covered" >  const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span></span>
-<span class="cstat-no" title="statement not covered" >  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span></span>
-<span class="cstat-no" title="statement not covered" >  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span></span>
+<span class="cstat-no" title="statement not covered" >  const toastNotify = useToastNotification();</span>
+<span class="cstat-no" title="statement not covered" >  const isClustered = useIsClustered();</span>
+<span class="cstat-no" title="statement not covered" >  const controllerState = useState&lt;AbortController | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" >  const eventQueue = useEventQueue();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { data: projects = <span class="branch-0 cbranch-no" title="branch not covered" >[], i</span>sLoading: projectsLoading } = <span class="cstat-no" title="statement not covered" >useProjects();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canCreateInstances } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { data: projects = [], isLoading: projectsLoading } = useProjects();</span>
+<span class="cstat-no" title="statement not covered" >  const { canCreateInstances } = useProjectEntitlements();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { data: storagePools = <span class="branch-0 cbranch-no" title="branch not covered" >[], i</span>sLoading: storagePoolsLoading } =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    useStoragePools();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { data: storagePools = [], isLoading: storagePoolsLoading } =</span>
+<span class="cstat-no" title="statement not covered" >    useStoragePools();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { data: instances = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useInstances(instance.project);</span></span>
+<span class="cstat-no" title="statement not covered" >  const { data: instances = [] } = useInstances(instance.project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ame: string, project: string) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  const notifySuccess = (name: string, project: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const instanceLink = (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip instanceName={name} projectName={project} /&gt;</span></span>
+<span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip instanceName={name} projectName={project} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const message = <span class="cstat-no" title="statement not covered" >&lt;&gt;Created instance {instanceLink}.&lt;/&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.success(message);</span></span>
+<span class="cstat-no" title="statement not covered" >    const message = &lt;&gt;Created instance {instanceLink}.&lt;/&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    toastNotify.success(message);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const getNewInstanceName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nstance: LxdInstance): string =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const instanceNames = <span class="cstat-no" title="statement not covered" >instances.map(<span class="fstat-no" title="function not covered" >(i</span>nstance) =&gt; <span class="cstat-no" title="statement not covered" >instance.name)</span>;</span></span>
-<span class="cstat-no" title="statement not covered" >    const newInstanceName = <span class="cstat-no" title="statement not covered" >truncateEntityName(</span></span>
+<span class="cstat-no" title="statement not covered" >  const getNewInstanceName = (instance: LxdInstance): string =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const instanceNames = instances.map((instance) =&gt; instance.name);</span>
+<span class="cstat-no" title="statement not covered" >    const newInstanceName = truncateEntityName(</span>
 <span class="cstat-no" title="statement not covered" >      instance.name,</span>
 <span class="cstat-no" title="statement not covered" >      `-${snapshot.name}-copy`,</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (instanceNames.includes(newInstanceName)) {</span></span>
-<span class="cstat-no" title="statement not covered" >      let count = <span class="cstat-no" title="statement not covered" >1;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      while (instanceNames.includes(`${newInstanceName}-${count}`)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        count++;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (instanceNames.includes(newInstanceName)) {</span>
+<span class="cstat-no" title="statement not covered" >      let count = 1;</span>
+<span class="cstat-no" title="statement not covered" >      while (instanceNames.includes(`${newInstanceName}-${count}`)) {</span>
+<span class="cstat-no" title="statement not covered" >        count++;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return `${newInstanceName}-${count}`;</span></span>
+<span class="cstat-no" title="statement not covered" >      return `${newInstanceName}-${count}`;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return newInstanceName;</span></span>
+<span class="cstat-no" title="statement not covered" >    return newInstanceName;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const validate = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: CreateInstanceFromSnapshotValues) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const errors: Partial&lt;CreateInstanceFromSnapshotValues&gt; = <span class="cstat-no" title="statement not covered" >{};</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (values.stateful) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (values.targetProject === instance.project) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        errors.targetProject =</span></span>
+<span class="cstat-no" title="statement not covered" >  const validate = (values: CreateInstanceFromSnapshotValues) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const errors: Partial&lt;CreateInstanceFromSnapshotValues&gt; = {};</span>
+<span class="cstat-no" title="statement not covered" >    if (values.stateful) {</span>
+<span class="cstat-no" title="statement not covered" >      if (values.targetProject === instance.project) {</span>
+<span class="cstat-no" title="statement not covered" >        errors.targetProject =</span>
 <span class="cstat-no" title="statement not covered" >          "Stateful instance snapshot duplication must be in a different project";</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (values.instanceName !== instance.name) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        errors.instanceName =</span></span>
+<span class="cstat-no" title="statement not covered" >      if (values.instanceName !== instance.name) {</span>
+<span class="cstat-no" title="statement not covered" >        errors.instanceName =</span>
 <span class="cstat-no" title="statement not covered" >          "Instance name must be the same for stateful duplication";</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return errors;</span></span>
+<span class="cstat-no" title="statement not covered" >    return errors;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const validTargetProjects = <span class="cstat-no" title="statement not covered" >projects.filter(canCreateInstances);</span></span>
-<span class="cstat-no" title="statement not covered" >  const hasInstanceProjectPermission = <span class="cstat-no" title="statement not covered" >validTargetProjects.some(</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (p</span>roject) =&gt; <span class="cstat-no" title="statement not covered" >project.name === instance.project,</span></span>
+<span class="cstat-no" title="statement not covered" >  const validTargetProjects = projects.filter(canCreateInstances);</span>
+<span class="cstat-no" title="statement not covered" >  const hasInstanceProjectPermission = validTargetProjects.some(</span>
+<span class="cstat-no" title="statement not covered" >    (project) =&gt; project.name === instance.project,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;CreateInstanceFromSnapshotValues&gt;({</span></span>
+<span class="cstat-no" title="statement not covered" >  const formik = useFormik&lt;CreateInstanceFromSnapshotValues&gt;({</span>
 <span class="cstat-no" title="statement not covered" >    initialValues: {</span>
 <span class="cstat-no" title="statement not covered" >      instanceName: getNewInstanceName(instance),</span>
 <span class="cstat-no" title="statement not covered" >      targetProject: hasInstanceProjectPermission</span>
@@ -838,20 +838,20 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >      ).required(),</span>
 <span class="cstat-no" title="statement not covered" >    }),</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    onSubmit: (values) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      const instanceLink = (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        &lt;InstanceRichChip</span></span>
+<span class="cstat-no" title="statement not covered" >        &lt;InstanceRichChip</span>
 <span class="cstat-no" title="statement not covered" >          instanceName={instance.name}</span>
 <span class="cstat-no" title="statement not covered" >          projectName={instance.project}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      createInstance(</span></span>
+<span class="cstat-no" title="statement not covered" >      createInstance(</span>
 <span class="cstat-no" title="statement not covered" >        JSON.stringify(instanceFromSnapshotPayload(values, instance, snapshot)),</span>
 <span class="cstat-no" title="statement not covered" >        values.targetProject,</span>
 <span class="cstat-no" title="statement not covered" >        values.targetClusterMember,</span>
 <span class="cstat-no" title="statement not covered" >      )</span>
-<span class="cstat-no" title="statement not covered" >        .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.info(</span></span>
+<span class="cstat-no" title="statement not covered" >        .then((operation) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.info(</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >              Instance creation started for{" "}</span>
 <span class="cstat-no" title="statement not covered" >              &lt;ResourceLabel</span>
@@ -862,29 +862,29 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >              .</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          eventQueue.set(</span></span>
+<span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
 <span class="cstat-no" title="statement not covered" >            operation.metadata.id,</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              notifySuccess(values.instanceName, values.targetProject);</span></span>
+<span class="cstat-no" title="statement not covered" >            () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              notifySuccess(values.instanceName, values.targetProject);</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >            (msg) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >                "Instance creation failed.",</span>
 <span class="cstat-no" title="statement not covered" >                new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >                instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >              ),</span>
 <span class="cstat-no" title="statement not covered" >          );</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Instance creation failed.", e, instanceLink);</span></span>
+<span class="cstat-no" title="statement not covered" >        .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.failure("Instance creation failed.", e, instanceLink);</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .finally(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          close();</span></span>
+<span class="cstat-no" title="statement not covered" >        .finally(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          close();</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Modal</span>
 <span class="cstat-no" title="statement not covered" >      close={close}</span>
 <span class="cstat-no" title="statement not covered" >      className="create-instance-from-snapshot-modal"</span>
@@ -909,7 +909,7 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >              storagePoolsLoading ||</span>
 <span class="cstat-no" title="statement not covered" >              projectsLoading</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
-<span class="cstat-no" title="statement not covered" >            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span></span>
+<span class="cstat-no" title="statement not covered" >            onClick={() =&gt; void formik.submitForm()}</span>
 <span class="cstat-no" title="statement not covered" >          &gt;</span>
 <span class="cstat-no" title="statement not covered" >            Create</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/ActionButton&gt;</span>
@@ -938,8 +938,8 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >          {...formik.getFieldProps("targetStoragePool")}</span>
 <span class="cstat-no" title="statement not covered" >          id="storagePool"</span>
 <span class="cstat-no" title="statement not covered" >          label="Storage pool"</span>
-<span class="cstat-no" title="statement not covered" >          options={storagePools.map(<span class="fstat-no" title="function not covered" >(s</span>toragePool) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return {</span></span>
+<span class="cstat-no" title="statement not covered" >          options={storagePools.map((storagePool) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return {</span>
 <span class="cstat-no" title="statement not covered" >              label: storagePool.name,</span>
 <span class="cstat-no" title="statement not covered" >              value: storagePool.name,</span>
 <span class="cstat-no" title="statement not covered" >            };</span>
@@ -949,8 +949,8 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >          {...formik.getFieldProps("targetProject")}</span>
 <span class="cstat-no" title="statement not covered" >          id="project"</span>
 <span class="cstat-no" title="statement not covered" >          label="Target project"</span>
-<span class="cstat-no" title="statement not covered" >          options={validTargetProjects.map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return {</span></span>
+<span class="cstat-no" title="statement not covered" >          options={validTargetProjects.map((project) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return {</span>
 <span class="cstat-no" title="statement not covered" >              label: project.name,</span>
 <span class="cstat-no" title="statement not covered" >              value: project.name,</span>
 <span class="cstat-no" title="statement not covered" >            };</span>
@@ -979,7 +979,7 @@ export default CreateInstanceFromSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

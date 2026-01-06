@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.63% </span>
+                <span class="strong">92.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>59/76</span>
+                <span class='fraction'>59/64</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/16</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/9</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -205,38 +205,38 @@ interface Props {
   className?: string;
 }
 &nbsp;
-const EditIdentityGroupsBtn: FC&lt;Props &amp; ButtonProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const EditIdentityGroupsBtn: FC&lt;Props &amp; ButtonProps&gt; = ({
   identities,
   className,
   ...buttonProps
 }) =&gt; {
-  const { canEditIdentity } = <span class="cstat-no" title="statement not covered" >useIdentityEntitlements();</span>
-  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
+  const { canEditIdentity } = useIdentityEntitlements();
+  const panelParams = usePanelParams();
   const buttonText =
-<span class="cstat-no" title="statement not covered" >    identities.length &gt; 1</span>
+    identities.length &gt; 1
       ? `Modify groups for ${identities.length} identities`
       : "Modify groups";
 &nbsp;
-  const restrictedIdentities = <span class="cstat-no" title="statement not covered" >identities.filter(</span>
-<span class="fstat-no" title="function not covered" >    (i</span>dentity) =&gt; <span class="cstat-no" title="statement not covered" >!canEditIdentity(identity),</span>
+  const restrictedIdentities = identities.filter(
+    (identity) =&gt; !canEditIdentity(identity),
   );
 &nbsp;
-  const getRestrictedWarning = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const restrictedList = <span class="cstat-no" title="statement not covered" >restrictedIdentities</span></span>
-<span class="cstat-no" title="statement not covered" >      .map(<span class="fstat-no" title="function not covered" >(i</span>dentity) =&gt; <span class="cstat-no" title="statement not covered" >`\n- ${getIdentityName(identity)}`)</span></span>
+  const getRestrictedWarning = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const restrictedList = restrictedIdentities</span>
+<span class="cstat-no" title="statement not covered" >      .map((identity) =&gt; `\n- ${getIdentityName(identity)}`)</span>
 <span class="cstat-no" title="statement not covered" >      .join("");</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return `You do not have permission to modify ${restrictedIdentities.length &gt; 1 ? "some of the selected" : <span class="branch-1 cbranch-no" title="branch not covered" >"the selected"}</span> ${pluralize("identity", restrictedIdentities.length)}:${restrictedList}`;</span></span>
+<span class="cstat-no" title="statement not covered" >    return `You do not have permission to modify ${restrictedIdentities.length &gt; 1 ? "some of the selected" : "the selected"} ${pluralize("identity", restrictedIdentities.length)}:${restrictedList}`;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;Button
-        onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          panelParams.openIdentityGroups();</span>
+        onClick={() =&gt; {
+          panelParams.openIdentityGroups();
         }}
         aria-label="Modify groups"
         title={
-          restrictedIdentities.<span class="branch-0 cbranch-no" title="branch not covered" >length ? getRestrictedWarning() : "</span>Modify groups"
+          restrictedIdentities.length<span class="branch-0 cbranch-no" title="branch not covered" > ? getRestrictedWarning() : "</span>Modify groups"
         }
         className={className}
         disabled={
@@ -262,7 +262,7 @@ export default EditIdentityGroupsBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

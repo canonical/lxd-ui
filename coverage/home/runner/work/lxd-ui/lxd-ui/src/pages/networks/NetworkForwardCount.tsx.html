@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.21% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/38</span>
+                <span class='fraction'>32/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/16</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -108,23 +108,23 @@
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">300x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">140x</span>
-<span class="cline-any cline-yes">300x</span>
-<span class="cline-any cline-yes">300x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-yes">275x</span>
+<span class="cline-any cline-yes">275x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -139,12 +139,12 @@ interface Props {
   project: string;
 }
 &nbsp;
-const NetworkForwardCount: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> network, project }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (network.managed === false || <span class="branch-1 cbranch-no" title="branch not covered" >!typesWithForwards.includes(network.type)) {</span></span>
-<span class="cstat-no" title="statement not covered" >    return &lt;&gt;-&lt;/&gt;;</span>
+const NetworkForwardCount: FC&lt;Props&gt; = ({ network, project }) =&gt; {
+  if (network.managed === false || !typesWithForwards.includes(network.type)) {
+    return &lt;&gt;-&lt;/&gt;;
   }
 &nbsp;
-  const { data: forwards = [], isLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
+  const { data: forwards = [], isLoading } = useQuery({
     queryKey: [
       queryKeys.projects,
       project,
@@ -152,10 +152,10 @@ const NetworkForwardCount: FC&lt;Props&gt; = <span class="cstat-no" title="state
       network,
       queryKeys.forwards,
     ],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchNetworkForwards(network.name, project),</span>
+    queryFn: async () =&gt; fetchNetworkForwards(network.name, project),
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return &lt;&gt;{isLoading ? "" : <span class="branch-1 cbranch-no" title="branch not covered" >forwards.length}&lt;</span>/&gt;;</span>
+  return &lt;&gt;{isLoading ? "" : forwards.length}&lt;/&gt;;
 };
 &nbsp;
 export default NetworkForwardCount;
@@ -166,7 +166,7 @@ export default NetworkForwardCount;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.07% </span>
+                <span class="strong">19.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/123</span>
+                <span class='fraction'>21/108</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -285,7 +285,7 @@ import {
   MainTable,
   ScrollableTable,
 } from "@canonical/react-components";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 &nbsp;
@@ -297,34 +297,34 @@ interface Props {
   };
 }
 &nbsp;
-const ProjectSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> onSelect, disableProject }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const { data: projects = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useProjects();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canCreateInstances } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span></span>
+const ProjectSelectTable: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ onSelect, disableProject }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const { data: projects = [] } = useProjects();</span>
+<span class="cstat-no" title="statement not covered" >  const { canCreateInstances } = useProjectEntitlements();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const headers = <span class="cstat-no" title="statement not covered" >[</span></span>
+<span class="cstat-no" title="statement not covered" >  const headers = [</span>
 <span class="cstat-no" title="statement not covered" >    { content: "Name", sortKey: "name" },</span>
 <span class="cstat-no" title="statement not covered" >    { "aria-label": "Actions", className: "actions" },</span>
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const rows = <span class="cstat-no" title="statement not covered" >projects.map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const getDisableReason = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (!canCreateInstances(project)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return "You do not have permission to create instances in this project";</span></span>
+<span class="cstat-no" title="statement not covered" >  const rows = projects.map((project) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const getDisableReason = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (!canCreateInstances(project)) {</span>
+<span class="cstat-no" title="statement not covered" >        return "You do not have permission to create instances in this project";</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return disableProject?.name === project.name</span></span>
+<span class="cstat-no" title="statement not covered" >      return disableProject?.name === project.name</span>
 <span class="cstat-no" title="statement not covered" >        ? disableProject?.reason</span>
 <span class="cstat-no" title="statement not covered" >        : null;</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const selectProject = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (getDisableReason()) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
+<span class="cstat-no" title="statement not covered" >    const selectProject = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (getDisableReason()) {</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onSelect(project.name);</span></span>
+<span class="cstat-no" title="statement not covered" >      onSelect(project.name);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return {</span></span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
 <span class="cstat-no" title="statement not covered" >      key: project.name,</span>
 <span class="cstat-no" title="statement not covered" >      className: classnames("u-row", {</span>
 <span class="cstat-no" title="statement not covered" >        "u-text--muted": !!getDisableReason(),</span>
@@ -367,7 +367,7 @@ const ProjectSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="migrate-instance-table u-selectable-table-rows"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;ScrollableTable</span>
 <span class="cstat-no" title="statement not covered" >        dependencies={[projects]}</span>
@@ -394,7 +394,7 @@ export default ProjectSelectTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

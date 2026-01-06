@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.12% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>53/63</span>
+                <span class='fraction'>53/53</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.83% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/24</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -131,42 +131,42 @@
 <span class="cline-any cline-yes">152x</span>
 <span class="cline-any cline-yes">152x</span>
 <span class="cline-any cline-yes">152x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">1495x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
-<span class="cline-any cline-yes">1755x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
+<span class="cline-any cline-yes">1465x</span>
 <span class="cline-any cline-yes">152x</span>
 <span class="cline-any cline-yes">152x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -183,36 +183,36 @@ interface Props {
   isYaml?: boolean;
 }
 &nbsp;
-const FormSubmitBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const FormSubmitBtn: FC&lt;Props&gt; = ({
   formik,
   baseUrl,
   disabled,
-  isYaml = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  isYaml = false,
 }) =&gt; {
-  const changeCount = <span class="cstat-no" title="statement not covered" >getFormChangeCount(formik);</span>
+  const changeCount = getFormChangeCount(formik);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  usePrompt({</span>
-    when: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return changeCount &gt; 0 &amp;&amp; !data.nextLocation.pathname.startsWith(baseUrl);</span>
+  usePrompt({
+    when: (data) =&gt; {
+      return changeCount &gt; 0 &amp;&amp; !data.nextLocation.pathname.startsWith(baseUrl);
     },
     message: "Changes you made have not been saved. Leave site?",
   });
 &nbsp;
-  const handleCloseTab = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: BeforeUnloadEvent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (changeCount &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      e.returnValue = "Changes you made have not been saved.";</span>
+  const handleCloseTab = (e: BeforeUnloadEvent) =&gt; {
+    if (changeCount &gt; 0) {
+      e.returnValue = "Changes you made have not been saved.";
     }
   };
-<span class="cstat-no" title="statement not covered" >  useListener(window, handleCloseTab, "beforeunload");</span>
+  useListener(window, handleCloseTab, "beforeunload");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;ActionButton
       appearance="positive"
       loading={formik.isSubmitting}
       disabled={
         !formik.isValid || formik.isSubmitting || disabled || changeCount === 0
       }
-      onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+      onClick={() =&gt; void formik.submitForm()}
     &gt;
       {changeCount === 0 || isYaml
         ? "Save changes"
@@ -229,7 +229,7 @@ export default FormSubmitBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

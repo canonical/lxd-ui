@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75.72% </span>
+                <span class="strong">87.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>78/103</span>
+                <span class='fraction'>78/89</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/15</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/9</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -184,7 +184,7 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -227,13 +227,13 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -253,30 +253,30 @@ interface Props {
   storageVolume: LxdStorageVolume;
 }
 &nbsp;
-const MigrateVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> close, migrate, storageVolume }) =&gt; {</span>
-  const [selectedPool, setSelectedPool] = <span class="cstat-no" title="statement not covered" >useState("");</span>
+const MigrateVolumeModal: FC&lt;Props&gt; = ({ close, migrate, storageVolume }) =&gt; {
+  const [selectedPool, setSelectedPool] = useState("");
 &nbsp;
-  const handleEscKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (e.key === "Escape") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      close();</span></span>
+  const handleEscKey = <span class="fstat-no" title="function not covered" >(e: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (e.key === "Escape") {</span>
+<span class="cstat-no" title="statement not covered" >      close();</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const handleCancel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (selectedPool) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setSelectedPool("");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+  const handleCancel = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (selectedPool) {</span>
+<span class="cstat-no" title="statement not covered" >      setSelectedPool("");</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    close();</span></span>
+<span class="cstat-no" title="statement not covered" >    close();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const modalTitle = <span class="cstat-no" title="statement not covered" >selectedPool</span>
+  const modalTitle = selectedPool
     ? "Confirm migration"
     : `Choose storage pool for volume ${storageVolume.name}`;
 &nbsp;
   const summary = (
-<span class="cstat-no" title="statement not covered" >    &lt;div className="migrate-instance-summary"&gt;</span>
+    &lt;div className="migrate-instance-summary"&gt;
       &lt;p&gt;
         This will migrate volume &lt;strong&gt;{storageVolume.name}&lt;/strong&gt; to
         storage pool &lt;b&gt;{selectedPool}&lt;/b&gt;.
@@ -284,7 +284,7 @@ const MigrateVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="statem
     &lt;/div&gt;
   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal
       close={close}
       className="migrate-instance-modal"
@@ -303,8 +303,8 @@ const MigrateVolumeModal: FC&lt;Props&gt; = <span class="cstat-no" title="statem
           &lt;ActionButton
             appearance="positive"
             className="u-no-margin--bottom"
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              migrate(selectedPool);</span>
+            onClick={() =&gt; {
+              migrate(selectedPool);
             }}
             disabled={!selectedPool}
           &gt;
@@ -337,7 +337,7 @@ export default MigrateVolumeModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

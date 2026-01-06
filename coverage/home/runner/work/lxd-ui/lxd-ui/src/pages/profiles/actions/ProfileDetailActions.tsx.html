@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.67% </span>
+                <span class="strong">71.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/67</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>43/60</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">33.33% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.33% </span>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">71.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>44/60</span>
+                <span class='fraction'>43/60</span>
             </div>
         
             
@@ -140,26 +140,24 @@
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -173,14 +171,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
-<span class="cline-any cline-yes">280x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -199,13 +199,13 @@ interface Props {
   project: string;
 }
 &nbsp;
-const ProfileDetailActions: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> profile, project }) =&gt; {</span>
-  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow(largeScreenBreakpoint);</span>
-  const classname = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isSmallScreen</span></span>
+const ProfileDetailActions: FC&lt;Props&gt; = ({ profile, project }) =&gt; {
+  const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
+  const classname = <span class="branch-0 cbranch-no" title="branch not covered" >isSmallScreen</span>
 <span class="cstat-no" title="statement not covered" >    ? "p-contextual-menu__link"</span>
     : "p-segmented-control__button";
 &nbsp;
-  const menuElements = <span class="cstat-no" title="statement not covered" >[</span>
+  const menuElements = [
     &lt;CopyProfileBtn key="copy" profile={profile} className={classname} /&gt;,
     &lt;DeleteProfileBtn
       key="delete"
@@ -215,7 +215,7 @@ const ProfileDetailActions: FC&lt;Props&gt; = <span class="cstat-no" title="stat
     /&gt;,
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       {<span class="branch-0 cbranch-no" title="branch not covered" >isSmallScreen ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;ContextualMenu</span>
@@ -225,15 +225,15 @@ const ProfileDetailActions: FC&lt;Props&gt; = <span class="cstat-no" title="stat
 <span class="cstat-no" title="statement not covered" >          hasToggleIcon</span>
 <span class="cstat-no" title="statement not covered" >          title="actions"</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
-<span class="cstat-no" title="statement not covered" >          {<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(c</span>lose: () =&gt; void) =&gt; (</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            &lt;span&gt;</span></span>
-<span class="cstat-no" title="statement not covered" >              {[...menuElements].map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                cloneElement(item, { onClose: close }),</span></span>
+<span class="cstat-no" title="statement not covered" >          {(close: () =&gt; void) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;span&gt;</span>
+<span class="cstat-no" title="statement not covered" >              {[...menuElements].map((item) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >                cloneElement(item, { onClose: close }),</span>
 <span class="cstat-no" title="statement not covered" >              )}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/ContextualMenu&gt;</span>
-      ) : (
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
         &lt;div className="p-segmented-control"&gt;
           &lt;div className="p-segmented-control__list"&gt;{menuElements}&lt;/div&gt;
         &lt;/div&gt;
@@ -250,7 +250,7 @@ export default ProfileDetailActions;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

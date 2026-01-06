@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.48% </span>
+                <span class="strong">22.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/91</span>
+                <span class='fraction'>15/67</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -209,49 +209,49 @@ interface DownloadButtonProps {
   content: string;
 }
 &nbsp;
-const DownloadButton: FC&lt;DownloadButtonProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const DownloadButton: FC&lt;DownloadButtonProps&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  instance,</span>
 <span class="cstat-no" title="statement not covered" >  content,</span>
 <span class="cstat-no" title="statement not covered" >  fileName,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const buttonRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLDivElement | null&gt;(null);</span></span>
+<span class="cstat-no" title="statement not covered" >  const buttonRef = useRef&lt;HTMLDivElement | null&gt;(null);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const generateLink = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(l</span>inkId: string, href: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const link = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    link.setAttribute("href", href);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    link.setAttribute("target", "_blank");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    link.setAttribute("download", fileName);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    link.setAttribute("id", linkId);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    link.style.display = "none";</span></span>
+<span class="cstat-no" title="statement not covered" >  const generateLink = (linkId: string, href: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const link = document.createElement("a");</span>
+<span class="cstat-no" title="statement not covered" >    link.setAttribute("href", href);</span>
+<span class="cstat-no" title="statement not covered" >    link.setAttribute("target", "_blank");</span>
+<span class="cstat-no" title="statement not covered" >    link.setAttribute("download", fileName);</span>
+<span class="cstat-no" title="statement not covered" >    link.setAttribute("id", linkId);</span>
+<span class="cstat-no" title="statement not covered" >    link.style.display = "none";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return link;</span></span>
+<span class="cstat-no" title="statement not covered" >    return link;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleDownload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const linkId = <span class="cstat-no" title="statement not covered" >`link-${fileName.toLowerCase().replace(" ", "-")}`;</span></span>
-<span class="cstat-no" title="statement not covered" >    const alreadyCreatedLink = <span class="cstat-no" title="statement not covered" >document.getElementById(linkId);</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleDownload = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const linkId = `link-${fileName.toLowerCase().replace(" ", "-")}`;</span>
+<span class="cstat-no" title="statement not covered" >    const alreadyCreatedLink = document.getElementById(linkId);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (alreadyCreatedLink) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      alreadyCreatedLink.click();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (alreadyCreatedLink) {</span>
+<span class="cstat-no" title="statement not covered" >      alreadyCreatedLink.click();</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const data =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      content ||</span></span>
+<span class="cstat-no" title="statement not covered" >      content ||</span>
 <span class="cstat-no" title="statement not covered" >      (await fetchInstanceLogFile(instance.name, instance.project, fileName));</span>
-<span class="cstat-no" title="statement not covered" >    const blob = <span class="cstat-no" title="statement not covered" >new Blob([data], { type: "text/plain" });</span></span>
-<span class="cstat-no" title="statement not covered" >    const href = <span class="cstat-no" title="statement not covered" >URL.createObjectURL(blob);</span></span>
+<span class="cstat-no" title="statement not covered" >    const blob = new Blob([data], { type: "text/plain" });</span>
+<span class="cstat-no" title="statement not covered" >    const href = URL.createObjectURL(blob);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const link = <span class="cstat-no" title="statement not covered" >generateLink(linkId, href);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    buttonRef.current?.appendChild(link);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    link.click();</span></span>
+<span class="cstat-no" title="statement not covered" >    const link = generateLink(linkId, href);</span>
+<span class="cstat-no" title="statement not covered" >    buttonRef.current?.appendChild(link);</span>
+<span class="cstat-no" title="statement not covered" >    link.click();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >      appearance="base"</span>
 <span class="cstat-no" title="statement not covered" >      className="u-no-margin--bottom"</span>
-<span class="cstat-no" title="statement not covered" >      onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid handleDownload()}</span></span>
+<span class="cstat-no" title="statement not covered" >      onClick={() =&gt; void handleDownload()}</span>
 <span class="cstat-no" title="statement not covered" >      title={`Download ${fileName}`}</span>
 <span class="cstat-no" title="statement not covered" >      aria-label={`Download ${fileName} file`}</span>
 <span class="cstat-no" title="statement not covered" >      hasIcon</span>
@@ -271,7 +271,7 @@ export default DownloadButton;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

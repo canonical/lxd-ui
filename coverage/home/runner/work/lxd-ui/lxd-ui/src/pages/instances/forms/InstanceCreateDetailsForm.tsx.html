@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.62% </span>
+                <span class="strong">99.02% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>203/224</span>
+                <span class='fraction'>203/205</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.51% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/43</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/11</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
@@ -417,14 +417,14 @@
 <span class="cline-any cline-yes">58x</span>
 <span class="cline-any cline-yes">58x</span>
 <span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">104x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
 <span class="cline-any cline-yes">162x</span>
 <span class="cline-any cline-yes">162x</span>
 <span class="cline-any cline-yes">162x</span>
@@ -517,8 +517,8 @@ export interface InstanceDetailsFormValues {
   editRestriction?: string;
 }
 &nbsp;
-export const instanceDetailPayload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: CreateInstanceFormValues) =&gt; {</span>
-  const payload: Record&lt;string, string | undefined | object&gt; = <span class="cstat-no" title="statement not covered" >{</span>
+export const instanceDetailPayload = (values: CreateInstanceFormValues) =&gt; {
+  const payload: Record&lt;string, string | undefined | object&gt; = {
     name: values.name,
     description: values.description,
     type: values.instanceType,
@@ -532,8 +532,8 @@ export const instanceDetailPayload = <span class="cstat-no" title="statement not
     },
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (values.image?.server === LOCAL_IMAGE) {</span>
-<span class="cstat-no" title="statement not covered" >    payload.source = {</span>
+  if (values.image?.server === LOCAL_IMAGE) {
+    payload.source = {
       type: "image",
       certificate: "",
       fingerprint: values.image?.fingerprint,
@@ -541,15 +541,15 @@ export const instanceDetailPayload = <span class="cstat-no" title="statement not
     };
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (values.image?.server === LOCAL_ISO) {</span>
-<span class="cstat-no" title="statement not covered" >    payload.source = {</span>
+  if (values.image?.server === LOCAL_ISO) {
+    payload.source = {
       type: "none",
       certificate: "",
       allow_inconsistent: false,
     };
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return payload;</span>
+  return payload;
 };
 &nbsp;
 interface Props {
@@ -558,26 +558,26 @@ interface Props {
   project: string;
 }
 &nbsp;
-const InstanceCreateDetailsForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const InstanceCreateDetailsForm: FC&lt;Props&gt; = ({
   formik,
   onSelectImage,
   project,
 }) =&gt; {
-  const { hasCustomVolumeIso } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
+  const { hasCustomVolumeIso } = useSupportedFeatures();
 &nbsp;
-  const figureBaseImageName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const image = <span class="cstat-no" title="statement not covered" >formik.values.image;</span>
+  const figureBaseImageName = () =&gt; {
+    const image = formik.values.image;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!image) <span class="cstat-no" title="statement not covered" >return "";</span></span>
+    if (!image) return "";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (image.variant?.toLocaleLowerCase().includes("desktop")) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return `${image.os} ${image.release} ${image.aliases.split(",")[0]}`;</span></span>
+    if (image.variant?.toLocaleLowerCase().includes("desktop")) {
+<span class="cstat-no" title="statement not covered" >      return `${image.os} ${image.release} ${image.aliases.split(",")[0]}`;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return `${image.os} ${image.release} ${image.release_title}`;</span>
+    return `${image.os} ${image.release} ${image.release_title}`;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;ScrollableForm&gt;
       &lt;Row&gt;
         &lt;Col size={12}&gt;
@@ -615,7 +615,7 @@ const InstanceCreateDetailsForm: FC&lt;Props&gt; = <span class="cstat-no" title=
                 &lt;Button
                   appearance="base"
                   type="button"
-                  onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>ormik.setFieldValue("image", undefined)}</span></span>
+                  onClick={<span class="fstat-no" title="function not covered" >async () =&gt; formik.setFieldValue("image", undefined)}</span>
                   title="Clear"
                   hasIcon
                 &gt;
@@ -657,7 +657,7 @@ const InstanceCreateDetailsForm: FC&lt;Props&gt; = <span class="cstat-no" title=
       &lt;ProfileSelector
         project={project}
         selected={formik.values.profiles}
-        setSelected={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >void formik.setFieldValue("profiles", value)}</span></span>
+        setSelected={<span class="fstat-no" title="function not covered" >(value) =&gt; void formik.setFieldValue("profiles", value)}</span>
         readOnly={!formik.values.image}
         title={
           !formik.values.image
@@ -685,7 +685,7 @@ export default InstanceCreateDetailsForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

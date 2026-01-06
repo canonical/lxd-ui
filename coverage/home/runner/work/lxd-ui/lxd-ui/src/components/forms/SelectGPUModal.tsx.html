@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.93% </span>
+                <span class="strong">57.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>82/161</span>
+                <span class='fraction'>84/146</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.25% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/16</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/11</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.16% </span>
+                <span class="strong">57.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>82/146</span>
+                <span class='fraction'>84/146</span>
             </div>
         
             
@@ -329,8 +329,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -375,16 +375,16 @@ interface Props {
   onClose: () =&gt; void;
 }
 &nbsp;
-const SelectGPUModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> onSelect, onClose }) =&gt; {</span>
-  const { canViewResources } = <span class="cstat-no" title="statement not covered" >useServerEntitlements();</span>
+const SelectGPUModal: FC&lt;Props&gt; = ({ onSelect, onClose }) =&gt; {
+  const { canViewResources } = useServerEntitlements();
 &nbsp;
-  const { data: resources, isLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
+  const { data: resources, isLoading } = useQuery({
     queryKey: [queryKeys.resources],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchResources(),</span>
+    queryFn: async () =&gt; fetchResources(),
     enabled: canViewResources(),
   });
 &nbsp;
-  const headers = <span class="cstat-no" title="statement not covered" >[</span>
+  const headers = [
     { content: "Vendor" },
     { content: "Driver" },
     { content: "PCI address" },
@@ -392,14 +392,14 @@ const SelectGPUModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
     { "aria-label": "Actions", className: "actions" },
   ];
 &nbsp;
-  const rows = <span class="cstat-no" title="statement not covered" >isLoading</span>
-    ? <span class="branch-0 cbranch-no" title="branch not covered" >[]</span>
-<span class="cstat-no" title="statement not covered" >    : resources?.gpu?.cards?.map((card) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const selectCard = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          onSelect(card);</span></span>
+  const rows = isLoading
+    ? []
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    : resources?.gpu?.cards?.map((card) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        const selectCard = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          onSelect(card);</span>
 <span class="cstat-no" title="statement not covered" >        };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return {</span></span>
+<span class="cstat-no" title="statement not covered" >        return {</span>
 <span class="cstat-no" title="statement not covered" >          key: card.pci_address,</span>
 <span class="cstat-no" title="statement not covered" >          className: "u-row",</span>
 <span class="cstat-no" title="statement not covered" >          columns: [</span>
@@ -451,16 +451,16 @@ const SelectGPUModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
 <span class="cstat-no" title="statement not covered" >        };</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 &nbsp;
-  const getContent = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!canViewResources()) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return (</span></span>
+  const getContent = () =&gt; {
+    if (!canViewResources()) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Notification severity="caution" title="Restricted permissions"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          You do not have permission to view available GPUs on the server.</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/Notification&gt;</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
       &lt;ScrollableTable
         dependencies={[resources, rows]}
         belowIds={["modal-footer"]}
@@ -474,9 +474,9 @@ const SelectGPUModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
-              &lt;Spinner className="u-loader" text="Loading GPUs..."<span class="branch-0 cbranch-no" title="branch not covered" > /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            ) : (</span>
-<span class="cstat-no" title="statement not covered" >              "No GPUs found"</span>
+              &lt;Spinner className="u-loader" text="Loading GPUs..." /&gt;
+            ) : (
+<span class="branch-0 cbranch-no" title="branch not covered" >              "No GPUs found"</span>
             )
           }
         /&gt;
@@ -484,14 +484,14 @@ const SelectGPUModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
     );
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Modal close={onClose} title="Select GPU"&gt;
       {getContent()}
       &lt;footer className="p-modal__footer" id="modal-footer"&gt;
         &lt;Button
           className="u-no-margin--bottom"
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            onSelect({ pci_address: "" });</span>
+          onClick={() =&gt; {
+            onSelect({ pci_address: "" });
           }}
         &gt;
           Enter details manually
@@ -508,7 +508,7 @@ export default SelectGPUModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

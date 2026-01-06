@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.33% </span>
+                <span class="strong">97.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>286/356</span>
+                <span class='fraction'>284/291</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.42% </span>
+                <span class="strong">80.64% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>29/70</span>
+                <span class='fraction'>25/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>14/28</span>
+                <span class='fraction'>9/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.93% </span>
+                <span class="strong">97.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>285/291</span>
+                <span class='fraction'>284/291</span>
             </div>
         
             
@@ -504,7 +504,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -667,7 +667,7 @@ import { useFormik } from "formik";
 import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import * as Yup from "yup";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { uploadVolume } from "api/storage-volumes";
@@ -694,29 +694,29 @@ interface Props {
   defaultVolumeName?: string;
 }
 &nbsp;
-const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const UploadVolumeBackupFileForm: FC&lt;Props&gt; = ({
   close,
   uploadState,
   setUploadState,
   defaultVolumeName,
 }) =&gt; {
-  const { project, isLoading } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span>
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
-  const [uploadAbort, setUploadAbort] = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const volumeNameAbort = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const { data: pools = [] } = <span class="cstat-no" title="statement not covered" >useStoragePools();</span>
-  const { data: clusterMembers = [] } = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span>
+  const { project, isLoading } = useCurrentProject();
+  const eventQueue = useEventQueue();
+  const toastNotify = useToastNotification();
+  const notify = useNotify();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [uploadAbort, setUploadAbort] = useState&lt;AbortController | null&gt;(null);
+  const volumeNameAbort = useState&lt;AbortController | null&gt;(null);
+  const { data: pools = [] } = useStoragePools();
+  const { data: clusterMembers = [] } = useClusterMembers();
 &nbsp;
-  const handleSuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+  const handleSuccess = (
     volumeName: string,
     location: string,
     pool: string,
   ) =&gt; {
-    const volumeDetailURL = <span class="cstat-no" title="statement not covered" >linkForVolumeDetail({</span>
+    const volumeDetailURL = linkForVolumeDetail({
       location: location,
       name: volumeName,
       pool: pool,
@@ -725,41 +725,41 @@ const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title
     } as LxdStorageVolume);
 &nbsp;
     const message = (
-<span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
+      &lt;&gt;
         Created volume{" "}
         &lt;ResourceLink type="volume" value={volumeName} to={volumeDetailURL} /&gt;.
       &lt;/&gt;
     );
 &nbsp;
-    const actions = <span class="cstat-no" title="statement not covered" >[</span>
+    const actions = [
       {
         label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${volumeDetailURL}/configuration`),</span></span>
+        onClick: <span class="fstat-no" title="function not covered" >async () =&gt; navigate(`${volumeDetailURL}/configuration`),</span>
       },
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(message, actions);</span>
+    toastNotify.success(message, actions);
   };
 &nbsp;
-  const handleFailure = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(m</span>sg: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.failure("Volume creation failed.", new Error(msg));</span></span>
+  const handleFailure = <span class="fstat-no" title="function not covered" >(msg: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    toastNotify.failure("Volume creation failed.", new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
-      predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {
-<span class="cstat-no" title="statement not covered" >        return query.queryKey[0] === queryKeys.volumes;</span>
+  const handleFinish = () =&gt; {
+    queryClient.invalidateQueries({
+      predicate: (query) =&gt; {
+        return query.queryKey[0] === queryKeys.volumes;
       },
     });
   };
 &nbsp;
-  const handleUpload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: UploadVolumeBackupFileFormValues) =&gt; {</span>
-    const uploadController = <span class="cstat-no" title="statement not covered" >new AbortController();</span>
-<span class="cstat-no" title="statement not covered" >    setUploadAbort(uploadController);</span>
+  const handleUpload = (values: UploadVolumeBackupFileFormValues) =&gt; {
+    const uploadController = new AbortController();
+    setUploadAbort(uploadController);
 &nbsp;
-    const targetClusterMember = <span class="cstat-no" title="statement not covered" >isCMSDriver ? values.<span class="branch-0 cbranch-no" title="branch not covered" >clusterMember : "";</span></span>
+    const targetClusterMember = isCMSDriver ? values.clusterMember<span class="branch-0 cbranch-no" title="branch not covered" > : "";</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    uploadVolume(</span>
+    uploadVolume(
       values.volumeFile,
       values.name,
       project?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "",</span>
@@ -769,41 +769,41 @@ const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title
       targetClusterMember,
     )
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        toastNotify.info(</span>
+        toastNotify.info(
           &lt;&gt;
             Upload completed. Now creating volume{" "}
             &lt;ResourceLabel bold type="volume" value={values.name} /&gt;.
           &lt;/&gt;,
         );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            handleSuccess(values.name, values.clusterMember, values.pool);</span>
+          () =&gt; {
+            handleSuccess(values.name, values.clusterMember, values.pool);
           },
           handleFailure,
           handleFinish,
         );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        handleCloseModal();</span>
-<span class="cstat-no" title="statement not covered" >        navigate(</span>
-          `/ui/project/${encodeURIComponent(project?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>}/storage/volumes`,
+        handleCloseModal();
+        navigate(
+          `/ui/project/${encodeURIComponent(project?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "")}/</span>storage/volumes`,
         );
       })
       .catch((e: AxiosError&lt;LxdSyncResponse&lt;null&gt;&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >        const error = <span class="cstat-no" title="statement not covered" >new Error(e.response?.data.error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Volume upload failed", error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setUploadState(null);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        const error = new Error(e.response?.data.error);</span>
+<span class="cstat-no" title="statement not covered" >        notify.failure("Volume upload failed", error);</span>
+<span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >        setUploadState(null);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;UploadVolumeBackupFileFormValues&gt;({</span>
+  const formik = useFormik&lt;UploadVolumeBackupFileFormValues&gt;({
     initialValues: {
       name: defaultVolumeName || "",
       pool: "", // will be set by StoragePoolSelector
       volumeFile: null,
-      clusterMember: clusterMembers?.[0<span class="branch-0 cbranch-no" title="branch not covered" >]?.server_name ?? "</span>",
+      clusterMember: clusterMembers?.[0]<span class="branch-0 cbranch-no" title="branch not covered" >?.server_name ?? "</span>",
     },
     validateOnMount: true,
     enableReinitialize: true,
@@ -821,45 +821,45 @@ const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title
     onSubmit: handleUpload,
   });
 &nbsp;
-  const pool = <span class="cstat-no" title="statement not covered" >pools.find((pool) =&gt; pool.name === formik.values.pool);</span>
-  const isCMSDriver = <span class="cstat-no" title="statement not covered" >isClusterLocalDriver(pool?.driver || <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>;</span>
+  const pool = pools.find((pool) =&gt; pool.name === formik.values.pool);
+  const isCMSDriver = isClusterLocalDriver(pool?.driver || "");
 &nbsp;
-  const handleCloseModal = <span class="cstat-no" title="statement not covered" >useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    uploadAbort?.abort()</span>;</span>
-<span class="cstat-no" title="statement not covered" >    setUploadState(null);</span>
-<span class="cstat-no" title="statement not covered" >    setUploadAbort(null);</span>
-<span class="cstat-no" title="statement not covered" >    formik.resetForm();</span>
-<span class="cstat-no" title="statement not covered" >    close();</span>
-<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
+  const handleCloseModal = useCallback(() =&gt; {
+<span class="branch-0 cbranch-no" title="branch not covered" >    uploadAbort?.abort();</span>
+    setUploadState(null);
+    setUploadAbort(null);
+    formik.resetForm();
+    close();
+    notify.clear();
   }, [uploadAbort, formik.resetForm, close, notify]);
 &nbsp;
-  const changeFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
-    const { onChange } = <span class="cstat-no" title="statement not covered" >formik.getFieldProps("volumeFile");</span>
-<span class="cstat-no" title="statement not covered" >    onChange(e);</span>
+  const changeFile = async (e: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    const { onChange } = formik.getFieldProps("volumeFile");
+    onChange(e);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (e.currentTarget.files) {</span>
-      const file = <span class="cstat-no" title="statement not covered" >e.currentTarget.files[0];</span>
-<span class="cstat-no" title="statement not covered" >      await formik.setFieldValue("volumeFile", file);</span>
+    if (e.currentTarget.files) {
+      const file = e.currentTarget.files[0];
+      await formik.setFieldValue("volumeFile", file);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (!defaultVolumeName) {</span>
-        const volumeName = <span class="cstat-no" title="statement not covered" >fileToSanitisedName(file.name, "-import");</span>
-<span class="cstat-no" title="statement not covered" >        await formik.setFieldValue("name", volumeName);</span>
+      if (!defaultVolumeName) {
+        const volumeName = fileToSanitisedName(file.name, "-import");
+        await formik.setFieldValue("name", volumeName);
 &nbsp;
         // validate volume name
-<span class="cstat-no" title="statement not covered" >        await formik.validateField("name");</span>
-<span class="cstat-no" title="statement not covered" >        void formik.setFieldTouched("name", true, true);</span>
-<span class="cstat-no" title="statement not covered" >        if (!formik.errors.name) {</span>
-<span class="cstat-no" title="statement not covered" >          formik.setFieldError("name", undefined);</span>
+        await formik.validateField("name");
+        void formik.setFieldTouched("name", true, true);
+        if (!formik.errors.name) {
+          formik.setFieldError("name", undefined);
         }
       }
     }
   };
 &nbsp;
-  const noFileSelectedMessage = <span class="cstat-no" title="statement not covered" >!formik.values.volumeFile</span>
+  const noFileSelectedMessage = !formik.values.volumeFile
     ? "Please select a file before adding custom configuration."
     : "";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;Form
         onSubmit={formik.handleSubmit}
@@ -871,7 +871,7 @@ const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title
           type="file"
           accept=".tar, application/gzip, application/x-bzip, application/x-xz, application/x-lzma, application/x-squashfs, application/x-qcow2, application/zstd"
           label="LXD backup archive (.tar.gz)"
-          onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >void changeFile(e)}</span>
+          onChange={(e) =&gt; void changeFile(e)}
         /&gt;
         &lt;Input
           {...formik.getFieldProps("name")}
@@ -885,8 +885,8 @@ const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title
         /&gt;
         &lt;StoragePoolSelector
           value={formik.values.pool}
-          setValue={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {
-<span class="cstat-no" title="statement not covered" >            void formik.setFieldValue("pool", value);</span>
+          setValue={(value) =&gt; {
+            void formik.setFieldValue("pool", value);
           }}
           selectProps={{
             id: "volume-import-pool",
@@ -926,7 +926,7 @@ const UploadVolumeBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" title
             isLoading ||
             !formik.values.volumeFile
           }
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          onClick={() =&gt; void formik.submitForm()}
         &gt;
           Upload and create
         &lt;/ActionButton&gt;
@@ -943,7 +943,7 @@ export default UploadVolumeBackupFileForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.21% </span>
+                <span class="strong">31.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/103</span>
+                <span class='fraction'>27/87</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/14</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -237,7 +237,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="branch-0 cbranch-no" title="branch not covered" >import { queryKeys } from "util/queryKeys"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
@@ -249,24 +249,24 @@ import {
   fetchStorageBucketKeys,
 } from "api/storage-buckets";
 &nbsp;
-export const useBuckets = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const useBuckets = (
   project: string,
 ): UseQueryResult&lt;LxdStorageBucket[]&gt; =&gt; {
-  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
+  const { isFineGrained } = useAuth();
+  return useQuery({
     queryKey: [queryKeys.storage, project, queryKeys.buckets],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchAllStorageBuckets(isFineGrained, project),</span>
+    queryFn: async () =&gt; fetchAllStorageBuckets(isFineGrained, project),
   });
 };
 &nbsp;
-export const useBucket = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const useBucket = <span class="fstat-no" title="function not covered" >(</span>
 <span class="cstat-no" title="statement not covered" >  bucketName: string,</span>
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  target?: string,</span>
 <span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdStorageBucket&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
 <span class="cstat-no" title="statement not covered" >    queryKey: [</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.storage,</span>
 <span class="cstat-no" title="statement not covered" >      pool,</span>
@@ -275,8 +275,8 @@ export const useBucket = <span class="cstat-no" title="statement not covered" ><
 <span class="cstat-no" title="statement not covered" >      bucketName,</span>
 <span class="cstat-no" title="statement not covered" >      target,</span>
 <span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      fetchStorageBucket(</span></span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      fetchStorageBucket(</span>
 <span class="cstat-no" title="statement not covered" >        pool,</span>
 <span class="cstat-no" title="statement not covered" >        project,</span>
 <span class="cstat-no" title="statement not covered" >        bucketName,</span>
@@ -286,13 +286,13 @@ export const useBucket = <span class="cstat-no" title="statement not covered" ><
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const useBucketKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const useBucketKey = <span class="fstat-no" title="function not covered" >(</span>
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  keyName: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdStorageBucketKey&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
 <span class="cstat-no" title="statement not covered" >    queryKey: [</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.storage,</span>
 <span class="cstat-no" title="statement not covered" >      bucket.pool,</span>
@@ -302,17 +302,17 @@ export const useBucketKey = <span class="cstat-no" title="statement not covered"
 <span class="cstat-no" title="statement not covered" >      queryKeys.keys,</span>
 <span class="cstat-no" title="statement not covered" >      keyName,</span>
 <span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      fetchStorageBucketKey(bucket, keyName, isFineGrained, project),</span></span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      fetchStorageBucketKey(bucket, keyName, isFineGrained, project),</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const useBucketKeys = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const useBucketKeys = <span class="fstat-no" title="function not covered" >(</span>
 <span class="cstat-no" title="statement not covered" >  bucket: LxdStorageBucket,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdStorageBucketKey[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
 <span class="cstat-no" title="statement not covered" >    queryKey: [</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.storage,</span>
 <span class="cstat-no" title="statement not covered" >      bucket.pool,</span>
@@ -321,7 +321,7 @@ export const useBucketKeys = <span class="cstat-no" title="statement not covered
 <span class="cstat-no" title="statement not covered" >      bucket.name,</span>
 <span class="cstat-no" title="statement not covered" >      queryKeys.keys,</span>
 <span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchStorageBucketKeys(bucket, isFineGrained, project),</span></span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchStorageBucketKeys(bucket, isFineGrained, project),</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
@@ -331,7 +331,7 @@ export const useBucketKeys = <span class="cstat-no" title="statement not covered
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

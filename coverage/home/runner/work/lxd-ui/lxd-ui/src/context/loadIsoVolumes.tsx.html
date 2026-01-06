@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.95% </span>
+                <span class="strong">58.82% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/91</span>
+                <span class='fraction'>40/68</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/10</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -131,16 +131,16 @@
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
 <a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
+<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -156,22 +156,22 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">63x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">62x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">142x</span>
-<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -208,64 +208,64 @@ import {
   fetchStorageVolumes,
 } from "api/storage-volumes";
 &nbsp;
-export const loadIsoVolumes = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const loadIsoVolumes = async (
   project: string,
   hasStorageVolumesAll: boolean,
   isFineGrained: boolean | null,
 ): Promise&lt;RemoteImage[]&gt; =&gt; {
-  const remoteImages: RemoteImage[] = <span class="cstat-no" title="statement not covered" >[];</span>
-  const allVolumes = <span class="cstat-no" title="statement not covered" >await loadVolumes(</span>
+  const remoteImages: RemoteImage[] = [];
+  const allVolumes = await loadVolumes(
     project,
     hasStorageVolumesAll,
     isFineGrained,
   );
-<span class="cstat-no" title="statement not covered" >  allVolumes.forEach((volume) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (volume.content_type === "iso") {</span>
-      const image = <span class="cstat-no" title="statement not covered" >isoToRemoteImage(volume);</span>
-<span class="cstat-no" title="statement not covered" >      remoteImages.push(image);</span>
+  allVolumes.forEach((volume) =&gt; {
+    if (volume.content_type === "iso") {
+      const image = isoToRemoteImage(volume);
+      remoteImages.push(image);
     }
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return remoteImages;</span>
+  return remoteImages;
 };
 &nbsp;
-export const loadVolumes = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const loadVolumes = async (
   project: string,
   hasStorageVolumesAll: boolean,
   isFineGrained: boolean | null,
 ): Promise&lt;LxdStorageVolume[]&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return hasStorageVolumesAll</span>
+  return hasStorageVolumesAll
     ? fetchAllStorageVolumes(project, isFineGrained)
 <span class="cstat-no" title="statement not covered" >    : collectAllStorageVolumes(project, isFineGrained);</span>
 };
 &nbsp;
-export const collectAllStorageVolumes = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const collectAllStorageVolumes = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >  isFineGrained: boolean | null,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;LxdStorageVolume[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const allVolumes: LxdStorageVolume[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
-<span class="cstat-no" title="statement not covered" >  const pools = <span class="cstat-no" title="statement not covered" >await fetchStoragePools(isFineGrained);</span></span>
+<span class="cstat-no" title="statement not covered" >  const allVolumes: LxdStorageVolume[] = [];</span>
+<span class="cstat-no" title="statement not covered" >  const pools = await fetchStoragePools(isFineGrained);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const poolVolumes = <span class="cstat-no" title="statement not covered" >await Promise.allSettled(</span></span>
-<span class="cstat-no" title="statement not covered" >    pools.map(<span class="fstat-no" title="function not covered" >async (p</span>ool) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      fetchStorageVolumes(pool.name, project, isFineGrained),</span></span>
+<span class="cstat-no" title="statement not covered" >  const poolVolumes = await Promise.allSettled(</span>
+<span class="cstat-no" title="statement not covered" >    pools.map(async (pool) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      fetchStorageVolumes(pool.name, project, isFineGrained),</span>
 <span class="cstat-no" title="statement not covered" >    ),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  poolVolumes.forEach(<span class="fstat-no" title="function not covered" >(r</span>esult, index) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (result.status === "fulfilled") {</span></span>
-<span class="cstat-no" title="statement not covered" >      const pool = <span class="cstat-no" title="statement not covered" >pools[index];</span></span>
-<span class="cstat-no" title="statement not covered" >      const volumes = <span class="cstat-no" title="statement not covered" >result.value.map(<span class="fstat-no" title="function not covered" >(v</span>olume) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+<span class="cstat-no" title="statement not covered" >  poolVolumes.forEach((result, index) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (result.status === "fulfilled") {</span>
+<span class="cstat-no" title="statement not covered" >      const pool = pools[index];</span>
+<span class="cstat-no" title="statement not covered" >      const volumes = result.value.map((volume) =&gt; ({</span>
 <span class="cstat-no" title="statement not covered" >        ...volume,</span>
 <span class="cstat-no" title="statement not covered" >        pool: pool.name,</span>
 <span class="cstat-no" title="statement not covered" >      }));</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      allVolumes.push(...volumes);</span></span>
+<span class="cstat-no" title="statement not covered" >      allVolumes.push(...volumes);</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new Error("Failed to load iso images");</span></span>
+<span class="cstat-no" title="statement not covered" >      throw new Error("Failed to load iso images");</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return allVolumes;</span></span>
+<span class="cstat-no" title="statement not covered" >  return allVolumes;</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -274,7 +274,7 @@ export const collectAllStorageVolumes = <span class="cstat-no" title="statement 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

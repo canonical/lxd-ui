@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.63% </span>
+                <span class="strong">98.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>125/161</span>
+                <span class='fraction'>133/135</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/10</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.72% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/11</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.59% </span>
+                <span class="strong">98.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>125/135</span>
+                <span class='fraction'>133/135</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -271,7 +271,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -288,15 +288,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -304,8 +295,17 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -363,7 +363,7 @@ interface Props {
   allIdentities: LxdIdentity[];
 }
 &nbsp;
-const GroupIdentitiesPanelConfirmModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const GroupIdentitiesPanelConfirmModal: FC&lt;Props&gt; = ({
   onConfirm,
   close,
   addedIdentities,
@@ -371,83 +371,83 @@ const GroupIdentitiesPanelConfirmModal: FC&lt;Props&gt; = <span class="cstat-no"
   selectedGroups,
   allIdentities,
 }) =&gt; {
-  const [submitting, setSubmitting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
+  const [submitting, setSubmitting] = useState(false);
+  const notify = useNotify();
+  const panelParams = usePanelParams();
+  const queryClient = useQueryClient();
+  const toastNotify = useToastNotification();
 &nbsp;
-  const identityGroupsChangeSummary = <span class="cstat-no" title="statement not covered" >getChangesInGroupsForIdentities(</span>
+  const identityGroupsChangeSummary = getChangesInGroupsForIdentities(
     allIdentities,
     selectedGroups,
     addedIdentities,
     removedIdentities,
   );
 &nbsp;
-  const groupIdentitiesChangeSummary = <span class="cstat-no" title="statement not covered" >pivotIdentityGroupsChangeSummary(</span>
+  const groupIdentitiesChangeSummary = pivotIdentityGroupsChangeSummary(
     identityGroupsChangeSummary,
   );
 &nbsp;
-  const handleSaveGroupsForIdentities = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setSubmitting(true);</span>
-    const modifiedIdentities = <span class="cstat-no" title="statement not covered" >getAddedOrRemovedIdentities(</span>
+  const handleSaveGroupsForIdentities = () =&gt; {
+    setSubmitting(true);
+    const modifiedIdentities = getAddedOrRemovedIdentities(
       allIdentities,
       addedIdentities,
       removedIdentities,
     );
 &nbsp;
-    const newGroupsForIdentities = <span class="cstat-no" title="statement not covered" >generateGroupAllocationsForIdentities(</span>
+    const newGroupsForIdentities = generateGroupAllocationsForIdentities(
       addedIdentities,
       removedIdentities,
       selectedGroups,
       modifiedIdentities,
     );
 &nbsp;
-    const payload = <span class="cstat-no" title="statement not covered" >modifiedIdentities.map((identity) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    const payload = modifiedIdentities.map((identity) =&gt; ({
       ...identity,
       groups: newGroupsForIdentities[identity.id],
     }));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    updateIdentities(payload)</span>
+    updateIdentities(payload)
       .then(() =&gt; {
         // modifying groups should invalidate both identities and groups api queries
-<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
-          predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {
-<span class="cstat-no" title="statement not covered" >            return [queryKeys.identities, queryKeys.authGroups].includes(</span>
+        queryClient.invalidateQueries({
+          predicate: (query) =&gt; {
+            return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,
             );
           },
         });
 &nbsp;
-        const modifiedGroupNames = <span class="cstat-no" title="statement not covered" >Object.keys(groupIdentitiesChangeSummary);</span>
+        const modifiedGroupNames = Object.keys(groupIdentitiesChangeSummary);
         const successMessage =
-<span class="cstat-no" title="statement not covered" >          modifiedGroupNames.length &gt; 1 ? (</span>
-            `Updated identities for ${modifiedGroupNames.length<span class="branch-0 cbranch-no" title="branch not covered" >} groups`</span>
-<span class="cstat-no" title="statement not covered" >          ) : (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >              Updated identities for{" "}</span>
-<span class="cstat-no" title="statement not covered" >              &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >                type="auth-group"</span>
-<span class="cstat-no" title="statement not covered" >                value={modifiedGroupNames[0]}</span>
-<span class="cstat-no" title="statement not covered" >                to="/ui/permissions/groups"</span>
-<span class="cstat-no" title="statement not covered" >              /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/&gt;</span>
+          modifiedGroupNames.length &gt; 1 ? (
+            `Updated identities for ${modifiedGroupNames.length} groups`
+          ) : (
+            &lt;&gt;
+              Updated identities for{" "}
+              &lt;ResourceLink
+                type="auth-group"
+                value={modifiedGroupNames[0]}
+                to="/ui/permissions/groups"
+              /&gt;
+            &lt;/&gt;
           );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        toastNotify.success(successMessage);</span>
-<span class="cstat-no" title="statement not covered" >        panelParams.clear();</span>
-<span class="cstat-no" title="statement not covered" >        notify.clear();</span>
+        toastNotify.success(successMessage);
+        panelParams.clear();
+        notify.clear();
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Update groups failed", e);</span></span>
-      })
+<span class="cstat-no" title="statement not covered" >        notify.failure("Update groups failed", e);</span>
+<span class="cstat-no" title="statement not covered" >      })</span>
       .finally(() =&gt; {
-<span class="cstat-no" title="statement not covered" >        setSubmitting(false);</span>
-<span class="cstat-no" title="statement not covered" >        onConfirm();</span>
+        setSubmitting(false);
+        onConfirm();
       });
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;ConfirmationModal
       confirmButtonLabel="Confirm changes"
       confirmButtonAppearance="positive"
@@ -475,7 +475,7 @@ export default GroupIdentitiesPanelConfirmModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

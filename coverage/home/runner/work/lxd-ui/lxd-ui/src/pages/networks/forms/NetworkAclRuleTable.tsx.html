@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.85% </span>
+                <span class="strong">98.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>124/135</span>
+                <span class='fraction'>124/126</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.28% </span>
+                <span class="strong">81.25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/35</span>
+                <span class='fraction'>13/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/10</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -327,17 +327,17 @@ interface Props {
   rules: Partial&lt;Omit&lt;AclRuleFormValues, "direction"&gt;&gt;[];
 }
 &nbsp;
-const NetworkAclRuleTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const NetworkAclRuleTable: FC&lt;Props&gt; = ({
   editRestriction,
   onEdit,
   onRemove,
   rules,
 }) =&gt; {
-  const getPeer = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>ddress?: string, port?: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return port ? `${<span class="branch-0 cbranch-no" title="branch not covered" >address ?? "*"}</span>:${port}` : `${address ?? <span class="branch-1 cbranch-no" title="branch not covered" >"*"}</span>`;</span>
+  const getPeer = (address?: string, port?: string) =&gt; {
+    return port ? `${<span class="branch-0 cbranch-no" title="branch not covered" >address ?? "*"}:</span>${port}` : `${address ?? "*"}`;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;MainTable
       sortable
       headers={[
@@ -350,23 +350,23 @@ const NetworkAclRuleTable: FC&lt;Props&gt; = <span class="cstat-no" title="state
         { content: "" },
       ]}
       rows={rules.map((rule, index) =&gt; {
-        const source = <span class="cstat-no" title="statement not covered" >getPeer(rule.source, rule.source_port);</span>
-        const destination = <span class="cstat-no" title="statement not covered" >getPeer(rule.destination, rule.destination_port);</span>
+        const source = getPeer(rule.source, rule.source_port);
+        const destination = getPeer(rule.destination, rule.destination_port);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return {</span>
+        return {
           columns: [
             {
-              content: capitalizeFirstLetter(rule.<span class="branch-0 cbranch-no" title="branch not covered" >action ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>,
+              content: capitalizeFirstLetter(rule.action<span class="branch-0 cbranch-no" title="branch not covered" > ?? ""),</span>
               role: "rowheader",
               "aria-label": "Action",
             },
             {
-              content: `${(rule.protocol ?? <span class="branch-1 cbranch-no" title="branch not covered" >"").l</span>ength === 0 ? "Any" : <span class="branch-1 cbranch-no" title="branch not covered" >rule.protocol?.toUpperCase()}</span>`,
+              content: `${(rule.protocol ?? "").length === 0 ? "Any" : rule.protocol?.toUpperCase()}`,
               role: "cell",
               "aria-label": "Protocol",
             },
             {
-              content: capitalizeFirstLetter(rule.<span class="branch-0 cbranch-no" title="branch not covered" >state ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span></span>,
+              content: capitalizeFirstLetter(rule.state<span class="branch-0 cbranch-no" title="branch not covered" > ?? ""),</span>
               role: "cell",
               "aria-label": "State",
             },
@@ -389,8 +389,8 @@ const NetworkAclRuleTable: FC&lt;Props&gt; = <span class="cstat-no" title="state
               content: (
                 &lt;&gt;
                   &lt;Button
-                    onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                      onEdit(index);</span></span>
+                    onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                      onEdit(index);</span>
 <span class="cstat-no" title="statement not covered" >                    }}</span>
                     dense
                     type="button"
@@ -405,8 +405,8 @@ const NetworkAclRuleTable: FC&lt;Props&gt; = <span class="cstat-no" title="state
                     &lt;Icon name="edit" /&gt;
                   &lt;/Button&gt;
                   &lt;Button
-                    onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                      onRemove(index);</span>
+                    onClick={() =&gt; {
+                      onRemove(index);
                     }}
                     dense
                     type="button"
@@ -448,7 +448,7 @@ export default NetworkAclRuleTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

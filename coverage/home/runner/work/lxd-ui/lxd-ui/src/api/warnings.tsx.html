@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/33</span>
+                <span class='fraction'>13/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/25</span>
+                <span class='fraction'>13/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,8 +96,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -117,25 +117,25 @@
 import type { LxdWarning } from "types/warning";
 import type { LxdApiResponse } from "types/apiResponse";
 &nbsp;
-export const fetchWarnings = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (): Promise&lt;LxdWarning[]&gt; =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/warnings?recursion=1`)</span>
+export const fetchWarnings = async (): Promise&lt;LxdWarning[]&gt; =&gt; {
+  return fetch(`/1.0/warnings?recursion=1`)
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdWarning[]&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
-    });
+<span class="cstat-no" title="statement not covered" >    });</span>
 };
 &nbsp;
-export const deleteWarning = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (w</span>arningId: string): Promise&lt;unknown&gt; =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/warnings/${encodeURIComponent(warningId)}`, {</span></span>
+export const deleteWarning = <span class="fstat-no" title="function not covered" >async (warningId: string): Promise&lt;unknown&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/warnings/${encodeURIComponent(warningId)}`, {</span>
 <span class="cstat-no" title="statement not covered" >    method: "DELETE",</span>
 <span class="cstat-no" title="statement not covered" >  }).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const deleteWarningBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
+export const deleteWarningBulk = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  warningIds: string[],</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return Promise.allSettled(</span></span>
-<span class="cstat-no" title="statement not covered" >    warningIds.map(<span class="fstat-no" title="function not covered" >async (w</span>arningId) =&gt; <span class="cstat-no" title="statement not covered" >deleteWarning(warningId))</span>,</span>
+<span class="cstat-no" title="statement not covered" >  return Promise.allSettled(</span>
+<span class="cstat-no" title="statement not covered" >    warningIds.map(async (warningId) =&gt; deleteWarning(warningId)),</span>
 <span class="cstat-no" title="statement not covered" >  ).then(handleSettledResult);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
@@ -145,7 +145,7 @@ export const deleteWarningBulk = <span class="cstat-no" title="statement not cov
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

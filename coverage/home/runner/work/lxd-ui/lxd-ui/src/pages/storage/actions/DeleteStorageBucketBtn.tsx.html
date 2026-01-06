@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.8% </span>
+                <span class="strong">27.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/114</span>
+                <span class='fraction'>26/95</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -276,23 +276,23 @@ interface Props {
   isDetailPage?: boolean;
 }
 &nbsp;
-const DeleteStorageBucketBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const DeleteStorageBucketBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  bucket,</span>
 <span class="cstat-no" title="statement not covered" >  classname,</span>
 <span class="cstat-no" title="statement not covered" >  isDetailPage,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canDeleteBucket } = <span class="cstat-no" title="statement not covered" >useStorageBucketEntitlements();</span></span>
-<span class="cstat-no" title="statement not covered" >  const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span></span>
-<span class="cstat-no" title="statement not covered" >  const projectName = <span class="cstat-no" title="statement not covered" >project?.name || "";</span></span>
-<span class="cstat-no" title="statement not covered" >  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span></span>
-<span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
+<span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
+<span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
+<span class="cstat-no" title="statement not covered" >  const { canDeleteBucket } = useStorageBucketEntitlements();</span>
+<span class="cstat-no" title="statement not covered" >  const { project } = useCurrentProject();</span>
+<span class="cstat-no" title="statement not covered" >  const projectName = project?.name || "";</span>
+<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
+<span class="cstat-no" title="statement not covered" >  const toastNotify = useToastNotification();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const onFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    navigate(`/ui/project/${project?.name}/storage/buckets`);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.success(</span></span>
+<span class="cstat-no" title="statement not covered" >  const onFinish = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    navigate(`/ui/project/${project?.name}/storage/buckets`);</span>
+<span class="cstat-no" title="statement not covered" >    toastNotify.success(</span>
 <span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >        Storage bucket &lt;ResourceLabel bold type="bucket" value={bucket.name} /&gt;{" "}</span>
 <span class="cstat-no" title="statement not covered" >        deleted.</span>
@@ -300,22 +300,22 @@ const DeleteStorageBucketBtn: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    deleteStorageBucket(bucket.name, bucket.pool, projectName)</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleDelete = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >    deleteStorageBucket(bucket.name, bucket.pool, projectName)</span>
 <span class="cstat-no" title="statement not covered" >      .then(onFinish)</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Storage bucket deletion failed", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        notify.failure("Storage bucket deletion failed", e);</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .finally(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >      .finally(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >          queryKey: [queryKeys.storage, projectName, queryKeys.buckets],</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ConfirmationButton</span>
 <span class="cstat-no" title="statement not covered" >      loading={isLoading}</span>
 <span class="cstat-no" title="statement not covered" >      confirmationModalProps={{</span>
@@ -355,7 +355,7 @@ export default DeleteStorageBucketBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

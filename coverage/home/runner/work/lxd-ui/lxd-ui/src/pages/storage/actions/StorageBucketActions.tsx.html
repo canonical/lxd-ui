@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.47% </span>
+                <span class="strong">24.39% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/89</span>
+                <span class='fraction'>20/82</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -228,7 +228,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { cloneElement, type FC } from "react";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { ContextualMenu, List } from "@canonical/react-components";
 import type { LxdStorageBucket } from "types/storage";
 import DeleteStorageBucketBtn from "./DeleteStorageBucketBtn";
@@ -244,20 +244,20 @@ interface Props {
   className?: string;
 }
 &nbsp;
-const StorageBucketActions: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+const StorageBucketActions: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
 <span class="cstat-no" title="statement not covered" >  bucket,</span>
 <span class="cstat-no" title="statement not covered" >  className,</span>
 <span class="cstat-no" title="statement not covered" >  isDetailPage,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow(largeScreenBreakpoint);</span></span>
+<span class="cstat-no" title="statement not covered" >  const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const classname = <span class="cstat-no" title="statement not covered" >isDetailPage</span></span>
+<span class="cstat-no" title="statement not covered" >  const classname = isDetailPage</span>
 <span class="cstat-no" title="statement not covered" >    ? isSmallScreen</span>
 <span class="cstat-no" title="statement not covered" >      ? "p-contextual-menu__link"</span>
 <span class="cstat-no" title="statement not covered" >      : "p-segmented-control__button"</span>
 <span class="cstat-no" title="statement not covered" >    : "";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const menuElements = <span class="cstat-no" title="statement not covered" >[</span></span>
+<span class="cstat-no" title="statement not covered" >  const menuElements = [</span>
 <span class="cstat-no" title="statement not covered" >    &lt;EditStorageBucketBtn</span>
 <span class="cstat-no" title="statement not covered" >      key="edit"</span>
 <span class="cstat-no" title="statement not covered" >      classname={classnames(classname, "has-icon", {</span>
@@ -275,7 +275,7 @@ const StorageBucketActions: FC&lt;Props&gt; = <span class="cstat-no" title="stat
 <span class="cstat-no" title="statement not covered" >      isDetailPage={isDetailPage}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >  ];</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return isDetailPage ? (</span></span>
+<span class="cstat-no" title="statement not covered" >  return isDetailPage ? (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isSmallScreen ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;ContextualMenu</span>
@@ -285,10 +285,10 @@ const StorageBucketActions: FC&lt;Props&gt; = <span class="cstat-no" title="stat
 <span class="cstat-no" title="statement not covered" >          hasToggleIcon</span>
 <span class="cstat-no" title="statement not covered" >          title="actions"</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
-<span class="cstat-no" title="statement not covered" >          {<span class="fstat-no" title="function not covered" >(c</span>lose: () =&gt; void) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            &lt;span&gt;</span></span>
-<span class="cstat-no" title="statement not covered" >              {[...menuElements].map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                cloneElement(item, { onClose: close }),</span></span>
+<span class="cstat-no" title="statement not covered" >          {(close: () =&gt; void) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;span&gt;</span>
+<span class="cstat-no" title="statement not covered" >              {[...menuElements].map((item) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >                cloneElement(item, { onClose: close }),</span>
 <span class="cstat-no" title="statement not covered" >              )}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
@@ -316,7 +316,7 @@ export default StorageBucketActions;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

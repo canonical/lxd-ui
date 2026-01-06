@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.8% </span>
+                <span class="strong">77.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>141/221</span>
+                <span class='fraction'>138/178</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.28% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/35</span>
+                <span class='fraction'>10/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.38% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/21</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.21% </span>
+                <span class="strong">77.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>141/178</span>
+                <span class='fraction'>138/178</span>
             </div>
         
             
@@ -337,7 +337,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -372,7 +372,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -401,7 +401,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -450,22 +450,22 @@ interface Props {
   onSuccess: (message: ReactNode) =&gt; void;
 }
 &nbsp;
-const EditInstanceSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const EditInstanceSnapshotForm: FC&lt;Props&gt; = ({
   instance,
   snapshot,
   close,
   onSuccess,
 }) =&gt; {
-  const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
-  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
-  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
+  const eventQueue = useEventQueue();
+  const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
+  const controllerState = useState&lt;AbortController | null&gt;(null);
 &nbsp;
-  const notifyUpdateSuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ame: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
-      predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.instances,</span>
+  const notifyUpdateSuccess = (name: string) =&gt; {
+    queryClient.invalidateQueries({
+      predicate: (query) =&gt; query.queryKey[0] === queryKeys.instances,
     });
-<span class="cstat-no" title="statement not covered" >    onSuccess(</span>
+    onSuccess(
       &lt;&gt;
         Snapshot &lt;InstanceSnapshotLinkChip name={name} instance={instance} /&gt;{" "}
         saved for instance{" "}
@@ -476,91 +476,91 @@ const EditInstanceSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
         .
       &lt;/&gt;,
     );
-<span class="cstat-no" title="statement not covered" >    close();</span>
+    close();
   };
 &nbsp;
-  const update = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>xpiresAt: string, newName?: string) =&gt; {</span>
-    const targetSnapshot = <span class="cstat-no" title="statement not covered" >newName</span>
+  const update = (expiresAt: string, newName?: string) =&gt; {
+    const targetSnapshot = newName
       ? ({
           name: newName,
 <span class="branch-0 cbranch-no" title="branch not covered" >        } as LxdInstanceSnapshot)</span>
 <span class="cstat-no" title="statement not covered" >      : snapshot;</span>
     const instanceLink = (
-<span class="cstat-no" title="statement not covered" >      &lt;InstanceRichChip</span>
+      &lt;InstanceRichChip
         instanceName={instance.name}
         projectName={instance.project}
       /&gt;
     );
-<span class="cstat-no" title="statement not covered" >    updateInstanceSnapshot(instance, targetSnapshot, expiresAt)</span>
+    updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            notifyUpdateSuccess(<span class="branch-0 cbranch-no" title="branch not covered" >newName ?? snapshot.name)</span>;</span>
+          () =&gt; {
+            notifyUpdateSuccess(<span class="branch-0 cbranch-no" title="branch not covered" >newName ?? snapshot.name)</span>;
           },
-<span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span></span>
+          (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >              `Snapshot update failed for instance ${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >            );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            formik.setSubmitting(false);</span></span>
+<span class="cstat-no" title="statement not covered" >            formik.setSubmitting(false);</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
         );
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >          `Snapshot update failed for instance ${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >          e,</span>
 <span class="cstat-no" title="statement not covered" >          instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
-  const rename = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ewName: string, expiresAt?: string) =&gt; {</span>
+  const rename = (newName: string, expiresAt?: string) =&gt; {
     const snapshotLink = (
-<span class="cstat-no" title="statement not covered" >      &lt;InstanceSnapshotLinkChip name={snapshot.name} instance={instance} /&gt;</span>
+      &lt;InstanceSnapshotLinkChip name={snapshot.name} instance={instance} /&gt;
     );
-<span class="cstat-no" title="statement not covered" >    renameInstanceSnapshot(instance, snapshot, newName)</span>
+    renameInstanceSnapshot(instance, snapshot, newName)
       .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
+        eventQueue.set(
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            if (expiresAt) {</span>
-<span class="cstat-no" title="statement not covered" >              update(expiresAt, newName);</span>
+          () =&gt; {
+            if (expiresAt) {
+              update(expiresAt, newName);
 <span class="branch-0 cbranch-no" title="branch not covered" >            } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              notifyUpdateSuccess(newName);</span></span>
+<span class="cstat-no" title="statement not covered" >              notifyUpdateSuccess(newName);</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
           },
-<span class="fstat-no" title="function not covered" >          (m</span>sg) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span></span>
+          (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >            toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >              `Snapshot rename failed for ${snapshot.name}`,</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              snapshotLink,</span>
 <span class="cstat-no" title="statement not covered" >            );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            formik.setSubmitting(false);</span></span>
+<span class="cstat-no" title="statement not covered" >            formik.setSubmitting(false);</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
         );
       })
       .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span>
 <span class="cstat-no" title="statement not covered" >          `Snapshot rename failed for ${snapshot.name}`,</span>
 <span class="cstat-no" title="statement not covered" >          e,</span>
 <span class="cstat-no" title="statement not covered" >          snapshotLink,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span></span>
-      });
+<span class="cstat-no" title="statement not covered" >        formik.setSubmitting(false);</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
   };
 &nbsp;
   const [expiryDate, expiryTime] =
-<span class="cstat-no" title="statement not covered" >    snapshot.expires_at === UNDEFINED_DATE</span>
-      ? [null, null<span class="branch-0 cbranch-no" title="branch not covered" >]</span>
-<span class="cstat-no" title="statement not covered" >      : getBrowserFormatDate(new Date(snapshot.expires_at))</span>
+    snapshot.expires_at === UNDEFINED_DATE
+      ? [null, null]
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >      : getBrowserFormatDate(new Date(snapshot.expires_at))</span></span>
 <span class="cstat-no" title="statement not covered" >          .slice(0, 16)</span>
 <span class="cstat-no" title="statement not covered" >          .split(" ");</span>
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;SnapshotFormValues&lt;{ stateful?: boolean }&gt;&gt;({</span>
+  const formik = useFormik&lt;SnapshotFormValues&lt;{ stateful?: boolean }&gt;&gt;({
     initialValues: {
       name: snapshot.name,
       stateful: snapshot.stateful,
@@ -573,27 +573,27 @@ const EditInstanceSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
       controllerState,
       snapshot.name,
     ),
-    onSubmit: <span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; {
-      const newName = <span class="cstat-no" title="statement not covered" >values.name;</span>
+    onSubmit: (values) =&gt; {
+      const newName = values.name;
       const expiresAt =
-<span class="cstat-no" title="statement not covered" >        values.expirationDate &amp;&amp; values.expirationTime</span>
+        values.expirationDate &amp;&amp; values.expirationTime
           ? stringToIsoTime(
-              getExpiresAt(values.expirationDate, values.expirationTime),
-<span class="branch-0 cbranch-no" title="branch not covered" >            )</span>
+              getExpiresAt(values.expirationDate, values.expirationTime<span class="branch-0 cbranch-no" title="branch not covered" >),</span>
+<span class="cstat-no" title="statement not covered" >            )</span>
 <span class="cstat-no" title="statement not covered" >          : UNDEFINED_DATE;</span>
-      const shouldRename = <span class="cstat-no" title="statement not covered" >newName !== snapshot.name;</span>
-      const shouldUpdate = <span class="cstat-no" title="statement not covered" >expiresAt !== snapshot.expires_at;</span>
-<span class="cstat-no" title="statement not covered" >      if (shouldRename &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >shouldUpdate) {</span></span>
-<span class="cstat-no" title="statement not covered" >        rename(newName, expiresAt);</span>
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >      } else if (shouldRename) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        rename(newName);</span></span>
+      const shouldRename = newName !== snapshot.name;
+      const shouldUpdate = expiresAt !== snapshot.expires_at;
+      if (shouldRename &amp;&amp; shouldUpdate) {
+        rename(newName, expiresAt);
+<span class="branch-0 cbranch-no" title="branch not covered" >      } else if (shouldRename) {</span>
+<span class="cstat-no" title="statement not covered" >        rename(newName);</span>
 <span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        update(expiresAt);</span></span>
+<span class="cstat-no" title="statement not covered" >        update(expiresAt);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return &lt;SnapshotForm isEdit formik={formik} close={close} /&gt;;</span>
+  return &lt;SnapshotForm isEdit formik={formik} close={close} /&gt;;
 };
 &nbsp;
 export default EditInstanceSnapshotForm;
@@ -604,7 +604,7 @@ export default EditInstanceSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

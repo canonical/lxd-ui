@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/35</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,34 +90,34 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">262x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
 <span class="cline-any cline-yes">51x</span>
 <span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-yes">195x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { UseQueryResult } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-yes">190x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./auth";
 import { queryKeys } from "util/queryKeys";
@@ -126,19 +126,19 @@ import type { LxdMetricGroup } from "types/metrics";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useMetricHistory } from "context/metricHistory";
 &nbsp;
-export const useMetrics = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const useMetrics = (
   location: string,
 ): UseQueryResult&lt;LxdMetricGroup[]&gt; =&gt; {
-  const { isRestricted, isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-  const { canViewMetrics } = <span class="cstat-no" title="statement not covered" >useServerEntitlements();</span>
-  const { setMetricEntry } = <span class="cstat-no" title="statement not covered" >useMetricHistory();</span>
+  const { isRestricted, isFineGrained } = useAuth();
+  const { canViewMetrics } = useServerEntitlements();
+  const { setMetricEntry } = useMetricHistory();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
+  return useQuery({
     queryKey: [queryKeys.metrics, location],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span>
-<span class="cstat-no" title="statement not covered" >      fetchMetrics(location).then((metric) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        setMetricEntry({ time: Date.now() / 1000, metric });</span>
-<span class="cstat-no" title="statement not covered" >        return metric;</span>
+    queryFn: async () =&gt;
+      fetchMetrics(location).then((metric) =&gt; {
+        setMetricEntry({ time: Date.now() / 1000, metric });
+        return metric;
       }),
     refetchInterval: 15 * 1000, // 15 seconds
     enabled: !isRestricted &amp;&amp; isFineGrained !== null &amp;&amp; canViewMetrics(),
@@ -151,7 +151,7 @@ export const useMetrics = <span class="cstat-no" title="statement not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

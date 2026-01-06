@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.2% </span>
+                <span class="strong">20.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/186</span>
+                <span class='fraction'>32/155</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.09% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/11</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -402,65 +402,65 @@ interface Props {
   onSuccess: (identityName: string, token: string) =&gt; void;
 }
 &nbsp;
-const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> onSuccess }) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span></span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
-<span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
+const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ onSuccess }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const panelParams = usePanelParams();</span>
+<span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { data: groups = <span class="branch-0 cbranch-no" title="branch not covered" >[], e</span>rror, isLoading } = <span class="cstat-no" title="statement not covered" >useAuthGroups();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { data: groups = [], error, isLoading } = useAuthGroups();</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const { desiredState, save: saveToPanelHistory } =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    useEditHistory&lt;GroupEditHistory&gt;({</span></span>
+<span class="cstat-no" title="statement not covered" >    useEditHistory&lt;GroupEditHistory&gt;({</span>
 <span class="cstat-no" title="statement not covered" >      initialState: {</span>
 <span class="cstat-no" title="statement not covered" >        groupsAdded: new Set(),</span>
 <span class="cstat-no" title="statement not covered" >      },</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (error) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading panel details failed", error);</span></span>
+<span class="cstat-no" title="statement not covered" >  if (error) {</span>
+<span class="cstat-no" title="statement not covered" >    notify.failure("Loading panel details failed", error);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const modifyGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ewGroups: string[], isUnselectAll?: boolean) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (isUnselectAll) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span></span>
+<span class="cstat-no" title="statement not covered" >  const modifyGroups = (newGroups: string[], isUnselectAll?: boolean) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (isUnselectAll) {</span>
+<span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span>
 <span class="cstat-no" title="statement not covered" >        groupsAdded: new Set(),</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span></span>
+<span class="cstat-no" title="statement not covered" >      saveToPanelHistory({</span>
 <span class="cstat-no" title="statement not covered" >        groupsAdded: new Set(newGroups),</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const closePanel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    panelParams.clear();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.clear();</span></span>
+<span class="cstat-no" title="statement not covered" >  const closePanel = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    panelParams.clear();</span>
+<span class="cstat-no" title="statement not covered" >    notify.clear();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: TLSIdentityFormValues) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    createFineGrainedTlsIdentity(</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleSubmit = (values: TLSIdentityFormValues) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    createFineGrainedTlsIdentity(</span>
 <span class="cstat-no" title="statement not covered" >      values.name,</span>
 <span class="cstat-no" title="statement not covered" >      Array.from(desiredState.groupsAdded),</span>
 <span class="cstat-no" title="statement not covered" >    )</span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(r</span>esponse) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const encodedToken = <span class="cstat-no" title="statement not covered" >base64EncodeObject(response);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onSuccess(values.name, encodedToken);</span></span>
+<span class="cstat-no" title="statement not covered" >      .then((response) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const encodedToken = base64EncodeObject(response);</span>
+<span class="cstat-no" title="statement not covered" >        onSuccess(values.name, encodedToken);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
 <span class="cstat-no" title="statement not covered" >          queryKey: [queryKeys.identities],</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        closePanel();</span></span>
+<span class="cstat-no" title="statement not covered" >        closePanel();</span>
 <span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("TLS Identity failed to be created", e);</span></span>
+<span class="cstat-no" title="statement not covered" >      .catch((e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        notify.failure("TLS Identity failed to be created", e);</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const groupSchema = <span class="cstat-no" title="statement not covered" >Yup.object().shape({</span></span>
+<span class="cstat-no" title="statement not covered" >  const groupSchema = Yup.object().shape({</span>
 <span class="cstat-no" title="statement not covered" >    name: Yup.string().required("Identity name is required"),</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;TLSIdentityFormValues&gt;({</span></span>
+<span class="cstat-no" title="statement not covered" >  const formik = useFormik&lt;TLSIdentityFormValues&gt;({</span>
 <span class="cstat-no" title="statement not covered" >    initialValues: {</span>
 <span class="cstat-no" title="statement not covered" >      name: "",</span>
 <span class="cstat-no" title="statement not covered" >      groups: [],</span>
@@ -469,7 +469,7 @@ const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >    onSubmit: handleSubmit,</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;SidePanel loading={isLoading} hasError={!groups}&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;SidePanel.Header&gt;</span>
@@ -485,14 +485,14 @@ const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >            parentItemName=""</span>
 <span class="cstat-no" title="statement not covered" >            selectedGroups={desiredState.groupsAdded}</span>
 <span class="cstat-no" title="statement not covered" >            setSelectedGroups={modifyGroups}</span>
-<span class="cstat-no" title="statement not covered" >            toggleGroup={<span class="fstat-no" title="function not covered" >(g</span>roup: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              const newGroups = <span class="cstat-no" title="statement not covered" >new Set([...desiredState.groupsAdded]);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              if (newGroups.has(group)) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                newGroups.delete(group);</span></span>
+<span class="cstat-no" title="statement not covered" >            toggleGroup={(group: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              const newGroups = new Set([...desiredState.groupsAdded]);</span>
+<span class="cstat-no" title="statement not covered" >              if (newGroups.has(group)) {</span>
+<span class="cstat-no" title="statement not covered" >                newGroups.delete(group);</span>
 <span class="cstat-no" title="statement not covered" >              } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                newGroups.add(group);</span></span>
+<span class="cstat-no" title="statement not covered" >                newGroups.add(group);</span>
 <span class="cstat-no" title="statement not covered" >              }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              modifyGroups([...newGroups], newGroups.size === 0);</span></span>
+<span class="cstat-no" title="statement not covered" >              modifyGroups([...newGroups], newGroups.size === 0);</span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
 <span class="cstat-no" title="statement not covered" >            scrollDependencies={[</span>
 <span class="cstat-no" title="statement not covered" >              groups,</span>
@@ -512,7 +512,7 @@ const CreateTLSIdentityPanel: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;ActionButton</span>
 <span class="cstat-no" title="statement not covered" >            appearance="positive"</span>
-<span class="cstat-no" title="statement not covered" >            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span></span>
+<span class="cstat-no" title="statement not covered" >            onClick={() =&gt; void formik.submitForm()}</span>
 <span class="cstat-no" title="statement not covered" >            className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >            disabled={</span>
 <span class="cstat-no" title="statement not covered" >              !formik.isValid || formik.isSubmitting || !formik.values.name</span>
@@ -535,7 +535,7 @@ export default CreateTLSIdentityPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

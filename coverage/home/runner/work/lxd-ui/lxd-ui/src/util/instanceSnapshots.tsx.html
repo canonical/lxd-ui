@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>63/70</span>
+                <span class='fraction'>63/63</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/10</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -128,16 +128,16 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
@@ -153,13 +153,13 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
@@ -196,20 +196,20 @@ import * as Yup from "yup";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
 &nbsp;
 /*** Instance snapshot utils ***/
-export const isInstanceStateful = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nstance: LxdInstance): boolean =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return Boolean(instance.config["migration.stateful"]);</span>
+export const isInstanceStateful = (instance: LxdInstance): boolean =&gt; {
+  return Boolean(instance.config["migration.stateful"]);
 };
 &nbsp;
-export const testDuplicateInstanceSnapshotName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const testDuplicateInstanceSnapshotName = (
   instance: LxdInstance,
   controllerState: AbortControllerState,
   excludeName?: string,
 ): [string, string, Yup.TestFunction&lt;string | undefined, Yup.AnyObject&gt;] =&gt; {
-<span class="cstat-no" title="statement not covered" >  return [</span>
+  return [
     "deduplicate",
     "Snapshot name already in use",
-<span class="fstat-no" title="function not covered" >    async (v</span>alue?: string) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return (</span>
+    async (value?: string) =&gt; {
+      return (
         (excludeName &amp;&amp; value === excludeName) ||
         checkDuplicateName(
           value,
@@ -222,12 +222,12 @@ export const testDuplicateInstanceSnapshotName = <span class="cstat-no" title="s
   ];
 };
 &nbsp;
-export const getInstanceSnapshotSchema = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const getInstanceSnapshotSchema = (
   instance: LxdInstance,
   controllerState: AbortControllerState,
   snapshotName?: string,
 ) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return Yup.object().shape({</span>
+  return Yup.object().shape({
     name: Yup.string()
       .test(
         ...testDuplicateInstanceSnapshotName(
@@ -259,7 +259,7 @@ export const getInstanceSnapshotSchema = <span class="cstat-no" title="statement
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-19T14:58:08.446Z
+                at 2026-01-06T09:40:59.839Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
