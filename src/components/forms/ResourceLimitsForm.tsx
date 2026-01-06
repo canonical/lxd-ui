@@ -59,6 +59,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
             cpuLimitToPayload(val as CpuLimit | string | undefined),
           children: (
             <CpuLimitSelector
+              formik={formik}
               cpuLimit={formik.values.limits_cpu}
               setCpuLimit={(cpuLimit) => {
                 formik.setFieldValue("limits_cpu", cpuLimit);

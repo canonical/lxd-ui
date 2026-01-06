@@ -1,9 +1,8 @@
 import type { FC } from "react";
-import { humanFileSize } from "util/helpers";
-import { Icon } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import { Icon } from "@canonical/react-components";
 import { useResourceLimit } from "context/useResourceLimit";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
 
@@ -11,33 +10,26 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
 }
 
-const MemoryLimitAvailable: FC<Props> = ({ formik }) => {
+export const CpuLimitAvailable: FC<Props> = ({ formik }) => {
   const values = formik?.values as
     | CreateInstanceFormValues
     | EditInstanceFormValues;
 
-  const resourceLimit = useResourceLimit("memory", values);
+  const resourceLimit = useResourceLimit("cpu", values);
   if (!resourceLimit) {
     return null;
   }
-  const {
-    min: minMemory,
-    max: maxMemory,
-    sourceType,
-    sourceName,
-  } = resourceLimit;
-
-  const showHelpIcon = minMemory !== maxMemory;
-  const helpIconText = `The available memory depends on the cluster member that the instance will be created on.\
-  To determine the available memory exactly, go to the "Main configuration" section, and from\
-  the "Target" dropdown, select the "Cluster Member" option, then choose a member.`;
-
+  const { min: minCpu, max: maxCpu, sourceType, sourceName } = resourceLimit;
+  const showHelpIcon = minCpu !== maxCpu;
+  const helpIconText = `The total number of CPU cores depends on the cluster member that the instance will be created on.\
+      To determine the number of cores exactly, go to the "Main configuration" section, and from\
+      the "Target" dropdown, select the "Cluster Member" option, then choose a member.`;
   return (
     <>
-      Total memory:{" "}
+      Total number of CPU cores:{" "}
       <b>
-        {humanFileSize(minMemory)}
-        {minMemory !== maxMemory && ` - ${humanFileSize(maxMemory)}`}
+        {minCpu}
+        {minCpu !== maxCpu && ` - ${maxCpu}`}
         {showHelpIcon && (
           <>
             {" "}
@@ -50,10 +42,9 @@ const MemoryLimitAvailable: FC<Props> = ({ formik }) => {
         )}
       </b>
       <br />
-      {sourceName && sourceType && (
+      {sourceType && sourceName && (
         <ResourceLimitIcon source={sourceName} sourceType={sourceType} />
       )}
     </>
   );
 };
-export default MemoryLimitAvailable;
