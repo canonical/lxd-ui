@@ -3,11 +3,11 @@ import { CheckboxInput } from "@canonical/react-components";
 
 interface Props {
   label: string;
-  force: [boolean, Dispatch<SetStateAction<boolean>>];
+  confirmed: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
-const ConfirmationForce: FC<Props> = ({ label, force }) => {
-  const [isForce, setForce] = force;
+const ConfirmationCheckbox: FC<Props> = ({ label, confirmed }) => {
+  const [isConfirmed, setConfirmed] = confirmed;
 
   return (
     <span className="u-float-left">
@@ -15,13 +15,13 @@ const ConfirmationForce: FC<Props> = ({ label, force }) => {
         inline
         label={label}
         tabIndex={-1}
-        defaultChecked={isForce}
+        checked={isConfirmed}
         onClick={() => {
-          setForce((prev) => !prev);
+          setConfirmed((prev) => !prev);
         }}
       />
     </span>
   );
 };
 
-export default ConfirmationForce;
+export default ConfirmationCheckbox;

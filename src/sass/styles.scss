@@ -403,6 +403,12 @@ body {
     @include large {
       width: 40rem;
     }
+
+    .p-modal__header {
+      .resource-label {
+        max-width: 14rem;
+      }
+    }
   }
 }
 
@@ -430,4 +436,8 @@ body {
 
 .u-margin-left--small {
   margin-left: $sph--small;
+}
+
+.mono-font {
+  font-family: unquote($font-monospace);
 }

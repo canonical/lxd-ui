@@ -43,10 +43,6 @@
     @include vf-icon-close-themed;
   }
 
-  .mono-font {
-    font-family: unquote($font-monospace);
-  }
-
   .configuration-help {
     @extend %small-text;
 

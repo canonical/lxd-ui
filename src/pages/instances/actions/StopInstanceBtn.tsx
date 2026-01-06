@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { stopInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import { useInstanceLoading } from "context/instanceLoading";
-import ConfirmationForce from "components/ConfirmationForce";
+import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -96,7 +96,10 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
           </p>
         ),
         confirmExtra: (
-          <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
+          <ConfirmationCheckbox
+            label="Force stop"
+            confirmed={[isForce, setForce]}
+          />
         ),
         onConfirm: handleStop,
         close: () => {

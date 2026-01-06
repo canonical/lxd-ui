@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { restartInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import ConfirmationForce from "components/ConfirmationForce";
+import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { Icon, useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { InstanceRichChip } from "../InstanceRichChip";
@@ -89,9 +89,9 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           ? "Restart"
           : "You do not have permission to restart this instance",
         confirmExtra: (
-          <ConfirmationForce
+          <ConfirmationCheckbox
             label="Force restart"
-            force={[isForce, setForce]}
+            confirmed={[isForce, setForce]}
           />
         ),
       }}
