@@ -1,5 +1,6 @@
 import ResourceLink from "components/ResourceLink";
 import { useClusterMembers } from "context/useClusterMembers";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import type { FC } from "react";
 import type { LxdStoragePool } from "types/storage";
 import { isClusterLocalDriver } from "util/storagePool";
@@ -18,11 +19,7 @@ export const StoragePoolClusterMember: FC<Props> = ({ pool }) => {
         clusterMembers.map((member) => {
           return (
             <div className="clustered-resource-link" key={member.server_name}>
-              <ResourceLink
-                type="cluster-member"
-                value={member.server_name}
-                to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
-              />
+              <ClusterMemberRichChip clusterMember={member.server_name} />
             </div>
           );
         })

@@ -10,9 +10,9 @@ import type { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify, useToastNotification } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import NetworkRichChip from "./NetworkRichChip";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {
   name: string;
@@ -98,15 +98,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   return (
     <RenameHeader
       name={name}
-      relatedChip={
-        member && (
-          <ResourceLink
-            type="cluster-member"
-            value={member}
-            to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(member)}`}
-          />
-        )
-      }
+      relatedChip={member && <ClusterMemberRichChip clusterMember={member} />}
       parentItems={[
         <Link
           to={`/ui/project/${encodeURIComponent(project)}/networks`}

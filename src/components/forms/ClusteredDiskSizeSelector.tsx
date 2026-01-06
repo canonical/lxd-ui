@@ -1,10 +1,10 @@
 import type { FC } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
 import DiskSizeSelector from "./DiskSizeSelector";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {
   id: string;
@@ -74,11 +74,7 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
             return (
               <Fragment key={item}>
                 <div className="cluster-specific-member">
-                  <ResourceLink
-                    type="cluster-member"
-                    value={item}
-                    to={`/ui/cluster/member/${encodeURIComponent(item)}`}
-                  />
+                  <ClusterMemberRichChip clusterMember={item} />
                 </div>
 
                 <div className="cluster-specific-value">

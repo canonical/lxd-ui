@@ -7,9 +7,9 @@ import {
   useState,
 } from "react";
 import { CheckboxInput, Select } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import { intersection } from "util/intersection";
 import FormEditButton from "components/FormEditButton";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 export type ClusterSpecificValues = Record<string, string>;
 
@@ -125,11 +125,7 @@ const ClusterSpecificSelect: FC<Props> = ({
             return (
               <Fragment key={item.memberName}>
                 <div className="cluster-specific-member">
-                  <ResourceLink
-                    type="cluster-member"
-                    value={item.memberName}
-                    to={`/ui/cluster/member/${encodeURIComponent(item.memberName)}`}
-                  />
+                  <ClusterMemberRichChip clusterMember={item.memberName} />
                 </div>
                 <div className="cluster-specific-value">
                   {isReadOnly ? (

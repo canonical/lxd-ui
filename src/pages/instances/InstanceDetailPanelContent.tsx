@@ -12,13 +12,13 @@ import { useInstanceLoading } from "context/instanceLoading";
 import { useIsClustered } from "context/useIsClustered";
 import InstanceMACAddresses from "pages/instances/InstanceMACAddresses";
 import ResourceLink from "components/ResourceLink";
-import InstanceClusterMemberChip from "./InstanceClusterMemberChip";
 import { getImageLink, getInstanceType } from "util/instances";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import DevicesSummaryList from "components/DevicesSummaryList";
 import type { LxdDevices } from "types/device";
 import NetworkRichChip from "pages/networks/NetworkRichChip";
 import ExpandableList from "components/ExpandableList";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -102,7 +102,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <tr>
             <th className="u-text--muted">Cluster member</th>
             <td>
-              <InstanceClusterMemberChip instance={instance} />
+              <ClusterMemberRichChip clusterMember={instance.location} />
             </td>
           </tr>
         )}
