@@ -8,6 +8,7 @@ import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import lazy from "util/lazyWithRetry";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
@@ -108,7 +109,11 @@ const PermissionIdpGroups = lazy(
   async () => import("pages/permissions/PermissionIdpGroups"),
 );
 
-const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
+const HOME_REDIRECT_PATHS = [
+  `${ROOT_PATH}/`,
+  `${ROOT_PATH}/ui`,
+  `${ROOT_PATH}/ui/project`,
+];
 
 const App: FC = () => {
   const {
@@ -140,7 +145,7 @@ const App: FC = () => {
       const logoutAction = [
         {
           label: "Logout",
-          onClick: () => (window.location.href = "/oidc/logout"),
+          onClick: () => (window.location.href = `${ROOT_PATH}/oidc/logout`),
         },
       ];
 
@@ -158,8 +163,11 @@ const App: FC = () => {
     logout(hasOidc, hasCertificate);
   }
 
-  if (!isAuthenticated && !window.location.href.includes("/ui/login")) {
-    return <Navigate to="/ui/login" replace={true} />;
+  if (
+    !isAuthenticated &&
+    !window.location.href.includes(`${ROOT_PATH}/ui/login`)
+  ) {
+    return <Navigate to={`${ROOT_PATH}/ui/login`} replace={true} />;
   }
 
   return (
@@ -177,8 +185,8 @@ const App: FC = () => {
               <Navigate
                 to={
                   hasNoProjects || defaultProject === ALL_PROJECTS
-                    ? "/ui/all-projects/instances"
-                    : `/ui/project/${encodeURIComponent(defaultProject)}/instances`
+                    ? `${ROOT_PATH}/ui/all-projects/instances`
+                    : `${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/instances`
                 }
                 replace={true}
               />
@@ -186,11 +194,11 @@ const App: FC = () => {
           />
         ))}
         <Route
-          path="/ui/all-projects/instances"
+          path={`${ROOT_PATH}/ui/all-projects/instances`}
           element={<ProtectedRoute outlet={<InstanceList />} />}
         />
         <Route
-          path="/ui/project/:project"
+          path={`${ROOT_PATH}/ui/project/:project`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProjectRedirect />} />}
@@ -198,7 +206,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instances"
+          path={`${ROOT_PATH}/ui/project/:project/instances`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<InstanceList />} />}
@@ -206,7 +214,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instances/create"
+          path={`${ROOT_PATH}/ui/project/:project/instances/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateInstance />} />}
@@ -214,19 +222,19 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instance/:name"
+          path={`${ROOT_PATH}/ui/project/:project/instance/:name`}
           element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
-          path="/ui/project/:project/instance/:name/:activeTab"
+          path={`${ROOT_PATH}/ui/project/:project/instance/:name/:activeTab`}
           element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
-          path="/ui/project/:project/instance/:name/:activeTab/:section"
+          path={`${ROOT_PATH}/ui/project/:project/instance/:name/:activeTab/:section`}
           element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
-          path="/ui/project/:project/profiles"
+          path={`${ROOT_PATH}/ui/project/:project/profiles`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileList />} />}
@@ -234,7 +242,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profiles/create"
+          path={`${ROOT_PATH}/ui/project/:project/profiles/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateProfile />} />}
@@ -242,7 +250,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profile/:name"
+          path={`${ROOT_PATH}/ui/project/:project/profile/:name`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -250,7 +258,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profile/:name/:activeTab"
+          path={`${ROOT_PATH}/ui/project/:project/profile/:name/:activeTab`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -258,7 +266,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profile/:name/:activeTab/:section"
+          path={`${ROOT_PATH}/ui/project/:project/profile/:name/:activeTab/:section`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -266,7 +274,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/placement-groups"
+          path={`${ROOT_PATH}/ui/project/:project/placement-groups`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<PlacementGroupList />} />}
@@ -274,7 +282,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks"
+          path={`${ROOT_PATH}/ui/project/:project/networks`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkList />} />}
@@ -282,7 +290,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/create"
+          path={`${ROOT_PATH}/ui/project/:project/networks/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateNetwork />} />}
@@ -290,7 +298,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network/:name"
+          path={`${ROOT_PATH}/ui/project/:project/network/:name`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -298,7 +306,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/member/:member/network/:name"
+          path={`${ROOT_PATH}/ui/project/:project/member/:member/network/:name`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -306,7 +314,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network/:name/:activeTab"
+          path={`${ROOT_PATH}/ui/project/:project/network/:name/:activeTab`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -314,7 +322,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network/:name/:activeTab/:section"
+          path={`${ROOT_PATH}/ui/project/:project/network/:name/:activeTab/:section`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -322,7 +330,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network/:network/forwards/create"
+          path={`${ROOT_PATH}/ui/project/:project/network/:network/forwards/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateNetworkForward />} />}
@@ -330,7 +338,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network/:network/forwards/:forwardAddress/edit"
+          path={`${ROOT_PATH}/ui/project/:project/network/:network/forwards/:forwardAddress/edit`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
@@ -338,7 +346,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network/:network/member/:memberName/forwards/:forwardAddress/edit"
+          path={`${ROOT_PATH}/ui/project/:project/network/:network/member/:memberName/forwards/:forwardAddress/edit`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
@@ -346,7 +354,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network-acls"
+          path={`${ROOT_PATH}/ui/project/:project/network-acls`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkAclList />} />}
@@ -354,7 +362,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network-acls/create"
+          path={`${ROOT_PATH}/ui/project/:project/network-acls/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateNetworkAcl />} />}
@@ -362,7 +370,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network-acl/:name"
+          path={`${ROOT_PATH}/ui/project/:project/network-acl/:name`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkAclDetail />} />}
@@ -370,7 +378,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/network-ipam"
+          path={`${ROOT_PATH}/ui/project/:project/network-ipam`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkIPAM />} />}
@@ -378,7 +386,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/configuration"
+          path={`${ROOT_PATH}/ui/project/:project/configuration`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProjectConfig />} />}
@@ -386,7 +394,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/configuration/:section"
+          path={`${ROOT_PATH}/ui/project/:project/configuration/:section`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProjectConfig />} />}
@@ -394,11 +402,11 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/projects/create"
+          path={`${ROOT_PATH}/ui/projects/create`}
           element={<ProtectedRoute outlet={<CreateProject />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pools"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pools`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StoragePools />} />}
@@ -406,7 +414,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/pools/create"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pools/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateStoragePool />} />}
@@ -414,7 +422,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/volumes"
+          path={`${ROOT_PATH}/ui/project/:project/storage/volumes`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StorageVolumes />} />}
@@ -422,7 +430,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/volumes/create"
+          path={`${ROOT_PATH}/ui/project/:project/storage/volumes/create`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateStorageVolume />} />}
@@ -430,7 +438,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/buckets"
+          path={`${ROOT_PATH}/ui/project/:project/storage/buckets`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StorageBuckets />} />}
@@ -438,7 +446,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/custom-isos"
+          path={`${ROOT_PATH}/ui/project/:project/storage/custom-isos`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CustomIsoList />} />}
@@ -446,7 +454,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/pool/:name"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:name`}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StoragePoolDetail />} />}
@@ -454,101 +462,104 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/pool/:name/:activeTab"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:name/:activeTab`}
           element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:name/:activeTab/:section"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:name/:activeTab/:section`}
           element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/volumes/:type/:volume"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/volumes/:type/:volume`}
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/volumes/:type/:volume/:activeTab"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/volumes/:type/:volume/:activeTab`}
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/volumes/:type/:volume/:activeTab/:section"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/volumes/:type/:volume/:activeTab/:section`}
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume`}
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab`}
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab/:section"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab/:section`}
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/pool/:pool/bucket/:bucket"
+          path={`${ROOT_PATH}/ui/project/:project/storage/pool/:pool/bucket/:bucket`}
           element={<ProtectedRoute outlet={<StorageBucketDetail />} />}
         />
         <Route
-          path="/ui/project/:project/images"
+          path={`${ROOT_PATH}/ui/project/:project/images`}
           element={<ProtectedRoute outlet={<ImageList />} />}
         />
         <Route
-          path="/ui/server"
+          path={`${ROOT_PATH}/ui/server`}
           element={<ProtectedRoute outlet={<Server />} />}
         />
         <Route
-          path="/ui/server/clustering"
+          path={`${ROOT_PATH}/ui/server/clustering`}
           element={
             <ProtectedRoute outlet={<Server activeTab="clustering" />} />
           }
         />
         <Route
-          path="/ui/cluster/groups"
+          path={`${ROOT_PATH}/ui/cluster/groups`}
           element={<ProtectedRoute outlet={<ClusterGroupList />} />}
         />
         <Route
-          path="/ui/cluster/members"
+          path={`${ROOT_PATH}/ui/cluster/members`}
           element={<ProtectedRoute outlet={<ClusterMemberList />} />}
         />
         <Route
-          path="/ui/cluster/member/:name"
+          path={`${ROOT_PATH}/ui/cluster/member/:name`}
           element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
         />
         <Route
-          path="/ui/cluster/member/:name/:activeTab"
+          path={`${ROOT_PATH}/ui/cluster/member/:name/:activeTab`}
           element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
         />
         <Route
-          path="/ui/operations"
+          path={`${ROOT_PATH}/ui/operations`}
           element={<ProtectedRoute outlet={<OperationList />} />}
         />
         <Route
-          path="/ui/warnings"
+          path={`${ROOT_PATH}/ui/warnings`}
           element={<ProtectedRoute outlet={<WarningList />} />}
         />
         <Route
-          path="/ui/permissions/identities"
+          path={`${ROOT_PATH}/ui/permissions/identities`}
           element={<ProtectedRoute outlet={<PermissionIdentities />} />}
         />
         <Route
-          path="/ui/permissions/groups"
+          path={`${ROOT_PATH}/ui/permissions/groups`}
           element={<ProtectedRoute outlet={<PermissionGroups />} />}
         />
         <Route
-          path="/ui/permissions/idp-groups"
+          path={`${ROOT_PATH}/ui/permissions/idp-groups`}
           element={<ProtectedRoute outlet={<PermissionIdpGroups />} />}
         />
         <Route
-          path="/ui/settings"
+          path={`${ROOT_PATH}/ui/settings`}
           element={<ProtectedRoute outlet={<Settings />} />}
         />
-        <Route path="/ui/login" element={<Login />} />
+        <Route path={`${ROOT_PATH}/ui/login`} element={<Login />} />
         <Route
-          path="/ui/login/certificate-generate"
+          path={`${ROOT_PATH}/ui/login/certificate-generate`}
           element={<CertificateGenerate />}
         />
-        <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
+        <Route
+          path={`${ROOT_PATH}/ui/login/certificate-add`}
+          element={<CertificateAdd />}
+        />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>

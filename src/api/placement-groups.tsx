@@ -2,6 +2,7 @@ import { handleResponse } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import type { LxdPlacementGroup } from "types/placementGroup";
+import { ROOT_PATH } from "util/rootPath";
 
 const placementGroupEntitlements = ["can_delete", "can_edit"];
 
@@ -14,7 +15,7 @@ export const fetchPlacementGroups = async (
   params.set("project", project);
   addEntitlements(params, isFineGrained, placementGroupEntitlements);
 
-  return fetch(`/1.0/placement-groups?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdPlacementGroup[]>) => {
       return data.metadata;
@@ -31,7 +32,7 @@ export const fetchPlacementGroup = async (
   addEntitlements(params, isFineGrained, placementGroupEntitlements);
 
   return fetch(
-    `/1.0/placement-groups/${encodeURIComponent(group)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(group)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdPlacementGroup>) => {
@@ -46,7 +47,7 @@ export const createPlacementGroup = async (
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(`/1.0/placement-groups?${params.toString()}`, {
+  await fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +64,7 @@ export const updatePlacementGroup = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/placement-groups/${encodeURIComponent(group.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(group.name)}?${params.toString()}`,
     {
       method: "PUT",
       body: JSON.stringify(group),
@@ -82,7 +83,7 @@ export const deletePlacementGroup = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/placement-groups/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(name)}?${params.toString()}`,
     {
       method: "DELETE",
     },

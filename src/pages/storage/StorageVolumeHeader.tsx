@@ -17,6 +17,7 @@ import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes"
 import StorageVolumeDetailActions from "./StorageVolumeDetailActions";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -57,8 +58,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
 
   const handleSuccess = (values: RenameHeaderValues) => {
     const url = hasLocation(volume)
-      ? `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/member/${encodeURIComponent(volume.location)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`
-      : `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`;
+      ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/member/${encodeURIComponent(volume.location)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`
+      : `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(values.name)}`;
 
     navigate(url);
     toastNotify.success(
@@ -117,7 +118,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       name={volume.name}
       parentItems={[
         <Link
-          to={`/ui/project/${encodeURIComponent(project)}/storage/volumes`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/volumes`}
           key={1}
         >
           Storage volumes

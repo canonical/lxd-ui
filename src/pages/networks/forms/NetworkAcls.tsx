@@ -9,6 +9,7 @@ import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 import { Label } from "@canonical/react-components";
 import NetworkDefaultACLSelector from "./NetworkDefaultACLSelector";
 import NetworkDefaultACLRead from "./NetworkDefaultACLRead";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project: string;
@@ -42,7 +43,7 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
                     key={aclName}
                     type="network-acl"
                     value={aclName}
-                    to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(aclName)}`}
+                    to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(aclName)}`}
                   />
                 ))}
               />

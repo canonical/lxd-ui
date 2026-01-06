@@ -14,6 +14,7 @@ import { deleteStorageBucket } from "api/storage-buckets";
 import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";
 import { useNavigate } from "react-router-dom";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -36,7 +37,7 @@ const DeleteStorageBucketBtn: FC<Props> = ({
   const toastNotify = useToastNotification();
 
   const onFinish = () => {
-    navigate(`/ui/project/${project?.name}/storage/buckets`);
+    navigate(`${ROOT_PATH}/ui/project/${project?.name}/storage/buckets`);
     toastNotify.success(
       <>
         Storage bucket <ResourceLabel bold type="bucket" value={bucket.name} />{" "}

@@ -9,7 +9,7 @@ interface Props {
 const ProjectUsedBy: FC<Props> = ({ project }) => {
   // the default profile is not blocking project deletion and can't be removed itself
   const usedBy = project.used_by?.filter(
-    (t) => !t.startsWith("/1.0/profiles/default"),
+    (t) => !t.includes("/1.0/profiles/default"),
   );
 
   return (

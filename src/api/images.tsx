@@ -10,6 +10,7 @@ import type { UploadState } from "types/storage";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { addEntitlements } from "util/entitlements/api";
+import { ROOT_PATH } from "util/rootPath";
 
 const imageEntitlements = ["can_delete"];
 
@@ -22,7 +23,7 @@ export const fetchImagesInProject = async (
   params.set("project", project);
   addEntitlements(params, isFineGrained, imageEntitlements);
 
-  return fetch(`/1.0/images?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/images?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdImage[]>) => {
       return data.metadata;
@@ -37,7 +38,7 @@ export const fetchImagesInAllProjects = async (
   params.set("all-projects", "1");
   addEntitlements(params, isFineGrained, imageEntitlements);
 
-  return fetch(`/1.0/images?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/images?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdImage[]>) => {
       return data.metadata;
@@ -52,7 +53,7 @@ export const deleteImage = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/images/${encodeURIComponent(image.fingerprint)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/images/${encodeURIComponent(image.fingerprint)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -76,7 +77,7 @@ export const deleteImageBulk = async (
         const item: BulkOperationItem = {
           name: name,
           type: "image",
-          href: `/ui/project/${encodeURIComponent(project)}/images`,
+          href: `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/images`,
         };
         return deleteImage(image, project)
           .then((operation) => {
@@ -110,7 +111,7 @@ export const createImageAlias = async (
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(`/1.0/images/aliases?${params.toString()}`, {
+  await fetch(`${ROOT_PATH}/1.0/images/aliases?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -129,7 +130,7 @@ export const createImage = async (
   const params = new URLSearchParams();
   params.set("project", instance.project);
 
-  return fetch(`/1.0/images?${params.toString()}`, {
+  return fetch(`${ROOT_PATH}/1.0/images?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -152,7 +153,7 @@ export const uploadImage = async (
   params.set("project", project);
 
   return axios
-    .post(`/1.0/images?${params.toString()}`, body, {
+    .post(`${ROOT_PATH}/1.0/images?${params.toString()}`, body, {
       headers: {
         "Content-Type": "application/octet-stream",
         "X-LXD-public": JSON.stringify(isPublic),

@@ -7,6 +7,7 @@ import ProfileDetailHeader from "./ProfileDetailHeader";
 import TabLinks from "components/TabLinks";
 import { useProfile } from "context/useProfiles";
 import NotFound from "components/NotFound";
+import { ROOT_PATH } from "util/rootPath";
 
 const tabs: string[] = ["Overview", "Configuration"];
 
@@ -56,7 +57,7 @@ const ProfileDetail: FC = () => {
           <TabLinks
             tabs={tabs}
             activeTab={activeTab}
-            tabUrl={`/ui/project/${encodeURIComponent(projectName)}/profile/${encodeURIComponent(name)}`}
+            tabUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/profile/${encodeURIComponent(name)}`}
           />
 
           {!activeTab && (

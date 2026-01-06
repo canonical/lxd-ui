@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { updateNetwork, updateClusterNetwork } from "api/networks";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkForm, {
@@ -178,7 +179,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     updateSection(initialSection);
   }, [initialSection]);
 
-  const baseUrl = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
+  const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
 
   const setSection = (newSection: string, source: "click" | "scroll") => {
     if (source === "scroll" && section === slugify(YAML_CONFIGURATION)) {

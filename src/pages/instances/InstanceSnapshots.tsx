@@ -12,6 +12,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { LxdInstance } from "types/instance";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
 import ItemName from "components/ItemName";
@@ -309,7 +310,7 @@ const InstanceSnapshots = (props: Props) => {
                 <ResourceLink
                   type="project"
                   value={project.name}
-                  to={`/ui/project/${project.name}/configuration`}
+                  to={`${ROOT_PATH}/ui/project/${project.name}/configuration`}
                 />
                 .
               </>
