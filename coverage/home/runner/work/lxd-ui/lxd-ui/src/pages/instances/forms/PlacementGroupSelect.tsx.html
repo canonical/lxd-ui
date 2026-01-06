@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.07% </span>
+                <span class="strong">81.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>132/157</span>
+                <span class='fraction'>133/163</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.11% </span>
+                <span class="strong">37.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>15/34</span>
+                <span class='fraction'>13/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
@@ -203,27 +203,27 @@
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
 <a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
+<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">39x</span>
@@ -341,8 +341,8 @@
 <span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">39x</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { CustomSelect } from "@canonical/react-components";
 import { usePlacementGroups } from "context/usePlacementGroups";
@@ -368,10 +368,10 @@ const PlacementGroupSelect: FC&lt;Props&gt; = <span class="fstat-no" title="func
   setValue,
   project,
   ref,
-  hasNoneOption = false,
-  isCreateInstance = false,
-  disabled = false,
-  profileNames = [],
+  hasNoneOption = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  isCreateInstance = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  disabled = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  profileNames = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
 }) =&gt; {
   const { data: profiles = [] } = <span class="cstat-no" title="statement not covered" >useProfiles(project);</span>
   const { data: placementGroups = [] } = <span class="cstat-no" title="statement not covered" >usePlacementGroups(project);</span>
@@ -403,9 +403,9 @@ const PlacementGroupSelect: FC&lt;Props&gt; = <span class="fstat-no" title="func
   const getInheritedValue = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     let result = <span class="cstat-no" title="statement not covered" >null;</span>
 <span class="cstat-no" title="statement not covered" >    for (const profileName of profileNames) {</span>
-      const profile = <span class="cstat-no" title="statement not covered" >profiles.find(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.name === profileName);</span></span>
+      const profile = <span class="cstat-no" title="statement not covered" >profiles.find((item) =&gt; item.name === profileName);</span>
 <span class="cstat-no" title="statement not covered" >      if (profile?.config["placement.group"]) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >        result = (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        result = (</span></span>
 <span class="cstat-no" title="statement not covered" >          &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >            {profile.config["placement.group"]}{" "}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;span className="u-text--muted"&gt;</span>
@@ -424,7 +424,7 @@ const PlacementGroupSelect: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >    placementGroupOptions.push({</span>
       label: (
         &lt;div className="label"&gt;
-          &lt;span className="name"&gt;{inheritedValue ?? "None"}&lt;/span&gt;
+          &lt;span className="name"&gt;{inheritedValue ?? <span class="branch-1 cbranch-no" title="branch not covered" >"None"}&lt;</span>/span&gt;
         &lt;/div&gt;
       ),
       selectedLabel: inheritedValue ?? undefined,
@@ -433,15 +433,15 @@ const PlacementGroupSelect: FC&lt;Props&gt; = <span class="fstat-no" title="func
     });
   }
 &nbsp;
-  const placementGroupLink = (count: number) =&gt; (
-    &lt;Link to={`/ui/project/${project}/placement-groups`} target="_blank"&gt;
+  const placementGroupLink = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>ount: number) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Link to={`/ui/project/${project}/placement-groups`} target="_blank"&gt;</span>
       {pluralize("placement group", count)}
     &lt;/Link&gt;
   );
 &nbsp;
   const getHelp = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (placementGroups.length === 0) {</span>
-      return (
+<span class="cstat-no" title="statement not covered" >      return (</span>
         &lt;&gt;
           {!isCreateInstance &amp;&amp; "No placement groups found for this project. "}
           &lt;&gt;Create your first {placementGroupLink(1)}.&lt;/&gt;
@@ -449,7 +449,7 @@ const PlacementGroupSelect: FC&lt;Props&gt; = <span class="fstat-no" title="func
       );
     }
 &nbsp;
-    return (
+<span class="cstat-no" title="statement not covered" >    return (</span>
       &lt;&gt;
         {!isCreateInstance &amp;&amp;
           "Update does not move the instance. Changed placement policy applies only to future LXD scheduling events such as evacuation. "}
@@ -458,7 +458,7 @@ const PlacementGroupSelect: FC&lt;Props&gt; = <span class="fstat-no" title="func
     );
   };
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;CustomSelect
       id="placementGroup"
       label="Placement group"
@@ -490,7 +490,7 @@ export default PlacementGroupSelect;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

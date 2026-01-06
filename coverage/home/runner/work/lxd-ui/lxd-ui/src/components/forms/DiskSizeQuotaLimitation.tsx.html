@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.66% </span>
+                <span class="strong">68.25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>43/60</span>
+                <span class='fraction'>43/63</span>
             </div>
         
             
@@ -125,19 +125,19 @@
 <span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-yes">135x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">149x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">152x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,22 +149,22 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
 <span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
 <span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">58x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
-<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -179,7 +179,7 @@ interface Props {
 const DiskSizeQuotaLimitation: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> driver }) =&gt; {
   const getMessage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (driver === dirDriver) {</span>
-      return (
+<span class="cstat-no" title="statement not covered" >      return (</span>
         &lt;&gt;
           Size limit might not be applied. See{" "}
           &lt;DocLink docPath="/reference/storage_dir/#quotas"&gt;
@@ -190,7 +190,7 @@ const DiskSizeQuotaLimitation: FC&lt;Props&gt; = <span class="fstat-no" title="f
       );
     }
 <span class="cstat-no" title="statement not covered" >    if (driver === btrfsDriver) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      return (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return (</span></span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Size limit might not be applied. See{" "}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;DocLink docPath="/reference/storage_btrfs/#quotas"&gt;</span>
@@ -208,7 +208,7 @@ const DiskSizeQuotaLimitation: FC&lt;Props&gt; = <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;&gt;
       &lt;Icon name="warning" style={{ marginRight: "0.5rem" }} /&gt;
       {message} Use a storage pool with another driver for full quota support.
@@ -226,7 +226,7 @@ export default DiskSizeQuotaLimitation;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

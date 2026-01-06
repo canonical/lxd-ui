@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.11% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>16/18</span>
             </div>
         
             
@@ -292,8 +292,8 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -316,37 +316,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -354,7 +323,38 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -455,7 +455,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import classnames from "classnames";
+import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import { useEventQueue } from "context/eventQueue";
 import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 import ResourceLabel from "components/ResourceLabel";
@@ -479,8 +479,8 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = ({ volume, snapshot }) =&gt; {
 &nbsp;
   const getTitle = (action: string) =&gt; {
     return canManageStorageVolumeSnapshots(volume)
-      ? `${action} snapshot`
-<span class="branch-0 cbranch-no" title="branch not covered" >      : `You do not have permission to ${action.toLowerCase()} this snapshot`;</span>
+      ? `${action<span class="branch-0 cbranch-no" title="branch not covered" >} snapshot`</span>
+<span class="cstat-no" title="statement not covered" >      : `You do not have permission to ${action.toLowerCase()} this snapshot`;</span>
   };
 &nbsp;
   const handleDelete = () =&gt; {
@@ -505,7 +505,7 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = ({ volume, snapshot }) =&gt; {
 <span class="cstat-no" title="statement not covered" >              `Snapshot ${snapshot.name} deletion failed`,</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              snapshotLink,</span>
-            ),
+<span class="cstat-no" title="statement not covered" >            ),</span>
           () =&gt; {
             setDeleting(false);
             queryClient.invalidateQueries({
@@ -519,7 +519,7 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = ({ volume, snapshot }) =&gt; {
       .catch((e) =&gt; {
 <span class="cstat-no" title="statement not covered" >        notify.failure("Snapshot deletion failed", e, snapshotLink);</span>
 <span class="cstat-no" title="statement not covered" >        setDeleting(false);</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
+      });
   };
 &nbsp;
   const handleRestore = () =&gt; {
@@ -536,7 +536,7 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = ({ volume, snapshot }) =&gt; {
       })
       .catch((error: Error) =&gt; {
 <span class="cstat-no" title="statement not covered" >        notify.failure("Snapshot restore failed", error);</span>
-<span class="cstat-no" title="statement not covered" >      })</span>
+      })
       .finally(() =&gt; {
         setRestoring(false);
         queryClient.invalidateQueries({
@@ -634,7 +634,7 @@ export default VolumeSnapshotActions;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

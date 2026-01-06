@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.24% </span>
+                <span class="strong">13.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/151</span>
+                <span class='fraction'>20/153</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -188,23 +188,23 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -311,8 +311,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
@@ -336,7 +336,7 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >  helpText,</span>
 <span class="cstat-no" title="statement not covered" >  disabledReason,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { data: clusterMembers = <span class="branch-0 cbranch-no" title="branch not covered" >[] </span>} = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { data: clusterMembers = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useClusterMembers();</span></span>
 <span class="cstat-no" title="statement not covered" >  const memberNames = <span class="cstat-no" title="statement not covered" >clusterMembers.map(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; <span class="cstat-no" title="statement not covered" >member.server_name)</span>;</span></span>
 <span class="cstat-no" title="statement not covered" >  const [isSpecific, setIsSpecific] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean | null&gt;(null);</span></span>
 <span class="cstat-no" title="statement not covered" >  const firstValue = <span class="cstat-no" title="statement not covered" >Object.values(values ?? {})[0];</span></span>
@@ -353,7 +353,7 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const setValueForAllMembers = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue: string) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const update: ClusterSpecificValues = <span class="cstat-no" title="statement not covered" >{};</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    memberNames.forEach(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; (<span class="cstat-no" title="statement not covered" >update[member] = value));</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    memberNames.forEach(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; (<span class="cstat-no" title="statement not covered" >update[member] = value))</span>;</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setValue(update);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -365,7 +365,7 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setValue(update);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="u-sv3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Label forId="sizePerClusterMember"&gt;Size&lt;/Label&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {</span>
@@ -375,18 +375,18 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >          checked={!isSpecific}</span>
 <span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setValueForAllMembers(firstValue);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val);</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val)</span>;</span></span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >          disabled={!!disabledReason}</span>
 <span class="cstat-no" title="statement not covered" >          title={disabledReason}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      {<span class="branch-0 cbranch-no" title="branch not covered" >isSpecific &amp;&amp; (</span></span>
+<span class="cstat-no" title="statement not covered" >      {isSpecific &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="cluster-specific-input"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {memberNames.map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            const activeValue = <span class="cstat-no" title="statement not covered" >values?.[item] ?? "";</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >            return (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return (</span></span>
 <span class="cstat-no" title="statement not covered" >              &lt;Fragment key={item}&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div className="cluster-specific-member"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;ResourceLink</span>
@@ -410,7 +410,7 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >              &lt;/Fragment&gt;</span>
 <span class="cstat-no" title="statement not covered" >            );</span>
 <span class="cstat-no" title="statement not covered" >          })}</span>
-<span class="cstat-no" title="statement not covered" >          {<span class="branch-0 cbranch-no" title="branch not covered" >helpText &amp;&amp; (</span></span>
+<span class="cstat-no" title="statement not covered" >          {helpText &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="p-form-help-text cluster-specific-helptext"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              {helpText}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
@@ -418,7 +418,7 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      {<span class="branch-0 cbranch-no" title="branch not covered" >!isSpecific &amp;&amp; (</span></span>
+<span class="cstat-no" title="statement not covered" >      {!isSpecific &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {</span>
 <span class="cstat-no" title="statement not covered" >            &lt;DiskSizeSelector</span>
@@ -445,7 +445,7 @@ export default ClusteredDiskSizeSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

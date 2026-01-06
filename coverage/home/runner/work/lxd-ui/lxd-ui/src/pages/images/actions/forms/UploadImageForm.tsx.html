@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.54% </span>
+                <span class="strong">87.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>193/223</span>
+                <span class='fraction'>195/223</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">76% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>18/24</span>
+                <span class='fraction'>19/25</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.54% </span>
+                <span class="strong">87.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>193/223</span>
+                <span class='fraction'>195/223</span>
             </div>
         
             
@@ -404,26 +404,26 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -436,13 +436,13 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -627,7 +627,7 @@ const UploadImageForm: FC&lt;Props&gt; = ({ close, projectName }) =&gt; {
 <span class="cstat-no" title="statement not covered" >                        `Image upload succeeded. Failed to create an alias.`,</span>
 <span class="cstat-no" title="statement not covered" >                        e,</span>
 <span class="cstat-no" title="statement not covered" >                      );</span>
-<span class="cstat-no" title="statement not covered" >                    });</span>
+                    });
                 }
                 clearCache();
                 notifySuccess();
@@ -640,7 +640,7 @@ const UploadImageForm: FC&lt;Props&gt; = ({ close, projectName }) =&gt; {
           .catch((e: AxiosError&lt;LxdSyncResponse&lt;null&gt;&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >            const error = new Error(e.response?.data.error);</span>
 <span class="cstat-no" title="statement not covered" >            toastNotify.failure("Image upload failed", error);</span>
-<span class="cstat-no" title="statement not covered" >          })</span>
+          })
           .finally(() =&gt; {
             close();
           });
@@ -663,7 +663,7 @@ const UploadImageForm: FC&lt;Props&gt; = ({ close, projectName }) =&gt; {
               &lt;ProgressBar percentage={Math.floor(uploadState.percentage)} /&gt;
               &lt;p&gt;
                 {humanFileSize(uploadState.loaded)} loaded of{" "}
-                {humanFileSize(uploadState.total<span class="branch-0 cbranch-no" title="branch not covered" > ?? 0)}</span>
+                {humanFileSize(uploadState.<span class="branch-0 cbranch-no" title="branch not covered" >total ?? 0)</span>}
               &lt;/p&gt;
             &lt;/&gt;
           )}
@@ -739,7 +739,7 @@ export default UploadImageForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

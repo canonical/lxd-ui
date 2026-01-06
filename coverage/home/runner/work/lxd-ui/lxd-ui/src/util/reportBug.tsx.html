@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.66% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/30</span>
+                <span class='fraction'>26/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/9</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.46% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>23/26</span>
             </div>
         
             
@@ -92,29 +92,29 @@
 <a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
-<span class="cline-any cline-yes">6764x</span>
-<span class="cline-any cline-yes">6764x</span>
+<span class="cline-any cline-yes">6756x</span>
+<span class="cline-any cline-yes">6756x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { UI_VERSION } from "./version";
 &nbsp;
 export const getReportBugBodyTemplate = (error?: Error) =&gt; {
@@ -130,15 +130,15 @@ export const getReportBugBodyTemplate = (error?: Error) =&gt; {
   Path: ${location.toString()}
     
   ${
-    error &amp;&amp; error.stack
-<span class="branch-0 cbranch-no" title="branch not covered" >      ? `# Stacktrace</span>
-    
-    ${error.stack}`
+<span class="branch-0 cbranch-no" title="branch not covered" >    error &amp;&amp; error.<span class="branch-0 cbranch-no" title="branch not covered" >stack</span></span>
+<span class="cstat-no" title="statement not covered" >      ? `# Stacktrace</span>
+<span class="cstat-no" title="statement not covered" >    </span>
+<span class="cstat-no" title="statement not covered" >    ${error.stack}`</span>
       : ""
   } `;
 };
 &nbsp;
-export const getReportBugURL = (error?: Error) =&gt; {
+export const getReportBugURL = <span class="fstat-no" title="function not covered" >(e</span>rror?: Error) =&gt; {
 <span class="cstat-no" title="statement not covered" >  return `https://github.com/canonical/lxd-ui/issues/new?labels=Bug&amp;title=Bug%20report&amp;body=${encodeURIComponent(getReportBugBodyTemplate(error))}`;</span>
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -148,7 +148,7 @@ export const getReportBugURL = (error?: Error) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

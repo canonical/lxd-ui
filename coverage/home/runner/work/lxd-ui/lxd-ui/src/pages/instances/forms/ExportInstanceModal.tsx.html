@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.29% </span>
+                <span class="strong">92.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>234/243</span>
+                <span class='fraction'>224/243</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.47% </span>
+                <span class="strong">72.22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/17</span>
+                <span class='fraction'>13/18</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.29% </span>
+                <span class="strong">92.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>234/243</span>
+                <span class='fraction'>224/243</span>
             </div>
         
             
@@ -417,7 +417,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -425,13 +425,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -480,14 +480,14 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -522,7 +522,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -629,7 +629,7 @@ const ExportInstanceModal: FC&lt;Props&gt; = ({ instance, close }) =&gt; {
       .toISOString()
       .replaceAll(":", "-")
       .split(".")[0];
-    const backupName = `${instance.name}-${currentTime}.tar${values.compression === "gzip" ? <span class="branch-0 cbranch-no" title="branch not covered" >".gz" : ""}`;</span>
+    const backupName = `${instance.name}-${currentTime}.tar${values.compression === "gzip" ? <span class="branch-0 cbranch-no" title="branch not covered" >".gz" : ""}</span>`;
 &nbsp;
     const payload = JSON.stringify({
       name: backupName,
@@ -660,7 +660,7 @@ const ExportInstanceModal: FC&lt;Props&gt; = ({ instance, close }) =&gt; {
 <span class="cstat-no" title="statement not covered" >              `Could not download instance ${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              instanceLink,</span>
-            ),
+<span class="cstat-no" title="statement not covered" >            ),</span>
         );
       })
       .catch((e) =&gt;
@@ -668,7 +668,7 @@ const ExportInstanceModal: FC&lt;Props&gt; = ({ instance, close }) =&gt; {
 <span class="cstat-no" title="statement not covered" >          `Could not download instance ${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >          e,</span>
 <span class="cstat-no" title="statement not covered" >          instanceLink,</span>
-        ),
+<span class="cstat-no" title="statement not covered" >        ),</span>
       )
       .finally(() =&gt; {
         queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
@@ -722,15 +722,15 @@ const ExportInstanceModal: FC&lt;Props&gt; = ({ instance, close }) =&gt; {
       }
     &gt;
       &lt;Form onSubmit={formik.handleSubmit}&gt;
-        {hasCustomDisks &amp;&amp; (
-          &lt;Notification
-            severity="information"
-            title="Custom disks wil be ignored"
-          &gt;
-            This instance has {customDiskDevices.length} custom{" "}
-            {pluralize("disk", customDiskDevices.length)}, which will be ignored
-            in the export.
-          &lt;/Notification&gt;
+        {<span class="branch-0 cbranch-no" title="branch not covered" >hasCustomDisks &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Notification</span>
+<span class="cstat-no" title="statement not covered" >            severity="information"</span>
+<span class="cstat-no" title="statement not covered" >            title="Custom disks wil be ignored"</span>
+<span class="cstat-no" title="statement not covered" >          &gt;</span>
+<span class="cstat-no" title="statement not covered" >            This instance has {customDiskDevices.length} custom{" "}</span>
+<span class="cstat-no" title="statement not covered" >            {pluralize("disk", customDiskDevices.length)}, which will be ignored</span>
+<span class="cstat-no" title="statement not covered" >            in the export.</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/Notification&gt;</span>
         )}
         &lt;Select
           {...formik.getFieldProps("compression")}
@@ -799,7 +799,7 @@ export default ExportInstanceModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

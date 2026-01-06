@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.91% </span>
+                <span class="strong">58.26% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>145/242</span>
+                <span class='fraction'>141/242</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.91% </span>
+                <span class="strong">58.26% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>145/242</span>
+                <span class='fraction'>141/242</span>
             </div>
         
             
@@ -379,13 +379,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -409,7 +409,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -499,15 +498,14 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -531,6 +529,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -621,7 +621,7 @@ const WarningList: FC = () =&gt; {
 <span class="cstat-no" title="statement not covered" >      return false;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >    return true;</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+  });
 &nbsp;
   useEffect(() =&gt; {
     const validNames = new Set(
@@ -715,7 +715,7 @@ const WarningList: FC = () =&gt; {
 <span class="cstat-no" title="statement not covered" >        lastSeen: warning.last_seen_at,</span>
 <span class="cstat-no" title="statement not covered" >      },</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+  });
 &nbsp;
   return (
     &lt;CustomLayout
@@ -739,13 +739,13 @@ const WarningList: FC = () =&gt; {
                 /&gt;
               &lt;/PageHeader.Search&gt;
             )}
-            {selectedNames.length &gt; 0 &amp;&amp; (
-              &lt;BulkDeleteWarningBtn
-                warningIds={selectedNames}
-                onStart={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            {selectedNames.length &gt; <span class="branch-0 cbranch-no" title="branch not covered" >0 &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >              &lt;BulkDeleteWarningBtn</span>
+<span class="cstat-no" title="statement not covered" >                warningIds={selectedNames}</span>
+<span class="cstat-no" title="statement not covered" >                onStart={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >                  setProcessingNames(selectedNames);</span>
 <span class="cstat-no" title="statement not covered" >                }}</span>
-                onFinish={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                onFinish={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >                  setProcessingNames([]);</span>
 <span class="cstat-no" title="statement not covered" >                }}</span>
               /&gt;
@@ -770,9 +770,9 @@ const WarningList: FC = () =&gt; {
             className="warnings-table"
             emptyStateMsg={
               isLoading ? (
-                &lt;Spinner className="u-loader" text="Loading warnings..." /&gt;
-              ) : (
-<span class="branch-0 cbranch-no" title="branch not covered" >                "No data to display"</span>
+                &lt;Spinner className="u-loader" text="Loading warnings..."<span class="branch-0 cbranch-no" title="branch not covered" > /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              ) : (</span>
+<span class="cstat-no" title="statement not covered" >                "No data to display"</span>
               )
             }
             itemName="warning"
@@ -796,7 +796,7 @@ export default WarningList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

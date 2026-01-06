@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.85% </span>
+                <span class="strong">48.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/27</span>
+                <span class='fraction'>15/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -88,17 +88,17 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">1072x</span>
-<span class="cline-any cline-yes">1072x</span>
-<span class="cline-any cline-yes">1072x</span>
+<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">1042x</span>
+<span class="cline-any cline-yes">1042x</span>
+<span class="cline-any cline-yes">1042x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -111,8 +111,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 &nbsp;
 interface Props {
@@ -122,13 +122,13 @@ interface Props {
 &nbsp;
 const InstanceListAddresses: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> addresses, numberToShow = 2 }) =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (addresses.length &lt;= numberToShow) {</span>
-    return addresses.map((address) =&gt; &lt;div key={address}&gt;{address}&lt;/div&gt;);
+<span class="cstat-no" title="statement not covered" >    return addresses.map((address) =&gt; &lt;div key={address}&gt;{address}&lt;/div&gt;);</span>
 <span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {addresses.slice(0, numberToShow).map((address) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div key={address}&gt;{address}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {addresses.slice(0, numberToShow).map(<span class="fstat-no" title="function not covered" >(a</span>ddress) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        &lt;div key={address}&gt;{address}&lt;/div&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >      ))}</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="p-text--x-small u-text--muted instance-list-addresses-more"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        + {addresses.length - numberToShow} more</span>
@@ -145,7 +145,7 @@ export default InstanceListAddresses;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

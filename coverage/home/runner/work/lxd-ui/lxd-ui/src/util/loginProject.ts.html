@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.35% </span>
+                <span class="strong">66.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>41/53</span>
+                <span class='fraction'>35/53</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.81% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/22</span>
+                <span class='fraction'>6/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/9</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">79.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/34</span>
+                <span class='fraction'>27/34</span>
             </div>
         
             
@@ -97,71 +97,71 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">348x</span>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
-<span class="cline-any cline-yes">5453x</span>
-<span class="cline-any cline-yes">5453x</span>
-<span class="cline-any cline-yes">5453x</span>
+<span class="cline-any cline-yes">5426x</span>
+<span class="cline-any cline-yes">5426x</span>
+<span class="cline-any cline-yes">5426x</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
-<span class="cline-any cline-yes">5448x</span>
-<span class="cline-any cline-yes">5448x</span>
-<span class="cline-any cline-yes">5434x</span>
-<span class="cline-any cline-yes">5448x</span>
-<span class="cline-any cline-yes">5448x</span>
-<span class="cline-any cline-yes">5448x</span>
-<span class="cline-any cline-yes">5448x</span>
+<span class="cline-any cline-yes">5422x</span>
+<span class="cline-any cline-yes">5422x</span>
+<span class="cline-any cline-yes">5422x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5422x</span>
+<span class="cline-any cline-yes">5422x</span>
+<span class="cline-any cline-yes">5422x</span>
 <span class="cline-any cline-yes">334x</span>
 <span class="cline-any cline-yes">334x</span>
-<span class="cline-any cline-yes">5372x</span>
-<span class="cline-any cline-yes">5372x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">5372x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">5372x</span>
-<span class="cline-any cline-yes">5372x</span>
-<span class="cline-any cline-yes">5372x</span>
+<span class="cline-any cline-yes">5349x</span>
+<span class="cline-any cline-yes">5349x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5349x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5349x</span>
+<span class="cline-any cline-yes">5349x</span>
+<span class="cline-any cline-yes">5349x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdProject } from "types/project";
 &nbsp;
 export const ALL_PROJECTS = "__all_projects__";
 const LOCAL_STORAGE_KEY = "lxdLoginProject";
 &nbsp;
-export const loadLoginProject = (): string | undefined =&gt; {
+export const loadLoginProject = <span class="fstat-no" title="function not covered" >(): string | undefined =&gt; {</span>
   const saved = <span class="cstat-no" title="statement not covered" >localStorage.getItem(LOCAL_STORAGE_KEY);</span>
 <span class="cstat-no" title="statement not covered" >  return saved || undefined;</span>
 };
 &nbsp;
 export const saveLoginProject = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(p</span>roject: string): void =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  localStorage.setItem(LOCAL_STORAGE_KEY, project);</span>
-};
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  localStorage.setItem(LOCAL_STORAGE_KEY, project);</span></span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const getDefaultProject = (projects: LxdProject[]) =&gt; {
+export const getDefaultProject = <span class="fstat-no" title="function not covered" >(p</span>rojects: LxdProject[]) =&gt; {
   const project =
-<span class="cstat-no" title="statement not covered" >    projects.length &lt; 1 || projects.find(<span class="fstat-no" title="function not covered" >(p</span>) =&gt; <span class="cstat-no" title="statement not covered" >p.name === "default")</span></span>
+<span class="cstat-no" title="statement not covered" >    projects.length &lt; 1 || projects.find((p) =&gt; p.name === "default")</span>
       ? <span class="branch-0 cbranch-no" title="branch not covered" >"default"</span>
-      : <span class="branch-1 cbranch-no" title="branch not covered" >projects[0].name;</span>
+<span class="cstat-no" title="statement not covered" >      : projects[0].name;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return project;</span>
 };
 &nbsp;
-export const getLoginProject = (projects: LxdProject[]) =&gt; {
+export const getLoginProject = <span class="fstat-no" title="function not covered" >(p</span>rojects: LxdProject[]) =&gt; {
   const savedProject = <span class="cstat-no" title="statement not covered" >loadLoginProject();</span>
 <span class="cstat-no" title="statement not covered" >  if (savedProject === ALL_PROJECTS) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    return ALL_PROJECTS;</span>
-  }
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return ALL_PROJECTS;</span></span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >  if (<span class="branch-0 cbranch-no" title="branch not covered" >savedProject &amp;&amp; projects.find((p) =&gt; p.name === savedProject)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span></span>
-<span class="cstat-no" title="statement not covered" >    return savedProject;</span>
-  }
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return savedProject;</span></span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return getDefaultProject(projects);</span>
 };
@@ -172,7 +172,7 @@ export const getLoginProject = (projects: LxdProject[]) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

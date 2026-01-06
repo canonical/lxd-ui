@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.09% </span>
+                <span class="strong">64.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/31</span>
+                <span class='fraction'>20/31</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>18/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -88,31 +88,31 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">4607x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">4369x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-yes">318x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { UseQueryResult } from "@tanstack/react-query";
@@ -120,7 +120,7 @@ import { fetchClusterMember, fetchClusterMembers } from "api/cluster-members";
 import type { LxdClusterMember } from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
 &nbsp;
-export const useClusterMembers = (): UseQueryResult&lt;LxdClusterMember[]&gt; =&gt; {
+export const useClusterMembers = <span class="fstat-no" title="function not covered" >(): UseQueryResult&lt;LxdClusterMember[]&gt; =&gt; {</span>
   const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
@@ -131,13 +131,13 @@ export const useClusterMembers = (): UseQueryResult&lt;LxdClusterMember[]&gt; =&
 };
 &nbsp;
 export const useClusterMember = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
-  name: string,
-): UseQueryResult&lt;LxdClusterMember&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-    queryKey: [queryKeys.cluster, queryKeys.members, name],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchClusterMember(name),</span>
-  });
-};
+<span class="cstat-no" title="statement not covered" >  name: string,</span>
+<span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdClusterMember&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return useQuery({</span></span>
+<span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.cluster, queryKeys.members, name],</span>
+<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchClusterMember(name),</span></span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -145,7 +145,7 @@ export const useClusterMember = <span class="fstat-no" title="function not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T10:12:42.382Z
+                at 2026-01-06T12:34:01.923Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
