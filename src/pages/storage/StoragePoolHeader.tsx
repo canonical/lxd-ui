@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useFormik } from "formik";
 import { renameStoragePool } from "api/storage-pools";
-import ResourceLink from "components/ResourceLink";
+import StoragePoolRichChip from "./StoragePoolRichChip";
 
 interface Props {
   name: string;
@@ -48,7 +48,10 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
           toastNotify.success(
             <>
               Storage pool <strong>{name}</strong> renamed to{" "}
-              <ResourceLink type="pool" value={values.name} to={url} />.
+              <StoragePoolRichChip
+                poolName={values.name}
+                projectName={project}
+              />
             </>,
           );
           formik.setFieldValue("isRenaming", false);

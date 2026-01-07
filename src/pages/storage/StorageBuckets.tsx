@@ -34,7 +34,6 @@ import StorageBucketActions from "./actions/StorageBucketActions";
 import CreateStorageBucketBtn from "./actions/CreateStorageBucketBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import ResourceLink from "components/ResourceLink";
 import usePanelParams, { panels } from "util/usePanelParams";
 import StorageBucketBulkDelete from "./actions/StorageBucketBulkDelete";
 import type { LxdStorageBucket } from "types/storage";
@@ -43,6 +42,7 @@ import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 import StorageBucketLink from "./StorageBucketLink";
 import StorageBucketKeyCount from "./StorageBucketKeyCount";
 import DocLink from "components/DocLink";
+import StoragePoolRichChip from "./StoragePoolRichChip";
 
 const StorageBuckets: FC = () => {
   const notify = useNotify();
@@ -145,10 +145,10 @@ const StorageBuckets: FC = () => {
         },
         {
           content: (
-            <ResourceLink
-              type="pool"
-              value={bucket.pool}
-              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(bucket.pool)}`}
+            <StoragePoolRichChip
+              poolName={bucket.pool}
+              projectName={project}
+              location={bucket.location}
             />
           ),
           role: "cell",

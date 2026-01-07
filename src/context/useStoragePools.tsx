@@ -14,6 +14,7 @@ import {
   fetchStoragePools,
 } from "api/storage-pools";
 import { useClusterMembers } from "./useClusterMembers";
+import type { LxdClusterMember } from "types/cluster";
 
 export const useStoragePool = (
   pool: string,
@@ -54,12 +55,16 @@ export const usePoolFromClusterMembers = (
 
 export const useClusteredStoragePoolResources = (
   pool: string,
+  member?: LxdClusterMember,
 ): UseQueryResult<LxdStoragePoolResources[]> => {
   const { data: clusterMembers = [] } = useClusterMembers();
   return useQuery({
     queryKey: [queryKeys.storage, pool, queryKeys.cluster, queryKeys.resources],
     queryFn: async () =>
-      fetchClusteredStoragePoolResources(pool, clusterMembers),
+      fetchClusteredStoragePoolResources(
+        pool,
+        member ? [member] : clusterMembers,
+      ),
     enabled: clusterMembers.length > 0,
   });
 };
