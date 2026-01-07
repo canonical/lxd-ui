@@ -128,6 +128,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "permission_idp_groups";
 @import "permission_group_selection";
 @import "permission_groups";
+@import "pool_rich_tooltip";
 @import "prefixed_ip_input";
 @import "profile_detail_overview";
 @import "profile_detail_panel";

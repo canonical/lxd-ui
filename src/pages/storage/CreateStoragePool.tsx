@@ -30,7 +30,7 @@ import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 import { yamlToObject } from "util/yaml";
 import type { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";
-import ResourceLink from "components/ResourceLink";
+import StoragePoolRichChip from "./StoragePoolRichChip";
 import { ROOT_PATH } from "util/rootPath";
 
 const CreateStoragePool: FC = () => {
@@ -93,10 +93,9 @@ const CreateStoragePool: FC = () => {
           toastNotify.success(
             <>
               Storage pool{" "}
-              <ResourceLink
-                type="pool"
-                value={storagePool.name}
-                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`}
+              <StoragePoolRichChip
+                poolName={storagePool.name}
+                projectName={project}
               />{" "}
               created.
             </>,
