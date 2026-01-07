@@ -19,6 +19,7 @@ import type { LxdDevices } from "types/device";
 import NetworkRichChip from "pages/networks/NetworkRichChip";
 import ExpandableList from "components/ExpandableList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -109,10 +110,10 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         <tr>
           <th className="u-text--muted">Root storage</th>
           <td>
-            <ResourceLink
-              type="pool"
-              value={rootPool}
-              to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(rootPool)}`}
+            <StoragePoolRichChip
+              poolName={rootPool}
+              projectName={instance.project}
+              location={instance.location}
             />
           </td>
         </tr>

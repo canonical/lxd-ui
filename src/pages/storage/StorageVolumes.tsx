@@ -60,6 +60,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { isProjectWithVolumes } from "util/projects";
 import DocLink from "components/DocLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import StoragePoolRichChip from "./StoragePoolRichChip";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -249,10 +250,10 @@ const StorageVolumes: FC = () => {
         },
         {
           content: (
-            <ResourceLink
-              type="pool"
-              value={volume.pool}
-              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
+            <StoragePoolRichChip
+              poolName={volume.pool}
+              projectName={volume.project}
+              location={volume.location}
             />
           ),
           role: "cell",
