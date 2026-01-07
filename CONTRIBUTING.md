@@ -307,10 +307,18 @@ Save and exit the editor by pressing **CTRL+X**, then **Y**.
 
 Refresh your UI to see your administrator permissions restored.
 
+# Review pull requests
+
+From the PR page, copy the `user:branch` reference, such as `edlerd:feature-branch`. You can find it in the header of the PR page. Use the `fetch-pr` script to fetch the branch and check it out:
+```
+./tests/scripts/fetch-pr.sh edlerd:feature-branch
+```
+
+(Re-) start `dotrun` and open the UI in your browser to review the changes.
+
 # Advanced setup
 
 Learn how to 
 - [Setup local LXD cluster](https://github.com/canonical/lxd-ui/wiki/Setup-local-LXD-cluster) inside LXD to enable clustering features
-- [Setup oidc login](https://github.com/canonical/lxd-ui/wiki/Setup-oidc-login) to enable SSO authentication
+- [Setup oidc login](https://documentation.ubuntu.com/lxd/latest/howto/oidc_auth0/) to enable SSO authentication
 - See [Architecture](ARCHITECTURE.MD) for details on the dev setup. 
-
