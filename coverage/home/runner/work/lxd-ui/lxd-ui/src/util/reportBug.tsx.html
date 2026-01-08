@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.66% </span>
+                <span class="strong">88.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/30</span>
+                <span class='fraction'>31/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.46% </span>
+                <span class="strong">89.65% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/26</span>
+                <span class='fraction'>26/29</span>
             </div>
         
             
@@ -89,33 +89,42 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">332x</span>
-<span class="cline-any cline-yes">332x</span>
-<span class="cline-any cline-yes">332x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">332x</span>
-<span class="cline-any cline-yes">332x</span>
-<span class="cline-any cline-yes">6744x</span>
-<span class="cline-any cline-yes">6744x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">335x</span>
+<span class="cline-any cline-yes">6777x</span>
+<span class="cline-any cline-yes">6777x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { UI_VERSION } from "./version";
+&nbsp;
+const anonymiseHostname = (stack: string) =&gt;
+  stack.replaceAll(location.hostname, "&lt;ANONYMOUS_HOST&gt;");
 &nbsp;
 export const getReportBugBodyTemplate = (error?: Error) =&gt; {
   return `\
@@ -127,13 +136,13 @@ export const getReportBugBodyTemplate = (error?: Error) =&gt; {
   # Metadata
     
   UI Version: ${UI_VERSION}
-  Path: ${location.toString()}
+  Path: ${anonymiseHostname(location.toString())}
     
   ${
 <span class="branch-0 cbranch-no" title="branch not covered" >    error &amp;&amp; error.<span class="branch-0 cbranch-no" title="branch not covered" >stack</span></span>
 <span class="cstat-no" title="statement not covered" >      ? `# Stacktrace</span>
-<span class="cstat-no" title="statement not covered" >    </span>
-<span class="cstat-no" title="statement not covered" >    ${error.stack}`</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    ${anonymiseHostname(error.stack)}`</span>
       : ""
   } `;
 };
@@ -148,7 +157,7 @@ export const getReportBugURL = <span class="fstat-no" title="function not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-08T16:23:48.222Z
+                at 2026-01-08T20:52:48.433Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
