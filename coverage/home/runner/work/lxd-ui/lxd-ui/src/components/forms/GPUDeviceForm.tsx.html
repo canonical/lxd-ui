@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.77% </span>
+                <span class="strong">70.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>187/268</span>
+                <span class='fraction'>196/278</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.27% </span>
+                <span class="strong">80.95% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/22</span>
+                <span class='fraction'>17/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.77% </span>
+                <span class="strong">70.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>187/268</span>
+                <span class='fraction'>196/278</span>
             </div>
         
             
@@ -331,7 +331,25 @@
 <a name='L266'></a><a href='#L266'>266</a>
 <a name='L267'></a><a href='#L267'>267</a>
 <a name='L268'></a><a href='#L268'>268</a>
-<a name='L269'></a><a href='#L269'>269</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">109x</span>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">109x</span>
@@ -406,6 +424,7 @@
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -494,6 +513,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">29x</span>
@@ -618,19 +638,27 @@ import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import {
   addNoneDevice,
   deduplicateName,
   findNoneDeviceIndex,
   removeDevice,
 } from "util/formDevices";
-import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
-import { deviceKeyToLabel, getExistingDeviceNames } from "util/devices";
+import {
+  getInheritedDeviceRow,
+  getInheritedSourceRow,
+} from "components/forms/InheritedDeviceRow";
+import {
+  deviceKeyToLabel,
+  getExistingDeviceNames,
+  getProfileFromSource,
+} from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
 import GPUDeviceInput from "components/forms/GPUDeviceInput";
 import { useProfiles } from "context/useProfiles";
 import DocLink from "components/DocLink";
+import DeviceName from "components/forms/DeviceName";
+import { isDeviceModified } from "util/formChangeCount";
 &nbsp;
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -681,19 +709,13 @@ const GPUDevicesForm: FC&lt;Props&gt; = ({ formik, project }) =&gt; {
 <span class="cstat-no" title="statement not covered" >      getConfigurationRowBase({</span>
 <span class="cstat-no" title="statement not covered" >        className: "no-border-top override-with-form",</span>
 <span class="cstat-no" title="statement not covered" >        configuration: (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div</span>
-<span class="cstat-no" title="statement not covered" >            className={classnames("device-name", {</span>
-<span class="cstat-no" title="statement not covered" >              "u-text--muted": isNoneDevice,</span>
-<span class="cstat-no" title="statement not covered" >            })}</span>
-<span class="cstat-no" title="statement not covered" >          &gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;b&gt;{item.key}&lt;/b&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;DeviceName</span>
+<span class="cstat-no" title="statement not covered" >            name={item.key}</span>
+<span class="cstat-no" title="statement not covered" >            hasChanges={isDeviceModified(formik, item.key)}</span>
+<span class="cstat-no" title="statement not covered" >            isDetached={isNoneDevice}</span>
+<span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        ),</span>
-<span class="cstat-no" title="statement not covered" >        inherited: (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="p-text--small u-text--muted u-no-margin--bottom"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            From: {item.source}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        ),</span>
+<span class="cstat-no" title="statement not covered" >        inherited: null,</span>
 <span class="cstat-no" title="statement not covered" >        override: isNoneDevice ? (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >            appearance="base"</span>
@@ -717,7 +739,6 @@ const GPUDevicesForm: FC&lt;Props&gt; = ({ formik, project }) =&gt; {
 <span class="cstat-no" title="statement not covered" >              addNoneDevice(item.key, formik);</span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
 <span class="cstat-no" title="statement not covered" >            className="has-icon u-no-margin--bottom"</span>
-<span class="cstat-no" title="statement not covered" >            dense</span>
 <span class="cstat-no" title="statement not covered" >            title={formik.values.editRestriction ?? "Detach GPU"}</span>
 <span class="cstat-no" title="statement not covered" >            disabled={!!formik.values.editRestriction}</span>
 <span class="cstat-no" title="statement not covered" >          &gt;</span>
@@ -725,6 +746,14 @@ const GPUDevicesForm: FC&lt;Props&gt; = ({ formik, project }) =&gt; {
 <span class="cstat-no" title="statement not covered" >            &lt;span&gt;Detach&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        ),</span>
+<span class="cstat-no" title="statement not covered" >      }),</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    inheritedRows.push(</span>
+<span class="cstat-no" title="statement not covered" >      getInheritedSourceRow({</span>
+<span class="cstat-no" title="statement not covered" >        project,</span>
+<span class="cstat-no" title="statement not covered" >        profile: getProfileFromSource(item.source),</span>
+<span class="cstat-no" title="statement not covered" >        isDetached: isNoneDevice,</span>
 <span class="cstat-no" title="statement not covered" >      }),</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -763,6 +792,7 @@ const GPUDevicesForm: FC&lt;Props&gt; = ({ formik, project }) =&gt; {
 <span class="cstat-no" title="statement not covered" >              formik.setFieldValue(`devices.${index}.name`, name);</span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
             disableReason={formik.values.editRestriction}
+            formik={formik}
           /&gt;
         ),
         inherited: "",
@@ -874,7 +904,7 @@ export default GPUDevicesForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-06T13:24:02.883Z
+                at 2026-01-08T16:23:48.222Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
