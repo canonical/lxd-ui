@@ -1,12 +1,16 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
+import DeviceName from "components/forms/DeviceName";
+import { isDeviceModified } from "util/formChangeCount";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 interface Props {
   name: string;
   index: number;
   setName: (val: string) => void;
   disableReason?: string;
+  formik: InstanceAndProfileFormikProps;
 }
 
 const RenameDeviceInput: FC<Props> = ({
@@ -14,6 +18,7 @@ const RenameDeviceInput: FC<Props> = ({
   index,
   setName,
   disableReason,
+  formik,
 }) => {
   const [isEditing, setEditing] = useState(false);
 
@@ -35,7 +40,10 @@ const RenameDeviceInput: FC<Props> = ({
       ) : (
         <>
           <Label forId={`device-${index}-name`}>
-            <b>{name}</b>
+            <DeviceName
+              name={name}
+              hasChanges={isDeviceModified(formik, name)}
+            />
           </Label>
           <Button
             id={`device-${index}-name`}

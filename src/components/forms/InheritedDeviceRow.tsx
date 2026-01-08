@@ -3,6 +3,7 @@ import { Button, Icon, Label } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   id?: string;
@@ -17,6 +18,8 @@ interface Props {
   isDeactivated?: boolean;
   className?: string;
   disabledReason?: string;
+  monoFont?: boolean;
+  mutedLabel?: boolean;
 }
 
 export const getInheritedDeviceRow = ({
@@ -32,6 +35,8 @@ export const getInheritedDeviceRow = ({
   isDeactivated,
   className,
   disabledReason,
+  monoFont = true,
+  mutedLabel = false,
 }: Props): MainTableRow => {
   return getConfigurationRowBase({
     className: classnames("no-border-top", className),
@@ -40,7 +45,7 @@ export const getInheritedDeviceRow = ({
         <Label
           forId={id}
           className={classnames({
-            "u-text--muted": isDeactivated,
+            "u-text--muted": mutedLabel || isDeactivated,
           })}
         >
           {label}
@@ -49,9 +54,7 @@ export const getInheritedDeviceRow = ({
         <p
           className={classnames(
             "p-form__label u-no-margin--bottom u-no-padding--top",
-            {
-              "u-text--muted": isDeactivated,
-            },
+            { "u-text--muted": mutedLabel || isDeactivated },
           )}
         >
           {label}
@@ -59,9 +62,7 @@ export const getInheritedDeviceRow = ({
       )
     ) : (
       <div
-        className={classnames({
-          "u-text--muted": isDeactivated,
-        })}
+        className={classnames({ "u-text--muted": mutedLabel || isDeactivated })}
       >
         {label}
       </div>
@@ -73,8 +74,8 @@ export const getInheritedDeviceRow = ({
           "u-text--line-through": overrideValue || isDeactivated,
         })}
       >
-        <div className="mono-font">
-          <b>{inheritValue}</b>
+        <div className={classnames({ "mono-font": monoFont })}>
+          {monoFont ? <b>{inheritValue}</b> : inheritValue}
         </div>
         {inheritSource && (
           <div className="p-text--small u-text--muted u-no-margin--bottom">
@@ -125,5 +126,51 @@ export const getInheritedDeviceRow = ({
         </Button>
       )
     ),
+  });
+};
+
+export const getInheritedSourceRow = ({
+  project,
+  profile,
+  hasLocalOverride,
+  isDetached,
+  className,
+}: {
+  project: string;
+  profile: string;
+  hasLocalOverride?: boolean;
+  isDetached?: boolean;
+  className?: string;
+}) => {
+  return getInheritedDeviceRow({
+    className,
+    mutedLabel: true,
+    label: "From profile",
+    inheritValue: (
+      <>
+        <ResourceLink
+          type="profile"
+          value={profile}
+          to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile)}`}
+          className={classnames({
+            "u-text--line-through": hasLocalOverride || isDetached,
+          })}
+        />
+        {hasLocalOverride && (
+          <>
+            <br />
+            <i className="u-text--muted p-text--small">with local override</i>
+          </>
+        )}
+        {isDetached && (
+          <>
+            <br />
+            <i className="u-text--muted p-text--small">detached</i>
+          </>
+        )}
+      </>
+    ),
+    readOnly: true,
+    monoFont: false,
   });
 };

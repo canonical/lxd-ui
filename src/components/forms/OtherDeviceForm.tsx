@@ -23,13 +23,16 @@ import { getInheritedOtherDevices } from "util/configInheritance";
 import {
   deviceKeyToLabel,
   getExistingDeviceNames,
+  getProfileFromSource,
   isOtherDevice,
 } from "util/devices";
-import classnames from "classnames";
 import ConfigurationTable from "components/ConfigurationTable";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
+import {
+  getInheritedDeviceRow,
+  getInheritedSourceRow,
+} from "components/forms/InheritedDeviceRow";
 import { ensureEditMode } from "util/instanceEdit";
 import {
   addNoneDevice,
@@ -38,6 +41,8 @@ import {
   removeDevice,
 } from "util/formDevices";
 import { useProfiles } from "context/useProfiles";
+import DeviceName from "components/forms/DeviceName";
+import { isDeviceModified } from "util/formChangeCount";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -94,24 +99,28 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
   inheritedDevices.forEach((item) => {
     const noneDeviceId = findNoneDeviceIndex(item.key, formik);
     const isNoneDevice = noneDeviceId !== -1;
+    const initialOverrideExists = formik.initialValues.devices.some(
+      (device) => device.name === item.key,
+    );
+    const currentOverrideExists = formik.values.devices.some(
+      (device) => device.name === item.key,
+    );
+    const hasOverrideBeenRemoved =
+      initialOverrideExists && !currentOverrideExists;
+    const hasChanges =
+      isDeviceModified(formik, item.key) || hasOverrideBeenRemoved;
 
     inheritedRows.push(
       getConfigurationRowBase({
         className: "no-border-top override-with-form",
         configuration: (
-          <div
-            className={classnames("device-name", {
-              "u-text--muted": isNoneDevice,
-            })}
-          >
-            <b>{item.key}</b>
-          </div>
+          <DeviceName
+            name={item.key}
+            hasChanges={hasChanges}
+            isDetached={isNoneDevice}
+          />
         ),
-        inherited: (
-          <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
-          </div>
-        ),
+        inherited: null,
         override: isNoneDevice ? (
           <Button
             className="u-no-margin--top u-no-margin--bottom"
@@ -146,6 +155,14 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             <span>Detach</span>
           </Button>
         ),
+      }),
+    );
+
+    inheritedRows.push(
+      getInheritedSourceRow({
+        project,
+        profile: getProfileFromSource(item.source),
+        isDetached: isNoneDevice,
       }),
     );
 
@@ -190,6 +207,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
+            formik={formik}
           />
         ),
         inherited: "",

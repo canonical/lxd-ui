@@ -7,7 +7,10 @@ import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedRootStorage } from "util/configInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { getInheritedDeviceRow } from "./InheritedDeviceRow";
+import {
+  getInheritedDeviceRow,
+  getInheritedSourceRow,
+} from "components/forms/InheritedDeviceRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import type { LxdStoragePool } from "types/storage";
 import type { LxdProfile } from "types/profile";
@@ -16,14 +19,22 @@ import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
 import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
+import { getProfileFromSource } from "util/devices";
+import { isDeviceModified } from "util/formChangeCount";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   pools: LxdStoragePool[];
   profiles: LxdProfile[];
+  project: string;
 }
 
-const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
+const DiskDeviceFormRoot: FC<Props> = ({
+  formik,
+  pools,
+  profiles,
+  project,
+}) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(isRootDisk);
   const hasRootStorage = rootIndex !== -1;
@@ -49,63 +60,98 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
     const copy = [...formik.values.devices];
     copy.push({
       type: "disk",
-      name: inheritValue?.name ? inheritValue.name : "root",
+      name: inheritValue?.name ?? "root",
       path: "/",
-      pool: inheritValue ? inheritValue.pool : (pools[0]?.name ?? undefined),
+      pool: inheritValue?.pool ?? pools[0]?.name,
     });
     formik.setFieldValue("devices", copy);
   };
 
+  const rootDeviceName =
+    formRootDevice?.name || (inheritValue?.name ? inheritValue.name : "root");
+  const deviceModified = isDeviceModified(formik, rootDeviceName);
+  const initialOverrideExists = formik.initialValues.devices.some(isRootDisk);
+  const hasOverrideBeenRemoved = initialOverrideExists && !hasRootStorage;
+  const hasChanges = deviceModified || hasOverrideBeenRemoved;
+
   return (
     <>
-      <h2 className="p-heading--4">Root storage</h2>
       <ConfigurationTable
+        className="disk-device-root-configuration-table"
         rows={[
           getConfigurationRowBase({
-            className: "override-with-form",
-            configuration: <b className="device-name">Root storage</b>,
-            inherited: "",
-            override: hasRootStorage ? (
-              <div>
-                <Button
-                  onClick={() => {
-                    ensureEditMode(formik);
-                    removeDevice(rootIndex, formik);
-                  }}
-                  type="button"
-                  appearance="base"
-                  title={formik.values.editRestriction ?? "Clear override"}
-                  hasIcon
-                  className="u-no-margin--bottom"
-                  disabled={!!formik.values.editRestriction}
-                >
-                  <Icon name="close" className="clear-configuration-icon" />
-                </Button>
+            className: "override-with-form disk-device-root-header-row",
+            configuration: (
+              <div className="disk-device-root-header u-flex u-gap--small">
+                <h2 className="p-heading--4 u-no-margin--bottom">
+                  Root storage
+                </h2>
+                {hasChanges && (
+                  <Icon
+                    name="status-in-progress-small"
+                    title="This device has unsaved changes"
+                  />
+                )}
               </div>
-            ) : (
-              <Button
-                onClick={() => {
-                  ensureEditMode(formik);
-                  addRootStorage();
-                }}
-                type="button"
-                appearance="base"
-                title={formik.values.editRestriction ?? "Create override"}
-                className="u-no-margin--bottom"
-                hasIcon
-                disabled={!!formik.values.editRestriction}
-              >
-                <Icon name="edit" />
-              </Button>
+            ),
+            inherited: "",
+            override: (
+              <div>
+                {hasRootStorage ? (
+                  <Button
+                    onClick={() => {
+                      ensureEditMode(formik);
+                      removeDevice(rootIndex, formik);
+                    }}
+                    type="button"
+                    appearance="base"
+                    title={formik.values.editRestriction ?? "Clear override"}
+                    hasIcon
+                    className="u-no-margin--bottom"
+                    disabled={!!formik.values.editRestriction}
+                    dense
+                  >
+                    <Icon name="close" className="clear-configuration-icon" />
+                    <span>Clear</span>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      ensureEditMode(formik);
+                      addRootStorage();
+                    }}
+                    type="button"
+                    appearance="base"
+                    title={formik.values.editRestriction ?? "Create override"}
+                    className="u-no-margin--bottom"
+                    hasIcon
+                    disabled={!!formik.values.editRestriction}
+                  >
+                    <Icon name="edit" />
+                    <span>Edit</span>
+                  </Button>
+                )}
+              </div>
             ),
           }),
 
+          ...(inheritSource && inheritSource !== "LXD"
+            ? [
+                getInheritedSourceRow({
+                  project,
+                  profile: getProfileFromSource(inheritSource),
+                  hasLocalOverride: hasRootStorage,
+                  className: "has-margin-left",
+                }),
+              ]
+            : []),
+
           getInheritedDeviceRow({
+            mutedLabel: true,
             label: "Pool",
             id: "storage-pool-selector-disk",
-            className: "override-with-form",
+            className: "override-with-form has-margin-left",
             inheritValue: inheritValue?.pool ?? "",
-            inheritSource,
             readOnly: readOnly,
             disabledReason: formik.values.editRestriction,
             overrideValue: hasRootStorage && (
@@ -153,12 +199,12 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
           }),
 
           getInheritedDeviceRow({
+            mutedLabel: true,
             label: "Size",
             id: "limits_disk",
-            className: "override-with-form",
+            className: "override-with-form has-margin-left",
             inheritValue:
               inheritValue?.size ?? (inheritValue ? defaultSize : ""),
-            inheritSource,
             readOnly: readOnly,
             disabledReason: formik.values.editRestriction,
             overrideValue: hasRootStorage && (

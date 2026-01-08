@@ -6,6 +6,10 @@
 
     .inherited {
       width: auto;
+
+      .p-chip {
+        max-width: 12rem;
+      }
     }
 
     .override {

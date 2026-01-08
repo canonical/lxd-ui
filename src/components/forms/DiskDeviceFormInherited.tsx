@@ -6,25 +6,31 @@ import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { InheritedDiskDevice } from "util/configInheritance";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import classnames from "classnames";
 import {
   addNoneDevice,
   findNoneDeviceIndex,
   removeDevice,
 } from "util/formDevices";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
-import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
+import {
+  getInheritedDeviceRow,
+  getInheritedSourceRow,
+} from "components/forms/InheritedDeviceRow";
 import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
-import { isHostDiskDevice } from "util/devices";
+import { getProfileFromSource, isHostDiskDevice } from "util/devices";
+import DeviceName from "components/forms/DeviceName";
+import { isDeviceModified } from "util/formChangeCount";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   inheritedDiskDevices: InheritedDiskDevice[];
+  project: string;
 }
 
 const DiskDeviceFormInherited: FC<Props> = ({
   formik,
   inheritedDiskDevices,
+  project,
 }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
 
@@ -35,52 +41,59 @@ const DiskDeviceFormInherited: FC<Props> = ({
 
     rows.push(
       getConfigurationRowBase({
-        className: "no-border-top override-with-form",
+        className: "override-with-form device-first-row",
         configuration: (
-          <div
-            className={classnames("device-name", {
-              "u-text--muted": isNoneDevice,
-            })}
-          >
-            <b>{item.key}</b>
-          </div>
-        ),
-        inherited: (
-          <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
-          </div>
-        ),
-        override: isNoneDevice ? (
-          <Button
-            appearance="base"
-            type="button"
-            title={formik.values.editRestriction ?? "Reattach device"}
-            onClick={() => {
-              ensureEditMode(formik);
-              removeDevice(noneDeviceId, formik);
-            }}
-            className="has-icon u-no-margin--bottom"
-            disabled={!!formik.values.editRestriction}
-          >
-            <Icon name="connected"></Icon>
-            <span>Reattach</span>
-          </Button>
-        ) : (
-          <DetachDiskDeviceBtn
-            onDetach={() => {
-              ensureEditMode(formik);
-              addNoneDevice(item.key, formik);
-            }}
-            disabledReason={formik.values.editRestriction}
-            isInstanceCreation={isInstanceCreation(formik)}
+          <DeviceName
+            name={item.key}
+            hasChanges={isDeviceModified(formik, item.key)}
+            isDetached={isNoneDevice}
           />
         ),
+        inherited: null,
+        override: isNoneDevice ? (
+          <div>
+            <Button
+              appearance="base"
+              type="button"
+              title={formik.values.editRestriction ?? "Reattach device"}
+              onClick={() => {
+                ensureEditMode(formik);
+                removeDevice(noneDeviceId, formik);
+              }}
+              className="has-icon u-no-margin--bottom"
+              disabled={!!formik.values.editRestriction}
+            >
+              <Icon name="connected"></Icon>
+              <span>Reattach</span>
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <DetachDiskDeviceBtn
+              onDetach={() => {
+                ensureEditMode(formik);
+                addNoneDevice(item.key, formik);
+              }}
+              disabledReason={formik.values.editRestriction}
+              isInstanceCreation={isInstanceCreation(formik)}
+            />
+          </div>
+        ),
+      }),
+    );
+
+    rows.push(
+      getInheritedSourceRow({
+        project,
+        profile: getProfileFromSource(item.source),
+        isDetached: isNoneDevice,
       }),
     );
 
     if (isHostDiskDevice(item.disk)) {
       rows.push(
         getInheritedDeviceRow({
+          mutedLabel: true,
           label: "Host path",
           inheritValue: item.disk.source,
           readOnly: readOnly,
@@ -91,6 +104,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
     } else {
       rows.push(
         getInheritedDeviceRow({
+          mutedLabel: true,
           label: "Pool / volume",
           inheritValue: (
             <>
@@ -106,11 +120,13 @@ const DiskDeviceFormInherited: FC<Props> = ({
 
     rows.push(
       getInheritedDeviceRow({
+        mutedLabel: true,
         label: "Mount point",
         inheritValue: item.disk.path,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
         disabledReason: formik.values.editRestriction,
+        className: "device-last-row",
       }),
     );
   });
@@ -118,7 +134,10 @@ const DiskDeviceFormInherited: FC<Props> = ({
   return inheritedDiskDevices.length > 0 ? (
     <div className="inherited-devices">
       <h2 className="p-heading--4">Inherited disk devices</h2>
-      <ConfigurationTable rows={rows} />
+      <ConfigurationTable
+        rows={rows}
+        className="inherited-disk-device-configuration-table"
+      />
     </div>
   ) : null;
 };
