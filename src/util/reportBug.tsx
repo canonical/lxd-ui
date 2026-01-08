@@ -1,5 +1,8 @@
 import { UI_VERSION } from "./version";
 
+const anonymiseHostname = (stack: string) =>
+  stack.replaceAll(location.hostname, "<ANONYMOUS_HOST>");
+
 export const getReportBugBodyTemplate = (error?: Error) => {
   return `\
   # Description
@@ -10,13 +13,13 @@ export const getReportBugBodyTemplate = (error?: Error) => {
   # Metadata
     
   UI Version: ${UI_VERSION}
-  Path: ${location.toString()}
+  Path: ${anonymiseHostname(location.toString())}
     
   ${
     error && error.stack
       ? `# Stacktrace
-    
-    ${error.stack}`
+
+    ${anonymiseHostname(error.stack)}`
       : ""
   } `;
 };
