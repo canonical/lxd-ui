@@ -119,6 +119,14 @@ jobs:
           dotrun &
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
+      - name: Setup Ceph
+        if: ${{ matrix.lxd_channel != '5.0/edge' }}
+        uses: canonical/lxd/.github/actions/setup-microceph@main
+
+      - name: Setup OVN
+        if: ${{ matrix.lxd_channel != '5.0/edge' }}
+        uses: canonical/lxd/.github/actions/setup-microovn@main
+
       - name: Install LXD
         uses: canonical/setup-lxd@v1
         with:
