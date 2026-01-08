@@ -37,11 +37,11 @@ import {
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
-import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { bridgeType, ovnType } from "util/networks";
 import { useAuth } from "context/auth";
+import NetworkRichChip from "./NetworkRichChip";
 
 const CreateNetwork: FC = () => {
   const { isFineGrained } = useAuth();
@@ -114,10 +114,9 @@ const CreateNetwork: FC = () => {
           toastNotify.success(
             <>
               Network{" "}
-              <ResourceLink
-                type="network"
-                value={values.name}
-                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
+              <NetworkRichChip
+                networkName={values.name}
+                projectName={project}
               />{" "}
               created.
             </>,
@@ -142,10 +141,9 @@ const CreateNetwork: FC = () => {
                     e,
                     <>
                       Network{" "}
-                      <ResourceLink
-                        type="network"
-                        value={values.name}
-                        to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
+                      <NetworkRichChip
+                        networkName={values.name}
+                        projectName={project}
                       />{" "}
                       created with error status.
                     </>,

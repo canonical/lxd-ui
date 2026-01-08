@@ -15,6 +15,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import classnames from "classnames";
 import { useNetworkEntitlements } from "util/entitlements/networks";
+import NetworkRichChip from "../NetworkRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -83,7 +84,8 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         children: (
           <p>
             Are you sure you want to delete the network{" "}
-            <ResourceLabel type="network" value={network.name} bold />?<br />
+            <NetworkRichChip networkName={network.name} projectName={project} />
+            ?<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

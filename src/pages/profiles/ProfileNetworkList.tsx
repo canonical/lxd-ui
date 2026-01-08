@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type { LxdProfile } from "types/profile";
 import { isNicDevice } from "util/devices";
 import ExpandableList from "components/ExpandableList";
-import ResourceLink from "components/ResourceLink";
+import NetworkRichChip from "pages/networks/NetworkRichChip";
 
 interface Props {
   profile: LxdProfile;
@@ -17,11 +17,10 @@ const ProfileNetworkList: FC<Props> = ({ profile, project }) => {
           items={Object.values(profile.devices)
             .filter(isNicDevice)
             .map((device) => (
-              <ResourceLink
+              <NetworkRichChip
                 key={device.network}
-                type="network"
-                value={device.network}
-                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(device.network)}`}
+                networkName={device.network}
+                projectName={project}
               />
             ))}
         />

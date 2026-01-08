@@ -29,12 +29,12 @@ import {
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
 import { clusteredTypes, ovnType } from "util/networks";
+import NetworkRichChip from "./NetworkRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -151,10 +151,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
           toastNotify.success(
             <>
               Network{""}
-              <ResourceLink
-                type="network"
-                value={network.name}
-                to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`}
+              <NetworkRichChip
+                networkName={network.name}
+                projectName={project}
               />{" "}
               updated.
             </>,

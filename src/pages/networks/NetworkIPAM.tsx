@@ -20,12 +20,12 @@ import { fetchNetworkAllocations } from "api/networks";
 import type { LxdUsedBy } from "util/usedBy";
 import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
-import ResourceLink from "components/ResourceLink";
 import DocLink from "components/DocLink";
 import { InstanceIpEdit } from "components/InstanceIpEdit";
 import { typesWithNicStaticIPSupport } from "util/networks";
 import { useNetworks } from "context/useNetworks";
 import type { LxdNetworkAllocation } from "types/network";
+import NetworkRichChip from "./NetworkRichChip";
 
 const NetworkIPAM: FC = () => {
   const notify = useNotify();
@@ -106,10 +106,9 @@ const NetworkIPAM: FC = () => {
         },
         {
           content: (
-            <ResourceLink
-              type="network"
-              value={allocation.network}
-              to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(allocation.network)}`}
+            <NetworkRichChip
+              networkName={allocation.network}
+              projectName={project}
             />
           ),
           role: "cell",

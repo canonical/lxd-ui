@@ -2,11 +2,11 @@ import type { FC } from "react";
 import { MainTable, Notification, Spinner } from "@canonical/react-components";
 import { getDeviceAcls, isNicDevice } from "util/devices";
 import { getNetworkAcls } from "util/networks";
-import ResourceLink from "components/ResourceLink";
 import { Link, useParams } from "react-router-dom";
 import type { LxdDevices } from "types/device";
 import { useNetworks } from "context/useNetworks";
 import type { LxdInstance } from "types/instance";
+import NetworkRichChip from "pages/networks/NetworkRichChip";
 
 interface Props {
   onFailure: (title: string, e: unknown) => void;
@@ -77,10 +77,9 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
         columns: [
           {
             content: (
-              <ResourceLink
-                type="network"
-                value={network.name}
-                to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`}
+              <NetworkRichChip
+                networkName={network.name}
+                projectName={project ?? ""}
               />
             ),
             role: "rowheader",

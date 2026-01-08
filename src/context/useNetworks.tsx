@@ -7,6 +7,7 @@ import {
   fetchNetworkFromClusterMembers,
   fetchNetworks,
   fetchNetworksFromClusterMembers,
+  fetchNetworkState,
 } from "api/networks";
 import type { LxdNetwork, LXDNetworkOnClusterMember } from "types/network";
 import { useClusterMembers } from "./useClusterMembers";
@@ -91,5 +92,29 @@ export const useNetworkFromClusterMembers = (
       ),
     enabled:
       (enabled ?? true) && isFineGrained !== null && clusterMembers.length > 0,
+  });
+};
+
+export const useNetworkState = (
+  networkName: string,
+  project: string,
+  member?: string,
+  enabled?: boolean,
+) => {
+  const { isFineGrained } = useAuth();
+
+  return useQuery({
+    queryKey: [
+      queryKeys.projects,
+      project,
+      queryKeys.networks,
+      networkName,
+      queryKeys.members,
+      member,
+      queryKeys.state,
+    ],
+    retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
+    queryFn: async () => fetchNetworkState(networkName, project, member),
+    enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

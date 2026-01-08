@@ -11,6 +11,7 @@ import ResourceLink from "components/ResourceLink";
 import ExpandableList from "components/ExpandableList";
 import { combineAcls, getNetworkAcls } from "util/networks";
 import { getDeviceAcls } from "util/devices";
+import NetworkRichChip from "pages/networks/NetworkRichChip";
 
 const getNetworkDeviceIpAddress = ({
   network,
@@ -108,11 +109,12 @@ export const getNetworkDeviceRows = ({
         configuration: <div className="u-text--muted">Network</div>,
         inherited: (
           <div>
-            <ResourceLink
-              type="network"
-              value={device.network}
-              to={`/ui/project/${encodeURIComponent(project || "default")}/network/${encodeURIComponent(device.network)}`}
-              className={classnames({ "u-text--line-through": isDetached })}
+            <NetworkRichChip
+              networkName={device.network}
+              projectName={project || "default"}
+              className={classnames({
+                "u-text--line-through": isDetached,
+              })}
             />
           </div>
         ),
