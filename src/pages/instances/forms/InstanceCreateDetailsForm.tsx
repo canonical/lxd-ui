@@ -99,6 +99,10 @@ const InstanceCreateDetailsForm: FC<Props> = ({
       return `${image.os} ${image.release} ${image.aliases.split(",")[0]}`;
     }
 
+    if (image.variant === "iso") {
+      return `${image.os} - ${image.aliases.split(",")[0]}`;
+    }
+
     return `${image.os} ${image.release} ${image.release_title}`;
   };
 
