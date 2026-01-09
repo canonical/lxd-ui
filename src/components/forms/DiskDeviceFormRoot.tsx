@@ -147,7 +147,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
             : []),
 
           getInheritedDeviceRow({
-            mutedLabel: true,
             label: "Pool",
             id: "storage-pool-selector-disk",
             className: "override-with-form has-margin-left",
@@ -199,7 +198,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
           }),
 
           getInheritedDeviceRow({
-            mutedLabel: true,
             label: "Size",
             id: "limits_disk",
             className: "override-with-form has-margin-left",

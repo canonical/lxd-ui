@@ -234,7 +234,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
     customRows.push(
       getConfigurationRowBase({
-        className: "no-border-top inherited-with-form",
+        className: "no-border-top inherited-with-form u-text--muted",
         configuration: <Label forId={`devices.${index}.type`}>Type</Label>,
         inherited: (
           <Select
@@ -297,7 +297,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
       customRows.push(
         getConfigurationRowBase({
-          className: "no-border-top inherited-with-form",
+          className: "no-border-top inherited-with-form u-text--muted",
           configuration: (
             <Label forId={key}>{deviceKeyToLabel(field.key)}</Label>
           ),

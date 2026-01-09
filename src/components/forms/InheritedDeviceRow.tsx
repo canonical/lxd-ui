@@ -19,7 +19,6 @@ interface Props {
   className?: string;
   disabledReason?: string;
   monoFont?: boolean;
-  mutedLabel?: boolean;
 }
 
 export const getInheritedDeviceRow = ({
@@ -36,36 +35,21 @@ export const getInheritedDeviceRow = ({
   className,
   disabledReason,
   monoFont = true,
-  mutedLabel = false,
 }: Props): MainTableRow => {
   return getConfigurationRowBase({
     className: classnames("no-border-top", className),
     configuration: id ? (
       !readOnly && overrideValue ? (
-        <Label
-          forId={id}
-          className={classnames({
-            "u-text--muted": mutedLabel || isDeactivated,
-          })}
-        >
+        <Label forId={id} className="u-text--muted">
           {label}
         </Label>
       ) : (
-        <p
-          className={classnames(
-            "p-form__label u-no-margin--bottom u-no-padding--top",
-            { "u-text--muted": mutedLabel || isDeactivated },
-          )}
-        >
+        <p className="p-form__label u-no-margin--bottom u-no-padding--top u-text--muted">
           {label}
         </p>
       )
     ) : (
-      <div
-        className={classnames({ "u-text--muted": mutedLabel || isDeactivated })}
-      >
-        {label}
-      </div>
+      <div className="u-text--muted">{label}</div>
     ),
     inherited: inheritValue && (
       <div
@@ -144,7 +128,6 @@ export const getInheritedSourceRow = ({
 }) => {
   return getInheritedDeviceRow({
     className,
-    mutedLabel: true,
     label: "From profile",
     inheritValue: (
       <>
