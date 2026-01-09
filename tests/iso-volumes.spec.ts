@@ -26,6 +26,7 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
   await page.getByRole("button", { name: "Create instance" }).click();
 
+  await expect(page.getByText(`Custom ISO - ${isoName}`)).toBeVisible();
   await page.getByText("YAML configuration").click();
   await assertTextVisible(page, "devices:", true);
   await assertTextVisible(page, "iso-volume:", true);
