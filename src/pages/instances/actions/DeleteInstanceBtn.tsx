@@ -19,7 +19,7 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceFrozen, isInstanceRunning } from "util/instanceStatus";
 import { Notification } from "@canonical/react-components";
 import { InstanceRichChip } from "../InstanceRichChip";
-import ConfirmationForce from "components/ConfirmationForce";
+import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 
 interface Props {
   instance: LxdInstance;
@@ -180,7 +180,10 @@ const DeleteInstanceBtn: FC<Props> = ({
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
         confirmExtra: isRunningOrFrozen ? (
-          <ConfirmationForce label="Force delete" force={[isForce, setForce]} />
+          <ConfirmationCheckbox
+            label="Force delete"
+            confirmed={[isForce, setForce]}
+          />
         ) : undefined,
         confirmButtonDisabled: isRunningOrFrozen && !isForce,
       }}

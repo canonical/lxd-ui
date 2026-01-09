@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ConfirmationButton, Icon, List } from "@canonical/react-components";
 import classnames from "classnames";
-import ConfirmationForce from "components/ConfirmationForce";
+import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { useEventQueue } from "context/eventQueue";
 import InstanceEditSnapshotBtn from "./InstanceEditSnapshotBtn";
 import CreateImageFromInstanceSnapshotBtn from "pages/instances/actions/snapshots/CreateImageFromInstanceSnapshotBtn";
@@ -153,9 +153,9 @@ const InstanceSnapshotActions: FC<Props> = ({
                 </p>
               ),
               confirmExtra: snapshot.stateful ? (
-                <ConfirmationForce
+                <ConfirmationCheckbox
                   label="Restore the instance state"
-                  force={[restoreState, setRestoreState]}
+                  confirmed={[restoreState, setRestoreState]}
                 />
               ) : undefined,
               confirmButtonLabel: disabledReason ?? "Restore snapshot",

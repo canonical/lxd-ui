@@ -5,15 +5,23 @@ import { Button, Icon, Tooltip } from "@canonical/react-components";
 interface Props {
   value: string;
   children?: ReactNode;
+  tooltipMessage?: string;
+  onCopyButtonClick?: () => void;
 }
 
-const CopyToClipboard: FC<Props> = ({ value, children }) => {
+const CopyToClipboard: FC<Props> = ({
+  value,
+  children,
+  tooltipMessage,
+  onCopyButtonClick,
+}) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
+      onCopyButtonClick?.();
 
       setTimeout(() => {
         setCopied(false);
@@ -46,7 +54,7 @@ const CopyToClipboard: FC<Props> = ({ value, children }) => {
           />
         ) : (
           <Tooltip
-            message="Copy"
+            message={tooltipMessage ?? "Copy"}
             position="top-center"
             className="copy-to-clipboard-button-wrapper"
             zIndex={999}
