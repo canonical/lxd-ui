@@ -93,7 +93,6 @@ const DiskDeviceFormInherited: FC<Props> = ({
     if (isHostDiskDevice(item.disk)) {
       rows.push(
         getInheritedDeviceRow({
-          mutedLabel: true,
           label: "Host path",
           inheritValue: item.disk.source,
           readOnly: readOnly,
@@ -104,7 +103,6 @@ const DiskDeviceFormInherited: FC<Props> = ({
     } else {
       rows.push(
         getInheritedDeviceRow({
-          mutedLabel: true,
           label: "Pool / volume",
           inheritValue: (
             <>
@@ -120,7 +118,6 @@ const DiskDeviceFormInherited: FC<Props> = ({
 
     rows.push(
       getInheritedDeviceRow({
-        mutedLabel: true,
         label: "Mount point",
         inheritValue: item.disk.path,
         readOnly: readOnly,

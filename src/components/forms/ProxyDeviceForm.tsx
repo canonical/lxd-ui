@@ -95,7 +95,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
     const key = `devices.${index}.${fieldName}`;
 
     return getConfigurationRowBase({
-      className: "no-border-top inherited-with-form",
+      className: "no-border-top inherited-with-form u-text--muted",
       configuration: <Label forId={key}>{label}</Label>,
       inherited: (
         <Select
