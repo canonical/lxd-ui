@@ -86,7 +86,7 @@ const BrowserImport: FC = () => {
                 <b>View Certificates</b>
               </li>
               <li className="p-list__item">
-                In the modal that appears, go to Your <b>certificates</b> and
+                In the modal that appears, go to <b>Your certificates</b> and
                 click Import
               </li>
               <li className="p-list__item">
