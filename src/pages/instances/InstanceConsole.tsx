@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
   ActionButton,
   Button,
-  ContextualMenu,
   EmptyState,
   Icon,
   Notification,
@@ -14,12 +13,12 @@ import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import type { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
 import { useInstanceStart } from "util/instanceStart";
-import { sendAltF4, sendAltTab, sendCtrlAltDel } from "lib/spice/src/inputs.js";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
+import InstanceConsoleShortcuts from "pages/instances/InstanceConsoleShortcuts";
 
 interface Props {
   instance: LxdInstance;
@@ -101,31 +100,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
               >
                 <span>Fullscreen</span>
               </Button>
-              <ContextualMenu
-                hasToggleIcon
-                toggleLabel="Shortcuts"
-                toggleClassName="u-no-margin--bottom"
-                links={[
-                  {
-                    children: "Send Ctrl + Alt + Del",
-                    onClick: () => {
-                      sendCtrlAltDel(window.spice_connection);
-                    },
-                  },
-                  {
-                    children: "Send Alt + TAB",
-                    onClick: () => {
-                      sendAltTab(window.spice_connection);
-                    },
-                  },
-                  {
-                    children: "Send Alt + F4",
-                    onClick: () => {
-                      sendAltF4(window.spice_connection);
-                    },
-                  },
-                ]}
-              />
+              <InstanceConsoleShortcuts />
             </div>
           )}
         </div>
