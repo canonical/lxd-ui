@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { MainTable, Spinner } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
-import ResourceLink from "components/ResourceLink";
 import { useProfiles } from "context/useProfiles";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -37,14 +37,10 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
       columns: [
         {
           content: (
-            <ResourceLink
-              type="profile"
-              value={profileName}
-              to={
-                profile
-                  ? `/ui/project/${encodeURIComponent(instance.project)}/profile/${encodeURIComponent(profileName)}`
-                  : ""
-              }
+            <ProfileRichChip
+              profileName={profileName}
+              projectName={instance.project}
+              className="force-truncate"
             />
           ),
           role: "rowheader",

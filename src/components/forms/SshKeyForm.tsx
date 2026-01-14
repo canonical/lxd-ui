@@ -15,11 +15,11 @@ import { getAppliedProfiles } from "util/configInheritance";
 import { useProfiles } from "context/useProfiles";
 import type { LxdProfile } from "types/profile";
 import SshKeyAddModal from "components/forms/SshKeyAddModal";
-import ResourceLink from "components/ResourceLink";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 export interface SshKey {
   id: string;
@@ -178,10 +178,10 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
           ? [
               {
                 content: (
-                  <ResourceLink
-                    to={`/ui/project/${encodeURIComponent(project ?? "")}/profile/${encodeURIComponent(inheritedKey.source)}/configuration`}
-                    type="profile"
-                    value={inheritedKey.source}
+                  <ProfileRichChip
+                    profileName={inheritedKey.source}
+                    projectName={project ?? ""}
+                    className="force-truncate"
                     disabled={isDetached}
                   />
                 ),

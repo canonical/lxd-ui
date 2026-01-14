@@ -5,7 +5,6 @@ import { useInstance } from "context/useInstances";
 import { Spinner } from "@canonical/react-components";
 import { getIpAddresses, sortIpv6Addresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
-import InstanceListAddresses from "pages/instances/InstanceListAddresses";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { isoTimeToString } from "util/helpers";
@@ -16,6 +15,7 @@ import {
   MEDIUM_TOOLTIP_BREAKPOINT,
   RichTooltipTable,
 } from "../../components/RichTooltipTable";
+import TruncatedList from "components/TruncatedList";
 
 interface Props {
   instanceName: string;
@@ -44,6 +44,8 @@ export const InstanceRichTooltip: FC<Props> = ({
   const ipv6Addresses = instance ? getAddresses(instance, "inet6") : [];
   const macAddresses = instance ? getInstanceMacAddresses(instance) : [];
 
+  const instanceDescription = instance ? instance.description || "-" : "-";
+
   const rows: TooltipRow[] = [
     {
       title: "Status",
@@ -65,8 +67,8 @@ export const InstanceRichTooltip: FC<Props> = ({
     },
     {
       title: "Description",
-      value: instance ? instance.description || "-" : "-",
-      valueTitle: instance ? instance.description || "-" : "-",
+      value: instanceDescription,
+      valueTitle: instanceDescription,
     },
     {
       title: "Type",
@@ -79,7 +81,7 @@ export const InstanceRichTooltip: FC<Props> = ({
       {
         title: "IPV4",
         value: ipv4Addresses.length ? (
-          <InstanceListAddresses addresses={ipv4Addresses} numberToShow={1} />
+          <TruncatedList items={ipv4Addresses} numberToShow={1} />
         ) : (
           "-"
         ),
@@ -87,7 +89,7 @@ export const InstanceRichTooltip: FC<Props> = ({
       {
         title: "IPV6",
         value: ipv6Addresses.length ? (
-          <InstanceListAddresses addresses={ipv6Addresses} numberToShow={1} />
+          <TruncatedList items={ipv6Addresses} numberToShow={1} />
         ) : (
           "-"
         ),
@@ -95,7 +97,7 @@ export const InstanceRichTooltip: FC<Props> = ({
       {
         title: "MAC addresses",
         value: instance ? (
-          <InstanceListAddresses addresses={macAddresses} numberToShow={1} />
+          <TruncatedList items={macAddresses} numberToShow={1} />
         ) : (
           "-"
         ),

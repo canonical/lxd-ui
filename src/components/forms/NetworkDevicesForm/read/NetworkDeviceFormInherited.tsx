@@ -6,10 +6,10 @@ import type { LxdNetwork } from "types/network";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import { isNicDevice, isNoneDevice } from "util/devices";
 import { isDeviceModified } from "util/formChangeCount";
-import ResourceLink from "components/ResourceLink";
 import NetworkDeviceActionButtons from "components/forms/NetworkDevicesForm/read/NetworkDeviceActionButtons";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getNetworkDeviceRows } from "components/forms/NetworkDevicesForm/read/NetworkDeviceRows";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -57,11 +57,12 @@ const NetworkDeviceFormInherited: FC<Props> = ({
       showIpAddresses: formik.values.entityType === "instance",
       sourceProfile: (
         <>
-          <ResourceLink
-            type="profile"
-            value={device.sourceProfile}
-            to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(device.sourceProfile)}`}
-            className={classnames({ "u-text--line-through": isOverridden })}
+          <ProfileRichChip
+            profileName={device.sourceProfile}
+            projectName={project}
+            className={classnames({
+              "u-text--line-through": isOverridden,
+            })}
           />
           {hasNicOverride && (
             <>

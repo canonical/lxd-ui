@@ -15,10 +15,8 @@ import type { MainTableRow } from "@canonical/react-components/dist/components/M
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
-import {
-  isDiskDeviceMountPointMissing,
-  isRootDisk,
-} from "util/instanceValidation";
+import { isDiskDeviceMountPointMissing } from "util/instanceValidation";
+import { isRootDisk } from "util/devices";
 import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
 import { getExistingDeviceNames, isVolumeDevice } from "util/devices";
 import type { LxdProfile } from "types/profile";

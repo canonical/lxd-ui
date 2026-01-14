@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { MainTable } from "@canonical/react-components";
-import { isRootDisk } from "util/instanceValidation";
+import { isRootDisk } from "util/devices";
 import type { FormDevice } from "util/formDevices";
 import ResourceLink from "components/ResourceLink";
 import {

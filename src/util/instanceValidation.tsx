@@ -4,6 +4,7 @@ import type {
   InstanceAndProfileFormValues,
 } from "components/forms/instanceAndProfileFormValues";
 import { getInheritedRootStorage } from "util/configInheritance";
+import { isRootDisk } from "util/devices";
 import type { LxdProfile } from "types/profile";
 import type { LxdNicDevice } from "types/device";
 import type { FormikTouched } from "formik";
@@ -16,10 +17,6 @@ export const hasNoRootDisk = (
     return false;
   }
   return missingRoot(values.devices) && !inheritsRoot(values, profiles);
-};
-
-export const isRootDisk = (device: FormDevice): boolean => {
-  return device.type === "disk" && device.path === "/" && !device.source;
 };
 
 const missingRoot = (devices: FormDevice[]): boolean => {

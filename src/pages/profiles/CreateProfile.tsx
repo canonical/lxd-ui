@@ -74,7 +74,7 @@ import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
-import ResourceLink from "components/ResourceLink";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
 import type { SshKeyFormValues } from "components/forms/SshKeyForm";
@@ -144,10 +144,9 @@ const CreateProfile: FC = () => {
           toastNotify.success(
             <>
               Profile{" "}
-              <ResourceLink
-                type="profile"
-                value={values.name}
-                to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`}
+              <ProfileRichChip
+                profileName={values.name}
+                projectName={project}
               />{" "}
               created.
             </>,

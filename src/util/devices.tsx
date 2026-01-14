@@ -21,6 +21,10 @@ export const isNicDevice = (device: LxdDeviceValue): device is LxdNicDevice =>
 export const isDiskDevice = (device: LxdDeviceValue): device is LxdDiskDevice =>
   device.type === "disk";
 
+export const isRootDisk = (device: FormDevice): boolean => {
+  return device.type === "disk" && device.path === "/" && !device.source;
+};
+
 export const isHostDiskDevice = (device: LxdDiskDevice): boolean => {
   return (
     device.type === "disk" && device.pool === undefined && device.path !== "/"

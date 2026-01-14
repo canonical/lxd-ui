@@ -10,25 +10,60 @@ body.is-dark .rich-tooltip-table .p-icon--status-queued-small {
   @include vf-icon-status-small($colors--dark-theme--icon);
 }
 
+body.is-dark .rich-tooltip-table .p-icon--exposed {
+  @include vf-icon-exposed($colors--light-theme--icon);
+}
+
+.rich-tooltip-table .p-icon--exposed {
+  @include vf-icon-exposed($colors--dark-theme--icon);
+}
+
 .rich-tooltip-table {
   margin: 0;
   min-height: 450px;
   width: 430px;
 
-  @media (height <= $medium-tooltip-breakpoint) {
-    min-height: 200px;
+  .rich-tooltip-row-content {
+    max-width: 300px;
+    width: 300px;
+
+    .resource-link.p-chip {
+      background-color: $colors--dark-theme--background-active;
+
+      &:hover {
+        filter: brightness(0.9);
+      }
+
+      > span.p-chip__value {
+        color: $colors--dark-theme--text-default;
+      }
+    }
+  }
+
+  .rich-tooltip-row-title {
+    max-width: 130px;
   }
 
   @media (height <= $large-tooltip-breakpoint) {
     min-height: 400px;
   }
 
-  .rich-tooltip-row-content {
-    max-width: 300px;
-    width: 300px;
+  @media (height <= $medium-tooltip-breakpoint) {
+    min-height: 200px;
+  }
+}
+
+body.is-dark
+  .rich-tooltip-table
+  .rich-tooltip-row-content
+  .resource-link.p-chip {
+  background-color: $colors--light-theme--background-active;
+
+  &:hover {
+    filter: brightness(0.95);
   }
 
-  .rich-tooltip-row-title {
-    max-width: 130px;
+  > span.p-chip__value {
+    color: $colors--light-theme--text-default;
   }
 }

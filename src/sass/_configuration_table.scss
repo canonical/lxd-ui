@@ -15,6 +15,10 @@
 
   .inherited {
     width: 10rem;
+
+    span:has(.p-chip) {
+      max-width: 100%;
+    }
   }
 
   .override {

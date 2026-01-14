@@ -60,7 +60,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import ResourceLink from "components/ResourceLink";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
@@ -123,11 +123,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
     toastNotify.success(
       <>
         Profile{" "}
-        <ResourceLink
-          type="profile"
-          value={profile.name}
-          to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}`}
-        />{" "}
+        <ProfileRichChip profileName={profile.name} projectName={project} />{" "}
         updated.
       </>,
     );

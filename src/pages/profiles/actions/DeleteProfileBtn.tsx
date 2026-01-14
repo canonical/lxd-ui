@@ -14,6 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ResourceLabel from "components/ResourceLabel";
 import { useProfileEntitlements } from "util/entitlements/profiles";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 interface Props {
   profile: LxdProfile;
@@ -82,7 +83,8 @@ const DeleteProfileBtn: FC<Props> = ({
         children: (
           <p>
             This will permanently delete profile{" "}
-            <ResourceLabel type="profile" value={profile.name} bold />.<br />
+            <ProfileRichChip profileName={profile.name} projectName={project} />
+            .<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

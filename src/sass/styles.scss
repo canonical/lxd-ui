@@ -131,6 +131,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "profile_detail_overview";
 @import "profile_detail_panel";
 @import "profile_list";
+@import "profile_rich_tooltip";
 @import "profile_used_by_default_project";
 @import "progress_bar";
 @import "project_configuration";
@@ -312,6 +313,10 @@ body {
 
 .u-no-border {
   border: none !important;
+}
+
+.u-no-border--bottom {
+  border-bottom: none !important;
 }
 
 .item-name {
