@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/instances/InstanceListAddresses.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/TruncatedList.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.png" />
+    <link rel="stylesheet" href="../../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../../../../../sort-arrow-sprite.png);
+            background-image: url(../../../../../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/instances</a> InstanceListAddresses.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> TruncatedList.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -96,9 +96,9 @@
 <span class="cline-any cline-yes">322x</span>
 <span class="cline-any cline-yes">322x</span>
 <span class="cline-any cline-yes">322x</span>
-<span class="cline-any cline-yes">1048x</span>
-<span class="cline-any cline-yes">1048x</span>
-<span class="cline-any cline-yes">1048x</span>
+<span class="cline-any cline-yes">1114x</span>
+<span class="cline-any cline-yes">1114x</span>
+<span class="cline-any cline-yes">1114x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -113,31 +113,31 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">322x</span>
 <span class="cline-any cline-yes">322x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Fragment, type FC, type ReactNode } from "react";
 &nbsp;
 interface Props {
-  addresses: string[];
+  items: ReactNode[];
   numberToShow?: number;
 }
 &nbsp;
-const InstanceListAddresses: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> addresses, numberToShow = 2 }) =&gt; {
-<span class="cstat-no" title="statement not covered" >  if (addresses.length &lt;= numberToShow) {</span>
-<span class="cstat-no" title="statement not covered" >    return addresses.map((address) =&gt; &lt;div key={address}&gt;{address}&lt;/div&gt;);</span>
+const TruncatedList: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> items, numberToShow = 2 }) =&gt; {
+<span class="cstat-no" title="statement not covered" >  if (items.length &lt;= numberToShow) {</span>
+<span class="cstat-no" title="statement not covered" >    return items.map((item, index) =&gt; &lt;Fragment key={index}&gt;{item}&lt;/Fragment&gt;);</span>
 <span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {addresses.slice(0, numberToShow).map(<span class="fstat-no" title="function not covered" >(a</span>ddress) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        &lt;div key={address}&gt;{address}&lt;/div&gt;</span></span>
+<span class="cstat-no" title="statement not covered" >      {items.slice(0, numberToShow).map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        &lt;Fragment key={index}&gt;{item}&lt;/Fragment&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >      ))}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="p-text--x-small u-text--muted instance-list-addresses-more"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        + {addresses.length - numberToShow} more</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="p-text--x-small u-text--muted u-no-margin"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        + {items.length - numberToShow} more</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default InstanceListAddresses;
+export default TruncatedList;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -145,16 +145,16 @@ export default InstanceListAddresses;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-14T10:38:20.259Z
+                at 2026-01-15T15:43:54.918Z
             </div>
-        <script src="../../../../../../../../prettify.js"></script>
+        <script src="../../../../../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../../../../../sorter.js"></script>
-        <script src="../../../../../../../../block-navigation.js"></script>
+        <script src="../../../../../../../sorter.js"></script>
+        <script src="../../../../../../../block-navigation.js"></script>
     </body>
 </html>
     

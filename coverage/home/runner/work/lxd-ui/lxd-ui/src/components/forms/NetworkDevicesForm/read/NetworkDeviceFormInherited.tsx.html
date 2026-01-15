@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.71% </span>
+                <span class="strong">28.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/101</span>
+                <span class='fraction'>29/102</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.71% </span>
+                <span class="strong">28.43% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/101</span>
+                <span class='fraction'>29/102</span>
             </div>
         
             
@@ -164,27 +164,28 @@
 <a name='L99'></a><a href='#L99'>99</a>
 <a name='L100'></a><a href='#L100'>100</a>
 <a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-yes">28x</span>
@@ -263,8 +264,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">112x</span>
-<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">109x</span>
+<span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
@@ -273,10 +275,10 @@ import type { LxdNetwork } from "types/network";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import { isNicDevice, isNoneDevice } from "util/devices";
 import { isDeviceModified } from "util/formChangeCount";
-import ResourceLink from "components/ResourceLink";
 import NetworkDeviceActionButtons from "components/forms/NetworkDevicesForm/read/NetworkDeviceActionButtons";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getNetworkDeviceRows } from "components/forms/NetworkDevicesForm/read/NetworkDeviceRows";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 &nbsp;
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -324,11 +326,12 @@ const NetworkDeviceFormInherited: FC&lt;Props&gt; = ({
 <span class="cstat-no" title="statement not covered" >      showIpAddresses: formik.values.entityType === "instance",</span>
 <span class="cstat-no" title="statement not covered" >      sourceProfile: (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >            type="profile"</span>
-<span class="cstat-no" title="statement not covered" >            value={device.sourceProfile}</span>
-<span class="cstat-no" title="statement not covered" >            to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(device.sourceProfile)}`}</span>
-<span class="cstat-no" title="statement not covered" >            className={classnames({ "u-text--line-through": isOverridden })}</span>
+<span class="cstat-no" title="statement not covered" >          &lt;ProfileRichChip</span>
+<span class="cstat-no" title="statement not covered" >            profileName={device.sourceProfile}</span>
+<span class="cstat-no" title="statement not covered" >            projectName={project}</span>
+<span class="cstat-no" title="statement not covered" >            className={classnames({</span>
+<span class="cstat-no" title="statement not covered" >              "u-text--line-through": isOverridden,</span>
+<span class="cstat-no" title="statement not covered" >            })}</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {hasNicOverride &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
@@ -373,7 +376,7 @@ export default NetworkDeviceFormInherited;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-14T10:38:20.259Z
+                at 2026-01-15T15:43:54.918Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>
