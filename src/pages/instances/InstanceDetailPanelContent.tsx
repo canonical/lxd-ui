@@ -157,7 +157,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <td>{isoTimeToString(instance.created_at)}</td>
         </tr>
         <tr>
-          <th className="u-text--muted last-used">Last used</th>
+          <th className="u-text--muted">Last used</th>
           <td>{isoTimeToString(instance.last_used_at)}</td>
         </tr>
         <tr>
@@ -172,7 +172,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           </th>
           <td>
             <List
-              className="list"
+              className="list u-no-margin--bottom"
               items={instance.profiles.map((name) => (
                 <ProfileRichChip
                   key={name}
