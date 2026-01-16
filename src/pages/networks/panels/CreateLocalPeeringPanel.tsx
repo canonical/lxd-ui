@@ -20,6 +20,7 @@ import { createNetworkPeer } from "api/network-local-peering";
 import NetworkLocalPeeringForm from "../forms/NetworkLocalPeeringForm";
 import type { LocalPeeringFormValues } from "../forms/NetworkLocalPeeringForm";
 import { testDuplicateLocalPeeringName } from "util/networks";
+import NetworkRichChip from "../NetworkRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -86,7 +87,10 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
           to={`${networkURL}/local-peerings`}
         />{" "}
         created for network{" "}
-        <ResourceLink type="network" value={network.name} to={networkURL} />.
+        <NetworkRichChip
+          networkName={network.name}
+          projectName={project?.name || "default"}
+        />
       </>,
     );
     closePanel();

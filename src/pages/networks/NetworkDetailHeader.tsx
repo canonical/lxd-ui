@@ -12,6 +12,7 @@ import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { useNetworkEntitlements } from "util/entitlements/networks";
+import NetworkRichChip from "./NetworkRichChip";
 
 interface Props {
   name: string;
@@ -58,7 +59,10 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
           toastNotify.success(
             <>
               Network <strong>{name}</strong> renamed to{" "}
-              <ResourceLink type="network" value={values.name} to={url} />.
+              <NetworkRichChip
+                networkName={values.name}
+                projectName={project}
+              />
             </>,
           );
           formik.setFieldValue("isRenaming", false);

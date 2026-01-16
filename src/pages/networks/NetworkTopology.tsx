@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { useNetworks } from "context/useNetworks";
 import { clusteredTypes } from "util/networks";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import NetworkRichChip from "./NetworkRichChip";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -74,10 +75,10 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(clusterMember)}`}
           />
         </span>
-        <ResourceLink
-          type="network"
-          value={memberUplink}
-          to={`/ui/project/${encodeURIComponent(project)}/member/${encodeURIComponent(clusterMember)}/network/${encodeURIComponent(memberUplink)}`}
+        <NetworkRichChip
+          networkName={memberUplink}
+          projectName={project}
+          clusterMember={clusterMember}
         />
       </div>
     );
@@ -98,10 +99,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
               ? clusterUplinks
               : uplink && (
                   <div className="uplink-item has-parent">
-                    <ResourceLink
-                      type="network"
-                      value={uplink}
-                      to={`/ui/project/default/network/${encodeURIComponent(uplink)}`}
+                    <NetworkRichChip
+                      networkName={uplink}
+                      projectName="default"
                     />
                   </div>
                 )}
@@ -143,10 +143,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
                     "has-descendents": (item.used_by ?? []).length > 0,
                   })}
                 >
-                  <ResourceLink
-                    type="network"
-                    value={item.name}
-                    to={networkUrl}
+                  <NetworkRichChip
+                    networkName={item.name}
+                    projectName="default"
                   />
                 </div>
               );

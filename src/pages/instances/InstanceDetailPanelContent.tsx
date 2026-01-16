@@ -10,14 +10,15 @@ import { isNicDevice } from "util/devices";
 import { getIpAddresses } from "util/networks";
 import { useInstanceLoading } from "context/instanceLoading";
 import { useIsClustered } from "context/useIsClustered";
-import InstanceMACAddresses from "pages/instances/InstaceMACAddresses";
+import InstanceMACAddresses from "pages/instances/InstanceMACAddresses";
 import ResourceLink from "components/ResourceLink";
 import InstanceClusterMemberChip from "./InstanceClusterMemberChip";
 import { getImageLink, getInstanceType } from "util/instances";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
-import ExpandableList from "components/ExpandableList";
 import DevicesSummaryList from "components/DevicesSummaryList";
 import type { LxdDevices } from "types/device";
+import NetworkRichChip from "pages/networks/NetworkRichChip";
+import ExpandableList from "components/ExpandableList";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -32,6 +33,8 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
 
   const instanceLoading = useInstanceLoading();
   const loadingType = instanceLoading.getType(instance);
+
+  const instanceUrl = `/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}`;
 
   const isClustered = useIsClustered();
 
@@ -119,11 +122,10 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
             {networkDevices.length > 0 ? (
               <ExpandableList
                 items={networkDevices.map((device) => (
-                  <ResourceLink
+                  <NetworkRichChip
                     key={device.network}
-                    type="network"
-                    value={device.network}
-                    to={`/ui/project/${encodeURIComponent(instance.project)}/network/${encodeURIComponent(device.network)}`}
+                    networkName={device.network}
+                    projectName={instance.project}
                   />
                 ))}
               />
@@ -163,11 +165,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         <tr>
           <th>
             <h3 className="p-muted-heading p-heading--5">
-              <Link
-                to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
-              >
-                Profiles
-              </Link>
+              <Link to={`${instanceUrl}/configuration`}>Profiles</Link>
             </h3>
           </th>
           <td>
@@ -186,11 +184,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         <tr className="u-no-border">
           <th colSpan={2} className="snapshots-header">
             <h3 className="p-muted-heading p-heading--5">
-              <Link
-                to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
-              >
-                Snapshots
-              </Link>
+              <Link to={`${instanceUrl}/snapshots`}>Snapshots</Link>
             </h3>
           </th>
         </tr>
@@ -211,7 +205,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                       key={snapshot.name}
                       type="snapshot"
                       value={snapshot.name}
-                      to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
+                      to={`${instanceUrl}/snapshots`}
                     />
                   </th>
                   <td className="u-text--muted">
@@ -222,9 +216,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
             {instance.snapshots.length > RECENT_SNAPSHOT_LIMIT && (
               <tr>
                 <td colSpan={2}>
-                  <Link
-                    to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
-                  >
+                  <Link to={`${instanceUrl}/snapshots`}>
                     {`View all (${instance.snapshots.length})`}
                   </Link>
                 </td>
@@ -237,9 +229,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               <p className="no-snapshots">
                 No snapshots found.
                 <br />
-                <Link
-                  to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
-                >
+                <Link to={`${instanceUrl}/snapshots`}>
                   Manage instance snapshots
                 </Link>
               </p>

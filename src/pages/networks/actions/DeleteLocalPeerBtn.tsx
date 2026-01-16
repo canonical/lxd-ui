@@ -14,6 +14,7 @@ import type { LxdNetwork } from "types/network";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { deleteNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
+import NetworkRichChip from "../NetworkRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -35,7 +36,7 @@ const DeleteLocalPeerBtn: FC<Props> = ({ network, localPeering }) => {
       <>
         Local peering <ResourceLabel type="peering" value={localPeering} bold />{" "}
         deleted for network{" "}
-        <ResourceLink type="network" value={network.name} to={networkURL} />.
+        <NetworkRichChip networkName={network.name} projectName={projectName} />
       </>,
     );
   };
@@ -75,7 +76,10 @@ const DeleteLocalPeerBtn: FC<Props> = ({ network, localPeering }) => {
               to={`${networkURL}/local-peerings`}
             />{" "}
             for network{" "}
-            <ResourceLink type="network" value={network.name} to={networkURL} />
+            <NetworkRichChip
+              networkName={network.name}
+              projectName={projectName}
+            />
             .<br />
           </p>
         ),
