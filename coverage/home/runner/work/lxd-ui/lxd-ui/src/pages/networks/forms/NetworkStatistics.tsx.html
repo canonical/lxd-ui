@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.15% </span>
+                <span class="strong">88.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>74/83</span>
+                <span class='fraction'>63/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.51% </span>
+                <span class="strong">46.87% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/33</span>
+                <span class='fraction'>15/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>73/73</span>
+                <span class='fraction'>62/62</span>
             </div>
         
             
@@ -125,20 +125,7 @@
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
@@ -160,15 +147,6 @@
 <span class="cline-any cline-yes">719x</span>
 <span class="cline-any cline-yes">719x</span>
 <span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">719x</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">719x</span>
 <span class="cline-any cline-yes">719x</span>
 <span class="cline-any cline-yes">719x</span>
@@ -214,11 +192,9 @@ import { useEffect } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { humanFileSize } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchNetworkState } from "api/networks";
 import { useParams } from "react-router-dom";
 import { useNotify } from "@canonical/react-components";
+import { useNetworkState } from "context/useNetworks";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;NetworkFormValues&gt;;
@@ -229,21 +205,12 @@ const NetworkStatistics: FC&lt;Props&gt; = <span class="fstat-no" title="functio
   const { member } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ member: string }&gt;();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
 &nbsp;
-  const { data: networkState, error } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [
-      queryKeys.projects,
-      project,
-      queryKeys.networks,
-      formik.values.bareNetwork?.name,
-      queryKeys.members,
-      member,
-      queryKeys.state,
-    ],
-    retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span>
-<span class="cstat-no" title="statement not covered" >      fetchNetworkState(formik.values.bareNetwork?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? <span class="branch-1 cbranch-no" title="branch not covered" >"", p</span></span>roject, member),</span>
-    enabled: !formik.values.isCreating,
-  });
+  const { data: networkState, error } = <span class="cstat-no" title="statement not covered" >useNetworkState(</span>
+    formik.values.bareNetwork?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "",</span>
+    project,
+    member,
+    !formik.values.isCreating,
+  );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (error) {</span>
@@ -289,7 +256,7 @@ export default NetworkStatistics;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-15T15:43:54.918Z
+                at 2026-01-16T16:47:59.223Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
