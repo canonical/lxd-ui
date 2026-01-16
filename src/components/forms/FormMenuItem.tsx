@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { Fragment } from "react";
 import { slugify } from "util/slugify";
 import { Button } from "@canonical/react-components";
 import classnames from "classnames";
@@ -9,6 +10,7 @@ interface Props {
   label: string;
   disableReason?: string;
   hasError?: boolean;
+  isBold?: boolean;
 }
 
 const FormMenuItem: FC<Props> = ({
@@ -17,7 +19,10 @@ const FormMenuItem: FC<Props> = ({
   label,
   disableReason,
   hasError,
+  isBold,
 }) => {
+  const ValueWrapper = isBold ? "strong" : Fragment;
+
   if (disableReason) {
     return (
       <li className="p-side-navigation__item">
@@ -26,7 +31,7 @@ const FormMenuItem: FC<Props> = ({
           disabled={true}
           title={disableReason}
         >
-          {label}
+          <ValueWrapper>{label}</ValueWrapper>
         </Button>
       </li>
     );
@@ -44,7 +49,7 @@ const FormMenuItem: FC<Props> = ({
         }}
         aria-current={slugify(label) === slugify(active) ? "page" : undefined}
       >
-        {label}
+        <ValueWrapper>{label}</ValueWrapper>
       </a>
     </li>
   );

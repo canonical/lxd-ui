@@ -6,6 +6,14 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { hasPrefixValue } from "util/formFields";
+import {
+  isDiskDevice,
+  isGPUDevice,
+  isNicDevice,
+  isOtherDevice,
+  isProxyDevice,
+} from "util/devices";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk";
@@ -58,7 +66,7 @@ const ProfileFormMenu: FC<Props> = ({
     <div className="p-side-navigation--accordion form-navigation">
       <nav aria-label="Profile form navigation">
         <ul className="p-side-navigation__list">
-          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
+          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} isBold />
           <li className="p-side-navigation__item">
             <Button
               type="button"
@@ -72,7 +80,11 @@ const ProfileFormMenu: FC<Props> = ({
               disabled={isDisabled}
               title={disableReason}
             >
-              Devices
+              {formik.values.devices.length > 0 ? (
+                <strong>Devices</strong>
+              ) : (
+                "Devices"
+              )}
             </Button>
             <ul
               className="p-side-navigation__list"
@@ -82,25 +94,70 @@ const ProfileFormMenu: FC<Props> = ({
                 label={DISK_DEVICES}
                 hasError={hasDiskError(formik)}
                 {...menuItemProps}
+                isBold={formik.values.devices.some(isDiskDevice)}
               />
               <MenuItem
                 label={NETWORK_DEVICES}
                 hasError={hasNetworkError(formik)}
                 {...menuItemProps}
+                isBold={formik.values.devices.some(isNicDevice)}
               />
-              <MenuItem label={GPU_DEVICES} {...menuItemProps} />
-              <MenuItem label={PROXY_DEVICES} {...menuItemProps} />
+              <MenuItem
+                label={GPU_DEVICES}
+                {...menuItemProps}
+                isBold={formik.values.devices.some(isGPUDevice)}
+              />
+              <MenuItem
+                label={PROXY_DEVICES}
+                {...menuItemProps}
+                isBold={formik.values.devices.some(isProxyDevice)}
+              />
               {hasMetadataConfiguration && (
-                <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
+                <MenuItem
+                  label={OTHER_DEVICES}
+                  {...menuItemProps}
+                  isBold={formik.values.devices.some(isOtherDevice)}
+                />
               )}
             </ul>
           </li>
-          <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
-          <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
-          <MenuItem label={SNAPSHOTS} {...menuItemProps} />
-          <MenuItem label={MIGRATION} {...menuItemProps} />
-          <MenuItem label={BOOT} {...menuItemProps} />
-          <MenuItem label={CLOUD_INIT} {...menuItemProps} />
+          <MenuItem
+            label={RESOURCE_LIMITS}
+            {...menuItemProps}
+            isBold={hasPrefixValue(formik, "limits_")}
+          />
+          <MenuItem
+            label={SECURITY_POLICIES}
+            {...menuItemProps}
+            isBold={hasPrefixValue(formik, "security_")}
+          />
+          <MenuItem
+            label={SNAPSHOTS}
+            {...menuItemProps}
+            isBold={hasPrefixValue(formik, "snapshots_")}
+          />
+          <MenuItem
+            label={MIGRATION}
+            {...menuItemProps}
+            isBold={
+              hasPrefixValue(formik, "migration_") ||
+              hasPrefixValue(formik, "cluster_")
+            }
+          />
+          <MenuItem
+            label={BOOT}
+            {...menuItemProps}
+            isBold={hasPrefixValue(formik, "boot_")}
+          />
+          <MenuItem
+            label={CLOUD_INIT}
+            {...menuItemProps}
+            isBold={hasPrefixValue(
+              formik,
+              "cloud_init_",
+              "cloud_init_ssh_keys",
+            )}
+          />
         </ul>
       </nav>
     </div>

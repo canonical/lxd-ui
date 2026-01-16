@@ -4,6 +4,7 @@ import type { OptionHTMLAttributes } from "react";
 import type { LxdConfigPair } from "types/config";
 import type { LxdProject } from "types/project";
 import type { LxdStorageVolume } from "types/storage";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 export const getUnhandledKeyValues = (
   item:
@@ -40,4 +41,15 @@ export const optionRenderer = (
 
 export const focusField = (name: string) => {
   setTimeout(() => document.getElementById(name)?.focus(), 100);
+};
+
+export const hasPrefixValue = (
+  formik: InstanceAndProfileFormikProps,
+  keyPrefix: string,
+  ignoreKey?: string,
+): boolean => {
+  return Object.entries(formik.values).some(
+    ([key, value]) =>
+      key.startsWith(keyPrefix) && value !== undefined && key !== ignoreKey,
+  );
 };

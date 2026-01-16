@@ -223,6 +223,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
             isDisabled={false}
             hasDiskError={hasDiskError(formik)}
             hasNetworkError={hasNetworkError(formik)}
+            formik={formik}
           />
         )}
         <Row className="form-contents" key={section}>

@@ -466,6 +466,7 @@ const CreateInstance: FC = () => {
             isDisabled={!formik.values.image}
             hasDiskError={diskError || hasNoRootDisk(formik.values, profiles)}
             hasNetworkError={networkError}
+            formik={formik}
           />
         )}
         <Row className="form-contents" key={section}>
