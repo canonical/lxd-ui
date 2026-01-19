@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.86% </span>
+                <span class="strong">14.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/202</span>
+                <span class='fraction'>28/198</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.34% </span>
+                <span class="strong">15.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/176</span>
+                <span class='fraction'>27/172</span>
             </div>
         
             
@@ -235,35 +235,31 @@
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
 <a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
+<a name='L173'></a><a href='#L173'>173</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -409,18 +405,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">49x</span>
-<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, ReactNode } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 &nbsp;
 interface Props {
   id: string;
@@ -510,11 +502,7 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return (</span></span>
 <span class="cstat-no" title="statement not covered" >              &lt;Fragment key={item}&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div className="cluster-specific-member"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >                    type="cluster-member"</span>
-<span class="cstat-no" title="statement not covered" >                    value={item}</span>
-<span class="cstat-no" title="statement not covered" >                    to={`/ui/cluster/member/${encodeURIComponent(item)}`}</span>
-<span class="cstat-no" title="statement not covered" >                  /&gt;</span>
+<span class="cstat-no" title="statement not covered" >                  &lt;ClusterMemberRichChip clusterMember={item} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div className="cluster-specific-value-wrapper"&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  {isReadOnly ? (</span>
@@ -598,7 +586,7 @@ export default ClusterSpecificInput;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-19T09:34:38.642Z
+                at 2026-01-19T15:23:26.790Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
