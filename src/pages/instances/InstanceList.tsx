@@ -75,11 +75,11 @@ import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useIsClustered } from "context/useIsClustered";
 import { useProject } from "context/useProjects";
-import InstanceClusterMemberChip from "pages/instances/InstanceClusterMemberChip";
 import InstanceProjectChip from "pages/instances/InstanceProjectChip";
 import { getInstanceKey, getInstanceType } from "util/instances";
 import DocLink from "components/DocLink";
 import TruncatedList from "components/TruncatedList";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -478,7 +478,9 @@ const InstanceList: FC = () => {
           ...(isClustered
             ? [
                 {
-                  content: <InstanceClusterMemberChip instance={instance} />,
+                  content: (
+                    <ClusterMemberRichChip clusterMember={instance.location} />
+                  ),
                   role: "cell",
                   "aria-label": CLUSTER_MEMBER,
                   style: { width: `${COLUMN_WIDTHS[CLUSTER_MEMBER]}px` },

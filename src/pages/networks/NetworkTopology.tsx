@@ -14,6 +14,7 @@ import { useNetworks } from "context/useNetworks";
 import { clusteredTypes } from "util/networks";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import NetworkRichChip from "./NetworkRichChip";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -69,11 +70,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
     return (
       <div className="uplink-item" key={clusterMember}>
         <span className="has-descendents">
-          <ResourceLink
-            type="cluster-member"
-            value={clusterMember}
-            to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(clusterMember)}`}
-          />
+          <ClusterMemberRichChip clusterMember={clusterMember} />
         </span>
         <NetworkRichChip
           networkName={memberUplink}
@@ -116,11 +113,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
         >
           {member && (
             <span className="has-descendents">
-              <ResourceLink
-                type="cluster-member"
-                value={member}
-                to={`/ui/project/${encodeURIComponent(project)}/networks?member=${encodeURIComponent(member)}`}
-              />
+              <ClusterMemberRichChip clusterMember={member} />
             </span>
           )}
           <div

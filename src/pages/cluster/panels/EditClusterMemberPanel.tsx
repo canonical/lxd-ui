@@ -15,11 +15,11 @@ import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
 import { updateClusterMember } from "api/cluster-members";
-import ResourceLink from "components/ResourceLink";
 import { useClusterMember } from "context/useClusterMembers";
 import type { LxdClusterMember } from "types/cluster";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { useClusterGroups } from "context/useClusterGroups";
+import ClusterMemberRichChip from "../ClusterMemberRichChip";
 
 export interface EditClusterMemberForm {
   name: string;
@@ -68,12 +68,7 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
           toastNotify.success(
             <>
               Cluster member{" "}
-              <ResourceLink
-                type="cluster-member"
-                value={values.name}
-                to={`/ui/cluster/member/${encodeURIComponent(values.name)}`}
-              />{" "}
-              saved.
+              <ClusterMemberRichChip clusterMember={values.name} /> saved.
             </>,
           );
           closePanel();

@@ -19,10 +19,10 @@ import ExpandableList from "components/ExpandableList";
 import NetworkForwardPort from "pages/networks/NetworkForwardPort";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useIsClustered } from "context/useIsClustered";
-import ResourceLink from "components/ResourceLink";
 import { bridgeType } from "util/networks";
 import DocLink from "components/DocLink";
 import CreateNetworkForwardBtn from "./actions/CreateNetworkForwardBtn";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -112,10 +112,8 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           ? [
               {
                 content: (
-                  <ResourceLink
-                    type="cluster-member"
-                    value={forward.location ?? ""}
-                    to={`/ui/cluster/member/${encodeURIComponent(forward.location ?? "")}`}
+                  <ClusterMemberRichChip
+                    clusterMember={forward.location ?? ""}
                   />
                 ),
                 role: "cell",

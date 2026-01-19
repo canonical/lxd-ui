@@ -59,6 +59,7 @@ import StorageVolumeBulkDelete from "./actions/StorageVolumeBulkDelete";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isProjectWithVolumes } from "util/projects";
 import DocLink from "components/DocLink";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -263,11 +264,7 @@ const StorageVolumes: FC = () => {
           ? [
               {
                 content: volume.location ? (
-                  <ResourceLink
-                    type="cluster-member"
-                    value={volume.location}
-                    to={`/ui/cluster/member/${encodeURIComponent(volume.location)}`}
-                  />
+                  <ClusterMemberRichChip clusterMember={volume.location} />
                 ) : (
                   <ResourceLink
                     type="cluster-group"

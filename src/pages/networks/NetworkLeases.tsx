@@ -17,6 +17,7 @@ import { useIsClustered } from "context/useIsClustered";
 import DocLink from "components/DocLink";
 import { typesWithNicStaticIPSupport } from "util/networks";
 import { InstanceIpEdit } from "components/InstanceIpEdit";
+import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -97,11 +98,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
           ? [
               {
                 content: lease.location && (
-                  <ResourceLink
-                    type="cluster-member"
-                    value={lease.location}
-                    to={`/ui/cluster/member/${encodeURIComponent(lease.location)}`}
-                  />
+                  <ClusterMemberRichChip clusterMember={lease.location} />
                 ),
                 role: "cell",
                 "aria-label": "Cluster member",

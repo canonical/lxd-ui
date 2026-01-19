@@ -11,12 +11,12 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import { useEventQueue } from "context/eventQueue";
 import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
+import ClusterMemberRichChip from "../ClusterMemberRichChip";
 
 interface Props {
   member: LxdClusterMember;
@@ -53,12 +53,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({
   const handleSuccess = () => {
     toastNotify.success(
       <>
-        Member{" "}
-        <ResourceLink
-          type="cluster-member"
-          value={member.server_name}
-          to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
-        />{" "}
+        Member <ClusterMemberRichChip clusterMember={member.server_name} />{" "}
         restore completed.
       </>,
     );
@@ -68,11 +63,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({
     toastNotify.failure(
       "Member restore failed",
       new Error(msg),
-      <ResourceLink
-        type="cluster-member"
-        value={member.server_name}
-        to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
-      />,
+      <ClusterMemberRichChip clusterMember={member.server_name} />,
     );
   };
 
@@ -82,12 +73,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({
       .then((operation) => {
         toastNotify.info(
           <>
-            Member{" "}
-            <ResourceLink
-              to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
-              type="cluster-member"
-              value={member.server_name}
-            />{" "}
+            Member <ClusterMemberRichChip clusterMember={member.server_name} />{" "}
             restore started.
           </>,
         );
