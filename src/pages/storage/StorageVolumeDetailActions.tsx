@@ -33,12 +33,7 @@ const StorageVolumeDetailActions: FC<Props> = ({ volume, project }) => {
     : "p-segmented-control__button";
 
   const menuElements = [
-    <MigrateVolumeBtn
-      key="migrate"
-      volume={volume}
-      project={project}
-      classname={classname}
-    />,
+    <MigrateVolumeBtn key="migrate" volume={volume} classname={classname} />,
     ...(hasClusterInternalCustomVolumeCopy
       ? [<CopyVolumeBtn key="copy" volume={volume} classname={classname} />]
       : []),

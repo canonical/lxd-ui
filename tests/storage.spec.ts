@@ -11,10 +11,10 @@ import {
   deleteVolume,
   copyStorageVolume,
   editVolume,
-  migrateVolume,
   randomVolumeName,
   saveVolume,
   visitVolume,
+  migrateVolumePool,
 } from "./helpers/storageVolume";
 import { activateOverride, setInput } from "./helpers/configuration";
 import { randomSnapshotName } from "./helpers/snapshots";
@@ -69,15 +69,15 @@ test("storage volume create, edit and remove", async ({ page }) => {
   await assertTextVisible(page, "size2GiB");
 });
 
-test("storage volume migrate", async ({ page }) => {
+test("storage volume migrate pool", async ({ page }) => {
   const pool2 = randomPoolName();
   await createPool(page, pool2);
 
-  await migrateVolume(page, volume, pool2);
+  await migrateVolumePool(page, volume, pool2);
   await expect(page.getByRole("cell", { name: pool2 })).toBeVisible();
 
   //Migrate back to default so that the Pool can be deleted
-  await migrateVolume(page, volume, "default");
+  await migrateVolumePool(page, volume, "default");
   await deletePool(page, pool2);
 });
 
