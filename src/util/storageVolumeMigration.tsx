@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   copyStorageVolume,
   deleteStorageVolume,
+  getCopyStorageVolumePayload,
   migrateStorageVolume,
 } from "api/storage-volumes";
 import ResourceLink from "components/ResourceLink";
@@ -182,22 +183,11 @@ export const useStorageVolumeMigration = ({
     // Copies volume to a new cluster member and deletes the old volume.
     const targetMember = type === "cluster member" ? target : undefined;
     const oldMember = volume.location;
-
-    const payload: Partial<LxdStorageVolume> = {
-      name: volume.name,
-      type: "custom",
-      config: volume.config,
-      description: volume.description,
-      content_type: volume.content_type,
-      source: {
-        name: volume.name,
-        type: "copy",
-        pool: volume.pool,
-        volume_only: false,
-        project: volume.project,
-        location: volume.location,
-      },
-    };
+    const payload = getCopyStorageVolumePayload(
+      volume,
+      volume.name,
+      volume.project,
+    );
 
     copyStorageVolume(payload, volume.pool, volume.project, targetMember)
       .then((operation) => {

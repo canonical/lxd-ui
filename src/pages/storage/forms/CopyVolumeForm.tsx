@@ -20,7 +20,10 @@ import { useLoadCustomVolumes } from "context/useVolumes";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useStoragePool } from "context/useStoragePools";
 import { isRemoteStorage } from "util/storageOptions";
-import { copyStorageVolume } from "api/storage-volumes";
+import {
+  copyStorageVolume,
+  getCopyStorageVolumePayload,
+} from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
@@ -115,24 +118,12 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      const payload: Partial<LxdStorageVolume> = {
-        name: values.name,
-        type: "custom",
-        config: volume.config,
-        description: volume.description,
-        content_type: volume.content_type,
-        source: {
-          name: volume.name,
-          type: "copy",
-          pool: volume.pool,
-          volume_only: !values.copySnapshots,
-          // logic from the lxc source code.
-          // We should not set source.project if target project is the same as the source project
-          project:
-            values.project !== volume.project ? volume.project : undefined,
-          location: volume.location,
-        },
-      };
+      const payload = getCopyStorageVolumePayload(
+        volume,
+        values.name,
+        values.project,
+        !values.copySnapshots,
+      );
 
       copyStorageVolume(payload, values.pool, values.project, values.location)
         .then((operation) => {
