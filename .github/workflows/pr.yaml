@@ -40,6 +40,9 @@ jobs:
       - name: Lint JS
         run: yarn lint-js
 
+      - name: Check circular dependencies
+        run: yarn check-circular-deps
+
   check-inclusive-naming:
     runs-on: ubuntu-latest
     steps:

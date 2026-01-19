@@ -5,6 +5,7 @@
   "license": "LGPL-3.0-only",
   "type": "module",
   "scripts": {
+    "check-circular-deps": "npx depcruise src --max-depth 1",
     "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle playwright-report test-results haproxy-local.cfg coverage",
     "build-html": "cp build/ui/index.html build/index.html",
     "build-monaco": "mkdir build/ui/monaco-editor && cp -R node_modules/monaco-editor/min build/ui/monaco-editor",
@@ -34,6 +35,8 @@
     "@canonical/react-components": "3.8.3",
     "@monaco-editor/react": "4.7.0",
     "@tanstack/react-query": "5.90.16",
+    "@xterm/addon-fit": "0.11.0",
+    "@xterm/xterm": "6.0.0",
     "axios": "1.13.2",
     "formik": "2.4.9",
     "js-yaml": "4.1.1",
@@ -44,8 +47,6 @@
     "react-dom": "19.2.3",
     "react-router-dom": "7.12.0",
     "vanilla-framework": "4.39.0",
-    "@xterm/xterm": "6.0.0",
-    "@xterm/addon-fit": "0.11.0",
     "yup": "1.7.1"
   },
   "devDependencies": {
@@ -70,8 +71,9 @@
     "babel-plugin-istanbul": "7.0.1",
     "concurrently": "9.2.1",
     "convert-source-map": "2.0.0",
-    "eslint": "9.39.2",
+    "dependency-cruiser": "^17.3.6",
     "dotenv": "17.2.3",
+    "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
     "eslint-plugin-react": "7.37.5",
