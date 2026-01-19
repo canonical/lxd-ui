@@ -15,11 +15,13 @@ import type { LxdProfile } from "types/profile";
 import type { FormDevice, FormDiskDevice } from "util/formDevices";
 import { getAppliedProfiles } from "./configInheritance";
 
-export const isNicDevice = (device: LxdDeviceValue): device is LxdNicDevice =>
-  device.type === "nic";
+export const isNicDevice = (
+  device: LxdDeviceValue | FormDevice,
+): device is LxdNicDevice => device.type === "nic";
 
-export const isDiskDevice = (device: LxdDeviceValue): device is LxdDiskDevice =>
-  device.type === "disk";
+export const isDiskDevice = (
+  device: LxdDeviceValue | FormDevice,
+): device is LxdDiskDevice => device.type === "disk";
 
 export const isRootDisk = (device: FormDevice): boolean => {
   return device.type === "disk" && device.path === "/" && !device.source;
@@ -43,11 +45,12 @@ export const isVolumeDevice = (
   return device.type === "disk" && !!device.pool && !isRoot;
 };
 
-export const isGPUDevice = (device: LxdDeviceValue): device is LxdGPUDevice =>
-  device.type === "gpu";
+export const isGPUDevice = (
+  device: LxdDeviceValue | FormDevice,
+): device is LxdGPUDevice => device.type === "gpu";
 
 export const isProxyDevice = (
-  device: LxdDeviceValue,
+  device: LxdDeviceValue | FormDevice,
 ): device is LxdProxyDevice => device.type === "proxy";
 
 export const isOtherDevice = (
