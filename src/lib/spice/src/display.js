@@ -851,6 +851,9 @@ SpiceDisplayConn.prototype.hook_events = function()
         canvas.addEventListener('mouseover', handle_mouseover);
         canvas.addEventListener('wheel', Inputs.handle_mousewheel);
         canvas.focus();
+
+        this.focusListener = () => this.parent.send_clipboard_grab()
+        canvas.addEventListener("focus", this.focusListener);
     }
 }
 
@@ -868,6 +871,7 @@ SpiceDisplayConn.prototype.unhook_events = function()
         canvas.removeEventListener('mouseout', handle_mouseout);
         canvas.removeEventListener('mouseover', handle_mouseover);
         canvas.removeEventListener('wheel', Inputs.handle_mousewheel);
+        canvas.removeEventListener("focus", this.focusListener);
     }
 }
 
