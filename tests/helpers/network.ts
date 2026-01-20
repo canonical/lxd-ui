@@ -14,6 +14,7 @@ export const createNetwork = async (
   network: string,
   type = "bridge",
   hasMemberSpecificParents?: boolean,
+  networkACL?: string,
 ) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
@@ -33,6 +34,10 @@ export const createNetwork = async (
   }
   if (type === "ovn") {
     await page.getByLabel("Uplink").selectOption({ index: 1 });
+  }
+  if (networkACL) {
+    await page.getByLabel("Select ACLs").click();
+    await page.locator("label").filter({ hasText: networkACL }).click();
   }
   await submitCreateNetwork(page, network);
 };
@@ -161,4 +166,48 @@ export const submitCreateNetwork = async (page: Page, network: string) => {
   await page.waitForTimeout(2500);
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
+};
+
+export const createNetworkLocalPeering = async (
+  page: Page,
+  network: string,
+  targetNetwork: string,
+  localPeeringName: string,
+  toggleMutualPeering?: boolean,
+) => {
+  await visitNetwork(page, network);
+  await page.getByRole("link", { name: "Local peerings" }).click();
+  await page.getByRole("button", { name: "Create local peering" }).click();
+  await page.getByRole("textbox", { name: "* Name" }).fill(localPeeringName);
+  await page.getByRole("button", { name: "* Target network" }).click();
+  await page
+    .getByRole("option", { name: `${targetNetwork} ovn -`, exact: true })
+    .click();
+  if (toggleMutualPeering) {
+    await page.getByText("Create mutual peering").click();
+  }
+  await page
+    .getByLabel("Side panel")
+    .getByRole("button", { name: "Create local peering" })
+    .click();
+  await expect(
+    page.getByText(`Local peering ${localPeeringName} created`),
+  ).toBeVisible();
+};
+
+export const deleteLocalPeerings = async (
+  page: Page,
+  network: string,
+  localPeeringName: string,
+) => {
+  await visitNetwork(page, network);
+  await page.getByRole("link", { name: "Local peerings" }).click();
+  await page.getByRole("button", { name: "Delete local peering" }).click();
+  await page
+    .getByRole("dialog", { name: "Confirm delete" })
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await expect(
+    page.getByText(`Local peering ${localPeeringName} deleted.`),
+  ).toBeVisible();
 };
