@@ -300,6 +300,31 @@ export const migrateStorageVolume = async (
     });
 };
 
+export const getCopyStorageVolumePayload = (
+  volume: LxdStorageVolume,
+  newName: string,
+  newProject: string,
+  volumeOnly = false,
+): Partial<LxdStorageVolume> => {
+  return {
+    name: newName,
+    type: "custom",
+    config: volume.config,
+    description: volume.description,
+    content_type: volume.content_type,
+    source: {
+      name: volume.name,
+      type: "copy",
+      pool: volume.pool,
+      volume_only: volumeOnly,
+      // logic from the lxc source code.
+      // We should not set source.project if target project is the same as the source project
+      project: newProject !== volume.project ? volume.project : undefined,
+      location: volume.location,
+    },
+  };
+};
+
 // Including project and target params if they did not change from source configs breaks the API call.
 // Therefore, we only include them if they are different from the source configs, that's why both project and target are optional inputs
 export const copyStorageVolume = async (
