@@ -134,6 +134,10 @@ For CSS formatting, we use [Stylelint](https://stylelint.io/). You can check you
 
     yarn lint-scss
 
+For circular dependency checks, we use [dependency-cruiser](https://www.npmjs.com/package/dependency-cruiser). You can run it with
+
+    yarn check-circular-deps
+
 ## Naming
 When struggling to find a good name, call it "foo" and rename at a later stage. You will gain a better understanding after finishing the implementation. A good name will be much easier to choose with that knowledge.
 
