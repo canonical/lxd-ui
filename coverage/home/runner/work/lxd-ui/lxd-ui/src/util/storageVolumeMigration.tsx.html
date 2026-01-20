@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.63% </span>
+                <span class="strong">51.9% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>135/272</span>
+                <span class='fraction'>136/262</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.63% </span>
+                <span class="strong">51.9% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>135/272</span>
+                <span class='fraction'>136/262</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -325,17 +325,8 @@
 <a name='L260'></a><a href='#L260'>260</a>
 <a name='L261'></a><a href='#L261'>261</a>
 <a name='L262'></a><a href='#L262'>262</a>
-<a name='L263'></a><a href='#L263'>263</a>
-<a name='L264'></a><a href='#L264'>264</a>
-<a name='L265'></a><a href='#L265'>265</a>
-<a name='L266'></a><a href='#L266'>266</a>
-<a name='L267'></a><a href='#L267'>267</a>
-<a name='L268'></a><a href='#L268'>268</a>
-<a name='L269'></a><a href='#L269'>269</a>
-<a name='L270'></a><a href='#L270'>270</a>
-<a name='L271'></a><a href='#L271'>271</a>
-<a name='L272'></a><a href='#L272'>272</a>
-<a name='L273'></a><a href='#L273'>273</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">23x</span>
+<a name='L263'></a><a href='#L263'>263</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">23x</span>
@@ -516,17 +507,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -612,6 +592,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   copyStorageVolume,
   deleteStorageVolume,
+  getCopyStorageVolumePayload,
   migrateStorageVolume,
 } from "api/storage-volumes";
 import ResourceLink from "components/ResourceLink";
@@ -791,22 +772,11 @@ export const useStorageVolumeMigration = ({
 <span class="cstat-no" title="statement not covered" >    // Copies volume to a new cluster member and deletes the old volume.</span>
 <span class="cstat-no" title="statement not covered" >    const targetMember = type === "cluster member" ? target : undefined;</span>
 <span class="cstat-no" title="statement not covered" >    const oldMember = volume.location;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const payload: Partial&lt;LxdStorageVolume&gt; = {</span>
-<span class="cstat-no" title="statement not covered" >      name: volume.name,</span>
-<span class="cstat-no" title="statement not covered" >      type: "custom",</span>
-<span class="cstat-no" title="statement not covered" >      config: volume.config,</span>
-<span class="cstat-no" title="statement not covered" >      description: volume.description,</span>
-<span class="cstat-no" title="statement not covered" >      content_type: volume.content_type,</span>
-<span class="cstat-no" title="statement not covered" >      source: {</span>
-<span class="cstat-no" title="statement not covered" >        name: volume.name,</span>
-<span class="cstat-no" title="statement not covered" >        type: "copy",</span>
-<span class="cstat-no" title="statement not covered" >        pool: volume.pool,</span>
-<span class="cstat-no" title="statement not covered" >        volume_only: false,</span>
-<span class="cstat-no" title="statement not covered" >        project: volume.project,</span>
-<span class="cstat-no" title="statement not covered" >        location: volume.location,</span>
-<span class="cstat-no" title="statement not covered" >      },</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+<span class="cstat-no" title="statement not covered" >    const payload = getCopyStorageVolumePayload(</span>
+<span class="cstat-no" title="statement not covered" >      volume,</span>
+<span class="cstat-no" title="statement not covered" >      volume.name,</span>
+<span class="cstat-no" title="statement not covered" >      volume.project,</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    copyStorageVolume(payload, volume.pool, volume.project, targetMember)</span>
 <span class="cstat-no" title="statement not covered" >      .then((operation) =&gt; {</span>
@@ -886,7 +856,7 @@ export const useStorageVolumeMigration = ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-20T09:32:28.156Z
+                at 2026-01-20T12:08:29.640Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
