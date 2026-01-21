@@ -6,6 +6,7 @@ export interface ResourceDetail {
   pool?: string;
   instance?: string;
   volume?: string;
+  network?: string;
   description?: string;
   imageType?: string;
   fingerprint?: string;
@@ -72,6 +73,10 @@ export const extractResourceDetailsFromUrl = (
       resourceDetail.pool = urlSegments[4];
       resourceDetail.volume = urlSegments[7];
     }
+  }
+
+  if (resourceType === "network-forward") {
+    resourceDetail.network = urlSegments[4];
   }
 
   // storage volumes could be related to images, so we check if a match can be found based on fingerprint

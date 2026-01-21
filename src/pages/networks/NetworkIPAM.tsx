@@ -78,8 +78,8 @@ const NetworkIPAM: FC = () => {
       if (allocation.type === "network") {
         return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`;
       }
-      if (allocation.type === "network-forward") {
-        return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}/forward`;
+      if (allocation.type === "network-forward" && item.network) {
+        return `/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.network)}/forwards`;
       }
 
       return "";
