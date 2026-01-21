@@ -330,6 +330,88 @@ SpiceMsgChannels.prototype =
     },
 }
 
+function SpiceMsgClipboardGrab(type)
+{
+    this.type = type;
+}
+
+SpiceMsgClipboardGrab.prototype =
+{
+    to_buffer: function(a, at)
+    {
+        at = at || 0;
+        var dv = new SpiceDataView(a);
+        dv.setUint32(at, 0, true); at += 4;
+        dv.setUint32(at, this.type, true); at += 4;
+    },
+
+    buffer_size: function()
+    {
+        return 8;
+    }
+};
+
+function SpiceMsgClipboardReceive(agent_data)
+{
+    const dv = new DataView(agent_data.data);
+    this.type = dv.getUint32(4, true);
+    this.payload = agent_data.data.slice(8);
+}
+
+SpiceMsgClipboardReceive.prototype =
+{
+    get_text: function()
+    {
+        return new TextDecoder("utf-8").decode(this.payload);
+    }
+}
+
+function SpiceMsgClipboardRequest(type)
+{
+    this.type = type;
+}
+
+SpiceMsgClipboardRequest.prototype =
+{
+    to_buffer: function(a, at)
+    {
+        at = at || 0;
+        var dv = new SpiceDataView(a);
+        dv.setUint32(at, 0, true); at += 4;
+        dv.setUint32(at, this.type, true); at += 4;
+    },
+
+    buffer_size: function()
+    {
+        return 8;
+    }
+};
+
+function SpiceMsgClipboardSend(type, text)
+{
+    this.type = type;
+    this.text = text;
+}
+
+SpiceMsgClipboardSend.prototype =
+{
+    to_buffer: function(a, at)
+    {
+        at = at || 0;
+        const dv = new SpiceDataView(a);
+        dv.setUint32(at, 0, true); at += 4;
+        dv.setUint32(at, this.type, true); at += 4;
+        const payload = new TextEncoder().encode(this.text);
+        new Uint8Array(a, at, payload.byteLength).set(payload); at += payload.byteLength;
+    },
+
+    buffer_size: function()
+    {
+        const payloadLength = new TextEncoder().encode(this.text).byteLength;
+        return 8 + payloadLength;
+    }
+};
+
 function SpiceMsgMainInit(a, at)
 {
     this.from_buffer(a, at);
@@ -1342,6 +1424,10 @@ export {
   SpiceLinkAuthReply,
   SpiceMiniData,
   SpiceMsgChannels,
+  SpiceMsgClipboardGrab,
+  SpiceMsgClipboardReceive,
+  SpiceMsgClipboardRequest,
+  SpiceMsgClipboardSend,
   SpiceMsgMainInit,
   SpiceMsgMainMouseMode,
   SpiceMsgMainAgentData,
