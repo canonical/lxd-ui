@@ -19,6 +19,7 @@ import { setOption } from "./helpers/configuration";
 import { getClipPosition } from "./helpers/doc-screenshots";
 import { openInstancePanel } from "./helpers/instancePanel";
 import { randomNameSuffix } from "./helpers/name";
+import { deleteNetworkAcl } from "./helpers/network-acls";
 
 test.beforeEach(() => {
   test.skip(
@@ -258,11 +259,11 @@ test("network peering", async ({ page }) => {
     clip: getClipPosition(240, 0, 1440, 800),
   });
 
-  deleteLocalPeerings(page, network3, "LocalPeering2");
-  deleteNetwork(page, network3);
-  deleteLocalPeerings(page, network2, "LocalPeering1");
-  deleteNetwork(page, network2);
-  deleteNetwork(page, network);
+  await deleteNetwork(page, network3);
+  await deleteLocalPeerings(page, network2, "LocalPeering1");
+  await deleteNetwork(page, network2);
+  await deleteNetwork(page, network);
+  await deleteNetworkAcl(page, networkACL);
 });
 
 test("storage pools", async ({ page }) => {
