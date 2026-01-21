@@ -8,6 +8,8 @@ import {
 import { createPool, deletePool } from "./helpers/storagePool";
 import {
   createNetwork,
+  createNetworkLocalPeering,
+  deleteLocalPeerings,
   deleteNetwork,
   submitCreateNetwork,
   visitNetwork,
@@ -198,6 +200,69 @@ test("networks", async ({ page }) => {
   await page.getByText("Delete ACL").click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
   await deleteNetwork(page, network);
+});
+
+test("network peering", async ({ page }) => {
+  const network = "OVNNetwork";
+  const network2 = "OVNNetwork2";
+  const network3 = "OVNNetwork3";
+  const networkACL = network + "-ACL";
+  await page.setViewportSize({ width: 1440, height: 800 });
+  await gotoURL(page, "/ui/");
+
+  // Create ACL
+  await page.getByText("Networking").click();
+  await page.getByText("ACLs").click();
+  await page.getByText("Create ACL").click();
+  await page.getByPlaceholder("Enter name").fill(networkACL);
+  await page
+    .getByRole("button", { name: "Add ingress rule", exact: true })
+    .click();
+  await page.getByText("Add rule").click();
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.getByTestId("notification-close-button").click();
+
+  // Create network
+  await createNetwork(page, network, "ovn", false, networkACL);
+  await createNetwork(page, network2, "ovn");
+  await createNetwork(page, network3, "ovn");
+  await createNetworkLocalPeering(page, network, network2, "LocalPeering1");
+  await createNetworkLocalPeering(
+    page,
+    network,
+    network3,
+    "LocalPeering2",
+    true,
+  );
+  await page.getByTestId("notification-close-button").click();
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_list_local_peerings.png",
+    clip: getClipPosition(240, 0, 1440, 450),
+  });
+
+  await page.getByRole("button", { name: "Create local peering" }).click();
+  await page.getByRole("textbox", { name: "* Name" }).fill("LocalPeering3");
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_create_local_peerings.png",
+    clip: getClipPosition(910, 0, 1440, 800),
+  });
+  await page.getByRole("button", { name: "Cancel" }).click();
+
+  await page
+    .getByRole("button", { name: "Edit local peering" })
+    .first()
+    .click();
+  await page.waitForTimeout(200);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/networks/network_edit_local_peerings.png",
+    clip: getClipPosition(240, 0, 1440, 800),
+  });
+
+  deleteLocalPeerings(page, network3, "LocalPeering2");
+  deleteNetwork(page, network3);
+  deleteLocalPeerings(page, network2, "LocalPeering1");
+  deleteNetwork(page, network2);
+  deleteNetwork(page, network);
 });
 
 test("storage pools", async ({ page }) => {
