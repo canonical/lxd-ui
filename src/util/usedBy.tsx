@@ -10,6 +10,7 @@ export interface LxdUsedBy {
   project: string;
   instance?: string;
   volume?: string;
+  network?: string;
   pool?: string;
   target?: string;
 }
@@ -66,6 +67,7 @@ export const filterUsedByType = (
           project: resource.project ?? "default",
           instance: resource.instance,
           volume: resource.volume,
+          network: resource.network,
           pool: resource.pool,
           target: resource.target,
         };
