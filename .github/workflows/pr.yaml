@@ -66,7 +66,7 @@ jobs:
         run: |
           echo "Scanning for disallowed Unicode characters..."
           # Match non-ASCII characters except — ü and →
-          NON_ASCII_FILES=$(grep --color=always -P -n "[^\x00-\x7F—ü→]" -r . \
+          NON_ASCII_FILES=$(grep --color=always -P -n "[^\x00-\x7F—ü→\x{2713}\x{2717}]" -r . \
             --exclude-dir=.git \
             --exclude=*.png \
             --exclude=*.woff2 \

@@ -70,13 +70,13 @@ const config: PlaywrightTestConfig<TestOptions> = {
     {
       name: "enable-clustering-chrome",
       // enable clustering for subsequent tests
-      use: { ...devices["Desktop Chrome"]},
+      use: { ...devices["Desktop Chrome"] },
       testMatch: "enable-clustering.spec.ts",
     },
     {
       name: "enable-clustering-firefox",
       // enable clustering for subsequent tests
-      use: { ...devices["Desktop Firefox"]},
+      use: { ...devices["Desktop Firefox"] },
       testMatch: "enable-clustering.spec.ts",
     },
     {

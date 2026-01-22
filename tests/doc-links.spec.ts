@@ -11,7 +11,12 @@ import {
   openProjectConfiguration,
   randomProjectName,
 } from "./helpers/projects";
-import { validateLink } from "./helpers/doc-links";
+import {
+  collectAllDocPaths,
+  checkDocumentationExists,
+  skipIfNotSupported,
+  validateLink,
+} from "./helpers/doc-links";
 import { openServerSetting, visitServerSettings } from "./helpers/server";
 import { activateOverride } from "./helpers/configuration";
 
@@ -222,4 +227,33 @@ test("Ensure the documentation link text and link targets are present: Project >
 
   //Set Down
   await deleteProject(page, project);
+});
+
+test("DocLink validation: collect all doc paths and verify they exist", async ({
+  page,
+  lxdVersion,
+}) => {
+  skipIfNotSupported(lxdVersion);
+
+  const allDocPaths = collectAllDocPaths();
+  console.log(`\nTotal unique doc paths found: ${allDocPaths.size}`);
+  allDocPaths.forEach((path) => {
+    console.log(`- ${path}`);
+  });
+
+  test.fail(
+    allDocPaths.size < 10,
+    "Expected at least 10 DocLink components in the codebase",
+  );
+
+  const sortedPaths = Array.from(allDocPaths).sort();
+  for (const docPath of sortedPaths) {
+    const result = await checkDocumentationExists(page, docPath);
+    test.fail(
+      !result.exists,
+      `✗ ${docPath} - NOT FOUND (${result.status || "Error"})`,
+    );
+  }
+
+  console.log(`✓ All ${sortedPaths.length} links validated successfully.`);
 });
