@@ -475,10 +475,10 @@
     hashery "^1.3.0"
     keyv "^5.5.5"
 
-"@canonical/react-components@3.8.3":
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-3.8.3.tgz#1de89bd611dfce7c8b54e617d197b7cc560aaa6d"
-  integrity sha512-J6EHghZYST7+17108Z/V9CYUhtSYkVQuKbBvjaFWvjfWsAHeyQGANbdAI7brsrZUKxhvgbpgwNIepdHusIB81A==
+"@canonical/react-components@3.9.0":
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-3.9.0.tgz#90be4574d6f3a8e8240d90ac16a869fe4bb32e4b"
+  integrity sha512-F9Tk/hBhkIYwJ1ePbjX8mTigfeTtHPF+1reAnu6dOSPHOwN3ehIJZDzAtXFQbXB41D0fSwujJ+JZA/gKrPUJZQ==
   dependencies:
     "@types/jest" "29.5.14"
     "@types/node" "20.17.19"
