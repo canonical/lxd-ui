@@ -25,7 +25,7 @@ jobs:
       uses: tim-actions/dco@master
       with:
         commits: ${{ steps.get-pr-commits.outputs.commits }}
-        
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -196,11 +196,11 @@ jobs:
         path: blob-reports
         pattern: blob-report-*
         merge-multiple: true
-    
+
     # NOTE: there is no need to install playwright dependencies since we only need to merge reports here
     - name: Merge into HTML Report
       run: npx playwright merge-reports --config=merge.playwright.config.ts ./blob-reports
-    
+
     - uses: actions/upload-artifact@v6
       if: always()
       with:
