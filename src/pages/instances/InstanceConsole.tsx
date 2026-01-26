@@ -89,18 +89,24 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
               }}
             />
           </div>
-          {isGraphic && isRunning && (
+          {isGraphic && (
             <div>
               {hasCustomVolumeIso && <AttachIsoBtn instance={instance} />}
               <Button
                 className="u-no-margin--bottom"
+                disabled={!isRunning}
+                title={
+                  isRunning
+                    ? undefined
+                    : "Start the instance to enter fullscreen"
+                }
                 onClick={() => {
                   handleFullScreen();
                 }}
               >
                 <span>Fullscreen</span>
               </Button>
-              <InstanceConsoleShortcuts />
+              <InstanceConsoleShortcuts disabled={!isRunning} />
             </div>
           )}
         </div>
