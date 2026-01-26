@@ -12,12 +12,4 @@
       }
     }
   }
-
-  .rich-tooltip-row-content {
-    > .profile-configuration-sections,
-    > .devices-summary-list {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
 }

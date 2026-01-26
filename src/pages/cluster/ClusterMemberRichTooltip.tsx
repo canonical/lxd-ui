@@ -50,7 +50,7 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
 
   const isAboveLarge = !useIsScreenBelow(LARGE_TOOLTIP_BREAKPOINT, "height");
 
-  const memberDescription = member ? member.description || "-" : "-";
+  const memberDescription = member?.description || "-";
 
   const rows: TooltipRow[] = [
     {

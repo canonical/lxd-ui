@@ -11,7 +11,7 @@ import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
-import ResourceLink from "components/ResourceLink";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useToastNotification } from "@canonical/react-components";
 
@@ -51,11 +51,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         return;
       }
       const oldProjectLink = (
-        <ResourceLink
-          type="project"
-          value={values.name}
-          to={`/ui/project/${encodeURIComponent(project.name)}/configuration`}
-        />
+        <ProjectRichChip projectName={values.name} toSuffix="/configuration" />
       );
       renameProject(project.name, values.name)
         .then((operation) => {
@@ -67,7 +63,11 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
               toastNotify.success(
                 <>
                   Project <strong>{project.name}</strong> renamed to{" "}
-                  <ResourceLink type="project" value={values.name} to={url} />.
+                  <ProjectRichChip
+                    projectName={values.name}
+                    toSuffix="/configuration"
+                  />
+                  .
                 </>,
               );
               formik.setFieldValue("isRenaming", false);

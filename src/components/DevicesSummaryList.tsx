@@ -12,13 +12,14 @@ import {
 } from "util/devices";
 import type { FormDevice } from "util/formDevices";
 import { pluralize } from "util/instanceBulkActions";
+import classnames from "classnames";
 
 interface Props {
   devices: LxdDeviceValue[];
-  maxWidth?: number;
+  className?: string;
 }
 
-const DevicesSummaryList: FC<Props> = ({ devices }) => {
+const DevicesSummaryList: FC<Props> = ({ devices, className }) => {
   const devicesOtherThanNic = devices.filter((device) => !isNicDevice(device));
   const deviceCounts: Record<string, number> = {};
 
@@ -64,7 +65,7 @@ const DevicesSummaryList: FC<Props> = ({ devices }) => {
     <List
       items={deviceItems}
       middot
-      className="u-no-margin devices-summary-list"
+      className={classnames("u-no-margin devices-summary-list", className)}
       title={deviceItems.join(", ")}
     />
   ) : (
