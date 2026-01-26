@@ -75,12 +75,12 @@ import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useIsClustered } from "context/useIsClustered";
 import { useProject } from "context/useProjects";
-import InstanceProjectChip from "pages/instances/InstanceProjectChip";
 import { getInstanceKey, getInstanceType } from "util/instances";
 import DocLink from "components/DocLink";
 import TruncatedList from "components/TruncatedList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -469,7 +469,12 @@ const InstanceList: FC = () => {
           ...(isAllProjects
             ? [
                 {
-                  content: <InstanceProjectChip instance={instance} />,
+                  content: (
+                    <ProjectRichChip
+                      projectName={instance.project}
+                      urlSuffix="/instances"
+                    />
+                  ),
                   role: "cell",
                   "aria-label": PROJECT,
                   style: { width: `${COLUMN_WIDTHS[PROJECT]}px` },

@@ -12,7 +12,6 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
-import { ROOT_PATH } from "util/rootPath";
 import type { LxdInstance } from "types/instance";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
 import ItemName from "components/ItemName";
@@ -25,8 +24,8 @@ import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
-import ResourceLink from "components/ResourceLink";
 import DocLink from "components/DocLink";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -307,10 +306,9 @@ const InstanceSnapshots = (props: Props) => {
             {project && snapshotsDisabled ? (
               <>
                 Snapshots are disabled for project{" "}
-                <ResourceLink
-                  type="project"
-                  value={project.name}
-                  to={`${ROOT_PATH}/ui/project/${project.name}/configuration`}
+                <ProjectRichChip
+                  projectName={project.name}
+                  urlSuffix="/configuration"
                 />
                 .
               </>

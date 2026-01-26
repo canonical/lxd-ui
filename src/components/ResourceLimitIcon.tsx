@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { ResourceLimitSource } from "util/resourceLimits";
 import ResourceLink from "./ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 interface Props {
   source: string;
@@ -13,11 +14,7 @@ export const ResourceLimitIcon: FC<Props> = ({ source, sourceType }) => {
     return (
       <>
         {"in project "}
-        <ResourceLink
-          type="project"
-          value={source}
-          to={`${ROOT_PATH}/ui/projects/${encodeURIComponent(source)}`}
-        />
+        <ProjectRichChip projectName={source} />
       </>
     );
   }

@@ -4,7 +4,6 @@ import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { slugify } from "util/slugify";
 import { CONNECTIONS } from "pages/networks/forms/NetworkFormMenu";
-import ResourceLink from "components/ResourceLink";
 import { filterUsedByType } from "util/usedBy";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import classNames from "classnames";
@@ -16,6 +15,7 @@ import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import NetworkRichChip from "./NetworkRichChip";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -161,18 +161,12 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             .slice(0, isInstancesCollapsed ? 5 : instances.length)
             .map((item) => {
               const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
-              const projectUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}`;
               const isExternalProject = item.project !== project;
               return (
                 <div key={instanceUrl} className="downstream-item">
                   {isExternalProject && (
                     <>
-                      <ResourceLink
-                        type="project"
-                        value={item.project}
-                        to={projectUrl}
-                      />{" "}
-                      /{" "}
+                      <ProjectRichChip projectName={item.project} /> /{" "}
                     </>
                   )}
                   <InstanceRichChip

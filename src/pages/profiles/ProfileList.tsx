@@ -31,7 +31,7 @@ import ProfileDetailPanel from "./ProfileDetailPanel";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProfiles } from "context/useProfiles";
-import ResourceLink from "components/ResourceLink";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -236,11 +236,7 @@ const ProfileList: FC = () => {
             {!featuresProfiles && (
               <Notification severity="information">
                 Showing profiles from the{" "}
-                <ResourceLink
-                  to={`${ROOT_PATH}/ui/project/default/profiles`}
-                  type="project"
-                  value="default"
-                />{" "}
+                <ProjectRichChip projectName="default" urlSuffix="/profiles" />{" "}
                 project.
                 <br />
                 <span className="u-text--muted">

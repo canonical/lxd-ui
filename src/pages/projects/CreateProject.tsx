@@ -41,10 +41,10 @@ import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import ResourceLink from "components/ResourceLink";
 import { fetchProfile, updateProfile } from "api/profiles";
 import { useProfile } from "context/useProfiles";
 import { useAuth } from "context/auth";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -93,11 +93,7 @@ const CreateProject: FC = () => {
     toastNotify.success(
       <>
         Project{" "}
-        <ResourceLink
-          type="project"
-          value={values.name}
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(values.name)}/instances`}
-        />{" "}
+        <ProjectRichChip projectName={values.name} urlSuffix="/instances" />{" "}
         created.
       </>,
     );

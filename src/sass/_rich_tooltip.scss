@@ -38,6 +38,20 @@ body.is-dark .rich-tooltip-table .p-icon--exposed {
         color: $colors--dark-theme--text-default;
       }
     }
+
+    > .truncated {
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        transparent calc(100% - 1em),
+        $colors--theme--background-default calc(100% - 0.5em)
+      );
+      background-clip: text;
+      overflow: hidden;
+      padding-right: 1em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .rich-tooltip-row-title {
