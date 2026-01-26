@@ -11,6 +11,7 @@ import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import { useNavigate } from "react-router-dom";
 import { useToastNotification } from "@canonical/react-components";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 export type MigrationType =
   | "cluster member"
@@ -76,12 +77,7 @@ export const useInstanceMigration = ({
         <>
           Instance{" "}
           <InstanceRichChip instanceName={instance.name} projectName={target} />
-          successfully moved to project{" "}
-          <ResourceLink
-            type="project"
-            value={target}
-            to={`/ui/project/${encodeURIComponent(target)}`}
-          />
+          successfully moved to project <ProjectRichChip projectName={target} />
         </>
       );
 

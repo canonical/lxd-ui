@@ -26,8 +26,8 @@ import { queryKeys } from "util/queryKeys";
 import { isSnapshotsDisabled } from "util/snapshots";
 import { figureCollapsedScreen } from "util/storageVolume";
 import useSortTableData from "util/useSortTableData";
-import ResourceLink from "components/ResourceLink";
 import DocLink from "components/DocLink";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -298,10 +298,9 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
             {project && snapshotsDisabled ? (
               <>
                 Snapshots are disabled for project{" "}
-                <ResourceLink
-                  type="project"
-                  value={project.name}
-                  to={`/ui/project/${project.name}/configuration`}
+                <ProjectRichChip
+                  projectName={project.name}
+                  urlSuffix="/configuration"
                 />
                 .
               </>
