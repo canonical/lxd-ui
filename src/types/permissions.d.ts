@@ -1,3 +1,5 @@
+import type { AUTH_METHOD } from "util/authentication";
+
 export interface LxdIdentity {
   id: string; // fingerprint for tls and email for oidc
   type:
@@ -8,7 +10,7 @@ export interface LxdIdentity {
     | "OIDC client"
     | "Server certificate";
   name: string;
-  authentication_method: "tls" | "oidc";
+  authentication_method: typeof AUTH_METHOD.TLS | typeof AUTH_METHOD.OIDC;
   tls_certificate: string;
   groups?: string[] | null;
   effective_groups?: string[];

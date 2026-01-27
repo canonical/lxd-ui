@@ -33,6 +33,7 @@ import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
 import { getReportBugURL } from "util/reportBug";
+import { AUTH_METHOD } from "util/authentication";
 import DocLink from "components/DocLink";
 
 const initialiseOpenNavMenus = (location: Location) => {
@@ -81,7 +82,7 @@ const initializeProjectName = (
 };
 
 const Navigation: FC = () => {
-  const { isRestricted, isOidc } = useAuth();
+  const { isRestricted, authMethod } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const {
     project,
@@ -95,7 +96,7 @@ const Navigation: FC = () => {
   );
   const isAllProjects = projectName === ALL_PROJECTS;
   const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
-  const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
+  const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
   const [openNavMenus, setOpenNavMenus] = useState<AccordionNavMenu[]>(() =>
@@ -104,10 +105,11 @@ const Navigation: FC = () => {
   const onGenerate = location.pathname.includes("certificate-generate");
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   const navigate = useNavigate();
   const isClustered = useIsClustered();
+  const isOidc = authMethod === AUTH_METHOD.OIDC;
 
   useEffect(() => {
     const isAllProjects = isAllProjectsFromUrl || !canViewProject;
@@ -705,17 +707,17 @@ const Navigation: FC = () => {
                         className="p-side-navigation__link"
                         title={`${loggedInUserName} (${loggedInUserID})`}
                       >
-                        {authMethod == "tls" ? (
+                        {authMethod == AUTH_METHOD.TLS ? (
                           <Icon
                             className="p-side-navigation__icon is-dark"
                             name="lock-locked"
                           />
-                        ) : authMethod == "oidc" ? (
+                        ) : authMethod == AUTH_METHOD.OIDC ? (
                           <Icon
                             className="p-side-navigation__icon is-dark"
                             name="profile"
                           />
-                        ) : authMethod == "unix" ? (
+                        ) : authMethod == AUTH_METHOD.UNIX ? (
                           <Icon
                             className="p-side-navigation__icon is-dark"
                             name="profile"

@@ -15,6 +15,7 @@ import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotif
 import { useSettings } from "context/useSettings";
 import { logout } from "util/helpers";
 import ResourceLabel from "components/ResourceLabel";
+import { AUTH_METHOD } from "util/authentication";
 
 interface Props {
   identity: LxdIdentity;
@@ -34,7 +35,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
     setDeleting(true);
     deleteIdentity(identity)
       .then(() => {
-        if (isSelf && settings?.auth_user_method === "oidc") {
+        if (isSelf && settings?.auth_user_method === AUTH_METHOD.OIDC) {
           // special case for OIDC users, as they would be recreated via the api on the next request
           // force a logout to prevent re-creation
           logout();

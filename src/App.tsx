@@ -20,7 +20,11 @@ import {
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
 import { ALL_PROJECTS } from "util/loginProject";
+import { AUTH_METHOD } from "util/authentication";
 
+const AuthenticationSetup = lazy(
+  async () => import("pages/login/AuthenticationSetup"),
+);
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
@@ -120,7 +124,7 @@ const App: FC = () => {
   } = useAuth();
   const notify = useNotify();
   const { data: settings } = useSettings();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   setFavicon();
   setTitle();
@@ -134,31 +138,51 @@ const App: FC = () => {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
-  if (authError) {
-    const title = "Authentication failed";
-    if (notify.notification?.title !== title) {
-      const logoutAction = [
-        {
-          label: "Logout",
-          onClick: () => (window.location.href = "/oidc/logout"),
-        },
-      ];
+  const isLoginPath = window.location.pathname.startsWith("/ui/login");
+  const isSetupPath = window.location.href.includes(
+    "/ui/login/authentication-setup",
+  );
 
-      notify.failure(title, authError, null, logoutAction);
+  if (authError) {
+    const isTokenInvalid = authError.message.includes(
+      "token signature is invalid",
+    );
+    const isTokenExpired = authError.message.includes("token is expired");
+
+    if (!isSetupPath && (isTokenInvalid || isTokenExpired)) {
+      return (
+        <Navigate
+          to={`/ui/login/authentication-setup?reason=${isTokenInvalid ? "invalid" : "expired"}`}
+          replace={true}
+        />
+      );
     }
 
-    return (
-      <CustomLayout contentClassName="login">
-        <NotificationRow />
-      </CustomLayout>
-    );
+    if (!isSetupPath) {
+      const title = "Authentication failed";
+      if (notify.notification?.title !== title) {
+        const logoutAction = [
+          {
+            label: "Logout",
+            onClick: () => (window.location.href = "/oidc/logout"),
+          },
+        ];
+        notify.failure(title, authError, null, logoutAction);
+      }
+
+      return (
+        <CustomLayout contentClassName="login">
+          <NotificationRow />
+        </CustomLayout>
+      );
+    }
   }
 
   if (!isAuthenticated && hasOidc != undefined && hasCertificate != undefined) {
     logout(hasOidc, hasCertificate);
   }
 
-  if (!isAuthenticated && !window.location.href.includes("/ui/login")) {
+  if (!isAuthenticated && !isLoginPath) {
     return <Navigate to="/ui/login" replace={true} />;
   }
 
@@ -549,6 +573,10 @@ const App: FC = () => {
           element={<CertificateGenerate />}
         />
         <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
+        <Route
+          path="/ui/login/authentication-setup"
+          element={<AuthenticationSetup />}
+        />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>

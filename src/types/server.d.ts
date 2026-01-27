@@ -1,6 +1,7 @@
 import type { LxdConfigPair } from "./config";
+import { type AuthMethod } from "util/authentication";
 
-type LXDAuthMethods = "tls" | "oidc" | "unix";
+type LXDAuthMethods = AuthMethod;
 
 interface SupportedStorageDriver {
   Name: string;
@@ -25,6 +26,7 @@ export interface LxdSettings {
     storage_supported_drivers: SupportedStorageDriver[];
     backup_metadata_version_range?: number[];
   };
+  expires_in?: number;
 }
 
 export type LXDSettingOnClusterMember = LxdSettings & {
