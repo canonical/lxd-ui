@@ -6,8 +6,6 @@ import {
   isDarkTheme,
   loadTheme,
   SideNavigationItem,
-  Step,
-  Stepper,
   useListener,
 } from "@canonical/react-components";
 import { useAuth } from "context/auth";
@@ -17,7 +15,8 @@ import NavigationProjectSelector from "pages/projects/NavigationProjectSelector"
 import {
   capitalizeFirstLetter,
   getElementAbsoluteHeight,
-  logout,
+  logoutBearerToken,
+  logoutOidc,
 } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -27,14 +26,16 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { AccordionNavMenu } from "./NavAccordion";
 import NavAccordion from "./NavAccordion";
 import type { Location } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
 import { getReportBugURL } from "util/reportBug";
+import { AUTH_METHOD, authIcon } from "util/authentication";
 import DocLink from "components/DocLink";
+import AuthenticationTlsStepper from "./AuthenticationTlsStepper";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -82,7 +83,7 @@ const initializeProjectName = (
 };
 
 const Navigation: FC = () => {
-  const { isRestricted, isOidc, isAuthenticated } = useAuth();
+  const { isRestricted, authMethod, isAuthenticated } = useAuth();
   const { menuCollapsed, updateMenuCollapsed } = useMenuCollapsed();
   const {
     project,
@@ -97,7 +98,7 @@ const Navigation: FC = () => {
   );
   const isAllProjects = projectName === ALL_PROJECTS;
   const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
-  const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
+  const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
   const [openNavMenus, setOpenNavMenus] = useState<AccordionNavMenu[]>(() =>
@@ -107,10 +108,10 @@ const Navigation: FC = () => {
   const onGenerate = location.pathname.includes("certificate-generate");
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
-  const hasCertificate = settings?.client_certificate;
-  const navigate = useNavigate();
+  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const isClustered = useIsClustered();
+  const isOidc = authMethod === AUTH_METHOD.OIDC;
+  const isBearerToken = authMethod === AUTH_METHOD.BEARER;
 
   useEffect(() => {
     const isAllProjects = isAllProjectsFromUrl || !canViewProject;
@@ -648,37 +649,7 @@ const Navigation: FC = () => {
                           <span>Login with SSO instead</span>
                         </a>
                       )}
-                      <Stepper
-                        steps={[
-                          <Step
-                            key="Step 1"
-                            handleClick={() => {
-                              navigate(
-                                `${ROOT_PATH}/ui/login/certificate-generate`,
-                              );
-                            }}
-                            index={1}
-                            title="Browser certificate"
-                            hasProgressLine={false}
-                            enabled
-                            iconName="number"
-                            selected={onGenerate}
-                            iconClassName="stepper-icon"
-                          />,
-                          <Step
-                            key="Step 2"
-                            handleClick={() => {
-                              navigate(`${ROOT_PATH}/ui/login/certificate-add`);
-                            }}
-                            index={2}
-                            title="Identity trust token"
-                            hasProgressLine={false}
-                            enabled
-                            iconName="number"
-                            selected={onTrustToken}
-                          />,
-                        ]}
-                      />
+                      <AuthenticationTlsStepper />
                     </div>
                   )}
                 </ul>
@@ -708,24 +679,10 @@ const Navigation: FC = () => {
                         className="p-side-navigation__link"
                         title={`${loggedInUserName} (${loggedInUserID})`}
                       >
-                        {authMethod == "tls" ? (
-                          <Icon
-                            className="p-side-navigation__icon is-dark"
-                            name="lock-locked"
-                          />
-                        ) : authMethod == "oidc" ? (
-                          <Icon
-                            className="p-side-navigation__icon is-dark"
-                            name="profile"
-                          />
-                        ) : authMethod == "unix" ? (
-                          <Icon
-                            className="p-side-navigation__icon is-dark"
-                            name="profile"
-                          />
-                        ) : (
-                          <></>
-                        )}
+                        <Icon
+                          className="p-side-navigation__icon is-dark"
+                          name={authIcon(authMethod)}
+                        />
                         <div className="u-truncate">{loggedInUserName}</div>
                       </div>
                     </SideNavigationItem>
@@ -779,13 +736,17 @@ const Navigation: FC = () => {
                       Report a bug
                     </a>
                   </SideNavigationItem>
-                  {isOidc && (
+                  {(isOidc || isBearerToken) && (
                     <SideNavigationItem>
                       <a
                         className="p-side-navigation__link"
                         title="Log out"
                         onClick={() => {
-                          logout(hasOidc, hasCertificate);
+                          if (isBearerToken) {
+                            logoutBearerToken();
+                          } else {
+                            logoutOidc();
+                          }
 
                           softToggleMenu();
                         }}

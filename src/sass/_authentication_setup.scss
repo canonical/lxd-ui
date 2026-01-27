@@ -1,0 +1,13 @@
+@import "./breakpoints";
+
+.p-panel:has(> .p-panel__content.authentication-setup:first-child) {
+  display: flex;
+
+  .authentication-setup {
+    max-width: fit-content;
+
+    .p-notification--caution {
+      margin-bottom: $spv--x-large;
+    }
+  }
+}

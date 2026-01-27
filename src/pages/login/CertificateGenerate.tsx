@@ -12,26 +12,40 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
 import { ROOT_PATH } from "util/rootPath";
+import { AUTH_METHOD, isPermanent } from "util/authentication";
+import AuthenticationTlsStepper from "components/AuthenticationTlsStepper";
+import classnames from "classnames";
 
 const CertificateGenerate: FC = () => {
-  const { isAuthenticated, isAuthLoading } = useAuth();
+  const { isAuthenticated, isAuthLoading, authMethod } = useAuth();
   const navigate = useNavigate();
   const { data: settings } = useSettings();
   const hasCertificate = settings?.client_certificate;
+  const isBearerToken = authMethod === AUTH_METHOD.BEARER;
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
-  if (isAuthenticated) {
+  if (isAuthenticated && isPermanent(authMethod)) {
     return <Navigate to={`${ROOT_PATH}/ui`} replace={true} />;
   }
 
   return (
-    <CustomLayout mainClassName="certificates">
+    <CustomLayout
+      mainClassName={classnames("certificates", {
+        "certificates-with-bearer-token": isBearerToken,
+      })}
+    >
       <Row>
-        <Col size={1} />
-        <Col size={10}>
+        {isBearerToken && (
+          <AuthenticationTlsStepper
+            variant="horizontal"
+            step2Name="Create TLS identity"
+          />
+        )}
+        {!isBearerToken && <Col size={1} />}
+        <Col size={isBearerToken ? 12 : 10}>
           <Notification
             actions={
               hasCertificate
@@ -64,7 +78,7 @@ const CertificateGenerate: FC = () => {
             <Notification
               actions={[
                 {
-                  label: "Skip to step 2: Identity trust token",
+                  label: `Skip to step 2: ${isBearerToken ? "Create TLS identity" : "Identity trust token"}`,
                   onClick: () => {
                     navigate(`${ROOT_PATH}/ui/login/certificate-add`);
                   },

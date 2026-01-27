@@ -1,0 +1,58 @@
+@import "./breakpoints";
+
+.auth-options-container {
+  display: grid;
+  gap: $sph--x-large;
+  grid-template-columns: repeat(2, minmax(0, 26rem));
+
+  @include mobile-and-tablet {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-option-card {
+    background-color: var(--vf-color-background-active);
+    border: none;
+    flex: 1;
+    max-width: 26rem;
+
+    @include mobile {
+      width: 100%;
+    }
+
+    .p-card__content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+
+      .auth-option-icon {
+        height: 4rem;
+        margin-top: $spv--medium;
+        opacity: 0.25;
+        width: 100%;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      .auth-option-pros-cons-list {
+        text-align: left;
+      }
+
+      .auth-option-link {
+        margin-top: auto;
+        width: 100%;
+
+        &:not(.p-button--positive) {
+          &:not(:hover) {
+            &:not(:focus) {
+              &:not(:active) {
+                background-color: transparent;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

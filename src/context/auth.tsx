@@ -7,29 +7,33 @@ import { fetchProjects } from "api/projects";
 import { fetchCurrentIdentity } from "api/auth-identities";
 import { useSupportedFeatures } from "./useSupportedFeatures";
 import { getLoginProject } from "util/loginProject";
+import type { LXDAuthMethod } from "util/authentication";
+import { AUTH_METHOD } from "util/authentication";
 
 interface ContextProps {
   isAuthenticated: boolean;
   isAuthLoading: boolean;
   authError: Error | null;
-  isOidc: boolean;
   isRestricted: boolean;
   defaultProject: string;
   hasNoProjects: boolean;
   isFineGrained: boolean | null;
   serverEntitlements: string[];
+  authMethod: LXDAuthMethod | null;
+  authExpiresAt: string | null;
 }
 
 const initialState: ContextProps = {
   isAuthenticated: false,
   isAuthLoading: true,
   authError: null,
-  isOidc: false,
   isRestricted: false,
   defaultProject: "default",
   hasNoProjects: false,
   isFineGrained: null,
   serverEntitlements: [],
+  authMethod: null,
+  authExpiresAt: null,
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -46,6 +50,8 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     settingsError,
   } = useSupportedFeatures();
 
+  const authMethod = settings?.auth_user_method ?? null;
+
   const {
     data: currentIdentity,
     isLoading: isIdentityLoading,
@@ -58,7 +64,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
       !isSettingsLoading &&
       settings &&
       settings.auth !== "untrusted" &&
-      settings.auth_user_method !== "unix" &&
+      authMethod !== AUTH_METHOD.UNIX &&
       !settingsError &&
       settings.api_extensions?.includes("access_management_tls"),
   });
@@ -67,7 +73,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     if (isSettingsLoading) {
       return null;
     }
-    if (settings?.auth_user_method === "unix") {
+    if (authMethod === AUTH_METHOD.UNIX) {
       return false;
     }
     if (hasEntitiesWithEntitlements) {
@@ -83,8 +89,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   });
 
   const defaultProject = getLoginProject(projects);
-
-  const isTls = settings?.auth_user_method === "tls";
+  const isTls = authMethod === AUTH_METHOD.TLS;
 
   const { data: certificates = [] } = useQuery({
     queryKey: [queryKeys.certificates, 1],
@@ -92,7 +97,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     enabled: isTls,
   });
 
-  const fingerprint = isTls ? settings.auth_user_name : undefined;
+  const fingerprint = isTls ? settings?.auth_user_name : undefined;
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
   );
@@ -108,7 +113,6 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated: (settings && settings.auth !== "untrusted") ?? false,
-        isOidc: settings?.auth_user_method === "oidc",
         isAuthLoading:
           isSettingsLoading || isIdentityLoading || isProjectsLoading,
         authError: settingsError ?? identityError,
@@ -117,6 +121,8 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         hasNoProjects: projects.length === 0 && !isProjectsLoading,
         isFineGrained: isFineGrained(),
         serverEntitlements,
+        authMethod,
+        authExpiresAt: currentIdentity?.expires_at ?? null,
       }}
     >
       {children}
