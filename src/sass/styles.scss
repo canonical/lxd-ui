@@ -73,6 +73,7 @@
 
 $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
+@import "authentication_setup";
 @import "certificate_add";
 @import "certificates";
 @import "cloud_init_form";

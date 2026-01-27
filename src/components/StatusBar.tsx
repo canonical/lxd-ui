@@ -11,13 +11,14 @@ import {
 } from "@canonical/react-components";
 import { iconLookup, severityOrder } from "util/notifications";
 import { useAuth } from "context/auth";
+import BearerTokenWarning from "components/BearerTokenWarning";
 
 interface Props {
   className?: string;
 }
 
 const StatusBar: FC<Props> = ({ className }) => {
-  const { isAuthLoading, isAuthenticated } = useAuth();
+  const { isAuthLoading, isAuthenticated, authMethod } = useAuth();
   const { toggleListView, notifications, countBySeverity, isListView } =
     useToastNotification();
 
@@ -50,6 +51,8 @@ const StatusBar: FC<Props> = ({ className }) => {
   });
 
   const hasNotifications = !!notifications.length;
+  const isBearerAuth = authMethod === "bearer";
+
   return (
     <>
       <AppStatus
@@ -57,6 +60,7 @@ const StatusBar: FC<Props> = ({ className }) => {
         id="status-bar"
       >
         <Version />
+        {isBearerAuth && <BearerTokenWarning />}
         <div className="status-right-container">
           <OperationStatus />
           {hasNotifications && (

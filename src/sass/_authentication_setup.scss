@@ -1,0 +1,14 @@
+.authentication-setup {
+  align-items: center;
+  margin: min(10dvh, 3rem) auto;
+  text-align: center;
+  width: fit-content;
+
+  .auth-container {
+    a {
+      display: block;
+      margin-bottom: 0.5rem;
+      width: 100%;
+    }
+  }
+}
