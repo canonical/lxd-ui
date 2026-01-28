@@ -26,9 +26,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import ResourceLink from "components/ResourceLink";
 import { useProfile } from "context/useProfiles";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 interface Props {
   project: LxdProject;
@@ -83,10 +83,9 @@ const EditProject: FC<Props> = ({ project }) => {
           toastNotify.success(
             <>
               Project{" "}
-              <ResourceLink
-                type="project"
-                value={project.name}
-                to={`/ui/project/${encodeURIComponent(project.name)}/instances`}
+              <ProjectRichChip
+                projectName={project.name}
+                toSuffix="/instances"
               />{" "}
               updated.
             </>,

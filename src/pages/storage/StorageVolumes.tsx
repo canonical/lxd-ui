@@ -60,6 +60,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { isProjectWithVolumes } from "util/projects";
 import DocLink from "components/DocLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -390,11 +391,7 @@ const StorageVolumes: FC = () => {
   const defaultProjectInfo = !featuresVolumes && (
     <Notification severity="information">
       Showing volumes from the{" "}
-      <ResourceLink
-        to="/ui/project/default/storage/volumes"
-        type="project"
-        value="default"
-      />
+      <ProjectRichChip projectName="default" toSuffix="/storage/volumes" />
       project.
       <br />
       <span className="u-text--muted">

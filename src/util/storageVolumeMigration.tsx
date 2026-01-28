@@ -15,6 +15,7 @@ import { capitalizeFirstLetter } from "./helpers";
 import { queryKeys } from "./queryKeys";
 import { linkForVolumeDetail } from "./storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 export type VolumeMigrationType = "cluster member" | "pool" | "project" | "";
 
@@ -89,12 +90,7 @@ export const useStorageVolumeMigration = ({
       successMessage = (
         <>
           Volume <VolumeLinkChip volume={{ ...volume, project: target }} />
-          successfully moved to project{" "}
-          <ResourceLink
-            type="project"
-            value={target}
-            to={`/ui/project/${encodeURIComponent(target)}`}
-          />
+          successfully moved to project <ProjectRichChip projectName={target} />
         </>
       );
 

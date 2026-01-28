@@ -46,7 +46,7 @@ const ProfileRichTooltip: FC<Props> = ({ profileName, projectName }) => {
     );
   }
 
-  const profileDescription = profile ? profile.description || "-" : "-";
+  const profileDescription = profile?.description || "-";
   const usageCount = getProfileInstances(
     projectName,
     projectName === "default",
@@ -100,7 +100,10 @@ const ProfileRichTooltip: FC<Props> = ({ profileName, projectName }) => {
       {
         title: "Devices",
         value: profile ? (
-          <DevicesSummaryList devices={Object.values(profile.devices)} />
+          <DevicesSummaryList
+            devices={Object.values(profile.devices)}
+            className="truncated"
+          />
         ) : (
           "-"
         ),
@@ -113,7 +116,12 @@ const ProfileRichTooltip: FC<Props> = ({ profileName, projectName }) => {
       },
       {
         title: "Configuration",
-        value: <ProfileConfigurationSections profile={profile} />,
+        value: (
+          <ProfileConfigurationSections
+            profile={profile}
+            className="truncated"
+          />
+        ),
         truncate: false,
       },
     );
