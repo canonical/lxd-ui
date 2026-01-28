@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useProject } from "./useProjects";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
+import { ROOT_PATH } from "util/rootPath";
 
 interface ContextProps {
   canViewProject: boolean;
@@ -29,12 +30,14 @@ interface ProviderProps {
 export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const { isAuthLoading } = useAuth();
   const { isLoading: isSettingsLoading } = useSettings();
-  const location = useLocation();
-  const url = location.pathname;
-  const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
-  const isAllProjects = url.startsWith("/ui/all-projects/");
+  const { pathname } = useLocation();
+  const url = pathname.replace(`${ROOT_PATH}/ui/`, "");
 
-  const enabled = project.length > 0 && !isAllProjects;
+  const parts = url.split("/");
+  const project = parts[0] === "project" ? parts[1] : "";
+  const isAllProjects = parts[0] === "all-projects";
+
+  const enabled = project?.length > 0 && !isAllProjects;
   const { data, isLoading: isProjectLoading } = useProject(project, enabled);
 
   return (

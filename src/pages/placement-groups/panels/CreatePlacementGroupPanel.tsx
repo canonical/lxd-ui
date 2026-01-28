@@ -24,6 +24,7 @@ import {
 import PlacementGroupForm from "pages/placement-groups/PlacementGroupForm";
 import ResourceLink from "components/ResourceLink";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 
 const CreatePlacementGroupPanel: FC = () => {
   const controllerState = useState<AbortController | null>(null);
@@ -85,7 +86,7 @@ const CreatePlacementGroupPanel: FC = () => {
               <ResourceLink
                 type="placement-group"
                 value={placementGroup.name ?? ""}
-                to={`/ui/project/${project?.name ?? "default"}/placement-groups/`}
+                to={`${ROOT_PATH}/ui/project/${project?.name ?? "default"}/placement-groups/`}
               />{" "}
               created.
             </>,

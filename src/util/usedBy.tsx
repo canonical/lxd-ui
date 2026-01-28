@@ -4,6 +4,7 @@ import { extractResourceDetailsFromUrl } from "util/resourceDetails";
 import { linkForVolumeDetail } from "util/storageVolume";
 import { getStorageBucketURL } from "util/storageBucket";
 import { linkForInstanceDetail } from "util/instances";
+import { ROOT_PATH } from "util/rootPath";
 
 export interface LxdUsedBy {
   name: string;
@@ -132,8 +133,8 @@ export const getLinkTarget = (resource: LxdUsedBy, entityType: string) => {
   }
 
   if (entityType === "image") {
-    return `/ui/project/${encodeURIComponent(resource.project)}/images`;
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/images`;
   }
 
-  return `/ui/project/${encodeURIComponent(resource.project)}/${entityType}/${encodeURIComponent(resource.name)}`;
+  return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/${entityType}/${encodeURIComponent(resource.name)}`;
 };

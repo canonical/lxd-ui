@@ -11,6 +11,7 @@ import type { LxdIdentity } from "types/permissions";
 import { addTarget } from "util/target";
 import { debounceAsync } from "util/debounce";
 import crypto from "crypto";
+import { ROOT_PATH } from "util/rootPath";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -247,7 +248,7 @@ const _checkDuplicateName = async (
   }
 
   return fetch(
-    `/1.0/${basePath}/${encodeURIComponent(candidate)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/${basePath}/${encodeURIComponent(candidate)}?${params.toString()}`,
     {
       signal,
     },
@@ -285,19 +286,22 @@ export const isDimensionBelow = (
     : window.innerHeight < dimension;
 
 export const logout = (hasOidc?: boolean, hasCertificate?: boolean): void => {
-  if (window.location.href.includes("/ui/login")) {
+  if (window.location.pathname.includes(`${ROOT_PATH}/ui/login`)) {
     return;
   }
-  void fetch("/oidc/logout").then(() => {
+
+  void fetch(`${ROOT_PATH}/oidc/logout`.replace(/\/+/g, "/")).then(() => {
     if (hasOidc) {
-      window.location.href = "/ui/login/";
+      window.location.href = `${ROOT_PATH}/ui/login/`;
       return;
     }
+
     if (hasCertificate) {
-      window.location.href = "/ui/login/certificate-add";
+      window.location.href = `${ROOT_PATH}/ui/login/certificate-add`;
       return;
     }
-    window.location.href = "/ui/login/certificate-generate";
+
+    window.location.href = `${ROOT_PATH}/ui/login/certificate-generate`;
   });
 };
 

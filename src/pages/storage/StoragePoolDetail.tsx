@@ -11,6 +11,7 @@ import { useStoragePool } from "context/useStoragePools";
 import classnames from "classnames";
 import { cephObject, isBucketCompatibleDriver } from "util/storageOptions";
 import NotFound from "components/NotFound";
+import { ROOT_PATH } from "util/rootPath";
 
 const StoragePoolDetail: FC = () => {
   const { name, project, activeTab } = useParams<{
@@ -51,7 +52,7 @@ const StoragePoolDetail: FC = () => {
           <Link
             to={
               isVolumeCompatible
-                ? `/ui/project/${encodeURIComponent(project)}/storage/volumes?pool=${encodeURIComponent(pool.name)}`
+                ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/volumes?pool=${encodeURIComponent(pool.name)}`
                 : "#"
             }
             className={classnames("p-tabs__link", {
@@ -74,7 +75,7 @@ const StoragePoolDetail: FC = () => {
         <Link
           to={
             isBucketCompatible
-              ? `/ui/project/${encodeURIComponent(project)}/storage/buckets?pool=${encodeURIComponent(pool.name)}`
+              ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/buckets?pool=${encodeURIComponent(pool.name)}`
               : "#"
           }
           className={classnames("p-tabs__link", {
@@ -103,7 +104,7 @@ const StoragePoolDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(name)}`}
+          tabUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(name)}`}
         />
 
         {!activeTab && (

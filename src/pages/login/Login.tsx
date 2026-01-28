@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -15,7 +16,7 @@ const Login: FC = () => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/ui" replace={true} />;
+    return <Navigate to={`${ROOT_PATH}/ui`} replace={true} />;
   }
 
   return (
@@ -29,7 +30,10 @@ const Login: FC = () => {
             <p className="u-sv1">Choose your login method</p>
             <div className="auth-container">
               {hasOidc && (
-                <a className="p-button--positive has-icon" href="/oidc/login">
+                <a
+                  className="p-button--positive has-icon"
+                  href={`${ROOT_PATH}/oidc/login`}
+                >
                   <Icon name="security" light />
                   <span>Login with SSO</span>
                 </a>
@@ -45,7 +49,7 @@ const Login: FC = () => {
               )}
               <Link
                 className="has-icon p-button"
-                to="/ui/login/certificate-generate"
+                to={`${ROOT_PATH}/ui/login/certificate-generate`}
               >
                 <Icon name="certificate" />
                 <span>Set up TLS login</span>

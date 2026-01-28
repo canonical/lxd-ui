@@ -20,6 +20,7 @@ import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNetwork } from "context/useNetworks";
 import { isTypeOvn } from "util/networks";
+import { ROOT_PATH } from "util/rootPath";
 
 const CreateNetworkForward: FC = () => {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ const CreateNetworkForward: FC = () => {
             ],
           });
           navigate(
-            `/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
           );
           toastNotify.success(
             `Network forward with listen address ${listenAddress} created.`,
@@ -104,7 +105,7 @@ const CreateNetworkForward: FC = () => {
       <FormFooterLayout>
         <Link
           className="p-button--base"
-          to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`}
         >
           Cancel
         </Link>

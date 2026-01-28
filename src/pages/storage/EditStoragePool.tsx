@@ -15,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import type { StoragePoolFormValues } from "./forms/StoragePoolForm";
 import StoragePoolForm, { toStoragePool } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { toStoragePoolFormValues } from "util/storagePoolForm";
@@ -114,7 +115,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
               <ResourceLink
                 type="pool"
                 value={savedPool.name}
-                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(savedPool.name)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(savedPool.name)}`}
               />{" "}
               updated.
             </>,
@@ -145,7 +146,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}/configuration`;
+  const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}/configuration`;
 
   const updateSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {

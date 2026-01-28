@@ -17,6 +17,7 @@ import { useSettings } from "context/useSettings";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { updateSettings } from "api/server";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   onClose: () => void;
@@ -65,7 +66,7 @@ const EnableClusteringModal: FC<Props> = ({ onClose }) => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.settings],
           });
-          navigate("/ui/cluster/members");
+          navigate(`${ROOT_PATH}/ui/cluster/members`);
         })
         .catch((e) => {
           notify.failure("Failed to enable clustering", e);

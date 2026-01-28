@@ -23,6 +23,7 @@ import NetworkPeers from "./NetworkPeers";
 import { slugify } from "util/slugify";
 import classnames from "classnames";
 import NotFound from "components/NotFound";
+import { ROOT_PATH } from "util/rootPath";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -64,7 +65,7 @@ const NetworkDetail: FC = () => {
     network?.type ?? "",
   );
 
-  const networkUrl = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`;
+  const networkUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`;
 
   const getTabClassnames = (isDisabled: boolean) => {
     return classnames("p-tabs__link", {

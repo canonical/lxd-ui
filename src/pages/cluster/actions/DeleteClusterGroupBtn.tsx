@@ -11,6 +11,7 @@ import {
 } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   group: string;
@@ -29,7 +30,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     setLoading(true);
     deleteClusterGroup(group)
       .then(() => {
-        navigate(`/ui/cluster/groups`);
+        navigate(`${ROOT_PATH}/ui/cluster/groups`);
         toastNotify.success(
           <>
             Cluster group{" "}

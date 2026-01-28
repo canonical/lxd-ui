@@ -4,6 +4,7 @@ import type { FormDevice } from "util/formDevices";
 import type { LxdDeviceValue } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import { isHostDiskDevice } from "util/devices";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   device: LxdDeviceValue;
@@ -19,7 +20,7 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
           <ResourceLink
             type="pool"
             value={device.pool || ""}
-            to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
           />
         </>
       );
@@ -35,13 +36,13 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
         <ResourceLink
           type="volume"
           value={device.source as string}
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}/volumes/custom/${encodeURIComponent(device.source ?? "")}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}/volumes/custom/${encodeURIComponent(device.source ?? "")}`}
         />{" "}
         on pool{" "}
         <ResourceLink
           type="pool"
           value={device.pool || ""}
-          to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
         />
       </>
     );

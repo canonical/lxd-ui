@@ -16,6 +16,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import classnames from "classnames";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import NetworkRichChip from "../NetworkRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -41,7 +42,9 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
             query.queryKey[1] === project &&
             query.queryKey[2] === queryKeys.networks,
         });
-        navigate(`/ui/project/${encodeURIComponent(project)}/networks`);
+        navigate(
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
+        );
         toastNotify.success(
           <>
             Network <ResourceLabel bold type="network" value={network.name} />{" "}

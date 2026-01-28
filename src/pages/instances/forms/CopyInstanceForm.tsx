@@ -19,6 +19,7 @@ import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { getUniqueResourceName, truncateEntityName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
 import type { InstanceIconType } from "components/ResourceIcon";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
@@ -63,7 +64,7 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
     project: string,
     type: InstanceIconType,
   ) => {
-    const instanceUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`;
+    const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`;
     const message = (
       <>
         Created instance{" "}

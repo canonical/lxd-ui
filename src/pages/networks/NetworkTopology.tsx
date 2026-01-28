@@ -15,6 +15,7 @@ import { clusteredTypes } from "util/networks";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import NetworkRichChip from "./NetworkRichChip";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -128,7 +129,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
           {downstreamNetworks
             .slice(0, isNetworksCollapsed ? 5 : downstreamNetworks.length)
             .map((item) => {
-              const networkUrl = `/ui/project/default/network/${encodeURIComponent(item.name)}`;
+              const networkUrl = `${ROOT_PATH}/ui/project/default/network/${encodeURIComponent(item.name)}`;
               return (
                 <div
                   key={networkUrl}
@@ -159,8 +160,8 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
           {instances
             .slice(0, isInstancesCollapsed ? 5 : instances.length)
             .map((item) => {
-              const instanceUrl = `/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
-              const projectUrl = `/ui/project/${encodeURIComponent(item.project)}`;
+              const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.name)}`;
+              const projectUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}`;
               const isExternalProject = item.project !== project;
               return (
                 <div key={instanceUrl} className="downstream-item">

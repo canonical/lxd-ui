@@ -27,6 +27,7 @@ import UploadVolumeFileBtn from "../actions/UploadVolumeFileBtn";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { ROOT_PATH } from "util/rootPath";
 
 const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();
@@ -65,7 +66,9 @@ const CreateStorageVolume: FC = () => {
     queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.volumes,
     });
-    navigate(`/ui/project/${encodeURIComponent(project)}/storage/volumes`);
+    navigate(
+      `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/volumes`,
+    );
     const volumeWithLocation = {
       ...volume,
       location: clusterMember ?? "none",
@@ -133,7 +136,7 @@ const CreateStorageVolume: FC = () => {
           appearance="base"
           onClick={async () =>
             navigate(
-              `/ui/project/${encodeURIComponent(project)}/storage/volumes`,
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/volumes`,
             )
           }
         >

@@ -5,7 +5,8 @@ import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import type { ReactNode } from "react";
-import { capitalizeFirstLetter } from "./helpers";
+import { capitalizeFirstLetter } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import { useNavigate } from "react-router-dom";
@@ -65,7 +66,7 @@ export const useInstanceMigration = ({
           <ResourceLink
             type="pool"
             value={target}
-            to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(target)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(target)}`}
           />
         </>
       );
@@ -80,15 +81,15 @@ export const useInstanceMigration = ({
           <ResourceLink
             type="project"
             value={target}
-            to={`/ui/project/${encodeURIComponent(target)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(target)}`}
           />
         </>
       );
 
       const oldUrl = window.location.pathname;
       const newUrl = oldUrl.replace(
-        `/project/${instance.project}/instance/${instance.name}`,
-        `/project/${target}/instance/${instance.name}`,
+        `${ROOT_PATH}/ui/project/${instance.project}/instance/${instance.name}`,
+        `${ROOT_PATH}/ui/project/${target}/instance/${instance.name}`,
       );
       if (oldUrl !== newUrl) {
         navigate(newUrl);

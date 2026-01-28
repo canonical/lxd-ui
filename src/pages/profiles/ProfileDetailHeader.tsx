@@ -8,6 +8,7 @@ import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { useProfileEntitlements } from "util/entitlements/profiles";
@@ -53,7 +54,7 @@ const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
       renameProfile(name, values.name, project)
         .then(() => {
           navigate(
-            `/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`,
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(values.name)}`,
           );
           toastNotify.success(
             <>
@@ -93,7 +94,7 @@ const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
       name={name}
       parentItems={[
         <Link
-          to={`/ui/project/${encodeURIComponent(project)}/profiles`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profiles`}
           key={1}
         >
           Profiles

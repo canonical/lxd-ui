@@ -386,7 +386,9 @@ test.describe("Given a user with Viewer Server permissions...", () => {
 
     await page.getByText("Configuration", { exact: true }).click();
     await page.waitForLoadState("networkidle");
-    await expect(page.getByLabel("Description")).toBeDisabled();
+    const descriptionInput = page.getByLabel("Description");
+    await expect(descriptionInput).toBeVisible();
+    await expect(descriptionInput).toBeDisabled();
   });
 
   test("Cannot interact with Server settings", async ({ page, lxdVersion }) => {

@@ -4,6 +4,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ResourceLink from "components/ResourceLink";
 import { SMALL_TOOLTIP_BREAKPOINT } from "components/RichTooltipTable";
 import ClusterMemberRichTooltip from "./ClusterMemberRichTooltip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   clusterMember: string;
@@ -18,7 +19,7 @@ const ClusterMemberRichChip: FC<Props> = ({
 }) => {
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
 
-  const url = `/ui/cluster/member/${encodeURIComponent(clusterMember)}`;
+  const url = `${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(clusterMember)}`;
   const resourceLink = (
     <ResourceLink
       type="cluster-member"

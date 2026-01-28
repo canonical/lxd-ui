@@ -29,6 +29,7 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { useProfile } from "context/useProfiles";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project: LxdProject;
@@ -86,7 +87,7 @@ const EditProject: FC<Props> = ({ project }) => {
               <ResourceLink
                 type="project"
                 value={project.name}
-                to={`/ui/project/${encodeURIComponent(project.name)}/instances`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/instances`}
               />{" "}
               updated.
             </>,
@@ -105,7 +106,7 @@ const EditProject: FC<Props> = ({ project }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${encodeURIComponent(project.name)}/configuration`;
+  const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/configuration`;
 
   const setSection = (newSection: string) => {
     if (newSection === PROJECT_DETAILS) {

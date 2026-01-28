@@ -4,6 +4,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ResourceLink from "components/ResourceLink";
 import NetworkRichTooltip from "./NetworkRichTooltip";
 import { SMALL_TOOLTIP_BREAKPOINT } from "components/RichTooltipTable";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   networkName: string;
@@ -23,8 +24,8 @@ const NetworkRichChip: FC<Props> = ({
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
 
   const networkUrl = clusterMember
-    ? `/ui/project/${encodeURIComponent(projectName)}/member/${encodeURIComponent(clusterMember)}/network/${encodeURIComponent(networkName)}`
-    : `/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(networkName)}`;
+    ? `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/member/${encodeURIComponent(clusterMember)}/network/${encodeURIComponent(networkName)}`
+    : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(networkName)}`;
   const resourceLink = (
     <ResourceLink
       type="network"
