@@ -81,7 +81,7 @@ const initializeProjectName = (
 };
 
 const Navigation: FC = () => {
-  const { isRestricted, isOidc } = useAuth();
+  const { isRestricted } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const {
     project,
@@ -108,6 +108,7 @@ const Navigation: FC = () => {
   const hasCertificate = settings?.client_certificate;
   const navigate = useNavigate();
   const isClustered = useIsClustered();
+  const isOidc = authMethod === "oidc";
 
   useEffect(() => {
     const isAllProjects = isAllProjectsFromUrl || !canViewProject;

@@ -21,6 +21,9 @@ import {
 import { setFavicon } from "util/favicon";
 import { ALL_PROJECTS } from "util/loginProject";
 
+const AuthenticationSetup = lazy(
+  async () => import("pages/login/AuthenticationSetup"),
+);
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
@@ -549,6 +552,10 @@ const App: FC = () => {
           element={<CertificateGenerate />}
         />
         <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
+        <Route
+          path="/ui/login/authentication-setup"
+          element={<AuthenticationSetup />}
+        />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>
