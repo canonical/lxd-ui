@@ -20,7 +20,7 @@ const StoragePoolOptionLabel: FC<Props> = ({ pool }) => {
         {pool.driver || "-"}
       </span>
       <span key="usage" title="Usage" className="resource-usage u-truncate">
-        <StoragePoolSize key={pool.name} pool={pool} />
+        <StoragePoolSize key={pool.name} pool={pool} forceSingleLine />
       </span>
     </div>
   );
