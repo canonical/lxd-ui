@@ -44,7 +44,7 @@ export const InstanceRichTooltip: FC<Props> = ({
   const ipv6Addresses = instance ? getAddresses(instance, "inet6") : [];
   const macAddresses = instance ? getInstanceMacAddresses(instance) : [];
 
-  const instanceDescription = instance ? instance.description || "-" : "-";
+  const instanceDescription = instance?.description || "-";
 
   const rows: TooltipRow[] = [
     {
