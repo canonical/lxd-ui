@@ -16,11 +16,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useSortTableData from "util/useSortTableData";
 import type { PermissionIdentitiesFilterType } from "./PermissionIdentitiesFilter";
-import { isSystemIdentity } from "./PermissionIdentitiesFilter";
-import { SYSTEM_IDENTITIES } from "./PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
-  AUTH_METHOD,
+  AUTH_METHOD_FILTER,
+  isSystemIdentity,
   QUERY,
+  SYSTEM_IDENTITIES,
 } from "./PermissionIdentitiesFilter";
 import { useSettings } from "context/useSettings";
 import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
@@ -42,6 +42,7 @@ import CreateTLSIdentity from "./CreateTLSIdentity";
 import ResourceLabel from "components/ResourceLabel";
 import type { ResourceIconType } from "components/ResourceIcon";
 import SsoNotification from "pages/permissions/SsoNotification";
+import { AUTH_METHOD } from "util/authentication";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -52,7 +53,7 @@ const PermissionIdentities: FC = () => {
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
   const { hasAccessManagementTLS } = useSupportedFeatures();
   const { canEditIdentity } = useIdentityEntitlements();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
 
   useEffect(() => {
     const validIdentityIds = new Set(identities.map((identity) => identity.id));
@@ -85,7 +86,7 @@ const PermissionIdentities: FC = () => {
 
   const filters: PermissionIdentitiesFilterType = {
     queries: searchParams.getAll(QUERY),
-    authMethod: searchParams.getAll(AUTH_METHOD),
+    authMethod: searchParams.getAll(AUTH_METHOD_FILTER),
     systemIdentities: searchParams.get(SYSTEM_IDENTITIES),
   };
 

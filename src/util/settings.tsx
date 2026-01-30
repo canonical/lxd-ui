@@ -1,6 +1,5 @@
-import type { LxdSettings } from "types/server";
+import type { LxdSettings, LXDSettingOnClusterMember } from "types/server";
 import type { ConfigField, LxdConfigPair } from "types/config";
-import type { LXDSettingOnClusterMember } from "types/server";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 import { getDefaultProject } from "util/loginProject";

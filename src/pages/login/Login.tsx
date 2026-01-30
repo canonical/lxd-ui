@@ -4,11 +4,12 @@ import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
 import DocLink from "components/DocLink";
+import { AUTH_METHOD } from "util/authentication";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
   const { data: settings } = useSettings();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;

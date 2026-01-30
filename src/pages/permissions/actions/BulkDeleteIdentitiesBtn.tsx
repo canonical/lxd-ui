@@ -11,6 +11,7 @@ import BulkDeleteButton from "components/BulkDeleteButton";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
 import { logout } from "util/helpers";
+import { AUTH_METHOD } from "util/authentication";
 
 interface Props {
   identities: LxdIdentity[];
@@ -45,7 +46,7 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
     const successMessage = `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} successfully deleted`;
     deleteIdentities(deletableIdentities)
       .then(() => {
-        if (isSelf && settings?.auth_user_method === "oidc") {
+        if (isSelf && settings?.auth_user_method === AUTH_METHOD.OIDC) {
           // special case for OIDC users, as they would be recreated via the api on the next request
           // force a logout to prevent re-creation
           logout();

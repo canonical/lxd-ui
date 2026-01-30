@@ -15,9 +15,11 @@ import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import { useSettings } from "context/useSettings";
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
+import type { AuthMethod } from "util/authentication";
+import { isPermanentAuthMethod } from "util/authentication";
 
 const CertificateAdd: FC = () => {
-  const { isAuthenticated, isAuthLoading } = useAuth();
+  const { isAuthenticated, isAuthLoading, authMethod } = useAuth();
   const notify = useNotify();
   const { data: settings } = useSettings();
   const hasCertificate = settings?.client_certificate;
@@ -29,7 +31,7 @@ const CertificateAdd: FC = () => {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
-  if (isAuthenticated) {
+  if (isAuthenticated && isPermanentAuthMethod(authMethod as AuthMethod)) {
     return <Navigate to="/ui" replace={true} />;
   }
 

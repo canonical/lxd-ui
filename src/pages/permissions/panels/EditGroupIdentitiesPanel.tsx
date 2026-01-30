@@ -19,9 +19,9 @@ import type { LxdAuthGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
 import type { PermissionIdentitiesFilterType } from "../PermissionIdentitiesFilter";
-import { isSystemIdentity } from "../PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
-  AUTH_METHOD,
+  AUTH_METHOD_FILTER,
+  isSystemIdentity,
   SYSTEM_IDENTITIES,
   QUERY,
 } from "../PermissionIdentitiesFilter";
@@ -199,7 +199,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
 
   const filters: PermissionIdentitiesFilterType = {
     queries: searchParams.getAll(QUERY),
-    authMethod: searchParams.getAll(AUTH_METHOD),
+    authMethod: searchParams.getAll(AUTH_METHOD_FILTER),
     systemIdentities: searchParams.get(SYSTEM_IDENTITIES),
   };
 
