@@ -15,6 +15,7 @@ import DeviceListTable from "components/DeviceListTable";
 import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
 import { hasCloudInit } from "util/profiles";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   profile: LxdProfile;
@@ -73,7 +74,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                       <ResourceLink
                         type="placement-group"
                         value={profile.config["placement.group"]}
-                        to={`/ui/project/${project}/placement-groups`}
+                        to={`${ROOT_PATH}/ui/project/${project}/placement-groups`}
                       />
                     ) : (
                       "-"
@@ -100,7 +101,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
         </Col>
         <Col size={7}>
           <DeviceListTable
-            configBaseURL={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`}
+            configBaseURL={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`}
             devices={profile.devices}
           />
         </Col>
@@ -134,7 +135,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
         </Col>
         <Col size={7} className="view-config">
           <Link
-            to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration/${slugify(CLOUD_INIT)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration/${slugify(CLOUD_INIT)}`}
           >
             View configuration
           </Link>

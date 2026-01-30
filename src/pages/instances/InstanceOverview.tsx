@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { isoTimeToString } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { Col, Row, useListener, useNotify } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -97,7 +98,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                         <ResourceLink
                           type="placement-group"
                           value={instance.expanded_config["placement.group"]}
-                          to={`/ui/project/${instance.project}/placement-groups`}
+                          to={`${ROOT_PATH}/ui/project/${instance.project}/placement-groups`}
                         />
                       ) : (
                         "-"
@@ -148,7 +149,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
         </Col>
         <Col size={7}>
           <DeviceListTable
-            configBaseURL={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
+            configBaseURL={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
             devices={instance.expanded_devices as LxdDevices}
           />
         </Col>

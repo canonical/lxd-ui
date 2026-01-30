@@ -11,6 +11,7 @@ import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import type { ChangeEvent, FC } from "react";
 import { useCallback, useState } from "react";
 import { fileToSanitisedName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { LxdStorageVolume, UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
 import { useQueryClient } from "@tanstack/react-query";
@@ -140,7 +141,7 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
 
         handleCloseModal();
         navigate(
-          `/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/volumes`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/volumes`,
         );
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {

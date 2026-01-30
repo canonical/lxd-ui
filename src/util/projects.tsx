@@ -1,5 +1,6 @@
 import type { LxdProject } from "types/project";
 import { slugify } from "./slugify";
+import { ROOT_PATH } from "util/rootPath";
 
 export const storageTabs: string[] = [
   "Pools",
@@ -21,7 +22,9 @@ export const projectSubpages = [
 ];
 
 export const getSubpageFromUrl = (url: string): string | undefined => {
-  const parts = url.split("/");
+  const urlWithoutQuery = url.split("?")[0];
+  const normalizedPath = urlWithoutQuery.replace(ROOT_PATH, "");
+  const parts = normalizedPath.split("/");
 
   const mainSubpage = parts[4];
   const tabSubpage = parts[5];

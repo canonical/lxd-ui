@@ -5,6 +5,7 @@ import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdStorageVolume } from "types/storage";
 import { isoTimeToString } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";
 import { useSettings } from "context/useSettings";
@@ -65,7 +66,7 @@ const StorageVolumeOverview: FC<Props> = ({ volume }) => {
                   <ResourceLink
                     type="pool"
                     value={volume.pool}
-                    to={`/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
+                    to={`${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
                   />
                 </td>
               </tr>

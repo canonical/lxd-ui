@@ -14,6 +14,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
@@ -98,7 +99,7 @@ const CustomIsoList: FC = () => {
           content: (
             <div className="u-truncate" title={image.pool}>
               <Link
-                to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(image.pool ?? "")}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(image.pool ?? "")}`}
               >
                 {image.pool}
               </Link>

@@ -6,6 +6,7 @@ import {
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdAuthGroup } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
+import { ROOT_PATH } from "util/rootPath";
 
 export const groupEntitlements = ["can_delete", "can_edit"];
 
@@ -16,7 +17,7 @@ export const fetchGroups = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, groupEntitlements);
 
-  return fetch(`/1.0/auth/groups?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/auth/groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdAuthGroup[]>) => {
       data.metadata.map(ensureStableSorting);
@@ -27,7 +28,7 @@ export const fetchGroups = async (
 export const createGroup = async (
   group: Partial<LxdAuthGroup>,
 ): Promise<void> => {
-  await fetch(`/1.0/auth/groups`, {
+  await fetch(`${ROOT_PATH}/1.0/auth/groups`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export const createGroup = async (
 };
 
 export const deleteGroup = async (group: string): Promise<void> => {
-  await fetch(`/1.0/auth/groups/${encodeURIComponent(group)}`, {
+  await fetch(`${ROOT_PATH}/1.0/auth/groups/${encodeURIComponent(group)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };
@@ -49,20 +50,23 @@ export const deleteGroups = async (groups: string[]): Promise<void> => {
 };
 
 export const updateGroup = async (group: LxdAuthGroup): Promise<void> => {
-  await fetch(`/1.0/auth/groups/${encodeURIComponent(group.name)}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
+  await fetch(
+    `${ROOT_PATH}/1.0/auth/groups/${encodeURIComponent(group.name)}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(group),
     },
-    body: JSON.stringify(group),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const renameGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  await fetch(`/1.0/auth/groups/${encodeURIComponent(oldName)}`, {
+  await fetch(`${ROOT_PATH}/1.0/auth/groups/${encodeURIComponent(oldName)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

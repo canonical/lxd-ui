@@ -3,6 +3,7 @@ import { Button, Icon } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useServerEntitlements } from "util/entitlements/server";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project: string;
@@ -26,7 +27,7 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
       }
       onClick={async () =>
         navigate(
-          `/ui/project/${encodeURIComponent(project)}/storage/pools/create`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools/create`,
         )
       }
       disabled={!canCreateStoragePools()}

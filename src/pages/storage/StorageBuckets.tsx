@@ -43,6 +43,7 @@ import EditStorageBucketPanel from "./panels/EditStorageBucketPanel";
 import StorageBucketLink from "./StorageBucketLink";
 import StorageBucketKeyCount from "./StorageBucketKeyCount";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const StorageBuckets: FC = () => {
   const notify = useNotify();
@@ -148,7 +149,7 @@ const StorageBuckets: FC = () => {
             <ResourceLink
               type="pool"
               value={bucket.pool}
-              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(bucket.pool)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(bucket.pool)}`}
             />
           ),
           role: "cell",

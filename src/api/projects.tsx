@@ -3,6 +3,7 @@ import type { LxdProject } from "types/project";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
+import { ROOT_PATH } from "util/rootPath";
 
 const projectEntitlements = [
   "can_create_image_aliases",
@@ -24,7 +25,7 @@ export const fetchProjects = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, projectEntitlements);
 
-  return fetch(`/1.0/projects?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/projects?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdProject[]>) => {
       return data.metadata;
@@ -38,7 +39,9 @@ export const fetchProject = async (
   const params = new URLSearchParams();
   addEntitlements(params, isFineGrained, projectEntitlements);
 
-  return fetch(`/1.0/projects/${encodeURIComponent(name)}?${params.toString()}`)
+  return fetch(
+    `${ROOT_PATH}/1.0/projects/${encodeURIComponent(name)}?${params.toString()}`,
+  )
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdProject;
@@ -46,7 +49,7 @@ export const fetchProject = async (
 };
 
 export const createProject = async (body: string): Promise<void> => {
-  await fetch(`/1.0/projects`, {
+  await fetch(`${ROOT_PATH}/1.0/projects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -56,7 +59,7 @@ export const createProject = async (body: string): Promise<void> => {
 };
 
 export const updateProject = async (project: LxdProject): Promise<void> => {
-  await fetch(`/1.0/projects/${encodeURIComponent(project.name)}`, {
+  await fetch(`${ROOT_PATH}/1.0/projects/${encodeURIComponent(project.name)}`, {
     method: "PUT",
     body: JSON.stringify(project),
     headers: {
@@ -70,7 +73,7 @@ export const renameProject = async (
   oldName: string,
   newName: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch(`/1.0/projects/${encodeURIComponent(oldName)}`, {
+  return fetch(`${ROOT_PATH}/1.0/projects/${encodeURIComponent(oldName)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -93,7 +96,7 @@ export const deleteProject = async (
   if (force) {
     params.set("force", "1");
   }
-  const url = `/1.0/projects/${encodeURIComponent(project.name)}?${params.toString()}`;
+  const url = `${ROOT_PATH}/1.0/projects/${encodeURIComponent(project.name)}?${params.toString()}`;
 
   await fetch(url, {
     method: "DELETE",

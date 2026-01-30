@@ -6,6 +6,7 @@ import {
 import type { LxdNetworkAcl } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
+import { ROOT_PATH } from "util/rootPath";
 
 const networkAclEntitlements = ["can_edit", "can_delete"];
 
@@ -18,7 +19,7 @@ export const fetchNetworkAcls = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, networkAclEntitlements);
 
-  return fetch(`/1.0/network-acls?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/network-acls?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkAcl[]>) => {
       return data.metadata;
@@ -36,7 +37,7 @@ export const fetchNetworkAcl = async (
   addEntitlements(params, isFineGrained, networkAclEntitlements);
 
   return fetch(
-    `/1.0/network-acls/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/network-acls/${encodeURIComponent(name)}?${params.toString()}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -52,7 +53,7 @@ export const fetchNetworkAclLog = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/network-acls/${encodeURIComponent(name)}/log?${params.toString()}`,
+    `${ROOT_PATH}/1.0/network-acls/${encodeURIComponent(name)}/log?${params.toString()}`,
   )
     .then(handleTextResponse)
     .then((data: string) => {
@@ -67,7 +68,7 @@ export const createNetworkAcl = async (
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(`/1.0/network-acls?${params.toString()}`, {
+  await fetch(`${ROOT_PATH}/1.0/network-acls?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -85,7 +86,7 @@ export const renameNetworkAcl = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/network-acls/${encodeURIComponent(oldName)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/network-acls/${encodeURIComponent(oldName)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -106,7 +107,7 @@ export const updateNetworkAcl = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/network-acls/${encodeURIComponent(networkAcl.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/network-acls/${encodeURIComponent(networkAcl.name)}?${params.toString()}`,
     {
       method: "PUT",
       body: JSON.stringify(networkAcl),
@@ -126,7 +127,7 @@ export const deleteNetworkAcl = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/network-acls/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/network-acls/${encodeURIComponent(name)}?${params.toString()}`,
     {
       method: "DELETE",
     },

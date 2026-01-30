@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSettings } from "context/useSettings";
 import { hasMicroCloudFlag } from "util/settings";
+import { ROOT_PATH } from "util/rootPath";
 
 export const setFavicon = (): void => {
   const { data: settings } = useSettings();
@@ -15,6 +16,7 @@ export const setFavicon = (): void => {
     if (!favicon) {
       return;
     }
-    (favicon as HTMLLinkElement).href = "/assets/img/microCloud-32x32.png";
+    (favicon as HTMLLinkElement).href =
+      `${ROOT_PATH}/ui/assets/img/microCloud-32x32.png`;
   }, [settings?.config]);
 };

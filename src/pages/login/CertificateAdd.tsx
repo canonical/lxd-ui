@@ -15,6 +15,7 @@ import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import { useSettings } from "context/useSettings";
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
+import { ROOT_PATH } from "util/rootPath";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -30,7 +31,7 @@ const CertificateAdd: FC = () => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/ui" replace={true} />;
+    return <Navigate to={`${ROOT_PATH}/ui`} replace={true} />;
   }
 
   return (
@@ -55,7 +56,7 @@ const CertificateAdd: FC = () => {
                     {
                       label: "Go back to step 1",
                       onClick: () => {
-                        navigate("/ui/login/certificate-generate");
+                        navigate(`${ROOT_PATH}/ui/login/certificate-generate`);
                       },
                     },
                   ]}

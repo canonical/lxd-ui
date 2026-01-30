@@ -17,6 +17,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProfileTruncatedNetworkList from "pages/profiles/ProfileTruncatedNetworkList";
 import ResourceLink from "components/ResourceLink";
 import { getDefaultStoragePool } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ProfileConfigurationSections from "pages/profiles/ProfileConfigurationSections";
 import ProfileResourceLimits from "pages/profiles/ProfileResourceLimits";
 
@@ -75,7 +76,7 @@ const ProfileRichTooltip: FC<Props> = ({ profileName, projectName }) => {
         <ResourceLink
           type="pool"
           value={defaultStoragePool}
-          to={`/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
         />
       ) : (
         "-"

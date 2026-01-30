@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: LxdInstance;
@@ -41,7 +42,9 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
 
   const notifySuccess = () => {
     const created = (
-      <Link to={`/ui/project/${encodeURIComponent(instance.project)}/images`}>
+      <Link
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/images`}
+      >
         created
       </Link>
     );

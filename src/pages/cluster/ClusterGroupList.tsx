@@ -20,6 +20,7 @@ import ResourceLink from "components/ResourceLink";
 import { useClusterGroups } from "context/useClusterGroups";
 import usePanelParams from "util/usePanelParams";
 import { useServerEntitlements } from "util/entitlements/server";
+import { ROOT_PATH } from "util/rootPath";
 
 const ClusterGroupList: FC = () => {
   const notify = useNotify();
@@ -84,7 +85,7 @@ const ClusterGroupList: FC = () => {
                       <ResourceLink
                         type="project"
                         value={project}
-                        to={`/ui/project/${encodeURIComponent(project)}/configuration/clusters`}
+                        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/configuration/clusters`}
                         key={resource}
                       />
                     );

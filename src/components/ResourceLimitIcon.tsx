@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import type { ResourceLimitSource } from "util/resourceLimits";
 import ResourceLink from "./ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   source: string;
@@ -15,7 +16,7 @@ export const ResourceLimitIcon: FC<Props> = ({ source, sourceType }) => {
         <ResourceLink
           type="project"
           value={source}
-          to={`/ui/projects/${encodeURIComponent(source)}`}
+          to={`${ROOT_PATH}/ui/projects/${encodeURIComponent(source)}`}
         />
       </>
     );
@@ -28,7 +29,7 @@ export const ResourceLimitIcon: FC<Props> = ({ source, sourceType }) => {
         <ResourceLink
           type="cluster-member"
           value={source}
-          to={`/ui/cluster/member/${encodeURIComponent(source)}`}
+          to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(source)}`}
         />
       </>
     );

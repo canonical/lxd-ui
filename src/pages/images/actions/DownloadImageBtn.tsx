@@ -7,6 +7,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   image: LxdImage;
@@ -18,13 +19,13 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
   const [isLoading, setLoading] = useState(false);
   const description = image.properties?.description ?? image.fingerprint;
   const isUnifiedTarball = image.update_source == null; //Only Split Tarballs have an update_source.
-  const url = `/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;
+  const url = `${ROOT_PATH}/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;
 
   const handleExport = () => {
     setLoading(true);
     const imageLink = (
       <ResourceLink
-        to={`/ui/project/${encodeURIComponent(project)}/images`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/images`}
         type="image"
         value={description}
       />

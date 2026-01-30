@@ -40,6 +40,7 @@ import {
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();
@@ -157,8 +158,8 @@ const NetworkList: FC = () => {
     .map((network) => {
       const href =
         network.memberName === "Cluster-wide"
-          ? `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`
-          : `/ui/project/${encodeURIComponent(project)}/member/${encodeURIComponent(network.memberName)}/network/${encodeURIComponent(network.name)}`;
+          ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`
+          : `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/member/${encodeURIComponent(network.memberName)}/network/${encodeURIComponent(network.name)}`;
 
       return {
         key: network.name + network.memberName,
@@ -270,7 +271,7 @@ const NetworkList: FC = () => {
               className="u-no-margin--bottom"
               onClick={async () =>
                 navigate(
-                  `/ui/project/${encodeURIComponent(project)}/networks/create`,
+                  `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks/create`,
                 )
               }
               hasIcon={!isSmallScreen}

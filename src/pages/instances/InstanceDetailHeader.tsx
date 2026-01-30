@@ -20,6 +20,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useToastNotification } from "@canonical/react-components";
 import { useInstanceLoading } from "context/instanceLoading";
 import { InstanceRichChip } from "./InstanceRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   name: string;
@@ -74,7 +75,7 @@ const InstanceDetailHeader: FC<Props> = ({
             operation.metadata.id,
             () => {
               navigate(
-                `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(values.name)}`,
+                `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(values.name)}`,
               );
               toastNotify.success(
                 <>
@@ -140,8 +141,8 @@ const InstanceDetailHeader: FC<Props> = ({
           <Link
             to={
               canViewProject
-                ? `/ui/project/${encodeURIComponent(project)}/instances`
-                : "/ui/all-projects/instances"
+                ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`
+                : `${ROOT_PATH}/ui/all-projects/instances`
             }
             key={1}
           >

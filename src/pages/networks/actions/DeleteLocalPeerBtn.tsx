@@ -15,6 +15,7 @@ import { useNetworkEntitlements } from "util/entitlements/networks";
 import { deleteNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
 import NetworkRichChip from "../NetworkRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -29,7 +30,7 @@ const DeleteLocalPeerBtn: FC<Props> = ({ network, localPeering }) => {
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
   const toastNotify = useToastNotification();
-  const networkURL = `/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(network.name)}`;
+  const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(network.name)}`;
 
   const onSuccess = () => {
     toastNotify.success(

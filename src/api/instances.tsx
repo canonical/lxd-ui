@@ -16,6 +16,7 @@ import type { UploadState } from "types/storage";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
 import { linkForInstanceDetail } from "util/instances";
+import { ROOT_PATH } from "util/rootPath";
 
 export const instanceEntitlements = [
   "can_access_console",
@@ -38,7 +39,7 @@ export const fetchInstance = async (
   addEntitlements(params, isFineGrained, instanceEntitlements);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
   )
     .then(handleEtagResponse)
     .then((data) => {
@@ -59,7 +60,7 @@ export const fetchInstances = async (
   }
   addEntitlements(params, isFineGrained, instanceEntitlements);
 
-  return fetch(`/1.0/instances?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/instances?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdInstance[]>) => {
       return data.metadata;
@@ -75,7 +76,7 @@ export const createInstance = async (
   params.set("project", project);
   addTarget(params, target);
 
-  return fetch(`/1.0/instances?${params.toString()}`, {
+  return fetch(`${ROOT_PATH}/1.0/instances?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -96,7 +97,7 @@ export const updateInstance = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
     {
       method: "PUT",
       body: JSON.stringify(instance),
@@ -121,7 +122,7 @@ export const renameInstance = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(oldName)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(oldName)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -150,7 +151,7 @@ export const migrateInstance = async (
   addTarget(params, target);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -211,7 +212,7 @@ const putInstanceAction = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance)}/state?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance)}/state?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -280,7 +281,7 @@ export const deleteInstance = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -338,7 +339,7 @@ export const connectInstanceExec = async (
   params.set("wait", "10");
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}/exec?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/exec?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -372,7 +373,7 @@ export const connectInstanceVga = async (
   params.set("wait", "10");
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -400,7 +401,7 @@ export const connectInstanceConsole = async (
   params.set("wait", "10");
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -426,7 +427,7 @@ export const fetchInstanceConsoleBuffer = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/console?${params.toString()}`,
   )
     .then(handleTextResponse)
     .then((data: string) => {
@@ -442,7 +443,7 @@ export const fetchInstanceLogs = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}/logs?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/logs?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<string[]>) => {
@@ -459,7 +460,7 @@ export const fetchInstanceLogFile = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(name)}/logs/${encodeURIComponent(file)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/logs/${encodeURIComponent(file)}?${params.toString()}`,
   )
     .then(handleTextResponse)
     .then((data: string) => {
@@ -481,7 +482,7 @@ export const uploadInstance = async (
   }
 
   return axios
-    .post(`/1.0/instances?${params.toString()}`, file, {
+    .post(`${ROOT_PATH}/1.0/instances?${params.toString()}`, file, {
       headers: {
         "Content-Type": "application/octet-stream",
         "X-LXD-name": name,
@@ -508,7 +509,7 @@ export const createInstanceBackup = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instanceName)}/backups?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instanceName)}/backups?${params.toString()}`,
     {
       method: "POST",
       headers: {

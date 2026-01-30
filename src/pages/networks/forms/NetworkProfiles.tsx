@@ -4,6 +4,7 @@ import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project: string;
@@ -30,7 +31,7 @@ const NetworkProfiles: FC<Props> = ({ formik, project }) => {
                 item={item}
                 activeProject={project}
                 type="profile"
-                to={`/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/profile/${encodeURIComponent(item.name)}`}
                 projectLinkDetailPage="profiles"
               />
             ))}

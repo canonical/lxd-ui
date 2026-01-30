@@ -6,6 +6,7 @@ import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { LxdNetworkAcl } from "types/network";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
@@ -53,7 +54,7 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
       }
       renameNetworkAcl(name, values.name, project)
         .then(() => {
-          const url = `/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`;
+          const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`;
           navigate(url);
           toastNotify.success(
             <>
@@ -91,7 +92,7 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
       name={name}
       parentItems={[
         <Link
-          to={`/ui/project/${encodeURIComponent(project)}/network-acls`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`}
           key={1}
         >
           Network ACLs

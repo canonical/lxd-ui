@@ -14,6 +14,7 @@ import type { TabLink } from "@canonical/react-components/dist/components/Tabs/T
 import { useInstance } from "context/useInstances";
 import { buildGrafanaUrl } from "util/grafanaUrl";
 import NotFound from "components/NotFound";
+import { ROOT_PATH } from "util/rootPath";
 
 const tabs: string[] = [
   "Overview",
@@ -94,7 +95,7 @@ const InstanceDetail: FC = () => {
           <TabLinks
             tabs={renderTabs}
             activeTab={activeTab}
-            tabUrl={`/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`}
+            tabUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`}
           />
 
           {!activeTab && (

@@ -1,9 +1,10 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdWarning } from "types/warning";
 import type { LxdApiResponse } from "types/apiResponse";
+import { ROOT_PATH } from "util/rootPath";
 
 export const fetchWarnings = async (): Promise<LxdWarning[]> => {
-  return fetch(`/1.0/warnings?recursion=1`)
+  return fetch(`${ROOT_PATH}/1.0/warnings?recursion=1`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdWarning[]>) => {
       return data.metadata;
@@ -11,7 +12,7 @@ export const fetchWarnings = async (): Promise<LxdWarning[]> => {
 };
 
 export const deleteWarning = async (warningId: string): Promise<unknown> => {
-  return fetch(`/1.0/warnings/${encodeURIComponent(warningId)}`, {
+  return fetch(`${ROOT_PATH}/1.0/warnings/${encodeURIComponent(warningId)}`, {
     method: "DELETE",
   }).then(handleResponse);
 };

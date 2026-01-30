@@ -6,6 +6,7 @@ import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
@@ -54,7 +55,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       }
       renameNetwork(name, values.name, project)
         .then(() => {
-          const url = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`;
+          const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`;
           navigate(url);
           toastNotify.success(
             <>
@@ -101,7 +102,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       relatedChip={member && <ClusterMemberRichChip clusterMember={member} />}
       parentItems={[
         <Link
-          to={`/ui/project/${encodeURIComponent(project)}/networks`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`}
           key={1}
         >
           Networks

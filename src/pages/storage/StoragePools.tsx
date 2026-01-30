@@ -21,6 +21,7 @@ import classNames from "classnames";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
 import { useIsClustered } from "context/useIsClustered";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const StoragePools: FC = () => {
   const notify = useNotify();
@@ -63,7 +64,7 @@ const StoragePools: FC = () => {
         {
           content: (
             <Link
-              to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}`}
             >
               {pool.name}
             </Link>
