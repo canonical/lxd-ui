@@ -8,8 +8,8 @@ import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";
 import { useSettings } from "context/useSettings";
-import ResourceLink from "components/ResourceLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import StoragePoolRichChip from "./StoragePoolRichChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -62,10 +62,10 @@ const StorageVolumeOverview: FC<Props> = ({ volume }) => {
               <tr>
                 <th className="u-text--muted">Pool</th>
                 <td>
-                  <ResourceLink
-                    type="pool"
-                    value={volume.pool}
-                    to={`/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(volume.pool)}`}
+                  <StoragePoolRichChip
+                    poolName={volume.pool}
+                    projectName={volume.project}
+                    location={volume.location}
                   />
                 </td>
               </tr>
