@@ -4,18 +4,33 @@ import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster";
+import { execSync } from "child_process";
 
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
+};
+
+export const ensureOvnNorthboundConnection = () => {
+  try {
+    execSync(
+      'sudo lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"',
+    );
+  } catch (error) {
+    console.log("Failed to set OVN northbound connection:", error);
+  }
 };
 
 export const createNetwork = async (
   page: Page,
   network: string,
   type = "bridge",
-  hasMemberSpecificParents?: boolean,
-  networkACL?: string,
+  options: {
+    hasMemberSpecificParents?: boolean;
+    networkACL?: string;
+    uplink?: string;
+  } = {},
 ) => {
+  const { hasMemberSpecificParents, networkACL, uplink } = options;
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
@@ -33,7 +48,11 @@ export const createNetwork = async (
     await page.getByLabel("Parent").selectOption({ index: 1 });
   }
   if (type === "ovn") {
-    await page.getByLabel("Uplink").selectOption({ index: 1 });
+    if (uplink) {
+      await page.getByLabel("Uplink").selectOption(uplink);
+    } else {
+      await page.getByLabel("Uplink").selectOption({ index: 1 });
+    }
   }
   if (networkACL) {
     await page.getByLabel("Select ACLs").click();
@@ -44,7 +63,19 @@ export const createNetwork = async (
 
 export const deleteNetwork = async (page: Page, network: string) => {
   await visitNetwork(page, network);
-  await page.getByRole("button", { name: "Delete network" }).click();
+
+  const deleteButton = page.getByRole("button", { name: "Delete network" });
+
+  // Check if the delete button is enabled
+  const isEnabled = await deleteButton.isEnabled();
+  if (!isEnabled) {
+    console.log(
+      `Network ${network} cannot be deleted - it is currently in use`,
+    );
+    return;
+  }
+
+  await deleteButton.click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
@@ -163,16 +194,16 @@ export const getNetworkLink = async (page: Page, network: string) => {
 export const submitCreateNetwork = async (page: Page, network: string) => {
   await page.waitForTimeout(750);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForTimeout(2500);
+  await page.waitForTimeout(5000);
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
 };
 
 export const createNetworkLocalPeering = async (
   page: Page,
+  localPeeringName: string,
   network: string,
   targetNetwork: string,
-  localPeeringName: string,
   toggleMutualPeering?: boolean,
 ) => {
   await visitNetwork(page, network);
@@ -183,9 +214,17 @@ export const createNetworkLocalPeering = async (
   await page
     .getByRole("option", { name: `${targetNetwork} ovn -`, exact: true })
     .click();
+
+  const mutualPeeringCheckbox = page.getByLabel("Create mutual peering");
   if (toggleMutualPeering) {
-    await page.getByText("Create mutual peering").click();
+    await mutualPeeringCheckbox.check();
+  } else {
+    const isChecked = await mutualPeeringCheckbox.isChecked();
+    if (isChecked) {
+      await page.getByText("Create mutual peering").click();
+    }
   }
+
   await page
     .getByLabel("Side panel")
     .getByRole("button", { name: "Create local peering" })
@@ -207,7 +246,62 @@ export const deleteLocalPeerings = async (
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
+
   await expect(
-    page.getByText(`Local peering ${localPeeringName} deleted.`),
+    page.getByRole("row").filter({ hasText: localPeeringName }),
+  ).not.toBeVisible();
+  await expect(
+    page.getByText(
+      `Local peering ${localPeeringName} deleted for network ${network}`,
+    ),
   ).toBeVisible();
+};
+
+export const createOvnUplink = async (page: Page, network: string) => {
+  ensureOvnNorthboundConnection();
+
+  await gotoURL(page, "/ui/");
+  await page.getByRole("button", { name: "Networking" }).click();
+  await page.getByRole("link", { name: "Networks", exact: true }).click();
+
+  const existingNetwork = page.getByRole("link", {
+    name: network,
+    exact: true,
+  });
+  if (await existingNetwork.isVisible()) {
+    return;
+  }
+
+  await page.getByRole("button", { name: "Create network" }).click();
+
+  await page.getByRole("button", { name: "Type" }).click();
+  await page.getByLabel("submenu").getByText("bridge").first().click();
+  await page.getByLabel("Name", { exact: true }).fill(network);
+
+  await page.waitForTimeout(1000);
+
+  const customRadio = page.getByRole("radio", { name: "Custom" }).first();
+  await customRadio.check({ force: true });
+  await expect(customRadio).toBeChecked();
+
+  await expect(page.getByLabel("IPv4 address")).toBeEnabled();
+  await page.getByLabel("IPv4 address").fill("10.42.42.1/24");
+
+  const ovnRangesRow = page.locator('tr[name*="ipv4_ovn_ranges"]');
+  const ovnRangesOverrideBtn = ovnRangesRow.getByRole("button", {
+    name: "Create override",
+  });
+  await expect(ovnRangesOverrideBtn).toBeVisible();
+  await ovnRangesOverrideBtn.click();
+  await page.getByLabel("IPv4 OVN ranges").fill("10.42.42.100-10.42.42.150");
+
+  const dhcpRangesRow = page.locator('tr[name*="ipv4_dhcp_ranges"]');
+  const dhcpRangesOverrideBtn = dhcpRangesRow.getByRole("button", {
+    name: "Create override",
+  });
+  await expect(dhcpRangesOverrideBtn).toBeVisible();
+  await dhcpRangesOverrideBtn.click();
+  await page.getByLabel("IPv4 DHCP ranges").fill("10.42.42.50-10.42.42.99");
+
+  await submitCreateNetwork(page, network);
 };

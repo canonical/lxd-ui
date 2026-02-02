@@ -224,15 +224,18 @@ test("network peering", async ({ page }) => {
   await page.getByTestId("notification-close-button").click();
 
   // Create network
-  await createNetwork(page, network, "ovn", false, networkACL);
+  await createNetwork(page, network, "ovn", {
+    hasMemberSpecificParents: false,
+    networkACL,
+  });
   await createNetwork(page, network2, "ovn");
   await createNetwork(page, network3, "ovn");
-  await createNetworkLocalPeering(page, network, network2, "LocalPeering1");
+  await createNetworkLocalPeering(page, "LocalPeering1", network, network2);
   await createNetworkLocalPeering(
     page,
+    "LocalPeering2",
     network,
     network3,
-    "LocalPeering2",
     true,
   );
   await page.getByTestId("notification-close-button").click();
@@ -715,7 +718,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
 
   // Network forwards screenshots
 
-  await createNetwork(page, network2, "bridge");
+  await createNetwork(page, network2);
   await visitNetwork(page, network2);
 
   await page.getByText("/24").getByRole("button").click();

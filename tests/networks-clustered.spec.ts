@@ -31,7 +31,9 @@ test.describe("Network operations in a clustered environment with a single node"
     skipIfNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
-    await createNetwork(page, network, "physical", true);
+    await createNetwork(page, network, "physical", {
+      hasMemberSpecificParents: true,
+    });
     await deleteNetwork(page, network);
   });
 
@@ -44,7 +46,9 @@ test.describe("Network operations in a clustered environment with a single node"
     skipIfNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
-    await createNetwork(page, network, "macvlan", true);
+    await createNetwork(page, network, "macvlan", {
+      hasMemberSpecificParents: true,
+    });
     await deleteNetwork(page, network);
   });
 });
