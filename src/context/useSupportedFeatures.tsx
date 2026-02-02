@@ -45,5 +45,6 @@ export const useSupportedFeatures = () => {
       "storage_and_profile_operations",
     ),
     hasProjectForceDelete: apiExtensions.has("projects_force_delete"),
+    hasInstanceForceDelete: apiExtensions.has("instance_force_delete"),
   };
 };

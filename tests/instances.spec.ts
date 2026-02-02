@@ -410,3 +410,30 @@ test("'Other' tab is removed when config/creating Instances, on LXD Version 5.0"
   await editInstance(page, instance);
   await expect(page.getByText("Other", { exact: true })).not.toBeVisible();
 });
+
+test("instance deletion (with and without force delete support)", async ({
+  page,
+}) => {
+  await visitAndStartInstance(page, instance);
+
+  await page.getByRole("button", { name: "Delete" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Confirm delete" });
+  await expect(dialog).toBeVisible();
+
+  const forceCheckbox = page.getByLabel("Force delete", { exact: true });
+  const deleteButton = dialog.getByRole("button", { name: "Delete" });
+
+  await expect(deleteButton).toBeDisabled();
+  await forceCheckbox.check({ force: true });
+  await expect(deleteButton).toBeEnabled();
+
+  await deleteButton.click();
+
+  await expect(page.getByText(`Instance ${instance} deleted.`)).toBeVisible();
+  await page
+    .getByRole("link", { name: "Instances", exact: true })
+    .first()
+    .click();
+  await expect(page.getByText(instance)).not.toBeVisible();
+});

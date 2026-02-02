@@ -276,9 +276,14 @@ export const updateInstanceBulkAction = async (
 
 export const deleteInstance = async (
   instance: LxdInstance,
+  force?: boolean,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", instance.project);
+
+  if (force) {
+    params.set("force", "1");
+  }
 
   return fetch(
     `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,

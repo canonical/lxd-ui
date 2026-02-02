@@ -21,6 +21,7 @@ import { Notification } from "@canonical/react-components";
 import { InstanceRichChip } from "../InstanceRichChip";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   instance: LxdInstance;
@@ -42,6 +43,7 @@ const DeleteInstanceBtn: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { canDeleteInstance } = useInstanceEntitlements();
+  const { hasInstanceForceDelete } = useSupportedFeatures();
   const [isForce, setForce] = useState(false);
 
   const isRunningOrFrozen =
@@ -55,7 +57,7 @@ const DeleteInstanceBtn: FC<Props> = ({
       />
     );
 
-    deleteInstance(instance)
+    deleteInstance(instance, hasInstanceForceDelete && isForce)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -102,7 +104,8 @@ const DeleteInstanceBtn: FC<Props> = ({
 
     setLoading(true);
 
-    if (isRunningOrFrozen) {
+    // If backend doesn't support force delete, stop the instance first
+    if (isRunningOrFrozen && !hasInstanceForceDelete) {
       const instanceLink = (
         <InstanceRichChip
           instanceName={instance.name}
