@@ -64,7 +64,6 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
 
   const disabledStatuses = ["Stopped", "Frozen", "Error"];
   const isDisabled =
-    isLoading ||
     disabledStatuses.includes(instance.status) ||
     instanceLoading.getType(instance) === "Migrating";
 
@@ -95,7 +94,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           />
         ),
       }}
-      disabled={isDisabled || !canUpdateInstanceState(instance) || isLoading}
+      disabled={isDisabled || !canUpdateInstanceState(instance)}
       shiftClickEnabled
       showShiftClickHint
     >
