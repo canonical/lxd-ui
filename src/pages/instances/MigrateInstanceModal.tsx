@@ -98,7 +98,7 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
             />
           )}
           <FormLink
-            icon="switcher-dashboard"
+            icon="storage-pool"
             title="Move instance root storage to a different pool"
             onClick={() => {
               setType("root storage pool");

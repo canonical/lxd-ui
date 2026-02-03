@@ -407,7 +407,7 @@ const StorageVolumes: FC = () => {
       {defaultProjectInfo}
       <EmptyState
         className="empty-state"
-        image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
+        image={<Icon name="storage-volume" className="empty-state-icon" />}
         title="No volumes found in this project"
       >
         <p>Storage volumes will appear here</p>
