@@ -270,7 +270,7 @@ const StorageBuckets: FC = () => {
   ) : (
     <EmptyState
       className="empty-state"
-      image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
+      image={<Icon name="storage-bucket" className="empty-state-icon" />}
       title="No buckets found in this project"
     >
       <p>Storage buckets will appear here</p>

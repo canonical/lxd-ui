@@ -111,7 +111,7 @@ const MigrateVolumeModal: FC<Props> = ({ close, volume }) => {
             />
           )}
           <FormLink
-            icon="switcher-dashboard"
+            icon="storage-pool"
             title={`Move volume to a different storage pool`}
             onClick={() => {
               setType("pool");

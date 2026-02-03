@@ -152,7 +152,7 @@ const StoragePools: FC = () => {
     ) : (
       <EmptyState
         className="empty-state"
-        image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
+        image={<Icon name="storage-pool" className="empty-state-icon" />}
         title="No pools found in this project"
       >
         <p>Storage pools will appear here.</p>

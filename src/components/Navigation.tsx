@@ -376,7 +376,7 @@ const Navigation: FC = () => {
                           baseUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage`}
                           title={getNavTitle("storage")}
                           disabled={isAllProjects}
-                          iconName="switcher-dashboard"
+                          iconName="storage-pool"
                           label="Storage"
                           onOpen={() => {
                             toggleAccordionNav("storage");
