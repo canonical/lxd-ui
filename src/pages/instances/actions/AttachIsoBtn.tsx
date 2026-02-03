@@ -9,11 +9,11 @@ import {
   usePortal,
 } from "@canonical/react-components";
 import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
-import type { LxdIsoDevice } from "types/device";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
+import type { FormDiskDevice } from "util/formDevices";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
 import { instanceLinkFromOperation } from "util/instances";
@@ -35,9 +35,9 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
   const [isLoading, setLoading] = useState(false);
   const { canEditInstance } = useInstanceEntitlements();
 
-  const attachedIso = instance.devices["iso-volume"] as
-    | LxdIsoDevice
-    | undefined;
+  const attachedIso = getInstanceEditValues(instance).devices.find((device) => {
+    return device.name === "iso-volume";
+  }) as FormDiskDevice | undefined;
 
   const detachIso = () => {
     setLoading(true);
@@ -66,7 +66,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
                 <ResourceLink
                   to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
                   type="iso-volume"
-                  value={attachedIso?.source ?? ""}
+                  value={attachedIso?.bare?.source ?? ""}
                 />{" "}
                 detached from {instanceLink}
               </>,
@@ -144,7 +144,9 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
 
   return attachedIso ? (
     <>
-      <span className="u-text--muted margin-right">{attachedIso.source}</span>
+      <span className="u-text--muted margin-right">
+        {attachedIso?.bare?.source}
+      </span>
       <ActionButton
         loading={isLoading}
         onClick={detachIso}

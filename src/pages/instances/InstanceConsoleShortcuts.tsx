@@ -24,7 +24,11 @@ import {
   toggleCtrl,
 } from "lib/spice/src/inputs.js";
 
-const InstanceConsoleShortcuts: FC = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+const InstanceConsoleShortcuts: FC<Props> = ({ disabled }) => {
   const [isAlt, setIsAlt] = useState(false);
   const [isCtrl, setIsCtrl] = useState(false);
 
@@ -60,6 +64,10 @@ const InstanceConsoleShortcuts: FC = () => {
       hasToggleIcon
       toggleLabel="Shortcuts"
       toggleClassName="u-no-margin--bottom"
+      toggleDisabled={disabled}
+      toggleProps={{
+        title: disabled ? "Start the instance to access shortcuts" : undefined,
+      }}
       dropdownClassName="instance-console-shortcut-dropdown"
       links={[
         {
