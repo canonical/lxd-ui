@@ -7,12 +7,12 @@ import type { LxdInstance } from "types/instance";
 import type { ReactNode } from "react";
 import { capitalizeFirstLetter } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
-import ResourceLink from "components/ResourceLink";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import { useNavigate } from "react-router-dom";
 import { useToastNotification } from "@canonical/react-components";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
 
 export type MigrationType =
   | "cluster member"
@@ -64,10 +64,10 @@ export const useInstanceMigration = ({
             projectName={instance.project}
           />{" "}
           root storage successfully moved to pool{" "}
-          <ResourceLink
-            type="pool"
-            value={target}
-            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(target)}`}
+          <StoragePoolRichChip
+            poolName={target}
+            projectName={instance.project}
+            location={instance.location}
           />
         </>
       );

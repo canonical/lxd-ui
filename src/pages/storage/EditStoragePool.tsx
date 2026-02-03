@@ -29,9 +29,9 @@ import { useSettings } from "context/useSettings";
 import { cephDriver, getSupportedStorageDrivers } from "util/storageOptions";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import ResourceLink from "components/ResourceLink";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 import { usePoolFromClusterMembers } from "context/useStoragePools";
+import StoragePoolRichChip from "./StoragePoolRichChip";
 
 interface Props {
   pool: LxdStoragePool;
@@ -112,10 +112,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           toastNotify.success(
             <>
               Storage pool{" "}
-              <ResourceLink
-                type="pool"
-                value={savedPool.name}
-                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(savedPool.name)}`}
+              <StoragePoolRichChip
+                poolName={savedPool.name}
+                projectName={project}
               />{" "}
               updated.
             </>,

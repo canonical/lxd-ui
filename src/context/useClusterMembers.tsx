@@ -21,5 +21,6 @@ export const useClusterMember = (
   return useQuery({
     queryKey: [queryKeys.cluster, queryKeys.members, name],
     queryFn: async () => fetchClusterMember(name),
+    enabled: name !== "" && name !== "none",
   });
 };

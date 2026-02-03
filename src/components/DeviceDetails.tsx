@@ -4,23 +4,25 @@ import type { FormDevice } from "util/formDevices";
 import type { LxdDeviceValue } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import { isHostDiskDevice } from "util/devices";
+import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   device: LxdDeviceValue;
   project: string;
+  location?: string;
 }
 
-const DeviceDetails: FC<Props> = ({ device, project }) => {
+const DeviceDetails: FC<Props> = ({ device, project, location }) => {
   if (device.type === "disk") {
     if (isRootDisk(device as FormDevice)) {
       return (
         <>
           Pool{" "}
-          <ResourceLink
-            type="pool"
-            value={device.pool || ""}
-            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
+          <StoragePoolRichChip
+            poolName={device.pool ?? ""}
+            projectName={project}
+            location={location}
           />
         </>
       );
@@ -39,10 +41,10 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
           to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}/volumes/custom/${encodeURIComponent(device.source ?? "")}`}
         />{" "}
         on pool{" "}
-        <ResourceLink
-          type="pool"
-          value={device.pool || ""}
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}`}
+        <StoragePoolRichChip
+          poolName={device.pool ?? ""}
+          projectName={project}
+          location={location}
         />
       </>
     );

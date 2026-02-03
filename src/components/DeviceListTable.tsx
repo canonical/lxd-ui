@@ -16,9 +16,10 @@ import type { LxdDeviceValue, LxdDevices } from "types/device";
 interface Props {
   configBaseURL: string;
   devices: LxdDevices;
+  location?: string;
 }
 
-const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
+const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
   const { project } = useParams<{ project: string }>();
 
   const byTypeAndName = (
@@ -88,7 +89,11 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
         },
         {
           content: (
-            <DeviceDetails device={device} project={project as string} />
+            <DeviceDetails
+              device={device}
+              project={project as string}
+              location={location}
+            />
           ),
           role: "cell",
           "aria-label": "Details",
