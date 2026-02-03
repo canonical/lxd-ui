@@ -15,16 +15,10 @@ import { queryKeys } from "util/queryKeys";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import type { FormDeviceValues } from "util/formDevices";
-import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
-import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
-import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm from "components/forms/CloudInitForm";
-import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm from "components/forms/ResourceLimitsForm";
-import type { YamlFormValues } from "components/forms/YamlForm";
 import YamlForm from "components/forms/YamlForm";
 import EditInstanceDetails from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
@@ -55,7 +49,6 @@ import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm from "components/forms/MigrationForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
@@ -63,40 +56,15 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
 import { useProfiles } from "context/useProfiles";
-import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
-
-export interface InstanceEditDetailsFormValues {
-  name: string;
-  description?: string;
-  instanceType: string;
-  location: string;
-  placement_group?: string;
-  profiles: string[];
-  entityType: "instance";
-  isCreating: boolean;
-  readOnly: boolean;
-  editRestriction?: string;
-}
-
-export type EditInstanceFormValues = InstanceEditDetailsFormValues &
-  FormDeviceValues &
-  ResourceLimitsFormValues &
-  SecurityPoliciesFormValues &
-  SnapshotFormValues &
-  MigrationFormValues &
-  BootFormValues &
-  CloudInitFormValues &
-  SshKeyFormValues &
-  YamlFormValues;
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 
 interface Props {
   instance: LxdInstance;

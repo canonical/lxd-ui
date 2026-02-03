@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
-import type { StoragePoolFormValues } from "./forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import StoragePoolForm, { toStoragePool } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";

@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import type { FormikProps } from "formik/dist/types";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import { MainTable, useNotify } from "@canonical/react-components";
 import { useParams } from "react-router-dom";
 import { useNetworkState } from "context/useNetworks";

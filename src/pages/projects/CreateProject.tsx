@@ -21,20 +21,14 @@ import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { createProject } from "api/projects";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
-import type { ProjectDetailsFormValues } from "pages/projects/forms/ProjectDetailsForm";
 import {
   projectDetailPayload,
   projectDetailRestrictionPayload,
 } from "pages/projects/forms/ProjectDetailsForm";
-import type { ProjectResourceLimitsFormValues } from "pages/projects/forms/ProjectResourceLimitsForm";
 import { resourceLimitsPayload } from "pages/projects/forms/ProjectResourceLimitsForm";
-import type { ClusterRestrictionFormValues } from "pages/projects/forms/ClusterRestrictionForm";
 import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestrictionForm";
-import type { InstanceRestrictionFormValues } from "pages/projects/forms/InstanceRestrictionForm";
 import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
-import type { DeviceUsageRestrictionFormValues } from "pages/projects/forms/DeviceUsageRestrictionForm";
 import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
-import type { NetworkRestrictionFormValues } from "pages/projects/forms/NetworkRestrictionForm";
 import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
@@ -45,13 +39,7 @@ import { fetchProfile, updateProfile } from "api/profiles";
 import { useProfile } from "context/useProfiles";
 import { useAuth } from "context/auth";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
-
-export type ProjectFormValues = ProjectDetailsFormValues &
-  ProjectResourceLimitsFormValues &
-  ClusterRestrictionFormValues &
-  InstanceRestrictionFormValues &
-  DeviceUsageRestrictionFormValues &
-  NetworkRestrictionFormValues;
+import type { ProjectFormValues } from "types/forms/project";
 
 const CreateProject: FC = () => {
   const navigate = useNavigate();

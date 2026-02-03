@@ -7,15 +7,11 @@ import {
   Select,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
-import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
+import type {
+  NetworkForwardFormValues,
+  NetworkForwardPortFormValues,
+} from "types/forms/networkForward";
 import type { LxdNetwork } from "types/network";
-
-export interface NetworkForwardPortFormValues {
-  listenPort: string;
-  protocol: "tcp" | "udp";
-  targetAddress: string;
-  targetPort?: string;
-}
 
 interface Props {
   formik: FormikProps<NetworkForwardFormValues>;

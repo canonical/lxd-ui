@@ -1,8 +1,6 @@
-import type { FormDevice, FormDiskDevice } from "util/formDevices";
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "components/forms/instanceAndProfileFormValues";
+import type { FormDevice, FormDiskDevice } from "types/formDevice";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
 import { getInheritedRootStorage } from "util/configInheritance";
 import { isRootDisk } from "util/devices";
 import type { LxdProfile } from "types/profile";

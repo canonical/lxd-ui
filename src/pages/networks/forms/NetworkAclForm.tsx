@@ -11,7 +11,6 @@ import {
 } from "@canonical/react-components";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { FormikProps } from "formik/dist/types";
-import type { AclRuleFormValues } from "pages/networks/forms/NetworkAclRuleModal";
 import NetworkAclRuleModal from "pages/networks/forms/NetworkAclRuleModal";
 import NetworkAclRuleTable from "pages/networks/forms/NetworkAclRuleTable";
 import { ensureEditMode } from "util/instanceEdit";
@@ -20,6 +19,10 @@ import { YAML_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import YamlForm from "components/forms/YamlForm";
 import type { LxdNetworkAcl } from "types/network";
 import NetworkAclUsedBy from "pages/networks/NetworkAclUsedBy";
+import type {
+  NetworkAclFormValues,
+  NetworkAclRuleFormValues,
+} from "types/forms/networkAcl";
 
 export const toNetworkAcl = (
   values: NetworkAclFormValues,
@@ -39,19 +42,6 @@ export const toNetworkAcl = (
 
 export type RuleDirection = "ingress" | "egress";
 
-export interface NetworkAclFormValues {
-  readOnly: boolean;
-  isCreating: boolean;
-  name: string;
-  description?: string;
-  egress: AclRuleFormValues[];
-  ingress: AclRuleFormValues[];
-  yaml?: string;
-  editRestriction?: string;
-  bareAcl?: LxdNetworkAcl;
-  entityType: "network-acl";
-}
-
 interface Props {
   formik: FormikProps<NetworkAclFormValues>;
   getYaml: () => string;
@@ -61,7 +51,9 @@ interface Props {
 const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
   const notify = useNotify();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const [editRule, setEditRule] = useState<AclRuleFormValues | null>(null);
+  const [editRule, setEditRule] = useState<NetworkAclRuleFormValues | null>(
+    null,
+  );
   const [ruleDirection, setRuleDirection] = useState<RuleDirection>("ingress");
 
   const getRules = (direction: RuleDirection) => {
@@ -70,7 +62,10 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
       : formik.values.egress;
   };
 
-  const handleSaveRule = ({ index: editIndex, ...rule }: AclRuleFormValues) => {
+  const handleSaveRule = ({
+    index: editIndex,
+    ...rule
+  }: NetworkAclRuleFormValues) => {
     const rules = getRules(ruleDirection);
 
     if (editIndex === undefined) {

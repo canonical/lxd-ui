@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 import { Input, Label } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import UplinkSelector from "pages/networks/forms/UplinkSelector";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import {
   typesWithAcls,
   typesWithParent,

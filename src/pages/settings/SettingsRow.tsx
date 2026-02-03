@@ -1,5 +1,5 @@
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "types/cluster";
 import SettingForm from "pages/settings/SettingForm";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";

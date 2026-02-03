@@ -4,7 +4,7 @@ import MenuItem from "components/forms/FormMenuItem";
 import { useListener, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { FormikProps } from "formik/dist/types";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import type { LxdStorageVolumeContentType } from "types/storage";
 import { driversWithFilesystemSupport, zfsDriver } from "util/storageOptions";
 

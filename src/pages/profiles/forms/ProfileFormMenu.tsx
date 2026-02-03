@@ -4,7 +4,7 @@ import MenuItem from "components/forms/FormMenuItem";
 import { Button, useListener, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { hasPrefixValue } from "util/formFields";
 import {

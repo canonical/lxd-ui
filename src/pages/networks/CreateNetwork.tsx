@@ -21,7 +21,7 @@ import {
   deleteNetwork,
   fetchNetwork,
 } from "api/networks";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import NetworkForm, {
   isNetworkFormInvalid,
   toNetwork,

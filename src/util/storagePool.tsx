@@ -3,7 +3,7 @@ import { checkDuplicateName } from "util/helpers";
 import type { AnyObject, TestFunction } from "yup";
 import type { LxdConfigOptionsKeys } from "types/config";
 import type { FormikProps } from "formik";
-import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import {
   alletraDriver,
   btrfsDriver,

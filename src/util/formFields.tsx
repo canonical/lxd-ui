@@ -4,7 +4,7 @@ import type { OptionHTMLAttributes } from "react";
 import type { LxdConfigPair } from "types/config";
 import type { LxdProject } from "types/project";
 import type { LxdStorageVolume } from "types/storage";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 export const getUnhandledKeyValues = (
   item:

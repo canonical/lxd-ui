@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
 import FormEditButton from "components/FormEditButton";
-import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "types/cluster";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {

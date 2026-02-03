@@ -2,7 +2,10 @@ import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type {
+  InstanceRestrictionFormValues,
+  ProjectFormValues,
+} from "types/forms/project";
 import type { FormikProps } from "formik/dist/types";
 import {
   optionAllowBlock,
@@ -12,20 +15,8 @@ import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
 
-export interface InstanceRestrictionFormValues {
-  restricted_virtual_machines_low_level?: string;
-  restricted_containers_low_level?: string;
-  restricted_containers_nesting?: string;
-  restricted_containers_privilege?: string;
-  restricted_container_interception?: string;
-  restrict_backups?: string;
-  restrict_snapshots?: string;
-  restricted_idmap_uid?: string;
-  restricted_idmap_gid?: string;
-}
-
 export const instanceRestrictionPayload = (
-  values: ProjectFormValues,
+  values: InstanceRestrictionFormValues,
 ): LxdConfigPair => {
   return {
     [getProjectKey("restricted_virtual_machines_low_level")]:

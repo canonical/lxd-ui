@@ -3,7 +3,7 @@ import { Input, RadioInput, Select } from "@canonical/react-components";
 import type { MemoryLimit } from "types/limits";
 import { BYTES_UNITS, MEM_LIMIT_TYPE } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

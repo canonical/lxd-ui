@@ -6,10 +6,11 @@ import {
   Tooltip,
   usePortal,
 } from "@canonical/react-components";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import type {
-  InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
-} from "./instanceAndProfileFormValues";
+  SshKeyFormValues,
+} from "types/forms/instanceAndProfile";
 import { ensureEditMode, parseSshKeys } from "util/instanceEdit";
 import { getAppliedProfiles } from "util/configInheritance";
 import { useProfiles } from "context/useProfiles";
@@ -20,19 +21,9 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import type { SshKey } from "types/forms/instanceAndProfile";
 
-export interface SshKey {
-  id: string;
-  name: string;
-  user: string;
-  fingerprint: string;
-}
-
-export interface SshKeyFormValues {
-  cloud_init_ssh_keys: SshKey[];
-}
-
-export const sshKeyPayload = (values: InstanceAndProfileFormValues) => {
+export const sshKeyPayload = (values: SshKeyFormValues) => {
   const result: Record<string, string | undefined> = {};
 
   values.cloud_init_ssh_keys?.forEach((record) => {

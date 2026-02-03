@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import type { FormikProps } from "formik/dist/types";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import { typesWithParent } from "util/networks";
 
 export const CONNECTIONS = "Connections";

@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Input, Select, Textarea } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import { optionTrueFalse } from "util/instanceOptions";
 import ConfigurationTable from "components/ConfigurationTable";
 import { IPV4 } from "pages/networks/forms/NetworkFormMenu";

@@ -2,9 +2,9 @@ import {
   getConfigRowMetadata,
   getInheritedNetworks,
 } from "util/configInheritance";
-import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
+import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
 
 beforeEach(() => {

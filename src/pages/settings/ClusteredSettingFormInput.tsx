@@ -5,7 +5,7 @@ import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import { useClusterMembers } from "context/useClusterMembers";
-import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "types/cluster";
 import ClusterSpecificSelect from "components/ClusterSpecificSelect";
 
 interface Props {

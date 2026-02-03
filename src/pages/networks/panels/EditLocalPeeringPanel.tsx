@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { pluralize } from "util/instanceBulkActions";
 import type { LxdNetwork, LxdNetworkPeer } from "types/network";
 import NetworkLocalPeeringForm from "../forms/NetworkLocalPeeringForm";
-import type { LocalPeeringFormValues } from "../forms/NetworkLocalPeeringForm";
+import type { LocalPeeringFormValues } from "types/forms/localPeering";
 import { useLocalPeering } from "context/useLocalPeerings";
 import { updateNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";

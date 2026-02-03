@@ -11,14 +11,14 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdDeviceValue } from "types/device";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { toConfigFields } from "util/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { getInheritedOtherDevices } from "util/configInheritance";
 import {
   deviceKeyToLabel,

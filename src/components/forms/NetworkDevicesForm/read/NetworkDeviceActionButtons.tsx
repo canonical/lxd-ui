@@ -1,6 +1,6 @@
 import { Button, Icon } from "@canonical/react-components";
 import { type FC } from "react";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { ensureEditMode } from "util/instanceEdit";
 import { addNoneDevice, removeNicDevice } from "util/formDevices";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";

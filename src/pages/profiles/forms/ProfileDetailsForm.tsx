@@ -1,7 +1,10 @@
 import type { FC } from "react";
 import { Col, Input, Row } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
-import type { CreateProfileFormValues } from "pages/profiles/CreateProfile";
+import type {
+  CreateProfileFormValues,
+  ProfileDetailsFormValues,
+} from "types/forms/instanceAndProfile";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
@@ -10,23 +13,16 @@ import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 import { getInstanceField } from "util/instanceConfigFields";
 
-export interface ProfileDetailsFormValues {
-  name: string;
-  description?: string;
-  entityType: "profile";
-  placement_group?: string;
-  readOnly: boolean;
-  editRestriction?: string;
-}
-
-export const profileDetailPayload = (values: CreateProfileFormValues) => {
+export const profileDetailPayload = (values: ProfileDetailsFormValues) => {
   return {
     name: values.name,
     description: values.description,
   };
 };
 
-export const profileDetailConfigPayload = (values: CreateProfileFormValues) => {
+export const profileDetailConfigPayload = (
+  values: ProfileDetailsFormValues,
+) => {
   return {
     [getInstanceField("placement_group")]: values.placement_group,
   };

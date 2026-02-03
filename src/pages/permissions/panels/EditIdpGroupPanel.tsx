@@ -15,7 +15,7 @@ import type { IdpGroup } from "types/permissions";
 import { renameIdpGroup, updateIdpGroup } from "api/auth-idp-groups";
 import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
 import useEditHistory from "util/useEditHistory";
-import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
+import type { IdpGroupFormValues } from "types/forms/idpGroup";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";

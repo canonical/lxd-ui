@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import type { GroupFormValues } from "../forms/GroupForm";
+import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
 import GroupForm from "../forms/GroupForm";
 import { renameGroup, updateGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
@@ -163,7 +163,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     return updateIdentities(identityPayload);
   };
 
-  const saveGroup = (values: GroupFormValues) => {
+  const saveGroup = (values: PermissionGroupFormValues) => {
     const isNameChanged = values.name !== group?.name;
     const groupPayload = {
       ...group,
@@ -210,7 +210,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       });
   };
 
-  const formik = useFormik<GroupFormValues>({
+  const formik = useFormik<PermissionGroupFormValues>({
     initialValues: {
       name: group?.name ?? "",
       description: group?.description ?? "",

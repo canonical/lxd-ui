@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
 import { useClusterGroups } from "context/useClusterGroups";
 import type { FormikProps } from "formik/dist/types";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "types/forms/project";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;

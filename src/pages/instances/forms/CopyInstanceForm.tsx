@@ -21,7 +21,7 @@ import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { getUniqueResourceName, truncateEntityName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
-import type { InstanceIconType } from "components/ResourceIcon";
+import type { InstanceIconType } from "types/instance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";

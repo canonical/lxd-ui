@@ -34,13 +34,7 @@ import { useStoragePools } from "context/useStoragePools";
 import { isClusterLocalDriver } from "util/storagePool";
 import { useClusterMembers } from "context/useClusterMembers";
 
-export interface UploadVolumeBackupFileFormValues {
-  volumeFile: File | null;
-  name: string;
-  pool: string;
-  clusterMember: string;
-}
-
+import type { UploadVolumeBackupFileFormValues } from "types/forms/uploadVolumeBackupFile";
 interface Props {
   close: () => void;
   uploadState: UploadState | null;

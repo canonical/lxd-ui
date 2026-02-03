@@ -20,23 +20,7 @@ import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import NetworkSelector from "./NetworkSelector";
 import { useNetworks } from "context/useNetworks";
-
-export interface ProjectDetailsFormValues {
-  name: string;
-  description?: string;
-  default_instance_storage_pool: string;
-  restricted: boolean;
-  features_images?: boolean;
-  features_profiles?: boolean;
-  features_networks?: boolean;
-  features_networks_zones?: boolean;
-  features_storage_buckets?: boolean;
-  features_storage_volumes?: boolean;
-  readOnly: boolean;
-  entityType: "project";
-  editRestriction?: string;
-  default_project_network: string;
-}
+import type { ProjectDetailsFormValues } from "types/forms/project";
 
 export const projectDetailPayload = (
   values: ProjectDetailsFormValues,

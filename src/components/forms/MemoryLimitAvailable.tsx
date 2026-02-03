@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import { Icon } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { useResourceLimit } from "context/useResourceLimit";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
 

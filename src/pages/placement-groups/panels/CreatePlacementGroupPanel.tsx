@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { createPlacementGroup } from "api/placement-groups";
 import { useCurrentProject } from "context/useCurrentProject";
-import type { PlacementGroupFormValues } from "pages/placement-groups/PlacementGroupForm";
+import type { PlacementGroupFormValues } from "types/forms/placementGroup";
 import {
   PLACEMENT_GROUP_POLICY_COMPACT,
   PLACEMENT_GROUP_RIGOR_STRICT,

@@ -1,7 +1,7 @@
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import type { FormikProps } from "formik";
 import type { FC } from "react";
-import type { StoragePoolFormValues } from "./StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { useClusterMembers } from "context/useClusterMembers";
 
 interface Props {

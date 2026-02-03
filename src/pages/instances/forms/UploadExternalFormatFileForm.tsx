@@ -22,7 +22,7 @@ import { createInstance } from "api/instances";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSettings } from "context/useSettings";
-import type { UploadExternalFormatFileFormValues } from "util/uploadExternalFormatFile";
+import type { UploadExternalFormatFileFormValues } from "types/forms/uploadExternalFormatFile";
 import {
   uploadExternalFormatFilePayload,
   isImageTypeRaw,

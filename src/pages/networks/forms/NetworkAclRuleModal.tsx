@@ -8,26 +8,13 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import type { RuleDirection } from "pages/networks/forms/NetworkAclForm";
-
-export interface AclRuleFormValues {
-  index?: number;
-  action: "allow" | "reject" | "drop";
-  description?: string;
-  destination?: string;
-  destination_port?: string;
-  icmp_code?: string;
-  icmp_type?: string;
-  protocol?: "icmp4" | "icmp6" | "tcp" | "udp";
-  source?: string;
-  source_port?: string;
-  state?: "enabled" | "disabled" | "logged";
-}
+import type { NetworkAclRuleFormValues } from "types/forms/networkAcl";
 
 interface Props {
   direction: RuleDirection;
   onClose: () => void;
-  onAdd: (values: AclRuleFormValues) => void;
-  editRule: AclRuleFormValues | null;
+  onAdd: (values: NetworkAclRuleFormValues) => void;
+  editRule: NetworkAclRuleFormValues | null;
 }
 
 const NetworkAclRuleModal: FC<Props> = ({
@@ -36,7 +23,7 @@ const NetworkAclRuleModal: FC<Props> = ({
   onAdd,
   editRule,
 }) => {
-  const formik = useFormik<AclRuleFormValues>({
+  const formik = useFormik<NetworkAclRuleFormValues>({
     initialValues: editRule
       ? editRule
       : {

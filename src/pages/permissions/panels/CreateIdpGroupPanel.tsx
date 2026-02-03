@@ -15,7 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
 import { createIdpGroup } from "api/auth-idp-groups";
 import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
-import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
+import type { IdpGroupFormValues } from "types/forms/idpGroup";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
 import ResourceLink from "components/ResourceLink";

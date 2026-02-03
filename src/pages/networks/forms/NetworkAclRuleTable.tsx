@@ -1,13 +1,13 @@
 import type { FC } from "react";
 import { Button, Icon, MainTable } from "@canonical/react-components";
-import type { AclRuleFormValues } from "pages/networks/forms/NetworkAclRuleModal";
+import type { NetworkAclRuleFormValues } from "types/forms/networkAcl";
 import { capitalizeFirstLetter } from "util/helpers";
 
 interface Props {
   editRestriction?: string;
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;
-  rules: Partial<Omit<AclRuleFormValues, "direction">>[];
+  rules: Partial<Omit<NetworkAclRuleFormValues, "direction">>[];
 }
 
 const NetworkAclRuleTable: FC<Props> = ({

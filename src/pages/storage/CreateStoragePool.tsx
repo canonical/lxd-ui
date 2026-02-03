@@ -21,7 +21,7 @@ import {
   isPureStorageIncomplete,
   testDuplicateStoragePoolName,
 } from "util/storagePool";
-import type { StoragePoolFormValues } from "./forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import StoragePoolForm, { toStoragePool } from "./forms/StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";

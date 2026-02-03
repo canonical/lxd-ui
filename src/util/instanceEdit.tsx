@@ -12,14 +12,14 @@ import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
 import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
 import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
-import type { EditProfileFormValues } from "pages/profiles/EditProfile";
+import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { bootPayload } from "components/forms/BootForm";
-import type { SshKey } from "components/forms/SshKeyForm";
+import type { SshKey } from "types/forms/instanceAndProfile";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 
 const getEditValues = (

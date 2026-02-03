@@ -2,7 +2,7 @@ import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import type { FormikProps } from "formik";
 import type { FC } from "react";
 import { useClusterMembers } from "context/useClusterMembers";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 

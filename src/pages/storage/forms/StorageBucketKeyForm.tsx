@@ -4,14 +4,7 @@ import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
 import type { LxdStorageBucket } from "types/storage";
-
-export interface StorageBucketKeyFormValues {
-  name: string;
-  role?: string;
-  description?: string;
-  "access-key"?: string;
-  "secret-key"?: string;
-}
+import type { StorageBucketKeyFormValues } from "types/forms/storageBucketKey";
 
 interface Props {
   formik: FormikProps<StorageBucketKeyFormValues>;

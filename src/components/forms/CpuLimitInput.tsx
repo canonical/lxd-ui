@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Input } from "@canonical/react-components";
 import type { Props as InputProps } from "@canonical/react-components/dist/components/Input/Input";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { CpuLimitAvailable } from "./CpuLimitAvailable";
 
 type Props = {

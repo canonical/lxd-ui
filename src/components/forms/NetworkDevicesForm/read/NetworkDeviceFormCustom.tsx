@@ -1,9 +1,9 @@
 import type { FC } from "react";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { InheritedNetwork } from "util/configInheritance";
 import type { LxdNetwork } from "types/network";
 import type { LxdNicDevice } from "types/device";
-import type { CustomNetworkDevice } from "util/formDevices";
+import type { CustomNetworkDevice } from "types/formDevice";
 import { isDeviceModified } from "util/formChangeCount";
 import NetworkDeviceActionButtons from "components/forms/NetworkDevicesForm/read/NetworkDeviceActionButtons";
 import ConfigurationTable from "components/ConfigurationTable";

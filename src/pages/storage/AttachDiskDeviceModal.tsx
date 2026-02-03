@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import FormLink from "components/FormLink";
 import BackLink from "components/BackLink";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import CustomVolumeModal from "./CustomVolumeModal";
 import type { LxdDiskDevice } from "types/device";
 import HostPathDeviceModal from "./HostPathDeviceModal";

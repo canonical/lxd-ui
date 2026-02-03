@@ -1,16 +1,9 @@
 import type { AnyObject, TestFunction } from "yup";
 import { getTomorrow } from "./helpers";
 import type { LxdProject } from "types/project";
+import type { SnapshotFormValues } from "types/forms/snapshot";
 
 /*** General snapshot utils ***/
-export type SnapshotFormValues<AdditionalProps = unknown> = {
-  name: string;
-  expirationDate: string | null;
-  expirationTime: string | null;
-} & {
-  [K in keyof AdditionalProps]: AdditionalProps[K];
-};
-
 export const getExpiresAt = (
   expirationDate: string,
   expirationTime: string,

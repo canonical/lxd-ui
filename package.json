@@ -5,7 +5,7 @@
   "license": "LGPL-3.0-only",
   "type": "module",
   "scripts": {
-    "check-circular-deps": "npx depcruise src --max-depth 1",
+    "check-circular-deps": "npx depcruise src --max-depth 3",
     "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle playwright-report test-results haproxy-local.cfg coverage",
     "build-html": "cp build/ui/index.html build/index.html",
     "build-monaco": "mkdir build/ui/monaco-editor && cp -R node_modules/monaco-editor/min build/ui/monaco-editor",

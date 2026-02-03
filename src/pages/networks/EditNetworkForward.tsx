@@ -8,7 +8,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
-import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
+import type { NetworkForwardFormValues } from "types/forms/networkForward";
 import NetworkForwardForm, {
   NetworkForwardSchema,
   toNetworkForward,

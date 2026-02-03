@@ -19,7 +19,7 @@ import LoginProjectSelect from "./LoginProjectSelect";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
-import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
 
 interface Props {

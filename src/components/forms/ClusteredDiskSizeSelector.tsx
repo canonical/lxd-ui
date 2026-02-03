@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
-import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "types/cluster";
 import { useClusterMembers } from "context/useClusterMembers";
 import DiskSizeSelector from "./DiskSizeSelector";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
