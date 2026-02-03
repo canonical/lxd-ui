@@ -46,7 +46,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-router-dom": "7.12.0",
-    "vanilla-framework": "4.42.0",
+    "vanilla-framework": "4.43.0",
     "yup": "1.7.1"
   },
   "devDependencies": {
