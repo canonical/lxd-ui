@@ -9,7 +9,6 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import type { LxdNetwork } from "types/network";
-import ResourceLink from "components/ResourceLink";
 import DocLink from "components/DocLink";
 import usePanelParams, { panels } from "util/usePanelParams";
 import CreateLocalPeeringPanel from "./panels/CreateLocalPeeringPanel";
@@ -20,7 +19,7 @@ import EditLocalPeeringPanel from "./panels/EditLocalPeeringPanel";
 import LocalPeeringStatusIcon from "./LocalPeeringStatusIcon";
 import LocalPeeringWarning from "./LocalPeeringWarning";
 import NetworkRichChip from "./NetworkRichChip";
-import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -71,11 +70,7 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
         },
         {
           content: localPeering.target_project ? (
-            <ResourceLink
-              type="project"
-              value={localPeering.target_project}
-              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(localPeering.target_project)}`}
-            />
+            <ProjectRichChip projectName={localPeering.target_project} />
           ) : (
             "-"
           ),

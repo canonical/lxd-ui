@@ -16,11 +16,10 @@ import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import useSortTableData from "util/useSortTableData";
 import CreateClusterGroupBtn from "pages/cluster/actions/CreateClusterGroupBtn";
-import ResourceLink from "components/ResourceLink";
 import { useClusterGroups } from "context/useClusterGroups";
 import usePanelParams from "util/usePanelParams";
 import { useServerEntitlements } from "util/entitlements/server";
-import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 const ClusterGroupList: FC = () => {
   const notify = useNotify();
@@ -82,10 +81,9 @@ const ClusterGroupList: FC = () => {
                   if (resource.startsWith("/1.0/projects/")) {
                     const project = resource.replace("/1.0/projects/", "");
                     return (
-                      <ResourceLink
-                        type="project"
-                        value={project}
-                        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/configuration/clusters`}
+                      <ProjectRichChip
+                        projectName={project}
+                        urlSuffix="/configuration/clusters"
                         key={resource}
                       />
                     );

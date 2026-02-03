@@ -12,13 +12,12 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";
 import { fetchNetworkLeases } from "api/network-leases";
-import ResourceLink from "components/ResourceLink";
 import { useIsClustered } from "context/useIsClustered";
 import DocLink from "components/DocLink";
 import { typesWithNicStaticIPSupport } from "util/networks";
 import { InstanceIpEdit } from "components/InstanceIpEdit";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
-import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 
 interface Props {
   network: LxdNetwork;
@@ -85,11 +84,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
         },
         {
           content: lease.project && (
-            <ResourceLink
-              type="project"
-              value={lease.project}
-              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(lease.project)}`}
-            />
+            <ProjectRichChip projectName={lease.project} />
           ),
           role: "cell",
           "aria-label": "project",

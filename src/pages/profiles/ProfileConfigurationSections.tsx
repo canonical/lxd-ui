@@ -2,12 +2,14 @@ import type { FC } from "react";
 import { List } from "@canonical/react-components";
 import type { LxdProfile } from "types/profile";
 import { hasCloudInit } from "util/profiles";
+import classnames from "classnames";
 
 interface Props {
   profile?: LxdProfile;
+  className?: string;
 }
 
-const ProfileConfigurationSections: FC<Props> = ({ profile }) => {
+const ProfileConfigurationSections: FC<Props> = ({ profile, className }) => {
   if (!profile) {
     return "-";
   }
@@ -42,7 +44,10 @@ const ProfileConfigurationSections: FC<Props> = ({ profile }) => {
     <List
       items={configSections}
       middot
-      className="u-no-margin profile-configuration-sections"
+      className={classnames(
+        "u-no-margin profile-configuration-sections",
+        className,
+      )}
       title={configSections.join(", ")}
     />
   ) : (
