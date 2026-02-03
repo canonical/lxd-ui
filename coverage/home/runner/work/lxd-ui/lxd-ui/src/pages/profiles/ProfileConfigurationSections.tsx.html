@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">64.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/66</span>
+                <span class='fraction'>46/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.16% </span>
+                <span class="strong">4% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/24</span>
+                <span class='fraction'>1/25</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.13% </span>
+                <span class="strong">77.58% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>43/53</span>
+                <span class='fraction'>45/58</span>
             </div>
         
             
@@ -116,16 +116,23 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -162,23 +169,28 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { List } from "@canonical/react-components";
 import type { LxdProfile } from "types/profile";
 import { hasCloudInit } from "util/profiles";
+import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 &nbsp;
 interface Props {
   profile?: LxdProfile;
+  className?: string;
 }
 &nbsp;
-const ProfileConfigurationSections: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> profile }) =&gt; {
+const ProfileConfigurationSections: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> profile, className }) =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!profile) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return "-";</span></span>
 <span class="cstat-no" title="statement not covered" >  }</span>
@@ -213,7 +225,10 @@ const ProfileConfigurationSections: FC&lt;Props&gt; = <span class="fstat-no" tit
 <span class="cstat-no" title="statement not covered" >    &lt;List</span>
 <span class="cstat-no" title="statement not covered" >      items={configSections}</span>
 <span class="cstat-no" title="statement not covered" >      middot</span>
-<span class="cstat-no" title="statement not covered" >      className="u-no-margin profile-configuration-sections"</span>
+<span class="cstat-no" title="statement not covered" >      className={classnames(</span>
+<span class="cstat-no" title="statement not covered" >        "u-no-margin profile-configuration-sections",</span>
+<span class="cstat-no" title="statement not covered" >        className,</span>
+<span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" >      title={configSections.join(", ")}</span>
     /&gt;
   ) : (
@@ -229,7 +244,7 @@ export default ProfileConfigurationSections;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.11% </span>
+                <span class="strong">52.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/71</span>
+                <span class='fraction'>38/72</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.73% </span>
+                <span class="strong">56.45% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/61</span>
+                <span class='fraction'>35/62</span>
             </div>
         
             
@@ -124,21 +124,23 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">319x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">366x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -151,11 +153,11 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -177,8 +179,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">339x</span>
-<span class="cline-any cline-yes">339x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">389x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -186,8 +188,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { AnyObject, TestContext, TestFunction } from "yup";
-import { checkDuplicateName } from "./helpers";
-import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName } from "util/helpers";
+import type { AbortControllerState } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { StorageBucketFormValues } from "pages/storage/forms/StorageBucketForm";
 import type { LxdStorageBucket } from "types/storage";
 &nbsp;
@@ -244,7 +247,7 @@ export const getStorageBucketURL = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  pool: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return `/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool)}/bucket/${encodeURIComponent(name)}`;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool)}/bucket/${encodeURIComponent(name)}`;</span></span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -253,7 +256,7 @@ export const getStorageBucketURL = <span class="fstat-no" title="function not co
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

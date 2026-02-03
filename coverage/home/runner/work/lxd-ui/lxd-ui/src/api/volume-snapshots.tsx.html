@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.63% </span>
+                <span class="strong">81.72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>160/196</span>
+                <span class='fraction'>161/197</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.63% </span>
+                <span class="strong">81.72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>160/196</span>
+                <span class='fraction'>161/197</span>
             </div>
         
             
@@ -259,7 +259,9 @@
 <a name='L194'></a><a href='#L194'>194</a>
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">28x</span>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-yes">28x</span>
@@ -467,6 +469,7 @@ import {
   splitVolumeSnapshotName,
 } from "util/storageVolume";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 export const createVolumeSnapshot = async (
   volume: LxdStorageVolume,
@@ -478,7 +481,7 @@ export const createVolumeSnapshot = async (
   addTarget(params, volume.location);
 &nbsp;
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/custom/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/custom/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -505,7 +508,7 @@ export const deleteVolumeSnapshot = async (
   addTarget(params, volume.location);
 &nbsp;
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -564,7 +567,7 @@ export const restoreVolumeSnapshot = async (
   addTarget(params, volume.location);
 &nbsp;
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -587,7 +590,7 @@ export const renameVolumeSnapshot = async (
   addTarget(params, volume.location);
 &nbsp;
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -615,7 +618,7 @@ export const updateVolumeSnapshot = async (
   addTarget(params, volume.location);
 &nbsp;
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -641,7 +644,7 @@ export const fetchStorageVolumeSnapshots = async (
   addTarget(params, volume.location);
 &nbsp;
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdVolumeSnapshot[]&gt;) =&gt; {
@@ -658,7 +661,7 @@ export const fetchStorageVolumeSnapshots = async (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

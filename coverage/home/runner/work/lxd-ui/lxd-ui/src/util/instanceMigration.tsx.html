@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.19% </span>
+                <span class="strong">69.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>127/189</span>
+                <span class='fraction'>129/186</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.19% </span>
+                <span class="strong">69.35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>127/189</span>
+                <span class='fraction'>129/186</span>
             </div>
         
             
@@ -249,10 +249,9 @@
 <a name='L184'></a><a href='#L184'>184</a>
 <a name='L185'></a><a href='#L185'>185</a>
 <a name='L186'></a><a href='#L186'>186</a>
-<a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a>
-<a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<a name='L187'></a><a href='#L187'>187</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -326,11 +325,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -448,12 +442,14 @@ import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import type { ReactNode } from "react";
-import { capitalizeFirstLetter } from "./helpers";
+import { capitalizeFirstLetter } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import { useNavigate } from "react-router-dom";
 import { useToastNotification } from "@canonical/react-components";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 &nbsp;
 export type MigrationType =
   | "cluster member"
@@ -508,7 +504,7 @@ export const useInstanceMigration = ({
           &lt;ResourceLink
             type="pool"
             value={target}
-            to={`/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(target)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/storage/pool/${encodeURIComponent(target)}`}
           /&gt;
         &lt;/&gt;
       );
@@ -519,19 +515,14 @@ export const useInstanceMigration = ({
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Instance{" "}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;InstanceRichChip instanceName={instance.name} projectName={target} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          successfully moved to project{" "}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >            type="project"</span>
-<span class="cstat-no" title="statement not covered" >            value={target}</span>
-<span class="cstat-no" title="statement not covered" >            to={`/ui/project/${encodeURIComponent(target)}`}</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          successfully moved to project &lt;ProjectRichChip projectName={target} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      const oldUrl = window.location.pathname;</span>
 <span class="cstat-no" title="statement not covered" >      const newUrl = oldUrl.replace(</span>
-<span class="cstat-no" title="statement not covered" >        `/project/${instance.project}/instance/${instance.name}`,</span>
-<span class="cstat-no" title="statement not covered" >        `/project/${target}/instance/${instance.name}`,</span>
+<span class="cstat-no" title="statement not covered" >        `${ROOT_PATH}/ui/project/${instance.project}/instance/${instance.name}`,</span>
+<span class="cstat-no" title="statement not covered" >        `${ROOT_PATH}/ui/project/${target}/instance/${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >      if (oldUrl !== newUrl) {</span>
 <span class="cstat-no" title="statement not covered" >        navigate(newUrl);</span>
@@ -637,7 +628,7 @@ export const useInstanceMigration = ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

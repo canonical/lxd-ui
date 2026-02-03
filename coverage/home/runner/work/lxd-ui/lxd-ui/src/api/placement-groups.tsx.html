@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.75% </span>
+                <span class="strong">82.9% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>96/116</span>
+                <span class='fraction'>97/117</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>90/90</span>
+                <span class='fraction'>91/91</span>
             </div>
         
             
@@ -153,14 +153,16 @@
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -175,8 +177,8 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -193,8 +195,8 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -209,8 +211,8 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -228,8 +230,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<span class="cline-any cline-yes">343x</span>
+<span class="cline-any cline-yes">343x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -247,6 +249,7 @@
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import type { LxdPlacementGroup } from "types/placementGroup";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 const placementGroupEntitlements = ["can_delete", "can_edit"];
 &nbsp;
@@ -259,7 +262,7 @@ export const fetchPlacementGroups = <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, placementGroupEntitlements);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(`/1.0/placement-groups?${params.toString()}`)</span>
+<span class="cstat-no" title="statement not covered" >  return fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`)</span>
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdPlacementGroup[]&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
@@ -276,7 +279,7 @@ export const fetchPlacementGroup = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, placementGroupEntitlements);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-    `/1.0/placement-groups/${encodeURIComponent(group)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(group)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdPlacementGroup&gt;) =&gt; {
@@ -291,7 +294,7 @@ export const createPlacementGroup = <span class="fstat-no" title="function not c
   const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await fetch(`/1.0/placement-groups?${params.toString()}`, {</span>
+<span class="cstat-no" title="statement not covered" >  await fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`, {</span>
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -308,7 +311,7 @@ export const updatePlacementGroup = <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  await fetch(</span>
-    `/1.0/placement-groups/${encodeURIComponent(group.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(group.name)}?${params.toString()}`,
     {
       method: "PUT",
       body: JSON.stringify(group),
@@ -327,7 +330,7 @@ export const deletePlacementGroup = <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  await fetch(</span>
-    `/1.0/placement-groups/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -340,7 +343,7 @@ export const deletePlacementGroup = <span class="fstat-no" title="function not c
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

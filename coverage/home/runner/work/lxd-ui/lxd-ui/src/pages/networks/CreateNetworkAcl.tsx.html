@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.33% </span>
+                <span class="strong">85.54% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>139/161</span>
+                <span class='fraction'>142/166</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.33% </span>
+                <span class="strong">85.54% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>139/161</span>
+                <span class='fraction'>142/166</span>
             </div>
         
             
@@ -224,7 +224,13 @@
 <a name='L159'></a><a href='#L159'>159</a>
 <a name='L160'></a><a href='#L160'>160</a>
 <a name='L161'></a><a href='#L161'>161</a>
-<a name='L162'></a><a href='#L162'>162</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -315,6 +321,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -358,14 +366,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -400,6 +410,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import NotificationRow from "components/NotificationRow";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import BaseLayout from "components/BaseLayout";
@@ -462,14 +473,16 @@ const CreateNetworkAcl: FC = () =&gt; {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networkAcls],
           });
-          navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`);
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,
+          );
           toastNotify.success(
             &lt;&gt;
               Network ACL{" "}
               &lt;ResourceLink
                 type="network-acl"
                 value={values.name}
-                to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`}
               /&gt;{" "}
               created.
             &lt;/&gt;,
@@ -527,7 +540,9 @@ const CreateNetworkAcl: FC = () =&gt; {
         &lt;Button
           appearance="base"
           onClick={<span class="fstat-no" title="function not covered" >async () =&gt;</span>
-<span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${encodeURIComponent(project)}/network-acls`)</span>
+<span class="cstat-no" title="statement not covered" >            navigate(</span>
+<span class="cstat-no" title="statement not covered" >              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,</span>
+<span class="cstat-no" title="statement not covered" >            )</span>
           }
         &gt;
           Cancel
@@ -553,7 +568,7 @@ export default CreateNetworkAcl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

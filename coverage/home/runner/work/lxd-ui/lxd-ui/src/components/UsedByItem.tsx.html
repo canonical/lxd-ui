@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.96% </span>
+                <span class="strong">71.27% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>66/93</span>
+                <span class='fraction'>67/94</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.41% </span>
+                <span class="strong">74.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>64/86</span>
+                <span class='fraction'>65/87</span>
             </div>
         
             
@@ -149,25 +149,28 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
@@ -186,7 +189,6 @@
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -233,8 +235,8 @@
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import ResourceLink from "./ResourceLink";
 import type { LxdUsedBy } from "util/usedBy";
@@ -244,6 +246,8 @@ import { linkForVolumeDetail } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 &nbsp;
 interface Props {
   item: LxdUsedBy;
@@ -273,10 +277,9 @@ const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not c
     &lt;div&gt;
       {item.project !== activeProject &amp;&amp; (
         &lt;&gt;
-          &lt;ResourceLink
-            type="project"
-            value={item.project}
-            to={`/ui/project/${encodeURIComponent(item.project)}/${encodeURIComponent(projectLinkDetailPage)}`}
+          &lt;ProjectRichChip
+            projectName={item.project}
+            urlSuffix={`/${encodeURIComponent(projectLinkDetailPage)}`}
           /&gt;{" "}
           /{" "}
         &lt;/&gt;
@@ -286,7 +289,7 @@ const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >            type="instance"</span>
 <span class="cstat-no" title="statement not covered" >            value={item.instance}</span>
-<span class="cstat-no" title="statement not covered" >            to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}`}</span>
+<span class="cstat-no" title="statement not covered" >            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}`}</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;{" "}</span>
 <span class="cstat-no" title="statement not covered" >          /{" "}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
@@ -328,7 +331,7 @@ export default UsedByItem;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

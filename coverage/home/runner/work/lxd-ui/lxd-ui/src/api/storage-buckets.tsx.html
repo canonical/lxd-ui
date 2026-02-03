@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.12% </span>
+                <span class="strong">18.39% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>54/298</span>
+                <span class='fraction'>55/299</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.12% </span>
+                <span class="strong">18.39% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>54/298</span>
+                <span class='fraction'>55/299</span>
             </div>
         
             
@@ -361,7 +361,9 @@
 <a name='L296'></a><a href='#L296'>296</a>
 <a name='L297'></a><a href='#L297'>297</a>
 <a name='L298'></a><a href='#L298'>298</a>
-<a name='L299'></a><a href='#L299'>299</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -670,6 +672,7 @@ import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";
 import { getStorageBucketURL } from "util/storageBucket";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 export const storageBucketEntitlements = ["can_delete", "can_edit"];
 &nbsp;
@@ -684,7 +687,7 @@ export const fetchStorageBucketsFromPool = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
 <span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucket[]&gt;) =&gt; {</span>
@@ -723,7 +726,7 @@ export const fetchStorageBucket = <span class="fstat-no" title="function not cov
 <span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucketName)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucketName)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
 <span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucket&gt;) =&gt; {</span>
@@ -742,7 +745,7 @@ export const createStorageBucket = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "POST",</span>
 <span class="cstat-no" title="statement not covered" >      headers: {</span>
@@ -768,7 +771,7 @@ export const updateStorageBucket = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  await fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "PUT",</span>
 <span class="cstat-no" title="statement not covered" >      headers: {</span>
@@ -788,7 +791,7 @@ export const deleteStorageBucket = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  await fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "DELETE",</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
@@ -833,7 +836,7 @@ export const fetchStorageBucketKeys = <span class="fstat-no" title="function not
 <span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
 <span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucketKey[]&gt;) =&gt; {</span>
@@ -852,7 +855,7 @@ export const fetchStorageBucketKey = <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, storageBucketEntitlements);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >  )</span>
 <span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
 <span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdStorageBucketKey&gt;) =&gt; {</span>
@@ -870,7 +873,7 @@ export const createStorageBucketKey = <span class="fstat-no" title="function not
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "POST",</span>
 <span class="cstat-no" title="statement not covered" >      headers: {</span>
@@ -897,7 +900,7 @@ export const updateStorageBucketKey = <span class="fstat-no" title="function not
 <span class="cstat-no" title="statement not covered" >  addTarget(params, target);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  await fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "PUT",</span>
 <span class="cstat-no" title="statement not covered" >      headers: {</span>
@@ -918,7 +921,7 @@ export const deleteStorageBucketKey = <span class="fstat-no" title="function not
 <span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  await fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      method: "DELETE",</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
@@ -964,7 +967,7 @@ export const deleteStorageBucketKeyBulk = <span class="fstat-no" title="function
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

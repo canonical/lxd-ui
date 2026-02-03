@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25.58% </span>
+                <span class="strong">31.7% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/43</span>
+                <span class='fraction'>13/41</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.02% </span>
+                <span class="strong">34.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/37</span>
+                <span class='fraction'>12/35</span>
             </div>
         
             
@@ -98,22 +98,18 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -140,6 +136,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import type { ResourceLimitSource } from "util/resourceLimits";
 import ResourceLink from "./ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
 &nbsp;
 interface Props {
   source: string;
@@ -151,11 +149,7 @@ export const ResourceLimitIcon: FC&lt;Props&gt; = <span class="fstat-no" title="
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
 <span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >        {"in project "}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
-<span class="cstat-no" title="statement not covered" >          type="project"</span>
-<span class="cstat-no" title="statement not covered" >          value={source}</span>
-<span class="cstat-no" title="statement not covered" >          to={`/ui/projects/${encodeURIComponent(source)}`}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;ProjectRichChip projectName={source} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
@@ -167,7 +161,7 @@ export const ResourceLimitIcon: FC&lt;Props&gt; = <span class="fstat-no" title="
 <span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >          type="cluster-member"</span>
 <span class="cstat-no" title="statement not covered" >          value={source}</span>
-<span class="cstat-no" title="statement not covered" >          to={`/ui/cluster/member/${encodeURIComponent(source)}`}</span>
+<span class="cstat-no" title="statement not covered" >          to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(source)}`}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
@@ -181,7 +175,7 @@ export const ResourceLimitIcon: FC&lt;Props&gt; = <span class="fstat-no" title="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.65% </span>
+                <span class="strong">93.12% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>295/315</span>
+                <span class='fraction'>298/320</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.65% </span>
+                <span class="strong">93.12% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>295/315</span>
+                <span class='fraction'>298/320</span>
             </div>
         
             
@@ -378,7 +378,13 @@
 <a name='L313'></a><a href='#L313'>313</a>
 <a name='L314'></a><a href='#L314'>314</a>
 <a name='L315'></a><a href='#L315'>315</a>
-<a name='L316'></a><a href='#L316'>316</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">10x</span>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -493,7 +499,7 @@
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
-<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">60x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
@@ -533,6 +539,8 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
@@ -591,15 +599,15 @@
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">78x</span>
+<span class="cline-any cline-yes">76x</span>
+<span class="cline-any cline-yes">76x</span>
+<span class="cline-any cline-yes">76x</span>
+<span class="cline-any cline-yes">76x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
@@ -655,14 +663,16 @@
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
-<span class="cline-any cline-yes">165x</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
@@ -675,8 +685,8 @@
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">122x</span>
-<span class="cline-any cline-yes">95x</span>
-<span class="cline-any cline-yes">95x</span>
+<span class="cline-any cline-yes">97x</span>
+<span class="cline-any cline-yes">97x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
 <span class="cline-any cline-yes">192x</span>
@@ -710,6 +720,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { FormDeviceValues } from "util/formDevices";
@@ -835,7 +846,9 @@ const CreateProfile: FC = () =&gt; {
 &nbsp;
       createProfile(JSON.stringify(profilePayload), project)
         .then(() =&gt; {
-          navigate(`/ui/project/${encodeURIComponent(project)}/profiles`);
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profiles`,
+          );
           toastNotify.success(
             &lt;&gt;
               Profile{" "}
@@ -978,7 +991,9 @@ const CreateProfile: FC = () =&gt; {
         &lt;Button
           appearance="base"
           onClick={<span class="fstat-no" title="function not covered" >async () =&gt;</span>
-<span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${encodeURIComponent(project)}/profiles`)</span>
+<span class="cstat-no" title="statement not covered" >            navigate(</span>
+<span class="cstat-no" title="statement not covered" >              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profiles`,</span>
+<span class="cstat-no" title="statement not covered" >            )</span>
           }
         &gt;
           Cancel
@@ -1015,7 +1030,7 @@ export default CreateProfile;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-29T14:00:56.961Z
+                at 2026-02-03T14:35:59.585Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
