@@ -17,6 +17,7 @@ import { fetchClusterMemberState } from "api/cluster-members";
 import { queryKeys } from "util/queryKeys";
 import { formatSeconds } from "util/seconds";
 import ResourceLabel from "components/ResourceLabel";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   clusterMember: string;
@@ -60,7 +61,7 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
           <Spinner />
         ) : (
           <Link
-            to={`/ui/cluster/member/${encodeURIComponent(clusterMember)}`}
+            to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(clusterMember)}`}
             onClick={(e) => {
               e.stopPropagation();
             }}

@@ -16,6 +16,7 @@ import { typesWithAcls } from "util/networks";
 import { useNetworkState } from "context/useNetworks";
 import { humanFileSize } from "util/helpers";
 import { NetworkParentTooltipRow } from "./NetworkParentTooltipRow";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   networkName: string;
@@ -127,7 +128,7 @@ const NetworkRichTooltip: FC<Props> = ({
                       key={acl}
                       type="network-acl"
                       value={acl}
-                      to={`/ui/project/${encodeURIComponent(projectName)}/network-acl/${encodeURIComponent(acl)}`}
+                      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-acl/${encodeURIComponent(acl)}`}
                     />
                   ))
                 : [<>-</>]
