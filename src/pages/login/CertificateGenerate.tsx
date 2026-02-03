@@ -11,6 +11,7 @@ import BrowserImport from "pages/login/BrowserImport";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
+import { ROOT_PATH } from "util/rootPath";
 
 const CertificateGenerate: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -23,7 +24,7 @@ const CertificateGenerate: FC = () => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/ui" replace={true} />;
+    return <Navigate to={`${ROOT_PATH}/ui`} replace={true} />;
   }
 
   return (
@@ -39,7 +40,7 @@ const CertificateGenerate: FC = () => {
                     {
                       label: "I already have a client certificate",
                       onClick: () => {
-                        navigate("/ui/login/certificate-add");
+                        navigate(`${ROOT_PATH}/ui/login/certificate-add`);
                       },
                     },
                   ]
@@ -65,7 +66,7 @@ const CertificateGenerate: FC = () => {
                 {
                   label: "Skip to step 2: Identity trust token",
                   onClick: () => {
-                    navigate("/ui/login/certificate-add");
+                    navigate(`${ROOT_PATH}/ui/login/certificate-add`);
                   },
                 },
               ]}

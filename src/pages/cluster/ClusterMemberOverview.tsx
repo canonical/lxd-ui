@@ -3,6 +3,7 @@ import { Col, Row } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import type { LxdClusterMember } from "types/cluster";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   member: LxdClusterMember;
@@ -51,7 +52,7 @@ const ClusterMemberOverview: FC<Props> = ({ member }) => {
                     <ResourceLink
                       type="cluster-group"
                       value={group}
-                      to="/ui/cluster/groups"
+                      to={`${ROOT_PATH}/ui/cluster/groups`}
                       key={group}
                     />{" "}
                   </>

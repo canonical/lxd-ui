@@ -8,6 +8,7 @@ import { renameProject } from "api/projects";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
@@ -54,7 +55,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         <ResourceLink
           type="project"
           value={values.name}
-          to={`/ui/project/${encodeURIComponent(project.name)}/configuration`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/configuration`}
         />
       );
       renameProject(project.name, values.name)
@@ -62,7 +63,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
-              const url = `/ui/project/${encodeURIComponent(values.name)}/configuration`;
+              const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(values.name)}/configuration`;
               navigate(url);
               toastNotify.success(
                 <>

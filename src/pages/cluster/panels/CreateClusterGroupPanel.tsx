@@ -16,6 +16,7 @@ import { createClusterGroup } from "api/cluster-groups";
 import ResourceLink from "components/ResourceLink";
 import type { ClusterGroupFormValues } from "pages/cluster/ClusterGroupForm";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
+import { ROOT_PATH } from "util/rootPath";
 
 const CreateClusterGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -49,7 +50,7 @@ const CreateClusterGroupPanel: FC = () => {
               <ResourceLink
                 type="cluster-group"
                 value={values.name}
-                to="/ui/cluster/groups"
+                to={`${ROOT_PATH}/ui/cluster/groups`}
               />{" "}
               created.
             </>,

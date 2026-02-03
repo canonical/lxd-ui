@@ -7,6 +7,7 @@ import { linkForVolumeDetail } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   item: LxdUsedBy;
@@ -39,7 +40,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="project"
             value={item.project}
-            to={`/ui/project/${encodeURIComponent(item.project)}/${encodeURIComponent(projectLinkDetailPage)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/${encodeURIComponent(projectLinkDetailPage)}`}
           />{" "}
           /{" "}
         </>
@@ -49,7 +50,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="instance"
             value={item.instance}
-            to={`/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/instance/${encodeURIComponent(item.instance)}`}
           />{" "}
           /{" "}
         </>

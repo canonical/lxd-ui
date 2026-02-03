@@ -22,6 +22,7 @@ import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNetwork } from "context/useNetworks";
+import { ROOT_PATH } from "util/rootPath";
 
 const EditNetworkForward: FC = () => {
   const navigate = useNavigate();
@@ -111,7 +112,7 @@ const EditNetworkForward: FC = () => {
             ],
           });
           navigate(
-            `/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
           );
           toastNotify.success(
             `Network forward ${forward.listen_address} updated.`,
@@ -140,7 +141,7 @@ const EditNetworkForward: FC = () => {
       <FormFooterLayout>
         <Link
           className="p-button--base"
-          to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`}
         >
           Cancel
         </Link>

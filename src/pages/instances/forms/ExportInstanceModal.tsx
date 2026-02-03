@@ -20,6 +20,7 @@ import { queryKeys } from "util/queryKeys";
 import { isDiskDevice } from "util/devices";
 import { pluralize } from "util/instanceBulkActions";
 import { InstanceRichChip } from "../InstanceRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: LxdInstance;
@@ -50,7 +51,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
     settings?.environment?.backup_metadata_version_range ?? [];
 
   const startDownload = (backupName: string) => {
-    const url = `/1.0/instances/${encodeURIComponent(instance.name)}/backups/${encodeURIComponent(backupName)}/export?project=${encodeURIComponent(instance.project)}`;
+    const url = `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/backups/${encodeURIComponent(backupName)}/export?project=${encodeURIComponent(instance.project)}`;
 
     const a = document.createElement("a");
     a.href = url;

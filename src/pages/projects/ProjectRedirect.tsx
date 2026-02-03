@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { ROOT_PATH } from "util/rootPath";
 
 const ProjectRedirect: FC = () => {
   const { project } = useParams<{ project: string }>();
@@ -10,7 +11,7 @@ const ProjectRedirect: FC = () => {
 
   return (
     <Navigate
-      to={`/ui/project/${encodeURIComponent(project)}/instances`}
+      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`}
       replace={true}
     />
   );

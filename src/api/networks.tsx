@@ -16,6 +16,7 @@ import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import type { LxdClusterMember } from "types/cluster";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 const networkEntitlements = ["can_edit", "can_delete"];
 
@@ -30,7 +31,7 @@ export const fetchNetworks = async (
   addTarget(params, target);
   addEntitlements(params, isFineGrained, networkEntitlements);
 
-  return fetch(`/1.0/networks?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/networks?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetwork[]>) => {
       const filteredNetworks = data.metadata.filter(
@@ -84,7 +85,9 @@ export const fetchNetwork = async (
   addTarget(params, target);
   addEntitlements(params, isFineGrained, networkEntitlements);
 
-  return fetch(`/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`)
+  return fetch(
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`,
+  )
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdNetwork;
@@ -132,7 +135,7 @@ export const fetchNetworkState = async (
   addTarget(params, target);
 
   return fetch(
-    `/1.0/networks/${encodeURIComponent(name)}/state?${params.toString()}`,
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}/state?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkState>) => {
@@ -189,7 +192,7 @@ export const createNetwork = async (
   addTarget(params, target);
 
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks?${params.toString()}`, {
+    fetch(`${ROOT_PATH}/1.0/networks?${params.toString()}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -228,7 +231,7 @@ export const updateNetwork = async (
 
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/networks/${encodeURIComponent(network.name)}?${params.toString()}`,
+      `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network.name)}?${params.toString()}`,
       {
         method: "PUT",
         body: JSON.stringify(network),
@@ -312,15 +315,18 @@ export const renameNetwork = async (
   params.set("project", project);
 
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${encodeURIComponent(oldName)}?${params.toString()}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    fetch(
+      `${ROOT_PATH}/1.0/networks/${encodeURIComponent(oldName)}?${params.toString()}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newName,
+        }),
       },
-      body: JSON.stringify({
-        name: newName,
-      }),
-    })
+    )
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
@@ -345,9 +351,12 @@ export const deleteNetwork = async (
   params.set("project", project);
 
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`,
+      {
+        method: "DELETE",
+      },
+    )
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
@@ -355,7 +364,7 @@ export const deleteNetwork = async (
         // check manually if deletion was successful
         if (e.message === "Failed to fetch") {
           const response = await fetch(
-            `/1.0/networks/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
+            `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
           );
           if (response.status === 404) {
             resolve();
@@ -373,7 +382,7 @@ export const fetchNetworkAllocations = async (
   params.set("project", project);
   params.set("recursion", "1");
 
-  return fetch(`/1.0/network-allocations?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/network-allocations?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdNetworkAllocation[]>) => {
       return data.metadata;

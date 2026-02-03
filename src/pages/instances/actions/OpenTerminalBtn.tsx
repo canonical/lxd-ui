@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: LxdInstance;
@@ -12,7 +13,7 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
 
   const handleOpen = () => {
     navigate(
-      `/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/terminal`,
+      `${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/terminal`,
     );
   };
 

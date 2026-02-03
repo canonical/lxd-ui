@@ -33,6 +33,7 @@ import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { pluralize } from "util/instanceBulkActions";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -206,7 +207,7 @@ const PermissionIdpGroups: FC = () => {
         <>
           <br />
           You need to set your server{" "}
-          <Link to="/ui/settings">
+          <Link to={`${ROOT_PATH}/ui/settings`}>
             configuration (<code>oidc.groups.claim</code>)
           </Link>{" "}
           to the name of the custom claim that provides the IDP groups.

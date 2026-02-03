@@ -2,6 +2,7 @@ import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { IdpGroup } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
+import { ROOT_PATH } from "util/rootPath";
 
 const idpGroupEntitlements = ["can_delete", "can_edit"];
 
@@ -12,7 +13,9 @@ export const fetchIdpGroups = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, idpGroupEntitlements);
 
-  return fetch(`/1.0/auth/identity-provider-groups?${params.toString()}`)
+  return fetch(
+    `${ROOT_PATH}/1.0/auth/identity-provider-groups?${params.toString()}`,
+  )
     .then(handleResponse)
     .then((data: LxdApiResponse<IdpGroup[]>) => {
       return data.metadata;
@@ -22,7 +25,7 @@ export const fetchIdpGroups = async (
 export const createIdpGroup = async (
   group: Partial<IdpGroup>,
 ): Promise<void> => {
-  await fetch(`/1.0/auth/identity-provider-groups`, {
+  await fetch(`${ROOT_PATH}/1.0/auth/identity-provider-groups`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,7 +36,7 @@ export const createIdpGroup = async (
 
 export const updateIdpGroup = async (group: IdpGroup): Promise<void> => {
   await fetch(
-    `/1.0/auth/identity-provider-groups/${encodeURIComponent(group.name)}`,
+    `${ROOT_PATH}/1.0/auth/identity-provider-groups/${encodeURIComponent(group.name)}`,
     {
       method: "PUT",
       headers: {
@@ -49,7 +52,7 @@ export const renameIdpGroup = async (
   newName: string,
 ): Promise<void> => {
   await fetch(
-    `/1.0/auth/identity-provider-groups/${encodeURIComponent(oldName)}`,
+    `${ROOT_PATH}/1.0/auth/identity-provider-groups/${encodeURIComponent(oldName)}`,
     {
       method: "POST",
       headers: {
@@ -64,7 +67,7 @@ export const renameIdpGroup = async (
 
 export const deleteIdpGroup = async (group: string): Promise<void> => {
   await fetch(
-    `/1.0/auth/identity-provider-groups/${encodeURIComponent(group)}`,
+    `${ROOT_PATH}/1.0/auth/identity-provider-groups/${encodeURIComponent(group)}`,
     {
       method: "DELETE",
     },

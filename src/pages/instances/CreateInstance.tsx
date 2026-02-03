@@ -95,6 +95,7 @@ import { sshKeyPayload } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { InstanceRichChip } from "./InstanceRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -261,7 +262,7 @@ const CreateInstance: FC = () => {
       return;
     }
 
-    const consoleUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instanceName)}/console`;
+    const consoleUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instanceName)}/console`;
     const message = isIsoImage && (
       <>
         <p>Continue the installation process from its console.</p>
@@ -293,7 +294,9 @@ const CreateInstance: FC = () => {
     }
 
     const formUrl = location.pathname + location.search;
-    navigate(`/ui/project/${encodeURIComponent(project)}/instances`);
+    navigate(
+      `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`,
+    );
 
     // NOTE: for lxd version that has the instance_create_start api extension
     // we can create and start the instance in one go by setting the 'start' property to true
@@ -547,7 +550,7 @@ const CreateInstance: FC = () => {
           onClick={async () =>
             navigate(
               location.state?.cancelLocation ??
-                `/ui/project/${encodeURIComponent(project)}/instances`,
+                `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`,
             )
           }
         >

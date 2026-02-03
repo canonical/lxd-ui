@@ -10,6 +10,7 @@ import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useLocation } from "react-router-dom";
 import ResourceLabel from "components/ResourceLabel";
+import { ROOT_PATH } from "util/rootPath";
 
 const LABELS: Record<CloudInitKey, string> = {
   cloud_init_network_config: "cloud-init network config",
@@ -58,7 +59,7 @@ const CloudInitExpandButton: FC<Props> = ({
         <ResourceLink
           type={entityType}
           value={entityName}
-          to={`/ui/project/${encodeURIComponent(project)}/${entityType}/${encodeURIComponent(entityName)}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/${entityType}/${encodeURIComponent(entityName)}`}
         />
       );
     } else if (isNew && entityName) {

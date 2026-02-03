@@ -42,6 +42,7 @@ import ResourceLink from "components/ResourceLink";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";
 import { useGroupEntitlements } from "util/entitlements/groups";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   group: LxdAuthGroup;
@@ -192,7 +193,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
             <ResourceLink
               type="auth-group"
               value={values.name}
-              to="/ui/permissions/groups"
+              to={`${ROOT_PATH}/ui/permissions/groups`}
             />{" "}
             updated.
           </>,

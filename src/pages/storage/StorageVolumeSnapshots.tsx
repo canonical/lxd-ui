@@ -11,6 +11,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -301,7 +302,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
                 <ResourceLink
                   type="project"
                   value={project.name}
-                  to={`/ui/project/${project.name}/configuration`}
+                  to={`${ROOT_PATH}/ui/project/${project.name}/configuration`}
                 />
                 .
               </>

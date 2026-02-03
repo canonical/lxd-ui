@@ -4,6 +4,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ResourceLink from "../../components/ResourceLink";
 import { InstanceRichTooltip } from "./InstanceRichTooltip";
 import { SMALL_TOOLTIP_BREAKPOINT } from "components/RichTooltipTable";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instanceName: string;
@@ -13,7 +14,7 @@ interface Props {
 export const InstanceRichChip: FC<Props> = ({ instanceName, projectName }) => {
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
 
-  const instanceUrl = `/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}`;
+  const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}`;
   const resourceLink = (
     <ResourceLink
       type="instance"

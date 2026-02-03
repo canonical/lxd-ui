@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useSettings } from "context/useSettings";
 import classNames from "classnames";
 import { hasMicroCloudFlag } from "util/settings";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   light?: boolean;
@@ -15,15 +16,15 @@ const Logo: FC<Props> = ({ light }) => {
   const isMicroCloud = hasMicroCloudFlag(settings);
 
   const src = isMicroCloud
-    ? "/ui/assets/img/microCloud-logo.svg"
-    : "/ui/assets/img/lxd-logo.svg";
+    ? `${ROOT_PATH}/ui/assets/img/microCloud-logo.svg`
+    : `${ROOT_PATH}/ui/assets/img/lxd-logo.svg`;
   const heading = isMicroCloud ? "MicroCloud" : "Canonical LXD";
 
   const getLogoLink = () => {
     if (isLoading || !project) {
-      return "/ui/";
+      return `${ROOT_PATH}/ui/`;
     }
-    return `/ui/project/${encodeURIComponent(project.name)}`;
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}`;
   };
 
   return (

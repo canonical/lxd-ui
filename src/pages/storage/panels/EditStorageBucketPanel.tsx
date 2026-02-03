@@ -19,6 +19,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { LxdStorageBucket } from "types/storage";
 import { pluralize } from "util/instanceBulkActions";
 import { useCurrentProject } from "context/useCurrentProject";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -41,7 +42,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
         <ResourceLink
           type="bucket"
           value={bucketName}
-          to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/buckets`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/buckets`}
         />{" "}
         updated.
       </>,

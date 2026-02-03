@@ -20,6 +20,7 @@ import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
 import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
 import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
+import { ROOT_PATH } from "util/rootPath";
 
 const ClusterMemberList: FC = () => {
   const notify = useNotify();
@@ -77,7 +78,7 @@ const ClusterMemberList: FC = () => {
             <>
               <div>
                 <Link
-                  to={`/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
+                  to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(member.server_name)}`}
                 >
                   {member.server_name}
                 </Link>

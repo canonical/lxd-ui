@@ -9,6 +9,7 @@ import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";
 import { getStorageBucketURL } from "util/storageBucket";
+import { ROOT_PATH } from "util/rootPath";
 
 export const storageBucketEntitlements = ["can_delete", "can_edit"];
 
@@ -23,7 +24,7 @@ export const fetchStorageBucketsFromPool = async (
   addEntitlements(params, isFineGrained, storageBucketEntitlements);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageBucket[]>) => {
@@ -62,7 +63,7 @@ export const fetchStorageBucket = async (
   addEntitlements(params, isFineGrained, storageBucketEntitlements);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucketName)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucketName)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageBucket>) => {
@@ -81,7 +82,7 @@ export const createStorageBucket = async (
   addTarget(params, target);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -107,7 +108,7 @@ export const updateStorageBucket = async (
   addTarget(params, target);
 
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -127,7 +128,7 @@ export const deleteStorageBucket = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -172,7 +173,7 @@ export const fetchStorageBucketKeys = async (
   addEntitlements(params, isFineGrained, storageBucketEntitlements);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageBucketKey[]>) => {
@@ -191,7 +192,7 @@ export const fetchStorageBucketKey = async (
   addEntitlements(params, isFineGrained, storageBucketEntitlements);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(bucket.pool)}/buckets/${encodeURIComponent(bucket.name)}/keys/${encodeURIComponent(keyName)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdStorageBucketKey>) => {
@@ -209,7 +210,7 @@ export const createStorageBucketKey = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -236,7 +237,7 @@ export const updateStorageBucketKey = async (
   addTarget(params, target);
 
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -257,7 +258,7 @@ export const deleteStorageBucketKey = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,
     {
       method: "DELETE",
     },

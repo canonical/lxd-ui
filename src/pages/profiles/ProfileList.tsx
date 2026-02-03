@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -210,7 +211,7 @@ const ProfileList: FC = () => {
                   className="u-no-margin--bottom u-float-right"
                   onClick={async () =>
                     navigate(
-                      `/ui/project/${encodeURIComponent(projectName)}/profiles/create`,
+                      `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/profiles/create`,
                     )
                   }
                   hasIcon={!isSmallScreen}
@@ -236,7 +237,7 @@ const ProfileList: FC = () => {
               <Notification severity="information">
                 Showing profiles from the{" "}
                 <ResourceLink
-                  to="/ui/project/default/profiles"
+                  to={`${ROOT_PATH}/ui/project/default/profiles`}
                   type="project"
                   value="default"
                 />{" "}

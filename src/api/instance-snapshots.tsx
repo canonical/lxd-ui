@@ -5,6 +5,7 @@ import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
 import { linkForInstanceDetail } from "util/instances";
+import { ROOT_PATH } from "util/rootPath";
 
 export const createInstanceSnapshot = async (
   instance: LxdInstance,
@@ -16,7 +17,7 @@ export const createInstanceSnapshot = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/snapshots?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -43,7 +44,7 @@ export const deleteInstanceSnapshot = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -101,7 +102,7 @@ export const restoreInstanceSnapshot = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -128,7 +129,7 @@ export const renameInstanceSnapshot = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -154,7 +155,7 @@ export const updateInstanceSnapshot = async (
   params.set("project", instance.project);
 
   return fetch(
-    `/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {

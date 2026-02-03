@@ -6,6 +6,7 @@ import BaseLayout from "components/BaseLayout";
 import TabLinks from "components/TabLinks";
 import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   activeTab?: string;
@@ -21,7 +22,11 @@ const Server: FC<Props> = ({ activeTab }) => {
     >
       <NotificationRow />
       <Row>
-        <TabLinks tabs={tabs} activeTab={activeTab} tabUrl={`/ui/server`} />
+        <TabLinks
+          tabs={tabs}
+          activeTab={activeTab}
+          tabUrl={`${ROOT_PATH}/ui/server`}
+        />
         {!activeTab && <ClusterMemberHardware />}
         {activeTab === "clustering" && (
           <EmptyState

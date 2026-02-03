@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
@@ -78,8 +79,8 @@ const InstanceGraphicConsole: FC<Props> = ({
 
     const operationUrl = result.operation.split("?")[0];
     const protocol = location.protocol === "https:" ? "wss" : "ws";
-    const dataUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
+    const dataUrl = `${protocol}://${location.host}${ROOT_PATH}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `${protocol}://${location.host}${ROOT_PATH}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
 
     const control = new WebSocket(controlUrl);
 

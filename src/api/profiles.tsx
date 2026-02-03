@@ -3,6 +3,7 @@ import type { LxdProfile } from "types/profile";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import type { LxdOperationResponse } from "types/operation";
+import { ROOT_PATH } from "util/rootPath";
 
 const profileEntitlements = ["can_delete", "can_edit"];
 
@@ -16,7 +17,9 @@ export const fetchProfile = async (
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, profileEntitlements);
 
-  return fetch(`/1.0/profiles/${encodeURIComponent(name)}?${params.toString()}`)
+  return fetch(
+    `${ROOT_PATH}/1.0/profiles/${encodeURIComponent(name)}?${params.toString()}`,
+  )
     .then(handleEtagResponse)
     .then((data) => {
       return data as LxdProfile;
@@ -32,7 +35,7 @@ export const fetchProfiles = async (
   params.set("project", project);
   addEntitlements(params, isFineGrained, profileEntitlements);
 
-  return fetch(`/1.0/profiles?${params.toString()}`)
+  return fetch(`${ROOT_PATH}/1.0/profiles?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdProfile[]>) => {
       return data.metadata;
@@ -46,7 +49,7 @@ export const createProfile = async (
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(`/1.0/profiles?${params.toString()}`, {
+  await fetch(`${ROOT_PATH}/1.0/profiles?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +66,7 @@ export const updateProfile = async (
   params.set("project", project);
 
   return fetch(
-    `/1.0/profiles/${encodeURIComponent(profile.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/profiles/${encodeURIComponent(profile.name)}?${params.toString()}`,
     {
       method: "PUT",
       body: JSON.stringify(profile),
@@ -88,7 +91,7 @@ export const renameProfile = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/profiles/${encodeURIComponent(oldName)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/profiles/${encodeURIComponent(oldName)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -109,7 +112,7 @@ export const deleteProfile = async (
   params.set("project", project);
 
   await fetch(
-    `/1.0/profiles/${encodeURIComponent(name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/profiles/${encodeURIComponent(name)}?${params.toString()}`,
     {
       method: "DELETE",
     },

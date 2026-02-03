@@ -12,6 +12,7 @@ import ExpandableList from "components/ExpandableList";
 import { combineAcls, getNetworkAcls } from "util/networks";
 import { getDeviceAcls } from "util/devices";
 import NetworkRichChip from "pages/networks/NetworkRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 const getNetworkDeviceIpAddress = ({
   network,
@@ -138,7 +139,7 @@ export const getNetworkDeviceRows = ({
                     key={acl}
                     type="network-acl"
                     value={acl}
-                    to={`/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl)}`}
+                    to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project || "default")}/network-acl/${encodeURIComponent(acl)}`}
                     className={classnames("acl-chip", {
                       "u-text--line-through": isDetached,
                     })}

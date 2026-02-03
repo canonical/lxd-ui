@@ -7,6 +7,7 @@ import {
   fetchInstanceConsoleBuffer,
 } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
@@ -89,8 +90,8 @@ const InstanceTextConsole: FC<Props> = ({
 
     const operationUrl = result.operation.split("?")[0];
     const protocol = location.protocol === "https:" ? "wss" : "ws";
-    const dataUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `${protocol}://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
+    const dataUrl = `${protocol}://${location.host}${ROOT_PATH}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `${protocol}://${location.host}${ROOT_PATH}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
 
     const data = new WebSocket(dataUrl);
     const control = new WebSocket(controlUrl);

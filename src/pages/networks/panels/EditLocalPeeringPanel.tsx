@@ -20,6 +20,7 @@ import type { LocalPeeringFormValues } from "../forms/NetworkLocalPeeringForm";
 import { useLocalPeering } from "context/useLocalPeerings";
 import { updateNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -34,7 +35,7 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
     panelParams.clear();
     notify.clear();
   };
-  const networkURL = `/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`;
+  const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`;
 
   const {
     data: localPeer,

@@ -18,6 +18,7 @@ import { queryKeys } from "util/queryKeys";
 import { InstanceRichChip } from "../InstanceRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: LxdInstance;
@@ -39,7 +40,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
 
   const notifySuccess = () => {
     const created = (
-      <Link to={`/ui/project/${encodeURIComponent(instance.project)}/images`}>
+      <Link
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/images`}
+      >
         created
       </Link>
     );

@@ -18,6 +18,7 @@ import DocLink from "components/DocLink";
 import { typesWithNicStaticIPSupport } from "util/networks";
 import { InstanceIpEdit } from "components/InstanceIpEdit";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -87,7 +88,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
             <ResourceLink
               type="project"
               value={lease.project}
-              to={`/ui/project/${encodeURIComponent(lease.project)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(lease.project)}`}
             />
           ),
           role: "cell",

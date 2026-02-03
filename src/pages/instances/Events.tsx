@@ -8,6 +8,7 @@ import { queryKeys } from "util/queryKeys";
 import { useOperations } from "context/operationsProvider";
 import { useListener, useNotify } from "@canonical/react-components";
 import { useMemberLoading } from "context/memberLoading";
+import { ROOT_PATH } from "util/rootPath";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
@@ -123,7 +124,7 @@ const Events: FC = () => {
   const connectEventWs = (retryCount = 0) => {
     try {
       const protocol = location.protocol === "https:" ? "wss" : "ws";
-      const wsUrl = `${protocol}://${location.host}/1.0/events?type=operation,lifecycle&all-projects=true`;
+      const wsUrl = `${protocol}://${location.host}${ROOT_PATH}/1.0/events?type=operation,lifecycle&all-projects=true`;
       const ws = new WebSocket(wsUrl);
       ws.onopen = () => {
         setEventWs(ws);

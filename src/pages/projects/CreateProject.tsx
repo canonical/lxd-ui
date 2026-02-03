@@ -16,6 +16,7 @@ import {
   getDefaultNetwork,
   getDefaultStoragePool,
 } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { createProject } from "api/projects";
@@ -86,14 +87,16 @@ const CreateProject: FC = () => {
   useListener(window, updateFormHeight, "resize", true);
 
   const notifySuccess = (values: ProjectFormValues) => {
-    navigate(`/ui/project/${encodeURIComponent(values.name)}/instances`);
+    navigate(
+      `${ROOT_PATH}/ui/project/${encodeURIComponent(values.name)}/instances`,
+    );
     toastNotify.success(
       <>
         Project{" "}
         <ResourceLink
           type="project"
           value={values.name}
-          to={`/ui/project/${encodeURIComponent(values.name)}/instances`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(values.name)}/instances`}
         />{" "}
         created.
       </>,
@@ -185,7 +188,7 @@ const CreateProject: FC = () => {
             })
             .catch((e: Error) => {
               navigate(
-                `/ui/project/${encodeURIComponent(values.name)}/instances`,
+                `${ROOT_PATH}/ui/project/${encodeURIComponent(values.name)}/instances`,
               );
               toastNotify.failure(
                 `Successfully created ${values.name} project. Failed to attach storage pool${hasNetwork ? " and network" : ""}.`,

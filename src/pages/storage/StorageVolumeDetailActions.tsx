@@ -16,6 +16,7 @@ import {
   largeScreenBreakpoint,
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -46,7 +47,9 @@ const StorageVolumeDetailActions: FC<Props> = ({ volume, project }) => {
       appearance=""
       hasIcon
       onFinish={() => {
-        navigate(`/ui/project/${encodeURIComponent(project)}/storage/volumes`);
+        navigate(
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/volumes`,
+        );
         toastNotify.success(
           <>
             Storage volume{" "}

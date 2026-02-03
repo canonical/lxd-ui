@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
 import { Link } from "react-router-dom";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   address: string;
@@ -19,7 +20,7 @@ export const InstanceIpEdit: FC<Props> = ({
         {address}
       </div>
       <Link
-        to={`/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}/configuration/network`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}/configuration/network`}
         rel="noopener noreferrer"
         className="p-button-base instance-ip-edit-link is-dense"
         type="button"

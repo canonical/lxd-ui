@@ -11,6 +11,7 @@ import {
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { getUniqueResourceName, truncateEntityName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
 import type { LxdProfile } from "types/profile";
 import { useProfiles } from "context/useProfiles";
@@ -34,7 +35,7 @@ const CopyProfileForm: FC<Props> = ({ profile, close }) => {
   const { data: profiles = [] } = useProfiles(profile?.project ?? "");
 
   const notifySuccess = (name: string, project: string) => {
-    const profileURL = `/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(name)}`;
+    const profileURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(name)}`;
     const message = (
       <>
         Created profile{" "}

@@ -21,6 +21,7 @@ import { usePlacementGroup } from "context/usePlacementGroups";
 import type { LxdPlacementGroup } from "types/placementGroup";
 import ResourceLink from "components/ResourceLink";
 import PlacementGroupUsedBy from "pages/placement-groups/PlacementGroupUsedBy";
+import { ROOT_PATH } from "util/rootPath";
 
 const EditPlacementGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -70,7 +71,7 @@ const EditPlacementGroupPanel: FC = () => {
               <ResourceLink
                 type="placement-group"
                 value={placementGroup.name ?? ""}
-                to={`/ui/project/${project?.name ?? "default"}/placement-groups/`}
+                to={`${ROOT_PATH}/ui/project/${project?.name ?? "default"}/placement-groups/`}
               />{" "}
               updated.
             </>,

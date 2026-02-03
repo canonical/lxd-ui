@@ -18,6 +18,7 @@ import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useNetworkAcls } from "context/useNetworkAcls";
 import DocLink from "components/DocLink";
+import { ROOT_PATH } from "util/rootPath";
 
 const NetworkAclList: FC = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const NetworkAclList: FC = () => {
         {
           content: (
             <Link
-              to={`/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(acl.name)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(acl.name)}`}
             >
               {acl.name}
             </Link>
@@ -109,7 +110,7 @@ const NetworkAclList: FC = () => {
       hasIcon
       onClick={async () =>
         navigate(
-          `/ui/project/${encodeURIComponent(project)}/network-acls/create`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls/create`,
         )
       }
       disabled={!canCreateNetworkAcls(currentProject)}

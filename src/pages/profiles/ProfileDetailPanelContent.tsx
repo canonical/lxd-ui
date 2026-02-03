@@ -9,6 +9,7 @@ import type { LxdProject } from "types/project";
 import { isProjectWithProfiles } from "util/projects";
 import ResourceLink from "components/ResourceLink";
 import { getDefaultStoragePool } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import ProfileConfigurationSections from "pages/profiles/ProfileConfigurationSections";
 import ProfileResourceLimits from "pages/profiles/ProfileResourceLimits";
 
@@ -52,7 +53,7 @@ const ProfileDetailPanelContent: FC<Props> = ({ profile, project }) => {
               <ResourceLink
                 type="pool"
                 value={defaultStoragePool}
-                to={`/ui/project/${encodeURIComponent(project.name)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
               />
             ) : (
               "-"

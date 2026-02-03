@@ -10,6 +10,7 @@ import {
   splitVolumeSnapshotName,
 } from "util/storageVolume";
 import { addTarget } from "util/target";
+import { ROOT_PATH } from "util/rootPath";
 
 export const createVolumeSnapshot = async (
   volume: LxdStorageVolume,
@@ -21,7 +22,7 @@ export const createVolumeSnapshot = async (
   addTarget(params, volume.location);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/custom/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/custom/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -48,7 +49,7 @@ export const deleteVolumeSnapshot = async (
   addTarget(params, volume.location);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "DELETE",
     },
@@ -107,7 +108,7 @@ export const restoreVolumeSnapshot = async (
   addTarget(params, volume.location);
 
   await fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -130,7 +131,7 @@ export const renameVolumeSnapshot = async (
   addTarget(params, volume.location);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "POST",
       headers: {
@@ -158,7 +159,7 @@ export const updateVolumeSnapshot = async (
   addTarget(params, volume.location);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
     {
       method: "PUT",
       headers: {
@@ -184,7 +185,7 @@ export const fetchStorageVolumeSnapshots = async (
   addTarget(params, volume.location);
 
   return fetch(
-    `/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(volume.pool)}/volumes/${encodeURIComponent(volume.type)}/${encodeURIComponent(volume.name)}/snapshots?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) => {

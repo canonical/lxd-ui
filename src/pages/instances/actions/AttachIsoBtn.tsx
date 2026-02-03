@@ -20,6 +20,7 @@ import { instanceLinkFromOperation } from "util/instances";
 import ResourceLink from "components/ResourceLink";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   instance: LxdInstance;
@@ -63,7 +64,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               <>
                 ISO{" "}
                 <ResourceLink
-                  to={`/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
+                  to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
                   type="iso-volume"
                   value={attachedIso?.source ?? ""}
                 />{" "}
@@ -110,7 +111,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               <>
                 ISO{" "}
                 <ResourceLink
-                  to={`/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
+                  to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/storage/custom-isos`}
                   type="iso-volume"
                   value={image.aliases}
                 />{" "}

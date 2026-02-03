@@ -15,6 +15,7 @@ if (fs.existsSync(".env.local")) {
 const scssSettings = fs.readFileSync("src/sass/_settings.scss", "utf-8").trim();
 
 export default defineConfig({
+  base: "",
   css: {
     preprocessorOptions: {
       scss: {
@@ -30,14 +31,16 @@ export default defineConfig({
     strictPort: true,
     hmr: process.env.CI ? false : undefined,
     proxy: {
-      "/ui/assets": {
-        target: "https://localhost:8407/",
+      "^/ui/(assets|manifest.json)": {
+        target: `http://localhost:${process.env.VITE_PORT || 3000}`,
         rewrite: (path) => path.replace(/^\/ui/, ""),
         secure: false,
+        changeOrigin: true,
       },
       "/ui/monaco-editor": {
-        target: "https://localhost:8407/node_modules",
-        rewrite: (path) => path.replace(/^\/ui/, ""),
+        target: `http://localhost:${process.env.VITE_PORT || 3000}`,
+        rewrite: (path) =>
+          path.replace(/^\/ui\/monaco-editor/, "/node_modules/monaco-editor"),
         secure: false,
       },
     },
@@ -45,10 +48,5 @@ export default defineConfig({
   build: {
     outDir: "./build/ui",
     minify: "esbuild",
-  },
-  experimental: {
-    renderBuiltUrl(filename: string) {
-      return "/ui/" + filename;
-    },
   },
 });

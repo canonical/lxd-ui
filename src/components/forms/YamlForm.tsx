@@ -7,6 +7,7 @@ import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import classnames from "classnames";
 import { useListener } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import { ROOT_PATH } from "util/rootPath";
 
 export interface YamlFormValues {
   yaml?: string;
@@ -33,7 +34,7 @@ const YamlForm: FC<Props> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const isSmallScreen = useIsScreenBelow();
 
-  loader.config({ paths: { vs: "/ui/monaco-editor/min/vs" } });
+  loader.config({ paths: { vs: `${ROOT_PATH}/ui/monaco-editor/min/vs` } });
 
   const updateFormHeight = () => {
     if (!editor || !containerRef.current) {

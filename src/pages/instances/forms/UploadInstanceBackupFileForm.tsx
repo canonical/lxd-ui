@@ -27,6 +27,7 @@ import type { InstanceFileType } from "./InstanceFileTypeSelector";
 import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ResourceLabel from "components/ResourceLabel";
 import { fileToSanitisedName } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 export interface UploadInstanceBackupFileFormValues {
@@ -63,7 +64,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
   const { hasInstanceImportConversion } = useSupportedFeatures();
 
   const handleSuccess = (instanceName: string) => {
-    const instanceUrl = `/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
+    const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/instance/${encodeURIComponent(instanceName)}`;
     const message = (
       <>
         Created instance{" "}
@@ -128,7 +129,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
 
         handleCloseModal();
         navigate(
-          `/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/instances`,
         );
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {

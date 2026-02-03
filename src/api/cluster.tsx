@@ -1,11 +1,12 @@
 import { handleResponse } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
+import { ROOT_PATH } from "util/rootPath";
 
 export const updateCluster = async (
   payload: string,
 ): Promise<LxdOperationResponse> => {
-  return fetch("/1.0/cluster", {
+  return fetch(`${ROOT_PATH}/1.0/cluster`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

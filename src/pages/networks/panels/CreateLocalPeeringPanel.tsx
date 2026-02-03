@@ -21,6 +21,7 @@ import NetworkLocalPeeringForm from "../forms/NetworkLocalPeeringForm";
 import type { LocalPeeringFormValues } from "../forms/NetworkLocalPeeringForm";
 import { testDuplicateLocalPeeringName } from "util/networks";
 import NetworkRichChip from "../NetworkRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   network: LxdNetwork;
@@ -37,7 +38,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     panelParams.clear();
     notify.clear();
   };
-  const networkURL = `/ui/project/${encodeURIComponent(project?.name ?? "")}/network/${encodeURIComponent(network.name)}`;
+  const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/network/${encodeURIComponent(network.name)}`;
   const projectOtherLabel = "Manually enter project";
   const networkOtherLabel = "Manually enter network";
 
