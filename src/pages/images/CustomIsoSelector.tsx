@@ -80,7 +80,10 @@ const CustomIsoSelector: FC<Props> = ({
                   ? "positive"
                   : ""
               }
-              onClick={selectIso}
+              onClick={(e) => {
+                e.stopPropagation();
+                selectIso();
+              }}
               dense
             >
               Select
