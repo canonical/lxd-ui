@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/50</span>
+                <span class='fraction'>24/50</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/50</span>
+                <span class='fraction'>24/50</span>
             </div>
         
             
@@ -121,6 +121,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -147,20 +156,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -170,16 +170,16 @@ interface Props {
   resources: LxdResources;
 }
 &nbsp;
-const ClusterMemberDetailUSB: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ resources }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;table className="usb"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;tbody&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {resources?.usb.devices?.length === 0 &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;tr&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;td className="u-text--muted"&gt;No USB devices found&lt;/td&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/tr&gt;</span>
-<span class="cstat-no" title="statement not covered" >        )}</span>
-<span class="cstat-no" title="statement not covered" >        {resources?.usb.devices?.map((device, i) =&gt; (</span>
+const ClusterMemberDetailUSB: FC&lt;Props&gt; = ({ resources }) =&gt; {
+  return (
+    &lt;table className="usb"&gt;
+      &lt;tbody&gt;
+        {resources?.usb.devices?.length === 0 &amp;&amp; (
+          &lt;tr&gt;
+            &lt;td className="u-text--muted"&gt;No USB devices found&lt;/td&gt;
+          &lt;/tr&gt;
+        )}
+        {resources?.usb.devices?.map((device, i) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;tr key={i}&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;th className="u-text--muted"&gt;Device #{i + 1}&lt;/th&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;td&gt;</span>
@@ -206,11 +206,11 @@ const ClusterMemberDetailUSB: FC&lt;Props&gt; = <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >              )}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/td&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/tr&gt;</span>
-<span class="cstat-no" title="statement not covered" >        ))}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/tbody&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/table&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+        ))}
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  );
+};
 &nbsp;
 export default ClusterMemberDetailUSB;
 &nbsp;</pre></td></tr></table></pre>
@@ -220,7 +220,7 @@ export default ClusterMemberDetailUSB;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-03T14:35:59.585Z
+                at 2026-02-03T15:09:14.364Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
