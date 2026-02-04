@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.79% </span>
+                <span class="strong">9.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/307</span>
+                <span class='fraction'>28/308</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.44% </span>
+                <span class="strong">10.8% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/249</span>
+                <span class='fraction'>27/250</span>
             </div>
         
             
@@ -312,30 +312,32 @@
 <a name='L247'></a><a href='#L247'>247</a>
 <a name='L248'></a><a href='#L248'>248</a>
 <a name='L249'></a><a href='#L249'>249</a>
-<a name='L250'></a><a href='#L250'>250</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -559,8 +561,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
+<span class="cline-any cline-yes">338x</span>
+<span class="cline-any cline-yes">338x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
 import { useProject } from "context/useProjects";
 import { List, Spinner } from "@canonical/react-components";
@@ -579,6 +581,7 @@ import { isProjectWithProfiles } from "util/projects";
 import { getDefaultStoragePool, getDefaultNetwork } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 interface Props {
   projectName: string;
@@ -680,7 +683,7 @@ const ProjectRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >      title: "Project",</span>
 <span class="cstat-no" title="statement not covered" >      value: project ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Link</span>
-<span class="cstat-no" title="statement not covered" >          to={`/ui/project/${encodeURIComponent(projectName)}`}</span>
+<span class="cstat-no" title="statement not covered" >          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}`}</span>
 <span class="cstat-no" title="statement not covered" >          onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            e.stopPropagation();</span></span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
@@ -703,7 +706,7 @@ const ProjectRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >          type="pool"</span>
 <span class="cstat-no" title="statement not covered" >          value={defaultStoragePool}</span>
-<span class="cstat-no" title="statement not covered" >          to={`/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}</span>
+<span class="cstat-no" title="statement not covered" >          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      ) : (</span>
 <span class="cstat-no" title="statement not covered" >        "-"</span>
@@ -717,7 +720,7 @@ const ProjectRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >            type="network"</span>
 <span class="cstat-no" title="statement not covered" >            value={defaultNetwork}</span>
-<span class="cstat-no" title="statement not covered" >            to={`/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(defaultNetwork)}`}</span>
+<span class="cstat-no" title="statement not covered" >            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(defaultNetwork)}`}</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        ) : (</span>
 <span class="cstat-no" title="statement not covered" >          "-"</span>
@@ -817,7 +820,7 @@ export default ProjectRichTooltip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-03T15:09:14.364Z
+                at 2026-02-04T11:38:50.856Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

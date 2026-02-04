@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.1% </span>
+                <span class="strong">53.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>137/258</span>
+                <span class='fraction'>138/259</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.1% </span>
+                <span class="strong">53.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>137/258</span>
+                <span class='fraction'>138/259</span>
             </div>
         
             
@@ -321,35 +321,37 @@
 <a name='L256'></a><a href='#L256'>256</a>
 <a name='L257'></a><a href='#L257'>257</a>
 <a name='L258'></a><a href='#L258'>258</a>
-<a name='L259'></a><a href='#L259'>259</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -597,6 +599,7 @@ import { queryKeys } from "./queryKeys";
 import { linkForVolumeDetail } from "./storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 export type VolumeMigrationType = "cluster member" | "pool" | "project" | "";
 &nbsp;
@@ -633,7 +636,7 @@ export const useStorageVolumeMigration = ({
       &lt;ResourceLink
         type="pool"
         value={target}
-        to={`/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(target)}`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(target)}`}
       /&gt;
     );
 &nbsp;
@@ -645,7 +648,7 @@ export const useStorageVolumeMigration = ({
 <span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >            type="cluster-member"</span>
 <span class="cstat-no" title="statement not covered" >            value={target}</span>
-<span class="cstat-no" title="statement not covered" >            to={`/ui/cluster/member/${encodeURIComponent(target)}`}</span>
+<span class="cstat-no" title="statement not covered" >            to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(target)}`}</span>
 <span class="cstat-no" title="statement not covered" >          /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
@@ -844,7 +847,7 @@ export const useStorageVolumeMigration = ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-03T15:09:14.364Z
+                at 2026-02-04T11:38:50.856Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

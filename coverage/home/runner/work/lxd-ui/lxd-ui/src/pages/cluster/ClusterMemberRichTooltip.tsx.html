@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.85% </span>
+                <span class="strong">20.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/141</span>
+                <span class='fraction'>29/142</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.6% </span>
+                <span class="strong">22.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/125</span>
+                <span class='fraction'>28/126</span>
             </div>
         
             
@@ -188,31 +188,33 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -311,8 +313,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">312x</span>
-<span class="cline-any cline-yes">312x</span>
+<span class="cline-any cline-yes">306x</span>
+<span class="cline-any cline-yes">306x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
 import { Spinner } from "@canonical/react-components";
 import { type TooltipRow } from "components/RichTooltipRow";
@@ -332,6 +334,7 @@ import { fetchClusterMemberState } from "api/cluster-members";
 import { queryKeys } from "util/queryKeys";
 import { formatSeconds } from "util/seconds";
 import ResourceLabel from "components/ResourceLabel";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 interface Props {
   clusterMember: string;
@@ -375,7 +378,7 @@ const ClusterMemberRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="
 <span class="cstat-no" title="statement not covered" >          &lt;Spinner /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        ) : (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;Link</span>
-<span class="cstat-no" title="statement not covered" >            to={`/ui/cluster/member/${encodeURIComponent(clusterMember)}`}</span>
+<span class="cstat-no" title="statement not covered" >            to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(clusterMember)}`}</span>
 <span class="cstat-no" title="statement not covered" >            onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              e.stopPropagation();</span></span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
@@ -445,7 +448,7 @@ export default ClusterMemberRichTooltip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-03T15:09:14.364Z
+                at 2026-02-04T11:38:50.856Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
