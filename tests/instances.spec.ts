@@ -1,5 +1,6 @@
 import { test, expect } from "./fixtures/lxd-test";
 import {
+  createAndStartInstance,
   createImageFromInstance,
   createInstance,
   deleteInstance,
@@ -414,7 +415,10 @@ test("'Other' tab is removed when config/creating Instances, on LXD Version 5.0"
 test("instance deletion (with and without force delete support)", async ({
   page,
 }) => {
-  await visitAndStartInstance(page, instance);
+  const toDeleteInstance = `delete-test-${randomInstanceName()}`;
+  await createAndStartInstance(page, toDeleteInstance);
+
+  await visitInstance(page, toDeleteInstance);
 
   await page.getByRole("button", { name: "Delete" }).click();
 
@@ -430,10 +434,12 @@ test("instance deletion (with and without force delete support)", async ({
 
   await deleteButton.click();
 
-  await expect(page.getByText(`Instance ${instance} deleted.`)).toBeVisible();
+  await expect(
+    page.getByText(`Instance ${toDeleteInstance} deleted.`),
+  ).toBeVisible();
   await page
     .getByRole("link", { name: "Instances", exact: true })
     .first()
     .click();
-  await expect(page.getByText(instance)).not.toBeVisible();
+  await expect(page.getByText(toDeleteInstance)).not.toBeVisible();
 });
