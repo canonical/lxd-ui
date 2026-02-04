@@ -170,7 +170,12 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
 
     data.binaryType = "arraybuffer";
     data.onmessage = (message: MessageEvent<ArrayBuffer>) => {
-      xtermRef.current?.write(new Uint8Array(message.data));
+      const isOriginMatch = message.origin === `${protocol}://${location.host}`;
+      if (message.isTrusted && isOriginMatch) {
+        xtermRef.current?.write(new Uint8Array(message.data));
+      } else {
+        console.error("Ignoring untrusted message", message);
+      }
     };
 
     return [data, control];
