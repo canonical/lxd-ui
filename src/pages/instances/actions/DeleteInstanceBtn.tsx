@@ -134,17 +134,24 @@ const DeleteInstanceBtn: FC<Props> = ({
   };
 
   const isDeletableStatus = deletableStatuses.includes(instance.status);
+  const isProtectedFromDelete =
+    instance.expanded_config["security.protection.delete"] === "true";
   const isDisabled =
     isLoading ||
     !isDeletableStatus ||
     instanceLoading.getType(instance) === "Migrating" ||
-    !canDeleteInstance(instance);
+    !canDeleteInstance(instance) ||
+    isProtectedFromDelete;
+
   const getHoverText = () => {
     if (!canDeleteInstance(instance)) {
       return "You do not have permission to delete this instance";
     }
     if (!isDeletableStatus) {
       return "Stop the instance to delete it";
+    }
+    if (isProtectedFromDelete) {
+      return "Update security policies to remove the delete protection.";
     }
     return "Delete instance";
   };
