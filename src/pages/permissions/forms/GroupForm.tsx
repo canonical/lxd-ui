@@ -52,6 +52,22 @@ const GroupForm: FC<Props> = ({
       ? ""
       : "You do not have permission to modify this group";
 
+  const isNameInvalid = !formik.values.name || !!formik.errors.name;
+  const isFieldDisabled = !!groupEditRestriction || isNameInvalid;
+
+  const getDisableReason = () => {
+    if (groupEditRestriction) {
+      return groupEditRestriction;
+    }
+
+    if (isNameInvalid) {
+      return "Enter a valid group name first";
+    }
+
+    return undefined;
+  };
+  const disableReason = getDisableReason();
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       {/* hidden submit to enable enter key in inputs */}
@@ -68,8 +84,8 @@ const GroupForm: FC<Props> = ({
       <AutoExpandingTextArea
         {...getFormProps("description")}
         label="Description"
-        disabled={!!groupEditRestriction}
-        title={groupEditRestriction}
+        disabled={isFieldDisabled}
+        title={disableReason}
       />
       <FormLink
         title={(isEditing ? "Edit " : "Add ") + pluralize("identity", 2)}
@@ -83,6 +99,8 @@ const GroupForm: FC<Props> = ({
             ? `No ${pluralize("identity", 2)}`
             : `${identityCount} ${pluralize("identity", identityCount)}`
         }
+        disabled={isFieldDisabled}
+        onHoverText={disableReason}
       />
       <FormLink
         title={(isEditing ? "Edit " : "Add ") + pluralize("permission", 2)}
@@ -96,6 +114,8 @@ const GroupForm: FC<Props> = ({
             ? `No ${pluralize("permission", 2)}`
             : `${permissionCount} ${pluralize("permission", permissionCount)}`
         }
+        disabled={isFieldDisabled}
+        onHoverText={disableReason}
       />
     </Form>
   );
