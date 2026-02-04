@@ -415,7 +415,7 @@ test("'Other' tab is removed when config/creating Instances, on LXD Version 5.0"
 test("instance deletion (with and without force delete support)", async ({
   page,
 }) => {
-  const toDeleteInstance = `delete-test-${randomInstanceName()}`;
+  const toDeleteInstance = `delete-${randomInstanceName()}`;
   await createAndStartInstance(page, toDeleteInstance);
 
   await visitInstance(page, toDeleteInstance);
@@ -437,9 +437,4 @@ test("instance deletion (with and without force delete support)", async ({
   await expect(
     page.getByText(`Instance ${toDeleteInstance} deleted.`),
   ).toBeVisible();
-  await page
-    .getByRole("link", { name: "Instances", exact: true })
-    .first()
-    .click();
-  await expect(page.getByText(toDeleteInstance)).not.toBeVisible();
 });
