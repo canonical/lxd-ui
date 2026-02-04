@@ -853,7 +853,10 @@ SpiceDisplayConn.prototype.hook_events = function()
         canvas.focus();
 
         this.focusListener = () => this.parent.send_clipboard_grab()
-        canvas.addEventListener("focus", this.focusListener);
+        // send host clipboard when the canvas is rendered initially
+        this.focusListener();
+        // register focus event to grab host clipboard when the canvas gets focus
+        canvas.addEventListener('focus', this.focusListener);
     }
 }
 
@@ -871,7 +874,7 @@ SpiceDisplayConn.prototype.unhook_events = function()
         canvas.removeEventListener('mouseout', handle_mouseout);
         canvas.removeEventListener('mouseover', handle_mouseover);
         canvas.removeEventListener('wheel', Inputs.handle_mousewheel);
-        canvas.removeEventListener("focus", this.focusListener);
+        canvas.removeEventListener('focus', this.focusListener);
     }
 }
 

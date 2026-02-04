@@ -330,8 +330,14 @@ SpiceMsgChannels.prototype =
     },
 }
 
-function SpiceMsgClipboardGrab(type)
+function hasClipboardSelection(caps)
 {
+    return ((caps[0] >> Constants.VD_AGENT_CAP_CLIPBOARD_SELECTION) & 1) != 0;
+}
+
+function SpiceMsgClipboardGrab(type, caps)
+{
+    this.has_clipboard_selection = hasClipboardSelection(caps)
     this.type = type;
 }
 
@@ -341,21 +347,26 @@ SpiceMsgClipboardGrab.prototype =
     {
         at = at || 0;
         var dv = new SpiceDataView(a);
-        dv.setUint32(at, 0, true); at += 4;
+        if (this.has_clipboard_selection)
+        {
+            dv.setUint32(at, 0, true); at += 4;
+        }
         dv.setUint32(at, this.type, true); at += 4;
     },
 
     buffer_size: function()
     {
-        return 8;
+        return (this.has_clipboard_selection ? 8 : 4);
     }
 };
 
-function SpiceMsgClipboardReceive(agent_data)
+function SpiceMsgClipboardReceive(agent_data, caps)
 {
+    this.has_clipboard_selection = hasClipboardSelection(caps)
     const dv = new DataView(agent_data.data);
-    this.type = dv.getUint32(4, true);
-    this.payload = agent_data.data.slice(8);
+    var at = (this.has_clipboard_selection ? 4 : 0);
+    this.type = dv.getUint32(at, true); at += 4;
+    this.payload = agent_data.data.slice(at);
 }
 
 SpiceMsgClipboardReceive.prototype =
@@ -366,8 +377,9 @@ SpiceMsgClipboardReceive.prototype =
     }
 }
 
-function SpiceMsgClipboardRequest(type)
+function SpiceMsgClipboardRequest(type, caps)
 {
+    this.has_clipboard_selection = hasClipboardSelection(caps)
     this.type = type;
 }
 
@@ -377,18 +389,22 @@ SpiceMsgClipboardRequest.prototype =
     {
         at = at || 0;
         var dv = new SpiceDataView(a);
-        dv.setUint32(at, 0, true); at += 4;
+        if (this.has_clipboard_selection)
+        {
+            dv.setUint32(at, 0, true); at += 4;
+        }
         dv.setUint32(at, this.type, true); at += 4;
     },
 
     buffer_size: function()
     {
-        return 8;
+        return (this.has_clipboard_selection ? 8 : 4);
     }
 };
 
-function SpiceMsgClipboardSend(type, text)
+function SpiceMsgClipboardSend(type, text, caps)
 {
+    this.has_clipboard_selection = hasClipboardSelection(caps)
     this.type = type;
     this.text = text;
 }
@@ -399,7 +415,10 @@ SpiceMsgClipboardSend.prototype =
     {
         at = at || 0;
         const dv = new SpiceDataView(a);
-        dv.setUint32(at, 0, true); at += 4;
+        if (this.has_clipboard_selection)
+        {
+            dv.setUint32(at, 0, true); at += 4;
+        }
         dv.setUint32(at, this.type, true); at += 4;
         const payload = new TextEncoder().encode(this.text);
         new Uint8Array(a, at, payload.byteLength).set(payload); at += payload.byteLength;
@@ -408,7 +427,7 @@ SpiceMsgClipboardSend.prototype =
     buffer_size: function()
     {
         const payloadLength = new TextEncoder().encode(this.text).byteLength;
-        return 8 + payloadLength;
+        return (this.has_clipboard_selection ? 8 : 4) + payloadLength;
     }
 };
 
