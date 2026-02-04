@@ -178,6 +178,8 @@ const InstanceTextConsole: FC<Props> = ({
     true,
   );
 
+  useListener(window, handleResize, "menu-collapse-toggle");
+
   return (
     <>
       {isLoading ? (

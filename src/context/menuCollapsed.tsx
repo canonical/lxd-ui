@@ -14,12 +14,19 @@ const noCollapseEvents = new Set(["search-and-filter"]);
 export const useMenuCollapsed = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(isMediumScreen());
 
+  const updateMenuCollapsed = (isCollapsed: boolean) => {
+    setMenuCollapsed(isCollapsed);
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("menu-collapse-toggle"));
+    }, 500);
+  };
+
   const collapseOnMediumScreen = (e: Event | CustomEvent<string>) => {
     if (isSmallScreen()) {
       return;
     }
     if (!("detail" in e) || !noCollapseEvents.has(e.detail)) {
-      setMenuCollapsed(isMediumScreen());
+      updateMenuCollapsed(isMediumScreen());
     }
   };
 
@@ -27,11 +34,11 @@ export const useMenuCollapsed = () => {
 
   const onSearchFilterPanelToggle = () => {
     if (!menuCollapsed && isSmallScreen()) {
-      setMenuCollapsed(true);
+      updateMenuCollapsed(true);
     }
   };
 
   useListener(window, onSearchFilterPanelToggle, "sfp-toggle");
 
-  return { menuCollapsed, setMenuCollapsed };
+  return { menuCollapsed, updateMenuCollapsed };
 };

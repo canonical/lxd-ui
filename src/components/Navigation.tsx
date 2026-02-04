@@ -83,7 +83,7 @@ const initializeProjectName = (
 
 const Navigation: FC = () => {
   const { isRestricted, isOidc, isAuthenticated } = useAuth();
-  const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
+  const { menuCollapsed, updateMenuCollapsed } = useMenuCollapsed();
   const {
     project,
     isAllProjects: isAllProjectsFromUrl,
@@ -148,12 +148,12 @@ const Navigation: FC = () => {
 
   const softToggleMenu = () => {
     if (isSmallScreen) {
-      setMenuCollapsed((prev) => !prev);
+      updateMenuCollapsed(!menuCollapsed);
     }
   };
 
   const hardToggleMenu = (e: MouseEvent<HTMLElement>) => {
-    setMenuCollapsed((prev) => !prev);
+    updateMenuCollapsed(!menuCollapsed);
     e.stopPropagation();
   };
 
@@ -187,7 +187,7 @@ const Navigation: FC = () => {
 
   const toggleAccordionNav = (feature: AccordionNavMenu) => {
     if (menuCollapsed) {
-      setMenuCollapsed(false);
+      updateMenuCollapsed(false);
     }
 
     const newOpenMenus = openNavMenus.includes(feature)
