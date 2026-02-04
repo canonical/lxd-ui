@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
+import { execSync } from "child_process";
 
 const DEFAULT_IMAGE = "alpine/3.23/cloud";
 
@@ -192,6 +193,7 @@ export const visitAndStopInstance = async (page: Page, instance: string) => {
 };
 
 export const createImageFromInstance = async (page: Page, instance: string) => {
+  removeCustomImages();
   const imageAlias = randomImageName();
   await visitInstance(page, instance);
   await page.getByRole("button", { name: "Create Image" }).click();
@@ -200,6 +202,19 @@ export const createImageFromInstance = async (page: Page, instance: string) => {
   await page.waitForSelector(`text=Image created from instance ${instance}.`);
 
   return imageAlias;
+};
+
+export const removeCustomImages = () => {
+  // remove all custom images created during previous runs
+  // to avoid failures on retries due to fingerprint conflicts
+  // images with auto_update: false are created from an instance
+  execSync(
+    `for f in $(sudo lxc image list --columns f --format csv); do
+      if sudo lxc image show "$f" | grep -q 'auto_update: false'; then
+        sudo lxc image delete "$f"
+      fi
+    done`,
+  );
 };
 
 export const migrateInstanceRootStorage = async (
