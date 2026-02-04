@@ -16,6 +16,7 @@ import { isProjectWithProfiles } from "util/projects";
 import { getDefaultStoragePool, getDefaultNetwork } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   projectName: string;
@@ -117,7 +118,7 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
       title: "Project",
       value: project ? (
         <Link
-          to={`/ui/project/${encodeURIComponent(projectName)}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}`}
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -140,7 +141,7 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
         <ResourceLink
           type="pool"
           value={defaultStoragePool}
-          to={`/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}
         />
       ) : (
         "-"
@@ -154,7 +155,7 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
           <ResourceLink
             type="network"
             value={defaultNetwork}
-            to={`/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(defaultNetwork)}`}
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(defaultNetwork)}`}
           />
         ) : (
           "-"

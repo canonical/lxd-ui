@@ -16,6 +16,7 @@ import { queryKeys } from "./queryKeys";
 import { linkForVolumeDetail } from "./storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { ROOT_PATH } from "util/rootPath";
 
 export type VolumeMigrationType = "cluster member" | "pool" | "project" | "";
 
@@ -52,7 +53,7 @@ export const useStorageVolumeMigration = ({
       <ResourceLink
         type="pool"
         value={target}
-        to={`/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(target)}`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/storage/pool/${encodeURIComponent(target)}`}
       />
     );
 
@@ -64,7 +65,7 @@ export const useStorageVolumeMigration = ({
           <ResourceLink
             type="cluster-member"
             value={target}
-            to={`/ui/cluster/member/${encodeURIComponent(target)}`}
+            to={`${ROOT_PATH}/ui/cluster/member/${encodeURIComponent(target)}`}
           />
         </>
       );
