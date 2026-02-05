@@ -6,7 +6,7 @@ import type { LxdNetwork, LxdNetworkAcl } from "types/network";
 import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import { isDiskDevice, isNicDevice, isRootDisk } from "./devices";
-import type { FormDevice } from "./formDevices";
+import type { FormDevice } from "types/formDevice";
 import type { LxdIdentity } from "types/permissions";
 import { addTarget } from "util/target";
 import { debounceAsync } from "util/debounce";

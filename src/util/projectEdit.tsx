@@ -1,5 +1,5 @@
 import type { LxdProject } from "types/project";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "types/forms/project";
 import { isProjectWithProfiles } from "./projects";
 import { getProjectConfigKeys } from "util/projectConfigFields";
 import {

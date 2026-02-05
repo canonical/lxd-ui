@@ -1,38 +1,23 @@
 import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type {
+  CreateInstanceFormValues,
+  SecurityPoliciesFormValues,
+} from "types/forms/instanceAndProfile";
 import classnames from "classnames";
 import {
   optionAllowDeny,
   optionTrueFalse,
   optionYesNo,
 } from "util/instanceOptions";
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
-export interface SecurityPoliciesFormValues {
-  security_protection_delete?: string;
-  security_privileged?: string;
-  security_nesting?: string;
-  security_protection_shift?: string;
-  security_idmap_base?: string;
-  security_idmap_size?: number;
-  security_idmap_isolated?: string;
-  security_devlxd?: string;
-  security_devlxd_images?: string;
-  security_secureboot?: string;
-  security_csm?: string;
-}
-
-export const securityPoliciesPayload = (
-  values: InstanceAndProfileFormValues,
-) => {
+export const securityPoliciesPayload = (values: SecurityPoliciesFormValues) => {
   return {
     [getInstanceField("security_protection_delete")]:
       values.security_protection_delete,

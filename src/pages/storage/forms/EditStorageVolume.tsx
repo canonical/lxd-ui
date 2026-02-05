@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import StorageVolumeForm, {
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";

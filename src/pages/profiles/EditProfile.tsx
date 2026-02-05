@@ -15,16 +15,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
-import type { FormDeviceValues } from "util/formDevices";
-import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
-import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
-import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm from "components/forms/CloudInitForm";
-import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm from "components/forms/ResourceLimitsForm";
-import type { YamlFormValues } from "components/forms/YamlForm";
 import YamlForm from "components/forms/YamlForm";
 import { updateProfile } from "api/profiles";
 import ProfileFormMenu, {
@@ -46,13 +40,11 @@ import type { LxdProfile } from "types/profile";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
-import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm from "pages/profiles/forms/ProfileDetailsForm";
 import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm from "components/forms/MigrationForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
@@ -61,27 +53,15 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
-import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
-import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { getProfilePayload } from "util/profiles";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { ROOT_PATH } from "util/rootPath";
-
-export type EditProfileFormValues = ProfileDetailsFormValues &
-  FormDeviceValues &
-  ResourceLimitsFormValues &
-  SecurityPoliciesFormValues &
-  SnapshotFormValues &
-  MigrationFormValues &
-  BootFormValues &
-  CloudInitFormValues &
-  SshKeyFormValues &
-  YamlFormValues;
+import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
 
 interface Props {
   profile: LxdProfile;

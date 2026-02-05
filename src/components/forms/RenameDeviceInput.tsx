@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 interface Props {
   name: string;

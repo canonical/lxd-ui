@@ -2,7 +2,10 @@ import type { FC, ReactNode } from "react";
 import { Select } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type {
+  ClusterRestrictionFormValues,
+  ProjectFormValues,
+} from "types/forms/project";
 import type { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
 import { optionRenderer } from "util/formFields";
@@ -12,13 +15,8 @@ import ResourceLink from "components/ResourceLink";
 import ClusterGroupSelector from "pages/cluster/ClusterGroupSelector";
 import { ROOT_PATH } from "util/rootPath";
 
-export interface ClusterRestrictionFormValues {
-  restricted_cluster_groups?: string;
-  restricted_cluster_target?: string;
-}
-
 export const clusterRestrictionPayload = (
-  values: ProjectFormValues,
+  values: ClusterRestrictionFormValues,
 ): LxdConfigPair => {
   return {
     [getProjectKey("restricted_cluster_groups")]:

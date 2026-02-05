@@ -41,3 +41,5 @@ export interface LxdClusterGroup {
   name: string;
   used_by?: string[];
 }
+
+export type ClusterSpecificValues = Record<string, string>;

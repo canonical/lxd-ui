@@ -15,7 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { updatePlacementGroup } from "api/placement-groups";
 import { useCurrentProject } from "context/useCurrentProject";
-import type { PlacementGroupFormValues } from "pages/placement-groups/PlacementGroupForm";
+import type { PlacementGroupFormValues } from "types/forms/placementGroup";
 import PlacementGroupForm from "pages/placement-groups/PlacementGroupForm";
 import { usePlacementGroup } from "context/usePlacementGroups";
 import type { LxdPlacementGroup } from "types/placementGroup";

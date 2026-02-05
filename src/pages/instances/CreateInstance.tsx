@@ -22,29 +22,23 @@ import { objectToYaml, yamlToObject } from "util/yaml";
 import type { Location } from "react-router-dom";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import type { InstanceDetailsFormValues } from "pages/instances/forms/InstanceCreateDetailsForm";
 import InstanceCreateDetailsForm, {
   instanceDetailPayload,
 } from "pages/instances/forms/InstanceCreateDetailsForm";
-import type { FormDevice, FormDeviceValues } from "util/formDevices";
+import type { FormDevice } from "types/formDevice";
 import { formDeviceToPayload, remoteImageToIsoDevice } from "util/formDevices";
-import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm, {
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
-import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm, {
   snapshotsPayload,
 } from "components/forms/InstanceSnapshotsForm";
-import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm, {
   cloudInitPayload,
 } from "components/forms/CloudInitForm";
-import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "components/forms/ResourceLimitsForm";
-import type { YamlFormValues } from "components/forms/YamlForm";
 import YamlForm from "components/forms/YamlForm";
 import InstanceFormMenu, {
   BOOT,
@@ -75,7 +69,6 @@ import {
 } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { instanceNameValidation } from "util/instances";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
   migrationPayload,
 } from "components/forms/MigrationForm";
@@ -86,27 +79,15 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
-import type { InstanceIconType } from "components/ResourceIcon";
-import type { BootFormValues } from "components/forms/BootForm";
+import type { InstanceIconType } from "types/instance";
 import BootForm, { bootPayload } from "components/forms/BootForm";
 import { useProfiles } from "context/useProfiles";
-import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
-
-export type CreateInstanceFormValues = InstanceDetailsFormValues &
-  FormDeviceValues &
-  ResourceLimitsFormValues &
-  SecurityPoliciesFormValues &
-  SnapshotFormValues &
-  MigrationFormValues &
-  BootFormValues &
-  CloudInitFormValues &
-  SshKeyFormValues &
-  YamlFormValues;
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 
 interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;

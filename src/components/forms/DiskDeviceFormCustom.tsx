@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
-import type { FormDevice, FormDiskDevice } from "util/formDevices";
+import type { FormDevice, FormDiskDevice } from "types/formDevice";
 import {
   deduplicateName,
   isFormDiskDevice,

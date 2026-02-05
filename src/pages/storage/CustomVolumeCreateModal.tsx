@@ -6,7 +6,7 @@ import {
   useListener,
   useNotify,
 } from "@canonical/react-components";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";

@@ -17,7 +17,10 @@ import {
 } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import type { FormikProps } from "formik/dist/types";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type {
+  CreateInstanceFormValues,
+  InstanceDetailsFormValues,
+} from "types/forms/instanceAndProfile";
 import type { LxdImageType, RemoteImage } from "types/image";
 import InstanceTargetSelect from "pages/instances/forms/InstanceTargetSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
@@ -25,24 +28,9 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
-import type { InstanceIconType } from "components/ResourceIcon";
 import SshKeyForm from "components/forms/SshKeyForm";
 
-export interface InstanceDetailsFormValues {
-  name?: string;
-  description?: string;
-  image?: RemoteImage;
-  instanceType: InstanceIconType;
-  profiles: string[];
-  target?: string;
-  placementGroup?: string;
-  entityType: "instance";
-  isCreating: boolean;
-  readOnly: boolean;
-  editRestriction?: string;
-}
-
-export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
+export const instanceDetailPayload = (values: InstanceDetailsFormValues) => {
   const payload: Record<string, string | undefined | object> = {
     name: values.name,
     description: values.description,

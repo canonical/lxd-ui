@@ -112,3 +112,5 @@ export interface LxdInstance {
   etag?: string;
   access_entitlements?: string[];
 }
+
+export type InstanceIconType = "container" | "virtual-machine" | "instance";

@@ -1,14 +1,8 @@
 import type { FC } from "react";
 import { Form, Input } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
-
-export interface IdpGroupFormValues {
-  name: string;
-}
-export interface TLSIdentityFormValues {
-  name: string;
-  groups?: string[];
-}
+import type { IdpGroupFormValues } from "types/forms/idpGroup";
+import type { TLSIdentityFormValues } from "types/forms/tlsIdentity";
 
 interface Props {
   formik: FormikProps<IdpGroupFormValues | TLSIdentityFormValues>;

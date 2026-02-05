@@ -1,7 +1,5 @@
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
 import type {
   LxdDeviceValue,
   LxdDiskDevice,
@@ -12,7 +10,7 @@ import type {
   LxdProxyDevice,
 } from "types/device";
 import type { LxdProfile } from "types/profile";
-import type { FormDevice, FormDiskDevice } from "util/formDevices";
+import type { FormDevice, FormDiskDevice } from "types/formDevice";
 import { getAppliedProfiles } from "./configInheritance";
 
 export const isNicDevice = (

@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import { useFormik } from "formik";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "types/forms/project";
 import * as Yup from "yup";
 import type { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";

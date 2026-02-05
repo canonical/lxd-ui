@@ -3,7 +3,7 @@ import { capitalizeFirstLetter, checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import type { AnyObject, TestContext, TestFunction } from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 
 export const testDuplicateStorageVolumeName = (
   project: string,

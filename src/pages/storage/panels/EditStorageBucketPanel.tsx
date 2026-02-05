@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
 import ResourceLink from "components/ResourceLink";
 import StorageBucketForm from "../forms/StorageBucketForm";
-import type { StorageBucketFormValues } from "../forms/StorageBucketForm";
+import type { StorageBucketFormValues } from "types/forms/storageBucket";
 import { updateStorageBucket } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";

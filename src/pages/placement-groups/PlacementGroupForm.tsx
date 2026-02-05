@@ -1,19 +1,13 @@
 import { Form, Input, Select } from "@canonical/react-components";
 import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
+import type { PlacementGroupFormValues } from "types/forms/placementGroup";
 
 export const PLACEMENT_GROUP_POLICY_COMPACT = "compact";
 export const PLACEMENT_GROUP_POLICY_SPREAD = "spread";
 
 export const PLACEMENT_GROUP_RIGOR_STRICT = "strict";
 export const PLACEMENT_GROUP_RIGOR_PERMISSIVE = "permissive";
-
-export interface PlacementGroupFormValues {
-  name?: string;
-  description?: string;
-  policy?: "compact" | "spread";
-  rigor?: "strict" | "permissive";
-}
 
 interface Props {
   formik: FormikProps<PlacementGroupFormValues>;

@@ -15,7 +15,7 @@ import NotificationRow from "components/NotificationRow";
 import { updateClusterGroup } from "api/cluster-groups";
 import ResourceLink from "components/ResourceLink";
 import { useClusterGroup } from "context/useClusterGroups";
-import type { ClusterGroupFormValues } from "pages/cluster/ClusterGroupForm";
+import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
 import { ROOT_PATH } from "util/rootPath";
 

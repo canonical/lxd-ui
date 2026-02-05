@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import { type LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "util/networks";
-import type { NetworkDeviceFormValues } from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
+import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import type { FormikProps } from "formik";
 import PrefixedIpInput from "components/PrefixedIpInput";
 

@@ -29,12 +29,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { fileToSanitisedName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
-
-export interface UploadInstanceBackupFileFormValues {
-  instanceFile: File | null;
-  name: string;
-  pool: string;
-}
+import type { UploadInstanceBackupFileFormValues } from "types/forms/uploadInstanceBackupFile";
 
 interface Props {
   close: () => void;

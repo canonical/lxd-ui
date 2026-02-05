@@ -9,7 +9,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import type { LxdProxyDevice } from "types/device";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { getInheritedProxies } from "util/configInheritance";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
@@ -33,7 +33,7 @@ import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { optionEnabledDisabled } from "util/instanceOptions";
 import { getProxyAddress } from "util/proxyDevices";
 import { useProfiles } from "context/useProfiles";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
 

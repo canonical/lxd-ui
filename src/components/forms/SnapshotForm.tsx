@@ -9,7 +9,7 @@ import {
   Row,
 } from "@canonical/react-components";
 import { getTomorrow } from "util/helpers";
-import type { SnapshotFormValues } from "util/snapshots";
+import type { SnapshotFormValues } from "types/forms/snapshot";
 import type { FormikProps } from "formik/dist/types";
 
 interface Props {

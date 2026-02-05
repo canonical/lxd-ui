@@ -19,7 +19,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
-import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
+import type { NetworkAclFormValues } from "types/forms/networkAcl";
 import NetworkAclForm, {
   toNetworkAcl,
 } from "pages/networks/forms/NetworkAclForm";

@@ -1,7 +1,7 @@
 import { useNotify } from "@canonical/react-components";
 import { useResources } from "context/useResources";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { CLUSTER_GROUP_PREFIX } from "util/instances";
 import { getResourceLimit } from "util/resourceLimits";
 import { useIsClustered } from "./useIsClustered";

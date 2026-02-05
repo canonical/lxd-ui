@@ -4,7 +4,7 @@ import { useModal } from "context/useModal";
 import ResourceLink from "components/ResourceLink";
 import type { CloudInitKey } from "components/forms/CloudInitForm";
 import YamlModal from "components/forms/YamlModal";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { ensureEditMode } from "util/instanceEdit";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";

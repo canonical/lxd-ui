@@ -18,25 +18,19 @@ import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
-import type { FormDeviceValues } from "util/formDevices";
 import { formDeviceToPayload } from "util/formDevices";
-import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm, {
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
-import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm, {
   snapshotsPayload,
 } from "components/forms/InstanceSnapshotsForm";
-import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm, {
   cloudInitPayload,
 } from "components/forms/CloudInitForm";
-import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "components/forms/ResourceLimitsForm";
-import type { YamlFormValues } from "components/forms/YamlForm";
 import YamlForm from "components/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
@@ -54,7 +48,6 @@ import ProfileFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
 } from "pages/profiles/forms/ProfileFormMenu";
-import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
 import { profileDetailConfigPayload } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm, {
   profileDetailPayload,
@@ -66,7 +59,6 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
   migrationPayload,
 } from "components/forms/MigrationForm";
@@ -76,23 +68,11 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
-import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
-import type { SshKeyFormValues } from "components/forms/SshKeyForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
-
-export type CreateProfileFormValues = ProfileDetailsFormValues &
-  FormDeviceValues &
-  ResourceLimitsFormValues &
-  SecurityPoliciesFormValues &
-  SnapshotFormValues &
-  MigrationFormValues &
-  BootFormValues &
-  CloudInitFormValues &
-  SshKeyFormValues &
-  YamlFormValues;
+import type { CreateProfileFormValues } from "types/forms/instanceAndProfile";
 
 const CreateProfile: FC = () => {
   const navigate = useNavigate();

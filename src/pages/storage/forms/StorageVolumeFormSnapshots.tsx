@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Input, Notification } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import DocLink from "components/DocLink";
 import { useCurrentProject } from "context/useCurrentProject";

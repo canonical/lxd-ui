@@ -9,7 +9,7 @@ import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
-import type { TLSIdentityFormValues } from "../forms/NameWithGroupForm";
+import type { TLSIdentityFormValues } from "types/forms/tlsIdentity";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
 import { useAuthGroups } from "context/useAuthGroups";

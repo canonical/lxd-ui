@@ -3,7 +3,7 @@ import { Button, Icon, Label, Select } from "@canonical/react-components";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 import type { FormikProps } from "formik/dist/types";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;

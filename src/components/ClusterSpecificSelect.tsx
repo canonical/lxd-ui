@@ -10,8 +10,7 @@ import { CheckboxInput, Select } from "@canonical/react-components";
 import { intersection } from "util/intersection";
 import FormEditButton from "components/FormEditButton";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
-
-export type ClusterSpecificValues = Record<string, string>;
+import type { ClusterSpecificValues } from "types/cluster";
 
 export interface ClusterSpecificSelectOption {
   memberName: string;

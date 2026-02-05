@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
-import type { SnapshotFormValues } from "util/snapshots";
+import type { SnapshotFormValues } from "types/forms/snapshot";
 import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { getVolumeSnapshotName } from "util/operations";

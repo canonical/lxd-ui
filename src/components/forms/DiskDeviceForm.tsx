@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Input, useNotify, Spinner } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { getInheritedDiskDevices } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
 import DiskDeviceFormInherited from "./DiskDeviceFormInherited";

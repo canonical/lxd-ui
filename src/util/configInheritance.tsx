@@ -1,7 +1,7 @@
-import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import {
   isDiskDevice,
   isGPUDevice,
@@ -19,7 +19,7 @@ import type {
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "types/forms/project";
 import type { ConfigurationRowFormikValues } from "components/ConfigurationRow";
 import type { ConfigField } from "types/config";
 import { useQuery } from "@tanstack/react-query";
@@ -29,13 +29,13 @@ import { toConfigFields } from "util/config";
 import { getInstanceField } from "util/instanceConfigFields";
 import { useParams } from "react-router-dom";
 import { getProjectKey } from "util/projectConfigFields";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import { getVolumeKey } from "util/storageVolume";
 import { getNetworkKey, networkFormTypeToOptionKey } from "util/networks";
 import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
-import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import { useSettings } from "context/useSettings";
 import { useProfiles } from "context/useProfiles";
 import { useStoragePool } from "context/useStoragePools";

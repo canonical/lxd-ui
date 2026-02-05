@@ -1,7 +1,7 @@
 import { useId, type FC } from "react";
 import ExpandableList from "components/ExpandableList";
 import type { FormikProps } from "formik/dist/types";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
 import { ensureEditMode } from "util/instanceEdit";

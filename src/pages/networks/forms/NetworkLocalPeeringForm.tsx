@@ -9,16 +9,7 @@ import { useNetworks } from "context/useNetworks";
 import { typesWithLocalPeerings } from "util/networks";
 import { useProjects } from "context/useProjects";
 import ProjectSelector from "./ProjectSelector";
-
-export interface LocalPeeringFormValues {
-  name: string;
-  targetProject: string;
-  targetNetwork: string;
-  description?: string;
-  customTargetProject?: string;
-  customTargetNetwork?: string;
-  createMutualPeering?: boolean;
-}
+import type { LocalPeeringFormValues } from "types/forms/localPeering";
 
 interface Props {
   formik: FormikProps<LocalPeeringFormValues>;

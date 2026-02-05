@@ -1,5 +1,5 @@
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import type { FormDevice } from "./formDevices";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { FormDevice } from "types/formDevice";
 import {
   addNicDevice,
   addNoneDevice,

@@ -19,13 +19,13 @@ import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { isTypeOvn, testValidIp, testValidPort } from "util/networks";
 import NotificationRow from "components/NotificationRow";
-import type { NetworkForwardPortFormValues } from "pages/networks/forms/NetworkForwardFormPorts";
 import NetworkForwardFormPorts from "pages/networks/forms/NetworkForwardFormPorts";
 import ScrollableForm from "components/ScrollableForm";
 import { focusField } from "util/formFields";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useClusterMembers } from "context/useClusterMembers";
 import { bridgeType } from "util/networks";
+import type { NetworkForwardFormValues } from "types/forms/networkForward";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -65,14 +65,6 @@ export const NetworkForwardSchema = Yup.object().shape({
     }),
   ),
 });
-
-export interface NetworkForwardFormValues {
-  listenAddress: string;
-  defaultTargetAddress?: string;
-  description?: string;
-  ports: NetworkForwardPortFormValues[];
-  location?: string;
-}
 
 interface Props {
   formik: FormikProps<NetworkForwardFormValues>;

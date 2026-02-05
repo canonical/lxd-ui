@@ -8,7 +8,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import type { LxdGPUDevice } from "types/device";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { getInheritedGPUs } from "util/configInheritance";
 import AttachGPUBtn from "components/forms/SelectGPUBtn";
 import type { GpuCard } from "types/resources";

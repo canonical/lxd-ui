@@ -7,14 +7,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
 import type { LxdStorageBucket } from "types/storage";
 import { cephObject, storageDriverLabels } from "util/storageOptions";
-
-export interface StorageBucketFormValues {
-  name: string;
-  pool: string;
-  size?: string;
-  description?: string;
-  target?: string;
-}
+import type { StorageBucketFormValues } from "types/forms/storageBucket";
 
 interface Props {
   formik: FormikProps<StorageBucketFormValues>;

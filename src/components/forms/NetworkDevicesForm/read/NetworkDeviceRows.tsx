@@ -3,7 +3,7 @@ import classnames from "classnames";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { LxdNetwork } from "types/network";
 import type { LxdNicDevice } from "types/device";
-import type { CustomNetworkDevice } from "util/formDevices";
+import type { CustomNetworkDevice } from "types/formDevice";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DeviceName from "components/forms/DeviceName";
 import { Icon, Tooltip } from "@canonical/react-components";

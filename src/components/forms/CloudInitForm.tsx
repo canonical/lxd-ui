@@ -2,10 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
@@ -15,16 +12,11 @@ import { getConfigRowMetadata } from "util/configInheritance";
 import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { getProfileFromSource } from "util/devices";
-
-export interface CloudInitFormValues {
-  cloud_init_network_config?: string;
-  cloud_init_user_data?: string;
-  cloud_init_vendor_data?: string;
-}
+import type { CloudInitFormValues } from "types/forms/instanceAndProfile";
 
 export type CloudInitKey = keyof CloudInitFormValues;
 
-export const cloudInitPayload = (values: InstanceAndProfileFormValues) => {
+export const cloudInitPayload = (values: CloudInitFormValues) => {
   return {
     [getInstanceField("cloud_init_network_config")]:
       values.cloud_init_network_config,

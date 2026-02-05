@@ -12,7 +12,7 @@ import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { updateNetwork, updateClusterNetwork } from "api/networks";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import NetworkForm, {
   isNetworkFormInvalid,
   toNetwork,

@@ -7,14 +7,10 @@ import FormLink from "components/FormLink";
 import { pluralize } from "util/instanceBulkActions";
 import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
-
-export interface GroupFormValues {
-  name: string;
-  description: string;
-}
+import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
 
 interface Props {
-  formik: FormikProps<GroupFormValues>;
+  formik: FormikProps<PermissionGroupFormValues>;
   setSubForm: (subForm: GroupSubForm) => void;
   identityCount: number;
   identityModifyCount: number;

@@ -10,7 +10,7 @@ import {
   isRootDisk,
   isVolumeDevice,
 } from "util/devices";
-import type { FormDevice } from "util/formDevices";
+import type { FormDevice } from "types/formDevice";
 import { pluralize } from "util/instanceBulkActions";
 import classnames from "classnames";
 

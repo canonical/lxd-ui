@@ -1,10 +1,8 @@
 import type { FC, ReactNode } from "react";
 import { Input, Notification, Select } from "@canonical/react-components";
 import { optionYesNo } from "util/instanceOptions";
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { SnapshotFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
@@ -14,14 +12,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { isSnapshotsDisabled } from "util/snapshots";
 import SnapshotDisabledWarningLink from "components/SnapshotDisabledWarningLink";
 
-export interface SnapshotFormValues {
-  snapshots_pattern?: string;
-  snapshots_expiry?: string;
-  snapshots_schedule?: string;
-  snapshots_schedule_stopped?: string;
-}
-
-export const snapshotsPayload = (values: InstanceAndProfileFormValues) => {
+export const snapshotsPayload = (values: SnapshotFormValues) => {
   return {
     [getInstanceField("snapshots_pattern")]: values.snapshots_pattern,
     [getInstanceField("snapshots_schedule_stopped")]:

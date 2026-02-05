@@ -12,7 +12,7 @@ import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import type { GroupFormValues } from "../forms/GroupForm";
+import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
 import GroupForm from "../forms/GroupForm";
 import { createGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
@@ -100,7 +100,7 @@ const CreateGroupPanel: FC = () => {
       });
   };
 
-  const formik = useFormik<GroupFormValues>({
+  const formik = useFormik<PermissionGroupFormValues>({
     initialValues: {
       name: "",
       description: "",

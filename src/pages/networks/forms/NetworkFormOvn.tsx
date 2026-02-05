@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Select } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import ConfigurationTable from "components/ConfigurationTable";
 import { OVN } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";

@@ -2,7 +2,10 @@ import type { FC } from "react";
 import { Input } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type {
+  ProjectFormValues,
+  ProjectResourceLimitsFormValues,
+} from "types/forms/project";
 import type { FormikProps } from "formik/dist/types";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { getProjectKey } from "util/projectConfigFields";
@@ -10,19 +13,8 @@ import type { LxdConfigPair } from "types/config";
 import { ProjectMemoryLimit } from "../ProjectMemoryLimit";
 import { ProjectCpuLimitInput } from "../ProjectCpuLimitInput";
 
-export interface ProjectResourceLimitsFormValues {
-  limits_instances?: number;
-  limits_containers?: number;
-  limits_virtual_machines?: number;
-  limits_disk?: string;
-  limits_networks?: number;
-  limits_cpu?: number;
-  limits_memory?: string;
-  limits_processes?: number;
-}
-
 export const resourceLimitsPayload = (
-  values: ProjectFormValues,
+  values: ProjectResourceLimitsFormValues,
 ): LxdConfigPair => {
   return {
     [getProjectKey("limits_instances")]: values.limits_instances?.toString(),

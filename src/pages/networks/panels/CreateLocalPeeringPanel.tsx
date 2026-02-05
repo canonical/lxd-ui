@@ -18,7 +18,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdNetwork } from "types/network";
 import { createNetworkPeer } from "api/network-local-peering";
 import NetworkLocalPeeringForm from "../forms/NetworkLocalPeeringForm";
-import type { LocalPeeringFormValues } from "../forms/NetworkLocalPeeringForm";
+import type { LocalPeeringFormValues } from "types/forms/localPeering";
 import { testDuplicateLocalPeeringName } from "util/networks";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";

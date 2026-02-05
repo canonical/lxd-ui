@@ -1,8 +1,6 @@
 import { Icon } from "@canonical/react-components";
 import type { FC } from "react";
 
-export type InstanceIconType = "container" | "virtual-machine" | "instance";
-
 export type ResourceIconType =
   | "bucket"
   | "bucket-key"

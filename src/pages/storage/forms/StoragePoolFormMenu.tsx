@@ -4,7 +4,7 @@ import MenuItem from "components/forms/FormMenuItem";
 import { useListener, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { FormikProps } from "formik";
-import type { StoragePoolFormValues } from "./StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import {
   alletraDriver,
   cephDriver,

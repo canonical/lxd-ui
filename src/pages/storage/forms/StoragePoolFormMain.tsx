@@ -13,7 +13,7 @@ import {
   alletraDriver,
   isClusterWideSourceDriver,
 } from "util/storageOptions";
-import type { StoragePoolFormValues } from "./StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import {

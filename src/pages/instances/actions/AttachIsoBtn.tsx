@@ -13,7 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
-import type { FormDiskDevice } from "util/formDevices";
+import type { FormDiskDevice } from "types/formDevice";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
 import { instanceLinkFromOperation } from "util/instances";

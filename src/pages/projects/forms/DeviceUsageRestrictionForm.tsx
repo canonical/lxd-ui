@@ -2,25 +2,13 @@ import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "types/forms/project";
 import type { FormikProps } from "formik/dist/types";
 import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
-
-export interface DeviceUsageRestrictionFormValues {
-  restricted_devices_disk?: string;
-  restricted_devices_disk_paths?: string;
-  restricted_devices_gpu?: string;
-  restricted_devices_infiniband?: string;
-  restricted_devices_nic?: string;
-  restricted_devices_pci?: string;
-  restricted_devices_unix_block?: string;
-  restricted_devices_unix_char?: string;
-  restricted_devices_unix_hotplug?: string;
-  restricted_devices_usb?: string;
-}
+import type { DeviceUsageRestrictionFormValues } from "types/forms/project";
 
 export const deviceUsageRestrictionPayload = (
   values: DeviceUsageRestrictionFormValues,

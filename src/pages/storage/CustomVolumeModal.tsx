@@ -4,7 +4,7 @@ import CustomVolumeSelectModal from "pages/storage/CustomVolumeSelectModal";
 import CustomVolumeCreateModal from "pages/storage/CustomVolumeCreateModal";
 import { Modal } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getInstanceLocation } from "util/instanceLocation";
 import BackLink from "components/BackLink";
 

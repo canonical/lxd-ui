@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { Button, Icon, Spinner, useNotify } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getInheritedNetworks } from "util/configInheritance";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";

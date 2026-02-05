@@ -1,6 +1,6 @@
 import type { FormikProps } from "formik";
 import type { FC } from "react";
-import type { StoragePoolFormValues } from "./StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";
 import { optionNvmeSdc, optionTrueFalse } from "util/instanceOptions";

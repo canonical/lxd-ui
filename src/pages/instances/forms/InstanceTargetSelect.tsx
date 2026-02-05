@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import { useIsClustered } from "context/useIsClustered";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useServerEntitlements } from "util/entitlements/server";

@@ -25,7 +25,7 @@ import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
-import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
+import type { NetworkAclFormValues } from "types/forms/networkAcl";
 import NetworkAclForm, {
   toNetworkAcl,
 } from "pages/networks/forms/NetworkAclForm";

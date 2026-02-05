@@ -6,18 +6,16 @@ import type { MainTableRow } from "@canonical/react-components/dist/components/M
 import classnames from "classnames";
 import type { FormikProps } from "formik/dist/types";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "components/forms/instanceAndProfileFormValues";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
+import type { NetworkFormValues } from "types/forms/network";
+import type { ProjectFormValues } from "types/forms/project";
 import { getConfigRowMetadata } from "util/configInheritance";
-import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
-import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
+import type { NetworkAclFormValues } from "types/forms/networkAcl";
 
 export type ConfigurationRowFormikValues =
   | InstanceAndProfileFormValues

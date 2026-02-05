@@ -14,7 +14,7 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
-import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";

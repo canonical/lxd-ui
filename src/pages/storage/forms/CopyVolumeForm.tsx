@@ -25,18 +25,11 @@ import {
   getCopyStorageVolumePayload,
 } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import type { StorageVolumeCopyFormValues } from "types/forms/storageVolumeCopy";
 
 interface Props {
   volume: LxdStorageVolume;
   close: () => void;
-}
-
-export interface StorageVolumeCopyFormValues {
-  name: string;
-  project: string;
-  pool: string;
-  copySnapshots: boolean;
-  location: string;
 }
 
 const CopyVolumeForm: FC<Props> = ({ volume, close }) => {

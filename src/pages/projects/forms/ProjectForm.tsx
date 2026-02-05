@@ -10,7 +10,7 @@ import ProjectFormMenu, {
   RESOURCE_LIMITS,
 } from "pages/projects/forms/ProjectFormMenu";
 import ProjectDetailsForm from "pages/projects/forms/ProjectDetailsForm";
-import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "types/forms/project";
 import ProjectResourceLimitsForm from "pages/projects/forms/ProjectResourceLimitsForm";
 import ClusterRestrictionForm from "pages/projects/forms/ClusterRestrictionForm";
 import InstanceRestrictionForm from "pages/projects/forms/InstanceRestrictionForm";

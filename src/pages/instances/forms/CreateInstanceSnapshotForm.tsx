@@ -17,7 +17,7 @@ import {
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import type { SnapshotFormValues } from "util/snapshots";
+import type { SnapshotFormValues } from "types/forms/snapshot";
 import { getExpiresAt } from "util/snapshots";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { createInstanceSnapshot } from "api/instance-snapshots";

@@ -3,7 +3,7 @@ import { RadioInput } from "@canonical/react-components";
 import type { CpuLimit } from "types/limits";
 import { CPU_LIMIT_TYPE } from "types/limits";
 import CpuLimitInput from "components/forms/CpuLimitInput";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 
 interface Props {
   cpuLimit?: CpuLimit;

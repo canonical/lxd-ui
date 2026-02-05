@@ -16,7 +16,7 @@ import {
 } from "util/helpers";
 import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
-import type { SnapshotFormValues } from "util/snapshots";
+import type { SnapshotFormValues } from "types/forms/snapshot";
 import { getExpiresAt } from "util/snapshots";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { useToastNotification } from "@canonical/react-components";

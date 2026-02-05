@@ -16,7 +16,7 @@ import { createStorageBucketKey } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import StorageBucketKeyForm from "../forms/StorageBucketKeyForm";
-import type { StorageBucketKeyFormValues } from "../forms/StorageBucketKeyForm";
+import type { StorageBucketKeyFormValues } from "types/forms/storageBucketKey";
 import type { LxdStorageBucket } from "types/storage";
 import {
   getStorageBucketURL,

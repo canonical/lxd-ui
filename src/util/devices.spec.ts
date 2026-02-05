@@ -1,7 +1,7 @@
 import type { LxdDeviceValue, LxdNicDevice } from "types/device";
 import { getDeviceAcls, getIndex, isNoneDevice } from "./devices";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import type { FormDevice } from "./formDevices";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { FormDevice } from "types/formDevice";
 
 describe("isNoneDevice", () => {
   it("should return true for a 'none' device", () => {

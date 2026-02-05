@@ -20,7 +20,7 @@ import { useProfiles } from "context/useProfiles";
 import NetworkSelector from "pages/projects/forms/NetworkSelector";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 import { getDeviceAcls, getExistingDeviceNames } from "util/devices";
-import type { FormDevice, FormNetworkDevice } from "util/formDevices";
+import type { FormDevice, FormNetworkDevice } from "types/formDevice";
 import { deduplicateName } from "util/formDevices";
 import { getInheritedNetworks } from "util/configInheritance";
 import {
@@ -29,15 +29,8 @@ import {
   combineAcls,
 } from "util/networks";
 import usePanelParams, { panels } from "util/usePanelParams";
-import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-
-export interface NetworkDeviceFormValues {
-  name: string;
-  network: string;
-  acls?: string;
-  ipv4?: string;
-  ipv6?: string;
-}
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 
 interface Props {
   project: string;

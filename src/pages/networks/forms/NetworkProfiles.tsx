@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import ExpandableList from "components/ExpandableList";
 import type { FormikProps } from "formik/dist/types";
-import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "types/forms/network";
 import { filterUsedByType } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
 import { ROOT_PATH } from "util/rootPath";

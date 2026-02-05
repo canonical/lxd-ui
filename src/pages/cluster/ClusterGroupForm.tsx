@@ -1,16 +1,9 @@
 import type { FC } from "react";
 import { Form, Icon, Input } from "@canonical/react-components";
-import type { LxdClusterGroup } from "types/cluster";
 import type { FormikProps } from "formik/dist/types";
 import { useClusterMembers } from "context/useClusterMembers";
 import SelectableMainTable from "components/SelectableMainTable";
-
-export interface ClusterGroupFormValues {
-  name: string;
-  description: string;
-  members: string[];
-  bareGroup?: LxdClusterGroup;
-}
+import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
 
 export interface Props {
   formik: FormikProps<ClusterGroupFormValues>;

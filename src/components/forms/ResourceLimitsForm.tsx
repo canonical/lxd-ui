@@ -1,30 +1,22 @@
 import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type {
+  CreateInstanceFormValues,
+  ResourceLimitsFormValues,
+} from "types/forms/instanceAndProfile";
 import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
-import type {
-  InstanceAndProfileFormikProps,
-  InstanceAndProfileFormValues,
-} from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
-export interface ResourceLimitsFormValues {
-  limits_cpu?: CpuLimit;
-  limits_memory?: MemoryLimit;
-  limits_memory_swap?: string;
-  limits_disk_priority?: number;
-  limits_processes?: number;
-}
-
-export const resourceLimitsPayload = (values: InstanceAndProfileFormValues) => {
+export const resourceLimitsPayload = (values: ResourceLimitsFormValues) => {
   return {
     [getInstanceField("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
     [getInstanceField("limits_memory")]: memoryLimitToPayload(

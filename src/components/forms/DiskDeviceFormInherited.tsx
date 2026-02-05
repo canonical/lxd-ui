@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import ConfigurationTable from "components/ConfigurationTable";
-import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { InheritedDiskDevice } from "util/configInheritance";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
