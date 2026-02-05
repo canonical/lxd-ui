@@ -16,8 +16,11 @@
   }
 
   .spice-wrapper {
-    cursor: none;
     overflow: auto;
+
+    canvas {
+      cursor: none;
+    }
   }
 
   #spice-screen canvas {
