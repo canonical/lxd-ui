@@ -7,15 +7,27 @@ interface Props {
   onClick: () => void;
   isModified?: boolean;
   subText?: ReactNode;
+  disabled?: boolean;
+  onHoverText?: string;
 }
 
-const FormLink: FC<Props> = ({ title, icon, onClick, subText, isModified }) => {
+const FormLink: FC<Props> = ({
+  title,
+  icon,
+  onClick,
+  subText,
+  isModified,
+  disabled,
+  onHoverText,
+}) => {
   return (
     <Button
       appearance="base"
       className="form-link"
       onClick={onClick}
       type="button"
+      disabled={disabled}
+      title={onHoverText}
     >
       <span className="form-link__column">
         <Icon name={icon} className="form-link__icon" />
