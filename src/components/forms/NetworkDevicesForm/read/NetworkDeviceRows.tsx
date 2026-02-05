@@ -46,7 +46,7 @@ export const getNetworkDeviceRows = ({
 }: {
   project: string;
   managedNetworks: LxdNetwork[];
-  device: LxdNicDevice | CustomNetworkDevice;
+  device: LxdNicDevice | CustomNetworkDevice | null;
   showIpAddresses?: boolean;
   isDetached?: boolean;
   hasChanges?: boolean;
@@ -86,13 +86,18 @@ export const getNetworkDeviceRows = ({
   if (device.type === "custom-nic") {
     rows.push(
       getConfigurationRowBase({
+        className: "no-border-top",
         configuration: (
-          <>
+          <span
+            className={classnames({
+              "u-text--line-through": isDetached,
+            })}
+          >
             custom network{" "}
             <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
               <Icon name="information" />
             </Tooltip>
-          </>
+          </span>
         ),
         inherited: null,
         override: null,

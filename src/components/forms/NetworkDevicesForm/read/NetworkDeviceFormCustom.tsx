@@ -50,7 +50,7 @@ const NetworkDeviceFormCustom: FC<Props> = ({
       actions: typedDevice.type?.includes("nic") ? (
         <NetworkDeviceActionButtons
           formik={formik}
-          device={typedDevice as LxdNicDevice}
+          device={typedDevice}
           inheritedDevice={inheritedDevice}
         />
       ) : null,

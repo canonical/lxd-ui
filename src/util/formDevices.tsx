@@ -1,13 +1,21 @@
 import type { FormDevice, FormDiskDevice } from "types/formDevice";
-import type { LxdDevices } from "types/device";
+import type { LxdDevices, LxdNicDevice } from "types/device";
 import type { RemoteImage } from "types/image";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { focusField } from "util/formFields";
+import { isCustomNic } from "util/devices";
 
 export const isFormDiskDevice = (
   device: FormDevice,
 ): device is FormDiskDevice => {
   return device.type === "disk";
+};
+
+export const isCustomNicFormDevice = (
+  device: FormDevice,
+): device is FormDevice & { type: "custom-nic"; bare: LxdNicDevice } => {
+  if (device.type !== "custom-nic") return false;
+  return isCustomNic(device.bare);
 };
 
 export const isEmptyDevice = (device: FormDevice): boolean =>
@@ -47,24 +55,10 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
   return Object.keys(devices).map((key) => {
     const item = devices[key];
 
-    const isCustomNetwork =
-      item.type === "nic" &&
-      Object.keys(item).some(
-        (key) =>
-          ![
-            "type",
-            "name",
-            "network",
-            "security.acls",
-            "ipv4.address",
-            "ipv6.address",
-          ].includes(key),
-      );
-
-    if (isCustomNetwork) {
+    if (isCustomNic(item)) {
       return {
         name: key,
-        bare: item,
+        bare: item as LxdNicDevice,
         type: "custom-nic",
       };
     }
