@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,6 +28,13 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Restarting" ||
     instance.status === "Restarting";
   const { canUpdateInstanceState } = useInstanceEntitlements();
+  const isForceRef = useRef(isForce);
+
+  // The MountedConfirmationButton saves a reference to the handleRestart callback when the modal is opened,
+  // so we need to use a ref to ensure we have the latest value of isForce when the user confirms the action.
+  useEffect(() => {
+    isForceRef.current = isForce;
+  }, [isForce]);
 
   const instanceLink = (
     <InstanceRichChip
@@ -37,7 +45,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
-    restartInstance(instance, isForce)
+    restartInstance(instance, isForceRef.current)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
