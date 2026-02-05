@@ -27,6 +27,8 @@ export interface LxdNicDevice {
   "ipv4.address"?: string;
   "ipv6.address"?: string;
   "security.acls"?: string;
+  "security.acls.default.egress.action"?: string;
+  "security.acls.default.ingress.action"?: string;
 }
 
 export interface LxdPhysicalGPUDevice {

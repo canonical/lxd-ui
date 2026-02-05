@@ -32,8 +32,12 @@ import {
   supportsNicDeviceAcls,
   getNetworkAcls,
   combineAcls,
+  ovnType,
 } from "util/networks";
 import usePanelParams, { panels } from "util/usePanelParams";
+import NetworkDefaultACLSelector, {
+  type Direction,
+} from "pages/networks/forms/NetworkDefaultACLSelector";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 
@@ -161,6 +165,10 @@ const NetworkDevicePanel: FC<Props> = ({
       acls: combinedAcls,
       ipv4: device?.["ipv4.address"] || "",
       ipv6: device?.["ipv6.address"] || "",
+      security_acls_default_egress_action:
+        device?.["security.acls.default.egress.action"] || "",
+      security_acls_default_ingress_action:
+        device?.["security.acls.default.ingress.action"] || "",
     };
   };
 
@@ -185,6 +193,10 @@ const NetworkDevicePanel: FC<Props> = ({
           userSelectedAcls.length > 0 ? userSelectedAcls.join(",") : undefined,
         "ipv4.address": values.ipv4 || undefined,
         "ipv6.address": values.ipv6 || undefined,
+        "security.acls.default.egress.action":
+          values.security_acls_default_egress_action || undefined,
+        "security.acls.default.ingress.action":
+          values.security_acls_default_ingress_action || undefined,
       };
 
       const originalDeviceName = deviceName;
@@ -265,6 +277,25 @@ const NetworkDevicePanel: FC<Props> = ({
     );
   }
 
+  const getDefaultEgressIngress = () => {
+    // Return NIC device default egress/ingress actions if set, fallback to network defaults if not, or rejected if neither are set
+    return {
+      Egress:
+        formik.values.security_acls_default_egress_action ??
+        selectedNetwork?.config["security.acls.default.egress.action"] ??
+        "",
+      Ingress:
+        formik.values.security_acls_default_ingress_action ??
+        selectedNetwork?.config["security.acls.default.ingress.action"] ??
+        "",
+    };
+  };
+
+  const directionField: Record<Direction, string> = {
+    Egress: "security_acls_default_egress_action",
+    Ingress: "security_acls_default_ingress_action",
+  };
+
   return (
     <SidePanel>
       <SidePanel.Header>
@@ -306,18 +337,6 @@ const NetworkDevicePanel: FC<Props> = ({
               error={formik.touched.network ? formik.errors.network : undefined}
             />
 
-            <NetworkAclSelector
-              project={project}
-              selectedAcls={selectedAcls}
-              setSelectedAcls={(selectedItems) => {
-                void formik.setFieldValue("acls", selectedItems.join(","));
-              }}
-              inheritedAcls={networkAcls}
-              canSelectManualAcls={supportsNicDeviceAcls(selectedNetwork)}
-              help={getAclHelperText()}
-              label="ACLs"
-            />
-
             {isInstance && selectedNetwork && (
               <>
                 <NetworkDeviceIPAddressEdit
@@ -332,6 +351,30 @@ const NetworkDevicePanel: FC<Props> = ({
                 />
               </>
             )}
+
+            <NetworkAclSelector
+              project={project}
+              selectedAcls={selectedAcls}
+              setSelectedAcls={(selectedItems) => {
+                void formik.setFieldValue("acls", selectedItems.join(","));
+              }}
+              inheritedAcls={networkAcls}
+              canSelectManualAcls={supportsNicDeviceAcls(selectedNetwork)}
+              help={getAclHelperText()}
+              label="ACLs"
+            />
+
+            <NetworkDefaultACLSelector
+              onChange={(fieldValue, value) => {
+                void formik.setFieldValue(fieldValue, value);
+              }}
+              values={getDefaultEgressIngress()}
+              disabled={
+                formik.values.acls?.length === 0 ||
+                selectedNetwork?.type !== ovnType
+              }
+              directionField={directionField}
+            />
           </Form>
         </ScrollableContainer>
       </SidePanel.Content>

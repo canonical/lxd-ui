@@ -7,7 +7,9 @@ import FormEditButton from "components/FormEditButton";
 import { ensureEditMode } from "util/instanceEdit";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 import { Label } from "@canonical/react-components";
-import NetworkDefaultACLSelector from "./NetworkDefaultACLSelector";
+import NetworkDefaultACLSelector, {
+  type Direction,
+} from "./NetworkDefaultACLSelector";
 import NetworkDefaultACLRead from "./NetworkDefaultACLRead";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -21,6 +23,11 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
   const defaultEgressIngress = {
     Egress: formik.values.security_acls_default_egress ?? "",
     Ingress: formik.values.security_acls_default_ingress ?? "",
+  };
+
+  const directionField: Record<Direction, string> = {
+    Egress: "security_acls_default_egress",
+    Ingress: "security_acls_default_ingress",
   };
 
   return (
@@ -87,6 +94,7 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
             }}
             values={defaultEgressIngress}
             disabled={formik.values.security_acls.length === 0}
+            directionField={directionField}
           />
         )}
       </div>

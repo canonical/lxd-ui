@@ -1,7 +1,6 @@
 import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
 import { useNetworkAcls } from "context/useNetworkAcls";
-import classnames from "classnames";
 
 interface Props {
   project: string;
@@ -52,16 +51,7 @@ const NetworkAclSelector: FC<Props> = ({
 
   return (
     <>
-      {label && (
-        <label
-          className={classnames({
-            "u-text--muted": !isEnabled,
-          })}
-          htmlFor={id}
-        >
-          {label}
-        </label>
-      )}
+      {label && <label htmlFor={id}>{label}</label>}
       <MultiSelect
         items={toOptionList(
           availableAcls.map((acl) => acl.name),

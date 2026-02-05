@@ -85,6 +85,8 @@ export const isCustomNic = (device: LxdDeviceValue): boolean => {
     "security.acls",
     "ipv4.address",
     "ipv6.address",
+    "security.acls.default.egress.action",
+    "security.acls.default.ingress.action",
   ];
   return (
     isNicDevice(device) &&
