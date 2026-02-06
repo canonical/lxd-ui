@@ -258,6 +258,8 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     true,
   );
 
+  useListener(window, handleResize, "menu-collapse-toggle");
+
   const handleTerminalOpen = () => {
     handleResize();
     xtermRef.current?.focus();
