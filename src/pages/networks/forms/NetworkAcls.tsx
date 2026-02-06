@@ -25,9 +25,9 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
 
   return (
     <div className="general-field">
-      <Label className="general-field-label" forId={networlAclSelectorId}>
-        ACLs
-      </Label>
+      <div className="general-field-label">
+        <Label forId={networlAclSelectorId}>ACLs</Label>
+      </div>
       <div
         className="general-field-content"
         key={formik.values.readOnly ? "read" : "edit"}
