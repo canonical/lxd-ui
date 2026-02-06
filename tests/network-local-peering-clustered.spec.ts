@@ -13,18 +13,39 @@ import {
 test.describe("Network Local Peering", () => {
   const UPLINK_NAME = "ovn-uplink";
 
-  test.beforeEach(async ({ lxdVersion, page }, testInfo) => {
+  test.beforeAll(async ({ browser, lxdVersion }, testInfo) => {
+    if (
+      lxdVersion === "5.0-edge" ||
+      !testInfo.project.name.includes(":clustered")
+    ) {
+      console.log("Skipping uplink creation");
+      return;
+    }
+    const page = await browser.newPage();
+    await createOvnUplink(page, UPLINK_NAME);
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser, lxdVersion }, testInfo) => {
+    if (
+      lxdVersion === "5.0-edge" ||
+      !testInfo.project.name.includes(":clustered")
+    ) {
+      console.log("Skipping uplink deletion");
+      return;
+    }
+    const page = await browser.newPage();
+    await deleteNetwork(page, UPLINK_NAME);
+    await page.close();
+  });
+
+  test("Create mutual peering between two OVN networks", async ({
+    page,
+    lxdVersion,
+  }, testInfo) => {
     skipIfNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
-    await createOvnUplink(page, UPLINK_NAME);
-  });
-
-  test.afterEach(async ({ page }) => {
-    await deleteNetwork(page, UPLINK_NAME);
-  });
-
-  test("Create mutual peering between two OVN networks", async ({ page }) => {
     const networkA = randomNetworkName();
     const networkB = randomNetworkName();
     const peering = "peer-mutual";
@@ -57,7 +78,11 @@ test.describe("Network Local Peering", () => {
 
   test("Create non-mutual peering between two OVN networks", async ({
     page,
-  }) => {
+    lxdVersion,
+  }, testInfo) => {
+    skipIfNotSupported(lxdVersion);
+    skipIfNotClustered(testInfo.project.name);
+
     const networkA = randomNetworkName();
     const networkB = randomNetworkName();
     const peering = "peer-one-way";
@@ -101,7 +126,11 @@ test.describe("Network Local Peering", () => {
 
   test("Manual entry should disable mutual peering checkbox", async ({
     page,
-  }) => {
+    lxdVersion,
+  }, testInfo) => {
+    skipIfNotSupported(lxdVersion);
+    skipIfNotClustered(testInfo.project.name);
+
     const networkA = randomNetworkName();
     const peering = "peer-manual-test";
     const randomProject = `project-${Math.random().toString(36).substring(7)}`;
