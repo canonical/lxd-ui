@@ -202,8 +202,10 @@ export const createNetwork = async (
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
-        // when creating a network on localhost the request will get cancelled
+        // when creating a network on localhost the request can get canceled
         // check manually if creation was successful
+        // wait for 1 second for network creation to complete.
+        await new Promise((r) => setTimeout(r, 1000));
         if (e.message === "Failed to fetch") {
           const newNetwork = await fetchNetwork(
             network.name ?? "",
@@ -244,8 +246,10 @@ export const updateNetwork = async (
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
-        // when updating a network on localhost the request will get cancelled
+        // when updating a network on localhost the request can get canceled
         // check manually if the edit was successful
+        // wait for 1 second for network update to complete.
+        await new Promise((r) => setTimeout(r, 1000));
         if (e.message === "Failed to fetch") {
           const newNetwork = await fetchNetwork(
             network.name ?? "",
@@ -330,8 +334,10 @@ export const renameNetwork = async (
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
-        // when renaming a network on localhost the request will get cancelled
+        // when renaming a network on localhost the request can get canceled
         // check manually if renaming was successful
+        // wait for 1 second for network rename to complete.
+        await new Promise((r) => setTimeout(r, 1000));
         if (e.message === "Failed to fetch") {
           const renamedNetwork = await fetchNetwork(newName, project, false);
           if (renamedNetwork) {
@@ -360,8 +366,10 @@ export const deleteNetwork = async (
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
-        // when deleting a network on localhost the request will get cancelled
+        // when deleting a network on localhost the request can get canceled
         // check manually if deletion was successful
+        // wait for 1 second for network delete to complete.
+        await new Promise((r) => setTimeout(r, 1000));
         if (e.message === "Failed to fetch") {
           const response = await fetch(
             `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
