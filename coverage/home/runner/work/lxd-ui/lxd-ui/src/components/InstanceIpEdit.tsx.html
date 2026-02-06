@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/33</span>
+                <span class='fraction'>12/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/33</span>
+                <span class='fraction'>12/33</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -108,27 +108,27 @@
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
 import { Link } from "react-router-dom";
@@ -140,28 +140,28 @@ interface Props {
   projectName: string;
 }
 &nbsp;
-export const InstanceIpEdit: FC&lt;Props&gt; = ({
-  address,
-  instanceName,
-  projectName,
-}) =&gt; {
-  return (
-    &lt;div className="instance-ip-edit-content"&gt;
-      &lt;div className="u-truncate instance-ip-edit-address" title={address}&gt;
-        {address}
-      &lt;/div&gt;
-      &lt;Link
-        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}/configuration/network`}
-        rel="noopener noreferrer"
-        className="p-button-base instance-ip-edit-link is-dense"
-        type="button"
-        title={`Edit network configuration for instance ${instanceName}`}
-      &gt;
-        &lt;Icon name="edit" /&gt;
-      &lt;/Link&gt;
-    &lt;/div&gt;
-  );
-};
+export const InstanceIpEdit: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
+<span class="cstat-no" title="statement not covered" >  address,</span>
+<span class="cstat-no" title="statement not covered" >  instanceName,</span>
+<span class="cstat-no" title="statement not covered" >  projectName,</span>
+<span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="instance-ip-edit-content"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="u-truncate instance-ip-edit-address" title={address}&gt;</span>
+<span class="cstat-no" title="statement not covered" >        {address}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Link</span>
+<span class="cstat-no" title="statement not covered" >        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}/configuration/network`}</span>
+<span class="cstat-no" title="statement not covered" >        rel="noopener noreferrer"</span>
+<span class="cstat-no" title="statement not covered" >        className="p-button-base instance-ip-edit-link is-dense"</span>
+<span class="cstat-no" title="statement not covered" >        type="button"</span>
+<span class="cstat-no" title="statement not covered" >        title={`Edit network configuration for instance ${instanceName}`}</span>
+<span class="cstat-no" title="statement not covered" >      &gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;Icon name="edit" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/Link&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -169,7 +169,7 @@ export const InstanceIpEdit: FC&lt;Props&gt; = ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-05T16:32:42.705Z
+                at 2026-02-06T13:09:15.654Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
