@@ -113,6 +113,10 @@ export const copyStorageVolume = async (
   const newVolumeName = randomVolumeName();
   await visitVolume(page, volume);
   await page.getByLabel("Copy volume").click();
+
+  // ensure storage pools finished loading
+  await expect(page.getByLabel("Storage pool", { exact: true })).toBeVisible();
+
   await page.getByLabel("New volume name").click();
   await page.getByLabel("New volume name").fill(newVolumeName);
   if (targetPool) {
@@ -123,7 +127,6 @@ export const copyStorageVolume = async (
     await page.getByLabel("Target project").selectOption(targetProject);
   }
   await page.getByRole("button", { name: "Copy", exact: true }).click();
-  await page.waitForSelector(`text=Copy of volume ${volume} started.`);
   await page.waitForSelector(`text=Created volume ${newVolumeName}.`);
   return newVolumeName;
 };

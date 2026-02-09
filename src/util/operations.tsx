@@ -1,4 +1,5 @@
 import type { LxdOperation } from "types/operation";
+import type { LxdEvent } from "types/event";
 
 export const getInstanceName = (operation?: LxdOperation): string => {
   // the url can be one of below formats
@@ -66,4 +67,16 @@ export const getProjectName = (operation?: LxdOperation): string => {
       .pop()
       ?.split("&")[0] ?? "default"
   );
+};
+
+export const getFingerprint = (result: LxdEvent | LxdOperation): string => {
+  const event = result as LxdEvent;
+  if (event.metadata?.metadata?.fingerprint) {
+    return event.metadata.metadata.fingerprint;
+  }
+  const operation = result as LxdOperation;
+  if (operation?.metadata?.fingerprint) {
+    return operation.metadata.fingerprint;
+  }
+  return "";
 };

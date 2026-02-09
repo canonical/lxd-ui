@@ -22,12 +22,12 @@ export const attachHostPath = async (
 ) => {
   await page.getByRole("button", { name: "Attach disk device" }).click();
   await page.getByRole("button", { name: "Mount host path" }).click();
-  await page.getByLabel("Host path", { exact: true }).click();
-  await page.getByLabel("Host path", { exact: true }).fill(source);
-  const hostPathModal = page.getByLabel("Choose disk type /");
-  await hostPathModal.getByLabel("Mount point").click();
-  await hostPathModal.getByLabel("Mount point").fill(path);
-  await page.getByRole("button", { name: "Attach", exact: true }).click();
+  const dialog = page.getByRole("dialog", {
+    name: "Choose disk type / Mount host",
+  });
+  await dialog.getByLabel("Host path", { exact: true }).fill(source);
+  await dialog.getByLabel("Mount point", { exact: true }).fill(path);
+  await dialog.getByRole("button", { name: "Attach", exact: true }).click();
 };
 
 export const detachDiskDevice = async (page: Page, volumeDevice: string) => {

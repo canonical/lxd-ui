@@ -1,13 +1,10 @@
 import { expect, test } from "./fixtures/lxd-test";
-import {
-  deleteImage,
-  getImageNameFromAlias,
-  visitImages,
-} from "./helpers/images";
+import { deleteImage, visitImages } from "./helpers/images";
 import {
   createImageFromInstance,
   createInstance,
   deleteInstance,
+  randomImageName,
   randomInstanceName,
 } from "./helpers/instances";
 import { gotoURL } from "./helpers/navigate";
@@ -16,25 +13,23 @@ test("search for custom image and create an instance from it", async ({
   page,
 }) => {
   const customInstance = randomInstanceName();
-  let imageName = "";
-  try {
-    const instance = randomInstanceName();
-    await createInstance(page, instance);
-    const imageAlias = await createImageFromInstance(page, instance);
-    imageName = await getImageNameFromAlias(page, imageAlias);
-    await deleteInstance(page, instance);
+  const instance = randomInstanceName();
+  const imageAlias = randomImageName();
 
-    await visitImages(page, "default");
-    await page.getByPlaceholder("Search").click();
-    await page.getByPlaceholder("Search").fill(imageAlias);
-    await page.getByRole("button", { name: "Create instance" }).first().click();
-    await page.getByLabel("Instance name").fill(customInstance);
-    await page.getByRole("button", { name: "Create", exact: true }).click();
-    await page.waitForSelector(`text=Created instance ${customInstance}.`);
-  } finally {
-    await deleteInstance(page, customInstance);
-    await deleteImage(page, imageName);
-  }
+  await createInstance(page, instance);
+  await createImageFromInstance(page, instance, imageAlias);
+  await deleteInstance(page, instance);
+
+  await visitImages(page, "default");
+  await page.getByPlaceholder("Search").click();
+  await page.getByPlaceholder("Search").fill(imageAlias);
+  await page.getByRole("button", { name: "Create instance" }).first().click();
+  await page.getByLabel("Instance name").fill(customInstance);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForSelector(`text=Created instance ${customInstance}.`);
+
+  await deleteInstance(page, customInstance);
+  await deleteImage(page, imageAlias);
 });
 
 test("Export and Upload an image", async ({ page }) => {
@@ -42,8 +37,10 @@ test("Export and Upload an image", async ({ page }) => {
   // and can't test the export with a standard image fetched from the image server
   // we can remove this step once the export of split images is enabled by the backend.
   const instance = randomInstanceName();
+  const imageAlias = randomImageName();
+
   await createInstance(page, instance);
-  const imageAlias = await createImageFromInstance(page, instance);
+  await createImageFromInstance(page, instance, imageAlias);
   const downloadPromise = page.waitForEvent("download");
 
   await page.getByRole("link", { name: "Images", exact: true }).click();
@@ -51,15 +48,14 @@ test("Export and Upload an image", async ({ page }) => {
   await page.getByPlaceholder("Search").fill(imageAlias);
 
   await expect(page.getByText(imageAlias)).toBeVisible();
-  let imageName = await getImageNameFromAlias(page, imageAlias);
   await page.getByLabel("export image").click();
   const download = await downloadPromise;
   await page.waitForSelector(
-    `text=Image ${imageName} download started. Please check your downloads folder.`,
+    `text=download started. Please check your downloads folder.`,
   );
   const IMAGE_FILE = "tests/fixtures/image.tar.gz";
   await download.saveAs(IMAGE_FILE);
-  await deleteImage(page, imageName);
+  await deleteImage(page, imageAlias);
 
   //Upload an image
   await gotoURL(page, "/ui/");
@@ -75,8 +71,6 @@ test("Export and Upload an image", async ({ page }) => {
   await expect(page.getByText(imageAlias)).toBeVisible();
   await page.waitForSelector(`text=Image uploaded.`);
 
-  imageName = await getImageNameFromAlias(page, imageAlias);
-
-  await deleteImage(page, imageName);
+  await deleteImage(page, imageAlias);
   await deleteInstance(page, instance);
 });

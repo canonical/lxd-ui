@@ -9,9 +9,11 @@ import { useOperations } from "context/operationsProvider";
 import { useListener, useNotify } from "@canonical/react-components";
 import { useMemberLoading } from "context/memberLoading";
 import { ROOT_PATH } from "util/rootPath";
+import type { LxdOperation } from "types/operation";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
+const OPERATION_RETRY_DELAY = 500;
 const MAX_WS_CONNECTION_RETRIES = 5;
 const EVENT_WS_STALE_TIMEOUT_MS = 3_600_000;
 
@@ -23,7 +25,7 @@ const Events: FC = () => {
   const [eventWs, setEventWs] = useState<WebSocket | null>(null);
   const [reconnectWsId, setReconnectWsId] = useState(0);
   const [wsOpenTime, setWsOpenTime] = useState(0);
-  const { refetchOperations } = useOperations();
+  const { operations, refetchOperations } = useOperations();
   const memberLoading = useMemberLoading();
 
   const getCurrentTime = () => {
@@ -51,20 +53,25 @@ const Events: FC = () => {
   };
   useListener(window, reconnectWsOnFocusTab, "visibilitychange");
 
-  const handleEvent = (event: LxdEvent) => {
-    const eventCallback = eventQueue.get(event.metadata.id);
+  const handleEvent = (
+    operationId: string,
+    status: string,
+    err: string | undefined,
+    result: LxdEvent | LxdOperation,
+  ) => {
+    const eventCallback = eventQueue.get(operationId);
     if (!eventCallback) {
       return;
     }
-    if (event.metadata.status === "Success") {
-      eventCallback.onSuccess(event);
+    if (status === "Success") {
+      eventCallback.onSuccess(result);
       eventCallback.onFinish?.();
-      eventQueue.remove(event.metadata.id);
+      eventQueue.remove(operationId);
     }
-    if (event.metadata.status === "Failure") {
-      eventCallback.onFailure(event.metadata.err ?? "");
+    if (status === "Failure") {
+      eventCallback.onFailure(err ?? "");
       eventCallback.onFinish?.();
-      eventQueue.remove(event.metadata.id);
+      eventQueue.remove(operationId);
     }
   };
 
@@ -121,6 +128,30 @@ const Events: FC = () => {
     }
   };
 
+  const reEvaluateOperations = () => {
+    operations.forEach((operation) => {
+      handleEvent(operation.id, operation.status, operation.err, operation);
+    });
+  };
+
+  useEffect(() => {
+    // When the ws connection is broken, we might have finished operations with pending callbacks.
+    // Re-evaluate those operations to ensure the UI is up to date, and callbacks are cleared.
+    const checkOperations = () => {
+      if (!eventWs) {
+        refetchOperations();
+      }
+      setTimeout(reEvaluateOperations, OPERATION_RETRY_DELAY);
+    };
+
+    checkOperations();
+    const intervalId = setInterval(checkOperations, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [operations, eventWs, eventQueue]);
+
   const connectEventWs = (retryCount = 0) => {
     try {
       const protocol = location.protocol === "https:" ? "wss" : "ws";
@@ -158,7 +189,12 @@ const Events: FC = () => {
         // ensure open requests that reply with an operation and register
         // new handlers in the eventQueue are closed before handling the event
         setTimeout(() => {
-          handleEvent(event);
+          handleEvent(
+            event.metadata.id,
+            event.metadata.status,
+            event.metadata.err,
+            event,
+          );
         }, EVENT_HANDLER_DELAY);
       };
     } catch (e) {
