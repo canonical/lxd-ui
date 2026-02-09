@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
@@ -24,6 +25,13 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
   const { canUpdateInstanceState } = useInstanceEntitlements();
+  const isForceRef = useRef(isForce);
+
+  // The MountedConfirmationButton saves a reference to the handleStop callback when the modal is opened,
+  // so we need to use a ref to ensure we have the latest value of isForce when the user confirms the action.
+  useEffect(() => {
+    isForceRef.current = isForce;
+  }, [isForce]);
 
   const clearCache = () => {
     queryClient.invalidateQueries({
@@ -44,7 +52,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");
-    stopInstance(instance, isForce)
+    stopInstance(instance, isForceRef.current)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
