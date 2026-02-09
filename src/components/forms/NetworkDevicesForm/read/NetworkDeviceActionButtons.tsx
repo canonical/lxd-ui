@@ -2,15 +2,20 @@ import { Button, Icon } from "@canonical/react-components";
 import { type FC } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { ensureEditMode } from "util/instanceEdit";
-import { addNoneDevice, removeNicDevice } from "util/formDevices";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
-import { isNicDevice, isNoneDevice } from "util/devices";
+import type { CustomNetworkDevice, FormDevice } from "types/formDevice";
+import {
+  addNoneDevice,
+  isCustomNicFormDevice,
+  removeNicDevice,
+} from "util/formDevices";
+import { isCustomNic, isNicDevice, isNoneDevice } from "util/devices";
 import type { InheritedNetwork } from "util/configInheritance";
 import usePanelParams from "util/usePanelParams";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  device?: LxdNicDevice | LxdNoneDevice;
+  device?: LxdNicDevice | LxdNoneDevice | CustomNetworkDevice;
   inheritedDevice?: InheritedNetwork;
 }
 
@@ -24,14 +29,31 @@ const NetworkDeviceActionButtons: FC<Props> = ({
   const isPurelyInherited = inheritedDevice && !device;
   const hasNicOverride = inheritedDevice && device && isNicDevice(device);
   const hasNoneOverride = inheritedDevice && device && isNoneDevice(device);
+  const hasCustomOverride =
+    inheritedDevice && device && isCustomNicFormDevice(device as FormDevice);
   const isLocal = !inheritedDevice && device;
-
+  const isCustom = Boolean(
+    (isLocal && isCustomNicFormDevice(device as FormDevice)) ||
+    (isPurelyInherited &&
+      inheritedDevice?.network &&
+      isCustomNic(inheritedDevice.network)) ||
+    hasCustomOverride,
+  );
   const isDisabled = !!formik.values.editRestriction;
 
   const getEditTitle = () => {
-    if (formik.values.editRestriction) return formik.values.editRestriction;
-    if (isPurelyInherited || hasNoneOverride) return "Create override";
-    if (hasNicOverride) return "Edit override";
+    if (formik.values.editRestriction) {
+      return formik.values.editRestriction;
+    }
+    if (isCustom) {
+      return "Use the YAML configuration to edit a custom network";
+    }
+    if (isPurelyInherited || hasNoneOverride) {
+      return "Create override";
+    }
+    if (hasNicOverride) {
+      return "Edit override";
+    }
     return "Edit network";
   };
   const editTitle = getEditTitle();
@@ -62,7 +84,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
   const getActionButtons = () => {
     const buttons = [];
 
-    if (isPurelyInherited || isLocal || hasNicOverride) {
+    if (isPurelyInherited || isLocal || hasNicOverride || hasCustomOverride) {
       buttons.push(
         <Button
           onClick={onEdit}
@@ -72,7 +94,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           className="p-segmented-control__button p-action-button p-button"
           hasIcon
           dense
-          disabled={isDisabled}
+          disabled={isDisabled || isCustom}
           key="edit-button"
         >
           <Icon name="edit" />
@@ -100,7 +122,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
       );
     }
 
-    if (hasNicOverride) {
+    if (hasNicOverride || hasCustomOverride) {
       buttons.push(
         <Button
           className="p-segmented-control__button p-action-button p-button"
@@ -157,7 +179,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
       );
     }
 
-    if (hasNicOverride) {
+    if (hasNicOverride || hasCustomOverride) {
       buttons.push(
         <Button
           className="p-segmented-control__button p-action-button p-button"

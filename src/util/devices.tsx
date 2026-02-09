@@ -31,8 +31,9 @@ export const isHostDiskDevice = (device: LxdDiskDevice): boolean => {
   );
 };
 
-export const isNoneDevice = (device: LxdDeviceValue): device is LxdNoneDevice =>
-  device.type === "none";
+export const isNoneDevice = (
+  device: LxdDeviceValue | FormDevice,
+): device is LxdNoneDevice => device.type === "none";
 
 export const isVolumeDevice = (
   device: FormDiskDevice | LxdDiskDevice,
@@ -64,6 +65,21 @@ export const isOtherDevice = (
     "unix-hotplug",
   ];
   return otherDeviceTypes.includes(device.type ?? "");
+};
+
+export const isCustomNic = (device: LxdDeviceValue): boolean => {
+  const standardKeys = [
+    "type",
+    "name",
+    "network",
+    "security.acls",
+    "ipv4.address",
+    "ipv6.address",
+  ];
+  return (
+    isNicDevice(device) &&
+    Object.keys(device).some((key) => !standardKeys.includes(key))
+  );
 };
 
 export const deviceKeyToLabel = (input: string): string => {
