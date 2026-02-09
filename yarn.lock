@@ -475,13 +475,13 @@
     hashery "^1.3.0"
     keyv "^5.5.5"
 
-"@canonical/react-components@3.9.0":
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-3.9.0.tgz#90be4574d6f3a8e8240d90ac16a869fe4bb32e4b"
-  integrity sha512-F9Tk/hBhkIYwJ1ePbjX8mTigfeTtHPF+1reAnu6dOSPHOwN3ehIJZDzAtXFQbXB41D0fSwujJ+JZA/gKrPUJZQ==
+"@canonical/react-components@3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-3.9.1.tgz#badedad8ed7ed86bc57671a2e9da196130eaaae1"
+  integrity sha512-/mFM7AuqmFUGWAajLm201052R+UBqjOoAHhS3qeXRXtRJM1hQLjxmAuGxKid8C6GbSenIhtGROfCM415CYR4Qw==
   dependencies:
     "@types/jest" "29.5.14"
-    "@types/node" "20.17.19"
+    "@types/node" "20.19.30"
     "@types/react" "19.0.10"
     "@types/react-dom" "19.0.4"
     "@types/react-table" "7.7.20"
@@ -1380,12 +1380,12 @@
   dependencies:
     undici-types "~6.21.0"
 
-"@types/node@20.17.19":
-  version "20.17.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.17.19.tgz#0f2869555719bef266ca6e1827fcdca903c1a697"
-  integrity sha512-LEwC7o1ifqg/6r2gn9Dns0f1rhK+fPFDoMiceTJ6kWmVk6bgXBI/9IOWfVan4WiAavK9pIVWdX0/e3J+eEUh5A==
+"@types/node@20.19.30":
+  version "20.19.30"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.19.30.tgz#84fa87498ade5cd2b6ba8f8eec01d3b138ca60d0"
+  integrity sha512-WJtwWJu7UdlvzEAUm484QNg5eAoq5QR08KDNx7g45Usrs2NtOPiX8ugDqmKdXkyL03rBqU5dYNYVQetEpBHq2g==
   dependencies:
-    undici-types "~6.19.2"
+    undici-types "~6.21.0"
 
 "@types/react-dom@19.0.4":
   version "19.0.4"
@@ -6181,11 +6181,6 @@ unbox-primitive@^1.1.0:
     has-bigints "^1.0.2"
     has-symbols "^1.1.0"
     which-boxed-primitive "^1.1.1"
-
-undici-types@~6.19.2:
-  version "6.19.8"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
-  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
 undici-types@~6.21.0:
   version "6.21.0"
