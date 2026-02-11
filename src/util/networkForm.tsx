@@ -2,7 +2,7 @@ import type {
   LxdNetwork,
   LxdNetworkBridgeDriver,
   LxdNetworkDnsMode,
-  LXDNetworkOnClusterMember,
+  LXDNetworkOnClusterMemberFulfilled,
 } from "types/network";
 import type { NetworkFormValues } from "types/forms/network";
 import { getNetworkAcls, getNetworkKey } from "util/networks";
@@ -10,7 +10,7 @@ import type { ClusterSpecificValues } from "types/cluster";
 
 export const toNetworkFormValues = (
   network: LxdNetwork,
-  networkOnMembers?: LXDNetworkOnClusterMember[],
+  networkOnMembers?: LXDNetworkOnClusterMemberFulfilled[],
   editRestriction?: string,
 ): NetworkFormValues => {
   const parentPerClusterMember: ClusterSpecificValues = {};

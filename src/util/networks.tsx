@@ -1,10 +1,17 @@
 import type { IpAddress, IpFamily, LxdInstance } from "types/instance";
-import type { LxdNetwork, LxdNetworkConfig } from "types/network";
+import type {
+  LxdNetwork,
+  LxdNetworkConfig,
+  LXDNetworkOnClusterMember,
+  LXDNetworkOnClusterMemberRejected,
+  LXDNetworkOnClusterMemberFulfilled,
+} from "types/network";
 import type { LxdConfigOptionsKeys } from "types/config";
-import { capitalizeFirstLetter } from "util/helpers";
+import { capitalizeFirstLetter, constructMemberError } from "util/helpers";
 import type { AnyObject, TestFunction } from "yup";
 import { checkDuplicateName } from "./helpers";
 import type { AbortControllerState } from "./helpers";
+import type { useNotify } from "@canonical/react-components";
 
 export const bridgeType = "bridge";
 export const macvlanType = "macvlan";
@@ -258,4 +265,36 @@ export const testDuplicateLocalPeeringName = (
       );
     },
   ];
+};
+
+export const notifyNetworkError = (
+  networksOnMembers: LXDNetworkOnClusterMember[],
+  notify: ReturnType<typeof useNotify>,
+) => {
+  const message = networksOnMembers
+    .filter(isError)
+    .map((item) => (
+      <div key={item.memberName}>
+        {constructMemberError(item, item.memberName).message}
+      </div>
+    ));
+  if (message.length === 0) {
+    return;
+  }
+  const title = "Error loading networks from cluster members";
+  if (notify.notification?.title !== title && message.length > 0) {
+    notify.failure(title, new Error(""), message);
+  }
+};
+
+export const isError = (
+  network: LXDNetworkOnClusterMember,
+): network is LXDNetworkOnClusterMemberRejected => {
+  return network.promiseStatus === "rejected";
+};
+
+export const isNetwork = (
+  network: LXDNetworkOnClusterMember,
+): network is LXDNetworkOnClusterMemberFulfilled => {
+  return network.promiseStatus === "fulfilled";
 };

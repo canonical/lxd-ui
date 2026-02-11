@@ -20,7 +20,12 @@ import {
   useNetworks,
   useNetworksFromClusterMembers,
 } from "context/useNetworks";
-import { macvlanType, sriovType } from "util/networks";
+import {
+  isNetwork,
+  macvlanType,
+  notifyNetworkError,
+  sriovType,
+} from "util/networks";
 
 interface Props {
   props?: Record<string, unknown>;
@@ -57,6 +62,10 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
   } = useNetworksFromClusterMembers("default");
 
   useEffect(() => {
+    notifyNetworkError(networksOnClusterMembers, notify);
+  }, [networksOnClusterMembers]);
+
+  useEffect(() => {
     if (clusterNetworkError) {
       notify.failure("Loading cluster networks failed", clusterNetworkError);
     }
@@ -76,7 +85,18 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
   });
 
   if (isNetworkLoading || isClusterNetworksLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return (
+      <div className="general-field">
+        <div className="general-field-label can-edit">
+          <Label forId="parent" required={formik.values.isCreating}>
+            Parent
+          </Label>
+        </div>
+        <div className="general-field-content">
+          <Spinner className="u-loader" text="Loading..." />
+        </div>
+      </div>
+    );
   }
 
   const getHelpText = () => {
@@ -109,6 +129,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
       options.push({
         memberName: member.server_name,
         values: networksOnClusterMembers
+          .filter(isNetwork)
           .filter(
             (item) =>
               item.memberName === member.server_name && item.managed === false,

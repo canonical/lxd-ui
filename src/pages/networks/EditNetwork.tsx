@@ -34,7 +34,12 @@ import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
-import { clusteredTypes, ovnType } from "util/networks";
+import {
+  clusteredTypes,
+  isNetwork,
+  notifyNetworkError,
+  ovnType,
+} from "util/networks";
 import NetworkRichChip from "./NetworkRichChip";
 
 interface Props {
@@ -70,6 +75,11 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     }
   }, [error]);
 
+  const networkOnMembersFulfilled = networkOnMembers.filter(isNetwork);
+  useEffect(() => {
+    notifyNetworkError(networkOnMembers, notify);
+  }, [networkOnMembers]);
+
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
       .test(
@@ -96,7 +106,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const formik = useFormik<NetworkFormValues>({
     initialValues: toNetworkFormValues(
       network,
-      networkOnMembers,
+      networkOnMembersFulfilled,
       editRestriction,
     ),
     validationSchema: NetworkSchema,
@@ -127,7 +137,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       mutation(values)
         .then(() => {
           formik.resetForm({
-            values: toNetworkFormValues(yamlNetwork, networkOnMembers),
+            values: toNetworkFormValues(yamlNetwork, networkOnMembersFulfilled),
           });
 
           queryClient.invalidateQueries({
@@ -234,7 +244,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
               onClick={() => {
                 setVersion((old) => old + 1);
                 void formik.setValues(
-                  toNetworkFormValues(network, networkOnMembers),
+                  toNetworkFormValues(network, networkOnMembersFulfilled),
                 );
               }}
             >
