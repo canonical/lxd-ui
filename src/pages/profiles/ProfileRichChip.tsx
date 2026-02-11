@@ -40,6 +40,7 @@ const ProfileRichChip: FC<Props> = ({
   return (
     <Tooltip
       zIndex={1000}
+      position="right"
       message={
         <ProfileRichTooltip
           profileName={profileName}

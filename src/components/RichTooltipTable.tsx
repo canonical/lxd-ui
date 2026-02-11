@@ -8,8 +8,6 @@ interface Props {
 
 // Corresponding breakpoints exist in src/sass/_rich_tooltip.scss to adjust height of tooltip accordingly
 export const SMALL_TOOLTIP_BREAKPOINT = 500;
-export const MEDIUM_TOOLTIP_BREAKPOINT = 900;
-export const LARGE_TOOLTIP_BREAKPOINT = 1100;
 
 export const RichTooltipTable: FC<Props> = ({ rows, className }) => {
   return (

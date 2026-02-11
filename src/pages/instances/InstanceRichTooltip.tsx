@@ -6,15 +6,10 @@ import { Spinner } from "@canonical/react-components";
 import { getIpAddresses, sortIpv6Addresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { isoTimeToString } from "util/helpers";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { type TooltipRow } from "../../components/RichTooltipRow";
-import {
-  LARGE_TOOLTIP_BREAKPOINT,
-  MEDIUM_TOOLTIP_BREAKPOINT,
-  RichTooltipTable,
-} from "../../components/RichTooltipTable";
+import { RichTooltipTable } from "../../components/RichTooltipTable";
 import TruncatedList from "components/TruncatedList";
 
 interface Props {
@@ -34,8 +29,6 @@ export const InstanceRichTooltip: FC<Props> = ({
   };
 
   const { data: instance, isLoading } = useInstance(instanceName, projectName);
-  const showAddresses = !useIsScreenBelow(MEDIUM_TOOLTIP_BREAKPOINT, "height");
-  const showDateTimes = !useIsScreenBelow(LARGE_TOOLTIP_BREAKPOINT, "height");
   if (!instance && !isLoading) {
     return <></>;
   }
@@ -74,49 +67,39 @@ export const InstanceRichTooltip: FC<Props> = ({
       title: "Type",
       value: instance ? getInstanceType(instance) : "-",
     },
+    {
+      title: "IPV4",
+      value: ipv4Addresses.length ? (
+        <TruncatedList items={ipv4Addresses} numberToShow={1} />
+      ) : (
+        "-"
+      ),
+    },
+    {
+      title: "IPV6",
+      value: ipv6Addresses.length ? (
+        <TruncatedList items={ipv6Addresses} numberToShow={1} />
+      ) : (
+        "-"
+      ),
+    },
+    {
+      title: "MAC addresses",
+      value: instance ? (
+        <TruncatedList items={macAddresses} numberToShow={1} />
+      ) : (
+        "-"
+      ),
+    },
+    {
+      title: "Created",
+      value: instance ? isoTimeToString(instance.created_at) : "-",
+    },
+    {
+      title: "Last used",
+      value: instance ? isoTimeToString(instance.last_used_at) : "-",
+    },
   ];
-
-  if (showAddresses) {
-    rows.push(
-      {
-        title: "IPV4",
-        value: ipv4Addresses.length ? (
-          <TruncatedList items={ipv4Addresses} numberToShow={1} />
-        ) : (
-          "-"
-        ),
-      },
-      {
-        title: "IPV6",
-        value: ipv6Addresses.length ? (
-          <TruncatedList items={ipv6Addresses} numberToShow={1} />
-        ) : (
-          "-"
-        ),
-      },
-      {
-        title: "MAC addresses",
-        value: instance ? (
-          <TruncatedList items={macAddresses} numberToShow={1} />
-        ) : (
-          "-"
-        ),
-      },
-    );
-  }
-
-  if (showDateTimes) {
-    rows.push(
-      {
-        title: "Created",
-        value: instance ? isoTimeToString(instance.created_at) : "-",
-      },
-      {
-        title: "Last used",
-        value: instance ? isoTimeToString(instance.last_used_at) : "-",
-      },
-    );
-  }
 
   return (
     <RichTooltipTable rows={rows} className="instance-rich-tooltip-table" />
