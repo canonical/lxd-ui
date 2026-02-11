@@ -22,6 +22,10 @@
   }
 }
 
+.p-notification__content .resource-link .p-chip__value {
+  max-width: 17rem;
+}
+
 .l-main .resource-link:not(.force-truncate) .p-chip__value {
   max-width: inherit;
 }

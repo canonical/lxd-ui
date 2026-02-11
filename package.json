@@ -55,7 +55,7 @@
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
     "@canonical/typescript-config-react": "0.13.0",
-    "@playwright/test": "1.57.0",
+    "@playwright/test": "1.58.2",
     "@types/convert-source-map": "2.0.3",
     "@types/dotenv": "8.2.3",
     "@types/js-yaml": "4.0.9",

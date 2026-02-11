@@ -128,7 +128,7 @@ test("custom storage volume add snapshot from CTA", async ({ page }) => {
     `text=Snapshot ${snapshot} created for volume ${volume}.`,
   );
 
-  expect(row.getByLabel("Snapshots")).toContainText("1");
+  await expect(row.getByLabel("Snapshots")).toContainText("1");
 
   await deleteVolume(page, volume);
 });

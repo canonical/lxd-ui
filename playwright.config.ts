@@ -45,9 +45,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
     baseURL: "https://localhost:8407/",
     ignoreHTTPSErrors: true,
     video: "retain-on-failure",
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
   },
   // Limit the number of failures on CI to save resources
   maxFailures: process.env.CI ? 3 : undefined,

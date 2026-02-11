@@ -1,7 +1,6 @@
 import { test, expect } from "./fixtures/lxd-test";
 import {
   createAndStartInstance,
-  createImageFromInstance,
   createInstance,
   deleteInstance,
   editInstance,
@@ -30,7 +29,6 @@ import {
   randomProfileName,
 } from "./helpers/profile";
 import { assertTextVisible } from "./helpers/permissions";
-import { deleteImage, getImageNameFromAlias } from "./helpers/images";
 import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
 import { gotoURL } from "./helpers/navigate";
 import { execSync } from "child_process";
@@ -264,13 +262,6 @@ test("Copy an instance", async ({ page }) => {
 
   await page.waitForSelector(`text=Created instance ${instance}-copy.`);
   await deleteInstance(page, `${instance}-copy`);
-});
-
-test("Create an image from an instance", async ({ page }) => {
-  await gotoURL(page, "/ui/");
-  const imageAlias = await createImageFromInstance(page, instance);
-  const imageName = await getImageNameFromAlias(page, imageAlias);
-  await deleteImage(page, imageName);
 });
 
 test("Bulk start, pause, unpause and stop instances", async ({ page }) => {

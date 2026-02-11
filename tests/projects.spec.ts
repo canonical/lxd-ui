@@ -178,7 +178,7 @@ test("retain custom project selection on browsing pages for all projects", async
   await page.getByRole("button", { name: "Refresh" }).click();
   await page.waitForLoadState("networkidle");
 
-  expect(page.getByText("Project" + project)).toBeVisible();
+  await expect(page.getByText("Project" + project)).toBeVisible();
 });
 
 test("project deletion with instances - force delete supported", async ({

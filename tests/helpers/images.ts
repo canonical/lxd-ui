@@ -23,11 +23,15 @@ export const deleteAllImages = async (page: Page, project = "default") => {
   await expect(notification).toHaveText(/.*deleted.*/);
 };
 
-export const deleteImage = async (page: Page, imageName: string) => {
+export const deleteImage = async (page: Page, imageIdentifier: string) => {
   await visitImages(page, "default");
 
   await page.getByPlaceholder("Search").click();
-  await page.getByPlaceholder("Search").fill(imageName);
+  await page.getByPlaceholder("Search").fill(imageIdentifier);
+
+  const imageRow = page.locator(`tr:has-text("${imageIdentifier}")`);
+  const imageName = await imageRow.locator("td").nth(1).innerText();
+
   await page.getByRole("button", { name: "Delete" }).first().click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
@@ -35,15 +39,4 @@ export const deleteImage = async (page: Page, imageName: string) => {
     .click();
 
   await page.waitForSelector(`text=Image ${imageName} deleted.`);
-};
-
-export const getImageNameFromAlias = async (page: Page, imageAlias: string) => {
-  await visitImages(page, "default");
-
-  await page.getByPlaceholder("Search").click();
-  await page.getByPlaceholder("Search").fill(imageAlias);
-  const imageRow = page.locator(`tr:has-text("${imageAlias}")`);
-  const imageName = await imageRow.locator("td").nth(1).innerText();
-
-  return imageName;
 };

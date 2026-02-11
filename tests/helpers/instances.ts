@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
-import { execSync } from "child_process";
+import { visitImages } from "./images";
 
 const DEFAULT_IMAGE = "alpine/3.23/cloud";
 
@@ -126,13 +126,6 @@ export const deleteInstance = async (
   await page.waitForSelector(`text=Instance ${instance} deleted.`);
 };
 
-export const hasInstance = async (page: Page, instance: string) => {
-  await gotoURL(page, "/ui/");
-  await page.getByPlaceholder("Search").click();
-  await page.getByPlaceholder("Search").fill(instance);
-  return await page.getByRole("link", { name: instance }).first().isVisible();
-};
-
 export const renameInstance = async (
   page: Page,
   oldName: string,
@@ -192,29 +185,35 @@ export const visitAndStopInstance = async (page: Page, instance: string) => {
   }
 };
 
-export const createImageFromInstance = async (page: Page, instance: string) => {
-  removeCustomImages();
-  const imageAlias = randomImageName();
+export const createImageFromInstance = async (
+  page: Page,
+  instance: string,
+  imageAlias: string,
+) => {
+  await removeCustomImages(page);
   await visitInstance(page, instance);
   await page.getByRole("button", { name: "Create Image" }).click();
   await page.getByLabel("Alias").fill(imageAlias);
   await page.getByText("Create image", { exact: true }).click();
   await page.waitForSelector(`text=Image created from instance ${instance}.`);
-
-  return imageAlias;
 };
 
-export const removeCustomImages = () => {
+export const removeCustomImages = async (page: Page) => {
   // remove all custom images created during previous runs
   // to avoid failures on retries due to fingerprint conflicts
-  // images with auto_update: false are created from an instance
-  execSync(
-    `for f in $(sudo lxc image list --columns f --format csv); do
-      if sudo lxc image show "$f" | grep -q 'auto_update: false'; then
-        sudo lxc image delete "$f"
-      fi
-    done`,
-  );
+  await visitImages(page, "default");
+  const rows = await page.locator("#image-table tbody tr").all();
+  for (const row of rows) {
+    const cachedContent = await row.getByLabel("Cached").innerText();
+    // custom images are not cached
+    if (cachedContent === "No") {
+      await page.keyboard.down("Shift");
+      await row.getByRole("button", { name: "Delete" }).click();
+      await page.keyboard.up("Shift");
+      await page.waitForSelector("text=/Image .* deleted\\./");
+      await page.getByTestId("notification-close-button").click();
+    }
+  }
 };
 
 export const migrateInstanceRootStorage = async (

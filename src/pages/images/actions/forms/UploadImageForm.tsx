@@ -23,6 +23,7 @@ import type { LxdSyncResponse } from "types/apiResponse";
 import type { AxiosError } from "axios";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import { getFingerprint } from "util/operations";
 
 interface Props {
   close: () => void;
@@ -109,9 +110,9 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
 
             eventQueue.set(
               operation.metadata.id,
-              (event) => {
-                const fingerprint = event.metadata.metadata?.fingerprint ?? "";
+              (result) => {
                 if (values.alias) {
+                  const fingerprint = getFingerprint(result);
                   createImageAlias(fingerprint, values.alias, projectName)
                     .then(clearCache)
                     .catch((e) => {

@@ -13,7 +13,7 @@ export const randomNetworkName = (): string => {
 export const ensureOvnNorthboundConnection = () => {
   try {
     execSync(
-      'sudo lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"',
+      'sudo -E lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"',
     );
   } catch (error) {
     console.log("Failed to set OVN northbound connection:", error);
@@ -263,6 +263,8 @@ export const createOvnUplink = async (page: Page, network: string) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
+  const createNetworkBtn = page.getByRole("button", { name: "Create network" });
+  await expect(createNetworkBtn).toBeVisible();
 
   const existingNetwork = page.getByRole("link", {
     name: network,
@@ -272,7 +274,7 @@ export const createOvnUplink = async (page: Page, network: string) => {
     return;
   }
 
-  await page.getByRole("button", { name: "Create network" }).click();
+  await createNetworkBtn.click();
 
   await page.getByRole("button", { name: "Type" }).click();
   await page.getByLabel("submenu").getByText("bridge").first().click();

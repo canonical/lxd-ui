@@ -70,6 +70,7 @@ const Settings: FC = () => {
           const copy = [...prev];
           copy[index].isSaved = true;
           copy[index].key = key;
+          copy[index].default = value ?? "";
           return copy;
         });
         toastNotify.success(<>Setting {settingLabel} added.</>);

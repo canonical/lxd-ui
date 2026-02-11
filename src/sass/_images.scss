@@ -4,7 +4,7 @@
       width: 8rem;
     }
 
-    .public {
+    .cached {
       width: 8rem;
     }
 
@@ -38,7 +38,7 @@
     @media screen and (width < 1200px) {
       .aliases,
       .architecture,
-      .public {
+      .cached {
         display: none;
       }
     }

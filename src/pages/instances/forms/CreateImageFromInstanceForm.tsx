@@ -19,6 +19,7 @@ import { InstanceRichChip } from "../InstanceRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
+import { getFingerprint } from "util/operations";
 
 interface Props {
   instance: LxdInstance;
@@ -94,9 +95,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           );
           eventQueue.set(
             operation.metadata.id,
-            (event) => {
+            (result) => {
               if (alias) {
-                const fingerprint = event.metadata.metadata?.fingerprint ?? "";
+                const fingerprint = getFingerprint(result);
                 createImageAlias(fingerprint, alias, instance.project)
                   .then(clearCache)
                   .then(notifySuccess)

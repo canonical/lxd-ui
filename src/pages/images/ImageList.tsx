@@ -67,9 +67,9 @@ const ImageList: FC = () => {
       className: "architecture",
     },
     {
-      content: "Public",
-      sortKey: "public",
-      className: "public",
+      content: "Cached",
+      sortKey: "cached",
+      className: "cached",
     },
     { content: "Type", sortKey: "type", className: "type" },
     {
@@ -144,10 +144,10 @@ const ImageList: FC = () => {
           className: "architecture",
         },
         {
-          content: image.public ? "Yes" : "No",
+          content: image.cached ? "Yes" : "No",
           role: "cell",
-          "aria-label": "Public",
-          className: "public",
+          "aria-label": "Cached",
+          className: "cached",
         },
         {
           content: image.type == "virtual-machine" ? "VM" : "Container",
@@ -178,7 +178,7 @@ const ImageList: FC = () => {
         name: description.toLowerCase(),
         alias: imageAlias.toLowerCase(),
         architecture: image.architecture,
-        public: image.public,
+        cached: image.cached,
         type: image.type,
         size: +image.size,
         uploaded_at: image.uploaded_at,
