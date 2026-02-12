@@ -424,7 +424,7 @@ SpiceConn.prototype =
         else if (this.type == Constants.SPICE_CHANNEL_SMARTCARD)
             return "smartcard";
         else if (this.type == Constants.SPICE_CHANNEL_USBREDIR)
-            return "Fusbredir";
+            return "usbredir";
         else if (this.type == Constants.SPICE_CHANNEL_PORT)
             return "port";
         else if (this.type == Constants.SPICE_CHANNEL_WEBDAV)
