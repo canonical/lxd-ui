@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Input, Select } from "@canonical/react-components";
+import { Button, Input, Select } from "@canonical/react-components";
 import type {
   CreateInstanceFormValues,
   SecurityPoliciesFormValues,
@@ -12,10 +12,15 @@ import {
 } from "util/instanceOptions";
 import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 
-import { getConfigurationRow } from "components/ConfigurationRow";
+import {
+  getConfigurationRow,
+  getConfigurationRowBase,
+} from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { BOOT } from "pages/instances/forms/InstanceFormMenu";
 
 export const securityPoliciesPayload = (values: SecurityPoliciesFormValues) => {
   return {
@@ -39,9 +44,11 @@ export const securityPoliciesPayload = (values: SecurityPoliciesFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
+  setSection: (section: string) => void;
 }
 
-const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
+const SecurityPoliciesForm: FC<Props> = ({ formik, setSection }) => {
+  const { hasInstanceBootMode } = useSupportedFeatures();
   const isInstance = formik.values.entityType === "instance";
   const isContainerOnlyDisabled =
     isInstance &&
@@ -203,35 +210,67 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
-          formik,
-          label: "Enable secureboot (VMs only)",
-          name: "security_secureboot",
-          defaultValue: "",
-          disabled: isVmOnlyDisabled,
-          disabledReason: isVmOnlyDisabled
-            ? "Only available for virtual machines"
-            : undefined,
-          readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
-          children: (
-            <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />
-          ),
-        }),
+        ...(hasInstanceBootMode
+          ? [
+              getConfigurationRowBase({
+                className: "u-text--muted",
+                configuration: (
+                  <>
+                    <b>Enable secureboot (VMs only)</b> and{" "}
+                    <b>Enable CSM (VMs only)</b>
+                  </>
+                ),
+                inherited: "",
+                override: (
+                  <Button
+                    appearance="link"
+                    type="button"
+                    onClick={() => {
+                      setSection(BOOT);
+                    }}
+                  >
+                    See boot mode
+                  </Button>
+                ),
+              }),
+            ]
+          : [
+              getConfigurationRow({
+                formik,
+                label: "Enable secureboot (VMs only)",
+                name: "security_secureboot",
+                defaultValue: "",
+                disabled: isVmOnlyDisabled,
+                disabledReason: isVmOnlyDisabled
+                  ? "Only available for virtual machines"
+                  : undefined,
+                readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
+                children: (
+                  <Select
+                    options={optionTrueFalse}
+                    disabled={isVmOnlyDisabled}
+                  />
+                ),
+              }),
 
-        getConfigurationRow({
-          formik,
-          label: "Enable CSM (VMs only)",
-          name: "security_csm",
-          defaultValue: "",
-          disabled: isVmOnlyDisabled,
-          disabledReason: isVmOnlyDisabled
-            ? "Only available for virtual machines"
-            : undefined,
-          readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
-          children: (
-            <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />
-          ),
-        }),
+              getConfigurationRow({
+                formik,
+                label: "Enable CSM (VMs only)",
+                name: "security_csm",
+                defaultValue: "",
+                disabled: isVmOnlyDisabled,
+                disabledReason: isVmOnlyDisabled
+                  ? "Only available for virtual machines"
+                  : undefined,
+                readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
+                children: (
+                  <Select
+                    options={optionTrueFalse}
+                    disabled={isVmOnlyDisabled}
+                  />
+                ),
+              }),
+            ]),
       ]}
     />
   );

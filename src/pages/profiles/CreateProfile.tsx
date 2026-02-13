@@ -226,7 +226,10 @@ const CreateProfile: FC = () => {
             )}
 
             {section === SECURITY_POLICIES && (
-              <SecurityPoliciesForm formik={formik} />
+              <SecurityPoliciesForm
+                formik={formik}
+                setSection={updateSection}
+              />
             )}
 
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}

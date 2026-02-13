@@ -93,7 +93,10 @@ test("profile resource limits", async ({ page }) => {
   await assertReadMode(page, "Max number of processes (Containers only)", "2");
 });
 
-test("profile security policies", async ({ page }) => {
+test("profile security policies", async ({ page, lxdVersion }) => {
+  const hasSecuritySecureBoot =
+    lxdVersion === "5.21-edge" || lxdVersion === "5.0-edge";
+
   await editProfile(page, profile);
   await page.getByText("Security policies").click();
 
@@ -105,8 +108,11 @@ test("profile security policies", async ({ page }) => {
   await setOption(page, "Unique idmap", "true");
   await setOption(page, "Allow /dev/lxd in the instance", "true");
   await setOption(page, "Make /1.0/images API available", "true");
-  await setOption(page, "Enable secureboot", "true");
-  await saveProfile(page, profile, 9);
+  if (hasSecuritySecureBoot) {
+    await setOption(page, "Enable secureboot", "true");
+  }
+  const changeCount = hasSecuritySecureBoot ? 9 : 8;
+  await saveProfile(page, profile, changeCount);
 
   await assertReadMode(page, "Protect deletion", "Yes");
   await assertReadMode(page, "Privileged (Containers only)", "Allow");
@@ -124,7 +130,9 @@ test("profile security policies", async ({ page }) => {
     "Make /1.0/images API available over /dev/lxd (Containers only)",
     "Yes",
   );
-  await assertReadMode(page, "Enable secureboot (VMs only)", "true");
+  if (hasSecuritySecureBoot) {
+    await assertReadMode(page, "Enable secureboot (VMs only)", "true");
+  }
 });
 
 test("profile snapshots", async ({ page, lxdVersion }) => {

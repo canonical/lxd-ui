@@ -140,7 +140,12 @@ test("navigate to custom volume via pool used by list", async ({ page }) => {
   await expect(page).toHaveURL(/volumes\/custom\//);
 });
 
-test("storage pool with driver zfs", async ({ page }) => {
+test("storage pool with driver zfs", async ({ page, lxdVersion }) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "ZFS driver in 5.0 is not compatible in github runners or any environment with zfs > 2.2",
+  );
+
   const pool = randomPoolName();
   await createPool(page, pool, "ZFS");
 

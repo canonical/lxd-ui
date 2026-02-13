@@ -152,3 +152,23 @@ export const optionNvmeSdc = [
     value: "sdc",
   },
 ];
+
+export const bootModeOptions = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
+    label: "UEFI firmware with secure boot enabled",
+    value: "uefi-secureboot",
+  },
+  {
+    label: "UEFI firmware with secure boot disabled",
+    value: "uefi-nosecureboot",
+  },
+  {
+    label: "Legacy BIOS firmware (SeaBIOS), x86_64 (amd64) only",
+    value: "bios",
+  },
+];

@@ -1,12 +1,13 @@
 import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { optionYesNo } from "util/instanceOptions";
+import { bootModeOptions, optionYesNo } from "util/instanceOptions";
 import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
 import type { BootFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export const bootPayload = (values: BootFormValues) => {
   return {
@@ -17,6 +18,7 @@ export const bootPayload = (values: BootFormValues) => {
       values.boot_autostart_priority?.toString(),
     [getInstanceField("boot_host_shutdown_timeout")]:
       values.boot_host_shutdown_timeout?.toString(),
+    [getInstanceField("boot_mode")]: values.boot_mode?.toString(),
     [getInstanceField("boot_stop_priority")]:
       values.boot_stop_priority?.toString(),
   };
@@ -27,6 +29,8 @@ interface Props {
 }
 
 const BootForm: FC<Props> = ({ formik }) => {
+  const { hasInstanceBootMode } = useSupportedFeatures();
+
   return (
     <ScrollableConfigurationTable
       rows={[
@@ -63,6 +67,18 @@ const BootForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: <Input placeholder="Enter number" type="number" />,
         }),
+
+        ...(hasInstanceBootMode
+          ? [
+              getConfigurationRow({
+                formik,
+                label: "Boot mode",
+                name: "boot_mode",
+                defaultValue: "",
+                children: <Select options={bootModeOptions} />,
+              }),
+            ]
+          : []),
 
         getConfigurationRow({
           formik,
