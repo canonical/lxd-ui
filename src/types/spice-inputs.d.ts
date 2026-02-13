@@ -16,6 +16,7 @@ declare module "lib/spice/src/inputs.js" {
   export function sendF10(connection?: SpiceHtml5.SpiceMainConn): void;
   export function sendF11(connection?: SpiceHtml5.SpiceMainConn): void;
   export function sendF12(connection?: SpiceHtml5.SpiceMainConn): void;
+  export function sendPrintScreen(connection?: SpiceHtml5.SpiceMainConn): void;
 
   export function isAltPressed(connection?: SpiceHtml5.SpiceMainConn): boolean;
   export function isCtrlPressed(connection?: SpiceHtml5.SpiceMainConn): boolean;

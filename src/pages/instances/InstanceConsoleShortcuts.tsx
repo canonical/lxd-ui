@@ -20,6 +20,7 @@ import {
   sendF10,
   sendF11,
   sendF12,
+  sendPrintScreen,
   toggleAlt,
   toggleCtrl,
 } from "lib/spice/src/inputs.js";
@@ -94,6 +95,12 @@ const InstanceConsoleShortcuts: FC<Props> = ({ disabled }) => {
           children: "Send Alt + F4",
           onClick: () => {
             sendAltF4(window.spice_connection);
+          },
+        },
+        {
+          children: "Send Print Screen",
+          onClick: () => {
+            sendPrintScreen(window.spice_connection);
           },
         },
         {

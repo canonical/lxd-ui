@@ -183,7 +183,8 @@ var KeyNames = {
   KEY_Prefix0     :/* special               0x60  */   96,
   KEY_Prefix1     :/* specail               0x61  */   97,
 
-  KEY_DELETE      :/* Delete           0xe0 0x53  */   21472,
+  KEY_Delete      :/* Delete           0xe0 0x53  */   21472,
+  KEY_PrintScreen :/* Print screen     0xe0 0x37  */   14304,
 };
 
 export {

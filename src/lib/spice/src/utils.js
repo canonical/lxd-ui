@@ -231,8 +231,25 @@ DOM_scanmap[189]                = KeyNames.KEY_Minus;
 DOM_scanmap[187]                = KeyNames.KEY_Equal;
 DOM_scanmap[186]                = KeyNames.KEY_SemiColon;
 
-function get_scancode(keyCode, code)
+/* Map the numpad keys to number keys */
+var numpad_scanmap = [];
+numpad_scanmap["Numpad0"] = KeyNames.KEY_0;
+numpad_scanmap["Numpad1"] = KeyNames.KEY_1;
+numpad_scanmap["Numpad2"] = KeyNames.KEY_2;
+numpad_scanmap["Numpad3"] = KeyNames.KEY_3;
+numpad_scanmap["Numpad4"] = KeyNames.KEY_4;
+numpad_scanmap["Numpad5"] = KeyNames.KEY_5;
+numpad_scanmap["Numpad6"] = KeyNames.KEY_6;
+numpad_scanmap["Numpad7"] = KeyNames.KEY_7;
+numpad_scanmap["Numpad8"] = KeyNames.KEY_8;
+numpad_scanmap["Numpad9"] = KeyNames.KEY_9;
+
+function get_scancode(keyCode, code, e)
 {
+    if (e && e.getModifierState('NumLock') && numpad_scanmap[code] !== undefined) {
+        return numpad_scanmap[code];
+    }
+
     if (code_to_scancode[code] !== undefined) {
         return code_to_scancode[code];
     }
@@ -248,9 +265,9 @@ function get_scancode(keyCode, code)
         return common_scanmap[keyCode];
 }
 
-function keycode_to_start_scan(keyCode, code)
+function keycode_to_start_scan(keyCode, code, e)
 {
-    var scancode = get_scancode(keyCode, code);
+    var scancode = get_scancode(keyCode, code, e);
     if (scancode === undefined)
     {
         alert('no map for ' + keyCode);
@@ -260,9 +277,9 @@ function keycode_to_start_scan(keyCode, code)
     return scancode;
 }
 
-function keycode_to_end_scan(keyCode, code)
+function keycode_to_end_scan(keyCode, code, e)
 {
-    var scancode = get_scancode(keyCode, code);
+    var scancode = get_scancode(keyCode, code, e);
     if (scancode === undefined)
         return 0;
 
