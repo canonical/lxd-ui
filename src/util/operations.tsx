@@ -1,12 +1,30 @@
 import type { LxdOperation } from "types/operation";
 import type { LxdEvent } from "types/event";
 
+const getOperationEntityUrls = (
+  entities?: string[],
+  operation?: LxdOperation,
+): string[] => {
+  const candidates = entities ?? [];
+  if (operation?.metadata?.["entity_url"]) {
+    candidates.push(operation.metadata["entity_url"]);
+  }
+  return candidates;
+};
+
 export const getInstanceName = (operation?: LxdOperation): string => {
   // the url can be one of below formats
   // /1.0/instances/<instance_name>
   // /1.0/instances/<instance_name>?project=<project_name>
+  const candidates = getOperationEntityUrls(
+    operation?.resources?.instances,
+    operation,
+  );
+  if (operation?.resources?.instance) {
+    candidates.push(...operation.resources.instance);
+  }
   return (
-    operation?.resources?.instances
+    candidates
       ?.filter((item) => item.startsWith("/1.0/instances/"))
       .map((item) => item.split("/")[3])
       .pop()
@@ -16,7 +34,10 @@ export const getInstanceName = (operation?: LxdOperation): string => {
 
 export const getInstanceSnapshotName = (operation?: LxdOperation): string => {
   // /1.0/instances/<instance_name>/snapshots/<snapshot_name>
-  const instanceSnapshots = operation?.resources?.instances_snapshots ?? [];
+  const instanceSnapshots = getOperationEntityUrls(
+    operation?.resources?.instances_snapshots,
+    operation,
+  );
   if (instanceSnapshots.length) {
     return instanceSnapshots[0].split("/")[5].split("?")[0];
   }
@@ -26,8 +47,10 @@ export const getInstanceSnapshotName = (operation?: LxdOperation): string => {
 
 export const getVolumeSnapshotName = (operation?: LxdOperation): string => {
   // /1.0/storage-pools/<pool_name>/volumes/custom/<volume_name>/snapshots/<snapshot_name>
-  const storageVolumeSnapshots =
-    operation?.resources?.storage_volume_snapshots ?? [];
+  const storageVolumeSnapshots = getOperationEntityUrls(
+    operation?.resources?.storage_volume_snapshots,
+    operation,
+  );
 
   if (storageVolumeSnapshots.length) {
     return storageVolumeSnapshots[0].split("/")[8].split("?")[0];
@@ -48,7 +71,10 @@ export const getProjectName = (operation?: LxdOperation): string => {
     return "default";
   }
 
-  const images = operation.resources?.images ?? [];
+  const images = getOperationEntityUrls(
+    operation?.resources?.images,
+    operation,
+  );
   if (images.length > 0) {
     return (
       images
@@ -59,7 +85,10 @@ export const getProjectName = (operation?: LxdOperation): string => {
     );
   }
 
-  const instances = operation.resources?.instances ?? [];
+  const instances = getOperationEntityUrls(
+    operation.resources?.instances,
+    operation,
+  );
   return (
     instances
       .filter((item) => item.startsWith("/1.0/instances/"))
