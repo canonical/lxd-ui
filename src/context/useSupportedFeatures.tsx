@@ -46,5 +46,6 @@ export const useSupportedFeatures = () => {
     ),
     hasProjectForceDelete: apiExtensions.has("projects_force_delete"),
     hasInstanceForceDelete: apiExtensions.has("instance_force_delete"),
+    hasInstanceBootMode: apiExtensions.has("instance_boot_mode"),
   };
 };

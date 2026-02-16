@@ -8,6 +8,7 @@ export interface BootFormValues {
   boot_autostart_delay?: string;
   boot_autostart_priority?: string;
   boot_host_shutdown_timeout?: string;
+  boot_mode?: string;
   boot_stop_priority?: string;
 }
 

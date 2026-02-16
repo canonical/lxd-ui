@@ -209,10 +209,17 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await assertCode(page, "Vendor data", "baz:");
 });
 
-test("instance create vm", async ({ page }) => {
+test("instance create vm with security.secureboot", async ({
+  page,
+  lxdVersion,
+}) => {
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+  test.skip(
+    lxdVersion === "latest-edge",
+    "security.secureboot is not supported in newer LXD versions",
   );
 
   await editInstance(page, vmInstance);
@@ -223,6 +230,26 @@ test("instance create vm", async ({ page }) => {
   await saveInstance(page, vmInstance, 1);
 
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
+});
+
+test("instance create vm with boot.mode", async ({ page, lxdVersion }) => {
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+  test.skip(
+    lxdVersion === "5.21-edge" || lxdVersion === "5.0-edge",
+    "Boot mode configuration is not supported in older LXD versions",
+  );
+
+  await editInstance(page, vmInstance);
+
+  await page.getByText("Boot").click();
+  await setOption(page, "Boot mode", "uefi-nosecureboot");
+
+  await saveInstance(page, vmInstance, 1);
+
+  await assertReadMode(page, "Boot mode", "uefi-nosecureboot");
 });
 
 test("instance yaml edit", async ({ page, lxdVersion }) => {

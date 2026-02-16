@@ -69,6 +69,7 @@ const getEditValues = (
     boot_autostart_delay: item.config["boot.autostart.delay"],
     boot_autostart_priority: item.config["boot.autostart.priority"],
     boot_host_shutdown_timeout: item.config["boot.host_shutdown_timeout"],
+    boot_mode: item.config["boot.mode"],
     boot_stop_priority: item.config["boot.stop.priority"],
 
     cloud_init_network_config: item.config["cloud-init.network-config"],

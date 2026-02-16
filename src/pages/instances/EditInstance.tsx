@@ -232,7 +232,10 @@ const EditInstance: FC<Props> = ({ instance }) => {
             )}
 
             {section === slugify(SECURITY_POLICIES) && (
-              <SecurityPoliciesForm formik={formik} />
+              <SecurityPoliciesForm
+                formik={formik}
+                setSection={updateSection}
+              />
             )}
 
             {section === slugify(SNAPSHOTS) && (
