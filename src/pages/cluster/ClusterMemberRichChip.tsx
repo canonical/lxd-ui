@@ -38,6 +38,7 @@ const ClusterMemberRichChip: FC<Props> = ({
   return (
     <Tooltip
       zIndex={1000}
+      positionElementClassName="cluster-member-rich-chip-position-element"
       message={<ClusterMemberRichTooltip clusterMember={clusterMember} />}
     >
       {resourceLink}

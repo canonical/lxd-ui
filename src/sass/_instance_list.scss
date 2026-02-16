@@ -79,6 +79,11 @@
     display: none;
   }
 
+  // allow text in cluster member chip to identify available space and clip with ellipsis in the chip if necessary
+  .cluster-member-rich-chip-position-element {
+    display: inherit !important;
+  }
+
   td:last-child {
     padding-bottom: 0;
     padding-right: $sph--large;
