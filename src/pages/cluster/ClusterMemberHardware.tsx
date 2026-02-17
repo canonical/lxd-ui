@@ -138,7 +138,7 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
                   <li className="p-side-navigation__item" key={sectionName}>
                     <a
                       className="p-side-navigation__link"
-                      href={`#${sectionName.toLowerCase()}`}
+                      href={`${window.location.pathname}#${sectionName.toLowerCase()}`}
                       aria-current={
                         section === sectionName.toLowerCase()
                           ? "page"
