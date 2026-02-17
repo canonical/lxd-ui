@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
 import type { LxdNetwork } from "types/network";
+import { isNetwork } from "util/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -14,6 +15,7 @@ export const NetworkParentTooltipRow: FC<Props> = ({ network, project }) => {
   );
   if (networksFromClusterMembers && networksFromClusterMembers.length > 0) {
     const parents = networksFromClusterMembers
+      .filter(isNetwork)
       .filter((n) => n !== undefined && n.config && n.config.parent)
       .map((n) => n.config.parent);
 

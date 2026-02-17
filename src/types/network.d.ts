@@ -79,9 +79,19 @@ export interface LxdNetwork {
   access_entitlements?: string[];
 }
 
-export type LXDNetworkOnClusterMember = LxdNetwork & {
+export type LXDNetworkOnClusterMemberRejected = {
+  promiseStatus: "rejected";
   memberName: string;
-};
+} & PromiseRejectedResult;
+
+export type LXDNetworkOnClusterMemberFulfilled = {
+  promiseStatus: "fulfilled";
+  memberName: string;
+} & LxdNetwork;
+
+export type LXDNetworkOnClusterMember =
+  | LXDNetworkOnClusterMemberFulfilled
+  | LXDNetworkOnClusterMemberRejected;
 
 export interface LxdNetworkStateAddress {
   family: string;

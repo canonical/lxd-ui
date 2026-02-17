@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import {
   Button,
   EmptyState,
@@ -20,7 +20,11 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import NetworkForwardCount from "pages/networks/NetworkForwardCount";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
-import { renderNetworkType } from "util/networks";
+import {
+  isNetwork,
+  notifyNetworkError,
+  renderNetworkType,
+} from "util/networks";
 import { useClusterMembers } from "context/useClusterMembers";
 import PageHeader from "components/PageHeader";
 import type { NetworkFilters } from "pages/networks/NetworkSearchFilter";
@@ -31,7 +35,7 @@ import NetworkSearchFilter, {
   TYPE,
   QUERY,
 } from "pages/networks/NetworkSearchFilter";
-import type { LXDNetworkOnClusterMember } from "types/network";
+import type { LXDNetworkOnClusterMemberFulfilled } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";
 import {
   useNetworks,
@@ -85,15 +89,21 @@ const NetworkList: FC = () => {
     }
   }, [clusterNetworkError]);
 
-  const renderNetworks: LXDNetworkOnClusterMember[] = networks
+  useEffect(() => {
+    notifyNetworkError(networksOnClusterMembers, notify);
+  }, [networksOnClusterMembers]);
+
+  const renderNetworks: LXDNetworkOnClusterMemberFulfilled[] = networks
     .filter((network) => !isClustered || network.managed)
     .map((network) => {
       return {
         ...network,
+        promiseStatus: "fulfilled",
         memberName: "Cluster-wide",
       };
     });
-  networksOnClusterMembers.forEach((network) => {
+
+  networksOnClusterMembers.filter(isNetwork).forEach((network) => {
     if (!network.managed) {
       renderNetworks.push(network);
     }

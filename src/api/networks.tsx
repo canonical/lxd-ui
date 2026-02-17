@@ -60,11 +60,19 @@ export const fetchNetworksFromClusterMembers = async (
           const memberName = clusterMembers[i].server_name;
           const result = results[i];
           if (result.status === "rejected") {
-            reject(constructMemberError(result, memberName));
+            networksOnMembers.push({
+              ...result,
+              memberName,
+              promiseStatus: "rejected",
+            });
           }
           if (result.status === "fulfilled") {
             result.value.forEach((network) =>
-              networksOnMembers.push({ ...network, memberName }),
+              networksOnMembers.push({
+                ...network,
+                memberName,
+                promiseStatus: "fulfilled",
+              }),
             );
           }
         }
@@ -116,7 +124,11 @@ export const fetchNetworkFromClusterMembers = async (
           }
           if (result.status === "fulfilled") {
             const promise = results[i] as PromiseFulfilledResult<LxdNetwork>;
-            networkOnMembers.push({ ...promise.value, memberName: memberName });
+            networkOnMembers.push({
+              ...promise.value,
+              memberName: memberName,
+              promiseStatus: "fulfilled",
+            });
           }
         }
         resolve(networkOnMembers);
