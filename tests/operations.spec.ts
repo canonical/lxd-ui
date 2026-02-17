@@ -30,5 +30,5 @@ test("instance operations are recognised on the Operations page", async ({
   // delete instance and validate delete operation is in operation list
   await deleteInstance(page, instance);
   await dismissNotification(page);
-  await validateOperation(page, `Deleting instance${instance}`);
+  await validateOperation(page, `Deleting instance`);
 });

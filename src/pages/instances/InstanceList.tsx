@@ -192,7 +192,7 @@ const InstanceList: FC = () => {
       const isCreating = operation.description === "Creating instance";
       const isProcessing = processingNames.includes(name);
       const isMigrating = migrationNames.includes(name);
-      if (!isCreating || isProcessing || isMigrating) {
+      if (!isCreating || isProcessing || isMigrating || !name) {
         return false;
       }
       const isInInstanceList = instances.some((item) => item.name === name);
