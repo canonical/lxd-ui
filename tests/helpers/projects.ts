@@ -61,12 +61,12 @@ export const confirmDelete = async (page: Page, project: string) => {
   if (await projectNameInputBox.isVisible()) {
     const permanentlyDeleteButton = page
       .getByRole("dialog", { name: "Confirm delete" })
-      .getByRole("button", { name: `Permanently delete ${project}` });
+      .getByRole("button", { name: "Permanently delete" });
     await expect(permanentlyDeleteButton).toBeDisabled();
     await projectNameInputBox.fill(project);
     await page
       .getByRole("dialog", { name: "Confirm delete" })
-      .getByRole("button", { name: `Permanently delete ${project}` })
+      .getByRole("button", { name: "Permanently delete" })
       .click();
     await page.waitForSelector(`text=Project ${project} deleted.`);
   } else {

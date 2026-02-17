@@ -62,7 +62,7 @@ const DeleteProjectModal: FC<Props> = ({
           loading={isLoading}
           disabled={disableConfirm}
         >
-          Permanently delete {project.name}
+          Permanently delete
         </ActionButton>,
       ]}
     >

@@ -23,12 +23,25 @@
       display: flex;
       gap: $sph--large;
 
+      @include mobile {
+        flex-direction: column;
+        gap: 0;
+      }
+
       .confirm-input {
         flex: 1;
+
+        @include mobile {
+          width: 100%;
+        }
       }
 
       .p-action-button {
         flex: 1;
+
+        @include mobile {
+          width: 100%;
+        }
       }
     }
   }
