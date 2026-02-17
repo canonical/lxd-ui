@@ -219,7 +219,7 @@ function sendCtrlAltDel(sc)
         update_modifier(true, KeyNames.KEY_Alt, sc);
         Alt_state = true;
         Alt_locked = false;
-        send_key(sc, KeyNames.KEY_DELETE);
+        send_key(sc, KeyNames.KEY_Delete);
         const release = () => {
             update_modifier(false, KeyNames.KEY_LCtrl, sc);
             Ctrl_state = false;
@@ -347,6 +347,13 @@ function sendF12(sc)
 {
     if (sc && sc.inputs && sc.inputs.state === "ready"){
         send_key(sc, KeyNames.KEY_F12);
+    }
+}
+
+function sendPrintScreen(sc)
+{
+    if (sc && sc.inputs && sc.inputs.state === "ready"){
+        send_key(sc, KeyNames.KEY_PrintScreen);
     }
 }
 
@@ -489,6 +496,7 @@ export {
   sendF10,
   sendF11,
   sendF12,
+  sendPrintScreen,
   toggleAlt,
   toggleCtrl,
   isAltPressed,
