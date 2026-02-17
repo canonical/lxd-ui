@@ -524,8 +524,6 @@ SpiceDisplayConn.prototype.process_channel_message = function(msg)
             canvas.context.save();
             document.getElementById(this.parent.screen_id).appendChild(canvas);
 
-            /* We're going to leave width dynamic, but correctly set the height */
-            document.getElementById(this.parent.screen_id).style.height = m.surface.height + "px";
             this.hook_events();
         }
         return true;

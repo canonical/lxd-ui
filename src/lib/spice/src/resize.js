@@ -46,7 +46,9 @@ function resize_helper(sc)
       || document.mozFullScreenElement
       || document.msFullscreenElement;
 
-    var height = window.innerHeight - wrapper.getBoundingClientRect().top;
+    var height = window.innerHeight
+      - wrapper.getBoundingClientRect().top // removing space above by taking wrappers top position
+      - wrapper.parentNode.scrollTop; // spice wrapper might be scrolled down, reduce available height by it
 
     /* leave a margin at the bottom (and reserve status bar height) when not in full screen */
     if (!isFullScreen) {
