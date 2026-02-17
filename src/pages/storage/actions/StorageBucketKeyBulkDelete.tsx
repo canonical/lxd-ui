@@ -103,7 +103,7 @@ const StorageBucketKeyBulkDelete: FC<Props> = ({
       .catch((e) => {
         setLoading(false);
         toastNotify.failure(
-          `Key bulk deletion failed for bucket ${bucket.name}`,
+          `Key bulk deletion failed for storage bucket ${bucket.name}`,
           e,
         );
       });

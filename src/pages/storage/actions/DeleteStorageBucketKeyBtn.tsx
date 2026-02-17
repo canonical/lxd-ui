@@ -31,9 +31,9 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
   const onFinish = () => {
     toastNotify.success(
       <>
-        Bucket key{" "}
-        <ResourceLabel bold type="bucket-key" value={bucketKey.name} /> deleted
-        for bucket <ResourceLabel bold type="bucket" value={bucket.name} />.
+        Key <ResourceLabel bold type="bucket-key" value={bucketKey.name} />{" "}
+        deleted for storage bucket{" "}
+        <ResourceLabel bold type="bucket" value={bucket.name} />.
       </>,
     );
   };
@@ -48,7 +48,7 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
     )
       .then(onFinish)
       .catch((e) => {
-        notify.failure("Bucket key deletion failed", e);
+        notify.failure("Key deletion failed", e);
       })
       .finally(() => {
         setLoading(false);

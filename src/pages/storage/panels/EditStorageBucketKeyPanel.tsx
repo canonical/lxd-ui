@@ -52,7 +52,7 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
           value={bucketKey?.name ?? ""}
           to={bucketURL}
         />{" "}
-        updated for bucket{" "}
+        updated for storage bucket{" "}
         <ResourceLink type="bucket" value={bucket?.name ?? ""} to={bucketURL} />
         .
       </>,

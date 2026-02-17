@@ -53,8 +53,8 @@ jobs:
           dotrun &
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
-      # - name: Setup Ceph
-      #   uses: canonical/lxd/.github/actions/setup-microceph@main
+      - name: Setup Ceph
+        uses: canonical/lxd/.github/actions/setup-microceph@main
 
       - name: Setup OVN
         uses: canonical/lxd/.github/actions/setup-microovn@main

@@ -25,10 +25,16 @@ import {
   randomProjectName,
 } from "./helpers/projects";
 import { gotoURL } from "./helpers/navigate";
-import { createBucket, randomBucketName } from "./helpers/storageBucket";
+import {
+  createBucket,
+  createBucketKey,
+  deleteBucket,
+  randomBucketName,
+  visitBucket,
+} from "./helpers/storageBucket";
+import { cephObject } from "util/storageOptions";
 
 let volume = randomVolumeName();
-const bucket = randomBucketName();
 
 test.beforeAll(async ({ browser, browserName }) => {
   const page = await browser.newPage();
@@ -229,15 +235,58 @@ test("Export and upload a volume backup", async ({ page }) => {
   await deleteVolume(page, uploadVolume);
 });
 
-test("storage bucket create", async ({ page }) => {
-  const project = randomProjectName();
+test("storage bucket create, edit, delete", async ({ page, lxdVersion }) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "Ceph is not configured in CI for 5.0 in github runners",
+  );
 
-  await createProject(page, project);
-  await gotoURL(page, `/ui/project/${project}`);
-  await page.getByRole("button", { name: "Storage" }).click();
-  await page.getByRole("link", { name: "Buckets" }).click();
-  await assertTextVisible(page, "No buckets found in this project");
+  const bucket = randomBucketName();
+  const pool = randomPoolName();
 
+  await createPool(page, pool, cephObject);
   await createBucket(page, bucket);
-  await deleteProject(page, project);
+
+  await page.getByRole("row").filter({ hasText: bucket }).hover();
+  await page.getByRole("button", { name: "Edit bucket" }).click();
+  await page.getByRole("spinbutton", { name: "Size" }).fill("100");
+  await page.getByRole("button", { name: "Save 1 change" }).click();
+  await page.waitForSelector(`text=Storage bucket ${bucket} updated.`);
+
+  await page.getByPlaceholder("Search and filter").fill(bucket);
+  await page.getByPlaceholder("Search and filter").press("Enter");
+  await page.getByPlaceholder("Add filter").press("Escape");
+  await page.waitForTimeout(200);
+  await expect(page.getByText("100GiB")).toBeVisible();
+
+  await deleteBucket(page, bucket);
+  await deletePool(page, pool);
+});
+
+test("storage bucket keys create, edit, delete", async ({
+  page,
+  lxdVersion,
+}) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "Ceph is not configured in CI for 5.0 in github runners",
+  );
+
+  const bucket = randomBucketName();
+  const bucketkey = `${bucket}-key`;
+  const pool = randomPoolName();
+
+  await createPool(page, pool, cephObject);
+  await createBucket(page, bucket);
+  await visitBucket(page, bucket);
+  await createBucketKey(page, bucket, bucketkey);
+
+  await page.getByRole("row").filter({ hasText: bucketkey }).hover();
+  await page.getByRole("button", { name: "Edit bucket key" }).nth(1).click();
+  await page.getByPlaceholder("Enter description").fill("Test description 2");
+  await page.getByRole("button", { name: "Save 1 change" }).click();
+  await page.waitForSelector(`text=Key ${bucketkey} updated`);
+
+  await deleteBucket(page, bucket);
+  await deletePool(page, pool);
 });

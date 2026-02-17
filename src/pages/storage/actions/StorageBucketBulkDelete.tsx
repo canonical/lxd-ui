@@ -47,7 +47,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
           toastNotify.success(successMessage, viewBulkDetails(results));
         } else if (rejectedCount === deleteCount) {
           toastNotify.failure(
-            "Bucket bulk deletion failed",
+            "Storage bucket bulk deletion failed",
             undefined,
             <>
               <b>{deleteCount}</b> {pluralize("bucket", deleteCount)} could not
@@ -57,7 +57,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
           );
         } else {
           toastNotify.failure(
-            "Bucket bulk deletion partially failed",
+            "Storage bucket bulk deletion partially failed",
             undefined,
             <>
               <b>{fulfilledCount}</b> {pluralize("bucket", fulfilledCount)}{" "}
@@ -78,7 +78,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
       })
       .catch((e) => {
         setLoading(false);
-        toastNotify.failure("Bucket bulk deletion failed", e);
+        toastNotify.failure("Storage bucket bulk deletion failed", e);
       });
   };
 
