@@ -33,7 +33,7 @@
     "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
   },
   "dependencies": {
-    "@canonical/react-components": "3.11.1",
+    "@canonical/react-components": "3.12.0",
     "@monaco-editor/react": "4.7.0",
     "@tanstack/react-query": "5.90.16",
     "@xterm/addon-fit": "0.11.0",
@@ -54,7 +54,7 @@
     "@babel/eslint-parser": "7.28.5",
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@canonical/typescript-config-react": "0.13.0",
+    "@canonical/typescript-config-react": "0.14.0",
     "@playwright/test": "1.58.2",
     "@types/convert-source-map": "2.0.3",
     "@types/dotenv": "8.2.3",
