@@ -22,6 +22,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import { filterUsedByType } from "util/usedBy";
 import type { ResourceType } from "util/resourceDetails";
 import { ROOT_PATH } from "util/rootPath";
+import { useEventQueue } from "context/eventQueue";
 
 const generateTooltipMessage = (
   project: LxdProject,
@@ -114,6 +115,7 @@ interface Props {
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const isSmallScreen = useIsScreenBelow();
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -121,7 +123,8 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const navigate = useNavigate();
   const { canDeleteProject } = useProjectEntitlements();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { hasProjectForceDelete } = useSupportedFeatures();
+  const { hasProjectForceDelete, hasProjectDeleteOperation } =
+    useSupportedFeatures();
 
   const isDefaultProject = project.name === "default";
   const isEmpty = isProjectEmpty(project);
@@ -131,18 +134,44 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     closePortal();
   };
 
+  const notifySuccess = () => {
+    toastNotify.success(
+      <>
+        Project <ResourceLabel bold type="project" value={project.name} />{" "}
+        deleted.
+      </>,
+    );
+  };
+
   const handleDelete = () => {
     setLoading(true);
     const force = !isEmpty && hasProjectForceDelete;
     deleteProject(project, force)
-      .then(() => {
+      .then((operation) => {
         navigate(`${ROOT_PATH}/ui/project/default/instances`);
-        toastNotify.success(
-          <>
-            Project <ResourceLabel bold type="project" value={project.name} />{" "}
-            deleted.
-          </>,
-        );
+        if (hasProjectDeleteOperation) {
+          toastNotify.info(
+            <>
+              Deletion of project{" "}
+              <ResourceLabel bold type="project" value={project.name} /> has
+              started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              notifySuccess();
+            },
+            (msg) =>
+              toastNotify.failure(
+                `Deleting project ${project.name} failed`,
+                new Error(msg),
+              ),
+          );
+        } else {
+          notifySuccess();
+        }
+
         handleClosePortal();
       })
       .catch((e) => {

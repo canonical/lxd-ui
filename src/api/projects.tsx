@@ -91,14 +91,18 @@ export const renameProject = async (
 export const deleteProject = async (
   project: LxdProject,
   force?: boolean,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   if (force) {
     params.set("force", "1");
   }
   const url = `${ROOT_PATH}/1.0/projects/${encodeURIComponent(project.name)}?${params.toString()}`;
 
-  await fetch(url, {
+  return fetch(url, {
     method: "DELETE",
-  }).then(handleResponse);
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
