@@ -6,6 +6,7 @@ import classnames from "classnames";
 import { linkForVolumeDetail, hasVolumeDetailPage } from "util/storageVolume";
 import { useInstances } from "context/useInstances";
 import { useImagesInProject } from "context/useImages";
+import { getImageAlias, getImageName } from "util/images";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -34,7 +35,16 @@ const StorageVolumeNameLink: FC<Props> = ({
 
   const isCustom = volume.type === "custom";
   const displayLink = instance || image || isCustom;
-  const caption = overrideName ? overrideName : volume.name;
+  const getCaption = () => {
+    if (overrideName) {
+      return overrideName;
+    }
+    if (image) {
+      return `${getImageName(image)} ${getImageAlias(image)}`;
+    }
+    return volume.name;
+  };
+  const caption = getCaption();
 
   if (overrideName && !displayLink) {
     return null;

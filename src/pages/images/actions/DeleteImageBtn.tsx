@@ -12,6 +12,7 @@ import {
 import { useEventQueue } from "context/eventQueue";
 import ResourceLabel from "components/ResourceLabel";
 import { useImageEntitlements } from "util/entitlements/images";
+import { getImageName } from "util/images";
 
 interface Props {
   image: LxdImage;
@@ -25,11 +26,11 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const queryClient = useQueryClient();
   const { canDeleteImage } = useImageEntitlements();
 
-  const description = image.properties?.description ?? image.fingerprint;
+  const imageName = getImageName(image);
 
   const handleDelete = () => {
     setLoading(true);
-    const imageLabel = <ResourceLabel bold type="image" value={description} />;
+    const imageLabel = <ResourceLabel bold type="image" value={imageName} />;
     deleteImage(image, project)
       .then((operation) => {
         eventQueue.set(
@@ -45,7 +46,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
           },
           (msg) =>
             toastNotify.failure(
-              `Image ${description} deletion failed`,
+              `Image ${imageName} deletion failed`,
               new Error(msg),
               imageLabel,
             ),
@@ -56,7 +57,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
       })
       .catch((e) => {
         toastNotify.failure(
-          `Image ${description} deletion failed`,
+          `Image ${imageName} deletion failed`,
           e,
           imageLabel,
         );
@@ -72,7 +73,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
         children: (
           <p>
             This will permanently delete image{" "}
-            <ResourceLabel type="image" value={description} bold />.<br />
+            <ResourceLabel type="image" value={imageName} bold />.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

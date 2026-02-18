@@ -8,6 +8,7 @@ import {
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
+import { getImageName } from "util/images";
 
 interface Props {
   image: LxdImage;
@@ -17,7 +18,7 @@ interface Props {
 const DownloadImageBtn: FC<Props> = ({ image, project }) => {
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
-  const description = image.properties?.description ?? image.fingerprint;
+  const imageName = getImageName(image);
   const isUnifiedTarball = image.update_source == null; //Only Split Tarballs have an update_source.
   const url = `${ROOT_PATH}/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;
 
@@ -27,7 +28,7 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
       <ResourceLink
         to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/images`}
         type="image"
-        value={description}
+        value={imageName}
       />
     );
 
@@ -46,7 +47,7 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
       );
     } catch (e) {
       toastNotify.failure(
-        `Image ${description} was unable to download.`,
+        `Image ${imageName} was unable to download.`,
         e,
         imageLink,
       );
