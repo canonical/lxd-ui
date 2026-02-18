@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.33% </span>
+                <span class="strong">93.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>70/75</span>
+                <span class='fraction'>71/76</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.33% </span>
+                <span class="strong">93.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>70/75</span>
+                <span class='fraction'>71/76</span>
             </div>
         
             
@@ -138,7 +138,8 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">10x</span>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -155,13 +156,14 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -194,23 +196,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -223,6 +225,7 @@ import {
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
+import { getImageName } from "util/images";
 &nbsp;
 interface Props {
   image: LxdImage;
@@ -232,7 +235,7 @@ interface Props {
 const DownloadImageBtn: FC&lt;Props&gt; = ({ image, project }) =&gt; {
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
-  const description = image.properties?.<span class="branch-0 cbranch-no" title="branch not covered" >description ?? image.fingerprint;</span>
+  const imageName = getImageName(image);
   const isUnifiedTarball = image.update_source == null; //Only Split Tarballs have an update_source.
   const url = `${ROOT_PATH}/1.0/images/${encodeURIComponent(image.fingerprint)}/export?project=${encodeURIComponent(project)}`;
 &nbsp;
@@ -242,7 +245,7 @@ const DownloadImageBtn: FC&lt;Props&gt; = ({ image, project }) =&gt; {
       &lt;ResourceLink
         to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/images`}
         type="image"
-        value={description}
+        value={imageName}
       /&gt;
     );
 &nbsp;
@@ -261,7 +264,7 @@ const DownloadImageBtn: FC&lt;Props&gt; = ({ image, project }) =&gt; {
       );
     } catch (e) {
 <span class="cstat-no" title="statement not covered" >      toastNotify.failure(</span>
-<span class="cstat-no" title="statement not covered" >        `Image ${description} was unable to download.`,</span>
+<span class="cstat-no" title="statement not covered" >        `Image ${imageName} was unable to download.`,</span>
 <span class="cstat-no" title="statement not covered" >        e,</span>
 <span class="cstat-no" title="statement not covered" >        imageLink,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
@@ -295,7 +298,7 @@ export default DownloadImageBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-17T22:12:01.680Z
+                at 2026-02-18T14:43:31.747Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
