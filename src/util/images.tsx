@@ -85,3 +85,11 @@ export const byOSRelease = (a: RemoteImage, b: RemoteImage): number => {
   }
   return 0;
 };
+
+export const getImageName = (image: LxdImage): string => {
+  return image.properties?.description ?? image.fingerprint;
+};
+
+export const getImageAlias = (image: LxdImage): string => {
+  return image.aliases.map((alias) => alias.name).join(", ");
+};

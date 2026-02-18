@@ -16,7 +16,11 @@ import { humanFileSize, isoTimeToString } from "util/helpers";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
-import { localLxdToRemoteImage } from "util/images";
+import {
+  getImageAlias,
+  getImageName,
+  localLxdToRemoteImage,
+} from "util/images";
 import useSortTableData from "util/useSortTableData";
 import SelectableMainTable from "components/SelectableMainTable";
 import BulkDeleteImageBtn from "pages/images/actions/BulkDeleteImageBtn";
@@ -119,15 +123,15 @@ const ImageList: FC = () => {
       />
     );
 
-    const imageAlias = image.aliases.map((alias) => alias.name).join(", ");
-    const description = image.properties?.description ?? image.fingerprint;
+    const imageAlias = getImageAlias(image);
+    const imageName = getImageName(image);
 
     return {
       key: image.fingerprint,
       name: image.fingerprint,
       columns: [
         {
-          content: description,
+          content: imageName,
           role: "rowheader",
           "aria-label": "Name",
         },
@@ -175,7 +179,7 @@ const ImageList: FC = () => {
         },
       ],
       sortData: {
-        name: description.toLowerCase(),
+        name: imageName.toLowerCase(),
         alias: imageAlias.toLowerCase(),
         architecture: image.architecture,
         cached: image.cached,

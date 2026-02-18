@@ -10,6 +10,7 @@ import EntitlementOptionLabel from "pages/permissions/panels/EntitlementOptionLa
 import type { CustomSelectOption } from "@canonical/react-components";
 import { getOptionText } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown";
 import { getIdentityName } from "util/permissionIdentities";
+import { getImageName } from "util/images";
 
 export const noneAvailableOption = {
   disabled: true,
@@ -312,7 +313,7 @@ export const getImageLookup = (
   for (const image of images) {
     nameLookup[image.fingerprint] = {
       ...image,
-      name: `${image.properties?.description || image.fingerprint} (${image.type})`,
+      name: `${getImageName(image)} (${image.type})`,
     };
   }
 
