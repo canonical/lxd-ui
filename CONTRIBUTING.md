@@ -86,7 +86,7 @@
 
     The first time, running `dotrun` will generate certificates for you. You can find them in the `keys` folder on the top level of the repo. Trust them from your local `lxc` with
 
-       sudo lxc auth identity create keys/lxd-ui.crt --group admins
+       sudo lxc auth identity create tls/dotrun-cert keys/lxd-ui.crt --group admins
     
     If you are on a Mac and running LXD inside Multipass, set the `LXD_UI_BACKEND_IP` in the `.env.local` file:
 
