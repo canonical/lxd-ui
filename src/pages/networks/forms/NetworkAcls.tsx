@@ -25,7 +25,7 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
 
   return (
     <div className="general-field">
-      <div className="general-field-label">
+      <div className="general-field-label can-edit">
         <Label forId={networlAclSelectorId}>ACLs</Label>
       </div>
       <div
