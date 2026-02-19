@@ -127,3 +127,8 @@
     }
   }
 }
+
+// align multi select height to other inputs
+.multi-select__select-button {
+  height: inherit !important;
+}
