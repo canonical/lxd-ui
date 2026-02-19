@@ -93,3 +93,11 @@ export const getImageName = (image: LxdImage): string => {
 export const getImageAlias = (image: LxdImage): string => {
   return image.aliases.map((alias) => alias.name).join(", ");
 };
+
+// API format for aliases on image posts
+// @see https://github.com/canonical/lxd/blob/main/shared/api/image.go#L60-L64
+export const imageAliasPost = (aliases: string) => {
+  return aliases.split(",").map((alias) => ({
+    name: alias,
+  }));
+};

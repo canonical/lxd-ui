@@ -5,7 +5,6 @@ import type { LxdImage } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
-import type { LxdInstance } from "types/instance";
 import type { UploadState } from "types/storage";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
@@ -125,10 +124,10 @@ export const createImageAlias = async (
 
 export const createImage = async (
   body: string,
-  instance: LxdInstance,
+  project: string,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
-  params.set("project", instance.project);
+  params.set("project", project);
 
   return fetch(`${ROOT_PATH}/1.0/images?${params.toString()}`, {
     method: "POST",

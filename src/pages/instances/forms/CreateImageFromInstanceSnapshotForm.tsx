@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
-import { createImage, createImageAlias } from "api/images";
+import { createImage } from "api/images";
 import {
   ActionButton,
   Button,
@@ -19,7 +19,7 @@ import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
-import { getFingerprint } from "util/operations";
+import { imageAliasPost } from "util/images";
 
 interface Props {
   instance: LxdInstance;
@@ -62,22 +62,6 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
     });
   };
 
-  const getSnapshotToImageBody = (
-    instance: LxdInstance,
-    snapshot: LxdInstanceSnapshot,
-    isPublic: boolean,
-  ): string => {
-    const body = JSON.stringify({
-      public: isPublic,
-      source: {
-        type: "snapshot",
-        name: `${instance.name}/${snapshot.name}`,
-      },
-    });
-
-    return body;
-  };
-
   const formik = useFormik<{ alias: string; isPublic: boolean }>({
     initialValues: {
       alias: "",
@@ -87,34 +71,25 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
       alias: Yup.string(),
     }),
     onSubmit: (values) => {
-      const alias = values.alias;
+      const body = JSON.stringify({
+        aliases: imageAliasPost(values.alias),
+        public: values.isPublic,
+        source: {
+          name: `${instance.name}/${snapshot.name}`,
+          type: "snapshot",
+        },
+      });
 
-      createImage(
-        getSnapshotToImageBody(instance, snapshot, values.isPublic),
-        instance,
-      )
+      createImage(body, instance.project)
         .then((operation) => {
           toastNotify.info(
             <>Creation of image from snapshot {snapshotLink} started.</>,
           );
           eventQueue.set(
             operation.metadata.id,
-            (result) => {
-              if (alias) {
-                const fingerprint = getFingerprint(result);
-                createImageAlias(fingerprint, alias, instance.project)
-                  .then(clearCache)
-                  .then(notifySuccess)
-                  .catch((e) => {
-                    toastNotify.failure(
-                      `Image creation from snapshot "${snapshot.name}" succeeded. Failed to create an alias.`,
-                      e,
-                    );
-                  });
-              } else {
-                clearCache();
-                notifySuccess();
-              }
+            () => {
+              clearCache();
+              notifySuccess();
             },
             (msg) => {
               toastNotify.failure(

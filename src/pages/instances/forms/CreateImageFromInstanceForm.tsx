@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
-import { createImage, createImageAlias } from "api/images";
+import { createImage } from "api/images";
 import {
   ActionButton,
   Button,
@@ -19,7 +19,7 @@ import { InstanceRichChip } from "../InstanceRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
-import { getFingerprint } from "util/operations";
+import { imageAliasPost } from "util/images";
 
 interface Props {
   instance: LxdInstance;
@@ -60,21 +60,6 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
     });
   };
 
-  const getInstanceToImageBody = (
-    instance: LxdInstance,
-    isPublic: boolean,
-  ): string => {
-    const body = JSON.stringify({
-      public: isPublic,
-      source: {
-        name: instance.name,
-        type: "instance",
-      },
-    });
-
-    return body;
-  };
-
   const formik = useFormik<{ alias: string; isPublic: boolean }>({
     initialValues: {
       alias: canCreateImageAliases(project)
@@ -86,31 +71,25 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
       alias: Yup.string(),
     }),
     onSubmit: (values) => {
-      const alias = values.alias;
+      const body = JSON.stringify({
+        aliases: imageAliasPost(values.alias),
+        public: values.isPublic,
+        source: {
+          name: instance.name,
+          type: "instance",
+        },
+      });
 
-      createImage(getInstanceToImageBody(instance, values.isPublic), instance)
+      createImage(body, instance.project)
         .then((operation) => {
           toastNotify.info(
             <>Creation of image from instance {instanceLink} started.</>,
           );
           eventQueue.set(
             operation.metadata.id,
-            (result) => {
-              if (alias) {
-                const fingerprint = getFingerprint(result);
-                createImageAlias(fingerprint, alias, instance.project)
-                  .then(clearCache)
-                  .then(notifySuccess)
-                  .catch((e) => {
-                    toastNotify.failure(
-                      `Image creation from instance "${instance.name}" succeeded. Failed to create an alias.`,
-                      e,
-                    );
-                  });
-              } else {
-                clearCache();
-                notifySuccess();
-              }
+            () => {
+              clearCache();
+              notifySuccess();
             },
             (msg) => {
               toastNotify.failure(
