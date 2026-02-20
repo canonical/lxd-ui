@@ -37,6 +37,7 @@ jobs:
           set -x
           sudo chmod 0777 ../lxd-ui
           dotrun install
+          sudo snap refresh snapd
 
       - name: Run LXD-UI
         env:
