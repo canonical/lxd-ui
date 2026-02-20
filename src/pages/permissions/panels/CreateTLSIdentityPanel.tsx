@@ -77,7 +77,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
         closePanel();
       })
       .catch((e) => {
-        notify.failure("TLS Identity failed to be created", e);
+        notify.failure("Identity creation failed", e);
       });
   };
 

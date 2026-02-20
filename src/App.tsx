@@ -1,13 +1,12 @@
 import type { FC } from "react";
-import { useEffect } from "react";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import NoMatch from "components/NoMatch";
-import { logout } from "util/helpers";
+import { isBearerAuthError, logoutBearerToken, logoutOidc } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import lazy from "util/lazyWithRetry";
 import { useSettings } from "context/useSettings";
@@ -21,7 +20,11 @@ import {
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
 import { ALL_PROJECTS } from "util/loginProject";
+import { AUTH_METHOD } from "util/authentication";
 
+const AuthenticationSetup = lazy(
+  async () => import("pages/login/AuthenticationSetup"),
+);
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
   async () => import("pages/login/CertificateGenerate"),
@@ -125,7 +128,7 @@ const App: FC = () => {
   } = useAuth();
   const notify = useNotify();
   const { data: settings } = useSettings();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   setFavicon();
   setTitle();
@@ -145,10 +148,15 @@ const App: FC = () => {
       const logoutAction = [
         {
           label: "Logout",
-          onClick: () => (window.location.href = `${ROOT_PATH}/oidc/logout`),
+          onClick: () => {
+            if (isBearerAuthError(authError)) {
+              logoutBearerToken();
+            } else {
+              logoutOidc();
+            }
+          },
         },
       ];
-
       notify.failure(title, authError, null, logoutAction);
     }
 
@@ -160,7 +168,7 @@ const App: FC = () => {
   }
 
   if (!isAuthenticated && hasOidc != undefined && hasCertificate != undefined) {
-    logout(hasOidc, hasCertificate);
+    logoutOidc();
   }
 
   if (
@@ -559,6 +567,10 @@ const App: FC = () => {
         <Route
           path={`${ROOT_PATH}/ui/login/certificate-add`}
           element={<CertificateAdd />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/authentication-setup`}
+          element={<AuthenticationSetup />}
         />
         <Route path="*" element={<NoMatch />} />
       </Routes>

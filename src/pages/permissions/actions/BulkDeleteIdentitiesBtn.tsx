@@ -10,7 +10,9 @@ import { useIdentityEntitlements } from "util/entitlements/identities";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
-import { logout } from "util/helpers";
+import { logoutOidc } from "util/helpers";
+import { AUTH_METHOD } from "util/authentication";
+import { useAuth } from "context/auth";
 
 interface Props {
   identities: LxdIdentity[];
@@ -24,6 +26,7 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
   const [isLoading, setLoading] = useState(false);
   const { canDeleteIdentity } = useIdentityEntitlements();
   const { data: settings } = useSettings();
+  const { authMethod } = useAuth();
   const loggedInIdentityID = settings?.auth_user_name ?? "";
 
   const isSelf = identities.some(
@@ -45,10 +48,10 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
     const successMessage = `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} successfully deleted`;
     deleteIdentities(deletableIdentities)
       .then(() => {
-        if (isSelf && settings?.auth_user_method === "oidc") {
+        if (isSelf && authMethod === AUTH_METHOD.OIDC) {
           // special case for OIDC users, as they would be recreated via the api on the next request
           // force a logout to prevent re-creation
-          logout();
+          logoutOidc();
           return;
         }
         queryClient.invalidateQueries({

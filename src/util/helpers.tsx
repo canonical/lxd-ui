@@ -285,23 +285,19 @@ export const isDimensionBelow = (
     ? window.innerWidth < dimension
     : window.innerHeight < dimension;
 
-export const logout = (hasOidc?: boolean, hasCertificate?: boolean): void => {
+export const logoutBearerToken = () => {
+  void fetch(`${ROOT_PATH}/bearer/logout`).then(() => {
+    window.location.href = `${ROOT_PATH}/ui/login`;
+  });
+};
+
+export const logoutOidc = (): void => {
   if (window.location.pathname.includes(`${ROOT_PATH}/ui/login`)) {
     return;
   }
 
-  void fetch(`${ROOT_PATH}/oidc/logout`.replace(/\/+/g, "/")).then(() => {
-    if (hasOidc) {
-      window.location.href = `${ROOT_PATH}/ui/login/`;
-      return;
-    }
-
-    if (hasCertificate) {
-      window.location.href = `${ROOT_PATH}/ui/login/certificate-add`;
-      return;
-    }
-
-    window.location.href = `${ROOT_PATH}/ui/login/certificate-generate`;
+  void fetch(`${ROOT_PATH}/oidc/logout`).then(() => {
+    window.location.href = `${ROOT_PATH}/ui/login`;
   });
 };
 
@@ -458,4 +454,21 @@ export const fileToSanitisedName = (
 
 export const conjugateACLAction = (action: string) => {
   return action === "drop" ? "dropped" : action + "ed";
+};
+
+const isBearerTokenExpired = (error: Error | null) => {
+  if (!error?.message) return false;
+  const msg = error.message.toLowerCase();
+  return msg.includes("token is expired");
+};
+
+const isBearerTokenInvalid = (error: Error | null) => {
+  if (!error?.message) return false;
+  const msg = error.message.toLowerCase();
+  return msg.includes("token signature is invalid");
+};
+
+export const isBearerAuthError = (error: Error | null) => {
+  if (!error?.message) return false;
+  return isBearerTokenExpired(error) || isBearerTokenInvalid(error);
 };

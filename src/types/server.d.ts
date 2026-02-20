@@ -1,6 +1,5 @@
 import type { LxdConfigPair } from "./config";
-
-type LXDAuthMethods = "tls" | "oidc" | "unix";
+import { type LXDAuthMethod } from "util/authentication";
 
 interface SupportedStorageDriver {
   Name: string;
@@ -12,8 +11,8 @@ export interface LxdSettings {
   api_status: string;
   api_extensions?: string[];
   auth?: "trusted" | "untrusted";
-  auth_methods?: LXDAuthMethods;
-  auth_user_method?: LXDAuthMethods;
+  auth_methods?: LXDAuthMethod;
+  auth_user_method?: LXDAuthMethod;
   auth_user_name?: string;
   client_certificate?: boolean;
   config?: LxdConfigPair;

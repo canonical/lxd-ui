@@ -1,15 +1,12 @@
 import { type FC } from "react";
 import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
-import { useSettings } from "context/useSettings";
-import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
+import AuthenticationOptions from "components/AuthenticationOptions";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
-  const { data: settings } = useSettings();
-  const hasOidc = settings?.auth_methods?.includes("oidc");
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -23,39 +20,9 @@ const Login: FC = () => {
     <>
       <CustomLayout contentClassName="login">
         <div className="empty-state login-page">
-          <Icon name="pods" className="lxd-icon" />
-          <h1 className="p-heading--4 u-sv-2">Login</h1>
-
-          <>
-            <p className="u-sv1">Choose your login method</p>
-            <div className="auth-container">
-              {hasOidc && (
-                <a
-                  className="p-button--positive has-icon"
-                  href={`${ROOT_PATH}/oidc/login`}
-                >
-                  <Icon name="security" light />
-                  <span>Login with SSO</span>
-                </a>
-              )}
-              {!hasOidc && (
-                <DocLink
-                  className="p-button--positive has-icon"
-                  docPath="/howto/oidc"
-                >
-                  <Icon name="security" light />
-                  <span>Set up SSO login</span>
-                </DocLink>
-              )}
-              <Link
-                className="has-icon p-button"
-                to={`${ROOT_PATH}/ui/login/certificate-generate`}
-              >
-                <Icon name="certificate" />
-                <span>Set up TLS login</span>
-              </Link>
-            </div>
-          </>
+          <Icon name="cluster-host" className="lxd-icon" />
+          <h1 className="p-heading--4 u-sv1">Choose your login method</h1>
+          <AuthenticationOptions />
         </div>
       </CustomLayout>
     </>

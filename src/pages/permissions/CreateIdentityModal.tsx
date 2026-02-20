@@ -11,6 +11,7 @@ import {
 } from "@canonical/react-components";
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
+import { Link } from "react-router-dom";
 
 interface Props {
   onClose: () => void;
@@ -118,7 +119,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
                         items={[
                           <>
                             Open an unauthenticated browser on{" "}
-                            <code>{location.origin}</code>.
+                            <Link to={location.origin}>{location.origin}</Link>.
                           </>,
                           <>
                             Select <b>Setup TLS login</b> and follow the

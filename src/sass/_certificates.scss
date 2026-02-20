@@ -31,3 +31,19 @@
     }
   }
 }
+
+.certificates-with-bearer-token {
+  margin: unset;
+
+  .p-panel__content {
+    max-width: 64rem;
+  }
+
+  .stepper-horizontal :first-child .step {
+    padding-left: $spv--medium;
+  }
+
+  .create-tls-identity-with-bearer-token-footer {
+    justify-content: flex-end;
+  }
+}

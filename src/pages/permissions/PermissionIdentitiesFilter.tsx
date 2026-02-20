@@ -11,6 +11,7 @@ import {
   searchParamsToChips,
 } from "util/searchAndFilter";
 import type { LxdIdentity } from "types/permissions";
+import { AUTH_METHOD } from "util/authentication";
 
 export interface PermissionIdentitiesFilterType {
   queries: string[];
@@ -18,11 +19,11 @@ export interface PermissionIdentitiesFilterType {
   systemIdentities: string | null;
 }
 export const QUERY = "query";
-export const AUTH_METHOD = "auth-method";
+export const AUTH_METHOD_FILTER = "auth-method";
 export const SYSTEM_IDENTITIES = "system-identities";
 
-const authMethods: string[] = ["tls", "oidc"];
-const QUERY_PARAMS = [QUERY, AUTH_METHOD, SYSTEM_IDENTITIES];
+const authMethods: string[] = [AUTH_METHOD.TLS, AUTH_METHOD.OIDC];
+const QUERY_PARAMS = [QUERY, AUTH_METHOD_FILTER, SYSTEM_IDENTITIES];
 
 export const isSystemIdentity = (identity: LxdIdentity) => {
   return (
@@ -39,7 +40,7 @@ const PermissionIdentitiesFilter: FC = () => {
       id: 1,
       heading: "Auth method",
       chips: authMethods.map((method) => {
-        return { lead: AUTH_METHOD, value: method };
+        return { lead: AUTH_METHOD_FILTER, value: method };
       }),
     },
     {

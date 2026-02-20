@@ -8,13 +8,8 @@
     text-align: center;
     width: fit-content;
 
-    .auth-container {
-      a,
-      button {
-        display: block;
-        margin-bottom: 0.5rem;
-        width: 100%;
-      }
+    .p-login-method {
+      max-width: unset;
     }
   }
 }

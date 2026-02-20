@@ -13,8 +13,10 @@ import { deleteIdentity } from "api/auth-identities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
-import { logout } from "util/helpers";
+import { logoutOidc } from "util/helpers";
 import ResourceLabel from "components/ResourceLabel";
+import { AUTH_METHOD } from "util/authentication";
+import { useAuth } from "context/auth";
 
 interface Props {
   identity: LxdIdentity;
@@ -27,6 +29,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
   const [isDeleting, setDeleting] = useState(false);
   const { canDeleteIdentity } = useIdentityEntitlements();
   const { data: settings } = useSettings();
+  const { authMethod } = useAuth();
   const loggedInIdentityID = settings?.auth_user_name ?? "";
   const isSelf = identity.id === loggedInIdentityID;
 
@@ -34,10 +37,10 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
     setDeleting(true);
     deleteIdentity(identity)
       .then(() => {
-        if (isSelf && settings?.auth_user_method === "oidc") {
+        if (isSelf && authMethod === AUTH_METHOD.OIDC) {
           // special case for OIDC users, as they would be recreated via the api on the next request
           // force a logout to prevent re-creation
-          logout();
+          logoutOidc();
           return;
         }
         queryClient.invalidateQueries({

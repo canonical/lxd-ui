@@ -25,6 +25,7 @@ interface Props {
   toggleGroup: (rowName: string) => void;
   scrollDependencies: DependencyList;
   preselectedGroups?: Set<string>;
+  belowIds?: string[];
 }
 
 const GroupSelection: FC<Props> = ({
@@ -38,6 +39,7 @@ const GroupSelection: FC<Props> = ({
   toggleGroup,
   scrollDependencies,
   preselectedGroups,
+  belowIds = [],
 }) => {
   const [search, setSearch] = useState("");
 
@@ -131,7 +133,7 @@ const GroupSelection: FC<Props> = ({
   return (
     <ScrollableContainer
       dependencies={scrollDependencies}
-      belowIds={["panel-footer"]}
+      belowIds={["panel-footer", ...belowIds]}
       className="group-selection"
     >
       <PermissionGroupsFilter onChange={setSearch} value={search} />
@@ -139,7 +141,7 @@ const GroupSelection: FC<Props> = ({
         <ScrollableTable
           dependencies={[...scrollDependencies, search]}
           tableId="group-selection-table"
-          belowIds={["panel-footer"]}
+          belowIds={["panel-footer", ...belowIds]}
         >
           <SelectableMainTable
             id="group-selection-table"
