@@ -19,7 +19,12 @@ import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
 import NetworkSelector from "pages/projects/forms/NetworkSelector";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
-import { getDeviceAcls, getExistingDeviceNames } from "util/devices";
+import {
+  getDeviceAcls,
+  getExistingDeviceNames,
+  isValidIPV6,
+} from "util/devices";
+import { isIPv4 } from "@canonical/react-components";
 import type { FormDevice, FormNetworkDevice } from "types/formDevice";
 import { deduplicateName } from "util/formDevices";
 import { getInheritedNetworks } from "util/configInheritance";
@@ -86,6 +91,16 @@ const NetworkDevicePanel: FC<Props> = ({
   const validationSchema = isLoading
     ? Yup.object({})
     : Yup.object({
+        ipv4: Yup.string().test(
+          "is-valid-ipv4",
+          "Please enter a valid IPv4 address",
+          (value) => !value || isIPv4(value),
+        ),
+        ipv6: Yup.string().test(
+          "is-valid-ipv6",
+          "Please enter a valid IPv6 address",
+          (value) => !value || isValidIPV6(value),
+        ),
         ...(!isOverride && {
           name: Yup.string()
             .required("Device name is required")
@@ -202,6 +217,7 @@ const NetworkDevicePanel: FC<Props> = ({
   const selectedNetwork = managedNetworks.find(
     (n) => n.name === formik.values.network,
   );
+
   const networkAcls = getNetworkAclsByNetworkName(formik.values.network);
   const allSelectedAcls = formik.values.acls
     ? formik.values.acls.split(",")

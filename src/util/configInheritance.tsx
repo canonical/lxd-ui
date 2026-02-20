@@ -158,15 +158,21 @@ const getNetworkRowMetadata = (
   values: NetworkFormValues,
   name: string,
 ): ConfigRowMetadata => {
+  return getNetworkMetadata(values.networkType, name);
+};
+
+export const getNetworkMetadata = (
+  networkType: string,
+  name: string,
+): ConfigRowMetadata => {
   const configOptions = getConfigOptions();
 
-  const optionKey = networkFormTypeToOptionKey(values.networkType);
+  const optionKey = networkFormTypeToOptionKey(networkType);
   const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
+
   const configKey = getNetworkKey(name);
   const configField = configFields.find((item) => item.key === configKey);
-
   const lxdDefault = getLxdDefault(configField);
-
   return { value: lxdDefault, source: "LXD", configField };
 };
 

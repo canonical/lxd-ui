@@ -12,6 +12,16 @@ import type {
 import type { LxdProfile } from "types/profile";
 import type { FormDevice, FormDiskDevice } from "types/formDevice";
 import { getAppliedProfiles } from "./configInheritance";
+import type { LxdNetwork } from "types/network";
+import { typesWithNicStaticIPSupport } from "./networks";
+import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
+
+export const isValidIPV6 = (ip: string): boolean => {
+  const ipv6Regex =
+    /^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:)|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:)((:[0-9a-fA-F]{1,4}){1,6})|(:)((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}(([0-9]{1,3}\.){3}[0-9]{1,3})|([0-9a-fA-F]{1,4}:){1,4}:(([0-9]{1,3}\.){3}[0-9]{1,3}))$/;
+
+  return ipv6Regex.test(ip);
+};
 
 export const isNicDevice = (
   device: LxdDeviceValue | FormDevice,
@@ -168,4 +178,84 @@ export const getProfileFromSource = (source: string) => {
   }
 
   return source.split(" profile")[0];
+};
+
+export const getNicIpDisableReason = (
+  values: NetworkDeviceFormValues,
+  network: LxdNetwork,
+  family: "IPv4" | "IPv6",
+  dhcpDefault?: string,
+  dhcpStatefulDefault?: string,
+): React.ReactNode => {
+  const networkFieldName = family === "IPv4" ? "ipv4.address" : "ipv6.address";
+  const isStaticIpv4 = values.ipv4 && values.ipv4 !== "none";
+  const networkCIDR = network.config?.[networkFieldName];
+  const networkDHCP = getNetworkDHCPOrDefault(network, family, dhcpDefault);
+  const networkDHCPStateful = getNetworkDHCPStatefulOrDefault(
+    network,
+    family,
+    dhcpStatefulDefault,
+  );
+
+  if (!typesWithNicStaticIPSupport.includes(network.type)) {
+    return (
+      <>Network must be of type {typesWithNicStaticIPSupport.join(" or ")}.</>
+    );
+  }
+
+  if (!network.managed) {
+    return <>Network is not managed.</>;
+  }
+
+  if (network.status !== "Created") {
+    return (
+      <>
+        Network is not in status <code>created</code>.
+      </>
+    );
+  }
+
+  if (networkCIDR === "none" || networkCIDR === undefined) {
+    return <>{family} is disabled on the selected network</>;
+  }
+
+  if (!networkDHCP || (family === "IPv6" && !networkDHCPStateful)) {
+    return (
+      <>
+        {family === "IPv4"
+          ? "IPv4 DHCP is disabled on the selected network."
+          : "IPv6 DHCP or IPv6 DHCP stateful are disabled on the selected network."}
+      </>
+    );
+  }
+
+  if (network.type === "ovn" && family === "IPv6" && !isStaticIpv4) {
+    return <>IPv4 address reservation must be set to enable this field.</>;
+  }
+
+  return null;
+};
+
+const getNetworkDHCPOrDefault = (
+  network: LxdNetwork,
+  family: "IPv4" | "IPv6",
+  defaultValue?: string,
+): boolean => {
+  const result =
+    family === "IPv4"
+      ? (network.config["ipv4.dhcp"] ?? defaultValue)
+      : (network.config["ipv6.dhcp"] ?? defaultValue);
+  return result === "true";
+};
+
+const getNetworkDHCPStatefulOrDefault = (
+  network: LxdNetwork,
+  family: "IPv4" | "IPv6",
+  defaultValue?: string,
+): boolean => {
+  const result =
+    family === "IPv6"
+      ? (network.config["ipv6.dhcp.stateful"] ?? defaultValue)
+      : undefined;
+  return result === "true";
 };
