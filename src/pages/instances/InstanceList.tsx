@@ -27,7 +27,7 @@ import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
-import { getIpAddresses } from "util/networks";
+import { getIpAddresses, sortIpv6Addresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
 import type { InstanceFilters } from "util/instanceFilter";
@@ -431,12 +431,8 @@ const InstanceList: FC = () => {
         panelParams.openInstanceSummary(instance.name, instance.project);
       };
 
-      const ipv4 = getIpAddresses(instance, "inet")
-        .filter((val) => !val.address.startsWith("127"))
-        .map((val) => val.address);
-      const ipv6 = getIpAddresses(instance, "inet6")
-        .filter((val) => !val.address.startsWith("fe80"))
-        .map((val) => val.address);
+      const ipv4 = getIpAddresses(instance, "inet");
+      const ipv6 = sortIpv6Addresses(getIpAddresses(instance, "inet6"));
 
       const loadingType = instanceLoading.getType(instance);
 
@@ -523,7 +519,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv4-${ipv4.length}`,
-            content: <TruncatedList items={ipv4} />,
+            content: <TruncatedList items={ipv4.map((val) => val.address)} />,
             role: "cell",
             className: "u-align--right clickable-cell",
             "aria-label": IPV4,
@@ -532,7 +528,7 @@ const InstanceList: FC = () => {
           },
           {
             key: `ipv6-${ipv6.length}`,
-            content: <TruncatedList items={ipv6} />,
+            content: <TruncatedList items={ipv6.map((val) => val.address)} />,
             role: "cell",
             "aria-label": IPV6,
             onClick: openSummary,

@@ -13,7 +13,7 @@ const TruncatedList: FC<Props> = ({ items, numberToShow = 2 }) => {
   return (
     <>
       {items.slice(0, numberToShow).map((item, index) => (
-        <Fragment key={index}>{item}</Fragment>
+        <div key={index}>{item}</div>
       ))}
       <div className="p-text--x-small u-text--muted u-no-margin">
         + {items.length - numberToShow} more

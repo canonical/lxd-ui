@@ -70,7 +70,7 @@ export const InstanceRichTooltip: FC<Props> = ({
     {
       title: "IPV4",
       value: ipv4Addresses.length ? (
-        <TruncatedList items={ipv4Addresses} numberToShow={1} />
+        <TruncatedList items={ipv4Addresses} />
       ) : (
         "-"
       ),
@@ -78,18 +78,14 @@ export const InstanceRichTooltip: FC<Props> = ({
     {
       title: "IPV6",
       value: ipv6Addresses.length ? (
-        <TruncatedList items={ipv6Addresses} numberToShow={1} />
+        <TruncatedList items={ipv6Addresses} />
       ) : (
         "-"
       ),
     },
     {
       title: "MAC addresses",
-      value: instance ? (
-        <TruncatedList items={macAddresses} numberToShow={1} />
-      ) : (
-        "-"
-      ),
+      value: instance ? <TruncatedList items={macAddresses} /> : "-",
     },
     {
       title: "Created",
