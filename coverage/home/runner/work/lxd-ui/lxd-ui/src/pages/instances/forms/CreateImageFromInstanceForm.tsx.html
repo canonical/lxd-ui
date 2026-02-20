@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.52% </span>
+                <span class="strong">92.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>171/191</span>
+                <span class='fraction'>157/170</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.35% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/17</span>
+                <span class='fraction'>13/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.52% </span>
+                <span class="strong">92.35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>171/191</span>
+                <span class='fraction'>157/170</span>
             </div>
         
             
@@ -233,28 +233,7 @@
 <a name='L168'></a><a href='#L168'>168</a>
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a>
-<a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a>
-<a name='L186'></a><a href='#L186'>186</a>
-<a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a>
-<a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a>
-<a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<a name='L171'></a><a href='#L171'>171</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -311,21 +290,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -358,15 +322,9 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -449,7 +407,7 @@
 import type { LxdInstance } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
-import { createImage, createImageAlias } from "api/images";
+import { createImage } from "api/images";
 import {
   ActionButton,
   Button,
@@ -466,7 +424,7 @@ import { InstanceRichChip } from "../InstanceRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
-import { getFingerprint } from "util/operations";
+import { imageAliasPost } from "util/images";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -507,21 +465,6 @@ const CreateImageFromInstanceForm: FC&lt;Props&gt; = ({ instance, close }) =&gt;
     });
   };
 &nbsp;
-  const getInstanceToImageBody = (
-    instance: LxdInstance,
-    isPublic: boolean,
-  ): string =&gt; {
-    const body = JSON.stringify({
-      public: isPublic,
-      source: {
-        name: instance.name,
-        type: "instance",
-      },
-    });
-&nbsp;
-    return body;
-  };
-&nbsp;
   const formik = useFormik&lt;{ alias: string; isPublic: boolean }&gt;({
     initialValues: {
       alias: canCreateImageAliases(project)
@@ -533,31 +476,25 @@ const CreateImageFromInstanceForm: FC&lt;Props&gt; = ({ instance, close }) =&gt;
       alias: Yup.string(),
     }),
     onSubmit: (values) =&gt; {
-      const alias = values.alias;
+      const body = JSON.stringify({
+        aliases: imageAliasPost(values.alias),
+        public: values.isPublic,
+        source: {
+          name: instance.name,
+          type: "instance",
+        },
+      });
 &nbsp;
-      createImage(getInstanceToImageBody(instance, values.isPublic), instance)
+      createImage(body, instance.project)
         .then((operation) =&gt; {
           toastNotify.info(
             &lt;&gt;Creation of image from instance {instanceLink} started.&lt;/&gt;,
           );
           eventQueue.set(
             operation.metadata.id,
-            (result) =&gt; {
-              if (alias) {
-                const fingerprint = getFingerprint(result);
-                createImageAlias(fingerprint, alias, instance.project)
-                  .then(clearCache)
-                  .then(notifySuccess)
-                  .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" >                    toastNotify.failure(</span>
-<span class="cstat-no" title="statement not covered" >                      `Image creation from instance "${instance.name}" succeeded. Failed to create an alias.`,</span>
-<span class="cstat-no" title="statement not covered" >                      e,</span>
-<span class="cstat-no" title="statement not covered" >                    );</span>
-                  });
-<span class="branch-0 cbranch-no" title="branch not covered" >              } else {</span>
-<span class="cstat-no" title="statement not covered" >                clearCache();</span>
-<span class="cstat-no" title="statement not covered" >                notifySuccess();</span>
-<span class="cstat-no" title="statement not covered" >              }</span>
+            () =&gt; {
+              clearCache();
+              notifySuccess();
             },
             (msg) =&gt; {
 <span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span>
@@ -643,7 +580,7 @@ export default CreateImageFromInstanceForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-19T16:56:36.016Z
+                at 2026-02-20T09:45:40.110Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
