@@ -32,6 +32,11 @@ jobs:
           sudo chmod 0777 ../lxd-ui
           dotrun install
 
+      - name: OVN dependencies
+        run: |
+          sudo snap refresh snapd --channel latest/beta || sudo snap install snapd --channel latest/beta
+          sudo snap refresh core26 --channel latest/edge || sudo snap install core26 --channel latest/edge
+
       - name: Run LXD-UI
         env:
           ENVIRONMENT: devel
