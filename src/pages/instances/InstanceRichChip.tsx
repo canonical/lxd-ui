@@ -31,6 +31,7 @@ export const InstanceRichChip: FC<Props> = ({ instanceName, projectName }) => {
   return (
     <Tooltip
       zIndex={1000}
+      position="right"
       message={
         <InstanceRichTooltip
           instanceName={instanceName}

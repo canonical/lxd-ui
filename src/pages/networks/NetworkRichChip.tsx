@@ -44,6 +44,7 @@ const NetworkRichChip: FC<Props> = ({
   return (
     <Tooltip
       zIndex={1000}
+      position="right"
       message={
         <NetworkRichTooltip
           networkName={networkName}

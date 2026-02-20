@@ -1,16 +1,11 @@
 import { type FC } from "react";
 import { Spinner } from "@canonical/react-components";
 import { type TooltipRow } from "components/RichTooltipRow";
-import {
-  LARGE_TOOLTIP_BREAKPOINT,
-  MEDIUM_TOOLTIP_BREAKPOINT,
-  RichTooltipTable,
-} from "components/RichTooltipTable";
+import { RichTooltipTable } from "components/RichTooltipTable";
 import { useClusterMember } from "context/useClusterMembers";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
 import ClusterMemberStatus from "./ClusterMemberStatus";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ClusterMemberMemoryUsage from "./ClusterMemberMemoryUsage";
 import { useQuery } from "@tanstack/react-query";
 import { fetchClusterMemberState } from "api/cluster-members";
@@ -47,12 +42,6 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
     );
   }
 
-  const isAboveMedium = !useIsScreenBelow(MEDIUM_TOOLTIP_BREAKPOINT, "height");
-
-  const isAboveLarge = !useIsScreenBelow(LARGE_TOOLTIP_BREAKPOINT, "height");
-
-  const memberDescription = member?.description || "-";
-
   const rows: TooltipRow[] = [
     {
       title: "Cluster member",
@@ -73,52 +62,42 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
     },
     {
       title: "Description",
-      value: memberDescription,
-      valueTitle: memberDescription,
+      value: member?.description || "-",
+      valueTitle: member?.description || "",
     },
     {
       title: "Status",
       value: member ? <ClusterMemberStatus member={member} /> : "-",
-      valueTitle: member ? member.status : "Status",
+      valueTitle: member ? member.status : "",
     },
     {
       title: "Message",
-      value: member ? member.message : "-",
-      valueTitle: member ? member.message : "Message",
+      value: member?.message || "-",
+      valueTitle: member?.message || "",
     },
-  ];
-
-  if (isAboveMedium) {
-    rows.push(
-      {
-        title: "URL",
-        value: member ? member.url : "-",
-        valueTitle: member ? member.url : "URL",
-      },
-      {
-        title: "Roles",
-        value: member ? member.roles.join(", ") : "-",
-        valueTitle: member ? member.roles.join(", ") : "Roles",
-      },
-      {
-        title: "Uptime",
-        value: state?.sysinfo.uptime
-          ? formatSeconds(state?.sysinfo.uptime)
-          : "-",
-      },
-      {
-        title: "Memory Usage",
-        value: member ? <ClusterMemberMemoryUsage member={member} /> : "-",
-      },
-    );
-  }
-
-  if (isAboveLarge) {
-    rows.push({
+    {
+      title: "URL",
+      value: member?.url || "-",
+      valueTitle: member?.url || "",
+    },
+    {
+      title: "Roles",
+      value: member ? member.roles.join(", ") : "-",
+      valueTitle: member ? member.roles.join(", ") : "",
+    },
+    {
+      title: "Uptime",
+      value: state?.sysinfo.uptime ? formatSeconds(state?.sysinfo.uptime) : "-",
+    },
+    {
+      title: "Memory Usage",
+      value: member ? <ClusterMemberMemoryUsage member={member} /> : "-",
+    },
+    {
       title: "Load Average",
       value: state?.sysinfo.load_averages.join(" "),
-    });
-  }
+    },
+  ];
 
   return <RichTooltipTable rows={rows} />;
 };

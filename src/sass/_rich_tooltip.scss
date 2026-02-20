@@ -18,9 +18,16 @@ body.is-dark .rich-tooltip-table .p-icon--exposed {
   @include vf-icon-exposed($colors--dark-theme--icon);
 }
 
+.p-tooltip__message:has(.rich-tooltip-table) {
+  padding-right: 0;
+}
+
 .rich-tooltip-table {
+  display: block;
   margin: 0;
-  min-height: 450px;
+  min-height: 400px;
+  overflow: hidden scroll;
+  scrollbar-gutter: stable;
   width: 430px;
 
   .rich-tooltip-row-content {
@@ -59,10 +66,12 @@ body.is-dark .rich-tooltip-table .p-icon--exposed {
   }
 
   @media (height <= $large-tooltip-breakpoint) {
+    max-height: 400px;
     min-height: 400px;
   }
 
   @media (height <= $medium-tooltip-breakpoint) {
+    max-height: 200px;
     min-height: 200px;
   }
 }

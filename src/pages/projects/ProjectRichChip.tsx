@@ -39,6 +39,7 @@ const ProjectRichChip: FC<Props> = ({
   return (
     <Tooltip
       zIndex={1000}
+      position="right"
       message={<ProjectRichTooltip projectName={projectName} />}
     >
       {resourceLink}

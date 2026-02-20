@@ -2,13 +2,8 @@ import { type FC } from "react";
 import { useProject } from "context/useProjects";
 import { List, Spinner } from "@canonical/react-components";
 import { type TooltipRow } from "components/RichTooltipRow";
-import {
-  LARGE_TOOLTIP_BREAKPOINT,
-  MEDIUM_TOOLTIP_BREAKPOINT,
-  RichTooltipTable,
-} from "components/RichTooltipTable";
+import { RichTooltipTable } from "components/RichTooltipTable";
 import ResourceLabel from "components/ResourceLabel";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { useProfile } from "context/useProfiles";
@@ -29,8 +24,6 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
     useProfile("default", projectName);
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
-  const isAboveMedium = !useIsScreenBelow(MEDIUM_TOOLTIP_BREAKPOINT, "height");
-  const isAboveLarge = !useIsScreenBelow(LARGE_TOOLTIP_BREAKPOINT, "height");
 
   const isLoading = isProjectLoading || isDefaultProfileLoading;
 
@@ -162,85 +155,73 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
         ),
       truncate: false,
     },
+    {
+      title: "Isolation",
+      value:
+        isolatedFeatures.length > 0 ? (
+          <List
+            items={isolatedFeatures}
+            middot
+            className="u-no-margin truncated"
+            title={isolatedFeatures.join(", ")}
+          />
+        ) : (
+          "-"
+        ),
+      valueTitle:
+        isolatedFeatures.length > 0 ? isolatedFeatures.join(", ") : "-",
+    },
+    {
+      title: "Restrictions",
+      value: isRestricted ? "Enabled" : "Disabled",
+    },
+    {
+      title: "Instance limits",
+      value:
+        instanceLimits.length > 0 ? (
+          <List
+            items={instanceLimits}
+            middot
+            className="u-no-margin truncated"
+            title={instanceLimits.join(", ")}
+          />
+        ) : (
+          "-"
+        ),
+      valueTitle: instanceLimits.length > 0 ? instanceLimits.join(", ") : "-",
+    },
+    {
+      title: "Compute limits",
+      value:
+        computeLimits.length > 0 ? (
+          <List
+            items={computeLimits}
+            middot
+            className="u-no-margin truncated"
+            title={computeLimits.join(", ")}
+          />
+        ) : (
+          "-"
+        ),
+      valueTitle: computeLimits.length > 0 ? computeLimits.join(", ") : "-",
+    },
+    {
+      title: "Storage & Network",
+      value:
+        storageNetworkLimits.length > 0 ? (
+          <List
+            items={storageNetworkLimits}
+            middot
+            className="u-no-margin truncated"
+            title={storageNetworkLimits.join(", ")}
+          />
+        ) : (
+          "-"
+        ),
+      valueTitle:
+        storageNetworkLimits.length > 0 ? storageNetworkLimits.join(", ") : "-",
+    },
   ];
-
-  if (isAboveMedium) {
-    rows.push(
-      {
-        title: "Isolation",
-        value:
-          isolatedFeatures.length > 0 ? (
-            <List
-              items={isolatedFeatures}
-              middot
-              className="u-no-margin truncated"
-              title={isolatedFeatures.join(", ")}
-            />
-          ) : (
-            "-"
-          ),
-        valueTitle:
-          isolatedFeatures.length > 0 ? isolatedFeatures.join(", ") : "-",
-      },
-      {
-        title: "Restrictions",
-        value: isRestricted ? "Enabled" : "Disabled",
-      },
-      {
-        title: "Instance limits",
-        value:
-          instanceLimits.length > 0 ? (
-            <List
-              items={instanceLimits}
-              middot
-              className="u-no-margin truncated"
-              title={instanceLimits.join(", ")}
-            />
-          ) : (
-            "-"
-          ),
-        valueTitle: instanceLimits.length > 0 ? instanceLimits.join(", ") : "-",
-      },
-    );
-  }
-
-  if (isAboveLarge) {
-    rows.push(
-      {
-        title: "Compute limits",
-        value:
-          computeLimits.length > 0 ? (
-            <List
-              items={computeLimits}
-              middot
-              className="u-no-margin truncated"
-              title={computeLimits.join(", ")}
-            />
-          ) : (
-            "-"
-          ),
-        valueTitle: computeLimits.length > 0 ? computeLimits.join(", ") : "-",
-      },
-      {
-        title: "Storage & Network",
-        value:
-          storageNetworkLimits.length > 0 ? (
-            <List
-              items={storageNetworkLimits}
-              middot
-              className="u-no-margin truncated"
-              title={storageNetworkLimits.join(", ")}
-            />
-          ) : (
-            "-"
-          ),
-        valueTitle:
-          storageNetworkLimits.length > 0
-            ? storageNetworkLimits.join(", ")
-            : "-",
-      },
-    );
-  }
 
   return (
     <RichTooltipTable rows={rows} className="project-rich-tooltip-table" />

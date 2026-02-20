@@ -43,6 +43,7 @@ const StoragePoolRichChip: FC<Props> = ({
   return (
     <Tooltip
       zIndex={1000}
+      position="right"
       message={
         <StoragePoolRichTooltip
           poolName={poolName}
