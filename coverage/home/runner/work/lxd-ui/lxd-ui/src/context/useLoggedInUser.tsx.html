@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/8</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -82,42 +82,63 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">344x</span>
-<span class="cline-any cline-yes">344x</span>
-<span class="cline-any cline-yes">344x</span>
-<span class="cline-any cline-yes">344x</span>
-<span class="cline-any cline-yes">344x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
-<span class="cline-any cline-yes">7697x</span>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">346x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
+<span class="cline-any cline-yes">7729x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useSettings } from "./useSettings";
 import { useIdentity } from "./useIdentities";
 import { getIdentityName } from "util/permissionIdentities";
+import { AUTH_METHOD } from "util/authentication";
+import { useAuth } from "context/auth";
 &nbsp;
 export const useLoggedInUser = () =&gt; {
   const { data: settings } = useSettings();
+  const { authMethod } = useAuth();
 &nbsp;
   const id = settings?.auth_user_name || "";
-  const authMethod = settings?.auth_user_method || "";
 &nbsp;
-  const identityQueryEnabled = !!id &amp;&amp; !!authMethod &amp;&amp; authMethod !== "unix";
-  const { data: identity } = useIdentity(id, authMethod, identityQueryEnabled);
+  const identityQueryEnabled =
+    !!id &amp;&amp; !!authMethod &amp;&amp; authMethod !== AUTH_METHOD.UNIX;
+  const { data: identity } = useIdentity(
+    id,
+    authMethod || "",
+    identityQueryEnabled,
+  );
 &nbsp;
   return {
-    loggedInUserName: authMethod === <span class="branch-0 cbranch-no" title="branch not covered" >"unix" ? id : g</span>etIdentityName(identity),
+    loggedInUserName:
+      authMethod === AUTH_METHOD.<span class="branch-0 cbranch-no" title="branch not covered" >UNIX ? id : g</span>etIdentityName(identity),
     loggedInUserID: id,
-    authMethod,
   };
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -127,7 +148,7 @@ export const useLoggedInUser = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-20T20:01:02.147Z
+                at 2026-02-20T20:25:25.964Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
