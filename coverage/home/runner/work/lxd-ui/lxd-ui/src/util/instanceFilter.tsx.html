@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/35</span>
+                <span class='fraction'>35/35</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/35</span>
+                <span class='fraction'>35/35</span>
             </div>
         
             
@@ -98,41 +98,41 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">287x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">297x</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-yes">1079x</span>
-<span class="cline-any cline-yes">1079x</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">298x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">1028x</span>
+<span class="cline-any cline-yes">1028x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdInstanceStatus } from "types/instance";
 &nbsp;
 export interface InstanceFilters {
@@ -157,14 +157,14 @@ export const enrichStatuses = (
   statuses: LxdInstanceStatus[],
 ): LxdInstanceStatus[] =&gt; {
   if (statuses.includes("Frozen")) {
-<span class="cstat-no" title="statement not covered" >    statuses.push("Freezing");</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+    statuses.push("Freezing");
+  }
   if (statuses.includes("Running")) {
-<span class="cstat-no" title="statement not covered" >    statuses.push(...(["Restarting", "Starting"] as LxdInstanceStatus[]));</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+    statuses.push(...(["Restarting", "Starting"] as LxdInstanceStatus[]));
+  }
   if (statuses.includes("Stopped")) {
-<span class="cstat-no" title="statement not covered" >    statuses.push("Stopping");</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+    statuses.push("Stopping");
+  }
 &nbsp;
   return statuses;
 };
@@ -175,7 +175,7 @@ export const enrichStatuses = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-20T17:05:27.534Z
+                at 2026-02-20T20:01:02.147Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
