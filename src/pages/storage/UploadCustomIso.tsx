@@ -180,7 +180,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           onClick={handleCancel}
           className="u-no-margin--bottom"
         >
-          Cancel
+          Back
         </Button>
         <ActionButton
           appearance="positive"

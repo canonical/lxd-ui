@@ -11,10 +11,15 @@ import type {
 } from "types/device";
 import type { LxdProfile } from "types/profile";
 import type { FormDevice, FormDiskDevice } from "types/formDevice";
+import type { InheritedDiskDevice } from "./configInheritance";
 import { getAppliedProfiles } from "./configInheritance";
 import type { LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "./networks";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
+
+export const ISO_VOLUME_TYPE = "iso-volume";
+export const ISO_VOLUME_NAME = "iso-volume";
+export const ISO_VOLUME_PROFILE_NAME = "iso-volume-profile";
 
 export const isValidIPV6 = (ip: string): boolean => {
   const ipv6Regex =
@@ -39,6 +44,19 @@ export const isHostDiskDevice = (device: LxdDiskDevice): boolean => {
   return (
     device.type === "disk" && device.pool === undefined && device.path !== "/"
   );
+};
+
+export const isIsoDiskDevice = (
+  device: LxdDiskDevice | FormDevice | InheritedDiskDevice,
+): boolean => {
+  if ("disk" in device && "key" in device) {
+    return (
+      isDiskDevice(device.disk) &&
+      (device.key === ISO_VOLUME_NAME || device.key === ISO_VOLUME_PROFILE_NAME)
+    );
+  }
+
+  return device.type === ISO_VOLUME_TYPE;
 };
 
 export const isNoneDevice = (

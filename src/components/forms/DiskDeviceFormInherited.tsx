@@ -17,9 +17,15 @@ import {
   getInheritedSourceRow,
 } from "components/forms/InheritedDeviceRow";
 import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
-import { getProfileFromSource, isHostDiskDevice } from "util/devices";
+import {
+  getProfileFromSource,
+  isHostDiskDevice,
+  isIsoDiskDevice,
+} from "util/devices";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
+import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
+import classnames from "classnames";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -90,42 +96,72 @@ const DiskDeviceFormInherited: FC<Props> = ({
       }),
     );
 
-    if (isHostDiskDevice(item.disk)) {
+    if (isIsoDiskDevice(item)) {
       rows.push(
         getInheritedDeviceRow({
-          label: "Host path",
+          label: "Source",
           inheritValue: item.disk.source,
           readOnly: readOnly,
           isDeactivated: isNoneDevice,
           disabledReason: formik.values.editRestriction,
         }),
       );
-    } else {
       rows.push(
         getInheritedDeviceRow({
-          label: "Pool / volume",
+          label: "Pool",
           inheritValue: (
-            <>
-              {item.disk.pool} / {item.disk.source}
-            </>
+            <StoragePoolRichChip
+              poolName={item.disk.pool ?? ""}
+              projectName={project}
+              className={classnames({
+                "u-text--line-through": isNoneDevice,
+              })}
+            />
           ),
           readOnly: readOnly,
           isDeactivated: isNoneDevice,
           disabledReason: formik.values.editRestriction,
+          monoFont: false,
+        }),
+      );
+    } else {
+      if (isHostDiskDevice(item.disk)) {
+        rows.push(
+          getInheritedDeviceRow({
+            label: "Host path",
+            inheritValue: item.disk.source,
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+          }),
+        );
+      } else {
+        rows.push(
+          getInheritedDeviceRow({
+            label: "Pool / volume",
+            inheritValue: (
+              <>
+                {item.disk.pool} / {item.disk.source}
+              </>
+            ),
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+          }),
+        );
+      }
+
+      rows.push(
+        getInheritedDeviceRow({
+          label: "Mount point",
+          inheritValue: item.disk.path,
+          readOnly: readOnly,
+          isDeactivated: isNoneDevice,
+          disabledReason: formik.values.editRestriction,
+          className: "device-last-row",
         }),
       );
     }
-
-    rows.push(
-      getInheritedDeviceRow({
-        label: "Mount point",
-        inheritValue: item.disk.path,
-        readOnly: readOnly,
-        isDeactivated: isNoneDevice,
-        disabledReason: formik.values.editRestriction,
-        className: "device-last-row",
-      }),
-    );
   });
 
   return inheritedDiskDevices.length > 0 ? (

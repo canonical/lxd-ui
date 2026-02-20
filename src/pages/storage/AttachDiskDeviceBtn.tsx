@@ -3,14 +3,14 @@ import type { ButtonProps } from "@canonical/react-components";
 import { Button, usePortal } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import AttachDiskDeviceModal from "./AttachDiskDeviceModal";
-import type { LxdDiskDevice } from "types/device";
+import type { CustomDiskDevice } from "types/formDevice";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   children: ReactNode;
   buttonProps?: ButtonProps;
   project: string;
-  setValue: (device: LxdDiskDevice) => void;
+  setValue: (device: CustomDiskDevice) => void;
 }
 
 const AttachDiskDeviceBtn: FC<Props> = ({
@@ -21,7 +21,7 @@ const AttachDiskDeviceBtn: FC<Props> = ({
   setValue,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const handleFinish = (device: LxdDiskDevice) => {
+  const handleFinish = (device: CustomDiskDevice) => {
     setValue(device);
     closePortal();
   };

@@ -27,6 +27,8 @@ export interface IsoVolumeDevice {
   type: "iso-volume";
   name: string;
   bare: LxdIsoDevice;
+  source: string;
+  pool: string;
 }
 
 export interface CustomNetworkDevice {
@@ -58,3 +60,5 @@ export type FormDevice =
   | LxdProxyDevice
   | LxdOtherDevice
   | EmptyDevice;
+
+export type CustomDiskDevice = LxdDiskDevice | IsoVolumeDevice;

@@ -1,9 +1,18 @@
-import type { FormDevice, FormDiskDevice } from "types/formDevice";
-import type { LxdDevices, LxdNicDevice } from "types/device";
+import type {
+  FormDevice,
+  FormDiskDevice,
+  IsoVolumeDevice,
+} from "types/formDevice";
+import type { LxdDevices, LxdIsoDevice, LxdNicDevice } from "types/device";
 import type { RemoteImage } from "types/image";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { focusField } from "util/formFields";
-import { isCustomNic } from "util/devices";
+import {
+  isCustomNic,
+  ISO_VOLUME_NAME,
+  ISO_VOLUME_PROFILE_NAME,
+  ISO_VOLUME_TYPE,
+} from "util/devices";
 
 export const isFormDiskDevice = (
   device: FormDevice,
@@ -30,7 +39,7 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
       if (
         item.type === "unknown" ||
         item.type === "custom-nic" ||
-        item.type === "iso-volume"
+        item.type === ISO_VOLUME_TYPE
       ) {
         return {
           ...obj,
@@ -63,11 +72,17 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
       };
     }
 
-    if (key === "iso-volume") {
+    if (
+      (key === ISO_VOLUME_NAME || key === ISO_VOLUME_PROFILE_NAME) &&
+      item.type !== "none"
+    ) {
+      const isoDevice = item as LxdIsoDevice;
       return {
         name: key,
-        bare: item as unknown,
-        type: "unknown",
+        bare: isoDevice,
+        type: ISO_VOLUME_TYPE,
+        source: isoDevice.source,
+        pool: isoDevice.pool,
       };
     }
 
@@ -123,10 +138,12 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
   });
 };
 
-export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
+export const remoteImageToIsoDevice = (image: RemoteImage): IsoVolumeDevice => {
   return {
-    type: "iso-volume",
-    name: "iso-volume",
+    type: ISO_VOLUME_TYPE,
+    name: ISO_VOLUME_NAME,
+    pool: image.pool ?? "",
+    source: image.aliases,
     bare: {
       "boot.priority": "10",
       pool: image.pool ?? "",
