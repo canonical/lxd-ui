@@ -252,7 +252,7 @@ const StorageBuckets: FC = () => {
             headers={headers}
             rows={sortedRows}
             sortable
-            emptyStateMsg="No bucket found matching this search"
+            emptyStateMsg="No storage bucket found matching this search"
             itemName="bucket"
             parentName="project"
             selectedNames={selectedNames}

@@ -38,7 +38,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
   const handleSuccess = (bucketName: string) => {
     toastNotify.success(
       <>
-        Bucket{" "}
+        Storage bucket{" "}
         <ResourceLink
           type="bucket"
           value={bucketName}
@@ -93,7 +93,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure(`Bucket update failed`, e);
+          notify.failure(`Storage bucket update failed`, e);
         });
     },
   });

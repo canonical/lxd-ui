@@ -241,7 +241,7 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
           image={<Icon name="private-key" className="empty-state-icon" />}
           title="No keys"
         >
-          <p>This bucket does not contain any keys.</p>
+          <p>This storage bucket does not contain any keys.</p>
           <p>
             <DocLink
               docPath="/howto/storage_buckets/#manage-storage-bucket-keys"

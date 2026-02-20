@@ -46,7 +46,7 @@ const CreateStorageBucketPanel: FC = () => {
   const handleSuccess = (bucketName: string, pool: string) => {
     toastNotify.success(
       <>
-        Bucket{" "}
+        Storage bucket{" "}
         <ResourceLink
           type="bucket"
           value={bucketName}
@@ -88,7 +88,7 @@ const CreateStorageBucketPanel: FC = () => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure(`Bucket creation failed`, e);
+          notify.failure(`Storage bucket creation failed`, e);
         });
     },
   });

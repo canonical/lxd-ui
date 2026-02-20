@@ -61,7 +61,7 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
     toastNotify.success(
       <>
         Key <ResourceLink type="bucket-key" value={keyName} to={bucketURL} />{" "}
-        created for bucket{" "}
+        created for storage bucket{" "}
         <ResourceLink type="bucket" value={bucket.name} to={bucketURL} />.
       </>,
     );
