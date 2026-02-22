@@ -9,19 +9,17 @@ interface Props {
   onChange: (fieldValue: string, value: string) => void;
   values?: Record<Direction, string>;
   disabled?: boolean;
+  directionField: Record<Direction, string>;
 }
 
 const NetworkDefaultACLSelector: FC<Props> = ({
   values,
   onChange,
   disabled,
+  directionField,
 }) => {
   const DIRECTIONS: Direction[] = ["Egress", "Ingress"];
   const ACTIONS = ["allow", "drop", "reject"];
-  const FIELD_BY_DIRECTION: Record<Direction, string> = {
-    Egress: "security_acls_default_egress",
-    Ingress: "security_acls_default_ingress",
-  };
 
   const options = [
     { label: "Select option", value: "" },
@@ -50,7 +48,7 @@ const NetworkDefaultACLSelector: FC<Props> = ({
                   className="u-no-margin--bottom"
                   options={options}
                   onChange={(e) => {
-                    onChange(FIELD_BY_DIRECTION[direction], e.target.value);
+                    onChange(directionField[direction], e.target.value);
                   }}
                   value={values?.[direction]}
                   disabled={disabled}

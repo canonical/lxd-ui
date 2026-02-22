@@ -13,6 +13,7 @@ import { combineAcls, getNetworkAcls } from "util/networks";
 import { getDeviceAcls } from "util/devices";
 import NetworkRichChip from "pages/networks/NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import NetworkDefaultACLRead from "pages/networks/forms/NetworkDefaultACLRead";
 
 const getNetworkDeviceIpAddress = ({
   network,
@@ -86,9 +87,9 @@ export const getNetworkDeviceRows = ({
   if (device.type === "custom-nic") {
     rows.push(
       getConfigurationRowBase({
-        className: "no-border-top",
+        className: "no-border-top device-last-row",
         configuration: (
-          <span
+          <div
             className={classnames({
               "u-text--line-through": isDetached,
             })}
@@ -97,7 +98,7 @@ export const getNetworkDeviceRows = ({
             <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
               <Icon name="information" />
             </Tooltip>
-          </span>
+          </div>
         ),
         inherited: null,
         override: null,
@@ -129,12 +130,45 @@ export const getNetworkDeviceRows = ({
     );
 
     const acls = combineAcls(getNetworkAcls(network), getDeviceAcls(device));
+
+    if (showIpAddresses) {
+      const families = ["IPv4", "IPv6"] as const;
+      const activeIps = families
+        .map((family) => ({
+          family,
+          ip: getNetworkDeviceIpAddress({ network, device, family }),
+        }))
+        .filter((item) => !!item.ip);
+
+      activeIps.forEach(({ family, ip }, index) => {
+        rows.push(
+          getConfigurationRowBase({
+            className: classnames("no-border-top", {
+              "device-last-row":
+                acls.length === 0 && index === activeIps.length - 1,
+            }),
+            configuration: <div className="u-text--muted">{family}</div>,
+            inherited: (
+              <div>
+                <b
+                  className={classnames("mono-font", {
+                    "u-text--line-through": isDetached,
+                  })}
+                >
+                  {ip}
+                </b>
+              </div>
+            ),
+            override: null,
+          }),
+        );
+      });
+    }
+
     if (acls.length > 0) {
       rows.push(
         getConfigurationRowBase({
-          className: classnames("no-border-top", {
-            "device-last-row": !showIpAddresses,
-          }),
+          className: "no-border-top",
           configuration: <div className="u-text--muted">ACLs</div>,
           inherited: (
             <div>
@@ -158,37 +192,34 @@ export const getNetworkDeviceRows = ({
       );
     }
 
-    if (showIpAddresses) {
-      const families = ["IPv4", "IPv6"] as const;
-      const activeIps = families
-        .map((family) => ({
-          family,
-          ip: getNetworkDeviceIpAddress({ network, device, family }),
-        }))
-        .filter((item) => !!item.ip);
+    if (acls.length > 0) {
+      const getDefaultEgressIngress = () => {
+        return {
+          Egress:
+            device["security.acls.default.egress.action"] ??
+            network.config["security.acls.default.egress.action"] ??
+            "",
+          Ingress:
+            device["security.acls.default.ingress.action"] ??
+            network.config["security.acls.default.ingress.action"] ??
+            "",
+        };
+      };
 
-      activeIps.forEach(({ family, ip }, index) => {
-        rows.push(
-          getConfigurationRowBase({
-            className: classnames("no-border-top", {
-              "device-last-row": index === activeIps.length - 1,
-            }),
-            configuration: <div className="u-text--muted">{family}</div>,
-            inherited: (
-              <div>
-                <b
-                  className={classnames("mono-font", {
-                    "u-text--line-through": isDetached,
-                  })}
-                >
-                  {ip}
-                </b>
-              </div>
-            ),
-            override: null,
+      rows.push(
+        getConfigurationRowBase({
+          className: classnames("no-border-top device-last-row acl-defaults", {
+            "u-text--line-through": isDetached,
           }),
-        );
-      });
+          configuration: <div className="u-text--muted"></div>,
+          inherited: (
+            <div>
+              <NetworkDefaultACLRead values={getDefaultEgressIngress()} />
+            </div>
+          ),
+          override: null,
+        }),
+      );
     }
   }
 

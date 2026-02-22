@@ -14,11 +14,11 @@ const NetworkDefaultACLRead: FC<{
       When no ACL rule matches:
       <br />
       <Icon name="arrow-left" className="network-default-acl-icon" />
-      Egress traffic will be{" "}
+      Egress traffic is:{" "}
       <code>{conjugateACLAction(egressAction || "reject")}</code>
       <br />
       <Icon name="arrow-right" className="network-default-acl-icon" />
-      Ingress traffic will be{" "}
+      Ingress traffic is:{" "}
       <code>{conjugateACLAction(ingressAction || "reject")}</code>
     </div>
   );

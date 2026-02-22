@@ -1,4 +1,15 @@
 .network-device-form {
+  .acl-defaults .inherited {
+    padding-top: 0;
+  }
+
+  .custom-devices,
+  .inherited-devices {
+    .inherited {
+      width: 12rem;
+    }
+  }
+
   .scrollable-container {
     .content-details {
       .inherited-network-device-configuration-table,

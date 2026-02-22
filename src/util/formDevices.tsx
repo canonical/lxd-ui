@@ -80,6 +80,10 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           network: item.network,
           type: "nic",
           "security.acls": item["security.acls"],
+          "security.acls.default.egress.action":
+            item["security.acls.default.egress.action"],
+          "security.acls.default.ingress.action":
+            item["security.acls.default.ingress.action"],
         };
       case "disk":
         return {
