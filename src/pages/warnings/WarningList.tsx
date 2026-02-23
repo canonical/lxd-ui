@@ -44,7 +44,7 @@ const WarningList: FC = () => {
   const hasWarnings = isLoading || warnings.length > 0;
 
   const filters: WarningFilters = {
-    queries: searchParams.getAll("query"),
+    queries: searchParams.getAll("query").map((value) => value.toLowerCase()),
     statuses: searchParams.getAll("status") as LxdWarningStatus[],
     severities: searchParams.getAll("severity") as LxdWarningSeverity[],
   };

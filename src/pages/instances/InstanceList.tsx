@@ -108,7 +108,7 @@ const InstanceList: FC = () => {
   const { canCreateInstances } = useProjectEntitlements();
 
   const filters: InstanceFilters = {
-    queries: searchParams.getAll("query"),
+    queries: searchParams.getAll("query").map((value) => value.toLowerCase()),
     statuses: enrichStatuses(
       searchParams.getAll("status") as LxdInstanceStatus[],
     ),
