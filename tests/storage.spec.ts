@@ -247,8 +247,9 @@ test("storage bucket create, edit, delete", async ({ page, lxdVersion }) => {
   await createPool(page, pool, cephObject);
   await createBucket(page, bucket);
 
-  await page.getByRole("row").filter({ hasText: bucket }).hover();
-  await page.getByRole("button", { name: "Edit bucket" }).click();
+  const row = page.getByRole("row").filter({ hasText: bucket });
+  await row.hover();
+  await row.getByRole("button", { name: "Edit bucket" }).click();
   await page.getByRole("spinbutton", { name: "Size" }).fill("100");
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Storage bucket ${bucket} updated.`);
