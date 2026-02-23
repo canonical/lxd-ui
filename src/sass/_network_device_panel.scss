@@ -1,3 +1,5 @@
-.prefixed-input__input {
-  padding-top: 0.35rem !important;
+@include extra-large {
+  .prefixed-input__input {
+    padding-top: 0.35rem !important;
+  }
 }
