@@ -54,7 +54,7 @@
     "@babel/eslint-parser": "7.28.5",
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@canonical/typescript-config-react": "0.14.0",
+    "@canonical/typescript-config-react": "0.15.0",
     "@playwright/test": "1.58.2",
     "@types/convert-source-map": "2.0.3",
     "@types/dotenv": "8.2.3",
