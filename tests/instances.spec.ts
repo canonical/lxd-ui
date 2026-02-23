@@ -9,6 +9,7 @@ import {
   randomInstanceName,
   renameInstance,
   saveInstance,
+  selectAllInstances,
   visitAndStartInstance,
   visitAndStopInstance,
   visitInstance,
@@ -299,13 +300,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
   await page.getByPlaceholder("Add filter").press("Escape");
 
   //Bulk start instances
-  await page
-    .getByRole("row", {
-      name: "select Name Type Description Status Actions",
-    })
-    .getByLabel("multiselect rows")
-    .click();
-  await page.getByRole("button", { name: "Select all instances" }).click();
+  await selectAllInstances(page);
   await page
     .locator("button")
     .filter({ hasText: /^Start$/ })

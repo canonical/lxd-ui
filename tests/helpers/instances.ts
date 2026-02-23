@@ -15,13 +15,8 @@ export const randomImageName = (): string => {
 };
 
 export const selectAllInstances = async (page: Page) => {
-  await page
-    .getByRole("row", {
-      name: "select Name Type Description Status Actions",
-    })
-    .getByLabel("multiselect rows")
-    .click();
-  await page.getByRole("button", { name: "Select all instances" }).click();
+  await page.getByLabel("multiselect rows").first().click();
+  await page.getByRole("menuitem", { name: "Select all instances" }).click();
 };
 
 export const createInstance = async (

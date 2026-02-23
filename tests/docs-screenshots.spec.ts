@@ -140,7 +140,7 @@ test("networks", async ({ page }) => {
   await page.getByText("Create network").click();
   await page.getByPlaceholder("Enter name").fill(network);
   await page.getByRole("button", { name: "Type" }).click();
-  await page.getByLabel("submenu").getByText("bridge").first().click();
+  await page.getByLabel("sub").getByText("bridge").first().click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_create.png",
     clip: getClipPosition(240, 0, 1420, 750),
@@ -311,7 +311,7 @@ test("storage volumes", async ({ page }) => {
 
   await page.getByPlaceholder("Enter name").fill(volumeName);
   await page.getByLabel("Storage pool", { exact: true }).click();
-  await page.getByLabel("submenu").getByText("pool1").click();
+  await page.getByLabel("sub").getByText("pool1").click();
 
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_create.png",
@@ -738,7 +738,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
   await page.getByRole("button", { name: "Type" }).click();
-  await page.getByLabel("submenu").getByText("bridge").first().click();
+  await page.getByLabel("sub").getByText("bridge").first().click();
   await page.getByPlaceholder("Enter name").fill(network1);
   await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "Create", exact: true }).click();

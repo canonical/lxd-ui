@@ -242,7 +242,7 @@ test.describe("OVN type", () => {
     await page.getByRole("button", { name: "Create network" }).click();
     await page.getByRole("heading", { name: "Create a network" }).click();
     await page.getByRole("button", { name: "Type" }).click();
-    await page.getByLabel("submenu").getByText("OVN").first().click();
+    await page.getByLabel("sub").getByText("OVN").first().click();
     await page.getByLabel("Name").click();
     await page.getByLabel("Name").fill(network);
     await page.getByLabel("Uplink").selectOption({ index: 1 });
