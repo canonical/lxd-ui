@@ -58,7 +58,7 @@ const NetworkList: FC = () => {
   const { project: currentProject } = useCurrentProject();
 
   const filters: NetworkFilters = {
-    queries: searchParams.getAll(QUERY),
+    queries: searchParams.getAll(QUERY).map((value) => value.toLowerCase()),
     type: searchParams.getAll(TYPE).map((value) => value.toLowerCase()),
     managed: searchParams.getAll(MANAGED).map((value) => value.toLowerCase()),
     member: searchParams.getAll(MEMBER),
