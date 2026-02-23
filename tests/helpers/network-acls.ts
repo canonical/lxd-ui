@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
+import { visitNetwork } from "./network";
 
 export const randomNetworkAclName = (): string => {
   return `test-${randomNameSuffix()}`;
@@ -79,4 +80,61 @@ export const visitNetworkAcl = async (page: Page, networkAcl: string) => {
   await expect(
     page.getByText("Click the ACL name in the header to rename the ACL"),
   ).toBeVisible();
+};
+
+export const selectNetworkAcls = async (page: Page, networkAcls: string[]) => {
+  const aclDropdown = page.getByRole("listbox");
+  for (const acl of networkAcls) {
+    await aclDropdown.getByLabel(acl, { exact: true }).check({ force: true });
+  }
+  await page.keyboard.press("Escape");
+};
+
+export const attachNetworkAclsToNetwork = async (
+  page: Page,
+  networkAcls: string[],
+  network: string,
+) => {
+  await visitNetwork(page, network);
+  await page
+    .locator(".general-field")
+    .filter({ hasText: "ACLs" })
+    .getByRole("button", { name: "Edit" })
+    .click();
+  const aclDropdown = page.getByRole("listbox");
+  if (!(await aclDropdown.isVisible())) {
+    await page.getByRole("combobox", { name: "Select ACLs" }).click();
+  }
+  await selectNetworkAcls(page, networkAcls);
+};
+
+export const detachNetworkAclsFromNetwork = async (
+  page: Page,
+  networkAcls: string[],
+  network: string,
+) => {
+  await visitNetwork(page, network);
+  await page
+    .locator(".general-field")
+    .filter({ hasText: "ACLs" })
+    .getByRole("button", { name: "Edit" })
+    .click();
+
+  const aclDropdown = page.getByRole("listbox");
+  if (!(await aclDropdown.isVisible())) {
+    await page.getByRole("combobox", { name: "Select ACLs" }).click();
+  }
+  for (const acl of networkAcls) {
+    await aclDropdown.getByLabel(acl, { exact: true }).uncheck({ force: true });
+  }
+  await page.keyboard.press("Escape");
+};
+
+export const setAclDefaults = async (
+  page: Page,
+  egress: string,
+  ingress: string,
+) => {
+  await page.getByLabel("Egress traffic").selectOption(egress);
+  await page.getByLabel("Ingress traffic").selectOption(ingress);
 };
