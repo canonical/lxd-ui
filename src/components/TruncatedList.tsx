@@ -7,7 +7,7 @@ interface Props {
 
 const TruncatedList: FC<Props> = ({ items, numberToShow = 2 }) => {
   if (items.length <= numberToShow) {
-    return items.map((item, index) => <Fragment key={index}>{item}</Fragment>);
+    return items.map((item, index) => <div key={index}>{item}</div>);
   }
 
   return (
