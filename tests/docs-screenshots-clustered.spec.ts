@@ -35,7 +35,7 @@ test("Clustered storage pools", async ({ page }) => {
 });
 
 test("LXD - UI Folder - Clustered", async ({ page }) => {
-  //This test assumes that there is a cluster member named micro1 within the environment. This is the value within the original screenshot, but it can also be changed to accomodate alternative names.
+  //This test assumes that there is a cluster member named micro1 within the environment. This is the value within the original screenshot, but it can also be changed to accommodate alternative names.
   const clusterMemberName = "micro1";
   await page.setViewportSize({ width: 1440, height: 800 });
   await gotoURL(page, "/ui/");
@@ -48,7 +48,9 @@ test("LXD - UI Folder - Clustered", async ({ page }) => {
     .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })
     .getByRole("button")
     .click();
-  await page.getByLabel("Cluster member").selectOption(clusterMemberName);
+  await page.getByLabel("Target").selectOption("Cluster member");
+  await page.getByLabel("Cluster member").click();
+  await page.getByLabel("sub").getByText(clusterMemberName).click();
   await page.getByLabel("Cluster member").dblclick();
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/create_instance_ex4.png",

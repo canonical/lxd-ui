@@ -6,6 +6,14 @@ import { expect } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster";
 import { execSync } from "child_process";
 
+interface NetworkOptions {
+  hasMemberSpecificParents?: boolean;
+  networkACL?: string;
+  uplink?: string;
+  ipv4?: string;
+  ipv6?: string;
+}
+
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
 };
@@ -20,17 +28,13 @@ export const ensureOvnNorthboundConnection = () => {
   }
 };
 
-export const createNetwork = async (
+export const prepareCreateNetwork = async (
   page: Page,
   network: string,
   type = "bridge",
-  options: {
-    hasMemberSpecificParents?: boolean;
-    networkACL?: string;
-    uplink?: string;
-  } = {},
+  options: NetworkOptions = {},
 ) => {
-  const { hasMemberSpecificParents, networkACL, uplink } = options;
+  const { hasMemberSpecificParents, networkACL, uplink, ipv4, ipv6 } = options;
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Networking" }).click();
   await page.getByRole("link", { name: "Networks", exact: true }).click();
@@ -58,12 +62,26 @@ export const createNetwork = async (
     await page.getByLabel("Select ACLs").click();
     await page.locator("label").filter({ hasText: networkACL }).click();
   }
+  if (ipv4) {
+    await setNetworkIP(page, ipv4, "IPv4");
+  }
+  if (ipv6) {
+    await setNetworkIP(page, ipv6, "IPv6");
+  }
+};
+
+export const createNetwork = async (
+  page: Page,
+  network: string,
+  type = "bridge",
+  options: NetworkOptions = {},
+) => {
+  await prepareCreateNetwork(page, network, type, options);
   await submitCreateNetwork(page, network);
 };
 
 export const deleteNetwork = async (page: Page, network: string) => {
   await visitNetwork(page, network);
-
   const deleteButton = page.getByRole("button", { name: "Delete network" });
 
   // Check if the delete button is enabled
@@ -86,11 +104,8 @@ export const deleteNetwork = async (page: Page, network: string) => {
 };
 
 export const visitNetwork = async (page: Page, network: string) => {
-  await gotoURL(page, "/ui/");
-  await page.waitForLoadState("networkidle");
-  await page.getByRole("button", { name: "Networking" }).click();
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
-  await page.getByRole("link", { name: network }).first().click();
+  const link = await getNetworkLink(page, network);
+  await link.click();
   await page.getByTestId("tab-link-Configuration").click();
 };
 
@@ -192,7 +207,6 @@ export const getNetworkLink = async (page: Page, network: string) => {
 };
 
 export const submitCreateNetwork = async (page: Page, network: string) => {
-  await page.waitForTimeout(750);
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForTimeout(5000);
   const networkLink = await getNetworkLink(page, network);
@@ -241,7 +255,11 @@ export const deleteLocalPeerings = async (
 ) => {
   await visitNetwork(page, network);
   await page.getByRole("link", { name: "Local peerings" }).click();
-  await page.getByRole("button", { name: "Delete local peering" }).click();
+  await page
+    .locator("tr")
+    .filter({ hasText: localPeeringName })
+    .getByTitle("Delete local peering")
+    .click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
@@ -257,7 +275,20 @@ export const deleteLocalPeerings = async (
   ).toBeVisible();
 };
 
-export const createOvnUplink = async (page: Page, network: string) => {
+export const createOvnUplink = async (
+  page: Page,
+  network: string,
+  options: {
+    CIDR?: string;
+    ovnIpv4Range?: string;
+    dhcpIpv4Range?: string;
+  } = {},
+) => {
+  const {
+    CIDR = "10.42.42.1/24",
+    ovnIpv4Range = "10.42.42.100-10.42.42.150",
+    dhcpIpv4Range = "10.42.42.50-10.42.42.99",
+  } = options;
   ensureOvnNorthboundConnection();
 
   await gotoURL(page, "/ui/");
@@ -266,14 +297,14 @@ export const createOvnUplink = async (page: Page, network: string) => {
   const createNetworkBtn = page.getByRole("button", { name: "Create network" });
   await expect(createNetworkBtn).toBeVisible();
 
-  const existingNetwork = page.getByRole("link", {
+  const existingNetwork = page.getByRole("rowheader").getByRole("link", {
     name: network,
     exact: true,
   });
   if (await existingNetwork.isVisible()) {
+    await makeNetworkOvnUplink(page, network, options);
     return;
   }
-
   await createNetworkBtn.click();
   await expect(page.getByText("Create a network")).toBeVisible();
 
@@ -281,30 +312,83 @@ export const createOvnUplink = async (page: Page, network: string) => {
   await page.getByLabel("sub").getByText("bridge").first().click();
   await page.getByLabel("Name", { exact: true }).fill(network);
 
-  await page.waitForTimeout(1000);
+  await setNetworkIP(page, CIDR, "IPv4");
+  await setNetworkOvnRanges(page, ovnIpv4Range);
+  await setNetworkDHCPRanges(page, dhcpIpv4Range);
+  await submitCreateNetwork(page, network);
+};
 
-  const customRadio = page.getByRole("radio", { name: "Custom" }).first();
+export const makeNetworkOvnUplink = async (
+  page: Page,
+  network: string,
+  options: {
+    CIDR?: string;
+    ovnIpv4Range?: string;
+    dhcpIpv4Range?: string;
+  } = {},
+) => {
+  ensureOvnNorthboundConnection();
+  const {
+    CIDR = "10.42.42.1/24",
+    ovnIpv4Range = "10.42.42.100-10.42.42.150",
+    dhcpIpv4Range = "10.42.42.50-10.42.42.99",
+  } = options;
+
+  await visitNetwork(page, network);
+  await page
+    .locator(".ip-address", { hasText: "IPv4 address" })
+    .getByRole("button")
+    .click();
+
+  await setNetworkIP(page, CIDR, "IPv4");
+
+  await page.getByRole("button", { name: "Save" }).click();
+  await visitNetwork(page, network);
+
+  await setNetworkOvnRanges(page, ovnIpv4Range);
+  await setNetworkDHCPRanges(page, dhcpIpv4Range);
+
+  await page.getByRole("button", { name: "Save" }).click();
+};
+
+const setNetworkIP = async (
+  page: Page,
+  CIDR: string,
+  family: "IPv4" | "IPv6",
+) => {
+  const container = page.locator(".ip-address", {
+    hasText: `${family} address`,
+  });
+  const customRadio = container
+    .getByRole("radio", { name: CIDR === "none" ? "None" : "Custom" })
+    .first();
   await customRadio.check({ force: true });
   await expect(customRadio).toBeChecked();
 
-  await expect(page.getByLabel("IPv4 address")).toBeEnabled();
-  await page.getByLabel("IPv4 address").fill("10.42.42.1/24");
+  if (CIDR === "none") {
+    return;
+  }
 
+  await expect(container.getByLabel(`${family} address`)).toBeEnabled();
+  await container.getByLabel(`${family} address`).fill(CIDR);
+};
+
+const setNetworkOvnRanges = async (page: Page, ovnIpv4Range: string) => {
   const ovnRangesRow = page.locator('tr[name*="ipv4_ovn_ranges"]');
   const ovnRangesOverrideBtn = ovnRangesRow.getByRole("button", {
     name: "Create override",
   });
   await expect(ovnRangesOverrideBtn).toBeVisible();
   await ovnRangesOverrideBtn.click();
-  await page.getByLabel("IPv4 OVN ranges").fill("10.42.42.100-10.42.42.150");
+  await page.getByLabel("IPv4 OVN ranges").fill(ovnIpv4Range);
+};
 
+const setNetworkDHCPRanges = async (page: Page, dhcpIpv4Range: string) => {
   const dhcpRangesRow = page.locator('tr[name*="ipv4_dhcp_ranges"]');
   const dhcpRangesOverrideBtn = dhcpRangesRow.getByRole("button", {
     name: "Create override",
   });
   await expect(dhcpRangesOverrideBtn).toBeVisible();
   await dhcpRangesOverrideBtn.click();
-  await page.getByLabel("IPv4 DHCP ranges").fill("10.42.42.50-10.42.42.99");
-
-  await submitCreateNetwork(page, network);
+  await page.getByLabel("IPv4 DHCP ranges").fill(dhcpIpv4Range);
 };
