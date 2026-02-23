@@ -43,8 +43,8 @@ export const selectOption = async (
   label: string,
   value: string,
 ) => {
-  await page.getByRole("button", { name: label, exact: true }).click();
-  await page.getByLabel("submenu").getByText(value, { exact: true }).click();
+  await page.getByRole("button", { name: label, exact: true }).first().click();
+  await page.getByLabel("sub").getByText(value, { exact: true }).click();
 };
 
 export const addPermission = async (

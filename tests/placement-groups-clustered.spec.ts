@@ -53,7 +53,7 @@ test("apply placement group to profile", async ({
     .getByRole("button", { name: "Placement group", exact: true })
     .click();
   await page
-    .getByLabel("submenu")
+    .getByLabel("sub")
     .getByText(placementGroup, { exact: true })
     .click();
   await saveProfile(page, profile, 1);
@@ -79,7 +79,7 @@ test("apply placement group to instance", async ({
     .getByRole("button", { name: "Placement group", exact: true })
     .click();
   await page
-    .getByLabel("submenu")
+    .getByLabel("sub")
     .getByText(placementGroup, { exact: true })
     .click();
   await saveInstance(page, instance, 1);

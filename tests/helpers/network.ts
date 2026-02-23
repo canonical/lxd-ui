@@ -37,7 +37,7 @@ export const createNetwork = async (
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
   await page.getByRole("button", { name: "Type" }).click();
-  await page.getByLabel("submenu").getByText(type).first().click();
+  await page.getByLabel("sub").getByText(type).first().click();
   await page.getByLabel("Name", { exact: true }).click();
   await page.getByLabel("Name", { exact: true }).fill(network);
 
@@ -275,9 +275,10 @@ export const createOvnUplink = async (page: Page, network: string) => {
   }
 
   await createNetworkBtn.click();
+  await expect(page.getByText("Create a network")).toBeVisible();
 
   await page.getByRole("button", { name: "Type" }).click();
-  await page.getByLabel("submenu").getByText("bridge").first().click();
+  await page.getByLabel("sub").getByText("bridge").first().click();
   await page.getByLabel("Name", { exact: true }).fill(network);
 
   await page.waitForTimeout(1000);
