@@ -134,13 +134,7 @@ const CreateTlsIdentityWithBearerToken: FC = () => {
           setSelectedGroups={(newGroups: string[]) => {
             formik.setFieldValue("groups", newGroups);
           }}
-          toggleGroup={(group: string) => {
-            const currentGroups = formik.values.groups ?? [];
-            const newGroups = currentGroups.includes(group)
-              ? currentGroups.filter((g) => g !== group)
-              : [...currentGroups, group];
-            formik.setFieldValue("groups", newGroups);
-          }}
+          toggleGroup={(_: string) => {}}
           scrollDependencies={[
             groups,
             formik.values.groups?.length,
@@ -151,6 +145,7 @@ const CreateTlsIdentityWithBearerToken: FC = () => {
             "create-tls-identity-with-bearer-token-footer",
             "status-bar",
           ]}
+          disabled={true}
         />
         <div
           id="create-tls-identity-with-bearer-token-footer"

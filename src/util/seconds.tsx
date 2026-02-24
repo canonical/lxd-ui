@@ -65,10 +65,10 @@ export const getExpiryMessage = (secondsLeft: number | null): string | null => {
   }
 
   if (secondsLeft <= 0) {
-    return "Temporary access has expired";
+    return "Initial access has expired";
   }
 
   const timeString = formatCountdown(secondsLeft);
 
-  return `Temporary access expires in ${timeString}`;
+  return `Initial access expires in ${timeString}`;
 };
