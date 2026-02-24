@@ -175,8 +175,9 @@ export const areNetworksEqual = (
     return false;
   }
 
+  const ignoreForDiff = ["config", "etag", "access_entitlements"];
   const hasMainKeyDiff = (Object.keys(a) as Array<keyof typeof a>).some(
-    (key) => (key === "config" || key === "etag" ? false : a[key] !== b[key]),
+    (key) => (ignoreForDiff.includes(key) ? false : a[key] !== b[key]),
   );
 
   return !hasMainKeyDiff;
