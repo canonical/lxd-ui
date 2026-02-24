@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/StorageUsedBy.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/networks/LocalPeeringTargetWarning.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage</a> StorageUsedBy.tsx</h1>
+        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/networks</a> LocalPeeringTargetWarning.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
@@ -87,54 +87,81 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
-import UsedByRow from "components/UsedByRow";
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Icon, Tooltip } from "@canonical/react-components";
+import type { FC } from "react";
+import { useNetwork } from "context/useNetworks";
 &nbsp;
 interface Props {
-  storage: LxdStoragePool | LxdStorageVolume;
+  network: string;
+  project: string;
 }
 &nbsp;
-const StorageUsedBy: FC&lt;Props&gt; = ({ storage }) =&gt; {
+const LocalPeeringTargetWarning: FC&lt;Props&gt; = ({
+  network: networkName,
+  project,
+}) =&gt; {
+  const { data: network } = useNetwork(networkName, project);
+  const networkACLs = network?.config["security.acls"];
+&nbsp;
   return (
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;UsedByRow entityType="instance" usedBy={storage.used_by} /&gt;
-        &lt;UsedByRow entityType="profile" usedBy={storage.used_by} /&gt;
-        &lt;UsedByRow entityType="image" usedBy={storage.used_by} /&gt;
-        &lt;UsedByRow entityType="snapshot" usedBy={storage.used_by} /&gt;
-        &lt;UsedByRow entityType="volume" usedBy={storage.used_by} /&gt;
-        &lt;UsedByRow entityType="bucket" usedBy={storage.used_by} /&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
+    (!<span class="branch-0 cbranch-no" title="branch not covered" >networkACLs || networkACLs?.length == 0) &amp;&amp; (</span>
+      &lt;Tooltip
+        message={
+          &lt;div&gt;
+            &lt;div&gt;Target network has unrestricted ingress and egress.&lt;/div&gt;
+            &lt;div&gt;To enforce filtering, add ACLs to the target network.&lt;/div&gt;
+          &lt;/div&gt;
+        }
+      &gt;
+        &lt;Icon name="warning" /&gt;
+      &lt;/Tooltip&gt;
+    )
   );
 };
 &nbsp;
-export default StorageUsedBy;
+export default LocalPeeringTargetWarning;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
