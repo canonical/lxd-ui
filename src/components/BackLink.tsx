@@ -10,13 +10,14 @@ interface Props {
 const BackLink: FC<Props> = ({ linkText, title, onClick }) => {
   const backLink = (
     <>
-      <Icon name="chevron-left" />{" "}
       <Button
         onClick={onClick}
         dense
+        hasIcon
         appearance="link"
         className="p-heading--4"
       >
+        <Icon name="chevron-left" className="back-link-icon" />
         {linkText}
       </Button>
     </>

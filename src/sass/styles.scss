@@ -459,3 +459,8 @@ body.is-dark .lxd-icon {
 .mono-font {
   font-family: unquote($font-monospace);
 }
+
+.back-link-icon {
+  margin-left: $sph--small !important;
+  margin-right: $sph--small !important;
+}
