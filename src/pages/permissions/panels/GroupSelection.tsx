@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";
 import useSortTableData from "util/useSortTableData";
 import { ROOT_PATH } from "util/rootPath";
+import classnames from "classnames";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -26,6 +27,7 @@ interface Props {
   scrollDependencies: DependencyList;
   preselectedGroups?: Set<string>;
   belowIds?: string[];
+  disabled?: boolean;
 }
 
 const GroupSelection: FC<Props> = ({
@@ -40,6 +42,7 @@ const GroupSelection: FC<Props> = ({
   scrollDependencies,
   preselectedGroups,
   belowIds = [],
+  disabled = false,
 }) => {
   const [search, setSearch] = useState("");
 
@@ -82,7 +85,9 @@ const GroupSelection: FC<Props> = ({
         : "";
 
     const toggleRow = () => {
-      toggleGroup(group.name);
+      if (!disabled) {
+        toggleGroup(group.name);
+      }
     };
 
     return {
@@ -95,14 +100,18 @@ const GroupSelection: FC<Props> = ({
           title: group.name,
           onClick: toggleRow,
           role: "rowheader",
-          className: "name u-truncate clickable-cell",
+          className: classnames("name u-truncate", {
+            "clickable-cell": !disabled,
+          }),
           "aria-label": "Name",
         },
         {
           content: <span>{group.description || ""}</span>,
           onClick: toggleRow,
           role: "cell",
-          className: "description clickable-cell",
+          className: classnames("description", {
+            "clickable-cell": !disabled,
+          }),
           "aria-label": "Description",
           title: group.description,
         },
@@ -159,6 +168,7 @@ const GroupSelection: FC<Props> = ({
             indeterminateNames={Array.from(indeterminateGroups ?? new Set())}
             onToggleRow={toggleGroup}
             hideContextualMenu
+            disableSelect={disabled}
           />
         </ScrollableTable>
       ) : (
