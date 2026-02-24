@@ -20,6 +20,7 @@ import LocalPeeringStatusIcon from "./LocalPeeringStatusIcon";
 import LocalPeeringWarning from "./LocalPeeringWarning";
 import NetworkRichChip from "./NetworkRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import LocalPeeringTargetWarning from "pages/networks/LocalPeeringTargetWarning";
 
 interface Props {
   network: LxdNetwork;
@@ -79,10 +80,16 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
         },
         {
           content: localPeering.target_network ? (
-            <NetworkRichChip
-              networkName={localPeering.target_network}
-              projectName={localPeering.target_project ?? ""}
-            />
+            <>
+              <NetworkRichChip
+                networkName={localPeering.target_network}
+                projectName={localPeering.target_project ?? ""}
+              />
+              <LocalPeeringTargetWarning
+                network={localPeering.target_network}
+                project={localPeering.target_project}
+              />
+            </>
           ) : (
             "-"
           ),
