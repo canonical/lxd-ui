@@ -11,6 +11,15 @@
     .p-login-method {
       max-width: unset;
     }
+
+    .auth-container {
+      a,
+      button {
+        display: block;
+        margin-bottom: $spv--small;
+        width: 100%;
+      }
+    }
   }
 }
 
