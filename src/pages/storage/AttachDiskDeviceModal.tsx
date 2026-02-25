@@ -8,12 +8,17 @@ import CustomVolumeModal from "./CustomVolumeModal";
 import type { LxdDiskDevice } from "types/device";
 import HostPathDeviceModal from "./HostPathDeviceModal";
 import type { LxdStorageVolume } from "types/storage";
+import type { RemoteImage } from "types/image";
+import { remoteImageToIsoDevice } from "util/formDevices";
+import CustomIsoModal from "pages/images/CustomIsoModal";
+import { isIsoDiskDevice } from "util/devices";
+import type { CustomDiskDevice } from "types/formDevice";
 
-type DiskDeviceType = "custom volume" | "host path" | "choose type";
+type DiskDeviceType = "custom volume" | "host path" | "choose type" | "iso";
 
 interface Props {
   close: () => void;
-  onFinish: (device: LxdDiskDevice) => void;
+  onFinish: (device: CustomDiskDevice) => void;
   formik: InstanceAndProfileFormikProps;
   project: string;
 }
@@ -47,18 +52,43 @@ const AttachDiskDeviceModal: FC<Props> = ({
     onFinish(device);
   };
 
-  const modalTitle =
-    type === "choose type" ? (
-      "Choose disk type"
-    ) : (
-      <BackLink
-        title={
-          type === "host path" ? "Mount host path" : "Attach custom volume"
-        }
-        onClick={handleGoBack}
-        linkText="Choose disk type"
-      />
-    );
+  const handleSelectIso = (image: RemoteImage) => {
+    const isoDevice = remoteImageToIsoDevice(image);
+    onFinish(isoDevice);
+  };
+
+  const CHOOSE_DISK_TYPE_TITLE = "Choose disk type";
+  const getModalTitle = () => {
+    switch (type) {
+      case "custom volume":
+        return (
+          <BackLink
+            title="Attach custom volume"
+            onClick={handleGoBack}
+            linkText={CHOOSE_DISK_TYPE_TITLE}
+          />
+        );
+      case "host path":
+        return (
+          <BackLink
+            title="Mount host path"
+            onClick={handleGoBack}
+            linkText={CHOOSE_DISK_TYPE_TITLE}
+          />
+        );
+      default:
+        return CHOOSE_DISK_TYPE_TITLE;
+    }
+  };
+
+  const modalTitle = getModalTitle();
+
+  const hasIsoDeviceAttached = formik.values.devices.some(isIsoDiskDevice);
+
+  const canAttachIso =
+    formik.values.entityType === "profile" ||
+    (formik.values.entityType === "instance" &&
+      formik.values.instanceType === "virtual-machine");
 
   return (
     <>
@@ -84,6 +114,21 @@ const AttachDiskDeviceModal: FC<Props> = ({
                 setType("host path");
               }}
             />
+            {canAttachIso && (
+              <FormLink
+                icon="iso"
+                title="Attach ISO"
+                onClick={() => {
+                  setType("iso");
+                }}
+                disabled={hasIsoDeviceAttached}
+                onHoverText={
+                  hasIsoDeviceAttached
+                    ? "Only one ISO volume can be attached at a time"
+                    : undefined
+                }
+              />
+            )}
           </div>
         </Modal>
       )}
@@ -106,6 +151,15 @@ const AttachDiskDeviceModal: FC<Props> = ({
           onCancel={handleGoBack}
           onClose={close}
           title={modalTitle}
+        />
+      )}
+      {type === "iso" && (
+        <CustomIsoModal
+          onClose={close}
+          onSelect={handleSelectIso}
+          onCancel={handleGoBack}
+          cancelButtonText="Back"
+          backLinkText={CHOOSE_DISK_TYPE_TITLE}
         />
       )}
     </>

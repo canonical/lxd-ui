@@ -21,6 +21,7 @@ import ResourceLink from "components/ResourceLink";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import { ISO_VOLUME_NAME } from "util/devices";
 
 interface Props {
   instance: LxdInstance;
@@ -36,14 +37,14 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
   const { canEditInstance } = useInstanceEntitlements();
 
   const attachedIso = getInstanceEditValues(instance).devices.find((device) => {
-    return device.name === "iso-volume";
+    return device.name === ISO_VOLUME_NAME;
   }) as FormDiskDevice | undefined;
 
   const detachIso = () => {
     setLoading(true);
     const values = getInstanceEditValues(instance);
     values.devices = values.devices.filter((device) => {
-      return device.name !== "iso-volume";
+      return device.name !== ISO_VOLUME_NAME;
     });
     const instanceMinusIso = getInstancePayload(
       instance,

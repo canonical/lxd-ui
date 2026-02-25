@@ -11,6 +11,7 @@ interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) => void;
   onUpload: () => void;
   onCancel: () => void;
+  cancelButtonText?: string;
 }
 
 const CustomIsoSelector: FC<Props> = ({
@@ -18,6 +19,7 @@ const CustomIsoSelector: FC<Props> = ({
   onSelect,
   onUpload,
   onCancel,
+  cancelButtonText = "Cancel",
 }) => {
   const { project } = useCurrentProject();
   const projectName = project?.name ?? "";
@@ -127,7 +129,7 @@ const CustomIsoSelector: FC<Props> = ({
           className="u-no-margin--bottom"
           onClick={onCancel}
         >
-          Cancel
+          {cancelButtonText}
         </Button>
         <Button
           appearance={rows.length === 0 ? "positive" : ""}

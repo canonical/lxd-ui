@@ -88,6 +88,7 @@ import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/Network
 import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
+import { ISO_VOLUME_TYPE } from "util/devices";
 
 interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
@@ -359,7 +360,7 @@ const CreateInstance: FC = () => {
     formik.setFieldValue("image", image);
 
     const devices: FormDevice[] = formik.values.devices.filter(
-      (item) => item.type !== "iso-volume",
+      (item) => item.type !== ISO_VOLUME_TYPE,
     );
     if (image.server === LOCAL_ISO) {
       const isoDevice = remoteImageToIsoDevice(image);
