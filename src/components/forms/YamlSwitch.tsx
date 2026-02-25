@@ -48,19 +48,23 @@ const YamlSwitch: FC<Props> = ({
   return (
     <div
       title={disableReason}
-      className={classnames("u-float-left", { "is-disabled": disableReason })}
+      className={classnames("u-float-left", {
+        "is-disabled": disableReason,
+      })}
     >
       {isOpen && (
         <Portal>
           <YamlConfirmation onConfirm={handleConfirm} close={closePortal} />
         </Portal>
       )}
-      <Switch
-        label={isSmallScreen ? "YAML" : "YAML Configuration"}
-        checked={isChecked}
-        onChange={handleSwitch}
-        disabled={disableReason !== undefined}
-      />
+      <div className="u-flex">
+        <Switch
+          label={isSmallScreen ? "YAML" : "YAML Configuration"}
+          checked={isChecked}
+          onChange={handleSwitch}
+          disabled={disableReason !== undefined}
+        />
+      </div>
     </div>
   );
 };
