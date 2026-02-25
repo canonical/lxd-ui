@@ -16,8 +16,7 @@ const YamlConfirmation: FC<Props> = ({ onConfirm, close }) => {
       title="Confirm"
     >
       <p>
-        Switching back to guided forms will discard all changes in the YAML
-        editor.
+        This will discard all changes in the YAML editor.
         <br />
         Are you sure you want to proceed?
       </p>

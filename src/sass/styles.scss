@@ -164,6 +164,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "upload_instance_modal";
 @import "upper_controls_bar";
 @import "warnings_table";
+@import "yaml_type_selector";
 
 body {
   // needed for notification list expanding animation
