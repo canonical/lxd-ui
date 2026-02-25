@@ -457,6 +457,13 @@
 
   .form-contents:has(.code-editor-wrapper) {
     padding-left: 0;
+
+    .code-editor-wrapper {
+      .monaco-hover,
+      .monaco-hover-content {
+        display: none;
+      }
+    }
   }
 }
 
