@@ -300,6 +300,7 @@ const Navigation: FC = () => {
                           Instances
                         </NavLink>
                       </SideNavigationItem>
+
                       <SideNavigationItem>
                         <NavLink
                           to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/profiles`}
@@ -317,7 +318,9 @@ const Navigation: FC = () => {
 
                       <SideNavigationItem>
                         <NavAccordion
-                          baseUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network`}
+                          baseUrls={[
+                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network`,
+                          ]}
                           title={getNavTitle("networking")}
                           disabled={isAllProjects}
                           iconName="exposed"
@@ -325,7 +328,10 @@ const Navigation: FC = () => {
                           onOpen={() => {
                             toggleAccordionNav("networking");
                           }}
-                          open={openNavMenus.includes("networking")}
+                          open={
+                            openNavMenus.includes("networking") &&
+                            !menuCollapsed
+                          }
                         >
                           {[
                             <SideNavigationItem
@@ -374,7 +380,9 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavAccordion
-                          baseUrl={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage`}
+                          baseUrls={[
+                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage`,
+                          ]}
                           title={getNavTitle("storage")}
                           disabled={isAllProjects}
                           iconName="storage-pool"
@@ -382,7 +390,9 @@ const Navigation: FC = () => {
                           onOpen={() => {
                             toggleAccordionNav("storage");
                           }}
-                          open={openNavMenus.includes("storage")}
+                          open={
+                            openNavMenus.includes("storage") && !menuCollapsed
+                          }
                         >
                           {[
                             <SideNavigationItem
@@ -482,14 +492,20 @@ const Navigation: FC = () => {
                       {isClustered && (
                         <SideNavigationItem>
                           <NavAccordion
-                            baseUrl={`${ROOT_PATH}/ui/cluster`}
+                            baseUrls={[
+                              `${ROOT_PATH}/ui/cluster`,
+                              `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`,
+                            ]}
                             title={getNavTitle("clustering")}
                             iconName="cluster-host"
                             label="Clustering"
                             onOpen={() => {
                               toggleAccordionNav("clustering");
                             }}
-                            open={openNavMenus.includes("clustering")}
+                            open={
+                              openNavMenus.includes("clustering") &&
+                              !menuCollapsed
+                            }
                           >
                             {[
                               <SideNavigationItem key="members">
@@ -572,14 +588,17 @@ const Navigation: FC = () => {
                       {hasAccessManagement && (
                         <SideNavigationItem>
                           <NavAccordion
-                            baseUrl={`${ROOT_PATH}/ui/permissions`}
+                            baseUrls={[`${ROOT_PATH}/ui/permissions`]}
                             title={`Permissions`}
                             iconName="user"
                             label="Permissions"
                             onOpen={() => {
                               toggleAccordionNav("permissions");
                             }}
-                            open={openNavMenus.includes("permissions")}
+                            open={
+                              openNavMenus.includes("permissions") &&
+                              !menuCollapsed
+                            }
                           >
                             {[
                               <SideNavigationItem key="/ui/permissions/identities">

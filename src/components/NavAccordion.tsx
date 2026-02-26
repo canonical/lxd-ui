@@ -10,7 +10,7 @@ export type AccordionNavMenu =
   | "clustering";
 
 interface Props {
-  baseUrl: string;
+  baseUrls: string[];
   title: string;
   children: ReactNode;
   iconName: string;
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const NavAccordion: FC<Props> = ({
-  baseUrl,
+  baseUrls,
   title,
   children,
   iconName,
@@ -31,7 +31,9 @@ const NavAccordion: FC<Props> = ({
   disabled,
 }) => {
   const location = useLocation();
-  const isActive = location.pathname.includes(baseUrl);
+  const isActive = baseUrls.some((baseUrl) =>
+    location.pathname.includes(baseUrl),
+  );
 
   return (
     <>
