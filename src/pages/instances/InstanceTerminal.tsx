@@ -12,17 +12,17 @@ import type { LxdInstance } from "types/instance";
 import { useInstanceStart } from "util/instanceStart";
 import Xterm from "components/Xterm";
 import type { Terminal } from "@xterm/xterm";
+import type { NotificationType } from "@canonical/react-components";
 import {
   ActionButton,
   EmptyState,
   Icon,
   Notification,
   useListener,
-  useNotify,
   Spinner,
   Button,
+  failure,
 } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 
@@ -83,10 +83,11 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     project: string;
   }>();
   const textEncoder = new TextEncoder();
-  const notify = useNotify();
+  const [error, setError] = useState<NotificationType | null>(null);
   const [isLoading, setLoading] = useState(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [payload, setPayload] = useState(getDefaultPayload(instance));
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
@@ -109,11 +110,11 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
 
   const openWebsockets = async (payload: TerminalConnectPayload) => {
     if (!name) {
-      notify.failure("Missing name", new Error());
+      setError(failure("Missing name", new Error()));
       return;
     }
     if (!project) {
-      notify.failure("Missing project", new Error());
+      setError(failure("Missing project", new Error()));
       return;
     }
 
@@ -121,7 +122,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     const result = await connectInstanceExec(name, project, payload).catch(
       (e) => {
         setLoading(false);
-        notify.failure("Connection failed", e);
+        setError(failure("Connection failed", e));
       },
     );
     if (!result) {
@@ -139,32 +140,32 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     control.onopen = () => {
       setLoading(false);
       setControlWs(control);
+      setRefreshKey((prev) => prev + 1);
     };
 
     control.onerror = (e) => {
-      notify.failure("Error", e);
+      setError(failure("Error", e));
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure("Error", event.reason, getWsErrorMsg(event.code));
+        setError(failure("Error", event.reason, getWsErrorMsg(event.code)));
       }
-      setControlWs(null);
     };
 
     data.onopen = () => {
       setDataWs(data);
+      setRefreshKey((prev) => prev + 1);
     };
 
     data.onerror = (e) => {
-      notify.failure("Error", e);
+      setError(failure("Error", e));
     };
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure("Error", event.reason, getWsErrorMsg(event.code));
+        setError(failure("Error", event.reason, getWsErrorMsg(event.code)));
       }
-      setDataWs(null);
       setUserInteracted(false);
     };
 
@@ -184,6 +185,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const isRunning = isInstanceRunning(instance);
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
   const canConnect = isRunning && !isBooting;
+  const displayConsole = canConnect || controlWs !== null;
   const canExec = canExecInstance(instance);
 
   useEffect(() => {
@@ -206,9 +208,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   }, [isBooting, version]);
 
   useEffect(() => {
-    xtermRef.current?.clear();
-    notify.clear();
     if (canConnect && canExec) {
+      xtermRef.current?.clear();
+      setError(null);
       const websocketPromise = openWebsockets(payload);
       return () => {
         void websocketPromise.then((websockets) => {
@@ -223,7 +225,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   }, [payload, instance.status, canConnect, canExec]);
 
   const handleResize = () => {
-    if (controlWs?.readyState === WebSocket.CLOSED) {
+    if (!displayConsole) {
       return;
     }
 
@@ -259,6 +261,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   );
 
   useListener(window, handleResize, "menu-collapse-toggle");
+  useEffect(handleResize, [error?.message]);
 
   const handleTerminalOpen = () => {
     handleResize();
@@ -286,13 +289,13 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
         xtermRef.current?.focus();
       })
       .catch((e) => {
-        notify.failure("Failed to enter full-screen mode", e);
+        setError(failure("Failed to enter full-screen mode", e));
       });
   };
 
   return (
     <div className="instance-terminal-tab">
-      {canConnect && (
+      {displayConsole && (
         <>
           <div className="p-panel__controls">
             <Button
@@ -308,18 +311,40 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
               instance={instance}
             />
           </div>
-          <NotificationRow />
+          {error && (
+            <Notification
+              title={error.title}
+              severity="negative"
+              onDismiss={() => {
+                setError(null);
+              }}
+            >
+              {error.message}
+            </Notification>
+          )}
           {isLoading && (
             <Spinner className="u-loader" text="Loading terminal session..." />
           )}
           {controlWs && (
             <Xterm
+              key={refreshKey}
               ref={xtermRef}
               addons={[fitAddon]}
               options={XTERM_OPTIONS}
               onData={(data) => {
                 setUserInteracted(true);
-                dataWs?.send(textEncoder.encode(data));
+                if (dataWs?.readyState === WebSocket.CLOSED) {
+                  setError(
+                    failure(
+                      "Failed sending command",
+                      new Error(
+                        "WebSocket is closed. Ensure instance is running and reconnect.",
+                      ),
+                    ),
+                  );
+                } else {
+                  dataWs?.send(textEncoder.encode(data));
+                }
               }}
               onOpen={handleTerminalOpen}
               className="p-terminal"
@@ -327,7 +352,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           )}
         </>
       )}
-      {!canConnect && (
+      {!displayConsole && (
         <EmptyState
           className="empty-state"
           image={<Icon name="pods" className="empty-state-icon" />}
