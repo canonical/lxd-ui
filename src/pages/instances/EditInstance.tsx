@@ -12,7 +12,11 @@ import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { objectToYaml, yamlToObject } from "util/yaml";
+import {
+  expandInheritedValuesYaml,
+  objectToYaml,
+  yamlToObject,
+} from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
@@ -48,7 +52,6 @@ import {
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
-import FormFooterLayout from "components/forms/FormFooterLayout";
 import MigrationForm from "components/forms/MigrationForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
@@ -65,6 +68,8 @@ import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/Network
 import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
+import YamlTypeSelector from "components/forms/YamlTypeSelector";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 interface Props {
   instance: LxdInstance;
@@ -83,6 +88,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
   const { canEditInstance } = useInstanceEntitlements();
+  const [yamlType, setYamlType] = useState<"local" | "expandInheritedValues">(
+    "local",
+  );
 
   if (!project) {
     return <>Missing project</>;
@@ -174,13 +182,20 @@ const EditInstance: FC<Props> = ({ instance }) => {
       "expanded_devices",
       "etag",
     ]);
+
     const bareInstance = Object.fromEntries(
-      Object.entries(instance).filter((e) => !exclude.has(e[0])),
+      Object.entries(instance).filter(([key]) => !exclude.has(key)),
     );
-    return objectToYaml(bareInstance);
+
+    if (yamlType === "local") {
+      return objectToYaml(bareInstance);
+    }
+
+    return expandInheritedValuesYaml(instance, profiles);
   };
 
   const readOnly = formik.values.readOnly;
+  const isYamlSection = section === slugify(YAML_CONFIGURATION);
 
   return (
     <div className="edit-instance">
@@ -256,16 +271,23 @@ const EditInstance: FC<Props> = ({ instance }) => {
               />
             )}
 
-            {section === slugify(YAML_CONFIGURATION) && (
+            {isYamlSection && (
               <YamlForm
-                key={`yaml-form-${version}`}
+                key={`yaml-form-${yamlType}-${version}`}
                 yaml={getYaml()}
                 setYaml={(yaml) => {
                   ensureEditMode(formik);
                   formik.setFieldValue("yaml", yaml);
                 }}
-                readOnly={!!formik.values.editRestriction}
-                readOnlyMessage={formik.values.editRestriction}
+                readOnly={
+                  yamlType === "expandInheritedValues" ||
+                  !!formik.values.editRestriction
+                }
+                readOnlyMessage={
+                  yamlType === "expandInheritedValues"
+                    ? "Expanded configuration is read-only"
+                    : formik.values.editRestriction
+                }
               >
                 <YamlNotification entity="instance" docPath="/instances" />
               </YamlForm>
@@ -273,14 +295,17 @@ const EditInstance: FC<Props> = ({ instance }) => {
           </Col>
         </Row>
       </Form>
-      <FormFooterLayout>
+      <FormFooterLayout isAlignRight={false}>
         <YamlSwitch
           formik={formik}
           section={section}
           setSection={updateSection}
         />
-        {readOnly ? null : (
-          <>
+        {isYamlSection && (
+          <YamlTypeSelector yamlType={yamlType} setYamlType={setYamlType} />
+        )}
+        {readOnly || yamlType === "expandInheritedValues" ? null : (
+          <div className="cancel-save-container">
             <Button
               appearance="base"
               onClick={() => {
@@ -295,10 +320,10 @@ const EditInstance: FC<Props> = ({ instance }) => {
             <FormSubmitBtn
               formik={formik}
               baseUrl={baseUrl}
-              isYaml={section === slugify(YAML_CONFIGURATION)}
+              isYaml={isYamlSection}
               disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />
-          </>
+          </div>
         )}
       </FormFooterLayout>
 
