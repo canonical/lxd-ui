@@ -3,6 +3,7 @@ import { randomNameSuffix } from "./name";
 import { expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
 import { isServerClustered } from "./cluster";
+import { searchEntityListPage } from "./search";
 
 export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
@@ -28,7 +29,7 @@ export const createVolume = async (
     .getByPlaceholder("Enter content type")
     .selectOption({ label: volumeType });
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Storage volume ${volume} created.`);
+  await page.getByText(`Storage volume ${volume} created.`).waitFor();
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -39,11 +40,11 @@ export const deleteVolume = async (
 ) => {
   await visitVolume(page, volume, project);
   await page.getByRole("button", { name: "Delete" }).click();
-  await page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: "Delete" })
-    .click();
-  await page.waitForSelector(`text=Storage volume ${volume} deleted.`);
+  const dialog = page.getByRole("dialog", { name: "Confirm delete" });
+  await dialog.getByRole("button", { name: "Delete" }).click();
+  await expect(
+    page.getByText(`Storage volume ${volume} deleted.`),
+  ).toBeVisible();
 };
 
 export const visitVolume = async (
@@ -56,9 +57,7 @@ export const visitVolume = async (
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
   await expect(page.getByText("Create volume")).toBeVisible();
-  await page.getByPlaceholder("Search and filter").fill(volume);
-  await page.getByPlaceholder("Search and filter").press("Enter");
-  await page.getByPlaceholder("Add filter").press("Escape");
+  await searchEntityListPage(page, volume);
   await page.getByRole("link", { name: volume }).first().click();
   await expect(page.getByText(`Storage volumes${volume}`)).toBeVisible();
 };

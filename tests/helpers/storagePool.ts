@@ -19,7 +19,8 @@ export const createPool = async (page: Page, pool: string, driver = "dir") => {
     await page.getByLabel("Rados gateway endpoint").fill("http://localhost");
   }
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Storage pool ${pool} created.`);
+  await expect(page.getByText(`Storage pool ${pool} created.`)).toBeVisible();
+  await page.getByTestId("notification-close-button").click();
 };
 
 export const deletePool = async (page: Page, pool: string) => {
@@ -47,6 +48,6 @@ export const editPool = async (page: Page, pool: string) => {
 
 export const savePool = async (page: Page, pool: string) => {
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(`text=Storage pool ${pool} updated.`);
+  await page.getByText(`Storage pool ${pool} updated.`).click();
   await page.getByRole("button", { name: "Close notification" }).click();
 };

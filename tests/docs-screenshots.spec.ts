@@ -11,14 +11,16 @@ import {
   createNetworkLocalPeering,
   deleteLocalPeerings,
   deleteNetwork,
+  prepareCreateNetwork,
   submitCreateNetwork,
   visitNetwork,
+  createOvnUplink,
+  makeNetworkOvnUplink,
 } from "./helpers/network";
 import { createVolume, deleteVolume } from "./helpers/storageVolume";
 import { setOption } from "./helpers/configuration";
 import { getClipPosition } from "./helpers/doc-screenshots";
 import { openInstancePanel } from "./helpers/instancePanel";
-import { randomNameSuffix } from "./helpers/name";
 import { deleteNetworkAcl } from "./helpers/network-acls";
 
 test.beforeEach(() => {
@@ -58,7 +60,7 @@ test("instances", async ({ page }) => {
     clip: getClipPosition(240, 0, 1280, 675),
   });
 
-  await page.getByRole("button", { name: "Create override" }).click();
+  await page.getByTitle("Create override").click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/instances/create_instance_form.png",
     clip: getClipPosition(240, 0, 1360, 520),
@@ -72,8 +74,7 @@ test("instances", async ({ page }) => {
 
   await page.setViewportSize({ width: 1440, height: 500 });
   await page.getByRole("button", { name: "Attach custom volume" }).click();
-  await page.waitForSelector("text=Select");
-  await page.waitForTimeout(1000);
+  await page.getByRole("button", { name: "Select" }).first().waitFor();
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_attach_to_instance_3.png",
     clip: getClipPosition(85, 20, 1350, 470),
@@ -94,8 +95,11 @@ test("instances", async ({ page }) => {
     clip: getClipPosition(490, 70, 1245, 340),
   });
 
+  await page
+    .getByRole("button", { name: "Apply changes", exact: true })
+    .click();
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Created instance ${instance}.`);
+  await page.getByText(`Created instance ${instance}.`).click();
   await visitInstance(page, instance);
 
   await page.screenshot({
@@ -134,13 +138,7 @@ test("networks", async ({ page }) => {
   const networkACL = network + "-ACL";
   await page.setViewportSize({ width: 1440, height: 800 });
 
-  await gotoURL(page, "/ui/");
-  await page.getByText("Networking").click();
-  await page.getByText("Networks").click();
-  await page.getByText("Create network").click();
-  await page.getByPlaceholder("Enter name").fill(network);
-  await page.getByRole("button", { name: "Type" }).click();
-  await page.getByLabel("sub").getByText("bridge").first().click();
+  await prepareCreateNetwork(page, network, "bridge");
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_create.png",
     clip: getClipPosition(240, 0, 1420, 750),
@@ -154,7 +152,7 @@ test("networks", async ({ page }) => {
   });
 
   await page.getByRole("link", { name: "Leases" }).click();
-  await page.waitForSelector(`text=Hostname`);
+  await page.getByText("Hostname").waitFor();
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_view_leases.png",
     clip: getClipPosition(240, 0, 850, 250),
@@ -163,9 +161,7 @@ test("networks", async ({ page }) => {
   //Network ACLs
   await page.getByText("ACLs").click();
   await page.getByText("Create ACL").click();
-  await page.waitForSelector('[placeholder="Enter name"]', {
-    state: "visible",
-  });
+  await page.getByPlaceholder("Enter name").click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_ACL_create.png",
     clip: getClipPosition(240, 0, 880, 360),
@@ -175,7 +171,7 @@ test("networks", async ({ page }) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.getByTestId("notification-close-button").click();
   await page.getByRole("link", { name: networkACL }).click();
-  await page.waitForSelector(`text=Click the ACL name`);
+  await page.getByText("Click the ACL name").waitFor();
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_ACLs.png",
     clip: getClipPosition(240, 0, 850, 590),
@@ -204,10 +200,11 @@ test("networks", async ({ page }) => {
 });
 
 test("network peering", async ({ page }) => {
-  const network = "OVNNetwork";
+  const uplinkNetwork = "BridgeNetwork1";
+  const network1 = "OVNNetwork";
   const network2 = "OVNNetwork2";
   const network3 = "OVNNetwork3";
-  const networkACL = network + "-ACL";
+  const networkACL = network1 + "-ACL";
   await page.setViewportSize({ width: 1440, height: 800 });
   await gotoURL(page, "/ui/");
 
@@ -224,17 +221,20 @@ test("network peering", async ({ page }) => {
   await page.getByTestId("notification-close-button").click();
 
   // Create network
-  await createNetwork(page, network, "ovn", {
+  await createOvnUplink(page, uplinkNetwork);
+  await createNetwork(page, network1, "ovn", {
     hasMemberSpecificParents: false,
+    uplink: uplinkNetwork,
     networkACL,
+    ipv6: "none",
   });
   await createNetwork(page, network2, "ovn");
   await createNetwork(page, network3, "ovn");
-  await createNetworkLocalPeering(page, "LocalPeering1", network, network2);
+  await createNetworkLocalPeering(page, "LocalPeering1", network1, network2);
   await createNetworkLocalPeering(
     page,
     "LocalPeering2",
-    network,
+    network1,
     network3,
     true,
   );
@@ -262,10 +262,12 @@ test("network peering", async ({ page }) => {
     clip: getClipPosition(240, 0, 1440, 800),
   });
 
+  await deleteLocalPeerings(page, network1, "LocalPeering1");
+  await deleteLocalPeerings(page, network1, "LocalPeering2");
   await deleteNetwork(page, network3);
-  await deleteLocalPeerings(page, network2, "LocalPeering1");
   await deleteNetwork(page, network2);
-  await deleteNetwork(page, network);
+  await deleteNetwork(page, network1);
+  await deleteNetwork(page, uplinkNetwork);
   await deleteNetworkAcl(page, networkACL);
 });
 
@@ -301,7 +303,6 @@ test("storage volumes", async ({ page }) => {
 
   await page.getByRole("link", { name: "Volumes", exact: true }).click();
   await page.getByText("Create volume").click();
-
   await page.getByRole("button", { name: "Upload volume file" }).click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_import.png",
@@ -311,7 +312,7 @@ test("storage volumes", async ({ page }) => {
 
   await page.getByPlaceholder("Enter name").fill(volumeName);
   await page.getByLabel("Storage pool", { exact: true }).click();
-  await page.getByLabel("sub").getByText("pool1").click();
+  await page.getByLabel("sub").getByText(poolName).click();
 
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_create.png",
@@ -323,7 +324,7 @@ test("storage volumes", async ({ page }) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.getByTestId("notification-close-button").click();
   await page.getByRole("link", { name: volumeName }).click();
-  await page.waitForSelector(`text=Overview`);
+  await page.getByText("Overview").waitFor();
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_overview.png",
     clip: getClipPosition(240, 0, 1420, 550),
@@ -340,8 +341,7 @@ test("storage volumes", async ({ page }) => {
     clip: getClipPosition(445, 130, 1000, 680),
   });
   await page.getByLabel("Close active modal").click();
-
-  await page.getByRole("button", { name: "Export" }).click();
+  await page.getByTitle("Export volume").click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_export.png",
     clip: getClipPosition(445, 100, 1000, 710),
@@ -381,11 +381,11 @@ test("storage volume snapshots", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Create snapshot" }).last().click();
-  await page.waitForSelector(
-    `text=Snapshot ${snapshot} created for volume ${volumeName}.`,
-  );
+  await expect(
+    page.getByText(`Snapshot ${snapshot} created for volume ${volumeName}.`),
+  ).toBeVisible();
   await page.reload();
-  await page.waitForSelector("text=Showing 1 out of 1 snapshot");
+  await page.getByText("Showing 1 out of 1 snapshot").waitFor();
   await page.screenshot({
     path: "tests/screenshots/doc/images/storage/storage_volumes_snapshots_list.png",
     clip: getClipPosition(240, 0, 1420, 320),
@@ -403,20 +403,24 @@ test("storage volume snapshots", async ({ page }) => {
 
 test("LXD - Tutorial folder", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 800 });
-
+  const projectButton = page
+    .getByTitle("Select project (default)", { exact: true })
+    .getByRole("button");
   const instance = "Instance1";
   await gotoURL(page, "/ui/");
-  await page.waitForTimeout(1000);
-  await page.getByRole("button", { name: "default", exact: true }).click();
+  await expect(projectButton).toBeVisible();
+  await projectButton.click();
+  await page.getByRole("button", { name: "Create project" }).waitFor();
   await page.getByRole("button", { name: "Create project" }).click();
-  await page.waitForSelector(`text=Project name`);
-  await page.getByRole("button", { name: "default", exact: true }).click();
+  await page.getByText("Project name").click();
+  await projectButton.click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/tutorial/create_project.png",
     clip: getClipPosition(0, 0, 1440, 760),
   });
 
-  await page.getByRole("button", { name: "default", exact: true }).click();
+  await projectButton.click();
+
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-vm");
@@ -443,14 +447,13 @@ test("LXD - Tutorial folder", async ({ page }) => {
   });
 
   await page.getByText("Resource limits").click();
-  await page.getByText("Resource limits").click();
   await page
     .getByRole("row", { name: "Exposed CPU limit" })
     .getByRole("button")
     .click();
   await page.getByPlaceholder("Number of exposed cores").fill("1");
   await page
-    .getByRole("row", { name: "Memory limit Usage limit" })
+    .getByRole("row", { name: "Memory limit" })
     .getByRole("button")
     .click();
   await page.getByPlaceholder("Enter value").fill("4");
@@ -461,9 +464,9 @@ test("LXD - Tutorial folder", async ({ page }) => {
 
   await page.getByRole("button", { name: "Create and start" }).click();
   await page.getByTestId("notification-close-button").click();
-
+  await page.getByText(`Created and started instance ${instance}.`).waitFor();
   await openInstancePanel(page, instance);
-  await page.waitForSelector(`text=Instance summary`);
+  await page.getByText("Instance summary").click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/tutorial/instance_summary.png",
     clip: getClipPosition(0, 0, 1440, 760),
@@ -492,14 +495,12 @@ test("LXD - Tutorial folder", async ({ page }) => {
     path: "tests/screenshots/doc/images/tutorial/yaml_configuration.png",
     clip: getClipPosition(0, 0, 1440, 760),
   });
-  await page.getByRole("button", { name: "Cancel" }).click();
-
+  await page.getByRole("button", { name: "Cancel", exact: true }).click();
   await page.getByTestId("tab-link-Terminal").click();
   await page.waitForTimeout(2000);
   await page.keyboard.type("exit");
-
   await page.keyboard.press("Enter");
-  await page.waitForSelector(`text=The connection was closed abnormally`);
+  await page.getByText(`The connection was closed abnormally`).waitFor();
   await page.screenshot({
     path: "tests/screenshots/doc/images/tutorial/broken_terminal.png",
     clip: getClipPosition(0, 0, 1440, 760),
@@ -509,6 +510,7 @@ test("LXD - Tutorial folder", async ({ page }) => {
 });
 
 test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
+  test.setTimeout(180000);
   // Desktop vm
   await page.setViewportSize({ width: 1440, height: 800 });
 
@@ -521,7 +523,8 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntunobledesktopvirtual-" })
-    .getByRole("button")
+    .first()
+    .getByRole("button", { name: "Select" })
     .click();
 
   await page.screenshot({
@@ -531,7 +534,7 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
 
   await page.getByText("Resource limits").click();
   await page
-    .getByRole("row", { name: "Memory limit Usage" })
+    .getByRole("row", { name: "Memory limit" })
     .getByRole("button")
     .click();
   await page
@@ -544,11 +547,12 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
     .getByRole("button", { name: "Create and start", exact: true })
     .click();
   await page.getByTestId("notification-close-button").click();
-
+  await page.getByRole("link", { name: vminstance }).first().waitFor();
+  await page.getByText(`Created and started instance ${vminstance}.`).waitFor();
   await visitInstance(page, vminstance);
-  await page.waitForSelector("text=General");
+  await page.getByText("General").click();
   await page.getByTestId("tab-link-Console").click();
-  await page.waitForTimeout(45000);
+  await page.waitForTimeout(60000);
   await page.screenshot({
     path: "tests/screenshots/doc/images/tutorial/desktop_console.png",
     clip: getClipPosition(0, 0, 1440, 760),
@@ -594,7 +598,10 @@ test("LXD - UI Folder - Project", async ({ page }) => {
 
   // Project Screenshots
   await page.waitForTimeout(1000);
-  await page.getByRole("button", { name: "default", exact: true }).click();
+  await page
+    .getByTitle("Select project (default)", { exact: true })
+    .getByRole("button")
+    .click();
   await page.getByRole("button", { name: "Create project" }).click();
   await page.waitForLoadState("networkidle");
   await page.getByPlaceholder("Enter name").fill("my-project");
@@ -604,7 +611,7 @@ test("LXD - UI Folder - Project", async ({ page }) => {
   });
 
   await page.getByPlaceholder("Enter name").fill("my-restricted-project");
-  await page.getByText("Allow custom restrictions on").click();
+  await page.getByText("Allow custom restrictions on a project level").click();
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/create_restr_project1.png",
     clip: getClipPosition(240, 0, 1440, 760),
@@ -622,6 +629,7 @@ test("LXD - UI Folder - Project", async ({ page }) => {
 });
 
 test("LXD - UI Folder - Instances", async ({ page }) => {
+  const instance = "Ubuntu-vm";
   await page.setViewportSize({ width: 1440, height: 800 });
   await gotoURL(page, "/ui/");
 
@@ -640,7 +648,7 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
     clip: getClipPosition(240, 0, 1440, 760),
   });
 
-  await page.getByPlaceholder("Enter name").fill("Ubuntu-vm");
+  await page.getByPlaceholder("Enter name").fill(instance);
   await page.getByLabel("Instance type").click();
   await page.getByLabel("Instance type").selectOption("VM");
   await page.screenshot({
@@ -656,7 +664,7 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 800 });
 
   await page.getByText("Disk").click();
-  await page.getByRole("button", { name: "Create override" }).click();
+  await page.getByTitle("Create override").click();
   await page.getByPlaceholder("Enter value").fill("30");
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/create_instance_ex2-2.png",
@@ -664,14 +672,13 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
   });
 
   await page.getByText("Resource limits").click();
-  await page.getByText("Resource limits").click();
   await page
     .getByRole("row", { name: "Exposed CPU limit" })
     .getByRole("button")
     .click();
   await page.getByPlaceholder("Number of exposed cores").fill("1");
   await page
-    .getByRole("row", { name: "Memory limit Usage" })
+    .getByRole("row", { name: "Memory limit" })
     .getByRole("button")
     .click();
   await page.getByPlaceholder("Enter value").fill("8");
@@ -681,8 +688,9 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Create and start" }).click();
-  await page.getByTestId("notification-close-button").click();
-  await visitInstance(page, "Ubuntu-vm");
+  await page.getByRole("link", { name: instance }).first().waitFor();
+
+  await visitInstance(page, instance);
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
   await page.screenshot({
@@ -706,51 +714,28 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
     clip: getClipPosition(280, 110, 1165, 715),
   });
   await page.getByLabel("Close active modal").click();
-  await forceStopInstance(page, "Ubuntu-vm");
-  await deleteInstance(page, "Ubuntu-vm");
+  await forceStopInstance(page, instance);
+  await deleteInstance(page, instance);
 });
 
 test("LXD - UI Folder - Networks", async ({ page }) => {
-  const suffix = randomNameSuffix().substring(0, 2);
-  const network1 = `lxdbr0-${suffix}`;
-  const network2 = `ovntest-${suffix}`;
+  const network1 = "lxdbr0-1";
+  const network2 = "ovntest-1";
   await page.setViewportSize({ width: 1440, height: 800 });
 
   // Network forwards screenshots
-
-  await createNetwork(page, network2);
-  await visitNetwork(page, network2);
-
+  await createNetwork(page, network1, "bridge", {
+    ipv4: "10.0.0.1/24",
+    ipv6: "none",
+  });
+  await page.getByRole("link", { name: network1, exact: true }).click();
+  await page.getByText("IPv4 address", { exact: true }).click();
   await page.getByText("/24").getByRole("button").click();
   let networkSubnet = await page.inputValue("input#ipv4_address");
   let listenAddress = networkSubnet.replace("1/24", "1");
   let targetAddress = networkSubnet.replace("1/24", "3");
   await page.getByRole("link", { name: "Forwards" }).click();
-  await page.getByRole("link", { name: "Create forward" }).click();
-  await page.getByLabel("Listen address").fill(listenAddress);
-  await page.getByLabel("Default target address").fill(targetAddress);
-  await page.screenshot({
-    path: "tests/screenshots/doc/images/UI/forward_create_ovn.png",
-    clip: getClipPosition(240, 0, 1440, 760),
-  });
-
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
-  await page.getByRole("button", { name: "Create network" }).click();
-  await page.getByRole("heading", { name: "Create a network" }).click();
-  await page.getByRole("button", { name: "Type" }).click();
-  await page.getByLabel("sub").getByText("bridge").first().click();
-  await page.getByPlaceholder("Enter name").fill(network1);
-  await page.waitForLoadState("networkidle");
-  await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.getByTestId("notification-close-button").click();
-  await page.getByRole("link", { name: network1, exact: true }).click();
-  await page.waitForSelector(`text=IPv4 address`);
-  await page.getByText("/24").getByRole("button").click();
-  networkSubnet = await page.inputValue("input#ipv4_address");
-  listenAddress = networkSubnet.replace("1/24", "1");
-  targetAddress = networkSubnet.replace("1/24", "3");
-  await page.getByRole("link", { name: "Forwards" }).click();
-  await page.getByRole("link", { name: "Create forward" }).click();
+  await page.getByTitle("Create forward").click();
   await page.getByLabel("Listen address").fill(listenAddress);
   await page.getByLabel("Default target address").fill(targetAddress);
   await page.screenshot({
@@ -771,7 +756,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
     clip: getClipPosition(240, 0, 1440, 760),
   });
 
-  await page.getByLabel("Delete port").click();
+  await page.getByLabel("Delete port 0").click();
   await page.getByRole("button", { name: "Create" }).click();
   await page.getByTestId("notification-close-button").click();
   await page.screenshot({
@@ -802,6 +787,31 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
     clip: getClipPosition(240, 0, 1440, 360),
   });
 
-  await deleteNetwork(page, network1);
+  await makeNetworkOvnUplink(page, network1, {
+    CIDR: "10.0.0.2/24",
+    ovnIpv4Range: "10.0.0.2-10.0.0.50",
+    dhcpIpv4Range: "10.0.0.100-10.0.0.150",
+  });
+  await createNetwork(page, network2, "ovn", {
+    ipv6: "none",
+    uplink: network1,
+  });
+  await visitNetwork(page, network2);
+
+  await page.getByText("/24").getByRole("button").click();
+  networkSubnet = await page.inputValue("input#ipv4_address");
+  listenAddress = networkSubnet.replace("1/24", "1");
+  targetAddress = networkSubnet.replace("1/24", "3");
+  await page.getByRole("link", { name: "Forwards" }).click();
+  await page.getByTitle("Create forward").click();
+  await page.locator("label", { hasText: "Manually enter address" }).click();
+  await page.getByLabel("Listen address").fill(listenAddress);
+  await page.getByLabel("Default target address").fill(targetAddress);
+  await page.screenshot({
+    path: "tests/screenshots/doc/images/UI/forward_create_ovn.png",
+    clip: getClipPosition(240, 0, 1440, 760),
+  });
+
   await deleteNetwork(page, network2);
+  await deleteNetwork(page, network1);
 });

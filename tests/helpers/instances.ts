@@ -3,6 +3,7 @@ import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 import { visitImages } from "./images";
+import { searchEntityListPage } from "./search";
 
 const DEFAULT_IMAGE = "alpine/3.23/cloud";
 
@@ -55,7 +56,7 @@ export const createInstance = async (
 
   await page.getByRole("button", { name: "Create" }).first().click();
 
-  await page.waitForSelector(`text=Created instance ${instance}.`);
+  await page.getByText(`Created instance ${instance}.`).waitFor();
 };
 
 export const visitInstance = async (
@@ -64,8 +65,7 @@ export const visitInstance = async (
   project = "default",
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
-  await page.getByPlaceholder("Search").click();
-  await page.getByPlaceholder("Search").fill(instance);
+  await searchEntityListPage(page, instance);
   await page.getByRole("link", { name: instance }).first().click();
   await expect(page.getByText(`Instances${instance}`)).toBeVisible();
 };
@@ -83,7 +83,7 @@ export const saveInstance = async (
   const name =
     changeCount === 1 ? "Save 1 change" : `Save ${changeCount} changes`;
   await page.getByRole("button", { name }).click();
-  await page.waitForSelector(`text=Instance ${instance} updated.`);
+  await expect(page.getByText(`Instance ${instance} updated.`)).toBeVisible();
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -96,7 +96,7 @@ export const forceStopInstance = async (
   await page.getByRole("button", { name: "Stop" }).click();
   await page.getByText("Force stop").click();
   await page.getByText("Stop", { exact: true }).click();
-  await page.waitForSelector(`text=Instance ${instance} stopped.`);
+  await expect(page.getByText(`Instance ${instance} stopped.`)).toBeVisible();
   await page.getByTestId("notification-close-button").click();
 };
 
@@ -111,7 +111,7 @@ export const deleteInstance = async (
     await page.keyboard.down("Shift");
     await stopButton.click();
     await page.keyboard.up("Shift");
-    await page.waitForSelector(`text=Instance ${instance} stopped.`);
+    await expect(page.getByText(`Instance ${instance} stopped.`)).toBeVisible();
   }
   await page.getByRole("button", { name: "Delete" }).click();
   await page

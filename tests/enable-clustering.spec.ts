@@ -14,5 +14,5 @@ test("check enabling clustering", async ({ page, lxdVersion }, testInfo) => {
   await page.getByLabel("Server name").fill("micro1");
   await page.getByLabel("Cluster address").fill("127.0.0.1");
   await page.getByRole("button", { name: "Enable clustering" }).nth(1).click();
-  await page.waitForSelector(`text=Clustering enabled`);
+  await page.getByText("Clustering enabled").waitFor();
 });
