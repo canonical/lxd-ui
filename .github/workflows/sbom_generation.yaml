@@ -9,9 +9,9 @@ jobs:
     name: Install Trivy
     runs-on: ubuntu-latest
     env:
-      TRIVY_VERSION: "0.55.2"
+      TRIVY_VERSION: "0.69.2"
       TRIVY_ARCH: ${{'64bit'}}
-      TRIVY_SHA256: ${{'09b8730cf16d63b65f1e282f63dfaa16183a143a045b51467864f5e634025a5f' }}
+      TRIVY_SHA256: ${{'7052fdc858e5381e28abe42330115da1703015a3ab172d8312b099defe85107e' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
