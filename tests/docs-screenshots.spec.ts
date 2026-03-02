@@ -510,7 +510,7 @@ test("LXD - Tutorial folder", async ({ page }) => {
 });
 
 test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
-  test.setTimeout(180000);
+  test.setTimeout(240000);
   // Desktop vm
   await page.setViewportSize({ width: 1440, height: 800 });
 
@@ -552,7 +552,7 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
   await visitInstance(page, vminstance);
   await page.getByText("General").click();
   await page.getByTestId("tab-link-Console").click();
-  await page.waitForTimeout(60000);
+  await page.waitForTimeout(80000);
   await page.screenshot({
     path: "tests/screenshots/doc/images/tutorial/desktop_console.png",
     clip: getClipPosition(0, 0, 1440, 760),
