@@ -53,6 +53,7 @@ const NetworkAclSelector: FC<Props> = ({
     <>
       {label && <label htmlFor={id}>{label}</label>}
       <MultiSelect
+        label={label}
         items={toOptionList(
           availableAcls.map((acl) => acl.name),
           inheritedAcls,

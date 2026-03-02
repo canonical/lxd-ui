@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Fragment } from "react";
-import { Icon, Select } from "@canonical/react-components";
+import { Icon, Label, Select } from "@canonical/react-components";
 import { conjugateACLAction } from "util/helpers";
 
 export type Direction = "Ingress" | "Egress";
@@ -29,6 +29,9 @@ const NetworkDefaultACLSelector: FC<Props> = ({
     })),
   ];
 
+  const getId = (direction: Direction) =>
+    `${direction.toLowerCase()}-default-action`;
+
   return (
     <div>
       <div className="u-sv2">When no ACL rule matches:</div>
@@ -36,13 +39,13 @@ const NetworkDefaultACLSelector: FC<Props> = ({
         {DIRECTIONS.map((direction) => {
           return (
             <Fragment key={direction}>
-              <div>
+              <Label forId={getId(direction)}>
                 <Icon
                   name={direction === "Egress" ? "arrow-left" : "arrow-right"}
                   className="network-default-acl-icon"
                 />
-                {direction} traffic will be{" "}
-              </div>
+                {direction} traffic is{" "}
+              </Label>
               <div>
                 <Select
                   className="u-no-margin--bottom"
@@ -52,6 +55,7 @@ const NetworkDefaultACLSelector: FC<Props> = ({
                   }}
                   value={values?.[direction]}
                   disabled={disabled}
+                  id={getId(direction)}
                 />
               </div>
             </Fragment>
