@@ -27,7 +27,7 @@ jobs:
             --format=spdx-json \
             --output=LXD-UI-SBOM.json
       - name: Upload artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: sbom-amd64
           path: "LXD-UI-SBOM.json"

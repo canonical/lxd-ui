@@ -177,7 +177,7 @@ jobs:
 
       - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }} blob reports to be merged
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: blob-report-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}
           path: blob-report
@@ -206,7 +206,7 @@ jobs:
     - name: Merge into HTML Report
       run: npx playwright merge-reports --config=merge.playwright.config.ts ./blob-reports
 
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       if: always()
       with:
         name: playwright-report
