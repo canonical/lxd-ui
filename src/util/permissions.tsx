@@ -213,7 +213,7 @@ export const generateEntitlementOptions = (
   ) {
     genericEntitlementOptions.unshift({
       disabled: true,
-      label: "Built-in roles",
+      label: "Broad entitlement sets",
       value: "group",
     });
 
