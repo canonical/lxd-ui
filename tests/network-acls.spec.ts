@@ -108,7 +108,7 @@ test.describe("apply ACLs", () => {
     await expect(page.getByText("NameTypeACLs")).toBeVisible();
     await page.getByLabel("sub").getByText(network).first().click();
 
-    const aclList = page.getByLabel("ACLs");
+    const aclList = page.getByLabel("Access control lists");
     await expect(aclList).toContainText(`${acl}, ${acl2}`);
     await expect(aclList).toBeDisabled();
 
@@ -164,7 +164,7 @@ test.describe("apply ACLs", () => {
     await page.getByRole("button", { name: "* Network" }).click();
     await page.getByLabel("sub").getByText(bridge).first().click();
 
-    const aclButton = page.getByLabel("ACLs");
+    const aclButton = page.getByLabel("Access control lists");
     await expect(aclButton).toBeVisible();
     await expect(aclButton).toBeDisabled();
     await expect(
@@ -183,7 +183,7 @@ test.describe("apply ACLs", () => {
     await expect(page.getByLabel("Egress traffic")).toBeDisabled();
     await expect(page.getByLabel("Ingress traffic")).toBeDisabled();
 
-    await page.getByLabel("ACLs").click();
+    await page.getByLabel("Access control lists").click();
     await selectNetworkAcls(page, [acl, acl2]);
 
     await setAclDefaults(page, "drop", "reject");

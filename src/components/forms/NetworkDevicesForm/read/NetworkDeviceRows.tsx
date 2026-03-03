@@ -169,7 +169,9 @@ export const getNetworkDeviceRows = ({
       rows.push(
         getConfigurationRowBase({
           className: "no-border-top",
-          configuration: <div className="u-text--muted">ACLs</div>,
+          configuration: (
+            <div className="u-text--muted">Access control lists</div>
+          ),
           inherited: (
             <div>
               <ExpandableList

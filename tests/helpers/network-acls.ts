@@ -98,7 +98,7 @@ export const attachNetworkAclsToNetwork = async (
   await visitNetwork(page, network);
   await page
     .locator(".general-field")
-    .filter({ hasText: "ACLs" })
+    .filter({ hasText: "Access control lists" })
     .getByRole("button", { name: "Edit" })
     .click();
   const aclDropdown = page.getByRole("listbox");
@@ -116,7 +116,7 @@ export const detachNetworkAclsFromNetwork = async (
   await visitNetwork(page, network);
   await page
     .locator(".general-field")
-    .filter({ hasText: "ACLs" })
+    .filter({ hasText: "Access control lists" })
     .getByRole("button", { name: "Edit" })
     .click();
 

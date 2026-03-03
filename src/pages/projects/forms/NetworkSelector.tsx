@@ -35,7 +35,7 @@ const NetworkSelector: FC<
               {network.type}
             </span>
             <span
-              title="network ACLs"
+              title="network access control lists"
               className="network-option u-truncate u-align--right"
             >
               {getNetworkAcls(network).length || "-"}
@@ -74,7 +74,7 @@ const NetworkSelector: FC<
               -
             </span>
             <span
-              title="network ACLs"
+              title="network access control lists"
               className="network-option u-truncate u-align--right"
             >
               -

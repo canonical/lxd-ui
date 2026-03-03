@@ -92,6 +92,7 @@ export const visitNetwork = async (page: Page, network: string) => {
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("link", { name: network }).first().click();
   await page.getByTestId("tab-link-Configuration").click();
+  await page.waitForLoadState("networkidle"); // ensure network loaded
 };
 
 export const prepareNetworkTabEdit = async (
