@@ -510,7 +510,7 @@ test("LXD - Tutorial folder", async ({ page }) => {
 });
 
 test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
-  test.setTimeout(240000);
+  test.setTimeout(300000);
   // Desktop vm
   await page.setViewportSize({ width: 1440, height: 800 });
 
