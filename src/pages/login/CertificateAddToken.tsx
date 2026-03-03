@@ -114,8 +114,22 @@ const CertificateAddToken: FC = () => {
                 },
               ]}
             />
+            <Accordion
+              sections={[
+                {
+                  title: <>I already have an identity trust token</>,
+                  content: (
+                    <>
+                      <p>
+                        If you received an identity trust token or created a TLS
+                        identity, use it below. No extra steps needed.
+                      </p>
+                    </>
+                  ),
+                },
+              ]}
+            />
           </div>
-
           <div className="p-stepped-list__content">
             <br />
             <CertificateAddForm />
