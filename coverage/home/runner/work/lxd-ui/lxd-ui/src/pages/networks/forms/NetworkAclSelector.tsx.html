@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.67% </span>
+                <span class="strong">84.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>82/98</span>
+                <span class='fraction'>100/119</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.75% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>21/37</span>
+                <span class='fraction'>25/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">64.28% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/12</span>
+                <span class='fraction'>9/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>79/79</span>
+                <span class='fraction'>97/97</span>
             </div>
         
             
@@ -142,7 +142,27 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">169x</span>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-yes">169x</span>
@@ -179,6 +199,22 @@
 <span class="cline-any cline-yes">1948x</span>
 <span class="cline-any cline-yes">974x</span>
 <span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">974x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">936x</span>
+<span class="cline-any cline-yes">936x</span>
 <span class="cline-any cline-yes">974x</span>
 <span class="cline-any cline-yes">974x</span>
 <span class="cline-any cline-yes">974x</span>
@@ -224,6 +260,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
 import { useNetworkAcls } from "context/useNetworkAcls";
+import { Link } from "react-router-dom";
+import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 interface Props {
   project: string;
@@ -260,6 +298,22 @@ const NetworkAclSelector: FC&lt;Props&gt; = <span class="fstat-no" title="functi
   const hasAcls = <span class="cstat-no" title="statement not covered" >availableAcls.length &gt; 0;</span>
   const isEnabled = <span class="cstat-no" title="statement not covered" >canSelectManualAcls &amp;&amp; hasAcls;</span>
 &nbsp;
+  const aclLink = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(l</span>abel: string) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Link</span>
+      to={`${ROOT_PATH}/ui/project/${project}/network-acls`}
+      target="_blank"
+    &gt;
+      {label}
+    &lt;/Link&gt;
+  );
+&nbsp;
+  const helpManage =
+<span class="cstat-no" title="statement not covered" >    availableAcls.length &gt; 0 ? (</span>
+      &lt;&gt;Manage {aclLink("ACLs")} for this project.&lt;/&gt;
+    ) : (
+      &lt;&gt;Create an {aclLink("ACL")} to control network access.&lt;/&gt;
+    );
+&nbsp;
   const getPlaceholder = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!canSelectManualAcls) {</span>
 <span class="cstat-no" title="statement not covered" >      return "-";</span>
@@ -293,7 +347,7 @@ const NetworkAclSelector: FC&lt;Props&gt; = <span class="fstat-no" title="functi
         disabledItems={inheritedAcls?.map((t) =&gt; {
 <span class="cstat-no" title="statement not covered" >          return { label: t, value: t };</span>
         })}
-        help={help}
+        help={help ?? helpManage}
       /&gt;
     &lt;/&gt;
   );
@@ -307,7 +361,7 @@ export default NetworkAclSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-03T17:08:19.338Z
+                at 2026-03-03T17:24:57.292Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
