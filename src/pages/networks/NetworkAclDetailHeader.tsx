@@ -95,7 +95,7 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
           to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`}
           key={1}
         >
-          Network ACLs
+          Network Access Control Lists
         </Link>,
       ]}
       renameDisabledReason={getRenameDisableReason()}

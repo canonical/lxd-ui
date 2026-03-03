@@ -1,6 +1,8 @@
 import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
 import { useNetworkAcls } from "context/useNetworkAcls";
+import { Link } from "react-router-dom";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project: string;
@@ -37,6 +39,22 @@ const NetworkAclSelector: FC<Props> = ({
   const hasAcls = availableAcls.length > 0;
   const isEnabled = canSelectManualAcls && hasAcls;
 
+  const aclLink = (label: string) => (
+    <Link
+      to={`${ROOT_PATH}/ui/project/${project}/network-acls`}
+      target="_blank"
+    >
+      {label}
+    </Link>
+  );
+
+  const helpManage =
+    availableAcls.length > 0 ? (
+      <>Manage {aclLink("ACLs")} for this project.</>
+    ) : (
+      <>Create an {aclLink("ACL")} to control network access.</>
+    );
+
   const getPlaceholder = () => {
     if (!canSelectManualAcls) {
       return "-";
@@ -70,7 +88,7 @@ const NetworkAclSelector: FC<Props> = ({
         disabledItems={inheritedAcls?.map((t) => {
           return { label: t, value: t };
         })}
-        help={help}
+        help={help ?? helpManage}
       />
     </>
   );

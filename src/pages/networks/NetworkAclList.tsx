@@ -133,9 +133,9 @@ const NetworkAclList: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/howto/network_acls/"
-                title="Learn more about network ACLs"
+                title="Learn more about network access control lists"
               >
-                Network ACLs
+                Network Access Control Lists
               </HelpLink>
             </PageHeader.Title>
           </PageHeader.Left>
@@ -160,7 +160,7 @@ const NetworkAclList: FC = () => {
           <EmptyState
             className="empty-state"
             image={<Icon className="empty-state-icon" name="exposed" />}
-            title="No network ACLs found"
+            title="No network access control lists found"
           >
             <p>There are no network ACLs in this project.</p>
             <p>
