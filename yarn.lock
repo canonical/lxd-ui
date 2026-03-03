@@ -502,17 +502,17 @@
     prop-types "15.8.1"
     react-table "7.8.0"
 
-"@canonical/typescript-config-react@0.15.1":
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/@canonical/typescript-config-react/-/typescript-config-react-0.15.1.tgz#68d9be4192f600f8f94157f3936ec102a9e3581c"
-  integrity sha512-W9Dnwq/GC5ljo2n5P8HabxgAVC4QWAyM98zSHlAMiT8go7gkmHsAktixNmNC8vkrnKvY3Y1S3Lsuc8go8+DmoQ==
+"@canonical/typescript-config-react@0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@canonical/typescript-config-react/-/typescript-config-react-0.16.0.tgz#6de077731a6d5eeb004b3f0aef3df0d660b13b2e"
+  integrity sha512-L4pKMuAwIRK1NrMMasqLnICopkfJfYyaVtbCvzIDPjYi7AswrQC27eFyJSYzdjOypPWkUKcDvDtIKW+mO7/Xkw==
   dependencies:
-    "@canonical/typescript-config" "^0.15.1"
+    "@canonical/typescript-config" "^0.16.0"
 
-"@canonical/typescript-config@^0.15.1":
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/@canonical/typescript-config/-/typescript-config-0.15.1.tgz#0fcde09bc335b0857485c4b1856fccab0e588860"
-  integrity sha512-BMqpuNtNy9ZBau50AkBxWGP8SbKVG449Pdx7JzZq0gMinbsIC9Mzu6xHAX/pbJvicdBV5miGi4l8U5feOKDQZg==
+"@canonical/typescript-config@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@canonical/typescript-config/-/typescript-config-0.16.0.tgz#9781bccf03386dce446fc2ef99a8a270d536fd9c"
+  integrity sha512-8F4z/8cg/rcBfAF5MezUwKn/jRjXAUMaWE33CH87cthcjyTHJgahhJDbPbQBSu+MGj1qvTyARbAO18A01ayRKw==
 
 "@csstools/color-helpers@^5.1.0":
   version "5.1.0"
@@ -6268,10 +6268,10 @@ v8-to-istanbul@9.3.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-vanilla-framework@4.44.0:
-  version "4.44.0"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.44.0.tgz#0e8c495207b7abdadd6764258712b48f37964134"
-  integrity sha512-+TKWpSsWDMbbO/pUTEImeDOhe2pIztx/lseg79vIoVbnluxJ8u2+EbE8A1q4MrGMGjQcpTVwXoudJEgIkdMHTw==
+vanilla-framework@4.45.0:
+  version "4.45.0"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.45.0.tgz#87eb579d6252b4ab7f7ba1cb5ce6f433bb555ad8"
+  integrity sha512-u+dnT5B13heYc1mjU81tt8lzoqjIXKdCFnUQe+hj6DvRB8BMChH6MDbtkQqRSfWPALGBvEXPU8siAbmjXFPY9A==
 
 vary@~1.1.2:
   version "1.1.2"
