@@ -10,6 +10,8 @@ import type { LxdInstance } from "types/instance";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 import { useMounted } from "context/useMounted";
+import type { LoadingTypes } from "context/instanceLoading";
+import { useInstanceLoading } from "context/instanceLoading";
 
 declare global {
   interface Window {
@@ -44,9 +46,15 @@ const InstanceGraphicConsole: FC<Props> = ({
   const isMounted = useMounted();
 
   const isRunning = isInstanceRunning(instance);
+  const instanceLoading = useInstanceLoading();
+  const loadingRef = useRef<LoadingTypes | undefined>(null);
+  loadingRef.current = instanceLoading.getType(instance);
 
-  const handleError = (e: object, message?: string) => {
-    if (isMounted.current) {
+  const handleError = (e: object | string, message?: string) => {
+    // we need the refs here, because this is called from the websocket,
+    // so state might be outdated.
+    const isStopping = loadingRef.current === "Stopping";
+    if (isMounted.current && !isStopping) {
       onFailure("Console error", e, message);
     }
   };
@@ -88,7 +96,7 @@ const InstanceGraphicConsole: FC<Props> = ({
 
     control.onclose = (event) => {
       if (1005 !== event.code && isMounted.current) {
-        onFailure("Console error", event.reason, getWsErrorMsg(event.code));
+        handleError(event.reason, getWsErrorMsg(event.code));
       }
     };
 
