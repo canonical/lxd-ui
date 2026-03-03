@@ -109,3 +109,11 @@ export const getFingerprint = (result: LxdEvent | LxdOperation): string => {
   }
   return "";
 };
+
+export const isRestoringBackup = (operation: LxdOperation): boolean => {
+  return operation.description === "Restoring backup";
+};
+
+export const isCreatingInstance = (operation: LxdOperation): boolean => {
+  return operation.description === "Creating instance";
+};

@@ -56,7 +56,11 @@ import {
   TYPE,
   USER_HIDEABLE_COLUMNS,
 } from "util/instanceTable";
-import { getInstanceName } from "util/operations";
+import {
+  getInstanceName,
+  isCreatingInstance,
+  isRestoringBackup,
+} from "util/operations";
 import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import HelpLink from "components/HelpLink";
@@ -81,6 +85,7 @@ import TruncatedList from "components/TruncatedList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import InstanceCreationProgress from "components/InstanceCreationProgress";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -189,10 +194,11 @@ const InstanceList: FC = () => {
     .concat(operationList?.success ?? [])
     .filter((operation) => {
       const name = getInstanceName(operation);
-      const isCreating = operation.description === "Creating instance";
+      const isCreatingOrRestoring =
+        isCreatingInstance(operation) || isRestoringBackup(operation);
       const isProcessing = processingNames.includes(name);
       const isMigrating = migrationNames.includes(name);
-      if (!isCreating || isProcessing || isMigrating || !name) {
+      if (!isCreatingOrRestoring || isProcessing || isMigrating || !name) {
         return false;
       }
       const isInInstanceList = instances.some((item) => item.name === name);
@@ -352,7 +358,11 @@ const InstanceList: FC = () => {
     const spannedWidth = CREATION_SPAN_COLUMNS.filter(
       (col) => !hiddenCols.includes(col),
     )
-      .concat(...(isClustered ? [CLUSTER_MEMBER] : []))
+      .concat(
+        ...(isClustered && !hiddenCols.includes(CLUSTER_MEMBER)
+          ? [CLUSTER_MEMBER]
+          : []),
+      )
       .concat(...(isAllProjects ? [PROJECT] : []))
       .reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
 
@@ -376,13 +386,7 @@ const InstanceList: FC = () => {
                 {
                   content: (
                     <i key={JSON.stringify(operation.metadata ?? {})}>
-                      {Object.entries(operation.metadata ?? {})
-                        .slice(0, 1)
-                        .map(([key, value], index) => (
-                          <div key={index}>
-                            {key}: {value}
-                          </div>
-                        ))}
+                      <InstanceCreationProgress operation={operation} />
                     </i>
                   ),
                   role: "cell",
