@@ -159,7 +159,7 @@ describe("General util functions for permissions feature", () => {
       const expected = [
         {
           disabled: true,
-          label: "Built-in roles",
+          label: "Broad entitlement sets",
           value: "group",
         },
         {
@@ -201,7 +201,7 @@ describe("General util functions for permissions feature", () => {
       expect(entitlementOptions).toEqual([
         {
           disabled: true,
-          label: "Built-in roles",
+          label: "Broad entitlement sets",
           value: "group",
         },
         {
