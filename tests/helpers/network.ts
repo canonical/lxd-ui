@@ -107,6 +107,7 @@ export const visitNetwork = async (page: Page, network: string) => {
   const link = await getNetworkLink(page, network);
   await link.click();
   await page.getByTestId("tab-link-Configuration").click();
+  await page.waitForLoadState("networkidle"); // ensure network loaded
 };
 
 export const prepareNetworkTabEdit = async (

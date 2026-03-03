@@ -361,7 +361,7 @@ const NetworkDevicePanel: FC<Props> = ({
               inheritedAcls={networkAcls}
               canSelectManualAcls={supportsNicDeviceAcls(selectedNetwork)}
               help={getAclHelperText()}
-              label="ACLs"
+              label="Access Control Lists"
             />
 
             <NetworkDefaultACLSelector
