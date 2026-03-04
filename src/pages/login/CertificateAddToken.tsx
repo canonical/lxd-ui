@@ -21,7 +21,7 @@ const CertificateAddToken: FC = () => {
   const { isAuthenticated, isAuthLoading, authMethod } = useAuth();
   const notify = useNotify();
   const identityTrustTokenCommand =
-    "if ! lxc auth group show admins ; then lxc auth group create admins ; lxc auth group permission add admins server admin ; fi ; lxc auth identity create tls/lxd-ui --group admins";
+    "if ! lxc auth group show admins >/dev/null 2>&1; then lxc auth group create admins && lxc auth group permission add admins server admin; fi; lxc auth identity create tls/lxd-ui --group admins";
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -62,12 +62,14 @@ const CertificateAddToken: FC = () => {
                       </p>
                       <div>
                         First, the command checks to see if there is an auth
-                        group <code>admins</code>.
+                        group <code>admins</code>. The{" "}
+                        <code>{`>/dev/null 2>&1`}</code> part ensures that if
+                        the group is missing, no error is shown.
                       </div>
                       <CodeSnippet
                         blocks={[
                           {
-                            code: `if ! lxc auth group show admins`,
+                            code: `if ! lxc auth group show admins >/dev/null 2>&1;`,
                             wrapLines: true,
                           },
                         ]}
