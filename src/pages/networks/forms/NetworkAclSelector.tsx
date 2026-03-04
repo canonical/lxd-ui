@@ -1,13 +1,14 @@
 import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
-import { useNetworkAcls } from "context/useNetworkAcls";
 import { Link } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
+import type { LxdNetworkAcl } from "types/network";
 
 interface Props {
   project: string;
   setSelectedAcls: (acls: string[]) => void;
   selectedAcls: string[];
+  availableAcls: LxdNetworkAcl[];
   id?: string;
   inheritedAcls?: string[];
   help?: ReactNode;
@@ -19,14 +20,13 @@ const NetworkAclSelector: FC<Props> = ({
   project,
   setSelectedAcls,
   selectedAcls,
+  availableAcls,
   id = "network-acl-selector",
   inheritedAcls,
   help,
   canSelectManualAcls = true,
   label,
 }) => {
-  const { data: availableAcls = [] } = useNetworkAcls(project);
-
   const toOptionList = (list: string[], inheritedAcls?: string[]) => {
     return list.map((item) => {
       return {

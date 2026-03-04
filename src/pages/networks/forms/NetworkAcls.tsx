@@ -12,6 +12,7 @@ import NetworkDefaultACLSelector, {
 } from "./NetworkDefaultACLSelector";
 import NetworkDefaultACLRead from "./NetworkDefaultACLRead";
 import { ROOT_PATH } from "util/rootPath";
+import { useNetworkAcls } from "context/useNetworkAcls";
 
 interface Props {
   project: string;
@@ -20,6 +21,12 @@ interface Props {
 
 const NetworkAcls: FC<Props> = ({ formik, project }) => {
   const networlAclSelectorId = useId();
+  const { data: acls = [], isLoading } = useNetworkAcls(project);
+
+  const disableReason = isLoading
+    ? "Loading ACLs..."
+    : formik.values.editRestriction;
+
   const defaultEgressIngress = {
     Egress: formik.values.security_acls_default_egress ?? "",
     Ingress: formik.values.security_acls_default_ingress ?? "",
@@ -69,7 +76,7 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
                   aclSelector?.click();
                 }, 100);
               }}
-              disableReason={formik.values.editRestriction}
+              disableReason={disableReason}
             />
           </>
         )}
@@ -81,6 +88,7 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
               formik.setFieldValue("security_acls", selectedItems);
             }}
             id={networlAclSelectorId}
+            availableAcls={acls}
           />
         )}
         {formik.values.readOnly ? (
