@@ -101,10 +101,7 @@ export const attachNetworkAclsToNetwork = async (
     .filter({ hasText: "Access control lists" })
     .getByRole("button", { name: "Edit" })
     .click();
-  const aclDropdown = page.getByRole("listbox");
-  if (!(await aclDropdown.isVisible())) {
-    await page.getByRole("combobox", { name: "Select ACLs" }).click();
-  }
+
   await selectNetworkAcls(page, networkAcls);
 };
 
@@ -121,9 +118,7 @@ export const detachNetworkAclsFromNetwork = async (
     .click();
 
   const aclDropdown = page.getByRole("listbox");
-  if (!(await aclDropdown.isVisible())) {
-    await page.getByRole("combobox", { name: "Select ACLs" }).click();
-  }
+
   for (const acl of networkAcls) {
     await aclDropdown.getByLabel(acl, { exact: true }).uncheck({ force: true });
   }

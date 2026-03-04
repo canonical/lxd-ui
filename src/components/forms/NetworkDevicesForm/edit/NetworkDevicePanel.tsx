@@ -40,6 +40,7 @@ import NetworkDefaultACLSelector, {
 } from "pages/networks/forms/NetworkDefaultACLSelector";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
+import { useNetworkAcls } from "context/useNetworkAcls";
 
 interface Props {
   project: string;
@@ -58,7 +59,8 @@ const NetworkDevicePanel: FC<Props> = ({
     useProfiles(project);
   const { data: networks = [], isLoading: isLoadingNetworks } =
     useNetworks(project);
-  const isLoading = isLoadingProfiles || isLoadingNetworks;
+  const { data: acls = [], isLoading: isLoadingAcls } = useNetworkAcls(project);
+  const isLoading = isLoadingProfiles || isLoadingNetworks || isLoadingAcls;
 
   const existingDeviceNames = getExistingDeviceNames(
     parentFormik.values,
@@ -362,6 +364,7 @@ const NetworkDevicePanel: FC<Props> = ({
               canSelectManualAcls={supportsNicDeviceAcls(selectedNetwork)}
               help={getAclHelperText()}
               label="Access Control Lists"
+              availableAcls={acls}
             />
 
             <NetworkDefaultACLSelector
