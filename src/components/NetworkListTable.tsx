@@ -124,6 +124,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
           interfaceName: deviceName.toLowerCase(),
           macAddress:
             instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
+          acls: aclsCount,
         },
       };
     })
