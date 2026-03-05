@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ActionButton,
   Button,
@@ -33,6 +33,21 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
     useInstanceEntitlements();
 
   const isRunning = isInstanceRunning(instance);
+
+  const clearErrorOnStop = () => {
+    const isStopped = instance.status === "Stopped";
+    if (!isStopped) {
+      return;
+    }
+
+    if (isGraphic) {
+      notify.clear();
+    } else {
+      showNotRunningInfo();
+    }
+  };
+
+  useEffect(clearErrorOnStop, [instance.status, notify.notification]);
 
   const onFailure = (title: string, e: unknown, message?: string) => {
     notify.failure(title, e, message);

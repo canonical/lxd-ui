@@ -8,7 +8,7 @@ import { getInstanceName, getProjectName } from "util/operations";
 import type { LxdOperation } from "types/operation";
 import { mapsAreEqual } from "util/mapsAreEqual";
 
-type LoadingTypes =
+export type LoadingTypes =
   | "Starting"
   | "Stopping"
   | "Restarting"
