@@ -5,6 +5,7 @@ import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster";
 import { execSync } from "child_process";
+import type { IpAddressFamily } from "types/forms/network";
 
 interface NetworkOptions {
   hasMemberSpecificParents?: boolean;
@@ -134,7 +135,9 @@ export const createNetworkForward = async (page: Page, network: string) => {
   const networkSubnet = await page.inputValue("input#ipv4_address");
 
   const listenAddress = networkSubnet.replace("1/24", "1");
-  const targetAddress = networkSubnet.replace("1/24", "3");
+
+  const targetAddressHostId = "3";
+  const targetAddress = networkSubnet.replace("1/24", targetAddressHostId);
 
   await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByRole("button", { name: "Create forward" }).click();
@@ -146,14 +149,15 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await portInput.click();
   await portInput.fill("80");
   await addressInput.click();
-  await addressInput.fill(targetAddress);
+  // The prefix is already prefilled
+  await addressInput.fill(targetAddressHostId);
   await page.getByRole("button", { name: "Add port" }).click();
   portInput = page.getByLabel("1 listen port");
   addressInput = page.getByLabel("1 target address");
   await portInput.click();
   await portInput.fill("23,443-455");
   await addressInput.click();
-  await addressInput.fill(targetAddress);
+  await addressInput.fill(targetAddressHostId);
 
   if (serverClustered) {
     await page.getByLabel("Location").selectOption({ index: 1 });
@@ -355,7 +359,7 @@ export const makeNetworkOvnUplink = async (
 const setNetworkIP = async (
   page: Page,
   CIDR: string,
-  family: "IPv4" | "IPv6",
+  family: IpAddressFamily,
 ) => {
   const container = page.locator(".ip-address", {
     hasText: `${family} address`,
