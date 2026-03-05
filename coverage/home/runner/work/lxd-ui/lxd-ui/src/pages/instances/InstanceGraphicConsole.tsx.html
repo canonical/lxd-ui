@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.1% </span>
+                <span class="strong">19.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/178</span>
+                <span class='fraction'>36/186</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.1% </span>
+                <span class="strong">19.35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/178</span>
+                <span class='fraction'>36/186</span>
             </div>
         
             
@@ -241,7 +241,15 @@
 <a name='L176'></a><a href='#L176'>176</a>
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -273,6 +281,14 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -431,6 +447,8 @@ import type { LxdInstance } from "types/instance";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 import { useMounted } from "context/useMounted";
+import type { LoadingTypes } from "context/instanceLoading";
+import { useInstanceLoading } from "context/instanceLoading";
 &nbsp;
 declare global {
   interface Window {
@@ -465,9 +483,15 @@ const InstanceGraphicConsole: FC&lt;Props&gt; = <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >  const isMounted = useMounted();</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const isRunning = isInstanceRunning(instance);</span>
+<span class="cstat-no" title="statement not covered" >  const instanceLoading = useInstanceLoading();</span>
+<span class="cstat-no" title="statement not covered" >  const loadingRef = useRef&lt;LoadingTypes | undefined&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" >  loadingRef.current = instanceLoading.getType(instance);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleError = (e: object, message?: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (isMounted.current) {</span>
+<span class="cstat-no" title="statement not covered" >  const handleError = (e: object | string, message?: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    // we need the refs here, because this is called from the websocket,</span>
+<span class="cstat-no" title="statement not covered" >    // so state might be outdated.</span>
+<span class="cstat-no" title="statement not covered" >    const isStopping = loadingRef.current === "Stopping";</span>
+<span class="cstat-no" title="statement not covered" >    if (isMounted.current &amp;&amp; !isStopping) {</span>
 <span class="cstat-no" title="statement not covered" >      onFailure("Console error", e, message);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -509,7 +533,7 @@ const InstanceGraphicConsole: FC&lt;Props&gt; = <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    control.onclose = (event) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      if (1005 !== event.code &amp;&amp; isMounted.current) {</span>
-<span class="cstat-no" title="statement not covered" >        onFailure("Console error", event.reason, getWsErrorMsg(event.code));</span>
+<span class="cstat-no" title="statement not covered" >        handleError(event.reason, getWsErrorMsg(event.code));</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -604,7 +628,7 @@ export default InstanceGraphicConsole;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-05T09:13:47.790Z
+                at 2026-03-05T15:14:06.390Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
