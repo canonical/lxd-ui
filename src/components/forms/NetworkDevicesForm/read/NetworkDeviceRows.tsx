@@ -14,6 +14,7 @@ import { getDeviceAcls } from "util/devices";
 import NetworkRichChip from "pages/networks/NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import NetworkDefaultACLRead from "pages/networks/forms/NetworkDefaultACLRead";
+import type { IpAddressFamily } from "types/forms/network";
 
 const getNetworkDeviceIpAddress = ({
   network,
@@ -22,7 +23,7 @@ const getNetworkDeviceIpAddress = ({
 }: {
   network?: LxdNetwork;
   device: LxdNicDevice;
-  family: "IPv4" | "IPv6";
+  family: IpAddressFamily;
 }) => {
   if (!network || !network.config) {
     return null;

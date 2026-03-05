@@ -1,11 +1,12 @@
 import type { FC } from "react";
 import { Input, RadioInput } from "@canonical/react-components";
+import type { IpAddressFamily } from "types/forms/network";
 
 interface Props {
   id: string;
   address?: string;
   setAddress: (address: string) => void;
-  family: "IPv4" | "IPv6";
+  family: IpAddressFamily;
 }
 
 const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {

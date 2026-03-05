@@ -5,6 +5,15 @@
     max-width: 67rem !important;
   }
 
+  .target-address-family-radio-wrapper {
+    gap: $sph--x-large;
+    margin-bottom: $spv--large;
+
+    .p-radio {
+      margin-top: 0;
+    }
+  }
+
   .forward-ports {
     .listen-port,
     .protocol,

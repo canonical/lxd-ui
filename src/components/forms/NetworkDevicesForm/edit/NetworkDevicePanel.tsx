@@ -304,7 +304,7 @@ const NetworkDevicePanel: FC<Props> = ({
         <SidePanel.HeaderTitle>{getTitle()}</SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />
-      <SidePanel.Content className="u-no-padding">
+      <SidePanel.Content className="u-no-padding network-device-panel-content">
         <ScrollableContainer
           dependencies={[notify.notification]}
           belowIds={["panel-footer"]}
