@@ -1,7 +1,11 @@
 import type { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
 import { useSettings } from "context/useSettings";
-import { RECENT_MAJOR_SERVER_VERSION, UI_VERSION } from "util/version";
+import {
+  RECENT_MAJOR_SERVER_VERSION,
+  UI_GIT_HASH,
+  UI_VERSION,
+} from "util/version";
 
 const Version: FC = () => {
   const { data: settings } = useSettings();
@@ -20,7 +24,10 @@ const Version: FC = () => {
 
   return (
     <>
-      <span className="server-version p-text--small">
+      <span
+        className="server-version p-text--small"
+        title={`ui-hash: ${UI_GIT_HASH}`}
+      >
         {isOutdated && (
           <Tooltip
             message="You are using an outdated server version. Update your LXD server to benefit from the latest features."

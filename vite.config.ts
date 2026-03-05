@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
+import { execSync } from "child_process";
 
 // Load .env.local if it exists to override default environment variables
 dotenv.config({ path: ".env", quiet: true });
@@ -13,6 +14,16 @@ if (fs.existsSync(".env.local")) {
 // Provide the SCSS settings from the _settings.scss file.
 // SCSS in react-components can reference variables like customized $breakpoint-large and should use our settings.
 const scssSettings = fs.readFileSync("src/sass/_settings.scss", "utf-8").trim();
+
+const getGitHash = () => {
+  // set permissions for dotrun, ignore this in other environments
+  execSync(
+    "[ -d /home/ubuntu/lxd-ui ] && git config --global --add safe.directory /home/ubuntu/lxd-ui || true",
+  );
+  // Get the short git hash of the current commit
+  const result = execSync("git rev-parse --short HEAD").toString().trim();
+  return JSON.stringify(result);
+};
 
 export default defineConfig({
   base: "",
@@ -48,5 +59,8 @@ export default defineConfig({
   build: {
     outDir: "./build/ui",
     minify: "esbuild",
+  },
+  define: {
+    __UI_GIT_HASH__: getGitHash(),
   },
 });
