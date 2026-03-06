@@ -336,20 +336,33 @@ export const makeNetworkOvnUplink = async (
   } = options;
 
   await visitNetwork(page, network);
-  await page
-    .locator(".ip-address", { hasText: "IPv4 address" })
-    .getByRole("button")
-    .click();
+  let hasChanges = false;
+  const ipv4Container = page.locator(".ip-address", {
+    hasText: "IPv4 address",
+  });
 
-  await setNetworkIP(page, CIDR, "IPv4");
+  if (!(await ipv4Container.getByText(CIDR).isVisible())) {
+    hasChanges = true;
+    ipv4Container.getByRole("button").click();
+    await setNetworkIP(page, CIDR, "IPv4");
+    await page.getByRole("button", { name: "Save" }).click();
+    await visitNetwork(page, network);
+  }
+  const ovnRangesRow = page.locator('tr[name*="ipv4_ovn_ranges"]');
+  if (!(await ovnRangesRow.getByText(ovnIpv4Range).isVisible())) {
+    hasChanges = true;
+    await setNetworkOvnRanges(page, ovnIpv4Range);
+  }
 
-  await page.getByRole("button", { name: "Save" }).click();
-  await visitNetwork(page, network);
+  const dhcpRangesRow = page.locator('tr[name*="ipv4_dhcp_ranges"]');
+  if (!(await dhcpRangesRow.getByText(dhcpIpv4Range).isVisible())) {
+    hasChanges = true;
+    await setNetworkDHCPRanges(page, dhcpIpv4Range);
+  }
 
-  await setNetworkOvnRanges(page, ovnIpv4Range);
-  await setNetworkDHCPRanges(page, dhcpIpv4Range);
-
-  await page.getByRole("button", { name: "Save" }).click();
+  if (hasChanges) {
+    await page.getByRole("button", { name: "Save" }).click();
+  }
 };
 
 const setNetworkIP = async (
