@@ -346,7 +346,7 @@ SpiceMainConn.prototype.stop = function(msg)
 
 SpiceMainConn.prototype.send_agent_message_queue = function(message)
 {
-    if (!this.agent_connected)
+    if (!this.agent_connected || !this.ws)
         return;
 
     if (message)

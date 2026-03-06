@@ -36,8 +36,16 @@ function resize_helper(sc)
         return;
     }
 
-    var width = document.getElementById(sc.screen_id).clientWidth;
+    const screen = document.getElementById(sc.screen_id);
+    if (!screen) {
+      return;
+    }
+
+    var width = screen.clientWidth;
     var wrapper = document.getElementById("spice-area");
+    if (!wrapper) {
+      return;
+    }
 
     var isFullScreen = document.isFullScreen
       || document.fullscreenElement
