@@ -5,11 +5,12 @@ import type { FormikProps } from "formik";
 import { Input, PrefixedIpInput } from "@canonical/react-components";
 import { getNicIpDisableReason } from "util/devices";
 import { getNetworkMetadata } from "util/configInheritance";
+import type { IpAddressFamily } from "types/forms/network";
 
 interface Props {
   formik: FormikProps<NetworkDeviceFormValues>;
   network: LxdNetwork;
-  family: "IPv4" | "IPv6";
+  family: IpAddressFamily;
 }
 
 const NetworkDeviceIPAddressEdit: FC<Props> = ({ formik, network, family }) => {

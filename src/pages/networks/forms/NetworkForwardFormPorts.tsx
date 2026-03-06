@@ -4,6 +4,7 @@ import {
   Icon,
   Input,
   Label,
+  PrefixedIpInput,
   Select,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
@@ -12,13 +13,20 @@ import type {
   NetworkForwardPortFormValues,
 } from "types/forms/networkForward";
 import type { LxdNetwork } from "types/network";
+import type { IpAddressFamily } from "types/forms/network";
+import { getCidr } from "util/networks";
 
 interface Props {
   formik: FormikProps<NetworkForwardFormValues>;
+  targetAddressFamily: IpAddressFamily | null;
   network?: LxdNetwork;
 }
 
-const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
+const NetworkForwardFormPorts: FC<Props> = ({
+  formik,
+  targetAddressFamily,
+  network,
+}) => {
   return (
     <table className="u-no-margin--bottom forward-ports">
       <thead>
@@ -97,12 +105,25 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                 />
               </td>
               <td className="target-address">
-                <Input
-                  {...formik.getFieldProps(`ports.${index}.targetAddress`)}
+                <PrefixedIpInput
                   id={`ports.${index}.targetAddress`}
-                  type="text"
-                  aria-label={`Port ${index} target address`}
-                  placeholder="Enter IP address"
+                  name={`ports.${index}.targetAddress`}
+                  cidr={getCidr(targetAddressFamily, network)}
+                  ip={formik.values.ports[index].targetAddress || ""}
+                  onIpChange={(ip: string) => {
+                    formik.setFieldValue(`ports.${index}.targetAddress`, ip);
+                  }}
+                  onBlur={() => {
+                    void formik.setFieldTouched(
+                      `ports.${index}.targetAddress`,
+                      true,
+                    );
+                  }}
+                  error={
+                    formik.touched.ports?.[index]?.targetAddress
+                      ? portError?.targetAddress
+                      : undefined
+                  }
                   help={
                     index === formik.values.ports.length - 1 && (
                       <>
@@ -110,11 +131,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                       </>
                     )
                   }
-                  error={
-                    formik.touched.ports?.[index]?.targetAddress
-                      ? portError?.targetAddress
-                      : undefined
-                  }
+                  aria-label={`Port ${index} target address`}
                 />
               </td>
               <td className="target-port">

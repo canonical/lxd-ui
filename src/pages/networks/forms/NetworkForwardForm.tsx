@@ -8,6 +8,7 @@ import {
   Input,
   Label,
   Notification,
+  PrefixedIpInput,
   RadioInput,
   Row,
   useListener,
@@ -17,7 +18,13 @@ import type { FormikProps } from "formik/dist/types";
 import * as Yup from "yup";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import { isTypeOvn, testValidIp, testValidPort } from "util/networks";
+import {
+  isTypeOvn,
+  testValidIp,
+  testValidPort,
+  getIpAddressFamily,
+  getCidr,
+} from "util/networks";
 import NotificationRow from "components/NotificationRow";
 import NetworkForwardFormPorts from "pages/networks/forms/NetworkForwardFormPorts";
 import ScrollableForm from "components/ScrollableForm";
@@ -50,6 +57,11 @@ export const NetworkForwardSchema = Yup.object().shape({
   listenAddress: Yup.string()
     .test("valid-ip", "Invalid IP address", testValidIp)
     .required("Listen address is required"),
+  defaultTargetAddress: Yup.string().test(
+    "valid-ip",
+    "Invalid IP address",
+    (value) => !value || testValidIp(value),
+  ),
   ports: Yup.array().of(
     Yup.object().shape({
       listenPort: Yup.string()
@@ -77,12 +89,23 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
   const { data: members = [] } = useClusterMembers();
   const isClusterMemberSpecific =
     members.length > 0 && network?.type === bridgeType;
+  const isListenAddressValid =
+    formik.values.listenAddress && testValidIp(formik.values.listenAddress);
+  const targetAddressFamily = isListenAddressValid
+    ? getIpAddressFamily(formik.values.listenAddress)
+    : null;
 
   useEffect(() => {
     if (isClusterMemberSpecific && !formik.values.location) {
       formik.setFieldValue("location", members[0].server_name);
     }
   }, [members]);
+
+  useEffect(() => {
+    if (!isListenAddressValid) {
+      formik.setFieldValue("defaultTargetAddress", undefined);
+    }
+  }, [isListenAddressValid]);
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -177,7 +200,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                   disabled={isEdit || !isManualListenAddress}
                   help={
                     isEdit
-                      ? "Listen address can't be changed after creation."
+                      ? "Listen address cannot be changed after creation."
                       : "Any address routed to LXD."
                   }
                   error={
@@ -188,22 +211,41 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                 />
               </Col>
             </Row>
-            <Input
-              {...formik.getFieldProps("defaultTargetAddress")}
-              id="defaultTargetAddress"
-              type="text"
-              label="Default target address"
-              help={
-                <>
-                  Fallback target for traffic that does not match a port
-                  specified below.
-                  <br />
-                  Must be from the network <b>{network?.name}</b>.
-                </>
-              }
-              placeholder="Enter IP address"
-              stacked
-            />
+            <Row>
+              <Col size={4}>
+                <Label forId="defaultTargetAddress">
+                  Default target address
+                </Label>
+              </Col>
+              <Col size={8}>
+                <PrefixedIpInput
+                  id="defaultTargetAddress"
+                  name="defaultTargetAddress"
+                  cidr={getCidr(targetAddressFamily, network)}
+                  ip={formik.values.defaultTargetAddress || ""}
+                  onIpChange={(ip: string) => {
+                    formik.setFieldValue("defaultTargetAddress", ip);
+                  }}
+                  onBlur={() => {
+                    void formik.setFieldTouched("defaultTargetAddress", true);
+                  }}
+                  error={
+                    formik.touched.defaultTargetAddress
+                      ? formik.errors.defaultTargetAddress
+                      : undefined
+                  }
+                  disabled={!isListenAddressValid}
+                  help={
+                    <>
+                      Fallback target for traffic that does not match a port
+                      specified below.
+                      <br />
+                      Must be from the network <b>{network?.name}</b>.
+                    </>
+                  }
+                />
+              </Col>
+            </Row>
             {isClusterMemberSpecific && (
               <ClusterMemberSelector
                 {...formik.getFieldProps("location")}
@@ -214,7 +256,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                     ? "Location can't be changed after creation."
                     : "Cluster member to create the forward on."
                 }
-                disabled={isEdit}
+                disabled={isEdit || !isListenAddressValid}
                 stacked
               />
             )}
@@ -225,11 +267,21 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
               label="Description"
               placeholder="Enter description"
               stacked
+              disabled={!isListenAddressValid}
             />
             {formik.values.ports.length > 0 && (
-              <NetworkForwardFormPorts formik={formik} network={network} />
+              <NetworkForwardFormPorts
+                formik={formik}
+                network={network}
+                targetAddressFamily={targetAddressFamily}
+              />
             )}
-            <Button hasIcon onClick={addPort} type="button">
+            <Button
+              hasIcon
+              onClick={addPort}
+              type="button"
+              disabled={!isListenAddressValid}
+            >
               <Icon name="plus" />
               <span>Add port</span>
             </Button>

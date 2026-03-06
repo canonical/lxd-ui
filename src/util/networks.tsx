@@ -12,6 +12,7 @@ import type { AnyObject, TestFunction } from "yup";
 import { checkDuplicateName } from "./helpers";
 import type { AbortControllerState } from "./helpers";
 import type { useNotify } from "@canonical/react-components";
+import type { IpAddressFamily } from "types/forms/network";
 
 export const bridgeType = "bridge";
 export const macvlanType = "macvlan";
@@ -298,4 +299,30 @@ export const isNetwork = (
   network: LXDNetworkOnClusterMember,
 ): network is LXDNetworkOnClusterMemberFulfilled => {
   return network.promiseStatus === "fulfilled";
+};
+
+export const getIpAddressFamily = (ip: string | null | undefined) => {
+  if (!ip) {
+    return null;
+  }
+
+  if (ip.includes(".")) return "IPv4";
+  if (ip.includes(":")) return "IPv6";
+
+  return null;
+};
+
+export const getCidr = (
+  family: IpAddressFamily | null,
+  network?: LxdNetwork,
+) => {
+  if (family === "IPv4") {
+    return network?.config["ipv4.address"] || "";
+  }
+
+  if (family === "IPv6") {
+    return network?.config["ipv6.address"] || "";
+  }
+
+  return "";
 };
