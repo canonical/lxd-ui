@@ -3,40 +3,43 @@ import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import { useCurrentProject } from "context/useCurrentProject";
 
 export interface PanelHelper {
-  panel: string | null;
-  instance: string | null;
-  profile: string | null;
-  group: string | null;
-  idpGroup: string | null;
-  identity: string | null;
-  member: string | null;
-  subForm: GroupSubForm;
-  project: string;
   bucket: string | null;
+  group: string | null;
+  identity: string | null;
+  idpGroup: string | null;
+  instance: string | null;
   key: string | null;
+  member: string | null;
+  panel: string | null;
   pool: string | null;
+  profile: string | null;
+  project: string;
+  subForm: GroupSubForm;
   target: string | null;
   deviceName: string | null;
   localPeering: string | null;
+
   clear: () => void;
-  openInstanceSummary: (instance: string, project: string) => void;
-  openProfileSummary: (profile: string, project: string) => void;
-  openIdentityGroups: (identity?: string) => void;
+  openCreateClusterGroup: () => void;
+  openCreateClusterLink: () => void;
   openCreateGroup: (subForm?: GroupSubForm) => void;
-  openEditGroup: (group: string, subForm?: GroupSubForm) => void;
-  openGroupIdentities: (group?: string) => void;
   openCreateIdpGroup: () => void;
-  openEditIdpGroup: (group: string) => void;
+  openCreateStorageBucket: (project: string) => void;
+  openCreateStorageBucketKey: (project: string) => void;
   openCreateTLSIdentity: () => void;
+  openEditClusterGroup: (group: string) => void;
+  openEditClusterLink: (link: string) => void;
+  openEditGroup: (group: string, subForm?: GroupSubForm) => void;
+  openEditIdpGroup: (group: string) => void;
   openCreatePlacementGroup: () => void;
   openEditPlacementGroup: (placementGroup: string) => void;
-  openCreateStorageBucket: (project: string) => void;
-  openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
-  openCreateClusterGroup: () => void;
   openEditMember: (name: string) => void;
-  openEditClusterGroup: (group: string) => void;
-  openCreateStorageBucketKey: (project: string) => void;
+  openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
   openEditStorageBucketKey: (key: string) => void;
+  openGroupIdentities: (group?: string) => void;
+  openIdentityGroups: (identity?: string) => void;
+  openInstanceSummary: (instance: string, project: string) => void;
+  openProfileSummary: (profile: string, project: string) => void;
   openEditNetworkDevice: (deviceName: string) => void;
   openCreateNetworkDevice: () => void;
   openCreateLocalPeering: () => void;
@@ -44,28 +47,30 @@ export interface PanelHelper {
 }
 
 export const panels = {
-  instanceSummary: "instance-summary",
-  profileSummary: "profile-summary",
-  identityGroups: "identity-groups",
+  createClusterGroup: "create-cluster-group",
+  createClusterLink: "create-cluster-link",
   createGroup: "create-groups",
-  editGroup: "edit-groups",
-  groupIdentities: "group-identities",
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
   createTLSIdentity: "create-tls-identity",
   createPlacementGroup: "create-placement-group",
   editPlacementGroup: "edit-placement-group",
   createStorageBucket: "create-bucket",
-  editStorageBucket: "edit-bucket",
   createStorageBucketKey: "create-bucket-key",
-  editStorageBucketKey: "edit-bucket-key",
-  createClusterGroup: "create-cluster-group",
   editClusterGroups: "edit-cluster-group",
+  editClusterLink: "edit-cluster-link",
   editClusterMember: "edit-cluster-member",
   createNetworkDevice: "create-network-device",
   editNetworkDevice: "edit-network-device",
   createLocalPeering: "create-local-peering",
   editLocalPeering: "edit-local-peering",
+  editGroup: "edit-groups",
+  editStorageBucket: "edit-bucket",
+  editStorageBucketKey: "edit-bucket-key",
+  groupIdentities: "group-identities",
+  identityGroups: "identity-groups",
+  instanceSummary: "instance-summary",
+  profileSummary: "profile-summary",
 };
 
 type ParamMap = Record<string, string>;
@@ -94,6 +99,8 @@ const usePanelParams = (): PanelHelper => {
     const newParams = new URLSearchParams(params);
     // we only want to remove search params set when opening the panel
     // pre-existing search params should be kept e.g. params from the search bar
+    newParams.delete("bucket");
+    newParams.delete("bucket-key");
     newParams.delete("group");
     newParams.delete("identity");
     newParams.delete("idp-group");
@@ -101,11 +108,9 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("member");
     newParams.delete("panel");
     newParams.delete("profile");
+    newParams.delete("panel-pool");
     newParams.delete("panel-project");
     newParams.delete("sub-form");
-    newParams.delete("bucket");
-    newParams.delete("bucket-key");
-    newParams.delete("panel-pool");
     newParams.delete("target");
     newParams.delete("device-name");
     newParams.delete("local-peering");
@@ -114,18 +119,18 @@ const usePanelParams = (): PanelHelper => {
   };
 
   return {
-    panel: params.get("panel"),
+    bucket: params.get("bucket"),
+    group: params.get("group"),
+    identity: params.get("identity"),
+    idpGroup: params.get("idp-group"),
     instance: params.get("instance"),
+    key: params.get("bucket-key"),
+    member: params.get("member"),
+    panel: params.get("panel"),
+    pool: params.get("panel-pool"),
     profile: params.get("profile"),
     project: params.get("panel-project") ?? project?.name ?? "default",
-    identity: params.get("identity"),
-    group: params.get("group"),
-    idpGroup: params.get("idp-group"),
-    member: params.get("member"),
     subForm: params.get("sub-form") as GroupSubForm,
-    bucket: params.get("bucket"),
-    key: params.get("bucket-key"),
-    pool: params.get("panel-pool"),
     target: params.get("target") ?? "",
     deviceName: params.get("device-name"),
     localPeering: params.get("local-peering"),
@@ -134,24 +139,12 @@ const usePanelParams = (): PanelHelper => {
       clearParams();
     },
 
-    openInstanceSummary: (instance, project) => {
-      setPanelParams(panels.instanceSummary, {
-        instance,
-        "panel-project": project,
-      });
+    openCreateClusterGroup: () => {
+      setPanelParams(panels.createClusterGroup);
     },
 
-    openProfileSummary: (profile, project) => {
-      setPanelParams(panels.profileSummary, {
-        profile,
-        "panel-project": project,
-      });
-    },
-
-    openIdentityGroups: (identity) => {
-      const newParams = new URLSearchParams(params);
-      newParams.append("identity", identity || "");
-      setPanelParams(panels.identityGroups, Object.fromEntries(newParams));
+    openCreateClusterLink: () => {
+      setPanelParams(panels.createClusterLink);
     },
 
     openCreateGroup: (subForm) => {
@@ -162,6 +155,30 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.createGroup, params);
     },
 
+    openCreateIdpGroup: () => {
+      setPanelParams(panels.createIdpGroup);
+    },
+
+    openCreateStorageBucket: () => {
+      setPanelParams(panels.createStorageBucket);
+    },
+
+    openCreateStorageBucketKey: () => {
+      setPanelParams(panels.createStorageBucketKey);
+    },
+
+    openCreateTLSIdentity: () => {
+      setPanelParams(panels.createTLSIdentity);
+    },
+
+    openEditClusterGroup: (group) => {
+      setPanelParams(panels.editClusterGroups, { group });
+    },
+
+    openEditClusterLink: (identity) => {
+      setPanelParams(panels.editClusterLink, { identity });
+    },
+
     openEditGroup: (group, subForm) => {
       const params: ParamMap = { group: group || "" };
       if (subForm) {
@@ -170,26 +187,14 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.editGroup, params);
     },
 
-    openGroupIdentities: (group) => {
-      setPanelParams(panels.groupIdentities, { group: group || "" });
-    },
-
-    openCreateIdpGroup: () => {
-      setPanelParams(panels.createIdpGroup);
-    },
-
     openEditIdpGroup: (idpGroup) => {
       setPanelParams(panels.editIdpGroup, {
         "idp-group": idpGroup || "",
       });
     },
 
-    openCreateTLSIdentity: () => {
-      setPanelParams(panels.createTLSIdentity);
-    },
-
-    openCreateStorageBucket: () => {
-      setPanelParams(panels.createStorageBucket);
+    openEditMember: (member) => {
+      setPanelParams(panels.editClusterMember, { member });
     },
 
     openCreatePlacementGroup: () => {
@@ -209,22 +214,6 @@ const usePanelParams = (): PanelHelper => {
         target: target || "",
       };
       setPanelParams(panels.editStorageBucket, params);
-    },
-
-    openCreateClusterGroup: () => {
-      setPanelParams(panels.createClusterGroup);
-    },
-
-    openEditMember: (member) => {
-      setPanelParams(panels.editClusterMember, { member });
-    },
-
-    openEditClusterGroup: (group) => {
-      setPanelParams(panels.editClusterGroups, { group });
-    },
-
-    openCreateStorageBucketKey: () => {
-      setPanelParams(panels.createStorageBucketKey);
     },
 
     openEditStorageBucketKey: (key) => {
@@ -254,6 +243,30 @@ const usePanelParams = (): PanelHelper => {
         "local-peering": localPeering || "",
       };
       setPanelParams(panels.editLocalPeering, params);
+    },
+
+    openGroupIdentities: (group) => {
+      setPanelParams(panels.groupIdentities, { group: group || "" });
+    },
+
+    openIdentityGroups: (identity) => {
+      const newParams = new URLSearchParams(params);
+      newParams.append("identity", identity || "");
+      setPanelParams(panels.identityGroups, Object.fromEntries(newParams));
+    },
+
+    openInstanceSummary: (instance, project) => {
+      setPanelParams(panels.instanceSummary, {
+        instance,
+        "panel-project": project,
+      });
+    },
+
+    openProfileSummary: (profile, project) => {
+      setPanelParams(panels.profileSummary, {
+        profile,
+        "panel-project": project,
+      });
     },
   };
 };
