@@ -27,6 +27,7 @@ const ClusteredSourceSelector: FC<Props> = ({
       <ClusterSpecificInput
         values={formik.values.sourcePerClusterMember}
         id="sourcePerClusterMember"
+        placeholder="Enter value"
         isReadOnly={false}
         onChange={(value) => {
           formik.setFieldValue("sourcePerClusterMember", value);
