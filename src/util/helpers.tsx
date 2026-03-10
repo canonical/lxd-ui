@@ -472,3 +472,6 @@ export const isBearerAuthError = (error: Error | null) => {
   if (!error?.message) return false;
   return isBearerTokenExpired(error) || isBearerTokenInvalid(error);
 };
+
+export const ensureArray = <T,>(data: T | T[]): T[] =>
+  Array.isArray(data) ? data : [data];

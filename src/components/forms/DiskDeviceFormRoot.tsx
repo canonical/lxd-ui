@@ -22,6 +22,8 @@ import { focusField } from "util/formFields";
 import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
 import { getProfileFromSource } from "util/devices";
 import { isDeviceModified } from "util/formChangeCount";
+import StoragePoolSizeAvailable from "./StoragePoolSizeAvailable";
+import { getInstanceClusterMember } from "util/instances";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -48,14 +50,18 @@ const DiskDeviceFormRoot: FC<Props> = ({
     formik.values.entityType === "instance" &&
     formik.values.instanceType === "virtual-machine";
   const defaultSize = isVirtualMachine ? "10GiB" : "unlimited";
-  const poolDriver = pools.find(
+
+  const rootStoragePool = pools.find(
     (item) => item.name === formRootDevice?.pool,
-  )?.driver;
+  );
+  const poolDriver = rootStoragePool?.driver;
 
   const [inheritValue, inheritSource] = getInheritedRootStorage(
     formik.values,
     profiles,
   );
+
+  const clusterMemberName = getInstanceClusterMember(formik);
 
   const addRootStorage = () => {
     const copy = [...formik.values.devices];
@@ -235,8 +241,15 @@ const DiskDeviceFormRoot: FC<Props> = ({
                 />
                 <p className="p-form-help-text">
                   <DiskSizeQuotaLimitation driver={poolDriver} />
-                  Size of root storage. If empty, root storage will{" "}
-                  {isVirtualMachine ? "be 10GiB." : "not have a size limit."}
+                  If empty, root storage will{" "}
+                  {isVirtualMachine
+                    ? "be limited at 10GiB."
+                    : "not have a size limit."}
+                  <br />
+                  <StoragePoolSizeAvailable
+                    pool={rootStoragePool}
+                    clusterMember={clusterMemberName}
+                  />
                 </p>
               </>
             ),

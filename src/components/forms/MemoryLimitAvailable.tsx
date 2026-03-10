@@ -1,22 +1,16 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import { Icon } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
-import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { useResourceLimit } from "context/useResourceLimit";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
 }
 
 const MemoryLimitAvailable: FC<Props> = ({ formik }) => {
-  const values = formik?.values as
-    | CreateInstanceFormValues
-    | EditInstanceFormValues;
-
-  const resourceLimit = useResourceLimit("memory", values);
+  const resourceLimit = useResourceLimit("memory", formik);
   if (!resourceLimit) {
     return null;
   }

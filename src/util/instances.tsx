@@ -11,6 +11,8 @@ import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import { instanceCreationTypes } from "./instanceOptions";
+import { getInstanceLocation } from "./instanceLocation";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 export const CLUSTER_GROUP_PREFIX = "@";
 
@@ -117,4 +119,18 @@ export const getInstanceMacAddresses = (instance: LxdInstance) => {
 export const getInstanceType = (instance: LxdInstance) => {
   return instanceCreationTypes.find((item) => item.value === instance.type)
     ?.label;
+};
+
+export const getInstanceClusterMember = (
+  formik: InstanceAndProfileFormikProps,
+) => {
+  const location = getInstanceLocation(formik);
+  if (!location || location === "any") {
+    return undefined;
+  }
+  const isClusterGroup = location?.startsWith(CLUSTER_GROUP_PREFIX);
+  if (isClusterGroup) {
+    return undefined;
+  }
+  return location;
 };

@@ -1,14 +1,11 @@
 import type { FC } from "react";
 import type { LxdStoragePool } from "types/storage";
-import { humanFileSize } from "util/helpers";
+import { ensureArray, humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
-import { useClusteredStoragePoolResources } from "context/useStoragePools";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchStoragePoolResources } from "api/storage-pools";
 import { isClusterLocalDriver } from "util/storagePool";
 import { useIsClustered } from "context/useIsClustered";
 import type { LxdClusterMember } from "types/cluster";
+import { useStoragePoolResources } from "context/useStoragePoolResources";
 
 interface Props {
   pool: LxdStoragePool;
@@ -24,23 +21,18 @@ const StoragePoolSize: FC<Props> = ({
   forceSingleLine,
 }) => {
   // When a single member is provided, the resource usage is shown for that member only
-  const { data: clusteredPoolResources = [] } =
-    useClusteredStoragePoolResources(pool.name, member);
+
   const isClustered = useIsClustered();
   const hasMemberSpecificSize =
     isClusterLocalDriver(pool.driver) && isClustered;
-
-  const { data: poolResources } = useQuery({
-    queryKey: [queryKeys.storage, pool.name, queryKeys.resources],
-    queryFn: async () => fetchStoragePoolResources(pool.name),
-    enabled: !hasMemberSpecificSize,
-  });
-
-  const resourceList = hasMemberSpecificSize
-    ? clusteredPoolResources
-    : [poolResources];
-
-  if (hasMemberSpecificSize && forceSingleLine && !member) {
+  const { data: resources } = useStoragePoolResources(pool, member);
+  const resourceList = ensureArray(resources);
+  if (
+    hasMemberSpecificSize &&
+    forceSingleLine &&
+    !member &&
+    resourceList.length > 1
+  ) {
     return "Cluster member dependent";
   }
 

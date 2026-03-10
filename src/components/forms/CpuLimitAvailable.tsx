@@ -1,7 +1,5 @@
 import type { FC } from "react";
 import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
-import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { Icon } from "@canonical/react-components";
 import { useResourceLimit } from "context/useResourceLimit";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
@@ -11,11 +9,7 @@ interface Props {
 }
 
 export const CpuLimitAvailable: FC<Props> = ({ formik }) => {
-  const values = formik?.values as
-    | CreateInstanceFormValues
-    | EditInstanceFormValues;
-
-  const resourceLimit = useResourceLimit("cpu", values);
+  const resourceLimit = useResourceLimit("cpu", formik);
   if (!resourceLimit) {
     return null;
   }
