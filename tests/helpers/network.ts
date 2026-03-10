@@ -4,8 +4,8 @@ import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster";
-import { execSync } from "child_process";
 import type { IpAddressFamily } from "types/forms/network";
+import { runCommand } from "./shell";
 
 interface NetworkOptions {
   hasMemberSpecificParents?: boolean;
@@ -21,8 +21,8 @@ export const randomNetworkName = (): string => {
 
 export const ensureOvnNorthboundConnection = () => {
   try {
-    execSync(
-      'sudo -E lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"',
+    runCommand(
+      'lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"',
     );
   } catch (error) {
     console.log("Failed to set OVN northbound connection:", error);

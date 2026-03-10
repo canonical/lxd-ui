@@ -17,7 +17,12 @@ import { randomNetworkAclName, visitNetworkAcl } from "./helpers/network-acls";
 import { randomGroupName } from "./helpers/permission-groups";
 import { randomIdentityName } from "./helpers/permission-identities";
 import { openInstancePanel } from "./helpers/instancePanel";
-import { runCommand, skipIfNotSupported } from "./helpers/permissions";
+import { skipIfNotSupported } from "./helpers/permissions";
+import { runCommand } from "./helpers/shell";
+import {
+  removeCertificateTrust,
+  restoreCertificateTrust,
+} from "./helpers/auth";
 
 test.describe("Given a user with Viewer Server permissions...", () => {
   const ISO_FILE = "./tests/fixtures/foo.iso";
@@ -41,7 +46,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
 
     try {
-      runCommand(`sudo -E lxc project switch default`);
+      runCommand("lxc project switch default");
       runCommand(`lxc init ubuntu:24.04 ${instanceName1}`);
       runCommand(`lxc init ubuntu:24.04 ${instanceName2}`);
       runCommand(`lxc profile create ${profileName}`);
@@ -61,10 +66,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
 
     try {
-      const fingerprint = runCommand(
-        `lxc config trust list | grep lxd-ui.crt | awk '{print $8}'`,
-      );
-      runCommand(`lxc config trust remove ${fingerprint}`);
+      removeCertificateTrust();
       runCommand(`lxc auth group create test-viewers`);
       runCommand(`lxc auth group permission add test-viewers server viewer`);
       runCommand(
@@ -97,9 +99,9 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
 
     try {
-      runCommand(`lxc auth identity delete tls/lxd-ui`);
-      runCommand(`lxc auth group delete test-viewers`);
-      runCommand(`lxc config trust add keys/lxd-ui.crt`);
+      runCommand("lxc auth identity delete tls/lxd-ui");
+      runCommand("lxc auth group delete test-viewers");
+      restoreCertificateTrust();
     } catch (err) {
       console.error("Error occurred during afterAll cleanup:", err);
     }
