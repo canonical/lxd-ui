@@ -41,7 +41,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
 
     try {
-      runCommand(`sudo -E lxc project switch default`);
+      runCommand("lxc project switch default");
       runCommand(`lxc init ubuntu:24.04 ${instanceName1}`);
       runCommand(`lxc init ubuntu:24.04 ${instanceName2}`);
       runCommand(`lxc profile create ${profileName}`);
