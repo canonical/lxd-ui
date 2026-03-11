@@ -242,7 +242,7 @@ test("storage bucket create, edit, delete", async ({ page, lxdVersion }) => {
   );
 
   const bucket = randomBucketName();
-  const pool = randomPoolName();
+  const pool = "CephObjectPool"; //Pool explcitly named for explicit selection & deletion
 
   await createPool(page, pool, cephObject);
   await createBucket(page, bucket);
@@ -275,7 +275,7 @@ test("storage bucket keys create, edit, delete", async ({
 
   const bucket = randomBucketName();
   const bucketkey = `${bucket}-key`;
-  const pool = randomPoolName();
+  const pool = "CephObjectPool"; //Pool explcitly named for explicit selection & deletion
 
   await createPool(page, pool, cephObject);
   await createBucket(page, bucket);

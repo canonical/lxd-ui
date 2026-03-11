@@ -12,6 +12,10 @@ export const createPool = async (page: Page, pool: string, driver = "dir") => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools" }).click();
+  await expect(page.getByRole("button", { name: "Create pool" })).toBeVisible();
+  if (await page.getByText(pool).isVisible()) {
+    await deletePool(page, pool);
+  }
   await page.getByRole("button", { name: "Create pool" }).click();
   await page.getByPlaceholder("Enter name").fill(pool);
   await page.getByLabel("Driver").selectOption(driver);
