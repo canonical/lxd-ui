@@ -59,3 +59,5 @@ export interface NetworkFormValues {
   security_acls_default_egress?: string;
   security_acls_default_ingress?: string;
 }
+
+export type IpAddressFamily = "IPv4" | "IPv6";

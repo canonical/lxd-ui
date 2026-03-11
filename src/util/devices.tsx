@@ -16,6 +16,7 @@ import { getAppliedProfiles } from "./configInheritance";
 import type { LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "./networks";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
+import type { IpAddressFamily } from "types/forms/network";
 
 export const ISO_VOLUME_TYPE = "iso-volume";
 export const ISO_VOLUME_NAME = "iso-volume";
@@ -203,7 +204,7 @@ export const getProfileFromSource = (source: string) => {
 export const getNicIpDisableReason = (
   values: NetworkDeviceFormValues,
   network: LxdNetwork,
-  family: "IPv4" | "IPv6",
+  family: IpAddressFamily,
   dhcpDefault?: string,
   dhcpStatefulDefault?: string,
 ): React.ReactNode => {
@@ -258,7 +259,7 @@ export const getNicIpDisableReason = (
 
 const getNetworkDHCPOrDefault = (
   network: LxdNetwork,
-  family: "IPv4" | "IPv6",
+  family: IpAddressFamily,
   defaultValue?: string,
 ): boolean => {
   const result =
@@ -270,7 +271,7 @@ const getNetworkDHCPOrDefault = (
 
 const getNetworkDHCPStatefulOrDefault = (
   network: LxdNetwork,
-  family: "IPv4" | "IPv6",
+  family: IpAddressFamily,
   defaultValue?: string,
 ): boolean => {
   const result =
