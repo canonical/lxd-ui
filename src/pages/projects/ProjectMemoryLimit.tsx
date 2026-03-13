@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
 import { Spinner } from "@canonical/react-components";
-import { ensureArray } from "context/useResourceLimit";
+import { ensureArray } from "util/helpers";
 
 export const ProjectMemoryLimit: FC = () => {
   const notify = useNotify();

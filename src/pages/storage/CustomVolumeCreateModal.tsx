@@ -22,6 +22,7 @@ import { createStorageVolume } from "api/storage-volumes";
 import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import type { LxdClusterMember } from "types/cluster";
 
 interface Props {
   project: string;
@@ -78,10 +79,12 @@ const CustomVolumeCreateModal: FC<Props> = ({
       name: "",
       project: project,
       pool: "",
+      clusterMember: instanceLocation,
       size: "GiB",
       volumeType: "custom",
       readOnly: false,
       isCreating: true,
+      isClusterMemberLocked: true,
       entityType: "storageVolume",
     },
     validationSchema: StorageVolumeSchema,
@@ -129,7 +132,17 @@ const CustomVolumeCreateModal: FC<Props> = ({
   return (
     <>
       <div className="volume-create-form">
-        <StorageVolumeFormMain formik={formik} poolError={poolError} />
+        <StorageVolumeFormMain
+          formik={formik}
+          poolError={poolError}
+          pools={pools}
+          settings={settings}
+          clusterMembers={
+            instanceLocation
+              ? ([{ server_name: instanceLocation }] as LxdClusterMember[])
+              : []
+          }
+        />
       </div>
       <footer className="p-modal__footer">
         <Button

@@ -54,17 +54,22 @@ export const usePoolFromClusterMembers = (
 };
 
 export const useClusteredStoragePoolResources = (
-  pool: string,
+  pool?: string,
   member?: LxdClusterMember,
+  enabled = true,
 ): UseQueryResult<LxdStoragePoolResources[]> => {
   const { data: clusterMembers = [] } = useClusterMembers();
+  const members = member ? [member] : clusterMembers;
   return useQuery({
-    queryKey: [queryKeys.storage, pool, queryKeys.cluster, queryKeys.resources],
+    queryKey: [
+      queryKeys.storage,
+      pool,
+      queryKeys.cluster,
+      queryKeys.resources,
+      members,
+    ],
     queryFn: async () =>
-      fetchClusteredStoragePoolResources(
-        pool,
-        member ? [member] : clusterMembers,
-      ),
-    enabled: clusterMembers.length > 0,
+      fetchClusteredStoragePoolResources(pool ?? "", members),
+    enabled: enabled && !!pool && members.length > 0,
   });
 };

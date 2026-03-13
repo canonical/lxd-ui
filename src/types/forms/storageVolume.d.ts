@@ -29,4 +29,5 @@ export interface StorageVolumeFormValues {
   entityType: "storageVolume";
   editRestriction?: string;
   clusterMember?: string;
+  isClusterMemberLocked?: boolean;
 }

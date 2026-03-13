@@ -15,6 +15,7 @@ import type { LxdStoragePool } from "types/storage";
 import type { LxdSettings } from "types/server";
 import type { LxdClusterMember } from "types/cluster";
 import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
+import StoragePoolSizeAvailable from "components/forms/StoragePoolSizeAvailable";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -31,10 +32,8 @@ const StorageVolumeFormMain: FC<Props> = ({
   pools = [],
   settings,
 }) => {
-  const poolDriver = pools.find(
-    (item) => item.name === formik.values.pool,
-  )?.driver;
-
+  const pool = pools.find((item) => item.name === formik.values.pool);
+  const poolDriver = pool?.driver;
   return (
     <ScrollableForm>
       <Row>
@@ -85,7 +84,10 @@ const StorageVolumeFormMain: FC<Props> = ({
                     value: member.server_name,
                   };
                 })}
-                disabled={!formik.values.isCreating}
+                disabled={
+                  !formik.values.isCreating ||
+                  formik.values.isClusterMemberLocked
+                }
                 required={formik.values.isCreating}
                 help={
                   formik.values.isCreating
@@ -114,8 +116,13 @@ const StorageVolumeFormMain: FC<Props> = ({
                 <>
                   <DiskSizeQuotaLimitation driver={poolDriver} />
                   {formik.values.volumeType === "custom"
-                    ? "Size of storage volume. If empty, volume will not have a size limit within its storage pool."
+                    ? "If empty, volume will not have a size limit within its storage pool."
                     : "Size is immutable for non-custom volumes."}
+                  <br />
+                  <StoragePoolSizeAvailable
+                    pool={pool}
+                    clusterMember={formik.values.clusterMember}
+                  />
                 </>
               ) as unknown as string
             }
