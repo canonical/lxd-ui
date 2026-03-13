@@ -18,18 +18,20 @@ jobs:
     steps:
     - name: Get PR Commits
       id: 'get-pr-commits'
-      uses: tim-actions/get-pr-commits@master
+      uses: tim-actions/get-pr-commits@198af03565609bb4ed924d1260247b4881f09e7d # v1.3.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Check that all commits are signed-off
-      uses: tim-actions/dco@master
+      uses: tim-actions/dco@f2279e6e62d5a7d9115b0cb8e837b777b1b02e21 # v1.1.0
       with:
         commits: ${{ steps.get-pr-commits.outputs.commits }}
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -47,10 +49,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Check inclusive naming
-        uses: canonical/Inclusive-naming@main
+        uses: canonical/Inclusive-naming@7aa0f7a606f182bd03a7adb28e0d710216101ca5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
@@ -60,7 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Find disallowed Unicode characters (excluding .git and binary files)
         run: |
@@ -100,7 +106,9 @@ jobs:
       LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
       LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Install Dotrun
         run: |
@@ -129,14 +137,14 @@ jobs:
 
       - name: Setup Ceph
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        uses: canonical/lxd/.github/actions/setup-microceph@main
+        uses: canonical/lxd/.github/actions/setup-microceph@d92c1f534fca3bbe0949b46ea49c3dc92f6f46e8
 
       - name: Setup OVN
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        uses: canonical/lxd/.github/actions/setup-microovn@main
+        uses: canonical/lxd/.github/actions/setup-microovn@d92c1f534fca3bbe0949b46ea49c3dc92f6f46e8
 
       - name: Install LXD
-        uses: canonical/setup-lxd@v1
+        uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
         with:
           channel: ${{ matrix.lxd_channel }}
           group: lxd
@@ -149,7 +157,7 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: 24
 
@@ -169,15 +177,25 @@ jobs:
         run: sudo -E ./tests/scripts/setup_test
 
       - name: Run Playwright tests
-        run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}:${{ matrix.deployment }}
+        env:
+          BROWSER: ${{ matrix.browser }}
+          DEPLOYMENT: ${{ matrix.deployment }}
+          LXD_CHANNEL: ${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+        run: |
+          npx playwright test --project "${BROWSER}:lxd-${LXD_CHANNEL}:${DEPLOYMENT}"
 
       - name: Rename Playwright report
         if: always()
-        run: mv blob-report/report.zip blob-report/${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}-report.zip
+        env:
+          BROWSER: ${{ matrix.browser }}
+          DEPLOYMENT: ${{ matrix.deployment }}
+          LXD_CHANNEL: ${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+        run: |
+          mv blob-report/report.zip "blob-report/${BROWSER}-lxd-${LXD_CHANNEL}-${DEPLOYMENT}.zip"
 
       - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }} blob reports to be merged
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: blob-report-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}
           path: blob-report
@@ -190,13 +208,16 @@ jobs:
       HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+
+    - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
       with:
         node-version: 24
 
     - name: Download blob reports from GitHub Actions Artifacts
-      uses: actions/download-artifact@v8
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
       with:
         path: blob-reports
         pattern: blob-report-*
@@ -206,7 +227,7 @@ jobs:
     - name: Merge into HTML Report
       run: npx playwright merge-reports --config=merge.playwright.config.ts ./blob-reports
 
-    - uses: actions/upload-artifact@v7
+    - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       if: always()
       with:
         name: playwright-report
@@ -217,7 +238,9 @@ jobs:
     name: js-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Install Dotrun
         run: |

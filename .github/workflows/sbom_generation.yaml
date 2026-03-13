@@ -10,24 +10,29 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TRIVY_VERSION: "0.69.2"
-      TRIVY_ARCH: ${{'64bit'}}
-      TRIVY_SHA256: ${{'7052fdc858e5381e28abe42330115da1703015a3ab172d8312b099defe85107e' }}
+      TRIVY_ARCH: "64bit"
+      TRIVY_SHA256: "7052fdc858e5381e28abe42330115da1703015a3ab172d8312b099defe85107e"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
       - name: Install / Setup Trivy
         run: |
           set -x
           curl -L -o trivy.deb https://github.com/aquasecurity/trivy/releases/download/v"$TRIVY_VERSION"/trivy_"$TRIVY_VERSION"_Linux-"$TRIVY_ARCH".deb
           echo "$TRIVY_SHA256 trivy.deb" | sha256sum --check --status
           sudo apt install -y ./trivy.deb
+
       - name: Generate SBOM for source code
         run: |
           trivy repository . \
             --format=spdx-json \
             --output=LXD-UI-SBOM.json
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: sbom-amd64
           path: "LXD-UI-SBOM.json"

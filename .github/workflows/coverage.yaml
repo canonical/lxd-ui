@@ -20,7 +20,9 @@ jobs:
       LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
       LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Install Dotrun
         run: |
@@ -48,13 +50,13 @@ jobs:
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Setup Ceph
-        uses: canonical/lxd/.github/actions/setup-microceph@main
+        uses: canonical/lxd/.github/actions/setup-microceph@d92c1f534fca3bbe0949b46ea49c3dc92f6f46e8
 
       - name: Setup OVN
-        uses: canonical/lxd/.github/actions/setup-microovn@main
+        uses: canonical/lxd/.github/actions/setup-microovn@d92c1f534fca3bbe0949b46ea49c3dc92f6f46e8
 
       - name: Install LXD
-        uses: canonical/setup-lxd@v1
+        uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
         with:
           channel: "latest/edge"
 
@@ -66,7 +68,7 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: 24
 
@@ -91,7 +93,7 @@ jobs:
 
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: lxd-coverage
           path: coverage/playwright-report
@@ -105,7 +107,7 @@ jobs:
       permissions:
         contents: write
       steps:
-        - uses: actions/checkout@v6
+        - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
           with:
             ref: gh-pages
             token: ${{ secrets.GITHUB_TOKEN }}
@@ -114,7 +116,7 @@ jobs:
             rm -rf coverage
             mkdir coverage
         - name: Download coverage report artifact
-          uses: actions/download-artifact@v8
+          uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
           with:
             name: lxd-coverage
             path: coverage
@@ -156,7 +158,9 @@ jobs:
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Install Dotrun
         run: |
