@@ -117,7 +117,7 @@ export const addUserSetting = async (
   await page
     .getByRole("button", { name: "Add user setting", exact: true })
     .click();
-  await page.getByPlaceholder("User key").fill(key);
+  await page.getByPlaceholder("key").fill(key);
   await page.getByPlaceholder("Value").fill(value);
   await page.getByRole("button", { name: "Save", exact: true }).click();
 };
