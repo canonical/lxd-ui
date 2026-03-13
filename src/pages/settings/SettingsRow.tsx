@@ -3,7 +3,12 @@ import type { ClusterSpecificValues } from "types/cluster";
 import SettingForm from "pages/settings/SettingForm";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import { Input, Button, Form } from "@canonical/react-components";
+import {
+  Input,
+  Button,
+  Form,
+  PrefixedInput,
+} from "@canonical/react-components";
 import { generateUUID } from "util/helpers";
 import { getConfigFieldValue, type UserSetting } from "util/settings";
 import type { LxdSettings } from "types/server";
@@ -86,35 +91,25 @@ export const getUserSettingInputRow = (
       },
       {
         content: (
-          <>
-            <Input
-              aria-label="new user key"
-              id={`new-user-defined-key-${index}`}
-              placeholder="User key"
-              type="text"
-              value={userSetting.key}
-              autoFocus
-              error={
-                isKeyDuplicate && <>Setting with this name already exists</>
-              }
-              onChange={(e) => {
-                setUserSettings((prev) => {
-                  const copy = [...prev];
-                  copy[index] = {
-                    ...copy[index],
-                    key: e.target.value,
-                  };
-                  return copy;
-                });
-              }}
-              help={
-                <>
-                  Key will be saved as <code>{"user.{your-key}"}</code>. Enter
-                  only the part after user.
-                </>
-              }
-            />
-          </>
+          <PrefixedInput
+            aria-label="new user key"
+            id={`new-user-defined-key-${index}`}
+            placeholder="key"
+            value={userSetting.key}
+            autoFocus
+            error={isKeyDuplicate && <>Setting with this name already exists</>}
+            immutableText="user."
+            onChange={(e) => {
+              setUserSettings((prev) => {
+                const copy = [...prev];
+                copy[index] = {
+                  ...copy[index],
+                  key: e.target.value,
+                };
+                return copy;
+              });
+            }}
+          />
         ),
         role: "rowheader",
         className: "key",

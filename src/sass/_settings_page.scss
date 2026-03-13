@@ -1,6 +1,16 @@
 .settings {
   min-height: initial !important;
 
+  .prefixed-input__input {
+    @include extra-large {
+      padding-top: 0.25rem !important;
+    }
+
+    @include mobile {
+      padding-top: 0.2rem !important;
+    }
+  }
+
   .group {
     width: 8rem;
 
