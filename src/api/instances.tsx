@@ -28,43 +28,141 @@ export const instanceEntitlements = [
   "can_update_state",
 ];
 
-export const fetchInstance = async (
-  name: string,
-  project: string,
-  isFineGrained: boolean | null,
-): Promise<LxdInstance> => {
-  const params = new URLSearchParams();
-  params.set("project", project);
-  params.set("recursion", "2");
-  addEntitlements(params, isFineGrained, instanceEntitlements);
+export const instanceSelectiveRecursionFields = ["state.network"];
 
-  return fetch(
-    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
-  )
-    .then(handleEtagResponse)
-    .then((data) => {
-      return data as LxdInstance;
-    });
+const addInstanceRecursion = (
+  params: URLSearchParams,
+  hasInstanceStateSelectiveRecursion: boolean,
+) => {
+  const recursionValue = hasInstanceStateSelectiveRecursion
+    ? `2;fields=${instanceSelectiveRecursionFields.join(",")}`
+    : "2";
+
+  params.set("recursion", recursionValue);
 };
 
-export const fetchInstances = async (
+const addProjectScope = (
+  params: URLSearchParams,
   project: string | null,
-  isFineGrained: boolean | null,
-): Promise<LxdInstance[]> => {
-  const params = new URLSearchParams();
-  params.set("recursion", "2");
+): void => {
   if (project) {
     params.set("project", project);
   } else {
     params.set("all-projects", "true");
   }
-  addEntitlements(params, isFineGrained, instanceEntitlements);
+};
 
-  return fetch(`${ROOT_PATH}/1.0/instances?${params.toString()}`)
-    .then(handleResponse)
-    .then((data: LxdApiResponse<LxdInstance[]>) => {
-      return data.metadata;
-    });
+const getInstanceLookupKey = (
+  instance: Pick<LxdInstance, "name" | "project">,
+): string => `${instance.project}/${instance.name}`;
+
+const mergeInstanceEntitlements = (
+  instances: LxdInstance[],
+  entitlements: Pick<LxdInstance, "name" | "project" | "access_entitlements">[],
+): LxdInstance[] => {
+  const entitlementsByInstance = new Map(
+    entitlements.map((instance) => [getInstanceLookupKey(instance), instance]),
+  );
+
+  return instances.map((instance) => ({
+    ...instance,
+    access_entitlements: entitlementsByInstance.get(
+      getInstanceLookupKey(instance),
+    )?.access_entitlements,
+  }));
+};
+
+export const fetchInstance = async (
+  name: string,
+  project: string,
+  isFineGrained: boolean | null,
+  hasInstanceStateSelectiveRecursion: boolean,
+): Promise<LxdInstance> => {
+  const shouldFetchEntitlementsSeparately =
+    isFineGrained === true && hasInstanceStateSelectiveRecursion;
+
+  if (!shouldFetchEntitlementsSeparately) {
+    const params = new URLSearchParams();
+    params.set("project", project);
+    addInstanceRecursion(params, hasInstanceStateSelectiveRecursion);
+    addEntitlements(params, isFineGrained, instanceEntitlements);
+
+    return fetch(
+      `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}?${params.toString()}`,
+    )
+      .then(handleEtagResponse)
+      .then((data) => {
+        return data as LxdInstance;
+      });
+  }
+
+  const instanceParams = new URLSearchParams();
+  instanceParams.set("project", project);
+  addInstanceRecursion(instanceParams, hasInstanceStateSelectiveRecursion);
+
+  const entitlementsParams = new URLSearchParams();
+  entitlementsParams.set("project", project);
+  addEntitlements(entitlementsParams, isFineGrained, instanceEntitlements);
+
+  const [instance, entitlementInstance] = await Promise.all([
+    fetch(
+      `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}?${instanceParams.toString()}`,
+    )
+      .then(handleEtagResponse)
+      .then((data) => data as LxdInstance),
+    fetch(
+      `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}?${entitlementsParams.toString()}`,
+    )
+      .then(handleEtagResponse)
+      .then((data) => data as LxdInstance),
+  ]);
+
+  return {
+    ...instance,
+    access_entitlements: entitlementInstance.access_entitlements,
+  };
+};
+
+export const fetchInstances = async (
+  project: string | null,
+  isFineGrained: boolean | null,
+  hasInstanceStateSelectiveRecursion: boolean,
+): Promise<LxdInstance[]> => {
+  const shouldFetchEntitlementsSeparately =
+    isFineGrained === true && hasInstanceStateSelectiveRecursion;
+
+  if (!shouldFetchEntitlementsSeparately) {
+    const params = new URLSearchParams();
+    addInstanceRecursion(params, hasInstanceStateSelectiveRecursion);
+    addProjectScope(params, project);
+    addEntitlements(params, isFineGrained, instanceEntitlements);
+
+    return fetch(`${ROOT_PATH}/1.0/instances?${params.toString()}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdInstance[]>) => {
+        return data.metadata;
+      });
+  }
+
+  const instanceParams = new URLSearchParams();
+  addInstanceRecursion(instanceParams, hasInstanceStateSelectiveRecursion);
+  addProjectScope(instanceParams, project);
+
+  const entitlementsParams = new URLSearchParams();
+  entitlementsParams.set("recursion", "1");
+  addProjectScope(entitlementsParams, project);
+  addEntitlements(entitlementsParams, isFineGrained, instanceEntitlements);
+
+  const [instances, entitlementInstances] = await Promise.all([
+    fetch(`${ROOT_PATH}/1.0/instances?${instanceParams.toString()}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdInstance[]>) => data.metadata),
+    fetch(`${ROOT_PATH}/1.0/instances?${entitlementsParams.toString()}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdInstance[]>) => data.metadata),
+  ]);
+
+  return mergeInstanceEntitlements(instances, entitlementInstances);
 };
 
 export const createInstance = async (
