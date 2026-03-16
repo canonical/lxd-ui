@@ -192,20 +192,6 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
             { value: "none", label: "None" },
           ]}
         />
-        <Select
-          {...formik.getFieldProps("expirationHours")}
-          id="project"
-          label="Expiration"
-          help="Duration that the backup remains on the server"
-          options={[
-            { value: 1, label: "1 hour" },
-            { value: 6, label: "6 hours" },
-            { value: 12, label: "12 hours" },
-            { value: 24, label: "1 day" },
-            { value: 72, label: "3 days" },
-            { value: 168, label: "7 days" },
-          ]}
-        />
         {hasBackupMetadataVersion && (
           <Select
             {...formik.getFieldProps("exportVersion")}
