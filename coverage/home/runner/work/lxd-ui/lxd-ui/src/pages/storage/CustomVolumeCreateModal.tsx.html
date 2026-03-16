@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.23% </span>
+                <span class="strong">94.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>147/156</span>
+                <span class='fraction'>159/169</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.33% </span>
+                <span class="strong">68.75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/15</span>
+                <span class='fraction'>11/16</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.23% </span>
+                <span class="strong">94.08% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>147/156</span>
+                <span class='fraction'>159/169</span>
             </div>
         
             
@@ -219,7 +219,21 @@
 <a name='L154'></a><a href='#L154'>154</a>
 <a name='L155'></a><a href='#L155'>155</a>
 <a name='L156'></a><a href='#L156'>156</a>
-<a name='L157'></a><a href='#L157'>157</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">113x</span>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">113x</span>
+<span class="cline-any cline-yes">113x</span>
 <span class="cline-any cline-yes">113x</span>
 <span class="cline-any cline-yes">113x</span>
 <span class="cline-any cline-yes">113x</span>
@@ -292,6 +306,8 @@
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
@@ -357,6 +373,16 @@
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
@@ -399,6 +425,7 @@ import { createStorageVolume } from "api/storage-volumes";
 import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import type { LxdClusterMember } from "types/cluster";
 &nbsp;
 interface Props {
   project: string;
@@ -455,10 +482,12 @@ const CustomVolumeCreateModal: FC&lt;Props&gt; = ({
       name: "",
       project: project,
       pool: "",
+      clusterMember: instanceLocation,
       size: "GiB",
       volumeType: "custom",
       readOnly: false,
       isCreating: true,
+      isClusterMemberLocked: true,
       entityType: "storageVolume",
     },
     validationSchema: StorageVolumeSchema,
@@ -506,7 +535,17 @@ const CustomVolumeCreateModal: FC&lt;Props&gt; = ({
   return (
     &lt;&gt;
       &lt;div className="volume-create-form"&gt;
-        &lt;StorageVolumeFormMain formik={formik} poolError={poolError} /&gt;
+        &lt;StorageVolumeFormMain
+          formik={formik}
+          poolError={poolError}
+          pools={pools}
+          settings={settings}
+          clusterMembers={
+<span class="branch-0 cbranch-no" title="branch not covered" >            instanceLocation</span>
+<span class="cstat-no" title="statement not covered" >              ? ([{ server_name: instanceLocation }] as LxdClusterMember[])</span>
+              : []
+          }
+        /&gt;
       &lt;/div&gt;
       &lt;footer className="p-modal__footer"&gt;
         &lt;Button
@@ -538,7 +577,7 @@ export default CustomVolumeCreateModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-13T17:42:04.262Z
+                at 2026-03-16T15:56:20.122Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
