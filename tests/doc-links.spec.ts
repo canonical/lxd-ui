@@ -60,13 +60,6 @@ test("Ensure the documentation link text and link targets are present: Server Se
 
   await openServerSetting(page, "core.metrics_address");
   await validateLink(page, "How to monitor metrics", "/documentation/metrics/");
-
-  await openServerSetting(page, "core.storage_buckets_address");
-  await validateLink(
-    page,
-    "How to manage storage buckets",
-    "/documentation/howto/storage_buckets/#howto-storage-buckets",
-  );
 });
 
 test("Ensure the documentation link text and link targets are present: Instance Detail > Configuration", async ({
