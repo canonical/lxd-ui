@@ -16,7 +16,7 @@ import {
   noneAvailableOption,
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
-import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "types/forms/permissionGroup";
 import ResourceOptionHeader from "./ResourceOptionHeader";
 import type { LxdPermission } from "types/permissions";
 import type { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";

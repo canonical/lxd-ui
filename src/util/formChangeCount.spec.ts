@@ -1,5 +1,5 @@
 import { getFormChangeCount } from "util/formChangeCount";
-import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import type { FormDevice } from "types/formDevice";
 
 describe("formChangeCount", () => {

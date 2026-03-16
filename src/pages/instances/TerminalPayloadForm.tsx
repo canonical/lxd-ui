@@ -23,7 +23,7 @@ import { updateInstance } from "api/instances";
 import { useEventQueue } from "context/eventQueue";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { UI_TERMINAL_DEFAULT_PAYLOAD } from "pages/instances/InstanceTerminal";
+import { UI_TERMINAL_DEFAULT_PAYLOAD } from "util/instanceTerminal";
 
 interface Props {
   payload: TerminalConnectPayload;

@@ -4,7 +4,7 @@ import type { ResourceDetail } from "./resourceDetails";
 import { extractResourceDetailsFromUrl } from "./resourceDetails";
 import type { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
-import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "types/forms/permissionGroup";
 import ResourceOptionLabel from "pages/permissions/panels/ResourceOptionLabel";
 import EntitlementOptionLabel from "pages/permissions/panels/EntitlementOptionLabel";
 import type { CustomSelectOption } from "@canonical/react-components";

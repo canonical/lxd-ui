@@ -22,13 +22,12 @@ import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
 import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
 import classnames from "classnames";
 import { updateIdentities } from "api/auth-identities";
-import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "types/forms/permissionGroup";
 import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
-
-export type GroupSubForm = "identity" | "permission" | null;
+import type { GroupSubForm } from "types/forms/permissionGroup";
 
 const CreateGroupPanel: FC = () => {
   const panelParams = usePanelParams();

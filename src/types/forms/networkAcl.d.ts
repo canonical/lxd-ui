@@ -26,3 +26,5 @@ export interface NetworkAclFormValues {
   bareAcl?: LxdNetworkAcl;
   entityType: "network-acl";
 }
+
+export type RuleDirection = "ingress" | "egress";

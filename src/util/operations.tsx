@@ -1,5 +1,8 @@
+import type { ReactNode } from "react";
 import type { LxdOperation } from "types/operation";
 import type { LxdEvent } from "types/event";
+import type { LxdOperationResponse } from "types/operation";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 const getOperationEntityUrls = (
   entities?: string[],
@@ -116,4 +119,21 @@ export const isRestoringBackup = (operation: LxdOperation): boolean => {
 
 export const isCreatingInstance = (operation: LxdOperation): boolean => {
   return operation.description === "Creating instance";
+};
+
+export const instanceLinkFromOperation = (args: {
+  operation?: LxdOperationResponse;
+  project?: string;
+}): ReactNode | undefined => {
+  const { operation, project } = args;
+  const instanceName = getInstanceName(operation?.metadata);
+  if (!instanceName) {
+    return;
+  }
+  return (
+    <InstanceRichChip
+      instanceName={instanceName}
+      projectName={project || "default"}
+    />
+  );
 };

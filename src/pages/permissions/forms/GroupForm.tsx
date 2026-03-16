@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 import { Form, Input } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "types/forms/permissionGroup";
 import FormLink from "components/FormLink";
 import { pluralize } from "util/instanceBulkActions";
 import type { LxdAuthGroup } from "types/permissions";

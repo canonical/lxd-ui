@@ -15,7 +15,8 @@ import NetworkListTable from "components/NetworkListTable";
 import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import { getIpAddresses } from "util/networks";
-import { getImageLink, getInstanceType } from "util/instances";
+import { getInstanceType } from "util/instances";
+import { getImageLink } from "util/instanceImage";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {

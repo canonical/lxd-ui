@@ -12,7 +12,7 @@ import { getUnhandledKeyValues } from "util/formFields";
 import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
 import { migrationPayload } from "components/forms/MigrationForm";
-import { bootPayload } from "components/forms/BootForm";
+import { bootPayload } from "util/instanceBoot";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 import type { AbortControllerState } from "./helpers";
 import { checkDuplicateName } from "./helpers";

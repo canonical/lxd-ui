@@ -4,34 +4,11 @@ import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
-import type { FormikProps } from "formik/dist/types";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
-import type { StorageVolumeFormValues } from "types/forms/storageVolume";
-import type { NetworkFormValues } from "types/forms/network";
-import type { ProjectFormValues } from "types/forms/project";
 import { getConfigRowMetadata } from "util/configInheritance";
-import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
-import type { NetworkAclFormValues } from "types/forms/networkAcl";
-
-export type ConfigurationRowFormikValues =
-  | InstanceAndProfileFormValues
-  | StorageVolumeFormValues
-  | NetworkAclFormValues
-  | NetworkFormValues
-  | ProjectFormValues
-  | StoragePoolFormValues;
-
-export type ConfigurationRowFormikProps =
-  | InstanceAndProfileFormikProps
-  | FormikProps<NetworkAclFormValues>
-  | FormikProps<NetworkFormValues>
-  | FormikProps<ProjectFormValues>
-  | FormikProps<StorageVolumeFormValues>
-  | FormikProps<StoragePoolFormValues>;
+import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 
 interface Props {
   formik: ConfigurationRowFormikProps;
