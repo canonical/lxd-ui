@@ -74,8 +74,8 @@ const NetworkAclRuleModal: FC<Props> = ({
           label="State"
           options={[
             { label: "Enabled", value: "enabled" },
+            { label: "Enabled (Logged)", value: "logged" },
             { label: "Disabled", value: "disabled" },
-            { label: "Logged", value: "logged" },
           ]}
           help="Possible values are enabled, disabled, and logged."
           {...formik.getFieldProps("state")}
