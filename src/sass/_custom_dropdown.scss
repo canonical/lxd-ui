@@ -1,0 +1,70 @@
+.network-type-label,
+.acl-action-label {
+  display: flex;
+
+  .network-type-name {
+    margin-left: $sph--small;
+    width: 5rem;
+  }
+
+  .network-type-explanation {
+    margin-left: $sph--small;
+  }
+
+  @media screen and (width <= 1200px) {
+    flex-direction: column;
+
+    .network-type-explanation {
+      white-space: break-spaces;
+    }
+  }
+}
+
+.instance-target-dropdown,
+.acl-action-dropdown {
+  .header {
+    background-color: $colors--theme--background-alt;
+    display: flex;
+    gap: $sph--small;
+    padding: $sph--x-small $sph--small;
+    position: sticky;
+    top: 0;
+
+    span {
+      @extend %table-header-label;
+    }
+  }
+
+  .label {
+    display: flex;
+    gap: $sph--small;
+  }
+
+  .header,
+  .label {
+    .name {
+      display: inline-block;
+      width: 6rem;
+    }
+
+    .members {
+      display: inline-block;
+      width: 4rem;
+    }
+
+    .policy {
+      display: inline-block;
+      width: 6rem;
+    }
+
+    .rigor {
+      display: inline-block;
+      width: 6rem;
+    }
+
+    .used_by {
+      display: inline-block;
+      width: 6rem;
+    }
+  }
+}
