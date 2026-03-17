@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.24% </span>
+                <span class="strong">73.2% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>282/385</span>
+                <span class='fraction'>276/377</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.44% </span>
+                <span class="strong">57.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>27/47</span>
+                <span class='fraction'>26/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.7% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/17</span>
+                <span class='fraction'>10/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.24% </span>
+                <span class="strong">73.2% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>282/385</span>
+                <span class='fraction'>276/377</span>
             </div>
         
             
@@ -440,15 +440,11 @@
 <a name='L375'></a><a href='#L375'>375</a>
 <a name='L376'></a><a href='#L376'>376</a>
 <a name='L377'></a><a href='#L377'>377</a>
-<a name='L378'></a><a href='#L378'>378</a>
-<a name='L379'></a><a href='#L379'>379</a>
-<a name='L380'></a><a href='#L380'>380</a>
-<a name='L381'></a><a href='#L381'>381</a>
-<a name='L382'></a><a href='#L382'>382</a>
-<a name='L383'></a><a href='#L383'>383</a>
-<a name='L384'></a><a href='#L384'>384</a>
-<a name='L385'></a><a href='#L385'>385</a>
-<a name='L386'></a><a href='#L386'>386</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<a name='L378'></a><a href='#L378'>378</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -516,18 +512,6 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
-<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -860,6 +844,7 @@ import {
 } from "@canonical/react-components";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
+import { getDefaultPayload } from "util/instanceTerminal";
 &nbsp;
 const XTERM_OPTIONS = {
   theme: {
@@ -896,17 +881,6 @@ const defaultPayload: TerminalConnectPayload = {
   group: 0,
 };
 &nbsp;
-export const UI_TERMINAL_DEFAULT_PAYLOAD = "user.ui_terminal_default_payload";
-&nbsp;
-const getDefaultPayload = (instance: LxdInstance) =&gt; {
-  const userPayload = instance.config[UI_TERMINAL_DEFAULT_PAYLOAD];
-  if (userPayload) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    return JSON.parse(userPayload) as TerminalConnectPayload;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-  return defaultPayload;
-};
-&nbsp;
 interface Props {
   instance: LxdInstance;
   refreshInstance: () =&gt; Promise&lt;unknown&gt;;
@@ -923,7 +897,9 @@ const InstanceTerminal: FC&lt;Props&gt; = ({ instance, refreshInstance }) =&gt; 
   const [dataWs, setDataWs] = useState&lt;WebSocket | null&gt;(null);
   const [controlWs, setControlWs] = useState&lt;WebSocket | null&gt;(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [payload, setPayload] = useState(getDefaultPayload(instance));
+  const [payload, setPayload] = useState(
+    getDefaultPayload(instance, defaultPayload),
+  );
   const [fitAddon] = useState&lt;FitAddon&gt;(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef&lt;Terminal&gt;(null);
@@ -1225,7 +1201,7 @@ export default InstanceTerminal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-16T17:02:10.701Z
+                at 2026-03-17T22:52:52.695Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
