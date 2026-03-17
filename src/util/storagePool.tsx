@@ -20,6 +20,7 @@ import {
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
   ceph_osd_pg_num: "ceph.osd.pg_num",
+  ceph_osd_pool_name: "ceph.osd.pool_name",
   ceph_rbd_clone_copy: "ceph.rbd.clone_copy",
   ceph_rbd_du: "ceph.rbd.du",
   ceph_user_name: "ceph.user.name",
@@ -180,4 +181,12 @@ export const isAlletraIncomplete = (
       !formik.values.alletra_user_password ||
       !formik.values.alletra_cpg)
   );
+};
+
+export const isCephDriver = (values: StoragePoolFormValues) => {
+  return values.driver === cephDriver;
+};
+
+export const isCephFSDriver = (values: StoragePoolFormValues) => {
+  return values.driver === cephFSDriver;
 };

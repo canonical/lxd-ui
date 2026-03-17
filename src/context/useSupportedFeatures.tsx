@@ -48,5 +48,6 @@ export const useSupportedFeatures = () => {
     hasInstanceForceDelete: apiExtensions.has("instance_force_delete"),
     hasInstanceBootMode: apiExtensions.has("instance_boot_mode"),
     hasProjectDeleteOperation: apiExtensions.has("project_delete_operation"),
+    hasRemoteDropSource: apiExtensions.has("storage_remote_drop_source"),
   };
 };

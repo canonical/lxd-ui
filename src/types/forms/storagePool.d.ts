@@ -5,6 +5,7 @@ export interface StoragePoolFormValues {
   barePool?: LxdStoragePool;
   ceph_cluster_name?: string;
   ceph_osd_pg_num?: string;
+  ceph_osd_pool_name?: string;
   ceph_rbd_clone_copy?: string;
   ceph_rbd_du?: string;
   ceph_user_name?: string;
