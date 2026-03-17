@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 import { useEffect } from "react";
 import {
   Col,
@@ -84,21 +84,6 @@ export const volumeFormToPayload = (
   return {
     ...payload,
     ...unhandledVolumeMainConfigs,
-  };
-};
-
-export const getFormProps = (
-  formik: FormikProps<StorageVolumeFormValues>,
-  id: keyof StorageVolumeFormValues,
-) => {
-  return {
-    id,
-    name: id,
-    onBlur: formik.handleBlur,
-    onChange: formik.handleChange,
-    value: (formik.values[id] as string | undefined) ?? "",
-    error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-    placeholder: `Enter ${id.replaceAll("_", " ")}`,
   };
 };
 

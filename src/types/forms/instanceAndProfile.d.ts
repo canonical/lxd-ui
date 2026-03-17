@@ -18,6 +18,8 @@ export interface CloudInitFormValues {
   cloud_init_vendor_data?: string;
 }
 
+export type CloudInitKey = keyof CloudInitFormValues;
+
 export interface FormDeviceValues {
   devices: FormDevice[];
 }

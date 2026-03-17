@@ -4,6 +4,8 @@ import { ROOT_PATH } from "util/rootPath";
 import type { AnyObject, TestContext, TestFunction } from "yup";
 import type { LxdStorageVolume } from "types/storage";
 import type { StorageVolumeFormValues } from "types/forms/storageVolume";
+import type { FormikProps } from "formik/dist/types";
+import type { ReactNode } from "react";
 
 export const testDuplicateStorageVolumeName = (
   project: string,
@@ -161,4 +163,19 @@ export const hasLocation = (volume?: LxdStorageVolume): boolean => {
 
 export const hasVolumeDetailPage = (volume: LxdStorageVolume): boolean => {
   return linkForVolumeDetail(volume).includes("/storage/pool/");
+};
+
+export const getStorageVolumeFormProps = (
+  formik: FormikProps<StorageVolumeFormValues>,
+  id: keyof StorageVolumeFormValues,
+) => {
+  return {
+    id,
+    name: id,
+    onBlur: formik.handleBlur,
+    onChange: formik.handleChange,
+    value: (formik.values[id] as string | undefined) ?? "",
+    error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
+    placeholder: `Enter ${id.replaceAll("_", " ")}`,
+  };
 };

@@ -22,6 +22,7 @@ import NetworkAclUsedBy from "pages/networks/NetworkAclUsedBy";
 import type {
   NetworkAclFormValues,
   NetworkAclRuleFormValues,
+  RuleDirection,
 } from "types/forms/networkAcl";
 
 export const toNetworkAcl = (
@@ -39,8 +40,6 @@ export const toNetworkAcl = (
   }
   return result;
 };
-
-export type RuleDirection = "ingress" | "egress";
 
 interface Props {
   formik: FormikProps<NetworkAclFormValues>;

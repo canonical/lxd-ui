@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "types/forms/permissionGroup";
 import { useCurrentProject } from "context/useCurrentProject";
 
 export interface PanelHelper {

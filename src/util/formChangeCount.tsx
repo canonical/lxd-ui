@@ -1,7 +1,8 @@
 import type {
-  ConfigurationRowFormikProps,
   ConfigurationRowFormikValues,
-} from "components/ConfigurationRow";
+  ConfigurationRowFormikProps,
+} from "types/forms/configurationRow";
+
 import type { FormDevice } from "types/formDevice";
 import type { FormDeviceValues } from "types/forms/instanceAndProfile";
 import type { ResourceLimitsFormValues } from "types/forms/instanceAndProfile";

@@ -20,7 +20,7 @@ import type {
   LxdProxyDevice,
 } from "types/device";
 import type { ProjectFormValues } from "types/forms/project";
-import type { ConfigurationRowFormikValues } from "components/ConfigurationRow";
+import type { ConfigurationRowFormikValues } from "types/forms/configurationRow";
 import type { ConfigField } from "types/config";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

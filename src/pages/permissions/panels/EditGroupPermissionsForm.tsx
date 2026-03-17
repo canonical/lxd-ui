@@ -17,16 +17,10 @@ import {
   getPermissionId,
 } from "util/permissions";
 import classnames from "classnames";
-import type { LxdAuthGroup, LxdPermission } from "types/permissions";
+import type { LxdAuthGroup } from "types/permissions";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useGroupEntitlements } from "util/entitlements/groups";
-
-export type FormPermission = LxdPermission & {
-  id?: string;
-  isRemoved?: boolean;
-  isAdded?: boolean;
-  resourceLabel?: string;
-};
+import type { FormPermission } from "types/forms/permissionGroup";
 
 interface Props {
   permissions: FormPermission[];

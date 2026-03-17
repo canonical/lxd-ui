@@ -16,9 +16,9 @@ import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
 import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
-import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { bootPayload } from "components/forms/BootForm";
+import { bootPayload } from "util/instanceBoot";
 import type { SshKey } from "types/forms/instanceAndProfile";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 

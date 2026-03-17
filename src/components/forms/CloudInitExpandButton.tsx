@@ -2,7 +2,7 @@ import type { FC, MouseEvent, ReactNode } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { useModal } from "context/useModal";
 import ResourceLink from "components/ResourceLink";
-import type { CloudInitKey } from "components/forms/CloudInitForm";
+import type { CloudInitKey } from "types/forms/instanceAndProfile";
 import YamlModal from "components/forms/YamlModal";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { ensureEditMode } from "util/instanceEdit";

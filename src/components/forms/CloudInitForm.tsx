@@ -12,9 +12,10 @@ import { getConfigRowMetadata } from "util/configInheritance";
 import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { getProfileFromSource } from "util/devices";
-import type { CloudInitFormValues } from "types/forms/instanceAndProfile";
-
-export type CloudInitKey = keyof CloudInitFormValues;
+import type {
+  CloudInitFormValues,
+  CloudInitKey,
+} from "types/forms/instanceAndProfile";
 
 export const cloudInitPayload = (values: CloudInitFormValues) => {
   return {

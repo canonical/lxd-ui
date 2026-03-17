@@ -9,10 +9,8 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEventQueue } from "context/eventQueue";
-import {
-  instanceLinkFromOperation,
-  instanceNameValidation,
-} from "util/instances";
+import { instanceNameValidation } from "util/instances";
+import { instanceLinkFromOperation } from "util/operations";
 import { getInstanceName } from "util/operations";
 import InstanceDetailActions from "./InstanceDetailActions";
 import { useInstanceEntitlements } from "util/entitlements/instances";

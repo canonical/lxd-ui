@@ -7,8 +7,10 @@ import {
   Select,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
-import type { RuleDirection } from "pages/networks/forms/NetworkAclForm";
-import type { NetworkAclRuleFormValues } from "types/forms/networkAcl";
+import type {
+  NetworkAclRuleFormValues,
+  RuleDirection,
+} from "types/forms/networkAcl";
 
 interface Props {
   direction: RuleDirection;

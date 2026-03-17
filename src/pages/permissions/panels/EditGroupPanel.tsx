@@ -24,7 +24,7 @@ import classnames from "classnames";
 import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
 import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
-import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "types/forms/permissionGroup";
 import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import {
   getIdentityNameLookup,
@@ -37,7 +37,7 @@ import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotif
 import { useSettings } from "context/useSettings";
 import { pluralize } from "util/instanceBulkActions";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
-import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "types/forms/permissionGroup";
 import ResourceLink from "components/ResourceLink";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";

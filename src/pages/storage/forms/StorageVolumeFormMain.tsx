@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { Col, Input, Label, Row, Select } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type { StorageVolumeFormValues } from "types/forms/storageVolume";
-import { getFormProps } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -16,6 +15,7 @@ import type { LxdSettings } from "types/server";
 import type { LxdClusterMember } from "types/cluster";
 import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
 import StoragePoolSizeAvailable from "components/forms/StoragePoolSizeAvailable";
+import { getStorageVolumeFormProps } from "util/storageVolume";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -97,7 +97,7 @@ const StorageVolumeFormMain: FC<Props> = ({
               />
             )}
           <Input
-            {...getFormProps(formik, "name")}
+            {...getStorageVolumeFormProps(formik, "name")}
             type="text"
             label="Name"
             disabled={!formik.values.isCreating}
@@ -136,7 +136,7 @@ const StorageVolumeFormMain: FC<Props> = ({
             }
           />
           <Select
-            {...getFormProps(formik, "content_type")}
+            {...getStorageVolumeFormProps(formik, "content_type")}
             options={[
               {
                 label: "filesystem",

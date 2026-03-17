@@ -25,6 +25,7 @@ import {
 } from "@canonical/react-components";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
+import { getDefaultPayload } from "util/instanceTerminal";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -61,17 +62,6 @@ const defaultPayload: TerminalConnectPayload = {
   group: 0,
 };
 
-export const UI_TERMINAL_DEFAULT_PAYLOAD = "user.ui_terminal_default_payload";
-
-const getDefaultPayload = (instance: LxdInstance) => {
-  const userPayload = instance.config[UI_TERMINAL_DEFAULT_PAYLOAD];
-  if (userPayload) {
-    return JSON.parse(userPayload) as TerminalConnectPayload;
-  }
-
-  return defaultPayload;
-};
-
 interface Props {
   instance: LxdInstance;
   refreshInstance: () => Promise<unknown>;
@@ -88,7 +78,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [payload, setPayload] = useState(getDefaultPayload(instance));
+  const [payload, setPayload] = useState(
+    getDefaultPayload(instance, defaultPayload),
+  );
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef<Terminal>(null);
