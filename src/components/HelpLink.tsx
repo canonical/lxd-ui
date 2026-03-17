@@ -13,7 +13,7 @@ const HelpLink: FC<Props> = ({ children, title, docPath }) => {
     <div className="help-link">
       {children}
       <DocLink docPath={docPath} title={title} className="help-link-doc-link">
-        <Icon name="information" className="help-link-icon" />
+        <Icon name="help" className="help-link-icon" />
       </DocLink>
     </div>
   );
