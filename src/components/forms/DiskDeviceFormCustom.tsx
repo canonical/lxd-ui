@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
 import type {

@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import type { LxdDiskDevice } from "types/device";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import ConfigurationTable from "components/ConfigurationTable";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -49,7 +49,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
   const isVirtualMachine =
     formik.values.entityType === "instance" &&
     formik.values.instanceType === "virtual-machine";
-  const defaultSize = isVirtualMachine ? "10GiB" : "unlimited";
+  const defaultSize = isVirtualMachine ? "10GiB" : "not specified";
 
   const rootStoragePool = pools.find(
     (item) => item.name === formRootDevice?.pool,

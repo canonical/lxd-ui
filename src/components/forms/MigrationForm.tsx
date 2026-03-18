@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Select } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { MigrationFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";

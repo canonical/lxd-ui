@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { Input, Notification, Select } from "@canonical/react-components";
 import { optionYesNo } from "util/instanceOptions";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { SnapshotFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";

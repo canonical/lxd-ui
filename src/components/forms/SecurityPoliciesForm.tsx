@@ -10,7 +10,7 @@ import {
   optionTrueFalse,
   optionYesNo,
 } from "util/instanceOptions";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 import {
   getConfigurationRow,

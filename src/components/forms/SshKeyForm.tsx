@@ -6,7 +6,7 @@ import {
   Tooltip,
   usePortal,
 } from "@canonical/react-components";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type {
   InstanceAndProfileFormValues,
   SshKeyFormValues,
