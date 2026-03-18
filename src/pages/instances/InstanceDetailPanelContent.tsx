@@ -14,7 +14,7 @@ import { useIsClustered } from "context/useIsClustered";
 import InstanceMACAddresses from "pages/instances/InstanceMACAddresses";
 import ResourceLink from "components/ResourceLink";
 import { getInstanceType } from "util/instances";
-import { getImageLink } from "util/instanceImage";
+import { ImageLink } from "pages/instances/ImageLink";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import DevicesSummaryList from "components/DevicesSummaryList";
 import type { LxdDevices } from "types/device";
@@ -61,7 +61,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               className="u-truncate base-image"
               title={instance.config["image.description"]}
             >
-              {getImageLink(instance)}
+              <ImageLink instance={instance} />
             </div>
           </td>
         </tr>
