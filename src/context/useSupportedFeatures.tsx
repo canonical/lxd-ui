@@ -49,5 +49,6 @@ export const useSupportedFeatures = () => {
     hasInstanceBootMode: apiExtensions.has("instance_boot_mode"),
     hasProjectDeleteOperation: apiExtensions.has("project_delete_operation"),
     hasRemoteDropSource: apiExtensions.has("storage_remote_drop_source"),
+    hasClusteringControlPlane: apiExtensions.has("clustering_control_plane"),
   };
 };

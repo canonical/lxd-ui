@@ -13,6 +13,7 @@ import { queryKeys } from "util/queryKeys";
 import { formatSeconds } from "util/seconds";
 import ResourceLabel from "components/ResourceLabel";
 import { ROOT_PATH } from "util/rootPath";
+import { getClusterMemberRolesList } from "util/clusterMember";
 
 interface Props {
   clusterMember: string;
@@ -41,6 +42,10 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
       </>
     );
   }
+
+  const { automaticRoles, customRoles } = getClusterMemberRolesList(
+    member?.roles,
+  );
 
   const rows: TooltipRow[] = [
     {
@@ -81,9 +86,14 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
       valueTitle: member?.url || "",
     },
     {
-      title: "Roles",
-      value: member ? member.roles.join(", ") : "-",
-      valueTitle: member ? member.roles.join(", ") : "",
+      title: "Automatic roles",
+      value: automaticRoles,
+      valueTitle: automaticRoles,
+    },
+    {
+      title: "Custom roles",
+      value: customRoles,
+      valueTitle: customRoles,
     },
     {
       title: "Uptime",

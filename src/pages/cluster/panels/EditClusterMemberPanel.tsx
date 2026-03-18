@@ -20,12 +20,15 @@ import type { LxdClusterMember } from "types/cluster";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { useClusterGroups } from "context/useClusterGroups";
 import ClusterMemberRichChip from "../ClusterMemberRichChip";
+import ClusterMemberRolesSelector from "./ClusterMemberRolesSelector";
+import DocLink from "components/DocLink";
 
 export interface EditClusterMemberForm {
   name: string;
   description: string;
   failureDomain: string;
   groups: string[];
+  roles: string[];
 }
 
 interface Props {
@@ -52,6 +55,7 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
       description: member?.description ?? "",
       failureDomain: member?.failure_domain ?? "",
       groups: member?.groups ?? [],
+      roles: member?.roles ?? [],
     },
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -60,7 +64,7 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
         description: values.description,
         failure_domain: values.failureDomain,
         groups: values.groups,
-        roles: member?.roles,
+        roles: values?.roles,
       } as LxdClusterMember;
 
       updateClusterMember(payload)
@@ -123,6 +127,17 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
               type="text"
               label="Failure domain"
               placeholder="Enter failure domain"
+            />
+            <ClusterMemberRolesSelector
+              selectedRoles={formik.values.roles}
+              setSelectedRoles={(roles) => {
+                formik.setFieldValue("roles", roles);
+              }}
+              help={
+                <DocLink docPath="/explanation/clusters/#member-roles">
+                  Learn more about cluster member roles
+                </DocLink>
+              }
             />
             <p className="u-sv-1">Cluster groups</p>
             <GroupSelection
