@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import {
   Button,
+  CustomSelect,
   Form,
   Input,
   Modal,
@@ -39,6 +40,13 @@ const NetworkAclRuleModal: FC<Props> = ({
     },
   });
 
+  const getActionLabel = (name: string, member: string) => (
+    <div className="label acl-action-label">
+      <span className="name">{name}</span>
+      <span className="members u-text--muted">{member}</span>
+    </div>
+  );
+
   return (
     <Modal
       close={onClose}
@@ -61,15 +69,39 @@ const NetworkAclRuleModal: FC<Props> = ({
       <Form onSubmit={formik.handleSubmit}>
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
-        <Select
+
+        <CustomSelect
           id="action"
           label="Action"
+          wrapperClassName="select-input"
+          dropdownClassName="acl-action-dropdown"
+          value={formik.values.action}
+          onChange={(value) => {
+            formik.setFieldValue("action", value);
+          }}
           options={[
-            { label: "Allow", value: "allow" },
-            { label: "Reject", value: "reject" },
-            { label: "Drop", value: "drop" },
+            {
+              label: getActionLabel("Allow", "Accepts the traffic."),
+              text: "Allow",
+              value: "allow",
+            },
+            {
+              label: getActionLabel(
+                "Reject",
+                "Blocks the traffic and notifies sender.",
+              ),
+              text: "Reject",
+              value: "reject",
+            },
+            {
+              label: getActionLabel(
+                "Drop",
+                "Blocks the traffic without response.",
+              ),
+              text: "Drop",
+              value: "drop",
+            },
           ]}
-          {...formik.getFieldProps("action")}
         />
         <Select
           id="state"
