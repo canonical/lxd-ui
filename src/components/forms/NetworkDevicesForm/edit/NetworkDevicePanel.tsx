@@ -41,6 +41,8 @@ import NetworkDefaultACLSelector, {
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import { useNetworkAcls } from "context/useNetworkAcls";
+import { getExistingNetworks } from "util/devices";
+import type { LxdNetwork } from "types/network";
 
 interface Props {
   project: string;
@@ -67,6 +69,8 @@ const NetworkDevicePanel: FC<Props> = ({
     profiles,
   );
 
+  const existingNetworks = getExistingNetworks(parentFormik.values, profiles);
+
   const isInstance = parentFormik.values.entityType === "instance";
 
   const deviceName = panelParams?.deviceName;
@@ -80,10 +84,23 @@ const NetworkDevicePanel: FC<Props> = ({
   const isCreatingLocal = panelParams?.panel === panels.createNetworkDevice;
   const isCreatingOverride = inheritedDevice && !device;
   const isEditingOverride = inheritedDevice && device;
-
   const isOverride = Boolean(isCreatingOverride || isEditingOverride);
+  const isEditing = panelParams.panel === panels.editNetworkDevice;
+  const isEditingNetwork = (network: LxdNetwork) => {
+    return isEditing && device?.network === network.name;
+  };
+  const canAttachNetworkAgain = (network: LxdNetwork) => {
+    return (
+      !existingNetworks.includes(network.name) ||
+      network.config["dns.mode"] === "none"
+    );
+  };
 
-  const managedNetworks = networks.filter((network) => network.managed);
+  const managedNetworks = networks.filter(
+    (network) =>
+      network.managed &&
+      (isEditingNetwork(network) || canAttachNetworkAgain(network)),
+  );
 
   const getNetworkAclsByNetworkName = (networkName: string) => {
     const network = managedNetworks.find((n) => n.name === networkName);

@@ -9,14 +9,15 @@ import type {
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
-import type { LxdProfile } from "types/profile";
 import type { FormDevice, FormDiskDevice } from "types/formDevice";
 import type { InheritedDiskDevice } from "./configInheritance";
-import { getAppliedProfiles } from "./configInheritance";
 import type { LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "./networks";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import type { IpAddressFamily } from "types/forms/network";
+import type { LxdProfile } from "types/profile";
+import { getAppliedProfiles } from "./configInheritance";
+import type { FormNetworkDevice } from "types/formDevice";
 
 export const ISO_VOLUME_TYPE = "iso-volume";
 export const ISO_VOLUME_NAME = "iso-volume";
@@ -171,6 +172,31 @@ export const getExistingDeviceNames = (
   }
 
   return existingDeviceNames;
+};
+
+export const getExistingNetworks = (
+  values: InstanceAndProfileFormValues,
+  profiles: LxdProfile[],
+): string[] => {
+  const existingNetworksNames: string[] = [];
+
+  // Returns networks within the instance
+  existingNetworksNames.push(
+    ...values.devices
+      .filter((item) => item.type === "nic")
+      .map((item) => (item as FormNetworkDevice).network ?? ""),
+  );
+  // Returns networks from any of the profiles assigned to the instance
+  if (values.entityType === "instance") {
+    const appliedProfiles = getAppliedProfiles(values, profiles);
+    for (const profile of appliedProfiles) {
+      Object.values(profile.devices).map((item) => {
+        existingNetworksNames.push((item as LxdNicDevice).network);
+      });
+    }
+  }
+
+  return existingNetworksNames;
 };
 
 export const getDeviceAcls = (device?: LxdNicDevice | null) => {
