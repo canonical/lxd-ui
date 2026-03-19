@@ -16,7 +16,7 @@ import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import { getIpAddresses } from "util/networks";
 import { getInstanceType } from "util/instances";
-import { getImageLink } from "util/instanceImage";
+import { ImageLink } from "pages/instances/ImageLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
 interface Props {
@@ -52,7 +52,9 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
             <tbody>
               <tr>
                 <th className="u-text--muted">Base image</th>
-                <td>{getImageLink(instance)}</td>
+                <td>
+                  <ImageLink instance={instance} />
+                </td>
               </tr>
               <tr>
                 <th className="u-text--muted">Description</th>
