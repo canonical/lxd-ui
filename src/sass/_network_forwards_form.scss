@@ -14,12 +14,6 @@
     }
   }
 
-  @include extra-large {
-    .prefixed-input__input {
-      padding-top: 0.3rem !important;
-    }
-  }
-
   .forward-ports {
     .listen-port,
     .protocol,
@@ -42,12 +36,6 @@
       .protocol,
       .target-port {
         width: 8rem;
-      }
-    }
-
-    @include extra-large {
-      .prefixed-input__input {
-        padding-top: 0.25rem !important;
       }
     }
   }
