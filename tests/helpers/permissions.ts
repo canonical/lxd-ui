@@ -1,4 +1,3 @@
-import { execSync } from "child_process";
 import type { LxdVersions } from "../fixtures/lxd-test";
 import { test, expect } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
@@ -51,11 +50,4 @@ export const confirmGroupsModifiedForIdentity = async (
   for (const group of groups) {
     await expect(identityRow.getByText(`${symbol} ${group}`)).toBeVisible();
   }
-};
-
-export const runCommand = (command: string) => {
-  console.log("Running command: ", command);
-  const result = execSync(`sudo -E ${command}`).toString();
-  console.log("Result: ", result);
-  return result;
 };

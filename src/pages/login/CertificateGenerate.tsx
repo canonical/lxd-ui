@@ -17,8 +17,8 @@ import AuthenticationTlsStepper from "components/AuthenticationTlsStepper";
 import classnames from "classnames";
 
 const CertificateGenerate: FC = () => {
-  const { isAuthenticated, isAuthLoading, authMethod } = useAuth();
   const navigate = useNavigate();
+  const { isAuthenticated, isAuthLoading, authMethod } = useAuth();
   const { data: settings } = useSettings();
   const hasCertificate = settings?.client_certificate;
   const isBearerToken = authMethod === AUTH_METHOD.BEARER;
