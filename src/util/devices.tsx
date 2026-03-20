@@ -17,6 +17,8 @@ import type { LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "./networks";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import type { IpAddressFamily } from "types/forms/network";
+import type { FormNetworkDevice } from "types/formDevice";
+import type { InheritedNetwork } from "util/configInheritance";
 
 export const ISO_VOLUME_TYPE = "iso-volume";
 export const ISO_VOLUME_NAME = "iso-volume";
@@ -171,6 +173,28 @@ export const getExistingDeviceNames = (
   }
 
   return existingDeviceNames;
+};
+
+export const getAttachedNetworkNames = (
+  values: InstanceAndProfileFormValues,
+  inheritedNetworks: InheritedNetwork[],
+): string[] => {
+  const connectedNetworksNames = values.devices
+    .filter((item) => isNicDevice(item))
+    .map((item) => (item as FormNetworkDevice).network ?? "");
+
+  const localDevices = new Set(values.devices.map((item) => item.name));
+
+  if (values.entityType === "instance") {
+    for (const inheritedNetwork of inheritedNetworks) {
+      // Find a local device that overrides the inherited device by key (device name)
+      const hasLocalOverride = localDevices.has(inheritedNetwork.key);
+      if (!hasLocalOverride) {
+        connectedNetworksNames.push(inheritedNetwork.network?.network ?? "");
+      }
+    }
+  }
+  return connectedNetworksNames;
 };
 
 export const getDeviceAcls = (device?: LxdNicDevice | null) => {
