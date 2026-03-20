@@ -11,17 +11,13 @@ import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
 import type { TLSIdentityFormValues } from "types/forms/tlsIdentity";
 import GroupSelection from "./GroupSelection";
-import useEditHistory from "util/useEditHistory";
 import { useAuthGroups } from "context/useAuthGroups";
 import { createFineGrainedTlsIdentity } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { base64EncodeObject } from "util/helpers";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
-
-interface GroupEditHistory {
-  groupsAdded: Set<string>;
-}
+import { useIdentities } from "context/useIdentities";
 
 interface Props {
   onSuccess: (identityName: string, token: string) => void;
@@ -33,13 +29,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
   const queryClient = useQueryClient();
 
   const { data: groups = [], error, isLoading } = useAuthGroups();
-
-  const { desiredState, save: saveToPanelHistory } =
-    useEditHistory<GroupEditHistory>({
-      initialState: {
-        groupsAdded: new Set(),
-      },
-    });
+  const { data: identities = [] } = useIdentities();
 
   if (error) {
     notify.failure("Loading panel details failed", error);
@@ -47,13 +37,9 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
 
   const modifyGroups = (newGroups: string[], isUnselectAll?: boolean) => {
     if (isUnselectAll) {
-      saveToPanelHistory({
-        groupsAdded: new Set(),
-      });
+      formik.setFieldValue("groups", []);
     } else {
-      saveToPanelHistory({
-        groupsAdded: new Set(newGroups),
-      });
+      formik.setFieldValue("groups", newGroups);
     }
   };
 
@@ -63,10 +49,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
   };
 
   const handleSubmit = (values: TLSIdentityFormValues) => {
-    createFineGrainedTlsIdentity(
-      values.name,
-      Array.from(desiredState.groupsAdded),
-    )
+    createFineGrainedTlsIdentity(values.name, values.groups ?? [])
       .then((response) => {
         const encodedToken = base64EncodeObject(response);
         onSuccess(values.name, encodedToken);
@@ -77,12 +60,25 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
         closePanel();
       })
       .catch((e) => {
+        formik.setSubmitting(false);
         notify.failure("Identity creation failed", e);
       });
   };
 
   const groupSchema = Yup.object().shape({
-    name: Yup.string().required("Identity name is required"),
+    name: Yup.string()
+      .required("Identity name is required")
+      .test(
+        "unique-name",
+        "An identity with this name already exists",
+        function (value) {
+          if (!value) {
+            return true;
+          }
+          const existingNames = identities.map((identity) => identity.name);
+          return !existingNames.includes(value);
+        },
+      ),
   });
 
   const formik = useFormik<TLSIdentityFormValues>({
@@ -93,6 +89,8 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
     validationSchema: groupSchema,
     onSubmit: handleSubmit,
   });
+
+  const groupsAdded = new Set(formik.values.groups ?? []);
 
   return (
     <>
@@ -106,22 +104,21 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
         <SidePanel.Content className="u-no-padding">
           <GroupSelection
             groups={groups}
-            modifiedGroups={desiredState.groupsAdded}
+            modifiedGroups={groupsAdded}
             parentItemName=""
-            selectedGroups={desiredState.groupsAdded}
+            selectedGroups={groupsAdded}
             setSelectedGroups={modifyGroups}
             toggleGroup={(group: string) => {
-              const newGroups = new Set([...desiredState.groupsAdded]);
-              if (newGroups.has(group)) {
-                newGroups.delete(group);
+              if (groupsAdded.has(group)) {
+                groupsAdded.delete(group);
               } else {
-                newGroups.add(group);
+                groupsAdded.add(group);
               }
-              modifyGroups([...newGroups], newGroups.size === 0);
+              formik.setFieldValue("groups", Array.from(groupsAdded));
             }}
             scrollDependencies={[
               groups,
-              desiredState.groupsAdded.size,
+              groupsAdded.size,
               notify.notification,
               formik,
             ]}

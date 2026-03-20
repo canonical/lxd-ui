@@ -21,7 +21,7 @@ interface Props {
 
 const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
   const [isConfirmed, setConfirmed] = useState(false);
-  const [howToUseActiveTab, setHowToUseActiveTab] = useState("cli-tab");
+  const [howToUseActiveTab, setHowToUseActiveTab] = useState("ui-tab");
 
   return (
     <Modal
