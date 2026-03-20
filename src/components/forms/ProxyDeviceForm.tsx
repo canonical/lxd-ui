@@ -9,7 +9,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import type { LxdProxyDevice } from "types/device";
-import type { InstanceAndProfileFormikProps } from "../../types/forms/instanceAndProfileFormProps";
+import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getInheritedProxies } from "util/configInheritance";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
