@@ -32,6 +32,7 @@ import type { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";
 import StoragePoolRichChip from "./StoragePoolRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ const CreateStoragePool: FC = () => {
   const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
+  const { hasRemoteDropSource } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -68,7 +70,7 @@ const CreateStoragePool: FC = () => {
     onSubmit: (values) => {
       const storagePool = values.yaml
         ? (yamlToObject(values.yaml) as LxdStoragePool)
-        : toStoragePool(values);
+        : toStoragePool(values, hasRemoteDropSource);
 
       const mutation =
         clusterMembers.length > 0

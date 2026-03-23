@@ -27,15 +27,13 @@ import type { LxdStoragePool } from "types/storage";
 import {
   alletraDriver,
   btrfsDriver,
-  cephDriver,
-  cephFSDriver,
   cephObject,
   getSupportedStorageDrivers,
   powerFlex,
   pureStorage,
   zfsDriver,
 } from "util/storageOptions";
-import { getPoolKey } from "util/storagePool";
+import { getPoolKey, isCephDriver, isCephFSDriver } from "util/storagePool";
 import { slugify } from "util/slugify";
 import YamlForm from "components/forms/YamlForm";
 import { handleConfigKeys } from "util/storagePoolForm";
@@ -61,9 +59,8 @@ interface Props {
 
 export const toStoragePool = (
   values: StoragePoolFormValues,
+  hasRemoteDropSource?: boolean,
 ): LxdStoragePool => {
-  const isCephDriver = values.driver === cephDriver;
-  const isCephFSDriver = values.driver === cephFSDriver;
   const isPowerFlexDriver = values.driver === powerFlex;
   const isPureDriver = values.driver === pureStorage;
   const isZFSDriver = values.driver === zfsDriver;
@@ -72,7 +69,7 @@ export const toStoragePool = (
   const hasValidSize = values.size?.match(/^\d/);
 
   const getConfig = () => {
-    if (isCephDriver) {
+    if (isCephDriver(values)) {
       return {
         [getPoolKey("ceph_cluster_name")]: values.ceph_cluster_name,
         [getPoolKey("ceph_osd_pg_num")]: values.ceph_osd_pg_num?.toString(),
@@ -80,18 +77,22 @@ export const toStoragePool = (
         [getPoolKey("ceph_rbd_du")]: values.ceph_rbd_du,
         [getPoolKey("ceph_user_name")]: values.ceph_user_name,
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
-        source: values.source,
+        source: hasRemoteDropSource ? undefined : values.source,
+        [getPoolKey("ceph_osd_pool_name")]: hasRemoteDropSource
+          ? values.ceph_osd_pool_name
+          : undefined,
       };
     }
-    if (isCephFSDriver) {
+    if (isCephFSDriver(values)) {
       return {
         [getPoolKey("cephfs_cluster_name")]: values.cephfs_cluster_name,
         [getPoolKey("cephfs_create_missing")]: values.cephfs_create_missing,
         [getPoolKey("cephfs_fscache")]: values.cephfs_fscache,
         [getPoolKey("cephfs_osd_pg_num")]: values.cephfs_osd_pg_num?.toString(),
-        [getPoolKey("cephfs_path")]: values.cephfs_path,
-        [getPoolKey("cephfs_user_name")]: values.cephfs_user_name,
-        source: values.source,
+        source: hasRemoteDropSource ? undefined : values.source,
+        [getPoolKey("cephfs_path")]: hasRemoteDropSource
+          ? values.cephfs_path
+          : undefined,
       };
     }
     if (isCephObjectDriver) {

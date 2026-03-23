@@ -5,15 +5,29 @@ import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
 }
 
 const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
+  const { hasRemoteDropSource } = useSupportedFeatures();
+
   return (
     <ScrollableConfigurationTable
       rows={[
+        ...(hasRemoteDropSource
+          ? [
+              getConfigurationRow({
+                formik,
+                label: "Ceph OSD pool name",
+                name: "ceph_osd_pool_name",
+                defaultValue: "",
+                children: <Input type="text" placeholder="Enter pool name" />,
+              }),
+            ]
+          : []),
         getConfigurationRow({
           formik,
           label: "Cluster name",

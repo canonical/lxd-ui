@@ -23,8 +23,11 @@ import {
   getPowerflexPoolFormFields,
   getPureStoragePoolFormFields,
   getZfsStoragePoolFormFields,
+  isCephDriver,
+  isCephFSDriver,
 } from "util/storagePool";
 import { useSettings } from "context/useSettings";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import ClusteredSourceSelector from "./ClusteredSourceSelector";
@@ -41,6 +44,7 @@ interface Props {
 
 const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const { data: settings } = useSettings();
+  const { hasRemoteDropSource } = useSupportedFeatures();
 
   const getFormProps = (id: "name" | "description" | "size" | "source") => {
     return {
@@ -60,12 +64,16 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const isAlletraDriver = formik.values.driver === alletraDriver;
   const storageDriverOptions = getStorageDriverOptions(settings);
   const isClusterWideSource = isClusterWideSourceDriver(formik.values.driver);
+  const isCephVariant =
+    isCephDriver(formik.values) || isCephFSDriver(formik.values);
+  const isCephVariantWithoutSource = isCephVariant && hasRemoteDropSource;
 
   const hasSource =
     !isPureDriver &&
     !isPowerFlexDriver &&
     !isCephObjectDriver &&
-    !isAlletraDriver;
+    !isAlletraDriver &&
+    !isCephVariantWithoutSource;
 
   const sourceHelpText = formik.values.isCreating
     ? getSourceHelpForDriver(formik.values.driver)
