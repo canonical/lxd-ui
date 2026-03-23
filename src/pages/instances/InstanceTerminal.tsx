@@ -29,37 +29,8 @@ import { getDefaultPayload } from "util/instanceTerminal";
 
 const XTERM_OPTIONS = {
   theme: {
-    background: "#292c2f",
+    background: "#300A24",
   },
-};
-
-const defaultPayload: TerminalConnectPayload = {
-  command: "su -l",
-  environment: [
-    {
-      key: "TERM",
-      value: "xterm-256color",
-    },
-    {
-      key: "HOME",
-      value: "/root",
-    },
-    {
-      key: "PATH",
-      value:
-        "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/run/current-system/sw/bin",
-    },
-    {
-      key: "LANG",
-      value: "C.UTF-8",
-    },
-    {
-      key: "USER",
-      value: "root",
-    },
-  ],
-  user: 0,
-  group: 0,
 };
 
 interface Props {
@@ -78,8 +49,8 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [payload, setPayload] = useState(
-    getDefaultPayload(instance, defaultPayload),
+  const [payload, setPayload] = useState<TerminalConnectPayload>(() =>
+    getDefaultPayload(instance),
   );
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
