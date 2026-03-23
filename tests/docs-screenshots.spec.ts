@@ -732,10 +732,11 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   await page.getByText("IPv4 address", { exact: true }).click();
   await page.getByText("/24").getByRole("button").click();
   let networkSubnet = await page.inputValue("input#ipv4_address");
-  let listenAddress = networkSubnet.replace("1/24", "1");
-  let targetAddress = networkSubnet.replace("1/24", "3");
+  const listenOctets = "1";
+  let listenAddress = networkSubnet.replace("1/24", listenOctets);
   await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByTitle("Create forward").click();
+  const targetAddress = "3";
   await page.getByLabel("Listen address").fill(listenAddress);
   await page.getByLabel("Default target address").fill(targetAddress);
   await page.screenshot({
@@ -764,7 +765,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
     clip: getClipPosition(240, 0, 1440, 360),
   });
 
-  const updateAddress = networkSubnet.replace("1/24", "4");
+  const updateAddress = "4";
   await page.getByRole("link", { name: "Edit network forward" }).click();
   await page.getByRole("button", { name: "Add port" }).click();
   await page.getByLabel("Port 0 listen port").fill("80");
@@ -801,7 +802,6 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   await page.getByText("/24").getByRole("button").click();
   networkSubnet = await page.inputValue("input#ipv4_address");
   listenAddress = networkSubnet.replace("1/24", "1");
-  targetAddress = networkSubnet.replace("1/24", "3");
   await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByTitle("Create forward").click();
   await page.locator("label", { hasText: "Manually enter address" }).click();
