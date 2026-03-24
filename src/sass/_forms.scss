@@ -383,6 +383,18 @@
   }
 }
 
+.form-contents:has(.content-details > .row) {
+  padding-left: 0;
+
+  .content-details {
+    max-width: 56.5rem;
+
+    > * {
+      padding-left: 2.5rem;
+    }
+  }
+}
+
 .edit-instance {
   .form-footer {
     .bottom-btns {
