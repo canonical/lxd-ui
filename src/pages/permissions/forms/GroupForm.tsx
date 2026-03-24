@@ -8,6 +8,7 @@ import { pluralize } from "util/instanceBulkActions";
 import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
+import { isAdminGroup } from "util/permissionGroups";
 
 interface Props {
   formik: FormikProps<PermissionGroupFormValues>;
@@ -56,13 +57,28 @@ const GroupForm: FC<Props> = ({
       return groupEditRestriction;
     }
 
+    if (group && isAdminGroup(group)) {
+      return "Admins group cannot be modified";
+    }
+
     if (isNameInvalid) {
       return "Enter a valid group name first";
     }
 
     return undefined;
   };
+
   const disableReason = getDisableReason();
+
+  const getPermissionsTitle = () => {
+    if (group && isAdminGroup(group)) {
+      return "View ";
+    }
+    if (isEditing) {
+      return "Edit ";
+    }
+    return "Add ";
+  };
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -74,14 +90,16 @@ const GroupForm: FC<Props> = ({
         label="Name"
         required
         autoFocus
-        disabled={!!groupEditRestriction}
-        title={groupEditRestriction}
+        disabled={!!groupEditRestriction || isAdminGroup(group)}
+        title={groupEditRestriction || disableReason}
+        className="permissions-groups-form"
       />
       <AutoExpandingTextArea
         {...getFormProps("description")}
         label="Description"
-        disabled={isFieldDisabled}
+        disabled={isFieldDisabled || isAdminGroup(group)}
         title={disableReason}
+        className="permissions-groups-form"
       />
       <FormLink
         title={(isEditing ? "Edit " : "Add ") + pluralize("identity", 2)}
@@ -99,7 +117,7 @@ const GroupForm: FC<Props> = ({
         onHoverText={disableReason}
       />
       <FormLink
-        title={(isEditing ? "Edit " : "Add ") + pluralize("permission", 2)}
+        title={getPermissionsTitle() + pluralize("permission", 2)}
         icon="lock-locked"
         onClick={() => {
           setSubForm("permission");
