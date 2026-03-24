@@ -5,6 +5,8 @@ import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import type { ChangeSummary } from "./permissionIdentities";
 import { getIdentityName } from "./permissionIdentities";
 
+export const isAdminGroup = (group?: LxdAuthGroup) => group?.name === "admins";
+
 export const testDuplicateGroupName = (
   controllerState: AbortControllerState,
   excludeName?: string,

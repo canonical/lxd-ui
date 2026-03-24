@@ -22,6 +22,7 @@ import type { LxdPermission } from "types/permissions";
 import type { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";
+import classNames from "classnames";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -179,7 +180,9 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
 
   return (
     <div
-      className="permission-selector"
+      className={classNames("permission-selector", {
+        "dropdown-disabled": !!disableReason,
+      })}
       tabIndex={0}
       ref={permissionSelectorRef}
       title={disableReason}
