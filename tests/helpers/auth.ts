@@ -21,7 +21,7 @@ export const restoreCertificateTrust = () => {
   runCommand("lxc config trust add keys/lxd-ui.crt");
 };
 
-const initAccessLink = () => {
+const initAccessLink = (baseUrl: string) => {
   const output = runCommand("lxd init --ui-initial-access-link");
   const urlMatch = output.match(/https?:\/\/[^\s]+/);
 
@@ -30,13 +30,11 @@ const initAccessLink = () => {
   }
 
   const originalUrl = new URL(urlMatch[0]);
-  // Replace the LXD direct port with your HAProxy dev port
-  const initialAccessLink = `https://localhost:8407/${originalUrl.search}`;
 
-  return initialAccessLink;
+  return `${baseUrl}${originalUrl.search}`;
 };
 
-export const visitInitialAccessLink = async (page: Page) => {
-  const initialAccessLink = initAccessLink();
+export const visitInitialAccessLink = async (page: Page, baseURL: string) => {
+  const initialAccessLink = initAccessLink(baseURL);
   await gotoURLWithNetworkIdle(page, initialAccessLink);
 };
