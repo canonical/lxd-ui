@@ -4,12 +4,17 @@ import ResourceLink from "components/ResourceLink";
 import type { LxdClusterMember } from "types/cluster";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
 import { ROOT_PATH } from "util/rootPath";
+import { getClusterMemberRolesList } from "util/clusterMember";
 
 interface Props {
   member: LxdClusterMember;
 }
 
 const ClusterMemberOverview: FC<Props> = ({ member }) => {
+  const { automaticRoles, customRoles } = getClusterMemberRolesList(
+    member.roles,
+  );
+
   return (
     <Row className="general">
       <Col size={3}>
@@ -37,12 +42,16 @@ const ClusterMemberOverview: FC<Props> = ({ member }) => {
               <td>{member.message}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Url</th>
+              <th className="u-text--muted">URL</th>
               <td>{member.url}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Roles</th>
-              <td>{member.roles.join(", ")}</td>
+              <th className="u-text--muted">Automatic roles</th>
+              <td>{automaticRoles}</td>
+            </tr>
+            <tr>
+              <th className="u-text--muted">Custom roles</th>
+              <td>{customRoles}</td>
             </tr>
             <tr>
               <th className="u-text--muted">Groups</th>
