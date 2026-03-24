@@ -41,6 +41,8 @@ import NetworkDefaultACLSelector, {
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import { useNetworkAcls } from "context/useNetworkAcls";
+import { getAttachedNetworkNames } from "util/devices";
+import type { LxdNetwork } from "types/network";
 
 interface Props {
   project: string;
@@ -82,11 +84,31 @@ const NetworkDevicePanel: FC<Props> = ({
   const isEditingOverride = inheritedDevice && device;
 
   const isOverride = Boolean(isCreatingOverride || isEditingOverride);
+  const isEditing = panelParams.panel === panels.editNetworkDevice;
 
-  const managedNetworks = networks.filter((network) => network.managed);
+  const attachedNetworks = getAttachedNetworkNames(
+    parentFormik.values,
+    inheritedNetworks,
+  );
+
+  const isAvailable = (network: LxdNetwork) => {
+    if (!network.managed) {
+      return false;
+    }
+    const isSelectedNetwork =
+      isEditing &&
+      (device?.network === network.name ||
+        inheritedDevice?.network?.network === network.name);
+    const isAttached = attachedNetworks.includes(network.name);
+    const isProfile = parentFormik.values.entityType === "profile";
+    const allowsDuplicateAttachment =
+      network.config["dns.mode"] === "none" || isProfile;
+    return isSelectedNetwork || !isAttached || allowsDuplicateAttachment;
+  };
+  const networkOptions = networks.filter(isAvailable);
 
   const getNetworkAclsByNetworkName = (networkName: string) => {
-    const network = managedNetworks.find((n) => n.name === networkName);
+    const network = networkOptions.find((n) => n.name === networkName);
     return getNetworkAcls(network);
   };
 
@@ -125,7 +147,7 @@ const NetworkDevicePanel: FC<Props> = ({
       });
 
   const getInitialValues = (): NetworkDeviceFormValues => {
-    const defaultNetworkName = managedNetworks[0]?.name ?? "";
+    const defaultNetworkName = networkOptions[0]?.name ?? "";
     const defaultAcls =
       getNetworkAclsByNetworkName(defaultNetworkName).join(",");
 
@@ -181,7 +203,7 @@ const NetworkDevicePanel: FC<Props> = ({
     onSubmit: (values) => {
       const allSelectedAcls = values.acls ? values.acls.split(",") : [];
       const networkAcls = getNetworkAcls(
-        managedNetworks.find((n) => n.name === values.network),
+        networkOptions.find((n) => n.name === values.network),
       );
       const userSelectedAcls = allSelectedAcls.filter(
         (acl) => !networkAcls.includes(acl),
@@ -221,14 +243,30 @@ const NetworkDevicePanel: FC<Props> = ({
     },
   });
 
+  const networkSelectorError = () => {
+    if (networkOptions.length === 0) {
+      return "No available networks found.";
+    }
+    if (formik.touched.network) {
+      return formik.errors.network;
+    }
+    return undefined;
+  };
+
   const getTitle = () => {
-    if (isCreatingLocal) return "Create network device";
-    if (isCreatingOverride) return "Create override";
-    if (isEditingOverride) return "Edit override";
+    if (isCreatingLocal) {
+      return "Create network device";
+    }
+    if (isCreatingOverride) {
+      return "Create override";
+    }
+    if (isEditingOverride) {
+      return "Edit override";
+    }
     return "Edit network device";
   };
 
-  const selectedNetwork = managedNetworks.find(
+  const selectedNetwork = networkOptions.find(
     (n) => n.name === formik.values.network,
   );
 
@@ -332,11 +370,12 @@ const NetworkDevicePanel: FC<Props> = ({
                 void formik.setFieldValue("ipv4", "");
                 void formik.setFieldValue("ipv6", "");
               }}
-              networkList={managedNetworks}
+              networkList={networkOptions}
+              disabled={networkOptions.length === 0}
               id="network"
               label="Network"
               required
-              error={formik.touched.network ? formik.errors.network : undefined}
+              error={networkSelectorError()}
             />
 
             {isInstance && selectedNetwork && (
