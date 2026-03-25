@@ -50,5 +50,8 @@ export const useSupportedFeatures = () => {
     hasProjectDeleteOperation: apiExtensions.has("project_delete_operation"),
     hasRemoteDropSource: apiExtensions.has("storage_remote_drop_source"),
     hasClusteringControlPlane: apiExtensions.has("clustering_control_plane"),
+    hasStorageAndNetworkOperations: apiExtensions.has(
+      "storage_and_network_operations",
+    ),
   };
 };
