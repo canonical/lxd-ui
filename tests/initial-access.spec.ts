@@ -33,11 +33,17 @@ test.describe("Initial access with bearer token", () => {
 
   test("Should authenticate with bearer token and setup TLS", async ({
     page,
+    baseURL,
     lxdVersion,
   }) => {
     skipIfNotSupported(lxdVersion);
 
-    await visitInitialAccessLink(page);
+    if (!baseURL) {
+      test.fail(true, "Missing baseUrl from configuration");
+      return;
+    }
+
+    await visitInitialAccessLink(page, baseURL);
 
     await expect(page).toHaveURL(/\/ui\/project\/.*\/instances/);
     await expect(page.getByText("Initial access expires in")).toBeVisible();
