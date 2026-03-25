@@ -16,6 +16,9 @@ import { queryKeys } from "util/queryKeys";
 import ResourceLabel from "components/ResourceLabel";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
+import StoragePoolRichChip from "../StoragePoolRichChip";
 
 interface Props {
   pool: LxdStoragePool;
@@ -35,23 +38,51 @@ const DeleteStoragePoolBtn: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { canDeletePool } = useStoragePoolEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
+
+  const notifySuccess = (poolName: string) => {
+    toastNotify.success(
+      <>
+        Storage pool <ResourceLabel bold type="pool" value={poolName} />{" "}
+        deleted.
+      </>,
+    );
+  };
 
   const handleDelete = () => {
     setLoading(true);
     deleteStoragePool(pool.name)
-      .then(() => {
+      .then((operation) => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
         navigate(
           `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
         );
-        toastNotify.success(
-          <>
-            Storage pool <ResourceLabel bold type="pool" value={pool.name} />{" "}
-            deleted.
-          </>,
-        );
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of storage pool{" "}
+              <StoragePoolRichChip poolName={pool.name} projectName={project} />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              notifySuccess(pool.name);
+            },
+            (msg) =>
+              toastNotify.failure(
+                `Deleting storage pool ${pool.name} failed`,
+
+                new Error(msg),
+              ),
+          );
+        } else {
+          notifySuccess(pool.name);
+        }
       })
       .catch((e) => {
         setLoading(false);
