@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.42% </span>
+                <span class="strong">13.6% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/149</span>
+                <span class='fraction'>20/147</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.7% </span>
+                <span class="strong">15.96% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/121</span>
+                <span class='fraction'>19/119</span>
             </div>
         
             
@@ -182,9 +182,7 @@
 <a name='L117'></a><a href='#L117'>117</a>
 <a name='L118'></a><a href='#L118'>118</a>
 <a name='L119'></a><a href='#L119'>119</a>
-<a name='L120'></a><a href='#L120'>120</a>
-<a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">17x</span>
+<a name='L120'></a><a href='#L120'>120</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -201,8 +199,6 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -360,19 +356,17 @@ const ClusteredDiskSizeSelector: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="u-sv3"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Label forId="sizePerClusterMember"&gt;Size&lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CheckboxInput</span>
-<span class="cstat-no" title="statement not covered" >          id={`${id}-same-for-all-toggle`}</span>
-<span class="cstat-no" title="statement not covered" >          label="Same for all cluster members"</span>
-<span class="cstat-no" title="statement not covered" >          checked={!isSpecific}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setValueForAllMembers(firstValue);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val)</span>;</span></span>
-<span class="cstat-no" title="statement not covered" >          }}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={!!disabledReason}</span>
-<span class="cstat-no" title="statement not covered" >          title={disabledReason}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >      &lt;CheckboxInput</span>
+<span class="cstat-no" title="statement not covered" >        id={`${id}-same-for-all-toggle`}</span>
+<span class="cstat-no" title="statement not covered" >        label="Same for all cluster members"</span>
+<span class="cstat-no" title="statement not covered" >        checked={!isSpecific}</span>
+<span class="cstat-no" title="statement not covered" >        onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          setValueForAllMembers(firstValue);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val)</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >        }}</span>
+<span class="cstat-no" title="statement not covered" >        disabled={!!disabledReason}</span>
+<span class="cstat-no" title="statement not covered" >        title={disabledReason}</span>
+<span class="cstat-no" title="statement not covered" >      /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isSpecific &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="cluster-specific-input"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {memberNames.map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; {</span>
@@ -433,7 +427,7 @@ export default ClusteredDiskSizeSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-25T10:54:22.604Z
+                at 2026-03-26T10:02:34.469Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
