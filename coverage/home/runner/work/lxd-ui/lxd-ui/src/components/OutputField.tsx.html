@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/FormEditButton.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/OutputField.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> FormEditButton.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> OutputField.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.29% </span>
+                <span class="strong">96.55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/27</span>
+                <span class='fraction'>28/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -88,56 +88,62 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">217x</span>
-<span class="cline-any cline-yes">80x</span>
-<span class="cline-any cline-yes">80x</span>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">345x</span>
+<span class="cline-any cline-yes">345x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Field } from "@canonical/react-components";
 &nbsp;
 interface Props {
-  toggleReadOnly: () =&gt; void;
-  disableReason?: string;
+  id: string;
+  label: string;
+  value: string;
+  help?: string;
 }
 &nbsp;
-const FormEditButton: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> toggleReadOnly, disableReason }) =&gt; {
+const OutputField: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> id, label, value, help }) =&gt; {
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;Button
-      onClick={toggleReadOnly}
-      className="u-no-margin--bottom"
-      type="button"
-      appearance="base"
-      title={disableReason ?? "Edit"}
-      hasIcon
-      disabled={!!disableReason}
+    &lt;Field
+      forId={id}
+      label={label}
+      help={help}
+      labelClassName="u-no-margin--bottom"
+      className="output-field"
     &gt;
-      &lt;Icon name="edit" /&gt;
-    &lt;/Button&gt;
+      &lt;output id={id} className="mono-font u-sv2"&gt;
+        &lt;b&gt;{value}&lt;/b&gt;
+      &lt;/output&gt;
+    &lt;/Field&gt;
   );
 };
 &nbsp;
-export default FormEditButton;
+export default OutputField;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
