@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import { Col, Row, Select } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
 import type { FormikProps } from "formik/dist/types";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
@@ -10,6 +10,7 @@ import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 import { getInstanceField } from "util/instanceConfigFields";
+import OutputField from "components/OutputField";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
@@ -38,18 +39,11 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
     <ScrollableForm>
       <Row>
         <Col size={12}>
-          <Input
+          <OutputField
             id="name"
-            name="name"
-            type="text"
             label="Name"
-            help="Click the instance name in the header to rename the instance"
-            placeholder="Enter name"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
             value={formik.values.name}
-            error={formik.touched.name ? formik.errors.name : null}
-            disabled={true}
+            help="Click the instance name in the header to rename the instance"
           />
           <AutoExpandingTextArea
             id="description"
