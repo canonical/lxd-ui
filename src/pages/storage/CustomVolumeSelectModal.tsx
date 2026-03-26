@@ -187,7 +187,10 @@ const CustomVolumeSelectModal: FC<Props> = ({
         />
       </ScrollableTable>
       {!isLoading && (
-        <footer className="p-modal__footer" id="modal-footer">
+        <footer
+          className="p-modal__footer create-volume-modal-footer"
+          id="modal-footer"
+        >
           <Button
             className="u-no-margin--bottom"
             onClick={onCancel}

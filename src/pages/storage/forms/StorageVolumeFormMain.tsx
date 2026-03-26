@@ -168,31 +168,33 @@ const StorageVolumeFormMain: FC<Props> = ({
         </Col>
       </Row>
       {formik.values.content_type === "filesystem" && (
-        <ConfigurationTable
-          rows={[
-            getConfigurationRow({
-              formik,
-              label: "Security shifted",
-              name: "security_shifted",
-              defaultValue: "",
-              disabled: formik.values.security_unmapped === "true",
-              disabledReason:
-                "This setting can't be changed while security unmapped is set to true",
-              children: <Select options={optionTrueFalse} />,
-            }),
+        <div>
+          <ConfigurationTable
+            rows={[
+              getConfigurationRow({
+                formik,
+                label: "Security shifted",
+                name: "security_shifted",
+                defaultValue: "",
+                disabled: formik.values.security_unmapped === "true",
+                disabledReason:
+                  "This setting can't be changed while security unmapped is set to true",
+                children: <Select options={optionTrueFalse} />,
+              }),
 
-            getConfigurationRow({
-              formik,
-              label: "Security unmapped",
-              name: "security_unmapped",
-              defaultValue: "",
-              disabled: formik.values.security_shifted === "true",
-              disabledReason:
-                "This setting can't be changed while security shifted is set to true",
-              children: <Select options={optionTrueFalse} />,
-            }),
-          ]}
-        />
+              getConfigurationRow({
+                formik,
+                label: "Security unmapped",
+                name: "security_unmapped",
+                defaultValue: "",
+                disabled: formik.values.security_shifted === "true",
+                disabledReason:
+                  "This setting can't be changed while security shifted is set to true",
+                children: <Select options={optionTrueFalse} />,
+              }),
+            ]}
+          />
+        </div>
       )}
     </ScrollableForm>
   );

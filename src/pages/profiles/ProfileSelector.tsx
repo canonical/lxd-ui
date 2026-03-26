@@ -180,18 +180,20 @@ const ProfileSelector: FC<Props> = ({
         </div>
       ))}
       {!readOnly && (
-        <Button
-          id="addProfileButton"
-          disabled={!!disabledReason || unselected.length === 0}
-          className="profile-add-btn"
-          onClick={addProfile}
-          type="button"
-          title={disabledReason}
-          hasIcon
-        >
-          <Icon name="plus" />
-          <span>Add profile</span>
-        </Button>
+        <div>
+          <Button
+            id="addProfileButton"
+            disabled={!!disabledReason || unselected.length === 0}
+            className="profile-add-btn"
+            onClick={addProfile}
+            type="button"
+            title={disabledReason}
+            hasIcon
+          >
+            <Icon name="plus" />
+            <span>Add profile</span>
+          </Button>
+        </div>
       )}
     </>
   );

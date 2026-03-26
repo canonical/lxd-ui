@@ -53,19 +53,17 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
   return (
     <div className="u-sv3">
       <Label forId="sizePerClusterMember">Size</Label>
-      {
-        <CheckboxInput
-          id={`${id}-same-for-all-toggle`}
-          label="Same for all cluster members"
-          checked={!isSpecific}
-          onChange={() => {
-            setValueForAllMembers(firstValue);
-            setIsSpecific((val) => !val);
-          }}
-          disabled={!!disabledReason}
-          title={disabledReason}
-        />
-      }
+      <CheckboxInput
+        id={`${id}-same-for-all-toggle`}
+        label="Same for all cluster members"
+        checked={!isSpecific}
+        onChange={() => {
+          setValueForAllMembers(firstValue);
+          setIsSpecific((val) => !val);
+        }}
+        disabled={!!disabledReason}
+        title={disabledReason}
+      />
       {isSpecific && (
         <div className="cluster-specific-input">
           {memberNames.map((item) => {
