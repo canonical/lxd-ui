@@ -32,6 +32,8 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 import { usePoolFromClusterMembers } from "context/useStoragePools";
 import StoragePoolRichChip from "./StoragePoolRichChip";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   pool: LxdStoragePool;
@@ -51,6 +53,8 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const [version, setVersion] = useState(0);
   const { canEditPool } = useStoragePoolEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   if (!project) {
     return <>Missing project</>;
@@ -82,6 +86,16 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     ? undefined
     : "You do not have permission to edit this pool";
 
+  const notifySuccess = (poolName: string) => {
+    toastNotify.success(
+      <>
+        Storage pool{" "}
+        <StoragePoolRichChip poolName={poolName} projectName={project} />{" "}
+        updated.
+      </>,
+    );
+  };
+
   const formik = useFormik<StoragePoolFormValues>({
     initialValues: toStoragePoolFormValues(
       pool,
@@ -108,17 +122,32 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           : async () => updatePool(savedPool);
 
       mutation()
-        .then(() => {
-          toastNotify.success(
-            <>
-              Storage pool{" "}
-              <StoragePoolRichChip
-                poolName={savedPool.name}
-                projectName={project}
-              />{" "}
-              updated.
-            </>,
-          );
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Update of storage pool{" "}
+                <StoragePoolRichChip
+                  poolName={savedPool.name}
+                  projectName={project}
+                />{" "}
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                notifySuccess(savedPool.name);
+              },
+              (msg) =>
+                toastNotify.failure(
+                  `Update of storage pool ${savedPool.name} failed`,
+                  new Error(msg),
+                ),
+            );
+          } else {
+            notifySuccess(savedPool.name);
+          }
         })
         .catch((e) => {
           notify.failure("Storage pool update failed", e);

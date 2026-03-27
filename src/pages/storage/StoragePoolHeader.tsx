@@ -11,6 +11,8 @@ import { useFormik } from "formik";
 import { renameStoragePool } from "api/storage-pools";
 import { ROOT_PATH } from "util/rootPath";
 import StoragePoolRichChip from "./StoragePoolRichChip";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   name: string;
@@ -23,12 +25,23 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
       .test(...testDuplicateStoragePoolName(project, controllerState))
       .required("This field is required"),
   });
+
+  const notifySuccess = (poolName: string) => {
+    toastNotify.success(
+      <>
+        Storage pool <strong>{name}</strong> renamed to{" "}
+        <StoragePoolRichChip poolName={poolName} projectName={project} />
+      </>,
+    );
+  };
 
   const formik = useFormik<RenameHeaderValues>({
     initialValues: {
@@ -43,18 +56,37 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
         return;
       }
       renameStoragePool(name, values.name)
-        .then(() => {
+        .then((operation) => {
           const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`;
           navigate(url);
-          toastNotify.success(
-            <>
-              Storage pool <strong>{name}</strong> renamed to{" "}
-              <StoragePoolRichChip
-                poolName={values.name}
-                projectName={project}
-              />
-            </>,
-          );
+
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Renaming of storage pool{" "}
+                <StoragePoolRichChip
+                  poolName={values.name}
+                  projectName={project}
+                />{" "}
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                notifySuccess(values.name);
+              },
+              (msg) =>
+                toastNotify.failure(
+                  `Renaming of storage pool ${values.name} failed`,
+
+                  new Error(msg),
+                ),
+            );
+          } else {
+            notifySuccess(values.name);
+          }
+
           formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {

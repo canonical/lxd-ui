@@ -12,6 +12,7 @@ import type {
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdClusterMember } from "types/cluster";
 import type { ClusterSpecificValues } from "types/cluster";
+import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";
@@ -101,17 +102,21 @@ export const fetchClusteredStoragePoolResources = async (
 export const createPool = async (
   pool: Partial<LxdStoragePool>,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  await fetch(`${ROOT_PATH}/1.0/storage-pools?${params.toString()}`, {
+  return fetch(`${ROOT_PATH}/1.0/storage-pools?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(pool),
-  }).then(handleResponse);
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 const getClusterAndMemberPoolPayload = (pool: LxdStoragePool) => {
@@ -149,7 +154,7 @@ export const createClusteredPool = async (
   sourcePerClusterMember?: ClusterSpecificValues,
   zfsPoolNamePerClusterMember?: ClusterSpecificValues,
   sizePerClusterMember?: ClusterSpecificValues,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const { memberPoolPayload, clusterPoolPayload } =
     getClusterAndMemberPoolPayload(pool);
   return Promise.allSettled(
@@ -175,11 +180,11 @@ export const createClusteredPool = async (
 export const updatePool = async (
   pool: LxdStoragePool,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool.name)}?${params.toString()}`,
     {
       method: "PATCH",
@@ -188,7 +193,11 @@ export const updatePool = async (
       },
       body: JSON.stringify(pool),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const updateClusteredPool = async (
@@ -197,7 +206,7 @@ export const updateClusteredPool = async (
   sourcePerClusterMember?: ClusterSpecificValues,
   zfsPoolNamePerClusterMember?: ClusterSpecificValues,
   sizePerClusterMember?: ClusterSpecificValues,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const { memberPoolPayload, clusterPoolPayload } =
     getClusterAndMemberPoolPayload(pool);
   return Promise.allSettled(
@@ -224,28 +233,43 @@ export const updateClusteredPool = async (
     }),
   )
     .then(handleSettledResult)
-    .then(async () => updatePool(clusterPoolPayload));
+    .then(async () => {
+      return updatePool(clusterPoolPayload);
+    });
 };
 
 export const renameStoragePool = async (
   oldName: string,
   newName: string,
-): Promise<void> => {
-  await fetch(`${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(oldName)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+): Promise<LxdOperationResponse> => {
+  return fetch(
+    `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(oldName)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newName,
+      }),
     },
-    body: JSON.stringify({
-      name: newName,
-    }),
-  }).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
-export const deleteStoragePool = async (pool: string): Promise<void> => {
-  await fetch(`${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}`, {
+export const deleteStoragePool = async (
+  pool: string,
+): Promise<LxdOperationResponse> => {
+  return fetch(`${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}`, {
     method: "DELETE",
-  }).then(handleResponse);
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const fetchPoolFromClusterMembers = async (
