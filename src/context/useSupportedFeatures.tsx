@@ -47,6 +47,9 @@ export const useSupportedFeatures = () => {
     hasProjectForceDelete: apiExtensions.has("projects_force_delete"),
     hasInstanceForceDelete: apiExtensions.has("instance_force_delete"),
     hasInstanceBootMode: apiExtensions.has("instance_boot_mode"),
+    hasInstanceStateSelectiveRecursion: apiExtensions.has(
+      "instances_state_selective_recursion",
+    ),
     hasProjectDeleteOperation: apiExtensions.has("project_delete_operation"),
     hasRemoteDropSource: apiExtensions.has("storage_remote_drop_source"),
     hasClusteringControlPlane: apiExtensions.has("clustering_control_plane"),
