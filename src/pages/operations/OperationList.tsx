@@ -156,7 +156,7 @@ const OperationList: FC = () => {
               {operations.length > 0 && (
                 <PageHeader.Search>
                   <SearchBox
-                    className="search-box margin-right u-no-margin--bottom"
+                    className="search-box margin-right--large u-no-margin--bottom"
                     name="search-operations"
                     onChange={setQuery}
                     placeholder="Search"

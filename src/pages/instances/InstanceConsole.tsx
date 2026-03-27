@@ -118,7 +118,9 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
                 onClick={() => {
                   handleFullScreen();
                 }}
+                hasIcon
               >
+                <Icon name="fullscreen" />
                 <span>Fullscreen</span>
               </Button>
               <InstanceConsoleShortcuts disabled={!isRunning} />

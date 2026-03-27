@@ -7,6 +7,7 @@ import {
   ActionButton,
   useToastNotification,
   usePortal,
+  Icon,
 } from "@canonical/react-components";
 import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
 import { useQueryClient } from "@tanstack/react-query";
@@ -145,7 +146,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
 
   return attachedIso ? (
     <>
-      <span className="u-text--muted margin-right">
+      <span className="u-text--muted margin-right--large">
         {attachedIso?.bare?.source}
       </span>
       <ActionButton
@@ -155,7 +156,8 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
-        Detach ISO
+        <Icon name="iso" className="iso-icon margin-right--small" />
+        <span>Detach ISO</span>
       </ActionButton>
     </>
   ) : (
@@ -167,7 +169,8 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
-        Attach ISO
+        <Icon name="iso" className="iso-icon margin-right--small" />
+        <span>Attach ISO</span>
       </ActionButton>
       {isOpen && (
         <Portal>

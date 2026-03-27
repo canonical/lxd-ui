@@ -177,7 +177,7 @@ const TerminalPayloadForm: FC<Props> = ({
           onDismiss={() => {
             setNotification(null);
           }}
-          className="margin-right"
+          className="margin-right--large"
         >
           {notification.message}
         </Notification>

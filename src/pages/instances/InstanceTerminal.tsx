@@ -265,8 +265,10 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
               className="u-no-margin--bottom"
               onClick={handleFullscreen}
               disabled={isLoading || !controlWs}
+              hasIcon
             >
-              Fullscreen
+              <Icon name="fullscreen" />
+              <span>Fullscreen</span>
             </Button>
             <ReconnectTerminalBtn
               reconnect={setPayload}

@@ -220,7 +220,7 @@ const CustomIsoList: FC = () => {
                 <div className="search-box-wrapper">
                   <SearchBox
                     name="search-snapshot"
-                    className="search-box margin-right u-no-margin--bottom"
+                    className="search-box margin-right--large u-no-margin--bottom"
                     type="text"
                     onChange={(value) => {
                       setQuery(value);

@@ -205,7 +205,7 @@ const InstanceSnapshots = (props: Props) => {
               <div className="search-box-wrapper">
                 <SearchBox
                   name="search-snapshot"
-                  className="search-box margin-right"
+                  className="search-box margin-right--large"
                   type="text"
                   onChange={(value) => {
                     setQuery(value);
