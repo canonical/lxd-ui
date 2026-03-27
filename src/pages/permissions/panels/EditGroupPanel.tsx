@@ -17,7 +17,7 @@ import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
 import GroupForm from "../forms/GroupForm";
 import { renameGroup, updateGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
-import { testDuplicateGroupName } from "util/permissionGroups";
+import { isAdminGroup, testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import classnames from "classnames";
@@ -173,15 +173,17 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     };
 
     const mutation = async () => {
-      if (!canEditGroup(group)) {
+      if (!canEditGroup(group) || isAdminGroup(group)) {
         return saveIdentities();
       }
 
-      return isNameChanged
-        ? renameGroup(group?.name ?? "", values.name)
-            .then(async () => updateGroup(groupPayload))
-            .then(saveIdentities)
-        : updateGroup(groupPayload).then(saveIdentities);
+      if (isNameChanged) {
+        return renameGroup(group?.name ?? "", values.name)
+          .then(async () => updateGroup(groupPayload))
+          .then(saveIdentities);
+      }
+
+      return updateGroup(groupPayload).then(saveIdentities);
     };
 
     mutation()

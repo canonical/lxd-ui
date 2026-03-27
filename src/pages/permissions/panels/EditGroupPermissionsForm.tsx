@@ -21,6 +21,7 @@ import type { LxdAuthGroup } from "types/permissions";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import type { FormPermission } from "types/forms/permissionGroup";
+import { isAdminGroup } from "util/permissionGroups";
 
 interface Props {
   permissions: FormPermission[];
@@ -45,6 +46,10 @@ const EditGroupPermissionsForm: FC<Props> = ({
 
     if (!canViewPermissions()) {
       return "You are not allowed to view permissions";
+    }
+
+    if (isAdminGroup(group)) {
+      return "Permissions for this group cannot be modified";
     }
 
     return "";

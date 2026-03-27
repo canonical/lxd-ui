@@ -4,6 +4,7 @@ import type { LxdAuthGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { useGroupEntitlements } from "util/entitlements/groups";
+import { isAdminGroup } from "util/permissionGroups";
 
 interface Props {
   group: LxdAuthGroup;
@@ -13,6 +14,16 @@ const GroupActions: FC<Props> = ({ group }) => {
   const panelParams = usePanelParams();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canDeleteGroup, canEditGroup } = useGroupEntitlements();
+
+  const getTitle = () => {
+    if (isAdminGroup(group)) {
+      return "Admins group cannot be deleted";
+    }
+    if (canDeleteGroup(group)) {
+      return "Delete group";
+    }
+    return "You do not have permission to delete this group";
+  };
 
   return (
     <>
@@ -32,7 +43,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             title={
               canEditGroup(group)
                 ? "Edit group"
-                : "Edit group - You do not have permission to edit this group"
+                : "You do not have permission to edit this group"
             }
             disabled={!canEditGroup(group)}
           >
@@ -45,12 +56,8 @@ const GroupActions: FC<Props> = ({ group }) => {
             hasIcon
             onClick={openPortal}
             type="button"
-            title={
-              canDeleteGroup(group)
-                ? "Delete group"
-                : "Delete group - You do not have permission to delete this group"
-            }
-            disabled={!canDeleteGroup(group)}
+            title={getTitle()}
+            disabled={isAdminGroup(group) || !canDeleteGroup(group)}
           >
             <Icon name="delete" />
           </Button>,
