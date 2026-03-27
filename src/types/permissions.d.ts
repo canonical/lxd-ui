@@ -6,6 +6,8 @@ export interface LxdIdentity {
     | "Client certificate"
     | "Client certificate (pending)"
     | "Client certificate (unrestricted)"
+    | "Cluster link certificate"
+    | "Cluster link certificate (pending)"
     | "Metrics certificate (unrestricted)"
     | "OIDC client"
     | "Server certificate";
