@@ -7,6 +7,7 @@ import {
   Select,
   useNotify,
   Spinner,
+  Tooltip,
 } from "@canonical/react-components";
 import { defaultFirst } from "util/helpers";
 import { useProfiles } from "context/useProfiles";
@@ -69,34 +70,30 @@ const ProfileSelector: FC<Props> = ({
     }
   };
 
-  const getHelp = (index: number) => {
-    const profileIntro =
-      "Profiles store a set of configuration options, such as instance and device options.";
-
-    if (index > 0 && index === selected.length - 1) {
-      return (
-        <>
-          {profileIntro}
-          <br />
-          Each profile overrides the settings specified in previous profiles.
-        </>
-      );
-    }
-    if (selected.length === 1) {
-      return profileIntro;
-    }
-  };
-
   return (
     <>
-      <Label forId="profile-0">Profiles</Label>
+      <Label forId="profile-0">
+        Profiles{" "}
+        <Tooltip
+          message={
+            <>
+              A profile stores a set of configuration, such as instance and
+              device options.
+              <br />
+              Each profile overrides the configuration specified in previous
+              profiles.
+            </>
+          }
+        >
+          <Icon name="information" />
+        </Tooltip>
+      </Label>
       {selected.map((value, index) => (
         <div className="profile-select" key={value}>
           <div>
             <Select
               id={`profile-${index}`}
               aria-label="Select a profile"
-              help={getHelp(index)}
               onChange={(e) => {
                 const newValues = [...selected];
                 newValues[index] = e.target.value;
