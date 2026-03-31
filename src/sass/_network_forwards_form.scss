@@ -22,6 +22,10 @@
       width: 15rem;
     }
 
+    .listen-port {
+      padding-left: 0;
+    }
+
     @media screen and (width <= 1337px) {
       .listen-port,
       .protocol,

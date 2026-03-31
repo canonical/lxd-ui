@@ -270,21 +270,25 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
               disabled={!isListenAddressValid}
             />
             {formik.values.ports.length > 0 && (
-              <NetworkForwardFormPorts
-                formik={formik}
-                network={network}
-                targetAddressFamily={targetAddressFamily}
-              />
+              <Row>
+                <NetworkForwardFormPorts
+                  formik={formik}
+                  network={network}
+                  targetAddressFamily={targetAddressFamily}
+                />
+              </Row>
             )}
-            <Button
-              hasIcon
-              onClick={addPort}
-              type="button"
-              disabled={!isListenAddressValid}
-            >
-              <Icon name="plus" />
-              <span>Add port</span>
-            </Button>
+            <div>
+              <Button
+                hasIcon
+                onClick={addPort}
+                type="button"
+                disabled={!isListenAddressValid}
+              >
+                <Icon name="plus" />
+                <span>Add port</span>
+              </Button>
+            </div>
           </ScrollableForm>
         </Col>
       </Row>

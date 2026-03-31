@@ -34,10 +34,12 @@ test("instances", async ({ page }) => {
   const pool = "other-pool";
   const volume = "CustomVolume";
   const instance = "comic-glider";
+  const network = "bridge1";
 
   await page.setViewportSize({ width: 1440, height: 800 });
   await createPool(page, pool, "dir");
   await createVolume(page, volume);
+  await createNetwork(page, network, "bridge");
   await gotoURL(page, "/ui/");
   await page.getByText("Instances", { exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
@@ -90,9 +92,10 @@ test("instances", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Attach network" }).click();
+  await expect(page.getByText("Create network device")).toBeVisible();
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_attach_instance.png",
-    clip: getClipPosition(490, 70, 1245, 340),
+    clip: getClipPosition(240, 0, 1600, 800),
   });
 
   await page
@@ -778,6 +781,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
 
   await page.getByRole("button", { name: "Update" }).click();
   await page.getByTestId("notification-close-button").click();
+  await expect(page.getByTitle("Edit network forward")).toBeVisible();
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/forward_edit_ex1.png",
     clip: getClipPosition(240, 0, 1440, 360),
@@ -789,8 +793,8 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   });
 
   await makeNetworkOvnUplink(page, network1, {
-    CIDR: "10.0.0.2/24",
-    ovnIpv4Range: "10.0.0.2-10.0.0.50",
+    CIDR: "10.0.0.1/24",
+    ovnIpv4Range: "10.0.0.50-10.0.0.60",
     dhcpIpv4Range: "10.0.0.100-10.0.0.150",
   });
   await createNetwork(page, network2, "ovn", {
@@ -801,7 +805,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
 
   await page.getByText("/24").getByRole("button").click();
   networkSubnet = await page.inputValue("input#ipv4_address");
-  listenAddress = networkSubnet.replace("1/24", "1");
+  listenAddress = networkSubnet.replace("1/24", "2");
   await page.getByRole("link", { name: "Forwards" }).click();
   await page.getByTitle("Create forward").click();
   await page.locator("label", { hasText: "Manually enter address" }).click();
