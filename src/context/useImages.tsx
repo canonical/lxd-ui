@@ -2,17 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
-import { fetchImagesInAllProjects, fetchImagesInProject } from "api/images";
+import {
+  fetchImagesInAllProjects,
+  fetchLocalImagesInProject,
+} from "api/images";
 import type { LxdImage } from "types/image";
 
-export const useImagesInProject = (
+export const useLocalImagesInProject = (
   project: string,
   enabled?: boolean,
 ): UseQueryResult<LxdImage[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.images, project],
-    queryFn: async () => fetchImagesInProject(project, isFineGrained),
+    queryFn: async () => fetchLocalImagesInProject(project, isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

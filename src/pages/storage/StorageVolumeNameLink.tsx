@@ -5,7 +5,7 @@ import type { LxdStorageVolume } from "types/storage";
 import classnames from "classnames";
 import { linkForVolumeDetail, hasVolumeDetailPage } from "util/storageVolume";
 import { useInstances } from "context/useInstances";
-import { useImagesInProject } from "context/useImages";
+import { useLocalImagesInProject } from "context/useImages";
 import { getImageAlias, getImageName } from "util/images";
 
 interface Props {
@@ -29,7 +29,7 @@ const StorageVolumeNameLink: FC<Props> = ({
     isInstance && instances.find((instance) => instance.name === volume.name);
 
   const isImage = volume.type === "image";
-  const { data: images = [] } = useImagesInProject(volume.project);
+  const { data: images = [] } = useLocalImagesInProject(volume.project);
   const image =
     isImage && images.find((image) => image.fingerprint === volume.name);
 

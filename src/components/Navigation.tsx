@@ -457,18 +457,30 @@ const Navigation: FC = () => {
                         </NavAccordion>
                       </SideNavigationItem>
                       <SideNavigationItem>
-                        <NavLink
-                          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/images`}
-                          title={getNavTitle("images")}
+                        <NavAccordion
+                          baseUrls={[
+                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/image`,
+                          ]}
+                          title={getNavTitle("image")}
                           disabled={isAllProjects}
-                          onClick={softToggleMenu}
+                          iconName="image"
+                          label="Images"
+                          onOpen={() => {
+                            toggleAccordionNav("images");
+                          }}
+                          open={
+                            openNavMenus.includes("images") && !menuCollapsed
+                          }
                         >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="image"
-                          />{" "}
-                          Images
-                        </NavLink>
+                          <NavLink
+                            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/local-images`}
+                            title={getNavTitle("local images")}
+                            disabled={isAllProjects}
+                            onClick={softToggleMenu}
+                          >
+                            Local images
+                          </NavLink>
+                        </NavAccordion>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink

@@ -30,7 +30,7 @@ import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import { useParams } from "react-router-dom";
-import { useImagesInProject } from "context/useImages";
+import { useLocalImagesInProject } from "context/useImages";
 
 interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) => void;
@@ -103,7 +103,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     });
 
   const { data: localImages = [], isLoading: isLocalImageLoading } =
-    useImagesInProject(project ?? "default");
+    useLocalImagesInProject(project ?? "default");
 
   const isRemoteImagesLoading =
     !hideRemote && (isCiLoading || isMinimalLoading || isImagesLxdLoading);

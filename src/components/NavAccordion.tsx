@@ -7,7 +7,8 @@ export type AccordionNavMenu =
   | "permissions"
   | "storage"
   | "networking"
-  | "clustering";
+  | "clustering"
+  | "images";
 
 interface Props {
   baseUrls: string[];

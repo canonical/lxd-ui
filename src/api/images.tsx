@@ -13,7 +13,7 @@ import { ROOT_PATH } from "util/rootPath";
 
 const imageEntitlements = ["can_delete"];
 
-export const fetchImagesInProject = async (
+export const fetchLocalImagesInProject = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {

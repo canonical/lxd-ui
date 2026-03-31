@@ -31,10 +31,10 @@ import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
 import UploadImageBtn from "pages/images/actions/UploadImageBtn";
-import { useImagesInProject } from "context/useImages";
+import { useLocalImagesInProject } from "context/useImages";
 import { useImageEntitlements } from "util/entitlements/images";
 
-const ImageList: FC = () => {
+const LocalImageList: FC = () => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
@@ -46,7 +46,11 @@ const ImageList: FC = () => {
     return <>Missing project</>;
   }
 
-  const { data: images = [], error, isLoading } = useImagesInProject(project);
+  const {
+    data: images = [],
+    error,
+    isLoading,
+  } = useLocalImagesInProject(project);
 
   if (error) {
     notify.failure("Loading images failed", error);
@@ -206,9 +210,9 @@ const ImageList: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/image-handling/"
-                title="Learn more about images"
+                title="Learn more about local images"
               >
-                Images
+                Local images
               </HelpLink>
             </PageHeader.Title>
             {selectedNames.length === 0 && images.length > 0 && (
@@ -252,10 +256,11 @@ const ImageList: FC = () => {
           <EmptyState
             className="empty-state"
             image={<Icon name="image" className="empty-state-icon" />}
-            title="No images found in this project"
+            title="No local images found in this project"
           >
             <p>
-              Images will appear here, when launching an instance from a remote.
+              Local images will appear here, when launching an instance from a
+              remote.
             </p>
           </EmptyState>
         )}
@@ -308,4 +313,4 @@ const ImageList: FC = () => {
   );
 };
 
-export default ImageList;
+export default LocalImageList;

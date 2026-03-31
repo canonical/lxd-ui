@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
-import { visitImages } from "./images";
+import { visitLocalImages } from "./images";
 import { searchEntityListPage } from "./search";
 
 const DEFAULT_IMAGE = "alpine/3.23/cloud";
@@ -196,7 +196,7 @@ export const createImageFromInstance = async (
 export const removeCustomImages = async (page: Page) => {
   // remove all custom images created during previous runs
   // to avoid failures on retries due to fingerprint conflicts
-  await visitImages(page, "default");
+  await visitLocalImages(page, "default");
   const rows = await page.locator("#image-table tbody tr").all();
   for (const row of rows) {
     const cachedContent = await row.getByLabel("Cached").innerText();
