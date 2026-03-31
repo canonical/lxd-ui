@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { Form, Input } from "@canonical/react-components";
+import { Form, Input, OutputField } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import StoragePoolSelector from "../StoragePoolSelector";
@@ -39,37 +39,51 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
     <Form onSubmit={formik.handleSubmit} className={"bucket-create-form"}>
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
-      <StoragePoolSelector
-        value={formik.values.pool}
-        setValue={(value) => void formik.setFieldValue("pool", value)}
-        invalidDrivers={Object.keys(storageDriverLabels).filter((key) => {
-          return key !== cephObject;
-        })}
-        selectProps={{
-          id: "bucket-create-pool",
-          label: "Storage pool",
-          disabled: !!bucketEditRestriction || isEditing,
-          help: isEditing
-            ? "Storage bucket pool can't be changed"
-            : formik.errors.pool
-              ? null
-              : "Pool must have a Ceph Object driver",
-          error: formik.errors.pool,
-          onBlur: formik.handleBlur,
-          takeFocus: true,
-          required: true,
-        }}
-      />
 
-      <Input
-        {...getFormProps("name")}
-        type="text"
-        label="Name"
-        required
-        disabled={!!bucketEditRestriction || isEditing}
-        help={isEditing && "Storage bucket name can't be changed"}
-        title={bucketEditRestriction}
-      />
+      {isEditing ? (
+        <OutputField
+          id="storage_bucket_pool"
+          label="Storage pool"
+          value={formik.values.pool}
+          help="Storage bucket pool can't be changed"
+        />
+      ) : (
+        <StoragePoolSelector
+          value={formik.values.pool}
+          setValue={(value) => void formik.setFieldValue("pool", value)}
+          invalidDrivers={Object.keys(storageDriverLabels).filter((key) => {
+            return key !== cephObject;
+          })}
+          selectProps={{
+            id: "bucket-create-pool",
+            label: "Storage pool",
+            disabled: !!bucketEditRestriction,
+            help: !formik.errors.pool && "Pool must have a Ceph Object driver",
+            error: formik.errors.pool,
+            onBlur: formik.handleBlur,
+            takeFocus: true,
+            required: true,
+          }}
+        />
+      )}
+
+      {isEditing ? (
+        <OutputField
+          id="storage_bucket_name"
+          label="Name"
+          value={formik.values.name}
+          help="Storage bucket name can't be changed"
+        />
+      ) : (
+        <Input
+          {...getFormProps("name")}
+          type="text"
+          label="Name"
+          required
+          disabled={!!bucketEditRestriction}
+          title={bucketEditRestriction}
+        />
+      )}
 
       <DiskSizeSelector
         label="Size"

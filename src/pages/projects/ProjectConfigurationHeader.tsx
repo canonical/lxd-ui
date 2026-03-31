@@ -107,6 +107,18 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
       return "Cannot rename the default project";
     }
 
+    if (
+      project.used_by &&
+      project.used_by.length === 1 &&
+      project.used_by[0].split("?")[0] === "/1.0/profiles/default"
+    ) {
+      return undefined;
+    }
+
+    if (project.used_by && project.used_by.length > 0) {
+      return "Cannot rename a non-empty project.";
+    }
+
     return undefined;
   };
 
