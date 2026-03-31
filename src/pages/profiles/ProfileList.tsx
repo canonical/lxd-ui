@@ -191,7 +191,7 @@ const ProfileList: FC = () => {
               {profiles.length > 0 && (
                 <PageHeader.Search>
                   <SearchBox
-                    className="search-box margin-right u-no-margin--bottom"
+                    className="search-box margin-right--large u-no-margin--bottom"
                     name="search-profile"
                     type="text"
                     onChange={(value) => {

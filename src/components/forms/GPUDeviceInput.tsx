@@ -19,7 +19,7 @@ const GpuDeviceInput: FC<Props> = ({ device, onChange, disableReason }) => {
       <div className="u-sv1">
         <RadioInput
           inline
-          labelClassName="margin-right"
+          labelClassName="margin-right--large"
           label="ID"
           checked={!isPci}
           onClick={() => {

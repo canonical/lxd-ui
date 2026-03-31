@@ -352,8 +352,12 @@ body.is-dark .lxd-icon {
   text-decoration: line-through;
 }
 
-.margin-right {
+.margin-right--large {
   margin-right: $sph--large;
+}
+
+.margin-right--small {
+  margin-right: $sph--small;
 }
 
 .help-link {

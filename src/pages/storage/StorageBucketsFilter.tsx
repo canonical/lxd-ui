@@ -54,7 +54,7 @@ const StorageBucketsFilter: FC<Props> = ({ buckets }) => {
   };
 
   return (
-    <div className="search-wrapper margin-right">
+    <div className="search-wrapper margin-right--large">
       <h2 className="u-off-screen">Search and filter</h2>
       <SearchAndFilter
         existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}

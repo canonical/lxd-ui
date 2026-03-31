@@ -10,7 +10,7 @@ const Title: FC<PropsWithChildren> = ({ children }) => {
 
 const Search: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="page-header__search margin-right u-no-margin--bottom">
+    <div className="page-header__search margin-right--large u-no-margin--bottom">
       {children}
     </div>
   );
