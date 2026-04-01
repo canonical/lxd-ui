@@ -1,5 +1,5 @@
 import { handleResponse } from "util/helpers";
-import type { LxdImageRegistry } from "types/image";
+import type { LxdImage, LxdImageRegistry } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { ROOT_PATH } from "util/rootPath";
@@ -31,6 +31,22 @@ export const fetchImageRegistry = async (
   )
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdImageRegistry>) => {
+      return data.metadata;
+    });
+};
+
+export const fetchRegistryImages = async (
+  name: string,
+  isFineGrained: boolean | null,
+): Promise<LxdImage[]> => {
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  addEntitlements(params, isFineGrained, imageRegistryEntitlements);
+  return fetch(
+    `${ROOT_PATH}/1.0/image-registries/${encodeURIComponent(name)}/images?${params.toString()}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdImage[]>) => {
       return data.metadata;
     });
 };

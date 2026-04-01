@@ -44,7 +44,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
   const notifySuccess = () => {
     const created = (
       <Link
-        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/images`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/local-images`}
       >
         created
       </Link>

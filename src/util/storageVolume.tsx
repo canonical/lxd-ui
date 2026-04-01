@@ -140,7 +140,7 @@ export const linkForVolumeDetail = (volume: LxdStorageVolume): string => {
   }
 
   if (volume.type === "image") {
-    return `${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/images`;
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/local-images`;
   }
 
   if (volume.type === "custom" && volume.content_type === "iso") {

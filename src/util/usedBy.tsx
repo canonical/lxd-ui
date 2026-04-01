@@ -133,7 +133,7 @@ export const getLinkTarget = (resource: LxdUsedBy, entityType: string) => {
   }
 
   if (entityType === "image") {
-    return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/images`;
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/local-images`;
   }
 
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/${entityType}/${encodeURIComponent(resource.name)}`;

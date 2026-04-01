@@ -15,6 +15,7 @@ export interface LxdImage {
     description?: string;
     os: string;
     release: string;
+    type?: string;
     variant?: string;
     version?: string;
   };
@@ -80,6 +81,15 @@ export interface RemoteImage {
   type?: LxdImageType;
   fingerprint?: string;
   cached?: boolean;
+  isLts?: boolean;
+  registryBuiltIn?: boolean;
+  registryName?: string;
+  title?: string;
+}
+
+export interface RemoteImagesResult {
+  images: RemoteImage[];
+  error: string;
 }
 
 export interface RemoteImageList {

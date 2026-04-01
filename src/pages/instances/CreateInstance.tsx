@@ -108,7 +108,7 @@ const CreateInstance: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(MAIN_CONFIGURATION);
-  const { hasInstanceCreateStart } = useSupportedFeatures();
+  const { hasInstanceCreateStart, hasImageRegistries } = useSupportedFeatures();
   const panelParams = usePanelParams();
 
   if (!project) {
@@ -402,7 +402,7 @@ const CreateInstance: FC = () => {
 
   const getPayload = (values: CreateInstanceFormValues) => {
     return {
-      ...instanceDetailPayload(values),
+      ...instanceDetailPayload(values, hasImageRegistries),
       devices: formDeviceToPayload(values.devices),
       config: {
         ...resourceLimitsPayload(values),

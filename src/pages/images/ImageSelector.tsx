@@ -6,19 +6,17 @@ import {
   Col,
   MainTable,
   Modal,
+  Notification,
   Row,
   ScrollableTable,
   SearchBox,
   Select,
   Spinner,
 } from "@canonical/react-components";
-import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
-import { capitalizeFirstLetter, handleResponse } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
+import type { LxdImageType, RemoteImage } from "types/image";
+import { capitalizeFirstLetter } from "util/helpers";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
-  byLtsFirst,
   byOSRelease,
   localLxdToRemoteImage,
   isContainerOnlyImage,
@@ -30,23 +28,17 @@ import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import { useParams } from "react-router-dom";
-import { useLocalImagesInProject } from "context/useImages";
+import { useRemoteImages, useLocalImagesInProject } from "context/useImages";
+import {
+  canonicalServer,
+  imagesLxdServer,
+  minimalServer,
+} from "util/imageLegacy";
 
 interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) => void;
   onClose: () => void;
 }
-
-const canonicalJson =
-  "https://cloud-images.ubuntu.com/releases/streams/v1/com.ubuntu.cloud:released:download.json";
-const canonicalServer = "https://cloud-images.ubuntu.com/releases";
-
-const minimalJson =
-  "https://cloud-images.ubuntu.com/minimal/releases/streams/v1/com.ubuntu.cloud:released:download.json";
-const minimalServer = "https://cloud-images.ubuntu.com/minimal/releases/";
-
-const imagesLxdJson = "https://images.lxd.canonical.com/streams/v1/images.json";
-const imagesLxdServer = "https://images.lxd.canonical.com/";
 
 const ANY = "any";
 const CONTAINER = "container";
@@ -60,56 +52,24 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [type, setType] = useState<LxdImageType | undefined>(undefined);
   const [variant, setVariant] = useState<string>(ANY);
   const [hideRemote, setHideRemote] = useState(false);
+  const [error, setError] = useState("");
+  const [hideError, setHideError] = useState(false);
   const { project } = useParams<{ project: string }>();
 
-  const loadImages = async (
-    file: string,
-    server: string,
-  ): Promise<RemoteImage[]> => {
-    return new Promise((resolve, reject) => {
-      fetch(file)
-        .then(handleResponse)
-        .then((data: RemoteImageList) => {
-          const images = Object.entries(data.products).map((product) => {
-            const { os, ...image } = product[1];
-            const formattedOs = capitalizeFirstLetter(os);
-            return { ...image, os: formattedOs, server: server };
-          });
-          resolve(images);
-        })
-        .catch(reject);
-    });
-  };
-
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
-
-  const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
-    queryKey: [queryKeys.images, canonicalServer],
-    queryFn: async () => loadImages(canonicalJson, canonicalServer),
-    retry: false, // avoid retry to ease experience in airgapped deployments
-  });
-
-  const { data: minimalImages = [], isLoading: isMinimalLoading } = useQuery({
-    queryKey: [queryKeys.images, minimalServer],
-    queryFn: async () => loadImages(minimalJson, minimalServer),
-    retry: false, // avoid retry to ease experience in airgapped deployments
-  });
-
-  const { data: imagesLxdImages = [], isLoading: isImagesLxdLoading } =
-    useQuery({
-      queryKey: [queryKeys.images, imagesLxdServer],
-      queryFn: async () => loadImages(imagesLxdJson, imagesLxdServer),
-      retry: false, // avoid retry to ease experience in airgapped deployments
-    });
-
+  const { data: remoteImages, isLoading: isRemoteImagesLoading } =
+    useRemoteImages();
   const { data: localImages = [], isLoading: isLocalImageLoading } =
     useLocalImagesInProject(project ?? "default");
 
-  const isRemoteImagesLoading =
-    !hideRemote && (isCiLoading || isMinimalLoading || isImagesLxdLoading);
+  if (remoteImages?.error && remoteImages?.error !== error) {
+    setError(remoteImages?.error ?? "");
+    setHideError(false);
+  }
 
+  const isWaitingForRemoteImages = !hideRemote && isRemoteImagesLoading;
   const isLoading =
-    isRemoteImagesLoading || isLocalImageLoading || isSettingsLoading;
+    isWaitingForRemoteImages || isLocalImageLoading || isSettingsLoading;
 
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
@@ -119,9 +79,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     : localImages
         .map(localLxdToRemoteImage)
         .sort(byOSRelease)
-        .concat([...canonicalImages].reverse().sort(byLtsFirst))
-        .concat([...minimalImages].reverse().sort(byLtsFirst))
-        .concat([...imagesLxdImages])
+        .concat(remoteImages?.images ?? [])
         .filter((image) => archSupported.includes(image.arch));
 
   const archAll = [...new Set(images.map((item) => item.arch))]
@@ -231,6 +189,11 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         if (!item.cached && item.created_at) {
           source = "Local";
         }
+        if (item.registryName) {
+          source = item.registryBuiltIn
+            ? item.registryName.split("-").map(capitalizeFirstLetter).join(" ")
+            : item.registryName;
+        }
         if (item.server === canonicalServer) {
           source = "Ubuntu";
         }
@@ -280,6 +243,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           {
             className: "u-hide--small u-hide--medium",
             content: item.aliases.split(",").pop(),
+            title: item.aliases.split(",").pop(),
             role: "cell",
             "aria-label": "Alias",
             onClick: selectImage,
@@ -458,20 +422,32 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         </Col>
         <Col size={9}>
           <div className="image-select-header">
-            <div>
-              <SearchBox
-                autoFocus
-                className="search-image"
-                name="search-image"
-                type="text"
-                onChange={(value) => {
-                  setQuery(value.toLowerCase());
-                  setOs("");
-                  setRelease("");
+            {error && !hideError ? (
+              <Notification
+                severity="negative"
+                title="Failed loading images"
+                onDismiss={() => {
+                  setHideError(true);
                 }}
-                placeholder="Search an image"
-              />
-            </div>
+              >
+                {error}
+              </Notification>
+            ) : (
+              <div>
+                <SearchBox
+                  autoFocus
+                  className="search-image"
+                  name="search-image"
+                  type="text"
+                  onChange={(value) => {
+                    setQuery(value.toLowerCase());
+                    setOs("");
+                    setRelease("");
+                  }}
+                  placeholder="Search an image"
+                />
+              </div>
+            )}
           </div>
           <div className="image-list">
             <ScrollableTable
