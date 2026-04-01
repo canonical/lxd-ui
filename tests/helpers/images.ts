@@ -2,13 +2,13 @@ import { expect } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 
-export const visitImages = async (page: Page, project: string) => {
-  await gotoURL(page, `/ui/project/${project}/images`);
+export const visitLocalImages = async (page: Page, project: string) => {
+  await gotoURL(page, `/ui/project/${project}/local-images`);
   await expect(page.getByText("Upload image")).toBeVisible();
 };
 
 export const deleteAllImages = async (page: Page, project = "default") => {
-  await visitImages(page, project);
+  await visitLocalImages(page, project);
   await page
     .getByRole("columnheader", { name: "select" })
     .locator("label:has-text('Select all')")
@@ -24,7 +24,7 @@ export const deleteAllImages = async (page: Page, project = "default") => {
 };
 
 export const deleteImage = async (page: Page, imageIdentifier: string) => {
-  await visitImages(page, "default");
+  await visitLocalImages(page, "default");
 
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(imageIdentifier);

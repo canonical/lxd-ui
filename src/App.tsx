@@ -56,7 +56,7 @@ const CreateStoragePool = lazy(
 const EditNetworkForward = lazy(
   async () => import("pages/networks/EditNetworkForward"),
 );
-const ImageList = lazy(async () => import("pages/images/ImageList"));
+const LocalImageList = lazy(async () => import("pages/images/LocalImageList"));
 const InstanceDetail = lazy(
   async () => import("pages/instances/InstanceDetail"),
 );
@@ -506,8 +506,8 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<StorageBucketDetail />} />}
         />
         <Route
-          path={`${ROOT_PATH}/ui/project/:project/images`}
-          element={<ProtectedRoute outlet={<ImageList />} />}
+          path={`${ROOT_PATH}/ui/project/:project/local-images`}
+          element={<ProtectedRoute outlet={<LocalImageList />} />}
         />
         <Route
           path={`${ROOT_PATH}/ui/server`}

@@ -2,7 +2,7 @@ import type { FC } from "react";
 import ResourceLink from "./ResourceLink";
 import type { LxdUsedBy } from "util/usedBy";
 import type { ResourceIconType } from "./ResourceIcon";
-import { useImagesInProject } from "context/useImages";
+import { useLocalImagesInProject } from "context/useImages";
 import { linkForVolumeDetail } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
@@ -26,7 +26,7 @@ const UsedByItem: FC<Props> = ({
   projectLinkDetailPage = "instances",
 }) => {
   const isImageQueryEnabled = type === "image";
-  const { data: images = [] } = useImagesInProject(
+  const { data: images = [] } = useLocalImagesInProject(
     item.project || activeProject,
     isImageQueryEnabled,
   );

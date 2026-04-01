@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures/lxd-test";
-import { deleteImage, visitImages } from "./helpers/images";
+import { deleteImage, visitLocalImages } from "./helpers/images";
 import {
   createImageFromInstance,
   createInstance,
@@ -20,13 +20,13 @@ test("search for custom image and create an instance from it", async ({
   await createImageFromInstance(page, instance, imageAlias);
   await deleteInstance(page, instance);
 
-  await visitImages(page, "default");
+  await visitLocalImages(page, "default");
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(imageAlias);
   await page.getByRole("button", { name: "Create instance" }).first().click();
   await page.getByLabel("Instance name").fill(customInstance);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Created instance ${customInstance}.`);
+  await page.getByText(`Created instance ${customInstance}.`).waitFor();
 
   await deleteInstance(page, customInstance);
   await deleteImage(page, imageAlias);
@@ -43,23 +43,24 @@ test("Export and Upload an image", async ({ page }) => {
   await createImageFromInstance(page, instance, imageAlias);
   const downloadPromise = page.waitForEvent("download");
 
-  await page.getByRole("link", { name: "Images", exact: true }).click();
+  await page.getByRole("button", { name: "Images" }).click();
+  await page.getByRole("link", { name: "Local images", exact: true }).click();
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(imageAlias);
 
   await expect(page.getByText(imageAlias)).toBeVisible();
   await page.getByLabel("export image").click();
   const download = await downloadPromise;
-  await page.waitForSelector(
-    `text=download started. Please check your downloads folder.`,
-  );
+  await page
+    .getByText(`Download started. Please check your downloads folder.`)
+    .waitFor();
   const IMAGE_FILE = "tests/fixtures/image.tar.gz";
   await download.saveAs(IMAGE_FILE);
   await deleteImage(page, imageAlias);
 
   //Upload an image
   await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Images", exact: true }).click();
+  await visitLocalImages(page, "default");
 
   await page.getByRole("button", { name: "Upload image" }).click();
   await page.getByLabel("Image backup file").setInputFiles(IMAGE_FILE);
@@ -69,7 +70,7 @@ test("Export and Upload an image", async ({ page }) => {
     .getByRole("button", { name: "Upload image" })
     .click();
   await expect(page.getByText(imageAlias)).toBeVisible();
-  await page.waitForSelector(`text=Image uploaded.`);
+  await page.getByText(`Image uploaded.`).waitFor();
 
   await deleteImage(page, imageAlias);
   await deleteInstance(page, instance);

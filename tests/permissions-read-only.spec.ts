@@ -370,7 +370,8 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     skipIfNotSupported(lxdVersion);
 
     await gotoURL(page, "/ui/");
-    await page.getByText("Images", { exact: true }).click();
+    await page.getByRole("button", { name: "Images", exact: true }).click();
+    await page.getByRole("link", { name: "Local images", exact: true }).click();
     await expect(
       page.getByRole("button", { name: "Upload image" }),
     ).toBeDisabled();
