@@ -18,7 +18,7 @@ const Logo: FC<Props> = ({ light }) => {
   const src = isMicroCloud
     ? `${ROOT_PATH}/ui/assets/img/microCloud-logo.svg`
     : `${ROOT_PATH}/ui/assets/img/lxd-logo.svg`;
-  const heading = isMicroCloud ? "MicroCloud" : "Canonical LXD";
+  const heading = isMicroCloud ? "MicroCloud" : "LXD";
 
   const getLogoLink = () => {
     if (isLoading || !project) {
