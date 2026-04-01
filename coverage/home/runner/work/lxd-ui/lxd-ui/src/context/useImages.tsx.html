@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.78% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/37</span>
+                <span class='fraction'>34/40</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/29</span>
+                <span class='fraction'>32/32</span>
             </div>
         
             
@@ -92,50 +92,59 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">831x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
-<span class="cline-any cline-yes">151x</span>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">882x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">327x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
+<span class="cline-any cline-yes">153x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
-import { fetchImagesInAllProjects, fetchImagesInProject } from "api/images";
+import {
+  fetchImagesInAllProjects,
+  fetchLocalImagesInProject,
+} from "api/images";
 import type { LxdImage } from "types/image";
 &nbsp;
-export const useImagesInProject = <span class="fstat-no" title="function not covered" >(</span>
+export const useLocalImagesInProject = <span class="fstat-no" title="function not covered" >(</span>
   project: string,
   enabled?: boolean,
 ): UseQueryResult&lt;LxdImage[]&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.images, project],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchImagesInProject(project, isFineGrained),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchLocalImagesInProject(project, isFineGrained),</span>
     enabled: (enabled ?? true) &amp;&amp; isFineGrained !== null,
   });
 };
@@ -157,7 +166,7 @@ export const useImagesInAllProjects = <span class="fstat-no" title="function not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-31T17:02:55.489Z
+                at 2026-04-01T10:26:02.848Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
