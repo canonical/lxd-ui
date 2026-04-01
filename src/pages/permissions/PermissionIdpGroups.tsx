@@ -30,7 +30,7 @@ import { Link } from "react-router-dom";
 import { useIdpGroups } from "context/useIdpGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";

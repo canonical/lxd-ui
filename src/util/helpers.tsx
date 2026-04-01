@@ -475,3 +475,40 @@ export const isBearerAuthError = (error: Error | null) => {
 
 export const ensureArray = <T,>(data: T | T[]): T[] =>
   Array.isArray(data) ? data : [data];
+
+export const pluralize = (item: string, count: number): string => {
+  if (!item) return "";
+  if (count === 1) return item;
+
+  const itemLower = item.toLowerCase();
+
+  const exceptions: Record<string, string> = {
+    identity: "identities",
+    proxy: "proxies",
+    gpu: "gpus",
+    registry: "registries",
+  };
+
+  if (exceptions[itemLower]) {
+    const pluralForm = exceptions[itemLower];
+
+    // Special case: GPU -> GPUs, not GPUS
+    if (item === "GPU") {
+      return "GPUs";
+    }
+
+    if (item === item.toUpperCase()) {
+      return pluralForm.toUpperCase();
+    } else if (item.charAt(0) === item.charAt(0).toUpperCase()) {
+      return capitalizeFirstLetter(pluralForm);
+    } else {
+      return pluralForm;
+    }
+  }
+
+  if (item === item.toUpperCase()) {
+    return `${item}S`;
+  } else {
+    return `${item}s`;
+  }
+};

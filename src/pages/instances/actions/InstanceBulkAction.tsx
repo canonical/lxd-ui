@@ -5,11 +5,8 @@ import type {
   LxdInstanceAction,
   LxdInstanceStatus,
 } from "types/instance";
-import {
-  instanceAction,
-  pluralize,
-  statusLabel,
-} from "util/instanceBulkActions";
+import { instanceAction, statusLabel } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { getInstanceKey } from "util/instances";
 import { useIsScreenBelow } from "context/useIsScreenBelow";

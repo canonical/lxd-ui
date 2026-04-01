@@ -4,7 +4,7 @@ import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { GroupSubForm } from "types/forms/permissionGroup";
 import FormLink from "components/FormLink";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import type { PermissionGroupFormValues } from "types/forms/permissionGroup";

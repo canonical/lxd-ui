@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button } from "@canonical/react-components";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 
 interface Props {
   totalCount: number;

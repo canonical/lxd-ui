@@ -67,10 +67,18 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
+  const canCreateImageRegistries = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_image_registries",
+      serverEntitlements,
+    ) || hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   return {
     canCreateGroups,
     canCreateIdentities,
     canCreateIdpGroups,
+    canCreateImageRegistries,
     canCreateProjects,
     canCreateStoragePools,
     canEditServerConfiguration,

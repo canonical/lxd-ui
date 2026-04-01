@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import type { LxdInstance } from "types/instance";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { bulkDeletableStatuses } from "util/instanceDelete";

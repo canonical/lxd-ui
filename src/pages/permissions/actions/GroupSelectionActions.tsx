@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import ModifiedStatusAction from "./ModifiedStatusAction";
 import { ActionButton, Button } from "@canonical/react-components";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 
 interface Props {
   modifiedGroups: Set<string>;

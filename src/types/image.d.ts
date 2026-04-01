@@ -1,6 +1,7 @@
 import type { LxdStorageVolume } from "types/storage";
 
 export type LxdImageType = "container" | "virtual-machine";
+export type LxdImageRegistryProtocol = "simplestreams" | "lxd";
 
 interface LxdImageAlias {
   name: string;
@@ -19,7 +20,7 @@ export interface LxdImage {
   };
   update_source?: {
     alias: string;
-    protocol: string;
+    protocol: LxdImageRegistryProtocol;
     server: string;
   };
   architecture: string;
@@ -29,6 +30,20 @@ export interface LxdImage {
   aliases: LxdImageAlias[];
   cached: boolean;
   name?: string;
+  access_entitlements?: string[];
+}
+
+export interface LxdImageRegistry {
+  name: string;
+  description: string;
+  protocol: LxdImageRegistryProtocol;
+  builtin: boolean;
+  config?: {
+    url: string;
+    public: string;
+    cluster: string;
+    source_project: string;
+  };
   access_entitlements?: string[];
 }
 

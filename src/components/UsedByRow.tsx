@@ -2,7 +2,7 @@ import { type FC } from "react";
 import UsedByItem from "./UsedByItem";
 import ExpandableList from "./ExpandableList";
 import { filterUsedByType, getLinkTarget } from "util/usedBy";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { ResourceIconType } from "components/ResourceIcon";
 import { capitalizeFirstLetter } from "util/helpers";
 import ResourceIcon from "components/ResourceIcon";

@@ -1,7 +1,6 @@
 import { Button, Icon } from "@canonical/react-components";
 import type { FC } from "react";
-import { getClientOS } from "util/helpers";
-import { pluralize } from "util/instanceBulkActions";
+import { getClientOS, pluralize } from "util/helpers";
 
 interface Props {
   modifiedCount: number;

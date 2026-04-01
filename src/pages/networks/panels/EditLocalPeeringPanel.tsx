@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { LxdNetwork, LxdNetworkPeer } from "types/network";
 import NetworkLocalPeeringForm from "../forms/NetworkLocalPeeringForm";
 import type { LocalPeeringFormValues } from "types/forms/localPeering";

@@ -18,7 +18,7 @@ import { useSettings } from "context/useSettings";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { isDiskDevice } from "util/devices";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { InstanceRichChip } from "../InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 

@@ -15,7 +15,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useClusterGroups } from "context/useClusterGroups";
 import { usePlacementGroups } from "context/usePlacementGroups";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";

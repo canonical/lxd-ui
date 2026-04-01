@@ -12,7 +12,7 @@ import type { ChangeEvent, FC } from "react";
 import { useState } from "react";
 import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import LoggedInUserNotification from "../panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";

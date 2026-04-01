@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { IdpGroup } from "types/permissions";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useDeleteIdpGroups } from "util/permissionIdpGroups";
 import BulkDeleteButton from "components/BulkDeleteButton";
 

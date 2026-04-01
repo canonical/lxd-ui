@@ -1,4 +1,4 @@
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 
 export const formatSeconds = (seconds: number): string => {
   let result = "";
