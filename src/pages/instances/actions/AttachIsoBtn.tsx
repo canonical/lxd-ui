@@ -152,11 +152,11 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       <ActionButton
         loading={isLoading}
         onClick={detachIso}
-        className="u-no-margin--bottom"
+        className="u-no-margin--bottom has-icon"
         disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
-        <Icon name="iso" className="iso-icon margin-right--small" />
+        <Icon name="iso" />
         <span>Detach ISO</span>
       </ActionButton>
     </>
@@ -165,11 +165,11 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       <ActionButton
         loading={isLoading}
         onClick={openPortal}
-        className="u-no-margin--bottom"
+        className="u-no-margin--bottom has-icon"
         disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
-        <Icon name="iso" className="iso-icon margin-right--small" />
+        <Icon name="iso" />
         <span>Attach ISO</span>
       </ActionButton>
       {isOpen && (
