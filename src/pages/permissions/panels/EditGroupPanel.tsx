@@ -134,7 +134,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       .required("Group name is required"),
   });
 
-  const saveIdentities = async () => {
+  const saveIdentities = async (originalGroupName: string) => {
     const added = identities.filter((id) => id.isAdded);
     const removed = identities.filter((id) => id.isRemoved);
 
@@ -147,6 +147,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     added.map((identity) => {
       identityPayload.push({
         ...identity,
+        // Use the new name from formik for additions
         groups: [...(identity.groups || []), formik.values.name],
       });
     });
@@ -154,8 +155,9 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     removed.map((identity) => {
       identityPayload.push({
         ...identity,
+        // Use the ORIGINAL name to filter out the group membership
         groups: [
-          ...(identity.groups || []).filter((g) => g !== formik.values.name),
+          ...(identity.groups || []).filter((g) => g !== originalGroupName),
         ],
       });
     });
@@ -165,6 +167,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
 
   const saveGroup = (values: PermissionGroupFormValues) => {
     const isNameChanged = values.name !== group?.name;
+    const originalGroupName = group?.name ?? "";
     const groupPayload = {
       ...group,
       name: values.name,
@@ -174,14 +177,16 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
 
     const mutation = async () => {
       if (!canEditGroup(group)) {
-        return saveIdentities();
+        return saveIdentities(originalGroupName);
       }
 
       return isNameChanged
-        ? renameGroup(group?.name ?? "", values.name)
+        ? renameGroup(originalGroupName, values.name)
             .then(async () => updateGroup(groupPayload))
-            .then(saveIdentities)
-        : updateGroup(groupPayload).then(saveIdentities);
+            .then(async () => saveIdentities(originalGroupName))
+        : updateGroup(groupPayload).then(async () =>
+            saveIdentities(originalGroupName),
+          );
     };
 
     mutation()

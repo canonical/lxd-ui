@@ -56,8 +56,10 @@ const PermissionGroups: FC = () => {
   useEffect(() => {
     if (panelParams.group) {
       setSelectedGroupNames([panelParams.group]);
+    } else if (panelParams.panel === null) {
+      setSelectedGroupNames([]);
     }
-  }, [panelParams.group, groups]);
+  }, [panelParams.group, panelParams.panel, groups]);
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },

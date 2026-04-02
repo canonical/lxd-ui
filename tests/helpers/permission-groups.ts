@@ -53,7 +53,7 @@ export const addPermission = async (
   resource: string,
   entitlement: string,
 ) => {
-  await selectOption(page, "Resource Type", resourceType);
+  await selectOption(page, "Resource type", resourceType);
   if (resource !== "server") {
     await selectOption(page, "Resource", resource);
   }

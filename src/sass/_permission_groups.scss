@@ -107,6 +107,21 @@
     .p-form__group {
       flex-shrink: 0; // avoid flex items from dynamic width adjustments
       width: 26%;
+
+      &:has(button.is-disabled) {
+        .p-form__label,
+        .is-disabled {
+          cursor: not-allowed;
+        }
+
+        .p-form__label {
+          color: var(--vf-color-text-muted);
+        }
+
+        .p-custom-select__wrapper .p-custom-select__toggle:focus {
+          box-shadow: none;
+        }
+      }
     }
 
     .add-entitlement {

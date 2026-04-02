@@ -50,6 +50,7 @@ const GroupForm: FC<Props> = ({
 
   const isNameInvalid = !formik.values.name || !!formik.errors.name;
   const isFieldDisabled = !!groupEditRestriction || isNameInvalid;
+  const isPermissionDisabled = isNameInvalid;
 
   const getDisableReason = () => {
     if (groupEditRestriction) {
@@ -63,6 +64,16 @@ const GroupForm: FC<Props> = ({
     return undefined;
   };
   const disableReason = getDisableReason();
+
+  const getPermissionsTitle = () => {
+    if (group && !canEditGroup(group)) {
+      return "View ";
+    }
+    if (isEditing) {
+      return "Edit ";
+    }
+    return "Add ";
+  };
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -99,7 +110,7 @@ const GroupForm: FC<Props> = ({
         onHoverText={disableReason}
       />
       <FormLink
-        title={(isEditing ? "Edit " : "Add ") + pluralize("permission", 2)}
+        title={getPermissionsTitle() + pluralize("permission", 2)}
         icon="lock-locked"
         onClick={() => {
           setSubForm("permission");
@@ -110,7 +121,7 @@ const GroupForm: FC<Props> = ({
             ? `No ${pluralize("permission", 2)}`
             : `${permissionCount} ${pluralize("permission", permissionCount)}`
         }
-        disabled={isFieldDisabled}
+        disabled={isPermissionDisabled}
         onHoverText={disableReason}
       />
     </Form>
