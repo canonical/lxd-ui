@@ -1,12 +1,11 @@
 import { test } from "./fixtures/lxd-test";
-import { skipIfNotSupported } from "./helpers/cluster-groups";
+import { skipIfNotClustered, skipIfNotSupported } from "./helpers/cluster";
 import {
   createNetwork,
   createNetworkForward,
   deleteNetwork,
   randomNetworkName,
 } from "./helpers/network";
-import { skipIfNotClustered } from "./helpers/cluster";
 
 test.describe("Network operations in a clustered environment with a single node", () => {
   test("create network forward", async ({

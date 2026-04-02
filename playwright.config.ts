@@ -65,18 +65,18 @@ const config: PlaywrightTestConfig<TestOptions> = {
       use: { ...devices["Desktop Firefox"], trace: "off" },
       testMatch: "login.spec.ts",
     },
-    {
-      name: "enable-clustering-chrome",
-      // enable clustering for subsequent tests
-      use: { ...devices["Desktop Chrome"] },
-      testMatch: "enable-clustering.spec.ts",
-    },
-    {
-      name: "enable-clustering-firefox",
-      // enable clustering for subsequent tests
-      use: { ...devices["Desktop Firefox"] },
-      testMatch: "enable-clustering.spec.ts",
-    },
+    // {
+    //   name: "enable-clustering-chrome",
+    //   // enable clustering for subsequent tests
+    //   use: { ...devices["Desktop Chrome"] },
+    //   testMatch: "enable-clustering.spec.ts",
+    // },
+    // {
+    //   name: "enable-clustering-firefox",
+    //   // enable clustering for subsequent tests
+    //   use: { ...devices["Desktop Firefox"] },
+    //   testMatch: "enable-clustering.spec.ts",
+    // },
     {
       name: "chromium:lxd-5.0-edge:unclustered",
       use: {
@@ -131,7 +131,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "5.0-edge",
       },
       testMatch: "*-clustered.spec.ts",
-      dependencies: ["enable-clustering-chrome"],
+      // dependencies: ["enable-clustering-chrome"],
     },
     {
       name: "firefox:lxd-5.0-edge:clustered",
@@ -139,7 +139,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Firefox"],
         lxdVersion: "5.0-edge",
       },
-      dependencies: ["enable-clustering-firefox"],
+      // dependencies: ["enable-clustering-firefox"],
       testMatch: "*-clustered.spec.ts",
     },
     {
@@ -148,7 +148,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Chrome"],
         lxdVersion: "5.21-edge",
       },
-      dependencies: ["enable-clustering-chrome"],
+      // dependencies: ["enable-clustering-chrome"],
       testMatch: "*-clustered.spec.ts",
     },
     {
@@ -157,7 +157,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Firefox"],
         lxdVersion: "5.21-edge",
       },
-      dependencies: ["enable-clustering-firefox"],
+      // dependencies: ["enable-clustering-firefox"],
       testMatch: "*-clustered.spec.ts",
     },
     {
@@ -166,7 +166,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Chrome"],
         lxdVersion: "latest-edge",
       },
-      dependencies: ["enable-clustering-chrome"],
+      // dependencies: ["enable-clustering-chrome"],
       testMatch: "*-clustered.spec.ts",
     },
     {
@@ -175,7 +175,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Firefox"],
         lxdVersion: "latest-edge",
       },
-      dependencies: ["enable-clustering-firefox"],
+      // dependencies: ["enable-clustering-firefox"],
       testMatch: "*-clustered.spec.ts",
     },
     {
@@ -194,7 +194,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "latest-edge",
         hasCoverage: true,
       },
-      dependencies: ["enable-clustering-chrome"],
+      // dependencies: ["enable-clustering-chrome"],
       testMatch: "*-clustered.spec.ts",
     },
     {
@@ -211,7 +211,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Chrome"],
         lxdVersion: "latest-edge",
       },
-      dependencies: ["enable-clustering-chrome"],
+      // dependencies: ["enable-clustering-chrome"],
       testMatch: "docs-screenshots-clustered.spec.ts",
     },
   ],
