@@ -22,6 +22,7 @@ import { setOption } from "./helpers/configuration";
 import { getClipPosition } from "./helpers/doc-screenshots";
 import { openInstancePanel } from "./helpers/instancePanel";
 import { deleteNetworkAcl } from "./helpers/network-acls";
+import { dirDriver, storageDriverLabels } from "util/storageOptions";
 
 test.beforeEach(() => {
   test.skip(
@@ -37,7 +38,7 @@ test("instances", async ({ page }) => {
   const network = "bridge1";
 
   await page.setViewportSize({ width: 1440, height: 800 });
-  await createPool(page, pool, "dir");
+  await createPool(page, pool, storageDriverLabels[dirDriver]);
   await createVolume(page, volume);
   await createNetwork(page, network, "bridge");
   await gotoURL(page, "/ui/");

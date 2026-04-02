@@ -32,7 +32,11 @@ import {
   randomBucketName,
   visitBucket,
 } from "./helpers/storageBucket";
-import { cephObject } from "util/storageOptions";
+import {
+  cephObject,
+  storageDriverLabels,
+  zfsDriver,
+} from "util/storageOptions";
 
 let volume = randomVolumeName();
 
@@ -156,7 +160,7 @@ test("storage pool with driver zfs", async ({ page, lxdVersion }) => {
   );
 
   const pool = randomPoolName();
-  await createPool(page, pool, "ZFS");
+  await createPool(page, pool, storageDriverLabels[zfsDriver]);
 
   const poolRow = page.getByRole("row").filter({ hasText: pool });
   await expect(poolRow.getByRole("link", { name: pool })).toBeVisible();
@@ -245,9 +249,9 @@ test("storage bucket create, edit, delete", async ({ page, lxdVersion }) => {
   );
 
   const bucket = randomBucketName();
-  const pool = "CephObjectPool"; //Pool explcitly named for explicit selection & deletion
+  const pool = "CephObjectPool"; //Pool named for explicit selection & deletion
 
-  await createPool(page, pool, cephObject);
+  await createPool(page, pool, storageDriverLabels[cephObject]);
   await createBucket(page, bucket);
 
   const row = page.getByRole("row").filter({ hasText: bucket });
@@ -278,9 +282,9 @@ test("storage bucket keys create, edit, delete", async ({
 
   const bucket = randomBucketName();
   const bucketkey = `${bucket}-key`;
-  const pool = "CephObjectPool"; //Pool explcitly named for explicit selection & deletion
+  const pool = "CephObjectPool"; //Pool named for explicit selection & deletion
 
-  await createPool(page, pool, cephObject);
+  await createPool(page, pool, storageDriverLabels[cephObject]);
   await createBucket(page, bucket);
   await visitBucket(page, bucket);
   await createBucketKey(page, bucket, bucketkey);

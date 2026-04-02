@@ -1,17 +1,8 @@
 import type { FC } from "react";
-import {
-  Row,
-  Input,
-  Select,
-  Col,
-  OutputField,
-} from "@canonical/react-components";
+import { Row, Input, Col, OutputField } from "@canonical/react-components";
 import type { FormikProps } from "formik";
 import {
-  zfsDriver,
   dirDriver,
-  cephDriver,
-  getStorageDriverOptions,
   powerFlex,
   pureStorage,
   cephObject,
@@ -20,28 +11,17 @@ import {
 import type { StoragePoolFormValues } from "types/forms/storagePool";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import {
-  getAlletraStoragePoolFormFields,
-  getCephObjectPoolFormFields,
-  getCephPoolFormFields,
-  getPowerflexPoolFormFields,
-  getPureStoragePoolFormFields,
-  getZfsStoragePoolFormFields,
-  isCephDriver,
-  isCephFSDriver,
-} from "util/storagePool";
+import { isCephDriver, isCephFSDriver } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { isClusteredServer } from "util/settings";
 import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
-import {
-  isStoragePoolWithSize,
-  isStoragePoolWithSource,
-} from "util/storagePoolForm";
+import { isStoragePoolWithSize } from "util/storagePoolForm";
 import StoragePoolSource from "./StoragePoolSource";
 import { getFormProps } from "util/storagePoolForm";
+import StorageDriverSelect from "./StorageDriverSelect";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -55,7 +35,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const isAlletraDriver = formik.values.driver === alletraDriver;
-  const storageDriverOptions = getStorageDriverOptions(settings);
   const isCephVariant =
     isCephDriver(formik.values) || isCephFSDriver(formik.values);
   const isCephVariantWithoutSource = isCephVariant && hasRemoteDropSource;
@@ -66,14 +45,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     !isCephObjectDriver &&
     !isAlletraDriver &&
     !isCephVariantWithoutSource;
-
-  const cephObjectNotice = (
-    <>
-      Rados gateway must be enabled for Ceph Object driver to work. If using
-      microcloud or microceph, run <code>microceph enable rgw --port 8080</code>
-      .
-    </>
-  );
 
   return (
     <ScrollableForm>
@@ -104,73 +75,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             disabled={!!formik.values.editRestriction}
             title={formik.values.editRestriction}
           />
-          <Select
-            id="driver"
-            name="driver"
-            help={
-              !formik.values.isCreating
-                ? "Driver can't be changed"
-                : formik.values.driver === zfsDriver
-                  ? "ZFS gives best performance and reliability"
-                  : formik.values.driver === cephObject
-                    ? cephObjectNotice
-                    : undefined
-            }
-            label="Driver"
-            options={storageDriverOptions}
-            onChange={(target) => {
-              const val = target.target.value;
-              if (val !== cephDriver) {
-                const cephFields = getCephPoolFormFields();
-                for (const field of cephFields) {
-                  formik.setFieldValue(field, undefined);
-                }
-              }
-              if (val !== cephObject) {
-                const cephobjectFields = getCephObjectPoolFormFields();
-                for (const field of cephobjectFields) {
-                  formik.setFieldValue(field, undefined);
-                }
-              }
-              if (val !== powerFlex) {
-                const powerflexFields = getPowerflexPoolFormFields();
-                for (const field of powerflexFields) {
-                  formik.setFieldValue(field, undefined);
-                }
-              }
-              if (val !== pureStorage) {
-                const pureFields = getPureStoragePoolFormFields();
-                for (const field of pureFields) {
-                  formik.setFieldValue(field, undefined);
-                }
-              }
-              if (val !== zfsDriver) {
-                const zfsFields = getZfsStoragePoolFormFields();
-                for (const field of zfsFields) {
-                  formik.setFieldValue(field, undefined);
-                }
-                formik.setFieldValue("zfsPoolNamePerClusterMember", "");
-              }
-              if (val !== alletraDriver) {
-                const alletraFields = getAlletraStoragePoolFormFields();
-                for (const field of alletraFields) {
-                  formik.setFieldValue(field, undefined);
-                }
-              }
-              if (!isStoragePoolWithSize(val)) {
-                formik.setFieldValue("size", undefined);
-                formik.setFieldValue("sizePerClusterMember", undefined);
-              }
-              if (!isStoragePoolWithSource(val)) {
-                formik.setFieldValue("source", undefined);
-                formik.setFieldValue("sourcePerClusterMember", undefined);
-              }
-              formik.setFieldValue("driver", val);
-            }}
-            value={formik.values.driver}
-            required
-          />
-
+          <StorageDriverSelect formik={formik} />
           {isStoragePoolWithSize(formik.values.driver) &&
             (isClusteredServer(settings) ? (
               <ClusteredDiskSizeSelector

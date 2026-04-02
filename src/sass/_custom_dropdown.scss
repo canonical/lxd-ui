@@ -1,5 +1,6 @@
 .network-type-label,
-.acl-action-label {
+.acl-action-label,
+.storage-driver-label {
   display: flex;
 
   .network-type-name {
@@ -7,14 +8,21 @@
     width: 5rem;
   }
 
-  .network-type-explanation {
+  .storage-driver-name {
+    margin-left: $sph--small;
+    width: 8rem;
+  }
+
+  .network-type-explanation,
+  .storage-driver-description {
     margin-left: $sph--small;
   }
 
   @media screen and (width <= 1200px) {
     flex-direction: column;
 
-    .network-type-explanation {
+    .network-type-explanation,
+    .storage-driver-description {
       white-space: break-spaces;
     }
   }

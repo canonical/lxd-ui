@@ -1,4 +1,4 @@
-import type { OptionHTMLAttributes } from "react";
+import type { CustomSelectOption } from "@canonical/react-components";
 import type { LxdSettings } from "types/server";
 
 export const dirDriver = "dir";
@@ -25,6 +25,21 @@ export const storageDriverLabels: { [key: string]: string } = {
   [alletraDriver]: "HPE Alletra",
 };
 
+export const storageDriverDescriptions: { [key: string]: string } = {
+  [alletraDriver]: "HPE Alletra block storage",
+  [btrfsDriver]:
+    "Copy-on-Write filesystem with native subvolumes and snapshots",
+  [cephDriver]: "Distributed Ceph RBD block storage",
+  [cephFSDriver]: "Distributed Ceph filesystem",
+  [cephObject]: "S3-compatible Ceph object storage via RADOS gateway",
+  [dirDriver]: "Basic local directory (no native snapshots or quotas)",
+  [lvmDriver]: "Logical volume-backed block storage with thin provisioning",
+  [powerFlex]: "Dell PowerFlex software-defined block storage",
+  [pureStorage]: "Pure Storage FlashArray block storage",
+  [zfsDriver]:
+    "Advanced Copy-on-Write filesystem with datasets and zvols (recommended)",
+};
+
 const bucketCompatibleDrivers = [cephObject];
 const driversWithClusterWideSource = [cephDriver, cephFSDriver];
 
@@ -38,19 +53,35 @@ export const isClusterWideSourceDriver = (driver: string): boolean => {
 
 export const getStorageDriverOptions = (
   settings?: LxdSettings,
-): OptionHTMLAttributes<HTMLOptionElement>[] => {
+): CustomSelectOption[] => {
   const serverSupportedStorageDrivers =
     settings?.environment?.storage_supported_drivers || [];
-  const storageDriverOptions: OptionHTMLAttributes<HTMLOptionElement>[] = [];
+
+  const storageDriverOptions: CustomSelectOption[] = [];
+
   for (const driver of serverSupportedStorageDrivers) {
-    const label = storageDriverLabels[driver.Name];
-    if (label) {
-      storageDriverOptions.push({ label, value: driver.Name });
+    const text = storageDriverLabels[driver.Name];
+    const description = storageDriverDescriptions[driver.Name];
+    if (text) {
+      storageDriverOptions.push({
+        value: driver.Name,
+        text: text,
+        label: (
+          <div className="storage-driver-label">
+            <span className="storage-driver-name">{text}</span>
+            {description && (
+              <span className="storage-driver-description u-text--muted">
+                {description}
+              </span>
+            )}
+          </div>
+        ),
+      });
     }
   }
 
   return storageDriverOptions.sort((a, b) =>
-    (a.label as string).localeCompare(b.label as string),
+    (a.text as string).localeCompare(b.text as string),
   );
 };
 
