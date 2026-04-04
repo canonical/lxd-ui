@@ -111,6 +111,7 @@ jobs:
           with:
             ref: gh-pages
             token: ${{ secrets.GITHUB_TOKEN }}
+            persist-credentials: true # zizmor: ignore[artipacked]
         - name: Cleanup coverage directory
           run: |
             rm -rf coverage
