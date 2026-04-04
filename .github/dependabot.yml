@@ -6,3 +6,9 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "main"
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns:
+          - "*"
