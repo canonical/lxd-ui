@@ -177,7 +177,7 @@ jobs:
         shell: bash
         run: |
           set -x
-          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }}
+          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }} # zizmor: ignore[secrets-outside-env]
           # need to source .profile, or TICSQServer command won't be found
           source ~/.profile
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
