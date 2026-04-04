@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write # for uploading SARIF results to the security tab
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
@@ -20,6 +19,9 @@ jobs:
   trivy-repo:
     name: Trivy vulnerability scanner - Repository
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      security-events: write # for uploading SARIF results to the security tab
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
