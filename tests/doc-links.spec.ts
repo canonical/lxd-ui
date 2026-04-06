@@ -1,4 +1,4 @@
-import { test } from "./fixtures/lxd-test";
+import { expect, test } from "./fixtures/lxd-test";
 import {
   createInstance,
   deleteInstance,
@@ -234,19 +234,28 @@ test("DocLink validation: collect all doc paths and verify they exist", async ({
     console.log(`- ${path}`);
   });
 
-  test.fail(
-    allDocPaths.size < 10,
-    "Expected at least 10 DocLink components in the codebase",
-  );
+  expect(
+    allDocPaths.size,
+    "Expected at least 10 DocLink components",
+  ).toBeGreaterThanOrEqual(10); // 10 is a random number chosen to ensure we are collecting a reasonable number of doc paths
 
   const sortedPaths = Array.from(allDocPaths).sort();
+  const failedLinks: string[] = [];
+
   for (const docPath of sortedPaths) {
     const result = await checkDocumentationExists(page, docPath);
-    test.fail(
-      !result.exists,
-      `✗ ${docPath} - NOT FOUND (${result.status || "Error"})`,
-    );
+
+    if (!result.exists) {
+      const errorMsg = `[${result.status || "ERROR"}] ${docPath}`;
+      failedLinks.push(errorMsg);
+      console.error(`✗ ${errorMsg}`);
+    }
   }
 
-  console.log(`✓ All ${sortedPaths.length} links validated successfully.`);
+  expect(
+    failedLinks,
+    `Found ${failedLinks.length} broken documentation links:\n${failedLinks.join("\n")}`,
+  ).toHaveLength(0);
+
+  console.log(`\n✓ All ${sortedPaths.length} links validated successfully.`);
 });
