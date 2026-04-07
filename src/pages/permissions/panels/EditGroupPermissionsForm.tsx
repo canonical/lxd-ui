@@ -174,7 +174,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   title="Restore permission"
                   className="u-no-margin--right"
                 >
-                  <Icon name="restart" className="u-no-margin--right" />
+                  <Icon name="restart" />
                 </Button>
               ) : (
                 <Button
@@ -190,7 +190,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   className="u-no-margin--right"
                   disabled={!!getEditRestriction()}
                 >
-                  <Icon name="delete" className="u-no-margin--right" />
+                  <Icon name="delete" />
                 </Button>
               )}
               <Icon

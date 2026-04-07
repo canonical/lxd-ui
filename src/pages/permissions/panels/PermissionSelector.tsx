@@ -187,7 +187,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
       <CustomSelect
         id="resourceType"
         name="resourceType"
-        label={<strong>Resource Type</strong>}
+        label={<strong>Resource type</strong>}
         options={getResourceTypeOptions(metadata)}
         toggleClassName="u-no-margin--bottom"
         aria-label="Resource type"
