@@ -142,7 +142,7 @@ const EditIdentitiesForm: FC<Props> = ({
     return {
       key: identity.id,
       name: identity.id,
-      className: "u-row",
+      className: "u-row u-truncate",
       columns: [
         {
           content: name,
