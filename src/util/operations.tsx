@@ -4,28 +4,32 @@ import type { LxdEvent } from "types/event";
 import type { LxdOperationResponse } from "types/operation";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
+// Extracts entity URLs from an operation, considering renaming operations where the original_entity_url is returned.
 const getOperationEntityUrls = (
-  entities?: string[],
   operation?: LxdOperation,
+  entities: string[] = [],
 ): string[] => {
-  const candidates = entities ?? [];
-  if (operation?.metadata?.["entity_url"]) {
-    candidates.push(operation.metadata["entity_url"]);
+  const candidates = new Set<string>(entities);
+
+  if (operation?.metadata?.original_entity_url) {
+    candidates.add(operation.metadata.original_entity_url);
+  } else if (operation?.metadata?.entity_url) {
+    candidates.add(operation.metadata.entity_url);
   }
-  return candidates;
+  return Array.from(candidates);
 };
 
 export const getInstanceName = (operation?: LxdOperation): string => {
   // the url can be one of below formats
   // /1.0/instances/<instance_name>
   // /1.0/instances/<instance_name>?project=<project_name>
-  const candidates = getOperationEntityUrls(
-    operation?.resources?.instances,
-    operation,
-  );
-  if (operation?.resources?.instance) {
-    candidates.push(...operation.resources.instance);
-  }
+
+  const resources = [
+    ...(operation?.resources?.instances || []),
+    ...(operation?.resources?.instance || []),
+  ];
+  const candidates = getOperationEntityUrls(operation, resources);
+
   return (
     candidates
       ?.filter((item) => item.startsWith("/1.0/instances/"))
@@ -38,8 +42,8 @@ export const getInstanceName = (operation?: LxdOperation): string => {
 export const getInstanceSnapshotName = (operation?: LxdOperation): string => {
   // /1.0/instances/<instance_name>/snapshots/<snapshot_name>
   const instanceSnapshots = getOperationEntityUrls(
-    operation?.resources?.instances_snapshots,
     operation,
+    operation?.resources?.instances_snapshots,
   );
   if (instanceSnapshots.length) {
     return instanceSnapshots[0].split("/")[5].split("?")[0];
@@ -51,8 +55,8 @@ export const getInstanceSnapshotName = (operation?: LxdOperation): string => {
 export const getVolumeSnapshotName = (operation?: LxdOperation): string => {
   // /1.0/storage-pools/<pool_name>/volumes/custom/<volume_name>/snapshots/<snapshot_name>
   const storageVolumeSnapshots = getOperationEntityUrls(
-    operation?.resources?.storage_volume_snapshots,
     operation,
+    operation?.resources?.storage_volume_snapshots,
   );
 
   if (storageVolumeSnapshots.length) {
@@ -74,26 +78,25 @@ export const getProjectName = (operation?: LxdOperation): string => {
     return "default";
   }
 
-  const images = getOperationEntityUrls(
-    operation?.resources?.images,
-    operation,
-  );
-  if (images.length > 0) {
+  const urls = getOperationEntityUrls(operation, [
+    ...(operation.resources?.instances || []),
+    ...(operation.resources?.images || []),
+  ]);
+  if (urls.length === 0) {
+    return "default";
+  }
+
+  const imageURLs = urls.filter((item) => item.startsWith("/1.0/images/"));
+  if (imageURLs.length > 0) {
     return (
-      images
-        .filter((item) => item.startsWith("/1.0/images/"))
+      imageURLs
         .map((item) => item.split("project=")[1])
         .pop()
         ?.split("&")[0] ?? "default"
     );
   }
-
-  const instances = getOperationEntityUrls(
-    operation.resources?.instances,
-    operation,
-  );
   return (
-    instances
+    urls
       .filter((item) => item.startsWith("/1.0/instances/"))
       .map((item) => item.split("project=")[1])
       .pop()

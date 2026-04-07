@@ -11,7 +11,6 @@ import * as Yup from "yup";
 import { useEventQueue } from "context/eventQueue";
 import { instanceNameValidation } from "util/instances";
 import { instanceLinkFromOperation } from "util/operations";
-import { getInstanceName } from "util/operations";
 import InstanceDetailActions from "./InstanceDetailActions";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -77,9 +76,7 @@ const InstanceDetailHeader: FC<Props> = ({
               );
               toastNotify.success(
                 <>
-                  Instance{" "}
-                  <strong>{getInstanceName(operation.metadata)}</strong> renamed
-                  to {instanceLink}.
+                  Instance <strong>{name}</strong> renamed to {instanceLink}.
                 </>,
               );
               formik.setFieldValue("isRenaming", false);
