@@ -37,6 +37,8 @@ export const createInstance = async (
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "Browse images" }).click();
+  const dialog = page.getByRole("dialog", { name: "Select base image" });
+  await dialog.getByRole("combobox", { name: "Type" }).selectOption(type);
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill(image);
   await page
@@ -45,9 +47,6 @@ export const createInstance = async (
     .getByRole("button", { name: "Select" })
     .first()
     .click();
-  await page
-    .getByRole("combobox", { name: "Instance type" })
-    .selectOption(type);
 
   if (project !== "default") {
     await page.getByText("Disk", { exact: true }).click();
