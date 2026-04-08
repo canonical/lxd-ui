@@ -49,7 +49,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   volume: "storage-volume",
   "iso-volume": "iso",
   image: "image",
-  "image-registry": "image-registry",
+  "image-registry": "image",
   "oidc-identity": "user",
   certificate: "certificate",
   "auth-group": "user-group",

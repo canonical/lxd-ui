@@ -20,10 +20,14 @@ import { useSearchParams } from "react-router-dom";
 import type { LxdImageRegistryProtocol } from "types/image";
 import { isImageRegistryPublic } from "util/image-registries";
 import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
+import usePanelParams, { panels } from "util/usePanelParams";
+import { CreateImageRegistryPanel } from "./panels/CreateImageRegistryPanel";
 
 const ImageRegistriesList: FC = () => {
   const notify = useNotify();
   const [searchParams] = useSearchParams();
+  const panelParams = usePanelParams();
+
   const { data: imageRegistries = [], error, isLoading } = useImageRegistries();
 
   if (error) {
@@ -162,7 +166,7 @@ const ImageRegistriesList: FC = () => {
           </PageHeader>
         }
       >
-        <NotificationRow />
+        {!panelParams.panel && <NotificationRow />}
         <Row>
           <ScrollableTable
             dependencies={[imageRegistries]}
@@ -190,6 +194,10 @@ const ImageRegistriesList: FC = () => {
           </ScrollableTable>
         </Row>
       </CustomLayout>
+
+      {panelParams.panel === panels.createImageRegistry && (
+        <CreateImageRegistryPanel />
+      )}
     </>
   );
 };
