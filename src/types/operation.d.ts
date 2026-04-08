@@ -21,7 +21,7 @@ export interface LxdOperation {
     storage_volume_snapshots?: string[];
   };
   status: LxdOperationStatus;
-  status_code: string;
+  status_code: number;
   updated_at: string;
 }
 

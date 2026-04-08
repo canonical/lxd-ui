@@ -33,6 +33,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import StoragePoolRichChip from "./StoragePoolRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -43,7 +44,9 @@ const CreateStoragePool: FC = () => {
   const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
-  const { hasRemoteDropSource } = useSupportedFeatures();
+  const { hasRemoteDropSource, hasStorageAndNetworkOperations } =
+    useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   if (!project) {
     return <>Missing project</>;
@@ -54,6 +57,33 @@ const CreateStoragePool: FC = () => {
       .test(...testDuplicateStoragePoolName(project, controllerState))
       .required("This field is required"),
   });
+
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage],
+    });
+  };
+
+  const onSuccess = (storagePoolName: string) => {
+    invalidateCache();
+    navigate(
+      `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
+    );
+    formik.setSubmitting(false);
+    toastNotify.success(
+      <>
+        Storage pool{" "}
+        <StoragePoolRichChip poolName={storagePoolName} projectName={project} />{" "}
+        created.
+      </>,
+    );
+  };
+
+  const onFailure = (e: unknown) => {
+    invalidateCache();
+    formik.setSubmitting(false);
+    notify.failure("Creation of storage pool failed", e);
+  };
 
   const formik = useFormik<StoragePoolFormValues>({
     initialValues: {
@@ -78,6 +108,7 @@ const CreateStoragePool: FC = () => {
               createClusteredPool(
                 storagePool,
                 clusterMembers,
+                hasStorageAndNetworkOperations,
                 values.sourcePerClusterMember,
                 values.zfsPoolNamePerClusterMember,
                 values.sizePerClusterMember,
@@ -85,27 +116,33 @@ const CreateStoragePool: FC = () => {
           : async () => createPool(storagePool);
 
       mutation()
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage],
-          });
-          navigate(
-            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
-          );
-          toastNotify.success(
-            <>
-              Storage pool{" "}
-              <StoragePoolRichChip
-                poolName={storagePool.name}
-                projectName={project}
-              />{" "}
-              created.
-            </>,
-          );
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Creation of storage pool{" "}
+                <StoragePoolRichChip
+                  poolName={storagePool.name}
+                  projectName={project}
+                />{" "}
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(storagePool.name);
+              },
+              (msg) => {
+                onFailure(new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(storagePool.name);
+          }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure("Storage pool creation failed", e);
+          onFailure(e);
         });
     },
   });

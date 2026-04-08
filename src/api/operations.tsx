@@ -38,3 +38,44 @@ export const cancelOperation = async (id: string): Promise<void> => {
     method: "DELETE",
   }).then(handleResponse);
 };
+
+export const waitForOperation = async (
+  id: string,
+  member?: string,
+  maxTimeoutMs = 120000,
+): Promise<void> => {
+  const endpoint = `${ROOT_PATH}/1.0/operations/${encodeURIComponent(id)}`;
+  const startTime = Date.now();
+  const memberPrefix = member ? `Member: ${member} - ` : "";
+
+  while (true) {
+    try {
+      const response = (await fetch(endpoint).then(
+        handleResponse,
+      )) as LxdApiResponse<LxdOperation>;
+      const operation = response.metadata;
+
+      if (operation.status_code === 200) {
+        return;
+      }
+
+      if (operation.status_code >= 400) {
+        throw new Error(
+          `${operation.err || `Operation ${id} failed with status ${operation.status}`}`,
+        );
+      }
+    } catch (error) {
+      // Add memberPrefix to all other errors before re-throwing
+      if (error instanceof Error) {
+        throw new Error(`${memberPrefix}${error.message}`);
+      }
+      throw new Error(`${memberPrefix}Unknown error occurred`);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    if (Date.now() - startTime > maxTimeoutMs) {
+      throw new Error(`${memberPrefix}Operation timed out.`);
+    }
+  }
+};
