@@ -111,6 +111,7 @@ jobs:
           with:
             ref: gh-pages
             token: ${{ secrets.GITHUB_TOKEN }}
+            persist-credentials: true # zizmor: ignore[artipacked]
         - name: Cleanup coverage directory
           run: |
             rm -rf coverage
@@ -176,7 +177,7 @@ jobs:
         shell: bash
         run: |
           set -x
-          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }}
+          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }} # zizmor: ignore[secrets-outside-env]
           # need to source .profile, or TICSQServer command won't be found
           source ~/.profile
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
