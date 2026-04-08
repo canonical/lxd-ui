@@ -42,7 +42,7 @@ export async function checkDocumentationExists(
 }> {
   try {
     const fullUrl = `/documentation${docPath}`;
-    const response = await page.request.head(fullUrl);
+    const response = await page.request.get(fullUrl);
     const status = response.status();
     const exists = status === 200;
     return { exists, status };
