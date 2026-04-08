@@ -32,7 +32,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             title={
               canEditGroup(group)
                 ? "Edit group"
-                : "You do not have permission to edit this group"
+                : "Edit group - You do not have permission to edit this group"
             }
             disabled={!canEditGroup(group)}
           >
