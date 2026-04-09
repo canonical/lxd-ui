@@ -17,6 +17,8 @@ import type { LxdClusterMember } from "types/cluster";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";
+import type { LxdOperationResponse } from "types/operation";
+import { waitForOperation } from "api/operations";
 
 const networkEntitlements = ["can_edit", "can_delete"];
 
@@ -159,92 +161,123 @@ export const createClusterNetwork = async (
   network: Partial<LxdNetwork>,
   project: string,
   clusterMembers: LxdClusterMember[],
+  hasStorageAndNetworkOperations: boolean,
   parentsPerClusterMember?: ClusterSpecificValues,
   bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
-): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      clusterMembers.map(async (member) => {
-        const memberNetwork = {
-          name: network.name,
-          type: network.type,
-          config: {
-            parent: parentsPerClusterMember?.[member.server_name],
-            "bridge.external_interfaces":
-              bridgeExternalInterfacesPerClusterMember?.[member.server_name],
-          },
-        };
-        return createNetwork(memberNetwork, project, member.server_name);
-      }),
-    )
-      .then((results) => {
-        const error = results.find((res) => res.status === "rejected")
-          ?.reason as Error | undefined;
+): Promise<LxdOperationResponse> => {
+  const operations = await Promise.allSettled(
+    clusterMembers.map(async (member) => {
+      const memberNetwork = {
+        name: network.name,
+        type: network.type,
+        config: {
+          parent: parentsPerClusterMember?.[member.server_name],
+          "bridge.external_interfaces":
+            bridgeExternalInterfacesPerClusterMember?.[member.server_name],
+        },
+      };
 
-        if (error) {
-          reject(error);
-          return;
-        }
+      const operation = await createNetwork(
+        memberNetwork,
+        project,
+        member.server_name,
+      );
+      return { operation, member: member.server_name };
+    }),
+  );
 
-        // The network parent is cluster member specific, so we omit it on the cluster wide network configuration.
-        delete network.config?.parent;
-        createNetwork(network, project).then(resolve).catch(reject);
-      })
-      .catch(reject);
+  const pendingOperations = operations.map((res) => {
+    if (res.status === "rejected") {
+      throw res?.reason as Error;
+    }
+    return res.value;
   });
+
+  if (hasStorageAndNetworkOperations) {
+    await Promise.all(
+      pendingOperations.map(async ({ operation, member }) => {
+        await waitForOperation(operation.metadata.id, member);
+      }),
+    );
+  }
+
+  // The network parent is cluster member specific, so we omit it on the cluster wide network configuration.
+  delete network.config?.parent;
+  return createNetwork(network, project);
 };
 
 export const createNetwork = async (
   network: Partial<LxdNetwork>,
   project: string,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  return new Promise((resolve, reject) => {
-    fetch(`${ROOT_PATH}/1.0/networks?${params.toString()}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const response = await fetch(
+      `${ROOT_PATH}/1.0/networks?${params.toString()}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(network),
       },
-      body: JSON.stringify(network),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(async (e: Error) => {
-        // when creating a network on localhost the request can get canceled
-        // check manually if creation was successful
-        // wait for 1 second for network creation to complete.
-        await new Promise((r) => setTimeout(r, 1000));
-        if (e.message === "Failed to fetch") {
-          const newNetwork = await fetchNetwork(
-            network.name ?? "",
-            project,
-            false,
-            target,
-          );
-          if (newNetwork) {
-            resolve();
-          }
-        }
-        reject(e);
-      });
-  });
+    );
+
+    return (await handleResponse(response)) as LxdOperationResponse;
+  } catch (e: unknown) {
+    // when creating a network on localhost the request can get canceled
+    // check manually if creation was successful
+    // wait for 1 second for network creation to complete.
+    await new Promise((r) => setTimeout(r, 1000));
+
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      const newNetwork = await fetchNetwork(
+        network.name ?? "",
+        project,
+        false,
+        target,
+      );
+
+      if (newNetwork) {
+        // Return a manual success response instead of resolving a void expression
+        return {
+          operation: "",
+          metadata: {
+            class: "network",
+            created_at: new Date().toISOString(),
+            description: "Network created",
+            err: "",
+            id: "",
+            location: "",
+            may_cancel: false,
+            status: "Success",
+            status_code: 200,
+            updated_at: new Date().toISOString(),
+          },
+        } as LxdOperationResponse;
+      }
+    }
+
+    // Re-throw the error so the caller can catch it
+    throw e;
+  }
 };
 
 export const updateNetwork = async (
   network: LxdNetwork,
   project: string,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  return new Promise((resolve, reject) => {
-    fetch(
+  try {
+    const response = await fetch(
       `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network.name)}?${params.toString()}`,
       {
         method: "PUT",
@@ -254,28 +287,46 @@ export const updateNetwork = async (
           "If-Match": network.etag ?? "",
         },
       },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(async (e: Error) => {
-        // when updating a network on localhost the request can get canceled
-        // check manually if the edit was successful
-        // wait for 1 second for network update to complete.
-        await new Promise((r) => setTimeout(r, 1000));
-        if (e.message === "Failed to fetch") {
-          const newNetwork = await fetchNetwork(
-            network.name ?? "",
-            project,
-            false,
-            target,
-          );
-          if (areNetworksEqual(network, newNetwork)) {
-            resolve();
-          }
-        }
-        reject(e);
-      });
-  });
+    );
+
+    return (await handleResponse(response)) as LxdOperationResponse;
+  } catch (e: unknown) {
+    // when updating a network on localhost the request can get canceled
+    // check manually if the edit was successful
+    // wait for 1 second for network update to complete.
+    await new Promise((r) => setTimeout(r, 1000));
+
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      const updatedNetwork = await fetchNetwork(
+        network.name,
+        project,
+        false,
+        target,
+      );
+
+      if (areNetworksEqual(network, updatedNetwork)) {
+        // Return a manual success response to satisfy the return type
+        return {
+          operation: "",
+          metadata: {
+            class: "network",
+            created_at: new Date().toISOString(),
+            description: "Network updated (fallback verification)",
+            err: "",
+            id: "",
+            location: "",
+            may_cancel: false,
+            status: "Success",
+            status_code: 200,
+            updated_at: new Date().toISOString(),
+          },
+        } as LxdOperationResponse;
+      }
+    }
+
+    // Re-throw the error so the caller handles the failure
+    throw e;
+  }
 };
 
 export const updateClusterNetwork = async (
@@ -283,55 +334,63 @@ export const updateClusterNetwork = async (
   project: string,
   clusterMembers: LxdClusterMember[],
   parentsPerClusterMember: ClusterSpecificValues,
+  hasStorageAndNetworkOperations: boolean,
   bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
   oldConfig?: LxdNetworkConfig,
-): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      clusterMembers.map(async (member) => {
-        const memberName = member.server_name;
-        const config: LxdNetworkConfig = { ...oldConfig };
-        if (parentsPerClusterMember?.[memberName]) {
-          config.parent = parentsPerClusterMember[memberName];
-        }
-        if (bridgeExternalInterfacesPerClusterMember?.[memberName]) {
-          config["bridge.external_interfaces"] =
-            bridgeExternalInterfacesPerClusterMember[memberName];
-        }
-        const memberNetwork = {
-          name: network.name,
-          type: network.type,
-          config,
-        };
-        return updateNetwork(memberNetwork, project, memberName);
-      }),
-    )
-      .then((results) => {
-        const error = results.find((res) => res.status === "rejected")
-          ?.reason as Error | undefined;
+): Promise<LxdOperationResponse> => {
+  const results = await Promise.allSettled(
+    clusterMembers.map(async (member) => {
+      const memberName = member.server_name;
+      const config: LxdNetworkConfig = { ...oldConfig };
 
-        if (error) {
-          reject(error);
-          return;
-        }
-        updateNetwork({ ...network, etag: "" }, project)
-          .then(resolve)
-          .catch(reject);
-      })
-      .catch(reject);
+      if (parentsPerClusterMember?.[memberName]) {
+        config.parent = parentsPerClusterMember[memberName];
+      }
+
+      if (bridgeExternalInterfacesPerClusterMember?.[memberName]) {
+        config["bridge.external_interfaces"] =
+          bridgeExternalInterfacesPerClusterMember[memberName];
+      }
+
+      const memberNetwork = {
+        name: network.name,
+        type: network.type,
+        config,
+      };
+
+      const operation = await updateNetwork(memberNetwork, project, memberName);
+      return { operation, member: memberName };
+    }),
+  );
+
+  const pendingOperations = results.map((res) => {
+    if (res.status === "rejected") {
+      throw res?.reason as Error;
+    }
+    return res.value;
   });
+
+  if (hasStorageAndNetworkOperations) {
+    await Promise.all(
+      pendingOperations.map(async ({ operation, member }) => {
+        await waitForOperation(operation.metadata.id, member);
+      }),
+    );
+  }
+
+  return updateNetwork({ ...network, etag: "" }, project);
 };
 
 export const renameNetwork = async (
   oldName: string,
   newName: string,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  return new Promise((resolve, reject) => {
-    fetch(
+  try {
+    const response = await fetch(
       `${ROOT_PATH}/1.0/networks/${encodeURIComponent(oldName)}?${params.toString()}`,
       {
         method: "POST",
@@ -342,57 +401,93 @@ export const renameNetwork = async (
           name: newName,
         }),
       },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(async (e: Error) => {
-        // when renaming a network on localhost the request can get canceled
-        // check manually if renaming was successful
-        // wait for 1 second for network rename to complete.
-        await new Promise((r) => setTimeout(r, 1000));
-        if (e.message === "Failed to fetch") {
-          const renamedNetwork = await fetchNetwork(newName, project, false);
-          if (renamedNetwork) {
-            resolve();
-          }
-        }
-        reject(e);
-      });
-  });
+    );
+
+    return (await handleResponse(response)) as LxdOperationResponse;
+  } catch (e: unknown) {
+    // when renaming a network on localhost the request can get canceled
+    // check manually if renaming was successful
+    // wait for 1 second for network rename to complete.
+    await new Promise((r) => setTimeout(r, 1000));
+
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      const renamedNetwork = await fetchNetwork(newName, project, false);
+
+      if (renamedNetwork) {
+        // Return a manual success response to satisfy the return type
+        return {
+          operation: "",
+          metadata: {
+            class: "network",
+            created_at: new Date().toISOString(),
+            description: `Network renamed from ${oldName} to ${newName} (fallback verification)`,
+            err: "",
+            id: "",
+            location: "",
+            may_cancel: false,
+            status: "Success",
+            status_code: 200,
+            updated_at: new Date().toISOString(),
+          },
+        } as LxdOperationResponse;
+      }
+    }
+
+    // Re-throw the error so the caller handles the failure
+    throw e;
+  }
 };
 
 export const deleteNetwork = async (
   name: string,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  return new Promise((resolve, reject) => {
-    fetch(
+  try {
+    const response = await fetch(
       `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?${params.toString()}`,
       {
         method: "DELETE",
       },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(async (e: Error) => {
-        // when deleting a network on localhost the request can get canceled
-        // check manually if deletion was successful
-        // wait for 1 second for network delete to complete.
-        await new Promise((r) => setTimeout(r, 1000));
-        if (e.message === "Failed to fetch") {
-          const response = await fetch(
-            `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
-          );
-          if (response.status === 404) {
-            resolve();
-          }
-        }
-        reject(e);
-      });
-  });
+    );
+
+    return (await handleResponse(response)) as LxdOperationResponse;
+  } catch (e: unknown) {
+    // when deleting a network on localhost the request can get canceled
+    // check manually if deletion was successful
+    // wait for 1 second for network delete to complete.
+    await new Promise((r) => setTimeout(r, 1000));
+
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      const checkResponse = await fetch(
+        `${ROOT_PATH}/1.0/networks/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
+      );
+
+      // If the resource is gone (404), the deletion actually succeeded
+      if (checkResponse.status === 404) {
+        return {
+          operation: "",
+          metadata: {
+            class: "network",
+            created_at: new Date().toISOString(),
+            description: `Network ${name} deleted (fallback verification)`,
+            err: "",
+            id: "",
+            location: "",
+            may_cancel: false,
+            status: "Success",
+            status_code: 200,
+            updated_at: new Date().toISOString(),
+          },
+        } as LxdOperationResponse;
+      }
+    }
+
+    // Re-throw the error so the caller handles the actual failure
+    throw e;
+  }
 };
 
 export const fetchNetworkAllocations = async (

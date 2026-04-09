@@ -30,9 +30,11 @@ import {
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import { useNetworkEntitlements } from "util/entitlements/networks";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
-import { useNetworkEntitlements } from "util/entitlements/networks";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
 import {
   clusteredTypes,
@@ -68,6 +70,8 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     project,
     shouldLoadMemberSpecificSettings,
   );
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   useEffect(() => {
     if (error) {
@@ -103,6 +107,44 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     ? undefined
     : "You do not have permission to edit this network";
 
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.projects, project, queryKeys.networks, network.name],
+    });
+
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.projects,
+        project,
+        queryKeys.networks,
+        network.name,
+        queryKeys.cluster,
+      ],
+    });
+  };
+
+  const onSuccess = (yamlNetwork: LxdNetwork) => {
+    formik.resetForm({
+      values: toNetworkFormValues(yamlNetwork, networkOnMembersFulfilled),
+    });
+    invalidateCache();
+    toastNotify.success(
+      <>
+        Network{""}
+        <NetworkRichChip
+          networkName={network.name}
+          projectName={project}
+        />{" "}
+        updated.
+      </>,
+    );
+  };
+
+  const onFailure = (e: unknown) => {
+    invalidateCache();
+    notify.failure(`Update of network ${network.name} failed`, e);
+  };
+
   const formik = useFormik<NetworkFormValues>({
     initialValues: toNetworkFormValues(
       network,
@@ -126,6 +168,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             project,
             clusterMembers,
             values.parentPerClusterMember,
+            hasStorageAndNetworkOperations,
             values.bridge_external_interfaces_per_member,
             network.config,
           );
@@ -135,43 +178,34 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       };
 
       mutation(values)
-        .then(() => {
-          formik.resetForm({
-            values: toNetworkFormValues(yamlNetwork, networkOnMembersFulfilled),
-          });
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations && operation.metadata.id) {
+            toastNotify.info(
+              <>
+                Update of network{" "}
+                <NetworkRichChip
+                  networkName={network.name}
+                  projectName={project}
+                />{" "}
+                has started.
+              </>,
+            );
 
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.projects,
-              project,
-              queryKeys.networks,
-              network.name,
-            ],
-          });
-
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.projects,
-              project,
-              queryKeys.networks,
-              network.name,
-              queryKeys.cluster,
-            ],
-          });
-
-          toastNotify.success(
-            <>
-              Network{""}
-              <NetworkRichChip
-                networkName={network.name}
-                projectName={project}
-              />{" "}
-              updated.
-            </>,
-          );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(yamlNetwork);
+              },
+              (msg) => {
+                onFailure(new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(yamlNetwork);
+          }
         })
         .catch((e) => {
-          notify.failure("Network update failed", e);
+          onFailure(e);
         })
         .finally(() => {
           formik.setSubmitting(false);

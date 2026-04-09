@@ -12,6 +12,8 @@ import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import { useNetworkEntitlements } from "util/entitlements/networks";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 import NetworkRichChip from "./NetworkRichChip";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 
@@ -28,6 +30,8 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const { canEditNetwork } = useNetworkEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -40,6 +44,22 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       )
       .required("Network name is required"),
   });
+
+  const onSuccess = (networkName: string) => {
+    const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(networkName)}`;
+    navigate(url);
+    toastNotify.success(
+      <>
+        Network <strong>{name}</strong> renamed to{" "}
+        <NetworkRichChip networkName={networkName} projectName={project} />
+      </>,
+    );
+    formik.setFieldValue("isRenaming", false);
+  };
+
+  const onFailure = (networkName: string, e: unknown) => {
+    notify.failure(`Renaming of network ${networkName} failed`, e);
+  };
 
   const formik = useFormik<RenameHeaderValues>({
     initialValues: {
@@ -54,22 +74,33 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
         return;
       }
       renameNetwork(name, values.name, project)
-        .then(() => {
-          const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`;
-          navigate(url);
-          toastNotify.success(
-            <>
-              Network <strong>{name}</strong> renamed to{" "}
-              <NetworkRichChip
-                networkName={values.name}
-                projectName={project}
-              />
-            </>,
-          );
-          formik.setFieldValue("isRenaming", false);
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Renaming of network{" "}
+                <NetworkRichChip
+                  networkName={values.name}
+                  projectName={project}
+                />{" "}
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(values.name);
+              },
+              (msg) => {
+                onFailure(values.name, new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(values.name);
+          }
         })
         .catch((e) => {
-          notify.failure("Renaming failed", e);
+          onFailure(values.name, e);
         })
         .finally(() => {
           formik.setSubmitting(false);

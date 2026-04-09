@@ -38,11 +38,14 @@ import {
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
+import { bridgeType, ovnType } from "util/networks";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
-import { bridgeType, ovnType } from "util/networks";
 import { useAuth } from "context/auth";
-import NetworkRichChip from "./NetworkRichChip";
+import { useEventQueue } from "context/eventQueue";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import NetworkRichChip from "pages/networks/NetworkRichChip";
+import ResourceLabel from "components/ResourceLabel";
 
 const CreateNetwork: FC = () => {
   const { isFineGrained } = useAuth();
@@ -57,6 +60,8 @@ const CreateNetwork: FC = () => {
   const isClustered = isClusteredServer(settings);
   const hasOvn = supportsOvnNetwork(settings);
   const { data: clusterMembers = [] } = useClusterMembers();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   if (!project) {
     return <>Missing project</>;
@@ -76,6 +81,60 @@ const CreateNetwork: FC = () => {
       )
       .required("Network name is required"),
   });
+
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.projects, project, queryKeys.networks],
+    });
+  };
+
+  const onSuccess = (networkName: string) => {
+    invalidateCache();
+    formik.setSubmitting(false);
+    toastNotify.success(
+      <>
+        Network{" "}
+        <NetworkRichChip networkName={networkName} projectName={project} />{" "}
+        created.
+      </>,
+    );
+  };
+
+  const onFailure = (networkName: string, e: unknown) => {
+    invalidateCache();
+    formik.setSubmitting(false);
+    notify.failure(`Creation of network ${networkName} failed`, e);
+
+    // load the network that we just created
+    fetchNetwork(networkName, project, isFineGrained)
+      .then((network) => {
+        // if the network was created in errored state, delete it
+        if (network.status === "Errored") {
+          deleteNetwork(networkName, project).catch(() => {
+            // deleting the errored network failed, forward to network list page and show the creation failure
+            navigate(
+              `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
+            );
+            toastNotify.failure(
+              "Error during network creation",
+              e,
+              <>
+                Network{" "}
+                <NetworkRichChip
+                  networkName={networkName}
+                  projectName={project}
+                />{" "}
+                created with error status.
+              </>,
+            );
+          });
+        }
+      })
+      .catch(() => {
+        // network was not created, keep user on creation form so they can submit it again.
+      });
+    // todo: why the duplicate network fetch requests in the network tab?
+  };
 
   const formik = useFormik<NetworkFormValues>({
     initialValues: {
@@ -101,63 +160,42 @@ const CreateNetwork: FC = () => {
                 network,
                 project,
                 clusterMembers,
+                hasStorageAndNetworkOperations,
                 values.parentPerClusterMember,
                 values.bridge_external_interfaces_per_member,
               )
           : async () => createNetwork(network, project);
 
       mutation()
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.projects, project, queryKeys.networks],
-          });
+        .then((operation) => {
           navigate(
             `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
           );
-          toastNotify.success(
-            <>
-              Network{" "}
-              <NetworkRichChip
-                networkName={values.name}
-                projectName={project}
-              />{" "}
-              created.
-            </>,
-          );
+
+          if (hasStorageAndNetworkOperations && operation.metadata.id) {
+            toastNotify.info(
+              <>
+                Creation of network{" "}
+                <ResourceLabel bold type="network" value={values.name} /> has
+                started.
+              </>,
+            );
+
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(values.name);
+              },
+              (msg) => {
+                onFailure(values.name, new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(values.name);
+          }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure("Network creation failed", e);
-
-          // load the network that we just created
-          fetchNetwork(values.name, project, isFineGrained)
-            .then((network) => {
-              // if the network was created in errored state, delete it
-              if (network.status === "Errored") {
-                deleteNetwork(values.name, project).catch(() => {
-                  // deleting the errored network failed, forward to network list page and show the creation failure
-                  navigate(
-                    `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
-                  );
-                  toastNotify.failure(
-                    "Error during network creation",
-                    e,
-                    <>
-                      Network{" "}
-                      <NetworkRichChip
-                        networkName={values.name}
-                        projectName={project}
-                      />{" "}
-                      created with error status.
-                    </>,
-                  );
-                });
-              }
-            })
-            .catch(() => {
-              // network was not created, keep user on creation form so they can submit it again.
-            });
-          // todo: why the duplicate network fetch requests in the network tab?
+          onFailure(values.name, e);
         });
     },
   });

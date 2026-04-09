@@ -10,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { deleteStoragePool } from "api/storage-pools";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import ResourceLabel from "components/ResourceLabel";
@@ -33,6 +33,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
 }) => {
   const isSmallScreen = useIsScreenBelow();
   const navigate = useNavigate();
+  const location = useLocation();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
@@ -58,9 +59,15 @@ const DeleteStoragePoolBtn: FC<Props> = ({
 
   const onSuccess = () => {
     invalidateCache();
-    navigate(
-      `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
-    );
+
+    // Only navigate to the storage pools list if we are still on the deleted pool's detail page
+    const poolDetailPath = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}`;
+    if (location.pathname.startsWith(poolDetailPath)) {
+      navigate(
+        `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
+      );
+    }
+
     notifySuccess(pool.name);
   };
 
