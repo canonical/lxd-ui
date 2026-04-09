@@ -14,6 +14,8 @@ import DeleteNetworkAclBtn from "pages/networks/actions/DeleteNetworkAclBtn";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { renameNetworkAcl } from "api/network-acls";
 import DownloadNetworkAclLogsBtn from "pages/networks/actions/DownloadNetworkAclLogsBtn";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   name: string;
@@ -27,6 +29,8 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const { canEditNetworkAcl } = useNetworkAclEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -39,6 +43,21 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
       )
       .required("ACL name is required"),
   });
+
+  const onSuccess = (aclName: string, url: string) => {
+    navigate(url);
+    toastNotify.success(
+      <>
+        Network ACL <strong>{name}</strong> renamed to{" "}
+        <ResourceLink type="network-acl" value={aclName} to={url} />.
+      </>,
+    );
+    formik.setFieldValue("isRenaming", false);
+  };
+
+  const onFailure = (aclName: string, e: unknown) => {
+    notify.failure(`Renaming of network ACL ${aclName} failed`, e);
+  };
 
   const formik = useFormik<RenameHeaderValues>({
     initialValues: {
@@ -53,19 +72,31 @@ const NetworkAclDetailHeader: FC<Props> = ({ name, networkAcl, project }) => {
         return;
       }
       renameNetworkAcl(name, values.name, project)
-        .then(() => {
+        .then((operation) => {
           const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(values.name)}`;
-          navigate(url);
-          toastNotify.success(
-            <>
-              Network ACL <strong>{name}</strong> renamed to{" "}
-              <ResourceLink type="network-acl" value={values.name} to={url} />.
-            </>,
-          );
-          formik.setFieldValue("isRenaming", false);
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Renaming of Network ACL <strong>{name}</strong> to{" "}
+                <ResourceLink type="network-acl" value={values.name} to={url} />{" "}
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(values.name, url);
+              },
+              (msg) => {
+                onFailure(values.name, new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(values.name, url);
+          }
         })
         .catch((e) => {
-          notify.failure("Renaming failed", e);
+          onFailure(values.name, e);
         })
         .finally(() => {
           formik.setSubmitting(false);

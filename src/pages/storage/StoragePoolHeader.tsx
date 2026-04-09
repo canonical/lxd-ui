@@ -45,6 +45,10 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
     );
   };
 
+  const onFailure = (storagePoolName: string, e: unknown) => {
+    notify.failure(`Renaming of storage pool ${storagePoolName} failed`, e);
+  };
+
   const formik = useFormik<RenameHeaderValues>({
     initialValues: {
       name,
@@ -75,12 +79,9 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
               () => {
                 onSuccess(values.name);
               },
-              (msg) =>
-                toastNotify.failure(
-                  `Renaming of storage pool ${values.name} failed`,
-
-                  new Error(msg),
-                ),
+              (msg) => {
+                onFailure(values.name, new Error(msg));
+              },
             );
           } else {
             onSuccess(values.name);
@@ -89,7 +90,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
           formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
-          notify.failure("Renaming failed", e);
+          onFailure(values.name, e);
         })
         .finally(() => {
           formik.setSubmitting(false);

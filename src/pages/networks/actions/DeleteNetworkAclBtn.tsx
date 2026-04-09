@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import type { LxdNetworkAcl } from "types/network";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,6 +16,8 @@ import classnames from "classnames";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { deleteNetworkAcl } from "api/network-acls";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
@@ -28,33 +30,74 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const isSmallScreen = useIsScreenBelow();
   const { canDeleteNetworkAcl } = useNetworkAclEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
+
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === queryKeys.projects &&
+        query.queryKey[1] === project &&
+        query.queryKey[2] === queryKeys.networkAcls,
+    });
+  };
+
+  const onSuccess = () => {
+    invalidateCache();
+
+    // Only navigate to the network ACLs list if we are still on the deleted ACL's detail page
+    const aclDetailPath = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(networkAcl.name)}`;
+    if (location.pathname.startsWith(aclDetailPath)) {
+      navigate(
+        `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,
+      );
+    }
+
+    toastNotify.success(
+      <>
+        Network ACL{" "}
+        <ResourceLabel bold type="network-acl" value={networkAcl.name} />{" "}
+        deleted.
+      </>,
+    );
+  };
+
+  const onFailure = (e: unknown) => {
+    invalidateCache();
+    setLoading(false);
+    notify.failure(`Deletion of network ACL ${networkAcl.name} failed`, e);
+  };
 
   const handleDelete = () => {
     setLoading(true);
     deleteNetworkAcl(networkAcl.name, project)
-      .then(() => {
-        queryClient.invalidateQueries({
-          predicate: (query) =>
-            query.queryKey[0] === queryKeys.projects &&
-            query.queryKey[1] === project &&
-            query.queryKey[2] === queryKeys.networkAcls,
-        });
-        navigate(
-          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls`,
-        );
-        toastNotify.success(
-          <>
-            Network ACL{" "}
-            <ResourceLabel bold type="network-acl" value={networkAcl.name} />{" "}
-            deleted.
-          </>,
-        );
+      .then((operation) => {
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of Network ACL{" "}
+              <ResourceLabel bold type="network-acl" value={networkAcl.name} />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
+        } else {
+          onSuccess();
+        }
       })
       .catch((e) => {
-        setLoading(false);
-        notify.failure("ACL deletion failed", e);
+        onFailure(e);
       });
   };
 

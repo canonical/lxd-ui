@@ -34,6 +34,7 @@ import StoragePoolRichChip from "./StoragePoolRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
+import ResourceLabel from "components/ResourceLabel";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -66,9 +67,6 @@ const CreateStoragePool: FC = () => {
 
   const onSuccess = (storagePoolName: string) => {
     invalidateCache();
-    navigate(
-      `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
-    );
     formik.setSubmitting(false);
     toastNotify.success(
       <>
@@ -117,15 +115,16 @@ const CreateStoragePool: FC = () => {
 
       mutation()
         .then((operation) => {
+          navigate(
+            `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pools`,
+          );
+
           if (hasStorageAndNetworkOperations) {
             toastNotify.info(
               <>
                 Creation of storage pool{" "}
-                <StoragePoolRichChip
-                  poolName={storagePool.name}
-                  projectName={project}
-                />{" "}
-                has started.
+                <ResourceLabel bold type="pool" value={storagePool.name} /> has
+                started.
               </>,
             );
             eventQueue.set(
