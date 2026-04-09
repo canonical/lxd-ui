@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import type { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
@@ -17,6 +17,8 @@ import classnames from "classnames";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   network: LxdNetwork;
@@ -29,32 +31,78 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const isSmallScreen = useIsScreenBelow();
   const { canDeleteNetwork } = useNetworkEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
+
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === queryKeys.projects &&
+        query.queryKey[1] === project &&
+        query.queryKey[2] === queryKeys.networks,
+    });
+  };
+
+  const onSuccess = () => {
+    invalidateCache();
+
+    // Only navigate to the networks list if we are still on the deleted network's detail page
+    const networkDetailPath = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
+    if (location.pathname.startsWith(networkDetailPath)) {
+      navigate(
+        `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
+      );
+    }
+
+    setLoading(false);
+    toastNotify.success(
+      <>
+        Network <ResourceLabel bold type="network" value={network.name} />{" "}
+        deleted.
+      </>,
+    );
+  };
+
+  const onFailure = (e: unknown) => {
+    invalidateCache();
+    setLoading(false);
+    notify.failure(`Deleting network ${network.name} failed`, e);
+  };
 
   const handleDelete = () => {
     setLoading(true);
     deleteNetwork(network.name, project)
-      .then(() => {
-        queryClient.invalidateQueries({
-          predicate: (query) =>
-            query.queryKey[0] === queryKeys.projects &&
-            query.queryKey[1] === project &&
-            query.queryKey[2] === queryKeys.networks,
-        });
-        navigate(
-          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks`,
-        );
-        toastNotify.success(
-          <>
-            Network <ResourceLabel bold type="network" value={network.name} />{" "}
-            deleted.
-          </>,
-        );
+      .then((operation) => {
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of network{" "}
+              <NetworkRichChip
+                networkName={network.name}
+                projectName={project}
+              />{" "}
+              has started.
+            </>,
+          );
+
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
+        } else {
+          onSuccess();
+        }
       })
       .catch((e) => {
-        setLoading(false);
-        notify.failure("Network deletion failed", e);
+        onFailure(e);
       });
   };
 
