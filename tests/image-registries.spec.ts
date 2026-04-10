@@ -70,7 +70,7 @@ test("create SimpleStreams image registry", async ({ page, lxdVersion }) => {
     .getByLabel("Protocol")
     .getByRole("radio", { name: "SimpleStreams" })
     .check();
-  await expect(page.getByLabel("Source Project")).not.toBeVisible();
+  await expect(page.getByLabel("Source project")).not.toBeVisible();
   await expect(page.getByLabel("Cluster link")).not.toBeVisible();
   await page.getByLabel("Server URL").fill(url);
 

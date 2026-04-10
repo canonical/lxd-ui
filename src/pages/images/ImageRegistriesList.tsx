@@ -16,10 +16,11 @@ import PageHeader from "components/PageHeader";
 import ImageRegistriesSearchFilter, {
   type ImageRegistryFilter,
 } from "./ImageRegistriesSearchFilter";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import type { LxdImageRegistryProtocol } from "types/image";
-import { isImageRegistryPublic } from "util/image-registries";
+import { isImageRegistryPublic } from "util/imageRegistries";
 import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
+import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { CreateImageRegistryPanel } from "./panels/CreateImageRegistryPanel";
 
@@ -82,7 +83,14 @@ const ImageRegistriesList: FC = () => {
       name: registry.name,
       columns: [
         {
-          content: registry.name,
+          content: (
+            <Link
+              to={`${ROOT_PATH}/ui/image-registry/${encodeURIComponent(registry.name)}`}
+              className="u-truncate"
+            >
+              {registry.name}
+            </Link>
+          ),
           role: "rowheader",
           "aria-label": "Name",
           title: `Image registry ${registry.name}`,

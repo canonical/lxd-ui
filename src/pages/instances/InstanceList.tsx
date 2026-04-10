@@ -79,6 +79,7 @@ import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useIsClustered } from "context/useIsClustered";
 import { useProject } from "context/useProjects";
+import { getTypeFromDisplayName } from "util/images";
 import { getInstanceKey, getInstanceType } from "util/instances";
 import DocLink from "components/DocLink";
 import TruncatedList from "components/TruncatedList";
@@ -117,9 +118,7 @@ const InstanceList: FC = () => {
     statuses: enrichStatuses(
       searchParams.getAll("status") as LxdInstanceStatus[],
     ),
-    types: searchParams
-      .getAll("type")
-      .map((value) => (value === "VM" ? "virtual-machine" : "container")),
+    types: searchParams.getAll("type").map(getTypeFromDisplayName),
     profiles: searchParams.getAll("profile"),
     clusterMembers: searchParams.getAll("member"),
     projects: searchParams.getAll("project"),

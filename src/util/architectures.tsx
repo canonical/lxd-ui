@@ -51,3 +51,23 @@ export const getArchitectureAliases = (names: string[]): string[] => {
   });
   return aliases;
 };
+
+export const getArchitectureDisplayName = (arch: string): string => {
+  const nameKeys = Object.keys(ARCHITECTURE_NAMES);
+  const nameKey = nameKeys.find((key) => ARCHITECTURE_NAMES[key] === arch);
+  return nameKey &&
+    nameKey in ARCHITECTURE_ALIASES &&
+    ARCHITECTURE_ALIASES[nameKey].length > 0
+    ? ARCHITECTURE_ALIASES[nameKey][0]
+    : arch;
+};
+
+export const getArchitectureTechnicalName = (displayName: string): string => {
+  const aliasKeys = Object.keys(ARCHITECTURE_ALIASES);
+  const aliasKey = aliasKeys.find((key) =>
+    ARCHITECTURE_ALIASES[key].includes(displayName),
+  );
+  return aliasKey && aliasKey in ARCHITECTURE_NAMES
+    ? ARCHITECTURE_NAMES[aliasKey]
+    : displayName;
+};

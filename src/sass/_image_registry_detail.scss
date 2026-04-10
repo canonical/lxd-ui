@@ -1,0 +1,37 @@
+.image-registry-image-table {
+  .architecture {
+    width: 8rem;
+  }
+
+  .type,
+  .size,
+  .actions {
+    width: 6rem;
+  }
+
+  @media screen and (width < 1200px) {
+    .uploaded_at,
+    .size {
+      display: none;
+    }
+  }
+
+  @media screen and (width < 1000px) {
+    .aliases,
+    .architecture {
+      display: none;
+    }
+  }
+
+  @media screen and (width < 600px) {
+    .select {
+      display: none;
+    }
+  }
+
+  @media screen and (width < 500px) {
+    .type {
+      display: none;
+    }
+  }
+}

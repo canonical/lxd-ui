@@ -69,7 +69,7 @@ export const ImageRegistryForm: FC<Props> = ({ formik, isEdit = false }) => {
           <Input
             {...formik.getFieldProps("sourceProject")}
             type="text"
-            label="Source Project"
+            label="Source project"
             placeholder="Enter source project"
             error={getFieldError("sourceProject")}
             help="Project with images on the remote cluster."

@@ -9,9 +9,14 @@ import { ROOT_PATH } from "util/rootPath";
 interface Props {
   image: RemoteImage;
   projectName: string;
+  disabledReason?: string;
 }
 
-const CreateInstanceFromImageBtn: FC<Props> = ({ image, projectName }) => {
+const CreateInstanceFromImageBtn: FC<Props> = ({
+  image,
+  projectName,
+  disabledReason,
+}) => {
   const navigate = useNavigate();
   const { canCreateInstances } = useProjectEntitlements();
   const { data: project } = useProject(projectName);
@@ -28,18 +33,24 @@ const CreateInstanceFromImageBtn: FC<Props> = ({ image, projectName }) => {
     );
   };
 
+  const getTitle = () => {
+    if (!canCreateInstances(project)) {
+      return "You do not have permission to create instances";
+    }
+    if (disabledReason) {
+      return disabledReason;
+    }
+    return "Create instance";
+  };
+
   return (
     <Button
       appearance="base"
       onClick={openLaunchFlow}
       type="button"
-      title={
-        canCreateInstances(project)
-          ? "Create instance"
-          : "You do not have permission to create instances"
-      }
+      title={getTitle()}
       hasIcon
-      disabled={!canCreateInstances(project)}
+      disabled={!!disabledReason || !canCreateInstances(project)}
     >
       <Icon name="play" />
     </Button>

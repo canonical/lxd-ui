@@ -19,7 +19,8 @@ const ImageRegistryRichChip: FC<Props> = ({
 }) => {
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
 
-  const imageRegistryUrl = `${ROOT_PATH}/ui/image-registries/${encodeURIComponent(imageRegistryName)}`;
+  const imageRegistryUrl = `${ROOT_PATH}/ui/image-registry/${encodeURIComponent(imageRegistryName)}`;
+
   const resourceLink = (
     <ResourceLink
       type="image-registry"

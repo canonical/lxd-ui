@@ -5,7 +5,7 @@ import { RichTooltipTable } from "components/RichTooltipTable";
 import ResourceLabel from "components/ResourceLabel";
 import { Link } from "react-router";
 import { useImageRegistry } from "context/useImageRegistries";
-import { isImageRegistryPublic } from "util/image-registries";
+import { isImageRegistryPublic } from "util/imageRegistries";
 import ItemName from "components/ItemName";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -91,7 +91,7 @@ const ImageRegistryRichTooltip: FC<Props> = ({
     });
 
     rows.push({
-      title: "Source Project",
+      title: "Source project",
       value: sourceProject || "-",
       valueTitle: sourceProject,
     });
