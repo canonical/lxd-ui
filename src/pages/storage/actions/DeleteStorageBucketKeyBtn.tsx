@@ -11,7 +11,9 @@ import {
 } from "@canonical/react-components";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
 import { deleteStorageBucketKey } from "api/storage-buckets";
+import { useEventQueue } from "context/eventQueue";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
@@ -27,14 +29,40 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
   const toastNotify = useToastNotification();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
-  const onFinish = () => {
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.storage,
+        bucket.pool,
+        project?.name ?? "",
+        queryKeys.buckets,
+        bucket.name,
+        queryKeys.keys,
+      ],
+    });
+  };
+
+  const onSuccess = () => {
+    invalidateCache();
+    setLoading(false);
     toastNotify.success(
       <>
         Key <ResourceLabel bold type="bucket-key" value={bucketKey.name} />{" "}
         deleted for storage bucket{" "}
         <ResourceLabel bold type="bucket" value={bucket.name} />.
       </>,
+    );
+  };
+
+  const onFailure = (e: Error) => {
+    invalidateCache();
+    setLoading(false);
+    notify.failure(
+      `Deletion of key ${bucketKey.name} for storage bucket ${bucket.name} failed`,
+      e,
     );
   };
 
@@ -46,23 +74,31 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
       bucket.pool,
       projectName,
     )
-      .then(onFinish)
-      .catch((e) => {
-        notify.failure("Key deletion failed", e);
+      .then((operation) => {
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of key{" "}
+              <ResourceLabel bold type="bucket-key" value={bucketKey.name} />{" "}
+              for storage bucket{" "}
+              <ResourceLabel bold type="bucket" value={bucket.name} />
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
+        } else {
+          onSuccess();
+        }
       })
-      .finally(() => {
-        setLoading(false);
-        queryClient.invalidateQueries({
-          queryKey: [
-            queryKeys.storage,
-            bucket.pool,
-            project?.name ?? "",
-            queryKeys.buckets,
-            bucket.name,
-            queryKeys.keys,
-          ],
-        });
-      });
+      .catch(onFailure);
   };
 
   return (

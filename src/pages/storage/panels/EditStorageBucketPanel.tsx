@@ -18,7 +18,9 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdStorageBucket } from "types/storage";
 import { pluralize } from "util/helpers";
+import { useEventQueue } from "context/eventQueue";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
@@ -34,8 +36,26 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
     panelParams.clear();
     notify.clear();
   };
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
-  const handleSuccess = (bucketName: string) => {
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.storage,
+        bucket.pool,
+        project?.name ?? "",
+        queryKeys.buckets,
+        bucket.name,
+      ],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage, project?.name ?? "", queryKeys.buckets],
+    });
+  };
+
+  const onSuccess = (bucketName: string) => {
+    invalidateCache();
     toastNotify.success(
       <>
         Storage bucket{" "}
@@ -48,6 +68,12 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
       </>,
     );
     closePanel();
+  };
+
+  const onFailure = (storageBucketName: string, e: unknown) => {
+    invalidateCache();
+    formik.setSubmitting(false);
+    notify.failure(`Update of storage bucket ${storageBucketName} failed`, e);
   };
 
   const formik = useFormik<StorageBucketFormValues>({
@@ -72,28 +98,35 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
         project?.name || "",
         values.target,
       )
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.storage,
-              bucket.pool,
-              project?.name ?? "",
-              queryKeys.buckets,
-              bucket.name,
-            ],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.storage,
-              project?.name ?? "",
-              queryKeys.buckets,
-            ],
-          });
-          handleSuccess(values.name);
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Update of storage bucket{" "}
+                <ResourceLink
+                  type="bucket"
+                  value={values.name}
+                  to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/storage/buckets`}
+                />{" "}
+                has started.
+              </>,
+            );
+
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(values.name);
+              },
+              (msg) => {
+                onFailure(values.name, new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(values.name);
+          }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure(`Storage bucket update failed`, e);
+          onFailure(values.name, e);
         });
     },
   });
