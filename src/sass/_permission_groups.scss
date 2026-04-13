@@ -90,6 +90,10 @@
     gap: 1rem;
     justify-content: space-evenly;
 
+    .dropdown-disabled * {
+      cursor: not-allowed;
+    }
+
     // wrap the permission input to columnar on small screens
     @media screen and (width < 730px) {
       align-items: inherit;
