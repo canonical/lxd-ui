@@ -36,7 +36,7 @@ import { isUnrestricted } from "util/helpers";
 import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { getIdentityName } from "util/permissionIdentities";
 import CreateTLSIdentity from "./CreateTLSIdentity";
 import ResourceLabel from "components/ResourceLabel";

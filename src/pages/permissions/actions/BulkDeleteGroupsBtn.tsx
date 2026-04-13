@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import type { LxdAuthGroup } from "types/permissions";
 import DeleteGroupModal from "./DeleteGroupModal";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {

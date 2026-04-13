@@ -44,6 +44,10 @@ const initialiseOpenNavMenus = (location: Location) => {
   const openCluster =
     location.pathname.includes("/cluster/") ||
     location.pathname.includes("/placement-groups");
+  const openImages =
+    location.pathname.includes("/image-registries") ||
+    location.pathname.includes("/local-images");
+
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
     initialOpenMenus.push("permissions");
@@ -59,6 +63,10 @@ const initialiseOpenNavMenus = (location: Location) => {
 
   if (openCluster) {
     initialOpenMenus.push("clustering");
+  }
+
+  if (openImages) {
+    initialOpenMenus.push("images");
   }
 
   return initialOpenMenus;
@@ -97,7 +105,8 @@ const Navigation: FC = () => {
     initializeProjectName(isAllProjectsFromUrl, isLoading, project),
   );
   const isAllProjects = projectName === ALL_PROJECTS;
-  const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
+  const { hasCustomVolumeIso, hasAccessManagement, hasImageRegistries } =
+    useSupportedFeatures();
   const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
@@ -459,10 +468,10 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrls={[
-                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/image`,
+                            `${ROOT_PATH}/ui/image-registries`,
+                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/local-images`,
                           ]}
                           title={getNavTitle("image")}
-                          disabled={isAllProjects}
                           iconName="image"
                           label="Images"
                           onOpen={() => {
@@ -480,6 +489,15 @@ const Navigation: FC = () => {
                           >
                             Local images
                           </NavLink>
+                          {hasImageRegistries && (
+                            <NavLink
+                              to={`${ROOT_PATH}/ui/image-registries`}
+                              title={getNavTitle("image registries")}
+                              onClick={softToggleMenu}
+                            >
+                              Image registries
+                            </NavLink>
+                          )}
                         </NavAccordion>
                       </SideNavigationItem>
                       <SideNavigationItem>

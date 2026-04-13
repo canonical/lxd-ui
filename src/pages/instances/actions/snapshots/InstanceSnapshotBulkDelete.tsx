@@ -4,7 +4,7 @@ import type { LxdInstance } from "types/instance";
 import { deleteInstanceSnapshotBulk } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
 import { useInstanceEntitlements } from "util/entitlements/instances";

@@ -5,11 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
-import {
-  instanceActionLabel,
-  instanceActions,
-  pluralize,
-} from "util/instanceBulkActions";
+import { instanceActionLabel, instanceActions } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";

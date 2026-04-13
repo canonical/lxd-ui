@@ -17,7 +17,7 @@ import { updateStorageBucket } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdStorageBucket } from "types/storage";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { ROOT_PATH } from "util/rootPath";
 

@@ -8,7 +8,7 @@ import {
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteWarningBulk } from "api/warnings";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {

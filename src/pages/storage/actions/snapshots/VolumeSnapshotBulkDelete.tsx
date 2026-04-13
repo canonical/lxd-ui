@@ -3,7 +3,7 @@ import { useState } from "react";
 import { deleteVolumeSnapshotBulk } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
 import type { LxdStorageVolume } from "types/storage";

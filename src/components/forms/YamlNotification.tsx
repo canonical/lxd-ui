@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Notification } from "@canonical/react-components";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import DocLink from "components/DocLink";
 
 const loadClosed = (entity: string) => {

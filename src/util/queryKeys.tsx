@@ -7,6 +7,7 @@ export const queryKeys = {
   forwards: "forwards",
   groups: "groups",
   images: "images",
+  imageRegistries: "imageRegistries",
   instances: "instances",
   customVolumes: "customVolumes",
   isoVolumes: "isoVolumes",

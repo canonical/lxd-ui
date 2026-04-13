@@ -6,7 +6,7 @@ import { useNotify, useToastNotification } from "@canonical/react-components";
 import { useState } from "react";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import ResourceLabel from "components/ResourceLabel";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useQueryClient } from "@tanstack/react-query";
 import type { IdpGroup } from "types/permissions";
 import { queryKeys } from "./queryKeys";

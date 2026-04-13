@@ -14,7 +14,7 @@ import SelectableMainTable from "components/SelectableMainTable";
 import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { LxdAuthGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";

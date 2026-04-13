@@ -3,7 +3,7 @@ import { CustomSelect } from "@canonical/react-components";
 import { usePlacementGroups } from "context/usePlacementGroups";
 import type { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import { Link } from "react-router-dom";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { CustomSelectOption } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown/CustomSelectDropdown";
 import { useProfiles } from "context/useProfiles";
 import { ROOT_PATH } from "util/rootPath";

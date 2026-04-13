@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/promises";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useImageEntitlements } from "util/entitlements/images";
 import type { LxdImage } from "types/image";

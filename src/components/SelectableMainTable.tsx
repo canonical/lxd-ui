@@ -12,7 +12,7 @@ import {
   useListener,
 } from "@canonical/react-components";
 import classnames from "classnames";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 
 interface SelectableMainTableProps {
   filteredNames: string[];

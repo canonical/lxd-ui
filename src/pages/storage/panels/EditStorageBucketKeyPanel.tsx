@@ -16,7 +16,7 @@ import { updateStorageBucketKey } from "api/storage-buckets";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { StorageBucketKeyFormValues } from "types/forms/storageBucketKey";
 import { useBucketKey } from "context/useBuckets";
 import StorageBucketKeyForm from "../forms/StorageBucketKeyForm";

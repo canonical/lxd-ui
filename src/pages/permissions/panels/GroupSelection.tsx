@@ -10,7 +10,7 @@ import {
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
 import { Link } from "react-router-dom";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import useSortTableData from "util/useSortTableData";
 import { ROOT_PATH } from "util/rootPath";
 import classnames from "classnames";

@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { getSubpageFromUrl } from "util/projects";
 import { filterUsedByType } from "util/usedBy";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {

@@ -35,7 +35,7 @@ import {
 import { updateIdentities } from "api/auth-identities";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import type { GroupSubForm } from "types/forms/permissionGroup";
 import ResourceLink from "components/ResourceLink";

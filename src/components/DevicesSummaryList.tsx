@@ -11,7 +11,7 @@ import {
   isVolumeDevice,
 } from "util/devices";
 import type { FormDevice } from "types/formDevice";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import classnames from "classnames";
 
 interface Props {

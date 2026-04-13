@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { ActionButton, useListener } from "@canonical/react-components";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import { getFormChangeCount } from "util/formChangeCount";
 import { unstable_usePrompt as usePrompt } from "react-router";

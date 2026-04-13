@@ -4,7 +4,7 @@ import { Button, Icon } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { getIdentityName } from "util/permissionIdentities";
 
 interface Props {

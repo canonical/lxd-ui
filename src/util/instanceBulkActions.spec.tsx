@@ -1,4 +1,4 @@
-import { pluralize } from "./instanceBulkActions";
+import { pluralize } from "util/helpers";
 
 describe("pluralize function", () => {
   describe("count of 1", () => {

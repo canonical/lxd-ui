@@ -5,7 +5,7 @@ import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";

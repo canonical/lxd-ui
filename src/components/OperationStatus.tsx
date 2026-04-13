@@ -1,7 +1,7 @@
 import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
 import { Link } from "react-router-dom";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { ROOT_PATH } from "util/rootPath";
 
