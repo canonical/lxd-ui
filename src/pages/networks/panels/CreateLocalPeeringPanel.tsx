@@ -22,6 +22,9 @@ import type { LocalPeeringFormValues } from "types/forms/localPeering";
 import { testDuplicateLocalPeeringName } from "util/networks";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   network: LxdNetwork;
@@ -34,6 +37,8 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
@@ -78,7 +83,20 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
       .required("Local peering name is required"),
   });
 
-  const handleSuccess = (peerName: string) => {
+  const invalidateQueries = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.projects,
+        panelParams.project,
+        queryKeys.networks,
+        network.name,
+        queryKeys.peers,
+      ],
+    });
+  };
+
+  const onSuccess = (peerName: string) => {
+    invalidateQueries();
     toastNotify.success(
       <>
         Local peering{" "}
@@ -97,16 +115,13 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     closePanel();
   };
 
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({
-      queryKey: [
-        queryKeys.projects,
-        panelParams.project,
-        queryKeys.networks,
-        network.name,
-        queryKeys.peers,
-      ],
-    });
+  const onFailure = (isLocal: boolean, peerName: string, e: unknown) => {
+    invalidateQueries();
+    formik.setSubmitting(false);
+    notify.failure(
+      `Creation of ${isLocal ? "local" : "mutual"} peering ${peerName} for network ${network.name} failed`,
+      e,
+    );
   };
 
   const formik = useFormik<LocalPeeringFormValues>({
@@ -142,7 +157,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
         panelParams.project,
         JSON.stringify(localPeeringPayload),
       )
-        .then(() => {
+        .then((operation) => {
           if (formik.values.createMutualPeering) {
             const mutualPeeringPayload = {
               name: values.name,
@@ -156,23 +171,56 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
               values.targetProject,
               JSON.stringify(mutualPeeringPayload),
             )
-              .then(() => {
-                invalidateQueries();
-                handleSuccess(values.name);
+              .then((mutualOperation) => {
+                if (hasStorageAndNetworkOperations) {
+                  toastNotify.info(
+                    <>
+                      Creation of mutual local peering{" "}
+                      <ResourceLabel bold type="peering" value={values.name} />{" "}
+                      has started.
+                    </>,
+                  );
+                  eventQueue.set(
+                    mutualOperation.metadata.id,
+                    () => {
+                      onSuccess(values.name);
+                    },
+                    (msg) => {
+                      onFailure(false, values.name, new Error(msg));
+                    },
+                  );
+                } else {
+                  onSuccess(values.name);
+                }
               })
               .catch((e) => {
-                formik.setSubmitting(false);
-                invalidateQueries();
-                notify.failure(`Mutual local peering creation failed`, e);
+                onFailure(false, values.name, e);
               });
           } else {
-            invalidateQueries();
-            handleSuccess(values.name);
+            if (hasStorageAndNetworkOperations) {
+              toastNotify.info(
+                <>
+                  Creation of local peering{" "}
+                  <ResourceLabel bold type="peering" value={values.name} /> has
+                  started.
+                </>,
+              );
+              eventQueue.set(
+                operation.metadata.id,
+                () => {
+                  onSuccess(values.name);
+                },
+                (msg) => {
+                  onFailure(true, values.name, new Error(msg));
+                },
+              );
+            } else {
+              onSuccess(values.name);
+            }
           }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure(`Local peering creation failed`, e);
+          onFailure(true, values.name, e);
         });
     },
   });

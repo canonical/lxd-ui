@@ -17,7 +17,9 @@ import { pluralize } from "util/helpers";
 import type { LxdNetwork, LxdNetworkPeer } from "types/network";
 import NetworkLocalPeeringForm from "../forms/NetworkLocalPeeringForm";
 import type { LocalPeeringFormValues } from "types/forms/localPeering";
+import { useEventQueue } from "context/eventQueue";
 import { useLocalPeering } from "context/useLocalPeerings";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { updateNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
@@ -31,6 +33,9 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
+
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
@@ -43,7 +48,30 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
     isLoading,
   } = useLocalPeering(network, project, localPeering ?? "");
 
-  const handleSuccess = () => {
+  const invalidateQueries = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.projects,
+        project,
+        queryKeys.networks,
+        network.name,
+        queryKeys.peers,
+      ],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.projects,
+        project,
+        queryKeys.networks,
+        network.name,
+        queryKeys.peers,
+        localPeering,
+      ],
+    });
+  };
+
+  const onSuccess = () => {
+    invalidateQueries();
     toastNotify.success(
       <>
         Local peering{" "}
@@ -56,6 +84,12 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
       </>,
     );
     closePanel();
+  };
+
+  const onFailure = (e: unknown) => {
+    invalidateQueries();
+    formik.setSubmitting(false);
+    notify.failure(`Update of local peering ${localPeering} failed`, e);
   };
 
   const formik = useFormik<LocalPeeringFormValues>({
@@ -80,31 +114,34 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
         project,
         localPeeringPayload,
       )
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.projects,
-              project,
-              queryKeys.networks,
-              network.name,
-              queryKeys.peers,
-            ],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.projects,
-              project,
-              queryKeys.networks,
-              network.name,
-              queryKeys.peers,
-              localPeering,
-            ],
-          });
-          handleSuccess();
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Update of local peering{" "}
+                <ResourceLink
+                  type={"peering"}
+                  value={localPeering ?? ""}
+                  to={`${networkURL}/local-peerings`}
+                />{" "}
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess();
+              },
+              (msg) => {
+                onFailure(new Error(msg));
+              },
+            );
+          } else {
+            onSuccess();
+          }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure(`Local peering update failed`, e);
+          onFailure(e);
         });
     },
   });
