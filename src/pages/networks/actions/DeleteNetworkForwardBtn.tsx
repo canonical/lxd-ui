@@ -12,6 +12,8 @@ import {
 import { deleteNetworkForward } from "api/network-forwards";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import ResourceLabel from "components/ResourceLabel";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   network: LxdNetwork;
@@ -25,33 +27,74 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const { canEditNetwork } = useNetworkEntitlements();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
+
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === queryKeys.projects &&
+        query.queryKey[1] === project &&
+        query.queryKey[2] === queryKeys.networks &&
+        query.queryKey[3] === network.name,
+    });
+  };
+
+  const onSuccess = () => {
+    invalidateCache();
+    toastNotify.success(
+      <>
+        Network forward with listen address{" "}
+        <ResourceLabel
+          type="network-forward"
+          value={forward.listen_address}
+          bold
+        />{" "}
+        deleted.
+      </>,
+    );
+  };
+
+  const onFailure = (e: unknown) => {
+    invalidateCache();
+    setLoading(false);
+    notify.failure(
+      `Deletion of network forward with listen address ${forward.listen_address} failed`,
+      e,
+    );
+  };
 
   const handleDelete = () => {
     setLoading(true);
     deleteNetworkForward(network, forward, project)
-      .then(() => {
-        toastNotify.success(
-          <>
-            Network forward with listen address{" "}
-            <ResourceLabel
-              type="network-forward"
-              value={forward.listen_address}
-              bold
-            />{" "}
-            deleted.
-          </>,
-        );
-        queryClient.invalidateQueries({
-          predicate: (query) =>
-            query.queryKey[0] === queryKeys.projects &&
-            query.queryKey[1] === project &&
-            query.queryKey[2] === queryKeys.networks &&
-            query.queryKey[3] === network.name,
-        });
+      .then((operation) => {
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of network forward with listen address{" "}
+              <ResourceLabel
+                bold
+                type="network-forward"
+                value={forward.listen_address}
+              />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
+        } else {
+          onSuccess();
+        }
       })
       .catch((e) => {
-        setLoading(false);
-        notify.failure("Network forward deletion failed", e);
+        onFailure(e);
       });
   };
 

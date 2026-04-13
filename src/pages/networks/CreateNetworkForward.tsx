@@ -18,7 +18,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useEventQueue } from "context/eventQueue";
 import { useNetwork } from "context/useNetworks";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isTypeOvn } from "util/networks";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -31,11 +33,12 @@ const CreateNetworkForward: FC = () => {
     network: string;
     project: string;
   }>();
-
   const { data: network, error: networkError } = useNetwork(
     networkName ?? "",
     project ?? "",
   );
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
   useEffect(() => {
     if (networkError) {
@@ -56,6 +59,34 @@ const CreateNetworkForward: FC = () => {
     return "";
   };
 
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.projects,
+        project,
+        queryKeys.networks,
+        network,
+        queryKeys.forwards,
+      ],
+    });
+  };
+
+  const onSuccess = (listenAddress?: string) => {
+    invalidateCache();
+    toastNotify.success(
+      `Network forward with listen address ${listenAddress} created.`,
+    );
+  };
+
+  const onFailure = (e: unknown, listenAddress?: string) => {
+    invalidateCache();
+    formik.setSubmitting(false);
+    notify.failure(
+      `Creation of network forward with listen address ${listenAddress} failed`,
+      e,
+    );
+  };
+
   const formik = useFormik<NetworkForwardFormValues>({
     initialValues: {
       listenAddress: getDefaultListenAddress(),
@@ -65,26 +96,33 @@ const CreateNetworkForward: FC = () => {
     onSubmit: (values) => {
       const forward = toNetworkForward(values);
       createNetworkForward(networkName ?? "", forward, project ?? "")
-        .then((listenAddress) => {
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.projects,
-              project,
-              queryKeys.networks,
-              network,
-              queryKeys.forwards,
-            ],
-          });
+        .then((operation) => {
           navigate(
             `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
           );
-          toastNotify.success(
-            `Network forward with listen address ${listenAddress} created.`,
-          );
+
+          if (hasStorageAndNetworkOperations && operation?.metadata.id) {
+            toastNotify.info(
+              <>
+                Creation of network forward with listen address{" "}
+                {formik.values.listenAddress} has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(formik.values.listenAddress);
+              },
+              (msg) => {
+                onFailure(new Error(msg), formik.values.listenAddress);
+              },
+            );
+          } else {
+            onSuccess(formik.values.listenAddress);
+          }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure("Network forward creation failed", e);
+          onFailure(e, formik.values.listenAddress);
         });
     },
   });
