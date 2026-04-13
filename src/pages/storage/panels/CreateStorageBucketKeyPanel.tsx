@@ -7,7 +7,9 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useState, type FC } from "react";
+import { useEventQueue } from "context/eventQueue";
 import usePanelParams from "util/usePanelParams";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
@@ -23,6 +25,7 @@ import {
   testDuplicateBucketKeyName,
 } from "util/storageBucket";
 import { useCurrentProject } from "context/useCurrentProject";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -35,6 +38,9 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
+
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
@@ -57,7 +63,21 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
       .required("Key name is required"),
   });
 
-  const handleSuccess = (keyName: string) => {
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.storage,
+        bucket.pool,
+        panelParams.project,
+        queryKeys.buckets,
+        bucket.name,
+        queryKeys.keys,
+      ],
+    });
+  };
+
+  const onSuccess = (keyName: string) => {
+    invalidateCache();
     toastNotify.success(
       <>
         Key <ResourceLink type="bucket-key" value={keyName} to={bucketURL} />{" "}
@@ -67,6 +87,13 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
     );
     closePanel();
   };
+
+  const onFailure = (keyName: string, e: unknown) => {
+    invalidateCache();
+    formik.setSubmitting(false);
+    notify.failure(`Creation of key ${keyName} failed`, e);
+  };
+
   const formik = useFormik<StorageBucketKeyFormValues>({
     initialValues: {
       name: "",
@@ -88,22 +115,36 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
         bucket.pool,
         bucket.name,
       )
-        .then(() => {
-          queryClient.invalidateQueries({
-            queryKey: [
-              queryKeys.storage,
-              bucket.pool,
-              panelParams.project,
-              queryKeys.buckets,
-              bucket.name,
-              queryKeys.keys,
-            ],
-          });
-          handleSuccess(values.name);
+        .then((operation) => {
+          if (hasStorageAndNetworkOperations) {
+            toastNotify.info(
+              <>
+                Creation of key{" "}
+                <ResourceLabel bold type="bucket-key" value={values.name} /> for
+                storage bucket{" "}
+                <ResourceLink
+                  type="bucket"
+                  value={bucket.name}
+                  to={bucketURL}
+                />
+                has started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(values.name);
+              },
+              (msg) => {
+                onFailure(values.name, new Error(msg));
+              },
+            );
+          } else {
+            onSuccess(values.name);
+          }
         })
         .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure(`Key creation failed`, e);
+          onFailure(values.name, e);
         });
     },
   });

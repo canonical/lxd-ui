@@ -102,12 +102,12 @@ export const updateStorageBucket = async (
   pool: string,
   project: string,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket.name)}?${params.toString()}`,
     {
       method: "PUT",
@@ -116,23 +116,31 @@ export const updateStorageBucket = async (
       },
       body: JSON.stringify(bucket),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteStorageBucket = async (
   bucket: string,
   pool: string,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}?${params.toString()}`,
     {
       method: "DELETE",
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteStorageBucketBulk = async (
@@ -231,12 +239,12 @@ export const updateStorageBucketKey = async (
   pool: string,
   project: string,
   target?: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, target);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key.name)}?${params.toString()}`,
     {
       method: "PUT",
@@ -245,7 +253,11 @@ export const updateStorageBucketKey = async (
       },
       body: JSON.stringify(key),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteStorageBucketKey = async (
@@ -253,16 +265,20 @@ export const deleteStorageBucketKey = async (
   key: string,
   pool: string,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/storage-pools/${encodeURIComponent(pool)}/buckets/${encodeURIComponent(bucket)}/keys/${encodeURIComponent(key)}?${params.toString()}`,
     {
       method: "DELETE",
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteStorageBucketKeyBulk = async (
