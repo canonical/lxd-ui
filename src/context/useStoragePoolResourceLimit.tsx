@@ -30,5 +30,8 @@ export const useStoragePoolResourceLimit = (
   const availableSpaces = resourceArray.map(
     (r) => r.space.total - (r.space.used ?? 0),
   );
-  return getResourceLimit(availableSpaces, clusterMemberName);
+  return getResourceLimit(
+    availableSpaces,
+    !clusterMemberName || clusterMemberName === "none" ? "" : clusterMemberName,
+  );
 };

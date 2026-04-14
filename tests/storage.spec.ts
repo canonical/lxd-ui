@@ -69,6 +69,9 @@ test("storage pool create, edit and remove", async ({ page }) => {
 test("storage volume create, edit and remove", async ({ page }) => {
   await editVolume(page, volume);
   await page.getByPlaceholder("Enter value").fill("2");
+  await expect(page.getByText("Available space:")).toBeVisible();
+  expect(page.getByText("on cluster member")).not.toBeVisible();
+
   await saveVolume(page, volume);
 
   await page.getByTestId("tab-link-Overview").click();
@@ -110,9 +113,9 @@ test("storage volume edit snapshot configuration", async ({
   await activateOverride(page, scheduleFieldText);
   await page.getByPlaceholder("Enter cron expression").last().fill("@daily");
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(
-    `text=Snapshot configuration updated for volume ${volume}.`,
-  );
+  await page
+    .getByText(`Snapshot configuration updated for volume ${volume}.`)
+    .waitFor();
 });
 
 test("custom storage volume add snapshot from CTA", async ({ page }) => {
@@ -130,9 +133,9 @@ test("custom storage volume add snapshot from CTA", async ({ page }) => {
   await page
     .getByRole("button", { name: "Create snapshot", exact: true })
     .click();
-  await page.waitForSelector(
-    `text=Snapshot ${snapshot} created for volume ${volume}.`,
-  );
+  await page
+    .getByText(`Snapshot ${snapshot} created for volume ${volume}.`)
+    .waitFor();
 
   await expect(row.getByLabel("Snapshots")).toContainText("1");
 
@@ -210,7 +213,7 @@ test("Export and upload a volume backup", async ({ page }) => {
   await page.getByRole("button", { name: "Export" }).click();
   await page.getByRole("button", { name: "Export volume" }).click();
   const download = await downloadPromise;
-  await page.waitForSelector(`text=Volume ${volume} download started`);
+  await page.getByText(`Volume ${volume} download started`).waitFor();
   const VOLUME_FILE = "tests/fixtures/volume.tar.gz";
   await download.saveAs(VOLUME_FILE);
 
@@ -229,8 +232,8 @@ test("Export and upload a volume backup", async ({ page }) => {
   await page.getByLabel("LXD backup archive").setInputFiles(VOLUME_FILE);
   await page.getByRole("textbox", { name: "Enter name" }).fill(uploadVolume);
   await page.getByRole("button", { name: "Upload and create" }).click();
-  await page.waitForSelector(`text=Upload completed. Now creating volume`);
-  await page.waitForSelector(`text=Created volume ${uploadVolume}.`);
+  await page.getByText(`Upload completed. Now creating volume`).waitFor();
+  await page.getByText(`Created volume ${uploadVolume}.`).waitFor();
 
   await deleteVolume(page, uploadVolume);
 });
@@ -252,7 +255,7 @@ test("storage bucket create, edit, delete", async ({ page, lxdVersion }) => {
   await row.getByRole("button", { name: "Edit bucket" }).click();
   await page.getByRole("spinbutton", { name: "Size" }).fill("100");
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(`text=Storage bucket ${bucket} updated.`);
+  await page.getByText(`Storage bucket ${bucket} updated.`).waitFor();
 
   await page.getByPlaceholder("Search and filter").fill(bucket);
   await page.getByPlaceholder("Search and filter").press("Enter");
@@ -286,7 +289,7 @@ test("storage bucket keys create, edit, delete", async ({
   await page.getByRole("button", { name: "Edit bucket key" }).nth(1).click();
   await page.getByPlaceholder("Enter description").fill("Test description 2");
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(`text=Key ${bucketkey} updated`);
+  await page.getByText(`Key ${bucketkey} updated`).waitFor();
 
   await deleteBucket(page, bucket);
   await deletePool(page, pool);
