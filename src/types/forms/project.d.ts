@@ -63,9 +63,14 @@ export interface NetworkRestrictionFormValues {
   restricted_network_zones?: string;
 }
 
+export interface ImageRestrictionFormValues {
+  restricted_registries?: string;
+}
+
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
   ClusterRestrictionFormValues &
   InstanceRestrictionFormValues &
   DeviceUsageRestrictionFormValues &
-  NetworkRestrictionFormValues;
+  NetworkRestrictionFormValues &
+  ImageRestrictionFormValues;

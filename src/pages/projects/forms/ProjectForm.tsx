@@ -4,6 +4,7 @@ import { Col, Form, Row } from "@canonical/react-components";
 import ProjectFormMenu, {
   CLUSTERS,
   DEVICE_USAGE,
+  IMAGES,
   INSTANCES,
   NETWORKS,
   PROJECT_DETAILS,
@@ -20,6 +21,7 @@ import type { FormikProps } from "formik/dist/types";
 import type { LxdProject } from "types/project";
 import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";
+import ImageRestrictionForm from "pages/projects/forms/ImageRestrictionForm";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
@@ -76,6 +78,9 @@ const ProjectForm: FC<Props> = ({
             )}
             {section === slugify(NETWORKS) && (
               <NetworkRestrictionForm formik={formik} />
+            )}
+            {section === slugify(IMAGES) && (
+              <ImageRestrictionForm formik={formik} />
             )}
           </Col>
         </Row>

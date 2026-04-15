@@ -511,13 +511,25 @@
   }
 }
 
-.restricted-cluster-groups {
+.restricted-cluster-groups,
+.restricted-image-registries {
+  max-width: 20rem;
+
   .multi-select__condensed-text {
     text-align: left;
   }
 
   .p-chip {
     margin-right: $sph--x-small;
+  }
+}
+
+.multi-select .p-contextual-menu__dropdown {
+  z-index: 103; // above footer
+
+  .multi-select__dropdown {
+    max-height: 60vh;
+    overflow-y: auto;
   }
 }
 
