@@ -124,6 +124,33 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     );
   };
 
+  const createMutualPeering = (
+    network: string,
+    project: string,
+    payload: object,
+    localPeeringName: string,
+  ) => {
+    createNetworkPeer(network, project, JSON.stringify(payload))
+      .then((mutualOperation) => {
+        if (hasStorageAndNetworkOperations) {
+          eventQueue.set(
+            mutualOperation.metadata.id,
+            () => {
+              onSuccess(localPeeringName);
+            },
+            (msg) => {
+              onFailure(false, localPeeringName, new Error(msg));
+            },
+          );
+        } else {
+          onSuccess(localPeeringName);
+        }
+      })
+      .catch((e) => {
+        onFailure(false, localPeeringName, e);
+      });
+  };
+
   const formik = useFormik<LocalPeeringFormValues>({
     initialValues: {
       name: "",
@@ -139,17 +166,21 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values) => {
+      const targetProject =
+        values.targetProject === projectOtherLabel
+          ? values.customTargetProject || ""
+          : values.targetProject;
+
+      const targetNetwork =
+        values.targetNetwork === networkOtherLabel
+          ? values.customTargetNetwork || ""
+          : values.targetNetwork;
+
       const localPeeringPayload = {
         name: values.name,
         description: values.description,
-        target_project:
-          values.targetProject === projectOtherLabel
-            ? values.customTargetProject
-            : values.targetProject,
-        target_network:
-          values.targetNetwork === networkOtherLabel
-            ? values.customTargetNetwork
-            : values.targetNetwork,
+        target_project: targetProject,
+        target_network: targetNetwork,
       };
 
       createNetworkPeer(
@@ -166,36 +197,36 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
               target_network: network.name,
             };
 
-            createNetworkPeer(
-              values.targetNetwork,
-              values.targetProject,
-              JSON.stringify(mutualPeeringPayload),
-            )
-              .then((mutualOperation) => {
-                if (hasStorageAndNetworkOperations) {
-                  toastNotify.info(
-                    <>
-                      Creation of mutual local peering{" "}
-                      <ResourceLabel bold type="peering" value={values.name} />{" "}
-                      has started.
-                    </>,
+            if (hasStorageAndNetworkOperations) {
+              toastNotify.info(
+                <>
+                  Creation of mutual peering{" "}
+                  <ResourceLabel bold type="peering" value={values.name} /> has
+                  started.
+                </>,
+              );
+              eventQueue.set(
+                operation.metadata.id,
+                () => {
+                  createMutualPeering(
+                    targetNetwork,
+                    targetProject,
+                    mutualPeeringPayload,
+                    values.name,
                   );
-                  eventQueue.set(
-                    mutualOperation.metadata.id,
-                    () => {
-                      onSuccess(values.name);
-                    },
-                    (msg) => {
-                      onFailure(false, values.name, new Error(msg));
-                    },
-                  );
-                } else {
-                  onSuccess(values.name);
-                }
-              })
-              .catch((e) => {
-                onFailure(false, values.name, e);
-              });
+                },
+                (msg) => {
+                  onFailure(true, values.name, new Error(msg));
+                },
+              );
+            } else {
+              createMutualPeering(
+                targetNetwork,
+                targetProject,
+                mutualPeeringPayload,
+                values.name,
+              );
+            }
           } else {
             if (hasStorageAndNetworkOperations) {
               toastNotify.info(
