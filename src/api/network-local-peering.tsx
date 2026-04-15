@@ -1,6 +1,7 @@
-import { handleResponse } from "util/helpers";
-import type { LxdNetworkPeer } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdNetworkPeer } from "types/network";
+import type { LxdOperationResponse } from "types/operation";
+import { handleResponse } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 
 export const fetchNetworkPeers = async (
@@ -42,11 +43,11 @@ export const createNetworkPeer = async (
   network: string,
   project: string,
   body: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/peers?${params.toString()}`,
     {
       method: "POST",
@@ -55,25 +56,33 @@ export const createNetworkPeer = async (
       },
       body: body,
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteNetworkPeer = async (
   network: string,
   project: string,
   localPeering: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/networks/${encodeURIComponent(
       network,
     )}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
     {
       method: "DELETE",
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const updateNetworkPeer = async (
@@ -81,11 +90,11 @@ export const updateNetworkPeer = async (
   localPeering: string,
   project: string,
   body: LxdNetworkPeer,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/peers/${encodeURIComponent(localPeering)}?${params.toString()}`,
     {
       method: "PUT",
@@ -94,5 +103,9 @@ export const updateNetworkPeer = async (
       },
       body: JSON.stringify(body),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };

@@ -1,6 +1,7 @@
-import { handleRawResponse, handleResponse } from "util/helpers";
+import { handleResponse } from "util/helpers";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -49,7 +50,7 @@ export const createNetworkForward = async (
   network: string,
   forward: Partial<LxdNetworkForward>,
   project: string,
-): Promise<string> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, forward.location);
@@ -64,11 +65,9 @@ export const createNetworkForward = async (
       body: JSON.stringify(forward),
     },
   )
-    .then(handleRawResponse)
-    .then((response) => {
-      const locationHeader = response.headers.get("Location");
-      const listenAddress = locationHeader?.split("/").pop() ?? "";
-      return listenAddress;
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
     });
 };
 
@@ -76,12 +75,12 @@ export const updateNetworkForward = async (
   network: string,
   forward: LxdNetworkForward,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, forward.location);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "PUT",
@@ -90,22 +89,30 @@ export const updateNetworkForward = async (
       },
       body: JSON.stringify(forward),
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteNetworkForward = async (
   network: LxdNetwork,
   forward: LxdNetworkForward,
   project: string,
-): Promise<void> => {
+): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", project);
   addTarget(params, forward.location);
 
-  await fetch(
+  return fetch(
     `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network.name)}/forwards/${encodeURIComponent(forward.listen_address)}?${params.toString()}`,
     {
       method: "DELETE",
     },
-  ).then(handleResponse);
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };

@@ -11,7 +11,9 @@ import {
 } from "@canonical/react-components";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
 import { deleteStorageBucket } from "api/storage-buckets";
+import { useEventQueue } from "context/eventQueue";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLabel from "components/ResourceLabel";
 import { useNavigate } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
@@ -35,9 +37,26 @@ const DeleteStorageBucketBtn: FC<Props> = ({
   const projectName = project?.name || "";
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
 
-  const onFinish = () => {
-    navigate(`${ROOT_PATH}/ui/project/${project?.name}/storage/buckets`);
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKeys.storage, projectName, queryKeys.buckets],
+    });
+  };
+
+  const onSuccess = () => {
+    invalidateCache();
+
+    // Only navigate to the storage buckets list if we are still on the deleted storage bucket's detail page
+    const storageBucketDetailPath = `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name || "")}/storage/pool/${encodeURIComponent(bucket.pool)}/bucket/${encodeURIComponent(bucket.name)}`;
+    if (location.pathname.startsWith(storageBucketDetailPath)) {
+      navigate(
+        `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name || "")}/storage/buckets`,
+      );
+    }
+
     toastNotify.success(
       <>
         Storage bucket <ResourceLabel bold type="bucket" value={bucket.name} />{" "}
@@ -46,18 +65,39 @@ const DeleteStorageBucketBtn: FC<Props> = ({
     );
   };
 
+  const onFailure = (e: unknown) => {
+    invalidateCache();
+    setLoading(false);
+    notify.failure("Storage bucket deletion failed", e);
+  };
+
   const handleDelete = () => {
     setLoading(true);
     deleteStorageBucket(bucket.name, bucket.pool, projectName)
-      .then(onFinish)
-      .catch((e) => {
-        notify.failure("Storage bucket deletion failed", e);
+      .then((operation) => {
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of storage bucket{" "}
+              <ResourceLabel bold type="bucket" value={bucket.name} /> has
+              started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
+        } else {
+          onSuccess();
+        }
       })
-      .finally(() => {
-        setLoading(false);
-        queryClient.invalidateQueries({
-          queryKey: [queryKeys.storage, projectName, queryKeys.buckets],
-        });
+      .catch((e) => {
+        onFailure(e);
       });
   };
 

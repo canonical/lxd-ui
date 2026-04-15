@@ -16,6 +16,8 @@ import { deleteNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   network: LxdNetwork;
@@ -30,9 +32,25 @@ const DeleteLocalPeerBtn: FC<Props> = ({ network, localPeering }) => {
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
   const toastNotify = useToastNotification();
+  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const eventQueue = useEventQueue();
   const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network/${encodeURIComponent(network.name)}`;
 
+  const invalidateQueries = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.projects,
+        projectName,
+        queryKeys.networks,
+        network.name,
+        queryKeys.peers,
+      ],
+    });
+  };
+
   const onSuccess = () => {
+    invalidateQueries();
+    setLoading(false);
     toastNotify.success(
       <>
         Local peering <ResourceLabel type="peering" value={localPeering} bold />{" "}
@@ -42,25 +60,46 @@ const DeleteLocalPeerBtn: FC<Props> = ({ network, localPeering }) => {
     );
   };
 
+  const onFailure = (e: unknown) => {
+    notify.failure(
+      `Deletion of local peering ${localPeering} for network ${network.name} failed`,
+      e,
+    );
+    setLoading(false);
+    invalidateQueries();
+  };
+
   const handleDelete = () => {
     setLoading(true);
     deleteNetworkPeer(network.name, projectName, localPeering)
-      .then(onSuccess)
-      .catch((e) => {
-        notify.failure("Local peering deletion failed", e);
+      .then((operation) => {
+        if (hasStorageAndNetworkOperations) {
+          toastNotify.info(
+            <>
+              Deletion of local peering{" "}
+              <ResourceLabel type="peering" value={localPeering} bold /> for
+              network{" "}
+              <NetworkRichChip
+                networkName={network.name}
+                projectName={projectName}
+              />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
+        } else {
+          onSuccess();
+        }
       })
-      .finally(() => {
-        setLoading(false);
-        queryClient.invalidateQueries({
-          queryKey: [
-            queryKeys.projects,
-            projectName,
-            queryKeys.networks,
-            network.name,
-            queryKeys.peers,
-          ],
-        });
-      });
+      .catch(onFailure);
   };
 
   return (
