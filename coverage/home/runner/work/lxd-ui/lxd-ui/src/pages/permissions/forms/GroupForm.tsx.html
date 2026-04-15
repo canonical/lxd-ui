@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.5% </span>
+                <span class="strong">94.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>117/120</span>
+                <span class='fraction'>130/137</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.36% </span>
+                <span class="strong">82.75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/22</span>
+                <span class='fraction'>24/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.5% </span>
+                <span class="strong">94.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>117/120</span>
+                <span class='fraction'>130/137</span>
             </div>
         
             
@@ -183,7 +183,25 @@
 <a name='L118'></a><a href='#L118'>118</a>
 <a name='L119'></a><a href='#L119'>119</a>
 <a name='L120'></a><a href='#L120'>120</a>
-<a name='L121'></a><a href='#L121'>121</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">47x</span>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">47x</span>
+<span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
@@ -236,6 +254,11 @@
 <span class="cline-any cline-yes">392x</span>
 <span class="cline-any cline-yes">392x</span>
 <span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">392x</span>
 <span class="cline-any cline-yes">392x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -247,6 +270,17 @@
 <span class="cline-any cline-yes">370x</span>
 <span class="cline-any cline-yes">370x</span>
 <span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">392x</span>
+<span class="cline-any cline-yes">90x</span>
+<span class="cline-any cline-yes">90x</span>
+<span class="cline-any cline-yes">302x</span>
 <span class="cline-any cline-yes">392x</span>
 <span class="cline-any cline-yes">392x</span>
 <span class="cline-any cline-yes">392x</span>
@@ -309,10 +343,11 @@ import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { GroupSubForm } from "types/forms/permissionGroup";
 import FormLink from "components/FormLink";
-import { pluralize } from "util/instanceBulkActions";
+import { pluralize } from "util/helpers";
 import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
+import { isAdminGroup } from "util/permissionGroups";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;PermissionGroupFormValues&gt;;
@@ -355,10 +390,15 @@ const GroupForm: FC&lt;Props&gt; = ({
 &nbsp;
   const isNameInvalid = !formik.values.name || !!formik.errors.name;
   const isFieldDisabled = !!groupEditRestriction || isNameInvalid;
+  const isPermissionDisabled = isNameInvalid;
 &nbsp;
   const getDisableReason = () =&gt; {
     if (groupEditRestriction) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >      return groupEditRestriction;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+&nbsp;
+    if (group &amp;&amp; isAdminGroup(group)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return "Admins group cannot be modified";</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
     if (isNameInvalid) {
@@ -367,7 +407,18 @@ const GroupForm: FC&lt;Props&gt; = ({
 &nbsp;
     return undefined;
   };
+&nbsp;
   const disableReason = getDisableReason();
+&nbsp;
+  const getPermissionsTitle = () =&gt; {
+    if (group &amp;&amp; !canEditGroup(group)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return "View ";</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+    if (isEditing) {
+      return "Edit ";
+    }
+    return "Add ";
+  };
 &nbsp;
   return (
     &lt;Form onSubmit={formik.handleSubmit}&gt;
@@ -379,13 +430,13 @@ const GroupForm: FC&lt;Props&gt; = ({
         label="Name"
         required
         autoFocus
-        disabled={!!groupEditRestriction}
-        title={groupEditRestriction}
+        disabled={!!groupEditRestriction || isAdminGroup(group)}
+        title={groupEditRestriction || disableReason}
       /&gt;
       &lt;AutoExpandingTextArea
         {...getFormProps("description")}
         label="Description"
-        disabled={isFieldDisabled}
+        disabled={isFieldDisabled || isAdminGroup(group)}
         title={disableReason}
       /&gt;
       &lt;FormLink
@@ -404,7 +455,7 @@ const GroupForm: FC&lt;Props&gt; = ({
         onHoverText={disableReason}
       /&gt;
       &lt;FormLink
-        title={(isEditing ? "Edit " : "Add ") + pluralize("permission", 2)}
+        title={getPermissionsTitle() + pluralize("permission", 2)}
         icon="lock-locked"
         onClick={() =&gt; {
           setSubForm("permission");
@@ -415,7 +466,7 @@ const GroupForm: FC&lt;Props&gt; = ({
             ? `No ${pluralize("permission", 2)}`
             : `${permissionCount} ${pluralize("permission", permissionCount)}`
         }
-        disabled={isFieldDisabled}
+        disabled={isPermissionDisabled}
         onHoverText={disableReason}
       /&gt;
     &lt;/Form&gt;
@@ -430,7 +481,7 @@ export default GroupForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-01T14:03:26.002Z
+                at 2026-04-15T08:44:16.998Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
