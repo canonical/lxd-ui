@@ -4,12 +4,13 @@ import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
 import type { BulkOperationItem, BulkOperationResult } from "util/promises";
-import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
+import { continueOrFinish, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";
 import { getStorageBucketURL } from "util/storageBucket";
 import { ROOT_PATH } from "util/rootPath";
+import { waitForOperation } from "api/operations";
 
 export const storageBucketEntitlements = ["can_delete", "can_edit"];
 
@@ -146,27 +147,47 @@ export const deleteStorageBucket = async (
 export const deleteStorageBucketBulk = async (
   buckets: LxdStorageBucket[],
   project: string,
+  hasStorageAndNetworkOperations: boolean,
 ): Promise<BulkOperationResult[]> => {
   const results: BulkOperationResult[] = [];
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      buckets.map(async (bucket) => {
-        const item: BulkOperationItem = {
-          name: bucket.name,
-          type: "bucket",
-          href: getStorageBucketURL(bucket.name, bucket.pool, project),
-        };
-        return deleteStorageBucket(bucket.name, bucket.pool, project)
-          .then(() => {
-            pushSuccess(results, item);
-            continueOrFinish(results, buckets.length, resolve);
-          })
-          .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "", item);
-            continueOrFinish(results, buckets.length, resolve);
-          });
+  const operations = await Promise.allSettled(
+    buckets.map(async (bucket) => {
+      const operation = await deleteStorageBucket(
+        bucket.name,
+        bucket.pool,
+        project,
+      );
+      return { operation, bucket };
+    }),
+  );
+
+  const pendingOperations = operations.map((res) => {
+    if (res.status === "rejected") {
+      throw res?.reason as Error;
+    }
+    return res.value;
+  });
+
+  if (hasStorageAndNetworkOperations) {
+    await Promise.all(
+      pendingOperations.map(async ({ operation }) => {
+        if (operation.metadata.id) {
+          await waitForOperation(operation.metadata.id);
+        }
       }),
-    ).catch(reject);
+    );
+  }
+
+  return new Promise((resolve) => {
+    buckets.forEach((bucket) => {
+      const item: BulkOperationItem = {
+        name: bucket.name,
+        type: "bucket",
+        href: getStorageBucketURL(bucket.name, bucket.pool, project),
+      };
+      pushSuccess(results, item);
+      continueOrFinish(results, buckets.length, resolve);
+    });
   });
 };
 
@@ -285,31 +306,47 @@ export const deleteStorageBucketKeyBulk = async (
   bucket: LxdStorageBucket,
   keys: LxdStorageBucketKey[],
   project: string,
+  hasStorageAndNetworkOperations: boolean,
 ): Promise<BulkOperationResult[]> => {
   const results: BulkOperationResult[] = [];
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(
-      keys.map(async (key) => {
-        const item: BulkOperationItem = {
-          name: key.name,
-          type: "bucket-key",
-          href: getStorageBucketURL(bucket.name, bucket.pool, project),
-        };
-        return deleteStorageBucketKey(
-          bucket.name,
-          key.name,
-          bucket.pool,
-          project,
-        )
-          .then(() => {
-            pushSuccess(results, item);
-            continueOrFinish(results, keys.length, resolve);
-          })
-          .catch((e) => {
-            pushFailure(results, e instanceof Error ? e.message : "", item);
-            continueOrFinish(results, keys.length, resolve);
-          });
+  const operations = await Promise.allSettled(
+    keys.map(async (key) => {
+      const operation = await deleteStorageBucketKey(
+        bucket.name,
+        key.name,
+        bucket.pool,
+        project,
+      );
+      return { operation, key };
+    }),
+  );
+
+  const pendingOperations = operations.map((res) => {
+    if (res.status === "rejected") {
+      throw res?.reason as Error;
+    }
+    return res.value;
+  });
+
+  if (hasStorageAndNetworkOperations) {
+    await Promise.all(
+      pendingOperations.map(async ({ operation }) => {
+        if (operation.metadata.id) {
+          await waitForOperation(operation.metadata.id);
+        }
       }),
-    ).catch(reject);
+    );
+  }
+
+  return new Promise((resolve) => {
+    keys.forEach((key) => {
+      const item: BulkOperationItem = {
+        name: key.name,
+        type: "bucket-key",
+        href: getStorageBucketURL(bucket.name, bucket.pool, project),
+      };
+      pushSuccess(results, item);
+      continueOrFinish(results, keys.length, resolve);
+    });
   });
 };
