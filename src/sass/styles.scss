@@ -432,6 +432,12 @@ body.is-dark .lxd-icon {
     .p-modal__header {
       .resource-label {
         max-width: 14rem;
+
+        /* icon in the header is slightly too small by default, increase its dimensions */
+        i {
+          height: 1rem;
+          width: 1rem;
+        }
       }
     }
   }

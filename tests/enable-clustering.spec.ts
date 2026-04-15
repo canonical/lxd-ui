@@ -1,5 +1,5 @@
 import { test, expect } from "./fixtures/lxd-test";
-import { skipIfNotSupported } from "./helpers/cluster";
+import { skipIfNotSupported } from "./helpers/cluster-groups";
 import { gotoURL } from "./helpers/navigate";
 
 test("check enabling clustering", async ({ page, lxdVersion }, testInfo) => {

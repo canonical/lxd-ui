@@ -86,6 +86,8 @@ const ClusterLinkList: FC = () => {
       columns: [
         {
           content: clusterLink.name,
+          title: clusterLink.name,
+          className: "u-truncate",
           role: "rowheader",
           "aria-label": "Name",
         },

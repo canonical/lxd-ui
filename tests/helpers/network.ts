@@ -3,7 +3,7 @@ import { randomNameSuffix } from "./name";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
-import { isServerClustered } from "./cluster";
+import { isServerClustered } from "./cluster-groups";
 import type { IpAddressFamily } from "types/forms/network";
 import { runCommand } from "./shell";
 

@@ -26,6 +26,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
   const removed = [...initial].filter((g) => !selectedGroups.has(g));
   const added = [...selectedGroups].filter((g) => !initial.has(g));
   const modifiedGroups = new Set([...removed, ...added]);
+  const hasName = formik.values.name !== "";
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -47,10 +48,23 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
         type="text"
         label="Description"
         placeholder="Enter description"
+        disabled={!hasName}
+        title={
+          hasName
+            ? undefined
+            : "Please enter a name before adding a description"
+        }
       />
       {formik.values.isCreating && (
         <>
-          <div className="u-sv1">
+          <div
+            className="u-sv1"
+            title={
+              hasName
+                ? undefined
+                : "Please enter a name before selecting token options"
+            }
+          >
             <RadioInput
               inline
               labelClassName="margin-right--large"
@@ -59,6 +73,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
               onChange={() => {
                 formik.setFieldValue("tokenType", "generate");
               }}
+              disabled={!hasName}
             />
             <RadioInput
               inline
@@ -67,6 +82,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
               onChange={() => {
                 formik.setFieldValue("tokenType", "consume");
               }}
+              disabled={!hasName}
             />
           </div>
           {formik.values.tokenType === "consume" && (
@@ -80,7 +96,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
         </>
       )}
       <Label className="u-sv-2">Auth groups</Label>
-      <p className="u-text--muted u-sv-1">
+      <p className="u-text--muted u-sv-1 p-text--small">
         Control access for incoming requests through this cluster link.
       </p>
       <GroupSelection
@@ -107,6 +123,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
           }
         }}
         scrollDependencies={[formik]}
+        disabled={!hasName}
       />
     </Form>
   );

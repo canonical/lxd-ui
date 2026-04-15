@@ -138,6 +138,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
           appearance="base"
           onClick={closePanel}
           className="u-no-margin--bottom"
+          disabled={formik.isSubmitting}
         >
           Cancel
         </Button>
@@ -148,6 +149,11 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
           className="u-no-margin--bottom"
           disabled={
             !formik.isValid || formik.isSubmitting || !formik.values.name
+          }
+          title={
+            formik.values.name
+              ? undefined
+              : "Please enter a name before submitting the form"
           }
         >
           Create link

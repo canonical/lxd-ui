@@ -93,8 +93,10 @@ const EditClusterLinkPanel: FC<Props> = ({ identity }) => {
   return (
     <SidePanel>
       <SidePanel.Header>
-        <SidePanel.HeaderTitle>
-          Edit cluster link {clusterLink?.name}
+        <SidePanel.HeaderTitle className="u-truncate">
+          <span title={`Edit cluster link ${clusterLink?.name}`}>
+            Edit cluster link {clusterLink?.name}
+          </span>
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <Row className="u-no-padding">

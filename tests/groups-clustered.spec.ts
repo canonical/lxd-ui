@@ -2,12 +2,11 @@ import { test, expect } from "./fixtures/lxd-test";
 import {
   createClusterGroup,
   deleteClusterGroup,
-  getFirstClusterMember,
   randomGroupName,
-  skipIfNotClustered,
   skipIfNotSupported,
   toggleClusterGroupMember,
-} from "./helpers/cluster";
+} from "./helpers/cluster-groups";
+import { getFirstClusterMember, skipIfNotClustered } from "./helpers/cluster";
 
 test("cluster group create and delete", async ({
   page,
