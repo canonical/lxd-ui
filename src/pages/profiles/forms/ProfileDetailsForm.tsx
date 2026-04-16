@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Col, Input, Row } from "@canonical/react-components";
+import { Col, Input, Row, OutputField } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type {
   CreateProfileFormValues,
@@ -37,29 +37,35 @@ interface Props {
 const ProfileDetailsForm: FC<Props> = ({ formik, isEdit, project }) => {
   const isDefaultProfile = formik.values.name === "default";
   const isClustered = useIsClustered();
+  const helpText = !isDefaultProfile
+    ? "Click the name in the header to rename the profile."
+    : "Default profile cannot be renamed.";
 
   return (
     <ScrollableForm>
       <Row>
         <Col size={12}>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            label="Profile name"
-            placeholder="Enter name"
-            help={
-              isEdit &&
-              !isDefaultProfile &&
-              "Click the name in the header to rename the profile"
-            }
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            error={formik.touched.name ? formik.errors.name : null}
-            required
-            disabled={isEdit}
-          />
+          {isEdit ? (
+            <OutputField
+              id="name"
+              label="Profile name"
+              value={formik.values.name}
+              help={helpText}
+            />
+          ) : (
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              label="Profile name"
+              placeholder="Enter name"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              error={formik.touched.name ? formik.errors.name : null}
+              required
+            />
+          )}
           <AutoExpandingTextArea
             id="description"
             name="description"

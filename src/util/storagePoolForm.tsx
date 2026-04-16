@@ -12,6 +12,8 @@ import {
   cephDriver,
   cephFSDriver,
 } from "util/storageOptions";
+import type { ReactNode } from "react";
+import type { FormikProps } from "formik";
 
 export const isStoragePoolWithSize = (driver: string) => {
   const driversWithSize = [zfsDriver, lvmDriver, btrfsDriver];
@@ -118,3 +120,18 @@ export const handleConfigKeys = [
   "zfs.export",
   "zfs.pool_name",
 ];
+
+export const getFormProps = (
+  formik: FormikProps<StoragePoolFormValues>,
+  id: "name" | "description" | "size" | "source",
+) => {
+  return {
+    id: id,
+    name: id,
+    onBlur: formik.handleBlur,
+    onChange: formik.handleChange,
+    value: formik.values[id],
+    error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
+    placeholder: `Enter ${id.replaceAll("_", " ")}`,
+  };
+};

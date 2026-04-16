@@ -106,7 +106,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
     await page.getByRole("button", { name: "Save 34 changes" }).click();
   }
 
-  await page.waitForSelector(`text=Project ${project} updated.`);
+  await page.getByText(`Project ${project} updated.`).waitFor();
   await page.getByRole("button", { name: "Close notification" }).click();
 
   await page.getByText("Project details").click();
@@ -196,7 +196,7 @@ test("project deletion with instances - force delete supported", async ({
   await createProject(page, project);
   await createInstance(page, instance, "container", project);
   await page.getByRole("link", { name: "Configuration" }).click();
-  await page.waitForSelector("text=Project configuration");
+  await page.getByText("Project configuration").waitFor();
 
   const deleteButton = page.getByRole("button", { name: "Delete" });
   await expect(deleteButton).toBeEnabled();
@@ -236,7 +236,7 @@ test("project deletion with instances - force delete not supported", async ({
   await createProject(page, project);
   await createInstance(page, instance, "container", project);
   await page.getByRole("link", { name: "Configuration" }).click();
-  await page.waitForSelector("text=Project configuration");
+  await page.getByText("Project configuration").waitFor();
 
   const deleteButton = page.getByRole("button", { name: "Delete" });
   await expect(deleteButton).toBeDisabled();
@@ -262,7 +262,7 @@ test("project deletion with instances - force delete not supported", async ({
 
   await page.getByRole("link", { name: "Configuration" }).click();
   await page.waitForLoadState("networkidle");
-  await page.waitForSelector("text=Project configuration");
+  await page.getByText("Project configuration").waitFor();
 
   // Now the delete button should be enabled because the project is empty
   await expect(deleteButton).toBeEnabled();

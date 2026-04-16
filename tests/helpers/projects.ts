@@ -23,7 +23,7 @@ const openProjectCreationForm = async (page: Page) => {
 const submitProjectCreationForm = async (page: Page, project: string) => {
   await page.getByPlaceholder("Enter name").fill(project);
   await page.getByRole("button", { name: "Create" }).click();
-  await page.waitForSelector(`text=Project ${project} created.`);
+  await page.getByText(`Project ${project} created.`).waitFor();
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -53,7 +53,7 @@ export const renameProject = async (
   await page.getByRole("textbox").first().press("Control+a");
   await page.getByRole("textbox").first().fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(`text=Project ${oldName} renamed to ${newName}.`);
+  await page.getByText(`Project ${oldName} renamed to ${newName}.`).waitFor();
 };
 
 export const confirmDelete = async (page: Page, project: string) => {
@@ -68,13 +68,13 @@ export const confirmDelete = async (page: Page, project: string) => {
       .getByRole("dialog", { name: "Confirm delete" })
       .getByRole("button", { name: "Permanently delete" })
       .click();
-    await page.waitForSelector(`text=Project ${project} deleted.`);
+    await page.getByText(`Project ${project} deleted.`).waitFor();
   } else {
     await page
       .getByRole("dialog", { name: "Confirm delete" })
       .getByRole("button", { name: "Delete" })
       .click();
-    await page.waitForSelector(`text=Project ${project} deleted.`);
+    await page.getByText(`Project ${project} deleted.`).waitFor();
   }
 };
 

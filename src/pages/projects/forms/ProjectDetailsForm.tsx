@@ -6,6 +6,7 @@ import {
   Input,
   Row,
   Tooltip,
+  OutputField,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
@@ -17,10 +18,10 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { LxdConfigPair } from "types/config";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import NetworkSelector from "./NetworkSelector";
 import { useNetworks } from "context/useNetworks";
 import type { ProjectDetailsFormValues } from "types/forms/project";
+import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 export const projectDetailPayload = (
   values: ProjectDetailsFormValues,
@@ -85,24 +86,32 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
     <ScrollableForm>
       <Row>
         <Col size={12}>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            label="Project name"
-            placeholder="Enter name"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            error={formik.touched.name ? formik.errors.name : null}
-            disabled={formik.values.name === "default" || isEdit}
-            help={
-              isEdit &&
-              formik.values.name !== "default" &&
-              "Click the name in the header to rename the project"
-            }
-            required
-          />
+          {isEdit ? (
+            <OutputField
+              id="name"
+              label="Project name"
+              value={formik.values.name}
+              help={
+                !isDefaultProject
+                  ? "Click the name in the header to rename the project."
+                  : "Default project cannot be renamed."
+              }
+            />
+          ) : (
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              label="Project name"
+              placeholder="Enter name"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              error={formik.touched.name ? formik.errors.name : null}
+              required
+            />
+          )}
+
           <AutoExpandingTextArea
             id="description"
             name="description"
@@ -117,15 +126,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             disabled={!!formik.values.editRestriction}
             title={formik.values.editRestriction}
           />
-          <StoragePoolSelector
-            value={formik.values.default_instance_storage_pool}
-            setValue={(value) =>
-              void formik.setFieldValue("default_instance_storage_pool", value)
-            }
-            selectProps={{
-              label: "Default instance storage pool",
-              disabled: formik.values.features_profiles === false || isEdit,
-              help: isEdit ? (
+          {isEdit ? (
+            <OutputField
+              id="default_instance_storage_pool"
+              label="Default instance storage pool"
+              value={formik.values.default_instance_storage_pool}
+              help={
                 <>
                   Edit the storage pool in the{" "}
                   <ProfileRichChip
@@ -134,22 +140,30 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   />{" "}
                   {" profile"}
                 </>
-              ) : (
-                ""
-              ),
-            }}
-          />
-          <NetworkSelector
-            value={formik.values.default_project_network}
-            setValue={(value) =>
-              void formik.setFieldValue("default_project_network", value)
-            }
-            hasNoneOption
-            label="Default instance network"
-            disabled={hasNoProfiles || hasIsolatedNetworks || isEdit}
-            networkList={managedNetworks}
-            help={
-              isEdit ? (
+              }
+            />
+          ) : (
+            <StoragePoolSelector
+              value={formik.values.default_instance_storage_pool}
+              setValue={(value) =>
+                void formik.setFieldValue(
+                  "default_instance_storage_pool",
+                  value,
+                )
+              }
+              selectProps={{
+                label: "Default instance storage pool",
+                disabled: !formik.values.features_profiles,
+              }}
+            />
+          )}
+
+          {isEdit ? (
+            <OutputField
+              id="default_instance_network"
+              label="Default instance network"
+              value={formik.values.default_project_network}
+              help={
                 <>
                   Configure networks in the{" "}
                   <ProfileRichChip
@@ -158,11 +172,20 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   />{" "}
                   profile
                 </>
-              ) : (
-                ""
-              )
-            }
-          />
+              }
+            />
+          ) : (
+            <NetworkSelector
+              value={formik.values.default_project_network}
+              setValue={(value) =>
+                void formik.setFieldValue("default_project_network", value)
+              }
+              hasNoneOption
+              label="Default instance network"
+              disabled={hasNoProfiles || hasIsolatedNetworks}
+              networkList={managedNetworks}
+            />
+          )}
           <div
             title={
               formik.values.editRestriction ??

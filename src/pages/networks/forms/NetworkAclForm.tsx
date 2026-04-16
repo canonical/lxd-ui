@@ -8,6 +8,7 @@ import {
   ScrollableContainer,
   useNotify,
   usePortal,
+  OutputField,
 } from "@canonical/react-components";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { FormikProps } from "formik/dist/types";
@@ -54,6 +55,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
     null,
   );
   const [ruleDirection, setRuleDirection] = useState<RuleDirection>("ingress");
+  const isEditing = !formik.values.isCreating;
 
   const getRules = (direction: RuleDirection) => {
     return direction === "ingress"
@@ -133,25 +135,27 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
               {/* hidden submit to enable enter key in inputs */}
               <div className="bare-inputs">
                 <Input type="submit" hidden value="Hidden input" />
-                <Input
-                  id="name"
-                  type="text"
-                  label="Name"
-                  placeholder="Enter name"
-                  required
-                  autoFocus
-                  disabled={
-                    !formik.values.isCreating || isLackingEditPermission
-                  }
-                  title={formik.values.editRestriction}
-                  help={
-                    !formik.values.isCreating
-                      ? "Click the ACL name in the header to rename the ACL"
-                      : ""
-                  }
-                  {...formik.getFieldProps("name")}
-                  error={formik.touched.name ? formik.errors.name : null}
-                />
+                {isEditing ? (
+                  <OutputField
+                    id="name"
+                    label="Name"
+                    value={formik.values.name}
+                    help="Click the name in the header to rename the network ACL."
+                  />
+                ) : (
+                  <Input
+                    id="name"
+                    type="text"
+                    label="Name"
+                    placeholder="Enter name"
+                    required
+                    autoFocus
+                    disabled={isLackingEditPermission}
+                    title={formik.values.editRestriction}
+                    {...formik.getFieldProps("name")}
+                    error={formik.touched.name ? formik.errors.name : null}
+                  />
+                )}
                 <AutoExpandingTextArea
                   id="description"
                   name="description"

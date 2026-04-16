@@ -1,17 +1,21 @@
-import type { FC, ReactNode } from "react";
-import { Row, Input, Select, Col } from "@canonical/react-components";
+import type { FC } from "react";
+import {
+  Row,
+  Input,
+  Select,
+  Col,
+  OutputField,
+} from "@canonical/react-components";
 import type { FormikProps } from "formik";
 import {
   zfsDriver,
   dirDriver,
-  getSourceHelpForDriver,
   cephDriver,
   getStorageDriverOptions,
   powerFlex,
   pureStorage,
   cephObject,
   alletraDriver,
-  isClusterWideSourceDriver,
 } from "util/storageOptions";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -30,13 +34,14 @@ import { useSettings } from "context/useSettings";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
-import ClusteredSourceSelector from "./ClusteredSourceSelector";
 import { isClusteredServer } from "util/settings";
 import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
 import {
   isStoragePoolWithSize,
   isStoragePoolWithSource,
 } from "util/storagePoolForm";
+import StoragePoolSource from "./StoragePoolSource";
+import { getFormProps } from "util/storagePoolForm";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -45,25 +50,12 @@ interface Props {
 const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const { data: settings } = useSettings();
   const { hasRemoteDropSource } = useSupportedFeatures();
-
-  const getFormProps = (id: "name" | "description" | "size" | "source") => {
-    return {
-      id: id,
-      name: id,
-      onBlur: formik.handleBlur,
-      onChange: formik.handleChange,
-      value: formik.values[id],
-      error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-      placeholder: `Enter ${id.replaceAll("_", " ")}`,
-    };
-  };
-
+  const isCreating = formik.values.isCreating;
   const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const isAlletraDriver = formik.values.driver === alletraDriver;
   const storageDriverOptions = getStorageDriverOptions(settings);
-  const isClusterWideSource = isClusterWideSourceDriver(formik.values.driver);
   const isCephVariant =
     isCephDriver(formik.values) || isCephFSDriver(formik.values);
   const isCephVariantWithoutSource = isCephVariant && hasRemoteDropSource;
@@ -74,13 +66,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     !isCephObjectDriver &&
     !isAlletraDriver &&
     !isCephVariantWithoutSource;
-
-  const sourceHelpText = formik.values.isCreating
-    ? getSourceHelpForDriver(formik.values.driver)
-    : "Source can't be changed";
-  const nameHelpText = !formik.values.isCreating
-    ? "Cannot rename storage pools"
-    : undefined;
 
   const cephObjectNotice = (
     <>
@@ -94,16 +79,23 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     <ScrollableForm>
       <Row>
         <Col size={12}>
-          <Input
-            {...getFormProps("name")}
-            type="text"
-            label="Name"
-            required
-            disabled={!formik.values.isCreating}
-            help={nameHelpText}
-          />
+          {isCreating ? (
+            <Input
+              {...getFormProps(formik, "name")}
+              type="text"
+              label="Name"
+              required
+            />
+          ) : (
+            <OutputField
+              id="name"
+              label="Name"
+              value={formik.values.name}
+              help="Storage pools cannot be renamed."
+            />
+          )}
           <AutoExpandingTextArea
-            {...getFormProps("description")}
+            {...getFormProps(formik, "description")}
             label="Description"
             onChange={(e) => {
               ensureEditMode(formik);
@@ -177,8 +169,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             }}
             value={formik.values.driver}
             required
-            disabled={!formik.values.isCreating}
           />
+
           {isStoragePoolWithSize(formik.values.driver) &&
             (isClusteredServer(settings) ? (
               <ClusteredDiskSizeSelector
@@ -213,26 +205,11 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 disabledReason={formik.values.editRestriction}
               />
             ))}
-          {hasSource &&
-            (isClusteredServer(settings) ? (
-              <ClusteredSourceSelector
-                formik={formik}
-                helpText={sourceHelpText}
-                disabledReason={formik.values.editRestriction}
-                canToggleMemberSpecific={!isClusterWideSource}
-              />
-            ) : (
-              <Input
-                {...getFormProps("source")}
-                type="text"
-                disabled={
-                  !!formik.values.editRestriction || !formik.values.isCreating
-                }
-                help={sourceHelpText}
-                label="Source"
-                title={formik.values.editRestriction}
-              />
-            ))}
+          <StoragePoolSource
+            formik={formik}
+            settings={settings}
+            hasSource={hasSource}
+          />
           {isCephObjectDriver && (
             <>
               <Input

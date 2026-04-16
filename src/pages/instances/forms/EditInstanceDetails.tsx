@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Col, Row, Select } from "@canonical/react-components";
+import { Col, Row, OutputField } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
 import type { FormikProps } from "formik/dist/types";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
@@ -10,7 +10,6 @@ import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 import { getInstanceField } from "util/instanceConfigFields";
-import OutputField from "components/OutputField";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
@@ -43,7 +42,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
             id="name"
             label="Name"
             value={formik.values.name}
-            help="Click the instance name in the header to rename the instance"
+            help="Click the instance name in the header to rename the instance."
           />
           <AutoExpandingTextArea
             id="description"
@@ -64,19 +63,11 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
       {isClustered && (
         <Row>
           <Col size={12}>
-            <Select
+            <OutputField
               id="target"
-              name="target"
-              options={[
-                {
-                  label: formik.values.location,
-                  value: formik.values.location,
-                },
-              ]}
               label="Cluster member"
               value={formik.values.location}
-              disabled={true}
-              help="Use the migrate button in the header to move the instance to another cluster member"
+              help="Use the migrate button in the header to move the instance to another cluster member."
             />
             <PlacementGroupSelect
               value={formik.values.placement_group}

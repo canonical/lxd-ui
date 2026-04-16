@@ -78,7 +78,7 @@ export const visitNetworkAcl = async (page: Page, networkAcl: string) => {
   await page.getByRole("link", { name: networkAcl }).first().click();
 
   await expect(
-    page.getByText("Click the ACL name in the header to rename the ACL"),
+    page.getByText("Click the name in the header to rename the network ACL."),
   ).toBeVisible();
 };
 
