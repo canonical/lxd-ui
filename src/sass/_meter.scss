@@ -1,14 +1,12 @@
 .p-meter {
   background-color: $colors--theme--background-alt;
   border: $border-thin;
-  border-radius: 0.75rem;
   display: flex;
   height: 0.75rem;
   margin-bottom: 0.375rem;
 
   div {
     background-color: #06c;
-    border-radius: 0.75rem;
     border-right: $border-thin;
     height: 100%;
   }
