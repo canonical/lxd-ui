@@ -5,7 +5,7 @@ import type { LxdImage } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
-import type { UploadState } from "types/storage";
+import type { UploadState } from "types/upload";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { addEntitlements } from "util/entitlements/api";
@@ -142,10 +142,10 @@ export const createImage = async (
     });
 };
 
-export const uploadImage = async (
+export const importImage = async (
   body: File | FormData,
   isPublic: boolean,
-  setUploadState: (value: UploadState) => void,
+  setImportState: (value: UploadState) => void,
   project: string,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
@@ -158,7 +158,7 @@ export const uploadImage = async (
         "X-LXD-public": JSON.stringify(isPublic),
       },
       onUploadProgress: (event) => {
-        setUploadState({
+        setImportState({
           percentage: event.progress ? Math.floor(event.progress * 100) : 0,
           loaded: event.loaded,
           total: event.total,

@@ -1,9 +1,6 @@
 import { handleResponse, handleEtagResponse } from "util/helpers";
-import type {
-  LxdStorageVolume,
-  LxdStorageVolumeState,
-  UploadState,
-} from "types/storage";
+import type { LxdStorageVolume, LxdStorageVolumeState } from "types/storage";
+import type { UploadState } from "types/upload";
 import type { LxdOperationResponse } from "types/operation";
 import type { AxiosResponse } from "axios";
 import axios from "axios";

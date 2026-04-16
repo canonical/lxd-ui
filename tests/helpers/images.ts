@@ -4,7 +4,7 @@ import { gotoURL } from "./navigate";
 
 export const visitLocalImages = async (page: Page, project: string) => {
   await gotoURL(page, `/ui/project/${project}/local-images`);
-  await expect(page.getByText("Upload image")).toBeVisible();
+  await expect(page.getByText("Import image")).toBeVisible();
 };
 
 export const deleteAllImages = async (page: Page, project = "default") => {

@@ -30,7 +30,7 @@ import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
-import UploadImageBtn from "pages/images/actions/UploadImageBtn";
+import ImportImageBtn from "pages/images/actions/ImportImageBtn";
 import { useLocalImagesInProject } from "context/useImages";
 import { useImageEntitlements } from "util/entitlements/images";
 
@@ -81,7 +81,7 @@ const LocalImageList: FC = () => {
     },
     { content: "Type", sortKey: "type", className: "type" },
     {
-      content: "Upload date",
+      content: "Import date",
       sortKey: "uploaded_at",
       className: "uploaded_at",
     },
@@ -166,7 +166,7 @@ const LocalImageList: FC = () => {
         {
           content: isoTimeToString(image.uploaded_at),
           role: "cell",
-          "aria-label": "Upload date",
+          "aria-label": "Import date",
           className: "uploaded_at",
         },
         {
@@ -244,7 +244,7 @@ const LocalImageList: FC = () => {
             )}
           </PageHeader.Left>
           <PageHeader.BaseActions>
-            <UploadImageBtn projectName={project} />
+            <ImportImageBtn projectName={project} />
             <CustomIsoBtn project={project} />
           </PageHeader.BaseActions>
         </PageHeader>

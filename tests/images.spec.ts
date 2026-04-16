@@ -32,7 +32,7 @@ test("search for custom image and create an instance from it", async ({
   await deleteImage(page, imageAlias);
 });
 
-test("Export and Upload an image", async ({ page }) => {
+test("Export and Import an image", async ({ page }) => {
   // creating an image from an instance, because we can only export unified images
   // and can't test the export with a standard image fetched from the image server
   // we can remove this step once the export of split images is enabled by the backend.
@@ -58,19 +58,19 @@ test("Export and Upload an image", async ({ page }) => {
   await download.saveAs(IMAGE_FILE);
   await deleteImage(page, imageAlias);
 
-  //Upload an image
+  //Import an image
   await gotoURL(page, "/ui/");
   await visitLocalImages(page, "default");
 
-  await page.getByRole("button", { name: "Upload image" }).click();
+  await page.getByRole("button", { name: "Import image" }).click();
   await page.getByLabel("Image backup file").setInputFiles(IMAGE_FILE);
   await page.getByPlaceholder("Enter alias").fill(imageAlias);
   await page
     .getByLabel("Import image from file")
-    .getByRole("button", { name: "Upload image" })
+    .getByRole("button", { name: "Import image" })
     .click();
   await expect(page.getByText(imageAlias)).toBeVisible();
-  await page.getByText(`Image uploaded.`).waitFor();
+  await page.getByText(`Image imported.`).waitFor();
 
   await deleteImage(page, imageAlias);
   await deleteInstance(page, instance);

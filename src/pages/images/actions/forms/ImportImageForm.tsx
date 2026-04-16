@@ -2,7 +2,7 @@ import type { ChangeEvent, FC } from "react";
 import { useState } from "react";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
-import { createImageAlias, uploadImage } from "api/images";
+import { createImageAlias, importImage } from "api/images";
 import {
   ActionButton,
   Button,
@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { humanFileSize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import ProgressBar from "components/ProgressBar";
-import type { UploadState } from "types/storage";
+import type { UploadState } from "types/upload";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdSyncResponse } from "types/apiResponse";
@@ -30,23 +30,23 @@ interface Props {
   projectName: string;
 }
 
-const UploadImageForm: FC<Props> = ({ close, projectName }) => {
+const ImportImageForm: FC<Props> = ({ close, projectName }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
-  const [uploadState, setUploadState] = useState<UploadState | null>(null);
+  const [importState, setImportState] = useState<UploadState | null>(null);
   const queryClient = useQueryClient();
   const { canCreateImageAliases } = useProjectEntitlements();
   const { data: project } = useProject(projectName);
 
   const notifySuccess = () => {
-    const uploaded = (
+    const imported = (
       <Link
         to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/images`}
       >
-        uploaded
+        imported
       </Link>
     );
-    toastNotify.success(<>Image {uploaded}.</>);
+    toastNotify.success(<>Image {imported}.</>);
   };
 
   const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -94,15 +94,15 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
         if (values.fileList.length > 2) {
           close();
           toastNotify.failure(
-            `Image upload failed.`,
+            `Image import failed.`,
             new Error("Too many files selected"),
           );
           return;
         }
-        uploadImage(
+        importImage(
           getImageUploadBody(values.fileList),
           values.isPublic,
-          setUploadState,
+          setImportState,
           projectName,
         )
           .then((operation) => {
@@ -117,7 +117,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
                     .then(clearCache)
                     .catch((e) => {
                       toastNotify.failure(
-                        `Image upload succeeded. Failed to create an alias.`,
+                        `Image import succeeded. Failed to create an alias.`,
                         e,
                       );
                     });
@@ -126,20 +126,20 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
                 notifySuccess();
               },
               (msg) => {
-                toastNotify.failure(`Image upload failed.`, new Error(msg));
+                toastNotify.failure(`Image import failed.`, new Error(msg));
               },
             );
           })
           .catch((e: AxiosError<LxdSyncResponse<null>>) => {
             const error = new Error(e.response?.data.error);
-            toastNotify.failure("Image upload failed", error);
+            toastNotify.failure("Image import failed", error);
           })
           .finally(() => {
             close();
           });
       } else {
         close();
-        toastNotify.failure(`Image upload failed`, new Error("Missing files"));
+        toastNotify.failure(`Image import failed`, new Error("Missing files"));
       }
     },
   });
@@ -148,15 +148,15 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
     <Modal
       close={close}
       title="Import image from file"
-      className="upload-image-modal"
+      className="import-image-modal"
       buttonRow={
         <>
-          {uploadState && (
+          {importState && (
             <>
-              <ProgressBar percentage={Math.floor(uploadState.percentage)} />
+              <ProgressBar percentage={Math.floor(importState.percentage)} />
               <p>
-                {humanFileSize(uploadState.loaded)} loaded of{" "}
-                {humanFileSize(uploadState.total ?? 0)}
+                {humanFileSize(importState.loaded)} loaded of{" "}
+                {humanFileSize(importState.total ?? 0)}
               </p>
             </>
           )}
@@ -177,13 +177,13 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
             }
             onClick={() => void formik.submitForm()}
           >
-            Upload image
+            Import image
           </ActionButton>
         </>
       }
     >
       <Form
-        className={uploadState ? "u-hide" : ""}
+        className={importState ? "u-hide" : ""}
         onSubmit={formik.handleSubmit}
       >
         <Input
@@ -224,4 +224,4 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
   );
 };
 
-export default UploadImageForm;
+export default ImportImageForm;
