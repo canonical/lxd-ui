@@ -2,13 +2,21 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
-import { cephObject } from "util/storageOptions";
+import {
+  cephObject,
+  dirDriver,
+  storageDriverLabels,
+} from "util/storageOptions";
 
 export const randomPoolName = (): string => {
   return `playwright-pool-${randomNameSuffix()}`;
 };
 
-export const createPool = async (page: Page, pool: string, driver = "dir") => {
+export const createPool = async (
+  page: Page,
+  pool: string,
+  driver = storageDriverLabels[dirDriver],
+) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools" }).click();
@@ -18,8 +26,9 @@ export const createPool = async (page: Page, pool: string, driver = "dir") => {
   }
   await page.getByRole("button", { name: "Create pool" }).click();
   await page.getByPlaceholder("Enter name").fill(pool);
-  await page.getByLabel("Driver").selectOption(driver);
-  if (driver === cephObject) {
+  await page.getByRole("button", { name: "Driver" }).click();
+  await page.getByRole("option", { name: driver }).click();
+  if (driver === storageDriverLabels[cephObject]) {
     await page.getByLabel("Rados gateway endpoint").fill("http://localhost");
   }
   await page.getByRole("button", { name: "Create", exact: true }).click();
