@@ -4,6 +4,13 @@ import { hasEntitlement } from "./helpers";
 export const useServerEntitlements = () => {
   const { isFineGrained, serverEntitlements } = useAuth();
 
+  const canCreateClusterLinks = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_cluster_links",
+      serverEntitlements,
+    ) || hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   const canCreateGroups = () =>
     hasEntitlement(isFineGrained, "can_create_groups", serverEntitlements) ||
     hasEntitlement(isFineGrained, "permission_manager", serverEntitlements) ||
@@ -75,6 +82,7 @@ export const useServerEntitlements = () => {
     ) || hasEntitlement(isFineGrained, "admin", serverEntitlements);
 
   return {
+    canCreateClusterLinks,
     canCreateGroups,
     canCreateIdentities,
     canCreateIdpGroups,

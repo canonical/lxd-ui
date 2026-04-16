@@ -1,9 +1,6 @@
 import { test } from "./fixtures/lxd-test";
-import {
-  getFirstClusterMember,
-  skipIfNotClustered,
-  skipIfNotSupported,
-} from "./helpers/cluster";
+import { skipIfNotSupported } from "./helpers/cluster-groups";
+import { getFirstClusterMember, skipIfNotClustered } from "./helpers/cluster";
 
 test("cluster member evacuate and restore", async ({
   page,

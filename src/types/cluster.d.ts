@@ -43,3 +43,32 @@ export interface LxdClusterGroup {
 }
 
 export type ClusterSpecificValues = Record<string, string>;
+
+export interface LxdClusterLink {
+  config: Record<string, string>;
+  description: string;
+  name: string;
+  type: string;
+  access_entitlements?: string[];
+}
+
+export interface LxdClusterLinkState {
+  cluster_link_members: LxdClusterLinkMemberState[];
+}
+
+export interface LxdClusterLinkMemberState {
+  address: string;
+  server_name: string;
+  status: "Active" | "Unreachable";
+}
+
+export interface LxdClusterLinkCreated {
+  addresses: string[];
+  client_name: string;
+  expires_at: string;
+  fingerprint: string;
+  secret: string;
+  type: "Client certificate";
+}
+
+export type StatusCaption = "Pending" | "Reachable" | "Unreachable";

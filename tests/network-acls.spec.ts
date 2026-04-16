@@ -1,5 +1,5 @@
 import { test, expect } from "./fixtures/lxd-test";
-import { skipIfNotClustered, skipIfNotSupported } from "./helpers/cluster";
+import { skipIfNotSupported } from "./helpers/cluster-groups";
 import {
   createNetwork,
   deleteNetwork,
@@ -25,6 +25,7 @@ import {
   startProfileCreation,
   visitProfile,
 } from "./helpers/profile";
+import { skipIfNotClustered } from "./helpers/cluster";
 
 test("create a network acl", async ({ page }) => {
   const networkAcl = randomNetworkAclName();

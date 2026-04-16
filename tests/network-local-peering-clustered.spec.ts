@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures/lxd-test";
-import { skipIfNotClustered, skipIfNotSupported } from "./helpers/cluster";
+import { skipIfNotSupported } from "./helpers/cluster-groups";
 import {
   createNetwork,
   createNetworkLocalPeering,
@@ -9,6 +9,7 @@ import {
   randomNetworkName,
   visitNetwork,
 } from "./helpers/network";
+import { skipIfNotClustered } from "./helpers/cluster";
 
 test.describe("Network Local Peering", () => {
   const UPLINK_NAME = "ovn-uplink";
