@@ -106,12 +106,6 @@ export interface LxdStoragePoolResources {
   memberName?: string;
 }
 
-export interface UploadState {
-  percentage: number;
-  loaded: number;
-  total?: number;
-}
-
 export interface LxdVolumeSnapshot {
   name: string;
   created_at: string;

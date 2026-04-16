@@ -13,7 +13,7 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import ProgressBar from "components/ProgressBar";
-import type { UploadState } from "types/storage";
+import type { UploadState } from "types/upload";
 import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";

@@ -12,7 +12,7 @@ import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
-import type { UploadState } from "types/storage";
+import type { UploadState } from "types/upload";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
 import { linkForInstanceDetail } from "util/instances";

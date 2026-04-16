@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button, Icon, usePortal } from "@canonical/react-components";
-import UploadImageForm from "./forms/UploadImageForm";
+import ImportImageForm from "./forms/ImportImageForm";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
@@ -9,7 +9,7 @@ interface Props {
   projectName: string;
 }
 
-const UploadImageBtn: FC<Props> = ({ projectName }) => {
+const ImportImageBtn: FC<Props> = ({ projectName }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const isSmallScreen = useIsScreenBelow();
   const { data: project } = useProject(projectName);
@@ -19,7 +19,7 @@ const UploadImageBtn: FC<Props> = ({ projectName }) => {
     <>
       {isOpen && (
         <Portal>
-          <UploadImageForm close={closePortal} projectName={projectName} />
+          <ImportImageForm close={closePortal} projectName={projectName} />
         </Portal>
       )}
       <Button
@@ -33,11 +33,11 @@ const UploadImageBtn: FC<Props> = ({ projectName }) => {
             : "You do not have permission to create images"
         }
       >
-        {!isSmallScreen && <Icon name="upload" />}
-        <span>{isSmallScreen ? "Upload" : "Upload image"}</span>
+        {!isSmallScreen && <Icon name="import" />}
+        <span>{isSmallScreen ? "Import" : "Import image"}</span>
       </Button>
     </>
   );
 };
 
-export default UploadImageBtn;
+export default ImportImageBtn;

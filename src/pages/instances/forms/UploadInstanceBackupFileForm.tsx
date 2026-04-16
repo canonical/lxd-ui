@@ -11,7 +11,7 @@ import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import type { ChangeEvent, FC } from "react";
 import { useCallback, useState } from "react";
 import { instanceNameValidation } from "util/instances";
-import type { UploadState } from "types/storage";
+import type { UploadState } from "types/upload";
 import { useEventQueue } from "context/eventQueue";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
