@@ -59,7 +59,7 @@ const generateTooltipMessage = (
       },
       image: {
         label: "Images",
-        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/images`,
+        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/local-images`,
       },
       volume: {
         label: "Custom volumes",

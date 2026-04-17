@@ -26,7 +26,7 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
     setLoading(true);
     const imageLink = (
       <ResourceLink
-        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/images`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/local-images`}
         type="image"
         value={imageName}
       />

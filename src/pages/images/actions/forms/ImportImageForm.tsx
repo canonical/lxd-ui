@@ -41,7 +41,7 @@ const ImportImageForm: FC<Props> = ({ close, projectName }) => {
   const notifySuccess = () => {
     const imported = (
       <Link
-        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/images`}
+        to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/local-images`}
       >
         imported
       </Link>

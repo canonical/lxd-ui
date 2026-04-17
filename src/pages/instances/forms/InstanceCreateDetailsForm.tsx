@@ -30,23 +30,21 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
 import SshKeyForm from "components/forms/SshKeyForm";
 
-export const instanceDetailPayload = (values: InstanceDetailsFormValues) => {
-  const payload: Record<string, string | undefined | object> = {
-    name: values.name,
-    description: values.description,
-    type: values.instanceType,
-    profiles: values.profiles,
-    source: {
+const getInstanceSource = (
+  values: InstanceDetailsFormValues,
+  hasImageRegistries: boolean,
+) => {
+  if (values.image?.registryName && hasImageRegistries) {
+    return {
       alias: values.image?.aliases.split(",")[0],
       mode: "pull",
-      protocol: "simplestreams",
-      server: values.image?.server,
+      image_registry: values.image?.registryName,
       type: "image",
-    },
-  };
+    };
+  }
 
-  if (values.image?.server === LOCAL_IMAGE) {
-    payload.source = {
+  if (values.image?.server === LOCAL_IMAGE || values.image?.cached) {
+    return {
       type: "image",
       certificate: "",
       fingerprint: values.image?.fingerprint,
@@ -55,14 +53,34 @@ export const instanceDetailPayload = (values: InstanceDetailsFormValues) => {
   }
 
   if (values.image?.server === LOCAL_ISO) {
-    payload.source = {
+    return {
       type: "none",
       certificate: "",
       allow_inconsistent: false,
     };
   }
 
-  return payload;
+  // legacy image from hardcoded remote
+  return {
+    alias: values.image?.aliases.split(",")[0],
+    mode: "pull",
+    protocol: "simplestreams",
+    server: values.image?.server,
+    type: "image",
+  };
+};
+
+export const instanceDetailPayload = (
+  values: InstanceDetailsFormValues,
+  hasImageRegistries: boolean,
+) => {
+  return {
+    name: values.name,
+    description: values.description,
+    type: values.instanceType,
+    profiles: values.profiles,
+    source: getInstanceSource(values, hasImageRegistries),
+  };
 };
 
 interface Props {

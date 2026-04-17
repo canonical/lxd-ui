@@ -76,7 +76,7 @@ export const deleteImageBulk = async (
         const item: BulkOperationItem = {
           name: name,
           type: "image",
-          href: `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/images`,
+          href: `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/local-images`,
         };
         return deleteImage(image, project)
           .then((operation) => {

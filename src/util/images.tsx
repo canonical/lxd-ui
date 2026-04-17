@@ -64,10 +64,10 @@ export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
 };
 
 export const byLtsFirst = (a: RemoteImage, b: RemoteImage): number => {
-  if (a.aliases.includes("lts")) {
+  if (a.aliases.includes("lts") || a.isLts) {
     return -1;
   }
-  if (b.aliases.includes("lts")) {
+  if (b.aliases.includes("lts") || b.isLts) {
     return 1;
   }
   return 0;
