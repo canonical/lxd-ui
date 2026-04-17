@@ -486,10 +486,10 @@
     hashery "^1.3.0"
     keyv "^5.5.5"
 
-"@canonical/react-components@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.3.0.tgz#c4b2aae6698417ef2e639396715e5173c2e62e45"
-  integrity sha512-2dTXYQwwBNKinxNxSZ6DHOhhy15o8d0JLRO2EdD1hA6MPF8eMwBf8xjGraN5aa1r2uXEB6qamm0iKXI3N+BRhA==
+"@canonical/react-components@4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.3.1.tgz#dd1578f58d0aa59bf54ed806305803a0f01f2c97"
+  integrity sha512-QcpK0rDtxRLtk9TSxxlApsmmstEVleCyK9hLyBEUwomusjST3dcUKojrSzkmnUPGyP5r3hiC8Z78PDd74n9n+g==
   dependencies:
     "@types/jest" "30.0.0"
     "@types/node" "20.19.30"
@@ -6268,10 +6268,10 @@ v8-to-istanbul@9.3.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-vanilla-framework@4.48.0:
-  version "4.48.0"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.48.0.tgz#374ddb9bff07fbd108ee820b3e8f32fd39dcc4f1"
-  integrity sha512-wEgze+409Swjwfe+yhr4Ey/AXE/Z7JH9K4oDHofeGwjnomNbcxdKoRtB6+CzmjO4NTPrwrZAMlP5tgwdU5jkog==
+vanilla-framework@4.49.0:
+  version "4.49.0"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.49.0.tgz#bdd926b7c50f85a74a55d21135eac84b9a7cb4f7"
+  integrity sha512-Ux2lYB/u4HCfmrTu0YepMkQhrKDqjHgp+epRFfDiJQKc+xI/HIQYZSm/1tjs5E70/P1gKShosxIr5C4DYHM1aw==
 
 vary@~1.1.2:
   version "1.1.2"
