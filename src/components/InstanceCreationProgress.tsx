@@ -1,13 +1,19 @@
 import type { FC } from "react";
 import type { LxdOperation } from "types/operation";
 import { getInstanceName, isRestoringBackup } from "util/operations";
+import { useOperations } from "context/operationsProvider";
 
 interface Props {
   operation: LxdOperation;
 }
 
 const InstanceCreationProgress: FC<Props> = ({ operation }) => {
-  const metadata = operation.metadata ?? {};
+  const { operationProgress } = useOperations();
+
+  const metadata =
+    operation.id in operationProgress
+      ? operationProgress[operation.id]
+      : (operation.metadata ?? {});
 
   if (isRestoringBackup(operation)) {
     return `Restoring backup for ${getInstanceName(operation)}`;
@@ -17,9 +23,8 @@ const InstanceCreationProgress: FC<Props> = ({ operation }) => {
     return <div>{metadata.format_progress_progress}</div>;
   }
 
-  const EXCLUDED_KEYS = ["entity_url", "fs"];
-  const firstValidEntry = Object.entries(metadata).find(
-    ([key]) => !EXCLUDED_KEYS.includes(key),
+  const firstValidEntry = Object.entries(metadata).find(([key]) =>
+    key.endsWith("_progress"),
   );
 
   if (firstValidEntry) {

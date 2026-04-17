@@ -10,6 +10,7 @@ import { useListener, useNotify } from "@canonical/react-components";
 import { useMemberLoading } from "context/memberLoading";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdOperation } from "types/operation";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
@@ -25,8 +26,14 @@ const Events: FC = () => {
   const [eventWs, setEventWs] = useState<WebSocket | null>(null);
   const [reconnectWsId, setReconnectWsId] = useState(0);
   const [wsOpenTime, setWsOpenTime] = useState(0);
-  const { operations, refetchOperations } = useOperations();
+  const {
+    operations,
+    refetchOperations,
+    updateOperationProgress,
+    clearOperationProgress,
+  } = useOperations();
   const memberLoading = useMemberLoading();
+  const { hasBulkOperations } = useSupportedFeatures();
 
   const getCurrentTime = () => {
     return new Date().getTime();
@@ -174,10 +181,24 @@ const Events: FC = () => {
         }
         const event = JSON.parse(message.data) as LxdEvent;
         if (event.type === "operation") {
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.operations, event.project],
-          });
-          refetchOperations();
+          const isInstanceCreationUpdate =
+            hasBulkOperations &&
+            event.metadata.status === "Running" &&
+            event.metadata.description === "Creating instance" &&
+            Object.keys(event.metadata.metadata ?? {}).length > 1;
+
+          // On instance launch, receive the progress updates through this event
+          // and update the UI without refetching.
+          // For other events, just refetch the operations to get the updated data.
+          if (isInstanceCreationUpdate) {
+            updateOperationProgress(event.metadata.id, event.metadata.metadata);
+          } else {
+            clearOperationProgress(event.metadata.id);
+            queryClient.invalidateQueries({
+              queryKey: [queryKeys.operations, event.project],
+            });
+            refetchOperations();
+          }
         }
         if (event.type === "lifecycle") {
           const rootQueryKey = getLifecycleRootQueryKey(event);

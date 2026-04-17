@@ -2,10 +2,13 @@ import type { RefetchOptions } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOperations } from "api/operations";
 import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import { createContext, useContext, useEffect, useRef } from "react";
 import type { LxdOperation } from "types/operation";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "context/auth";
+
+type ProgressType = Record<string, Record<string, string>>;
 
 interface OperationsContextType {
   operations: LxdOperation[];
@@ -14,6 +17,12 @@ interface OperationsContextType {
   isLoading: boolean;
   isFetching: boolean;
   refetchOperations: (options?: RefetchOptions) => void;
+  operationProgress: ProgressType;
+  updateOperationProgress: (
+    id: string,
+    progress?: Record<string, string>,
+  ) => void;
+  clearOperationProgress: (id: string) => void;
 }
 
 interface Props {
@@ -27,10 +36,40 @@ const OperationsContext = createContext<OperationsContextType>({
   isLoading: false,
   isFetching: false,
   refetchOperations: () => null,
+  operationProgress: {},
+  updateOperationProgress: () => null,
+  clearOperationProgress: () => null,
 });
 
 const OperationsProvider: FC<Props> = ({ children }) => {
   const { isAuthenticated } = useAuth();
+  const [operationProgress, setOperationProgress] = useState<ProgressType>({});
+
+  const updateOperationProgress = (
+    id: string,
+    progress?: Record<string, string>,
+  ) => {
+    if (progress) {
+      setOperationProgress((prevProgress) => ({
+        ...prevProgress,
+        [id]: progress,
+      }));
+    } else {
+      setOperationProgress((prevProgress) =>
+        Object.fromEntries(
+          Object.entries(prevProgress).filter(([key]) => key !== id),
+        ),
+      );
+    }
+  };
+
+  const clearOperationProgress = (id: string) => {
+    setOperationProgress((prevProgress) =>
+      Object.fromEntries(
+        Object.entries(prevProgress).filter(([key]) => key !== id),
+      ),
+    );
+  };
 
   const {
     data: operationList,
@@ -82,6 +121,9 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     isLoading,
     isFetching,
     refetchOperations: debouncedRefetch,
+    operationProgress,
+    updateOperationProgress,
+    clearOperationProgress,
   };
 
   return (
