@@ -249,10 +249,10 @@ test("storage bucket create, edit, delete", async ({ page, lxdVersion }) => {
   );
 
   const bucket = randomBucketName();
-  const pool = "CephObjectPool"; //Pool named for explicit selection & deletion
+  const pool = randomPoolName();
 
   await createPool(page, pool, storageDriverLabels[cephObject]);
-  await createBucket(page, bucket);
+  await createBucket(page, pool, bucket);
 
   const row = page.getByRole("row").filter({ hasText: bucket });
   await row.hover();
@@ -281,19 +281,19 @@ test("storage bucket keys create, edit, delete", async ({
   );
 
   const bucket = randomBucketName();
-  const bucketkey = `${bucket}-key`;
-  const pool = "CephObjectPool"; //Pool named for explicit selection & deletion
+  const bucketKey = `${bucket}-key`;
+  const pool = randomPoolName();
 
   await createPool(page, pool, storageDriverLabels[cephObject]);
-  await createBucket(page, bucket);
+  await createBucket(page, pool, bucket);
   await visitBucket(page, bucket);
-  await createBucketKey(page, bucket, bucketkey);
+  await createBucketKey(page, bucket, bucketKey);
 
-  await page.getByRole("row").filter({ hasText: bucketkey }).hover();
+  await page.getByRole("row").filter({ hasText: bucketKey }).hover();
   await page.getByRole("button", { name: "Edit bucket key" }).nth(1).click();
   await page.getByPlaceholder("Enter description").fill("Test description 2");
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.getByText(`Key ${bucketkey} updated`).waitFor();
+  await page.getByText(`Key ${bucketKey} updated`).waitFor();
 
   await deleteBucket(page, bucket);
   await deletePool(page, pool);

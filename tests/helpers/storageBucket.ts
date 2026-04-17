@@ -7,9 +7,15 @@ export const randomBucketName = (): string => {
   return `playwright-bucket-${randomNameSuffix()}`;
 };
 
-export const createBucket = async (page: Page, bucket: string) => {
+export const createBucket = async (
+  page: Page,
+  pool: string,
+  bucket: string,
+) => {
   await page.getByRole("link", { name: "Buckets", exact: true }).click();
   await page.getByRole("button", { name: "Create bucket" }).click();
+  await page.getByLabel("Storage pool", { exact: true }).click();
+  await page.getByText(pool, { exact: true }).click();
   await page.getByPlaceholder("Enter name").fill(bucket);
   await page.getByPlaceholder("Enter value").fill("200");
   await page.getByPlaceholder("Enter description").fill("Test description");
