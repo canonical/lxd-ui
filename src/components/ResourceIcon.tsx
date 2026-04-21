@@ -20,6 +20,7 @@ export type ResourceIconType =
   | "volume"
   | "iso-volume"
   | "image"
+  | "image-registry"
   | "metric"
   | "oidc-identity"
   | "placement-group"
@@ -48,6 +49,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   volume: "storage-volume",
   "iso-volume": "iso",
   image: "image",
+  "image-registry": "image-registry",
   "oidc-identity": "user",
   certificate: "certificate",
   "auth-group": "user-group",
