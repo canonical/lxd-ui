@@ -33,7 +33,7 @@ import {
   getInheritedDeviceRow,
   getInheritedSourceRow,
 } from "components/forms/InheritedDeviceRow";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import {
   addNoneDevice,
   deduplicateName,

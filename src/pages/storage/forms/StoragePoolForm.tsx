@@ -49,7 +49,7 @@ import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormPowerStore from "./StoragePoolFormPowerStore";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
 import { useSettings } from "context/useSettings";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
 import StoragePoolFormPure from "pages/storage/forms/StoragePoolFormPure";
 import StoragePoolFormCephObject from "./StoragePoolFormCephObject";

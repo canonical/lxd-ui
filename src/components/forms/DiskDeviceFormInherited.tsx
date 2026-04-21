@@ -4,7 +4,7 @@ import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfi
 import ConfigurationTable from "components/ConfigurationTable";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import type { InheritedDiskDevice } from "util/configInheritance";
+import type { InheritedDiskDevice } from "types/forms/configInheritance";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   addNoneDevice,
@@ -16,7 +16,8 @@ import {
   getInheritedDeviceRow,
   getInheritedSourceRow,
 } from "components/forms/InheritedDeviceRow";
-import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
+import { isInstanceCreation } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import {
   getProfileFromSource,
   isHostDiskDevice,

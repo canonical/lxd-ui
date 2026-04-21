@@ -1,7 +1,5 @@
 import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
-import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import {
   isDiskDevice,
   isGPUDevice,
@@ -12,7 +10,6 @@ import {
   isVolumeDevice,
 } from "util/devices";
 import type {
-  LxdDeviceValue,
   LxdDiskDevice,
   LxdGPUDevice,
   LxdNicDevice,
@@ -39,6 +36,15 @@ import type { NetworkFormValues } from "types/forms/network";
 import { useSettings } from "context/useSettings";
 import { useProfiles } from "context/useProfiles";
 import { useStoragePool } from "context/useStoragePools";
+import type {
+  InheritedDiskDevice,
+  InheritedNetwork,
+  InheritedGPU,
+  InheritedDevice,
+  InheritedProxy,
+  InheritedOtherDevice,
+} from "types/forms/configInheritance";
+import { getAppliedProfiles } from "util/profiles";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -248,13 +254,6 @@ const getInstanceProfileProjectDefaults = (
   return { value: lxdDefault, source: "LXD", configField };
 };
 
-interface InheritedDevice {
-  key: string;
-  device: LxdDeviceValue;
-  source: string;
-  sourceProfile: string;
-}
-
 const getInheritedDevices = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
@@ -263,7 +262,7 @@ const getInheritedDevices = (
   if (values.entityType === "instance") {
     const appliedProfiles = getAppliedProfiles(values, profiles);
     for (const profile of appliedProfiles) {
-      Object.entries(profile.devices).map(([key, device]) => {
+      Object.entries(profile.devices).forEach(([key, device]) => {
         const id = result.findIndex((item) => item.key === key);
         // device already exists, skip it
         if (id !== -1) {
@@ -299,12 +298,6 @@ export const getInheritedRootStorage = (
   return [null, "LXD"];
 };
 
-export interface InheritedDiskDevice {
-  key: string;
-  disk: LxdDiskDevice;
-  source: string;
-}
-
 export const getInheritedDiskDevices = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
@@ -322,13 +315,6 @@ export const getInheritedDiskDevices = (
     }));
 };
 
-export interface InheritedNetwork {
-  key: string;
-  network: LxdNicDevice | null;
-  source: string;
-  sourceProfile: string;
-}
-
 export const getInheritedNetworks = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
@@ -340,12 +326,6 @@ export const getInheritedNetworks = (
       network: item.device as LxdNicDevice,
     }));
 };
-
-interface InheritedGPU {
-  key: string;
-  gpu: LxdGPUDevice;
-  source: string;
-}
 
 export const getInheritedGPUs = (
   values: InstanceAndProfileFormValues,
@@ -359,12 +339,6 @@ export const getInheritedGPUs = (
     }));
 };
 
-interface InheritedProxy {
-  key: string;
-  proxy: LxdProxyDevice;
-  source: string;
-}
-
 export const getInheritedProxies = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
@@ -377,12 +351,6 @@ export const getInheritedProxies = (
     }));
 };
 
-interface InheritedOtherDevice {
-  key: string;
-  device: LxdOtherDevice;
-  source: string;
-}
-
 export const getInheritedOtherDevices = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
@@ -393,16 +361,4 @@ export const getInheritedOtherDevices = (
       ...item,
       device: item.device as LxdOtherDevice,
     }));
-};
-
-export const getAppliedProfiles = (
-  values: CreateInstanceFormValues | EditInstanceFormValues,
-  profiles: LxdProfile[],
-) => {
-  return profiles
-    .filter((profile) => values.profiles.includes(profile.name))
-    .sort(
-      (a, b) =>
-        values.profiles.indexOf(b.name) - values.profiles.indexOf(a.name),
-    );
 };

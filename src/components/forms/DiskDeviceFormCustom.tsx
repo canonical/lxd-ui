@@ -30,7 +30,8 @@ import {
   ISO_VOLUME_TYPE,
   isRootDisk,
 } from "util/devices";
-import { ensureEditMode, isInstanceCreation } from "util/instanceEdit";
+import { isInstanceCreation } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { isVolumeDevice } from "util/devices";
 import { focusField } from "util/formFields";
 import AttachDiskDeviceBtn from "pages/storage/AttachDiskDeviceBtn";

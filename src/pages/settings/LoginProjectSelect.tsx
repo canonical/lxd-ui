@@ -8,8 +8,8 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useProjects } from "context/useProjects";
+import { ALL_PROJECTS } from "util/projects";
 import {
-  ALL_PROJECTS,
   getDefaultProject,
   getLoginProject,
   loadLoginProject,

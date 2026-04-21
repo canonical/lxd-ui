@@ -3,12 +3,19 @@ import type { FormDevice } from "types/formDevice";
 import {
   addNicDevice,
   addNoneDevice,
-  formDeviceToPayload,
-  parseDevices,
   removeNicDevice,
+  parseDevices,
 } from "./formDevices";
-import { objectToYaml, yamlToObject } from "./yaml";
+import { yamlToObject } from "./yaml";
 import type { LxdInstance } from "types/instance";
+
+const createMockFormik = (devices: FormDevice[]) =>
+  ({
+    values: {
+      devices: devices,
+    },
+    setFieldValue: vi.fn(),
+  }) as unknown as InstanceAndProfileFormikProps;
 
 const deviceYaml =
   "devices:\n" +
@@ -47,33 +54,21 @@ const deviceYaml =
   "    type: gpu\n" +
   "";
 
-describe("parseDevices and formDeviceToPayload", () => {
-  it("preserves disk, network and custom devices", () => {
+describe("parseDevices", () => {
+  it("parses disk, nic, custom-nic, proxy and gpu device types", () => {
     const instance = yamlToObject(deviceYaml) as LxdInstance;
     const formDevices = parseDevices(instance.devices);
-    const payload = formDeviceToPayload(formDevices);
 
-    const matchFormDeviceType = (deviceType: string) =>
-      Object.values(formDevices).filter((item) => item.type === deviceType);
+    const matchType = (type: string) =>
+      formDevices.filter((item) => item.type === type);
 
-    expect(matchFormDeviceType("disk").length).toBe(1);
-    expect(matchFormDeviceType("nic").length).toBe(2);
-    expect(matchFormDeviceType("custom-nic").length).toBe(1);
-    expect(matchFormDeviceType("proxy").length).toBe(2);
-    expect(matchFormDeviceType("gpu").length).toBe(1);
-
-    const outYaml = objectToYaml({ devices: payload });
-    expect(outYaml).toBe(deviceYaml);
+    expect(matchType("disk").length).toBe(1);
+    expect(matchType("nic").length).toBe(2);
+    expect(matchType("custom-nic").length).toBe(1);
+    expect(matchType("proxy").length).toBe(2);
+    expect(matchType("gpu").length).toBe(1);
   });
 });
-
-const createMockFormik = (devices: FormDevice[]) =>
-  ({
-    values: {
-      devices: devices,
-    },
-    setFieldValue: vi.fn(),
-  }) as unknown as InstanceAndProfileFormikProps;
 
 describe("addNoneDevice", () => {
   it('should add a "none" device to an empty list', () => {

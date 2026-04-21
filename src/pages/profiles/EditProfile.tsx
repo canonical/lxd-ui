@@ -41,7 +41,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
 import ProfileDetailsForm from "pages/profiles/forms/ProfileDetailsForm";
-import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
@@ -57,7 +57,10 @@ import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { getProfilePayload } from "util/profiles";
+import {
+  getProfilePayload,
+  getProfileEditValues,
+} from "util/instanceAndProfilePayloads";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { ROOT_PATH } from "util/rootPath";

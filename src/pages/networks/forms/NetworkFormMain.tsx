@@ -13,7 +13,7 @@ import {
   physicalType,
 } from "util/networks";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { GENERAL } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import NetworkProfiles from "./NetworkProfiles";

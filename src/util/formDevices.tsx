@@ -3,7 +3,7 @@ import type {
   FormDiskDevice,
   IsoVolumeDevice,
 } from "types/formDevice";
-import type { LxdDevices, LxdIsoDevice, LxdNicDevice } from "types/device";
+import type { LxdNicDevice, LxdDevices, LxdIsoDevice } from "types/device";
 import type { RemoteImage } from "types/image";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { focusField } from "util/formFields";
@@ -12,53 +12,7 @@ import {
   ISO_VOLUME_NAME,
   ISO_VOLUME_PROFILE_NAME,
   ISO_VOLUME_TYPE,
-} from "util/devices";
-
-export const isFormDiskDevice = (
-  device: FormDevice,
-): device is FormDiskDevice => {
-  return device.type === "disk";
-};
-
-export const isCustomNicFormDevice = (
-  device: FormDevice,
-): device is FormDevice & { type: "custom-nic"; bare: LxdNicDevice } => {
-  if (device.type !== "custom-nic") return false;
-  return isCustomNic(device.bare);
-};
-
-export const isEmptyDevice = (device: FormDevice): boolean =>
-  device.type === "nic" &&
-  device.name.length === 0 &&
-  (device.network?.length ?? 0) === 0;
-
-export const formDeviceToPayload = (devices: FormDevice[]) => {
-  return devices
-    .filter((item) => !isEmptyDevice(item))
-    .reduce((obj, { name, ...item }) => {
-      if (
-        item.type === "unknown" ||
-        item.type === "custom-nic" ||
-        item.type === ISO_VOLUME_TYPE
-      ) {
-        return {
-          ...obj,
-          [name]: item.bare,
-        };
-      }
-      if (item.type === "disk") {
-        const { bare, ...rest } = item;
-        item = { ...bare, ...rest };
-      }
-      if ("size" in item && !item.size?.match(/^\d/)) {
-        delete item.size;
-      }
-      return {
-        ...obj,
-        [name]: item,
-      };
-    }, {});
-};
+} from "./devices";
 
 export const parseDevices = (devices: LxdDevices): FormDevice[] => {
   return Object.keys(devices).map((key) => {
@@ -137,6 +91,24 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
     }
   });
 };
+
+export const isFormDiskDevice = (
+  device: FormDevice,
+): device is FormDiskDevice => {
+  return device.type === "disk";
+};
+
+export const isCustomNicFormDevice = (
+  device: FormDevice,
+): device is FormDevice & { type: "custom-nic"; bare: LxdNicDevice } => {
+  if (device.type !== "custom-nic") return false;
+  return isCustomNic(device.bare);
+};
+
+export const isEmptyDevice = (device: FormDevice): boolean =>
+  device.type === "nic" &&
+  device.name.length === 0 &&
+  (device.network?.length ?? 0) === 0;
 
 export const remoteImageToIsoDevice = (image: RemoteImage): IsoVolumeDevice => {
   return {

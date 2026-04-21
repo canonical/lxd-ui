@@ -11,14 +11,14 @@ import type {
 } from "types/device";
 import type { LxdProfile } from "types/profile";
 import type { FormDevice, FormDiskDevice } from "types/formDevice";
-import type { InheritedDiskDevice } from "./configInheritance";
-import { getAppliedProfiles } from "./configInheritance";
+import type { InheritedDiskDevice } from "types/forms/configInheritance";
+import { getAppliedProfiles } from "util/profiles";
 import type { LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "./networks";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import type { IpAddressFamily } from "types/forms/network";
 import type { FormNetworkDevice } from "types/formDevice";
-import type { InheritedNetwork } from "util/configInheritance";
+import type { InheritedNetwork } from "types/forms/configInheritance";
 
 export const ISO_VOLUME_TYPE = "iso-volume";
 export const ISO_VOLUME_NAME = "iso-volume";

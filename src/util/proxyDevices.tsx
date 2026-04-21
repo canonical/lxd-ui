@@ -1,7 +1,7 @@
 import { Input, Label, Select } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { LxdProxyDevice } from "types/device";
-import { ensureEditMode } from "./instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { proxyAddressTypeOptions } from "./instanceOptions";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";

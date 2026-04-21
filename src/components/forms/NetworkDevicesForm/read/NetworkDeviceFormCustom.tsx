@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import type { InheritedNetwork } from "util/configInheritance";
+import type { InheritedNetwork } from "types/forms/configInheritance";
 import type { LxdNetwork } from "types/network";
 import type { LxdNicDevice } from "types/device";
 import type { CustomNetworkDevice } from "types/formDevice";

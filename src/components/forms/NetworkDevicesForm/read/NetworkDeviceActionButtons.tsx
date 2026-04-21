@@ -1,7 +1,7 @@
 import { Button, Icon } from "@canonical/react-components";
 import { type FC } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import type { LxdNicDevice, LxdNoneDevice } from "types/device";
 import type { CustomNetworkDevice, FormDevice } from "types/formDevice";
 import {
@@ -10,7 +10,7 @@ import {
   removeNicDevice,
 } from "util/formDevices";
 import { isCustomNic, isNicDevice, isNoneDevice } from "util/devices";
-import type { InheritedNetwork } from "util/configInheritance";
+import type { InheritedNetwork } from "types/forms/configInheritance";
 import usePanelParams from "util/usePanelParams";
 
 interface Props {
