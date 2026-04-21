@@ -3,7 +3,7 @@ import type { FormikProps } from "formik";
 import type { FC } from "react";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { NetworkFormValues } from "types/forms/network";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 
 interface Props {

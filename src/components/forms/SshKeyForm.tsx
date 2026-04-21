@@ -11,8 +11,9 @@ import type {
   InstanceAndProfileFormValues,
   SshKeyFormValues,
 } from "types/forms/instanceAndProfile";
-import { ensureEditMode, parseSshKeys } from "util/instanceEdit";
-import { getAppliedProfiles } from "util/configInheritance";
+import { ensureEditMode } from "util/editMode";
+import { parseSshKeys } from "util/instanceEdit";
+import { getAppliedProfiles } from "util/profiles";
 import { useProfiles } from "context/useProfiles";
 import type { LxdProfile } from "types/profile";
 import SshKeyAddModal from "components/forms/SshKeyAddModal";

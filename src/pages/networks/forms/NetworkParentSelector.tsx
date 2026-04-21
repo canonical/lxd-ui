@@ -11,7 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { ClusterSpecificSelectOption } from "components/ClusterSpecificSelect";
 import ClusterSpecificSelect from "components/ClusterSpecificSelect";

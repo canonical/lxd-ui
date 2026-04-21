@@ -9,7 +9,11 @@ import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
 import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
 import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
-import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
+import type {
+  EditInstanceFormValues,
+  EditProfileFormValues,
+  CreateInstanceFormValues,
+} from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import { bootPayload } from "util/instanceBoot";
@@ -83,4 +87,16 @@ export const hasCloudInit = (profile: LxdProfile): boolean => {
   ];
 
   return cloudInitKeys.some((key) => Boolean(profile.config[key]));
+};
+
+export const getAppliedProfiles = (
+  values: CreateInstanceFormValues | EditInstanceFormValues,
+  profiles: LxdProfile[],
+): LxdProfile[] => {
+  return profiles
+    .filter((profile) => values.profiles.includes(profile.name))
+    .sort(
+      (a, b) =>
+        values.profiles.indexOf(b.name) - values.profiles.indexOf(a.name),
+    );
 };

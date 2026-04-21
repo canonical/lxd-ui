@@ -16,7 +16,6 @@ import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
 import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
-import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { bootPayload } from "util/instanceBoot";
 import type { SshKey } from "types/forms/instanceAndProfile";
@@ -163,12 +162,6 @@ export const InstanceEditSchema: Yup.ObjectSchema<{
   name: Yup.string().required("Instance name is required"),
   instanceType: Yup.string().required("Instance type is required"),
 });
-
-export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
-  if (formik.values.readOnly) {
-    formik.setFieldValue("readOnly", false);
-  }
-};
 
 export const isInstanceCreation = (
   formik: InstanceAndProfileFormikProps,

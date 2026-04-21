@@ -6,7 +6,7 @@ import type { MainTableRow } from "@canonical/react-components/dist/components/M
 import classnames from "classnames";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { getConfigRowMetadata } from "util/configInheritance";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 

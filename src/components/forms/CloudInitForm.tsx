@@ -6,7 +6,7 @@ import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfi
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceField } from "util/instanceConfigFields";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import classnames from "classnames";
 import { getConfigRowMetadata } from "util/configInheritance";
 import CloudInitExpandButton from "components/forms/CloudInitExpandButton";

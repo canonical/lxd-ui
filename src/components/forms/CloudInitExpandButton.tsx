@@ -5,7 +5,7 @@ import ResourceLink from "components/ResourceLink";
 import type { CloudInitKey } from "types/forms/instanceAndProfile";
 import YamlModal from "components/forms/YamlModal";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useLocation } from "react-router-dom";

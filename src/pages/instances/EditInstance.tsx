@@ -44,11 +44,11 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
 import {
-  ensureEditMode,
   getInstanceEditValues,
   getInstancePayload,
   InstanceEditSchema,
 } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
