@@ -18,7 +18,7 @@ import ImageRegistriesSearchFilter, {
 } from "./ImageRegistriesSearchFilter";
 import { useSearchParams } from "react-router-dom";
 import type { LxdImageRegistryProtocol } from "types/image";
-import { isRegistryPublic } from "util/image-registries";
+import { isImageRegistryPublic } from "util/image-registries";
 import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
 
 const ImageRegistriesList: FC = () => {
@@ -69,7 +69,7 @@ const ImageRegistriesList: FC = () => {
       (!filters.protocol.length || filters.protocol.includes(item.protocol)) &&
       (!filters.builtin.length || filters.builtin.includes(item.builtin)) &&
       (!filters.public.length ||
-        filters.public.includes(isRegistryPublic(item))),
+        filters.public.includes(isImageRegistryPublic(item))),
   );
 
   const rows = filteredImageRegistries.map((registry) => {
@@ -103,7 +103,7 @@ const ImageRegistriesList: FC = () => {
           "aria-label": "Built-in",
         },
         {
-          content: isRegistryPublic(registry) ? "Yes" : "No",
+          content: isImageRegistryPublic(registry) ? "Yes" : "No",
           role: "cell",
           "aria-label": "Public",
         },
@@ -113,7 +113,7 @@ const ImageRegistriesList: FC = () => {
         description: registry.description.toLowerCase(),
         protocol: registry.protocol.toLowerCase(),
         builtin: registry.builtin,
-        public: isRegistryPublic(registry),
+        public: isImageRegistryPublic(registry),
       },
     };
   });

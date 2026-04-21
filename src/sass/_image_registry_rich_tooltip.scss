@@ -1,7 +1,7 @@
 @import "rich_tooltip";
 
-.storage-pool-rich-tooltip-table {
-  min-height: 300px !important;
+.image-registry-rich-tooltip-table {
+  min-height: 250px !important;
 
   @media (height <= $medium-tooltip-breakpoint) {
     min-height: 200px !important;
