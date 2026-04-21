@@ -136,11 +136,11 @@ jobs:
 
       - name: Setup Ceph
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        uses: canonical/lxd/.github/actions/setup-microceph@7fb995835eb0ad985b3a37cbdb2168debcaeabcf
+        uses: canonical/lxd/.github/actions/setup-microceph@405d18e6ab6c21b3cad1ede09c8b749c484c3e7a
 
       - name: Setup OVN
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        uses: canonical/lxd/.github/actions/setup-microovn@7fb995835eb0ad985b3a37cbdb2168debcaeabcf
+        uses: canonical/lxd/.github/actions/setup-microovn@405d18e6ab6c21b3cad1ede09c8b749c484c3e7a
 
       - name: Install LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
@@ -195,7 +195,7 @@ jobs:
 
       - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }} artifacts
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-artifacts-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}
           path: test-artifacts-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}
@@ -203,7 +203,7 @@ jobs:
 
       - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }} blob reports to be merged
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-blob-report-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-${{ matrix.deployment }}
           path: blob-report
@@ -235,7 +235,7 @@ jobs:
       - name: Merge into HTML Report
         run: npx playwright merge-reports --config=merge.playwright.config.ts ./test-blob-reports
 
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: playwright-report
