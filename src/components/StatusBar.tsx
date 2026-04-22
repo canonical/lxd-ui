@@ -23,16 +23,46 @@ const StatusBar: FC<Props> = ({ className }) => {
   const { toggleListView, notifications, countBySeverity, isListView } =
     useToastNotification();
 
-  useListener(
-    window,
-    (e: KeyboardEvent) => {
-      // Close notifications list if Escape pressed
-      if (e.code === "Escape" && isListView) {
-        toggleListView();
+  const closeOnEsc = (e: KeyboardEvent) => {
+    // Close notifications list if Escape pressed
+    if (e.code === "Escape" && isListView) {
+      toggleListView();
+    }
+  };
+  useListener(window, closeOnEsc, "keydown");
+
+  const pointerEventType = (e: PointerEvent): string => {
+    let isChip = false;
+    let node = e.target as Element;
+    // walk the dom upwards to identify if we have a click on a chip inside notification
+    while (node?.parentNode) {
+      node = node?.parentNode as Element;
+      if (node?.classList?.contains("resource-link")) {
+        isChip = true;
       }
-    },
-    "keydown",
-  );
+      if (isChip && node?.classList?.contains("toast-notification-list")) {
+        return "list-chip-click";
+      }
+      if (isChip && node?.classList?.contains("toast-notification")) {
+        return "notification-chip-click";
+      }
+    }
+    return "";
+  };
+  const closeOnChipClick = (e: PointerEvent) => {
+    const eventType = pointerEventType(e);
+    if (eventType === "list-chip-click") {
+      // Close notification list if link in it is clicked
+      toggleListView();
+    }
+    if (eventType === "notification-chip-click") {
+      // Hide single notification if link in it is clicked
+      // by opening and closing list
+      toggleListView();
+      toggleListView();
+    }
+  };
+  useListener(window, closeOnChipClick, "click");
 
   if (isAuthLoading || !isAuthenticated) {
     return null;
