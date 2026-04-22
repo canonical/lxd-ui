@@ -38,6 +38,7 @@ import { useProfiles } from "context/useProfiles";
 import DocLink from "components/DocLink";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
+import { Announcement } from "@canonical/react-ds-global";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -248,6 +249,20 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
           container GPU passthrough with Docker
         </DocLink>
       </Notification>
+
+      <Announcement className="announcement-override">
+        <div>
+          <h5 className="u-no-margin--bottom">GPU passthrough</h5>
+          Learn more about{" "}
+          <DocLink docPath="/reference/devices_gpu/#devices-gpu">
+            GPU devices
+          </DocLink>{" "}
+          and{" "}
+          <DocLink docPath="/howto/container_gpu_passthrough_with_docker/#container-gpu-passthrough-with-docker">
+            container GPU passthrough with Docker
+          </DocLink>
+        </div>
+      </Announcement>
 
       {inheritedRows.length > 0 && (
         <div className="inherited-devices">
