@@ -20,7 +20,7 @@ import { toConfigFields } from "util/config";
 import PageHeader from "components/PageHeader";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
-import { useClusteredSettings } from "context/useSettings";
+import { useClusteredSettings } from "context/useClusteredSettings";
 import { useProjects } from "context/useProjects";
 import {
   type UserSetting,

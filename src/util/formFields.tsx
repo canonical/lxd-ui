@@ -1,6 +1,5 @@
 import type { OptionHTMLAttributes } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-export { getUnhandledKeyValues } from "util/instanceAndProfilePayloads";
 
 const collapsedViewMaxWidth = 1420;
 export const figureCollapsedScreen = (): boolean =>
