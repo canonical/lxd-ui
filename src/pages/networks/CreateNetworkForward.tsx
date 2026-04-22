@@ -148,6 +148,7 @@ const CreateNetworkForward: FC = () => {
           Cancel
         </Link>
         <ActionButton
+          appearance="positive"
           loading={formik.isSubmitting}
           disabled={
             !formik.isValid ||

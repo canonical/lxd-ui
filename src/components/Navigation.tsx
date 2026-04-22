@@ -433,6 +433,19 @@ const Navigation: FC = () => {
                                 Volumes
                               </NavLink>
                             </SideNavigationItem>,
+                            <SideNavigationItem
+                              key={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
+                            >
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
+                                title="Buckets"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                                activeUrlMatches={["/bucket/"]}
+                              >
+                                Buckets
+                              </NavLink>
+                            </SideNavigationItem>,
                             ...(hasCustomVolumeIso
                               ? [
                                   <SideNavigationItem
@@ -449,19 +462,6 @@ const Navigation: FC = () => {
                                   </SideNavigationItem>,
                                 ]
                               : []),
-                            <SideNavigationItem
-                              key={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
-                            >
-                              <NavLink
-                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
-                                title="Buckets"
-                                onClick={softToggleMenu}
-                                className="accordion-nav-secondary"
-                                activeUrlMatches={["/bucket/"]}
-                              >
-                                Buckets
-                              </NavLink>
-                            </SideNavigationItem>,
                           ]}
                         </NavAccordion>
                       </SideNavigationItem>
