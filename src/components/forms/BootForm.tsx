@@ -6,6 +6,7 @@ import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { optionRenderer } from "util/formFields";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -13,6 +14,11 @@ interface Props {
 
 const BootForm: FC<Props> = ({ formik }) => {
   const { hasInstanceBootMode } = useSupportedFeatures();
+  const isInstance = formik.values.entityType === "instance";
+  const isVmOnlyDisabled =
+    isInstance &&
+    (formik.values as CreateInstanceFormValues).instanceType !==
+      "virtual-machine";
 
   return (
     <ScrollableConfigurationTable
@@ -55,10 +61,19 @@ const BootForm: FC<Props> = ({ formik }) => {
           ? [
               getConfigurationRow({
                 formik,
-                label: "Boot mode",
+                label: "Boot mode (VMs only)",
                 name: "boot_mode",
                 defaultValue: "",
-                children: <Select options={bootModeOptions} />,
+                disabled: isVmOnlyDisabled,
+                disabledReason: isVmOnlyDisabled
+                  ? "Only available for virtual machines"
+                  : undefined,
+                children: (
+                  <Select
+                    options={bootModeOptions}
+                    disabled={isVmOnlyDisabled}
+                  />
+                ),
               }),
             ]
           : []),
