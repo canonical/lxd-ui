@@ -64,6 +64,16 @@ const InstanceDetail: FC = () => {
     });
   }
 
+  if (isLoading) {
+    return (
+      <Spinner
+        className="u-loader"
+        text="Loading instance details..."
+        isMainComponent
+      />
+    );
+  }
+
   return (
     <CustomLayout
       header={
@@ -76,13 +86,6 @@ const InstanceDetail: FC = () => {
       }
       contentClassName="detail-page"
     >
-      {isLoading && (
-        <Spinner
-          className="u-loader"
-          text="Loading instance details..."
-          isMainComponent
-        />
-      )}
       {!isLoading && !instance && (
         <NotFound
           entityType="instance"

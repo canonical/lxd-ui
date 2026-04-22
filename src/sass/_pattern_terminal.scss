@@ -1,9 +1,17 @@
 .p-terminal {
   height: calc(100dvh - 240px);
 
-  .xterm .xterm-viewport {
-    background-color: #300a24;
-    overflow: hidden;
+  .xterm {
+    .xterm-viewport {
+      background-color: #300a24;
+      overflow: hidden;
+    }
+
+    /* Temporary CSS fix for the mismatching background problem, to be removed
+    once https://github.com/xtermjs/xterm.js/issues/5781 is resolved */
+    .xterm-scrollable-element {
+      background-color: #300a24 !important;
+    }
   }
 }
 
