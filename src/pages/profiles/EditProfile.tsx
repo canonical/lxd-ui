@@ -58,7 +58,7 @@ import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { getProfilePayload } from "util/profiles";
+import { getProfilePayload } from "util/instanceAndProfilePayloads";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { ROOT_PATH } from "util/rootPath";

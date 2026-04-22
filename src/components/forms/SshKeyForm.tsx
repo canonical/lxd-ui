@@ -7,10 +7,7 @@ import {
   usePortal,
 } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import type {
-  InstanceAndProfileFormValues,
-  SshKeyFormValues,
-} from "types/forms/instanceAndProfile";
+import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
 import { ensureEditMode } from "util/editMode";
 import { parseSshKeys } from "util/instanceEdit";
 import { getAppliedProfiles } from "util/profiles";
@@ -23,17 +20,7 @@ import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import type { SshKey } from "types/forms/instanceAndProfile";
-
-export const sshKeyPayload = (values: SshKeyFormValues) => {
-  const result: Record<string, string | undefined> = {};
-
-  values.cloud_init_ssh_keys?.forEach((record) => {
-    result[`cloud-init.ssh-keys.${record.name}`] =
-      `${record.user}:${record.fingerprint}`;
-  });
-
-  return result;
-};
+export { sshKeyPayload } from "util/instanceAndProfilePayloads";
 
 interface InheritedSshKey {
   sshKey: SshKey;

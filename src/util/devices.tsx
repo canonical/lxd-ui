@@ -12,7 +12,7 @@ import type {
 import type { LxdProfile } from "types/profile";
 import type { FormDevice, FormDiskDevice } from "types/formDevice";
 import type { InheritedDiskDevice } from "types/forms/inheritance";
-import { getAppliedProfiles } from "./profiles";
+import { getAppliedProfiles } from "util/profiles";
 import type { LxdNetwork } from "types/network";
 import { typesWithNicStaticIPSupport } from "./networks";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";

@@ -6,20 +6,22 @@ import { getInstanceConfigKeys } from "util/instanceConfigFields";
 import {
   instanceEditConfigPayload,
   instanceEditDetailPayload,
-} from "pages/instances/forms/EditInstanceDetails";
-import { resourceLimitsPayload } from "components/forms/ResourceLimitsForm";
-import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
-import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
-import { cloudInitPayload } from "components/forms/CloudInitForm";
-import { getUnhandledKeyValues } from "util/formFields";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
+  resourceLimitsPayload,
+  securityPoliciesPayload,
+  snapshotsPayload,
+  cloudInitPayload,
+  getUnhandledKeyValues,
+  migrationPayload,
+  bootPayload,
+  sshKeyPayload,
+} from "util/instanceAndProfilePayloads";
+import type {
+  EditInstanceFormValues,
+  EditProfileFormValues,
+  SshKey,
+} from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
-import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
-import { migrationPayload } from "components/forms/MigrationForm";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { bootPayload } from "util/instanceBoot";
-import type { SshKey } from "types/forms/instanceAndProfile";
-import { sshKeyPayload } from "components/forms/SshKeyForm";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,

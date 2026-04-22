@@ -36,7 +36,6 @@ import type { NetworkFormValues } from "types/forms/network";
 import { useSettings } from "context/useSettings";
 import { useProfiles } from "context/useProfiles";
 import { useStoragePool } from "context/useStoragePools";
-import { getAppliedProfiles } from "./profiles";
 import type {
   InheritedDiskDevice,
   InheritedNetwork,
@@ -45,6 +44,7 @@ import type {
   InheritedProxy,
   InheritedOtherDevice,
 } from "types/forms/inheritance";
+import { getAppliedProfiles } from "./profiles";
 
 export interface ConfigRowMetadata {
   value?: string;
