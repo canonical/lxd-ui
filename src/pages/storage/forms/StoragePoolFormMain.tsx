@@ -7,13 +7,13 @@ import {
   pureStorage,
   cephObject,
   alletraDriver,
+  powerStore,
 } from "util/storageOptions";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import { isCephDriver, isCephFSDriver } from "util/storagePool";
+import { hasSource } from "util/storagePool";
 import { useSettings } from "context/useSettings";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { isClusteredServer } from "util/settings";
@@ -22,6 +22,7 @@ import { isStoragePoolWithSize } from "util/storagePoolForm";
 import StoragePoolSource from "./StoragePoolSource";
 import { getFormProps } from "util/storagePoolForm";
 import StorageDriverSelect from "./StorageDriverSelect";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -33,18 +34,9 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const isCreating = formik.values.isCreating;
   const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
+  const isPowerStoreDriver = formik.values.driver === powerStore;
   const isPureDriver = formik.values.driver === pureStorage;
   const isAlletraDriver = formik.values.driver === alletraDriver;
-  const isCephVariant =
-    isCephDriver(formik.values) || isCephFSDriver(formik.values);
-  const isCephVariantWithoutSource = isCephVariant && hasRemoteDropSource;
-
-  const hasSource =
-    !isPureDriver &&
-    !isPowerFlexDriver &&
-    !isCephObjectDriver &&
-    !isAlletraDriver &&
-    !isCephVariantWithoutSource;
 
   return (
     <ScrollableForm>
@@ -113,7 +105,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           <StoragePoolSource
             formik={formik}
             settings={settings}
-            hasSource={hasSource}
+            hasSource={hasSource(formik.values.driver, hasRemoteDropSource)}
           />
           {isCephObjectDriver && (
             <>
@@ -190,6 +182,46 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Password"
                 placeholder="Enter password"
                 help="Password for PowerFlex Gateway authentication"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+            </>
+          )}
+          {isPowerStoreDriver && (
+            <>
+              <Input
+                {...formik.getFieldProps("powerstore_gateway")}
+                type="text"
+                label="Gateway"
+                placeholder="Enter gateway"
+                help="Address of the PowerStore Gateway"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Input
+                {...formik.getFieldProps("powerstore_user_name")}
+                type="text"
+                label="User"
+                placeholder="Enter user"
+                help="User for PowerStore Gateway authentication"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Input
+                {...formik.getFieldProps("powerstore_user_password")}
+                type="password"
+                label="Password"
+                placeholder="Enter password"
+                help="Password for PowerStore Gateway authentication"
                 onChange={(e) => {
                   ensureEditMode(formik);
                   formik.handleChange(e);

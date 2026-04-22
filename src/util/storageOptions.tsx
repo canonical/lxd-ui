@@ -9,6 +9,7 @@ export const cephDriver = "ceph";
 export const cephFSDriver = "cephfs";
 export const cephObject = "cephobject";
 export const powerFlex = "powerflex";
+export const powerStore = "powerstore";
 export const pureStorage = "pure";
 export const alletraDriver = "alletra";
 
@@ -20,6 +21,7 @@ export const storageDriverLabels: { [key: string]: string } = {
   [cephDriver]: "Ceph",
   [cephFSDriver]: "CephFS",
   [powerFlex]: "Dell PowerFlex",
+  [powerStore]: "Dell PowerStore",
   [pureStorage]: "Pure Storage",
   [cephObject]: "Ceph Object",
   [alletraDriver]: "HPE Alletra",
@@ -35,6 +37,7 @@ export const storageDriverDescriptions: { [key: string]: string } = {
   [dirDriver]: "Basic local directory (no native snapshots or quotas)",
   [lvmDriver]: "Logical volume-backed block storage with thin provisioning",
   [powerFlex]: "Dell PowerFlex software-defined block storage",
+  [powerStore]: "Purpose-built all-flash block and file storage appliance",
   [pureStorage]: "Pure Storage FlashArray block storage",
   [zfsDriver]:
     "Advanced Copy-on-Write filesystem with datasets and zvols (recommended)",
@@ -119,5 +122,7 @@ export const driversWithFilesystemSupport = [
 ];
 
 export const isRemoteStorage = (driver: string) => {
-  return [cephDriver, cephFSDriver, cephObject, powerFlex].includes(driver);
+  return [cephDriver, cephFSDriver, cephObject, powerFlex, powerStore].includes(
+    driver,
+  );
 };

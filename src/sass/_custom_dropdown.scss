@@ -29,7 +29,11 @@
 }
 
 .instance-target-dropdown,
+.storage-driver-dropdown,
+.placement-group-dropdown,
 .acl-action-dropdown {
+  z-index: 105;
+
   .header {
     background-color: $colors--theme--background-alt;
     display: flex;

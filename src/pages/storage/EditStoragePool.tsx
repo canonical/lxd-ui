@@ -141,7 +141,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     onSubmit: (values) => {
       const savedPool = values.yaml
         ? (yamlToObject(values.yaml) as LxdStoragePool)
-        : toStoragePool(values);
+        : toStoragePool(values, false);
 
       const mutation =
         clusterMembers.length > 0
