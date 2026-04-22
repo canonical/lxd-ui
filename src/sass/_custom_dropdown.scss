@@ -1,6 +1,7 @@
 .network-type-label,
 .acl-action-label,
-.storage-driver-label {
+.storage-driver-label,
+.cluster-link-label {
   display: flex;
 
   .network-type-name {
@@ -13,8 +14,14 @@
     width: 8rem;
   }
 
+  .cluster-link-name {
+    margin-left: $sph--small;
+    width: 8rem;
+  }
+
   .network-type-explanation,
-  .storage-driver-description {
+  .storage-driver-description,
+  .cluster-link-description {
     margin-left: $sph--small;
   }
 
@@ -22,7 +29,8 @@
     flex-direction: column;
 
     .network-type-explanation,
-    .storage-driver-description {
+    .storage-driver-description,
+    .cluster-link-description {
       white-space: break-spaces;
     }
   }

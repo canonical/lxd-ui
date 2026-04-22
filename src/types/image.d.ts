@@ -39,13 +39,15 @@ export interface LxdImageRegistry {
   description: string;
   protocol: LxdImageRegistryProtocol;
   builtin: boolean;
-  config?: {
-    url: string;
-    public: string;
-    cluster: string;
-    source_project: string;
-  };
+  config?: LxdImageRegistryConfig;
   access_entitlements?: string[];
+}
+
+export interface LxdImageRegistryConfig {
+  url?: string;
+  public?: string;
+  cluster?: string;
+  source_project?: string;
 }
 
 export interface ImportImage {

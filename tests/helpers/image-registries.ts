@@ -1,6 +1,11 @@
 import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
+import { randomNameSuffix } from "./name";
+
+export const randomImageRegistryName = () => {
+  return `playwright-image-registry-${randomNameSuffix()}`;
+};
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -13,5 +18,5 @@ export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
 
 export const visitImageRegistries = async (page: Page) => {
   await gotoURL(page, `/ui/image-registries`);
-  await expect(page.getByTitle("Create image registry")).toBeVisible();
+  await expect(page.getByTitle("Create registry")).toBeVisible();
 };
