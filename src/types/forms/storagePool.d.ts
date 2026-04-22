@@ -34,6 +34,11 @@ export interface StoragePoolFormValues {
   powerflex_sdt?: string;
   powerflex_user_name?: string;
   powerflex_user_password?: string;
+  powerstore_gateway?: string;
+  powerstore_gateway_verify?: string;
+  powerstore_mode?: string;
+  powerstore_user_name?: string;
+  powerstore_user_password?: string;
   pure_api_token?: string;
   pure_gateway?: string;
   pure_gateway_verify?: string;

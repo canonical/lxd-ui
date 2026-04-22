@@ -11,12 +11,14 @@ import {
   cephFSDriver,
   cephObject,
   powerFlex,
+  powerStore,
   pureStorage,
   zfsDriver,
 } from "util/storageOptions";
 import {
   isAlletraIncomplete,
   isPowerflexIncomplete,
+  isPowerStoreIncomplete,
   isPureStorageIncomplete,
 } from "util/storagePool";
 
@@ -25,6 +27,7 @@ export const CEPH_CONFIGURATION = "Ceph";
 export const CEPHFS_CONFIGURATION = "CephFS";
 export const CEPHOBJECT_CONFIGURATION = "Ceph Object";
 export const POWERFLEX = "Powerflex";
+export const POWERSTORE = "PowerStore";
 export const ZFS_CONFIGURATION = "ZFS";
 export const YAML_CONFIGURATION = "YAML configuration";
 export const PURE_STORAGE = "Pure Storage";
@@ -53,6 +56,7 @@ const StoragePoolFormMenu: FC<Props> = ({
   const isCephFSDriver = formik.values.driver === cephFSDriver;
   const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
+  const isPowerStoreDriver = formik.values.driver === powerStore;
   const isPureDriver = formik.values.driver === pureStorage;
   const isZfsDriver = formik.values.driver === zfsDriver;
   const isAlletraDriver = formik.values.driver === alletraDriver;
@@ -63,6 +67,9 @@ const StoragePoolFormMenu: FC<Props> = ({
     }
     if (isPowerflexIncomplete(formik)) {
       return "Please enter a domain, gateway, pool, and user name to enable this section";
+    }
+    if (isPowerStoreIncomplete(formik)) {
+      return "Please enter a gateway, user name, and password to enable this section";
     }
     if (isPureStorageIncomplete(formik)) {
       return "Please enter an API token and gateway to enable this section";
@@ -111,6 +118,13 @@ const StoragePoolFormMenu: FC<Props> = ({
           {isPowerFlexDriver && (
             <MenuItem
               label={POWERFLEX}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isPowerStoreDriver && (
+            <MenuItem
+              label={POWERSTORE}
               {...menuItemProps}
               disableReason={disableReason}
             />

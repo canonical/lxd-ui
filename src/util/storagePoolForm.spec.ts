@@ -11,7 +11,7 @@ describe("conversion to form values and back with toStoragePoolFormValues and to
     } as unknown as LxdStoragePool;
 
     const formValues = toStoragePoolFormValues(pool);
-    const payload = toStoragePool(formValues) as CustomPayload;
+    const payload = toStoragePool(formValues, false) as CustomPayload;
 
     expect(payload["custom-key"]).toBe("custom-value");
   });
@@ -25,7 +25,7 @@ describe("conversion to form values and back with toStoragePoolFormValues and to
     } as unknown as LxdStoragePool;
 
     const formValues = toStoragePoolFormValues(pool);
-    const payload = toStoragePool(formValues);
+    const payload = toStoragePool(formValues, false);
 
     expect(payload.config?.["user.key"]).toBe("custom-config-value");
   });

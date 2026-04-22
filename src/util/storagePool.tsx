@@ -13,6 +13,7 @@ import {
   dirDriver,
   lvmDriver,
   powerFlex,
+  powerStore,
   pureStorage,
   zfsDriver,
 } from "util/storageOptions";
@@ -44,6 +45,11 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   powerflex_sdt: "powerflex.sdt",
   powerflex_user_name: "powerflex.user.name",
   powerflex_user_password: "powerflex.user.password",
+  powerstore_gateway: "powerstore.gateway",
+  powerstore_gateway_verify: "powerstore.gateway.verify",
+  powerstore_mode: "powerstore.mode",
+  powerstore_user_name: "powerstore.user.name",
+  powerstore_user_password: "powerstore.user.password",
   pure_api_token: "pure.api.token",
   pure_gateway: "pure.gateway",
   pure_gateway_verify: "pure.gateway.verify",
@@ -93,6 +99,12 @@ export const getPowerflexPoolFormFields = () => {
   );
 };
 
+export const getPowerStorePoolFormFields = () => {
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
+    item.startsWith("powerstore_"),
+  );
+};
+
 export const getPureStoragePoolFormFields = () => {
   return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
     item.startsWith("pure_"),
@@ -119,6 +131,7 @@ const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   [cephDriver]: "storage-ceph",
   [cephFSDriver]: "storage-cephfs",
   [powerFlex]: "storage-powerflex",
+  [powerStore]: "storage-powerstore",
   [pureStorage]: "storage-pure",
   [cephObject]: "storage-cephobject",
   [alletraDriver]: "storage-alletra",
@@ -162,6 +175,17 @@ export const isPowerflexIncomplete = (
   );
 };
 
+export const isPowerStoreIncomplete = (
+  formik: FormikProps<StoragePoolFormValues>,
+): boolean => {
+  return (
+    formik.values.driver === powerStore &&
+    (!formik.values.powerstore_gateway ||
+      !formik.values.powerstore_user_name ||
+      !formik.values.powerstore_user_password)
+  );
+};
+
 export const isPureStorageIncomplete = (
   formik: FormikProps<StoragePoolFormValues>,
 ): boolean => {
@@ -189,4 +213,18 @@ export const isCephDriver = (values: StoragePoolFormValues) => {
 
 export const isCephFSDriver = (values: StoragePoolFormValues) => {
   return values.driver === cephFSDriver;
+};
+
+export const hasSource = (
+  driver: string,
+  hasRemoteDropSource: boolean,
+): boolean => {
+  const driversWithSource = [btrfsDriver, dirDriver, lvmDriver, zfsDriver];
+
+  if (hasRemoteDropSource) {
+    driversWithSource.push(cephDriver);
+    driversWithSource.push(cephFSDriver);
+  }
+
+  return driversWithSource.includes(driver);
 };
