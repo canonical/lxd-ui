@@ -14,6 +14,7 @@ import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestricti
 import { getUnhandledKeyValues } from "util/formFields";
 import { getDefaultNetwork, getDefaultStoragePool } from "./helpers";
 import type { LxdProfile } from "types/profile";
+import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
 
 export const getProjectEditValues = (
   project: LxdProject,
@@ -103,6 +104,9 @@ export const getProjectEditValues = (
     restricted_network_subnets: project.config["restricted.networks.subnets"],
     restricted_network_uplinks: project.config["restricted.networks.uplinks"],
     restricted_network_zones: project.config["restricted.networks.zones"],
+
+    restricted_registries: project.config["restricted.registries"],
+
     editRestriction,
   };
 };
@@ -125,6 +129,7 @@ export const getProjectPayload = (
             ...instanceRestrictionPayload(values),
             ...deviceUsageRestrictionPayload(values),
             ...networkRestrictionPayload(values),
+            ...imageRestrictionPayload(values),
           }
         : {}),
       ...getUnhandledKeyValues(project.config, handledConfigKeys),

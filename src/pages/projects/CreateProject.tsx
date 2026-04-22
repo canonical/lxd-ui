@@ -40,6 +40,7 @@ import { useProfile } from "context/useProfiles";
 import { useAuth } from "context/auth";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { ProjectFormValues } from "types/forms/project";
+import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
 
 const CreateProject: FC = () => {
   const navigate = useNavigate();
@@ -115,6 +116,7 @@ const CreateProject: FC = () => {
             ...instanceRestrictionPayload(values),
             ...deviceUsageRestrictionPayload(values),
             ...networkRestrictionPayload(values),
+            ...imageRestrictionPayload(values),
           }
         : {};
 

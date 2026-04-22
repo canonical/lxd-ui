@@ -1,6 +1,8 @@
 import type { FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { Button } from "@canonical/react-components";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useIsClustered } from "context/useIsClustered";
 
 export const PROJECT_DETAILS = "Project details";
 export const RESOURCE_LIMITS = "Resource limits";
@@ -8,6 +10,7 @@ export const CLUSTERS = "Clusters";
 export const INSTANCES = "Instances";
 export const DEVICE_USAGE = "Device usage";
 export const NETWORKS = "Networks";
+export const IMAGES = "Images";
 
 interface Props {
   isRestrictionsOpen: boolean;
@@ -24,6 +27,9 @@ const ProjectFormMenu: FC<Props> = ({
   active,
   setActive,
 }) => {
+  const { hasImageRegistries } = useSupportedFeatures();
+  const isClustered = useIsClustered();
+
   const menuItemProps = {
     active,
     setActive,
@@ -49,10 +55,13 @@ const ProjectFormMenu: FC<Props> = ({
               className="p-side-navigation__list"
               aria-expanded={isRestrictionsOpen ? "true" : "false"}
             >
-              <MenuItem label={CLUSTERS} {...menuItemProps} />
+              {isClustered && <MenuItem label={CLUSTERS} {...menuItemProps} />}
               <MenuItem label={INSTANCES} {...menuItemProps} />
               <MenuItem label={DEVICE_USAGE} {...menuItemProps} />
               <MenuItem label={NETWORKS} {...menuItemProps} />
+              {hasImageRegistries && (
+                <MenuItem label={IMAGES} {...menuItemProps} />
+              )}
             </ul>
           </li>
         </ul>

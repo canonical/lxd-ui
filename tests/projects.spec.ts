@@ -63,9 +63,6 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Max sum of memory", "Enter value", "7");
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
-  await page.getByText("Clusters").click();
-  await setOption(page, "Direct cluster targeting", "allow");
-
   await page
     .getByRole("navigation", { name: "Project form navigation" })
     .getByText("Instances")
@@ -101,9 +98,9 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
 
   if (lxdVersion === "5.0-edge") {
     // network zones option is not available in 5.0-edge, so total changes are one less
-    await page.getByRole("button", { name: "Save 33 changes" }).click();
+    await page.getByRole("button", { name: "Save 32 changes" }).click();
   } else {
-    await page.getByRole("button", { name: "Save 34 changes" }).click();
+    await page.getByRole("button", { name: "Save 33 changes" }).click();
   }
 
   await page.getByText(`Project ${project} updated.`).waitFor();
@@ -128,10 +125,6 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Max sum of CPU", "6");
   await assertReadMode(page, "Max sum of memory limits", "7GiB");
   await assertReadMode(page, "Max sum of processes", "8");
-
-  await page.getByText("Clusters").click();
-  await assertReadMode(page, "Cluster groups targeting", "");
-  await assertReadMode(page, "Direct cluster targeting", "Allow");
 
   await page
     .getByRole("navigation", { name: "Project form navigation" })

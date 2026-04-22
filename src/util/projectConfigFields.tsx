@@ -24,6 +24,7 @@ const projectConfigFormFieldsToPayload: Record<string, string> = {
   restricted_network_subnets: "restricted.networks.subnets",
   restricted_network_uplinks: "restricted.networks.uplinks",
   restricted_network_zones: "restricted.networks.zones",
+  restricted_registries: "restricted.registries",
   restricted: "restricted",
   features_images: "features.images",
   features_profiles: "features.profiles",
