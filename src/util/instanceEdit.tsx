@@ -1,20 +1,7 @@
 import type { LxdProfile } from "types/profile";
 import type { LxdInstance } from "types/instance";
-import { formDeviceToPayload, parseDevices } from "util/formDevices";
+import { parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
-import { getInstanceConfigKeys } from "util/instanceConfigFields";
-import {
-  instanceEditConfigPayload,
-  instanceEditDetailPayload,
-  resourceLimitsPayload,
-  securityPoliciesPayload,
-  snapshotsPayload,
-  cloudInitPayload,
-  getUnhandledKeyValues,
-  migrationPayload,
-  bootPayload,
-  sshKeyPayload,
-} from "util/instanceAndProfilePayloads";
 import type {
   EditInstanceFormValues,
   EditProfileFormValues,
@@ -122,38 +109,6 @@ export const getProfileEditValues = (
     entityType: "profile",
     editRestriction,
     ...getEditValues(profile),
-  };
-};
-
-export const getInstancePayload = (
-  instance: LxdInstance,
-  values: EditInstanceFormValues,
-) => {
-  const handledConfigKeys = getInstanceConfigKeys();
-  const handledKeys = new Set([
-    "name",
-    "description",
-    "type",
-    "profiles",
-    "devices",
-    "config",
-  ]);
-
-  return {
-    ...instanceEditDetailPayload(values),
-    devices: formDeviceToPayload(values.devices),
-    config: {
-      ...instanceEditConfigPayload(values),
-      ...resourceLimitsPayload(values),
-      ...securityPoliciesPayload(values),
-      ...snapshotsPayload(values),
-      ...migrationPayload(values),
-      ...bootPayload(values),
-      ...cloudInitPayload(values),
-      ...sshKeyPayload(values),
-      ...getUnhandledKeyValues(instance.config, handledConfigKeys),
-    },
-    ...getUnhandledKeyValues(instance, handledKeys),
   };
 };
 

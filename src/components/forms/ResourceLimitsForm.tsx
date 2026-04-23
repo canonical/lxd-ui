@@ -4,7 +4,10 @@ import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import type { CpuLimit, MemoryLimit } from "types/limits";
-import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
+import {
+  cpuLimitToPayload,
+  memoryLimitToPayload,
+} from "util/instanceAndProfilePayloads";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";

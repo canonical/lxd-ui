@@ -18,7 +18,7 @@ import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
-import { formDeviceToPayload } from "util/formDevices";
+import { formDeviceToPayload } from "util/instanceAndProfilePayloads";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
 import CloudInitForm from "components/forms/CloudInitForm";

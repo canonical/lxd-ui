@@ -1,33 +1,6 @@
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import { BYTES_UNITS, CPU_LIMIT_TYPE, MEM_LIMIT_TYPE } from "types/limits";
 
-export const cpuLimitToPayload = (
-  cpuLimit: CpuLimit | string | undefined,
-): string | undefined => {
-  if (!cpuLimit) {
-    return undefined;
-  }
-  if (typeof cpuLimit === "string") {
-    return cpuLimit;
-  }
-  switch (cpuLimit.selectedType) {
-    case CPU_LIMIT_TYPE.DYNAMIC:
-      return cpuLimit.dynamicValue?.toString();
-    case CPU_LIMIT_TYPE.FIXED:
-      if (
-        cpuLimit.fixedValue?.includes(",") ||
-        cpuLimit.fixedValue?.includes("-")
-      ) {
-        return cpuLimit.fixedValue;
-      }
-      if (cpuLimit.fixedValue) {
-        const singleValue = +cpuLimit.fixedValue;
-        return `${singleValue}-${singleValue}`;
-      }
-      return undefined;
-  }
-};
-
 export const parseCpuLimit = (limit?: string): CpuLimit | undefined => {
   if (!limit) {
     return undefined;
@@ -44,18 +17,6 @@ export const parseCpuLimit = (limit?: string): CpuLimit | undefined => {
     dynamicValue: parseInt(limit),
     selectedType: CPU_LIMIT_TYPE.DYNAMIC,
   };
-};
-
-export const memoryLimitToPayload = (
-  memoryLimit: MemoryLimit | undefined | string,
-): string | undefined => {
-  if (typeof memoryLimit === "string") {
-    return memoryLimit;
-  }
-  if (!memoryLimit?.value) {
-    return undefined;
-  }
-  return `${memoryLimit.value}${memoryLimit.unit}`;
 };
 
 export const parseMemoryLimit = (limit?: string): MemoryLimit | undefined => {

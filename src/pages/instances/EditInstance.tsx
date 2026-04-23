@@ -43,11 +43,8 @@ import InstanceFormMenu, {
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
-import {
-  getInstanceEditValues,
-  getInstancePayload,
-  InstanceEditSchema,
-} from "util/instanceEdit";
+import { getInstanceEditValues, InstanceEditSchema } from "util/instanceEdit";
+import { getInstancePayload } from "util/instanceAndProfilePayloads";
 import { ensureEditMode } from "util/editMode";
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";

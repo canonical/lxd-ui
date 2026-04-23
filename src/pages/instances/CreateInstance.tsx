@@ -22,11 +22,13 @@ import { objectToYaml, yamlToObject } from "util/yaml";
 import type { Location } from "react-router-dom";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import InstanceCreateDetailsForm, {
+import InstanceCreateDetailsForm from "pages/instances/forms/InstanceCreateDetailsForm";
+import {
   instanceDetailPayload,
-} from "pages/instances/forms/InstanceCreateDetailsForm";
+  formDeviceToPayload,
+} from "util/instanceAndProfilePayloads";
 import type { FormDevice } from "types/formDevice";
-import { formDeviceToPayload, remoteImageToIsoDevice } from "util/formDevices";
+import { remoteImageToIsoDevice } from "util/formDevices";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
 import CloudInitForm from "components/forms/CloudInitForm";

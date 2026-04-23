@@ -1,9 +1,9 @@
 import {
+  getInstanceConfigKeys,
   getInstanceField,
   getProfileConfigKeys,
 } from "util/instanceConfigFields";
-import { formDeviceToPayload } from "util/formDevices";
-import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
+import { isEmptyDevice } from "util/formDevices";
 import type {
   BootFormValues,
   CloudInitFormValues,
@@ -15,28 +15,92 @@ import type {
   SecurityPoliciesFormValues,
   SnapshotFormValues,
   SshKeyFormValues,
+  InstanceDetailsFormValues,
 } from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
 import type { LxdInstance } from "types/instance";
 import type { LxdConfigPair } from "types/config";
 import type { LxdProject } from "types/project";
 import type { LxdStorageVolume } from "types/storage";
+import { LOCAL_IMAGE, LOCAL_ISO } from "util/images";
+import type { FormDevice } from "types/formDevice";
+import { ISO_VOLUME_TYPE } from "./devices";
+import type { CpuLimit, MemoryLimit } from "types/limits";
+import { CPU_LIMIT_TYPE } from "types/limits";
 
-export const getUnhandledKeyValues = (
-  item:
-    | LxdConfigPair
-    | LxdInstance
-    | LxdProfile
-    | LxdProject
-    | LxdStorageVolume,
-  handledKeys: Set<string>,
+export const getInstancePayload = (
+  instance: LxdInstance,
+  values: EditInstanceFormValues,
 ) => {
-  return Object.fromEntries(
-    Object.entries(item).filter(
-      ([key]) =>
-        !handledKeys.has(key) && !key.startsWith("cloud-init.ssh-keys."),
-    ),
-  );
+  const handledConfigKeys = getInstanceConfigKeys();
+  const handledKeys = new Set([
+    "name",
+    "description",
+    "type",
+    "profiles",
+    "devices",
+    "config",
+  ]);
+
+  return {
+    ...instanceEditDetailPayload(values),
+    devices: formDeviceToPayload(values.devices),
+    config: {
+      ...instanceEditConfigPayload(values),
+      ...resourceLimitsPayload(values),
+      ...securityPoliciesPayload(values),
+      ...snapshotsPayload(values),
+      ...migrationPayload(values),
+      ...bootPayload(values),
+      ...cloudInitPayload(values),
+      ...sshKeyPayload(values),
+      ...getUnhandledKeyValues(instance.config, handledConfigKeys),
+    },
+    ...getUnhandledKeyValues(instance, handledKeys),
+  };
+};
+
+export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
+  return {
+    name: values.name,
+    description: values.description,
+    type: values.instanceType,
+    profiles: values.profiles,
+  };
+};
+
+export const formDeviceToPayload = (devices: FormDevice[]) => {
+  return devices
+    .filter((item) => !isEmptyDevice(item))
+    .reduce((obj, { name, ...item }) => {
+      if (
+        item.type === "unknown" ||
+        item.type === "custom-nic" ||
+        item.type === ISO_VOLUME_TYPE
+      ) {
+        return {
+          ...obj,
+          [name]: item.bare,
+        };
+      }
+      if (item.type === "disk") {
+        const { bare, ...rest } = item;
+        item = { ...bare, ...rest };
+      }
+      if ("size" in item && !item.size?.match(/^\d/)) {
+        delete item.size;
+      }
+      return {
+        ...obj,
+        [name]: item,
+      };
+    }, {});
+};
+
+export const instanceEditConfigPayload = (values: EditInstanceFormValues) => {
+  return {
+    [getInstanceField("placement_group")]: values.placement_group,
+  };
 };
 
 export const resourceLimitsPayload = (values: ResourceLimitsFormValues) => {
@@ -50,6 +114,45 @@ export const resourceLimitsPayload = (values: ResourceLimitsFormValues) => {
       values.limits_disk_priority?.toString(),
     [getInstanceField("limits_processes")]: values.limits_processes?.toString(),
   };
+};
+
+export const cpuLimitToPayload = (
+  cpuLimit: CpuLimit | string | undefined,
+): string | undefined => {
+  if (!cpuLimit) {
+    return undefined;
+  }
+  if (typeof cpuLimit === "string") {
+    return cpuLimit;
+  }
+  switch (cpuLimit.selectedType) {
+    case CPU_LIMIT_TYPE.DYNAMIC:
+      return cpuLimit.dynamicValue?.toString();
+    case CPU_LIMIT_TYPE.FIXED:
+      if (
+        cpuLimit.fixedValue?.includes(",") ||
+        cpuLimit.fixedValue?.includes("-")
+      ) {
+        return cpuLimit.fixedValue;
+      }
+      if (cpuLimit.fixedValue) {
+        const singleValue = +cpuLimit.fixedValue;
+        return `${singleValue}-${singleValue}`;
+      }
+      return undefined;
+  }
+};
+
+export const memoryLimitToPayload = (
+  memoryLimit: MemoryLimit | undefined | string,
+): string | undefined => {
+  if (typeof memoryLimit === "string") {
+    return memoryLimit;
+  }
+  if (!memoryLimit?.value) {
+    return undefined;
+  }
+  return `${memoryLimit.value}${memoryLimit.unit}`;
 };
 
 export const securityPoliciesPayload = (values: SecurityPoliciesFormValues) => {
@@ -124,6 +227,23 @@ export const sshKeyPayload = (values: SshKeyFormValues) => {
   return result;
 };
 
+export const getUnhandledKeyValues = (
+  item:
+    | LxdConfigPair
+    | LxdInstance
+    | LxdProfile
+    | LxdProject
+    | LxdStorageVolume,
+  handledKeys: Set<string>,
+) => {
+  return Object.fromEntries(
+    Object.entries(item).filter(
+      ([key]) =>
+        !handledKeys.has(key) && !key.startsWith("cloud-init.ssh-keys."),
+    ),
+  );
+};
+
 export const getProfilePayload = (
   profile: LxdProfile,
   values: EditProfileFormValues,
@@ -149,21 +269,6 @@ export const getProfilePayload = (
   };
 };
 
-export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
-  return {
-    name: values.name,
-    description: values.description,
-    type: values.instanceType,
-    profiles: values.profiles,
-  };
-};
-
-export const instanceEditConfigPayload = (values: EditInstanceFormValues) => {
-  return {
-    [getInstanceField("placement_group")]: values.placement_group,
-  };
-};
-
 export const profileDetailPayload = (values: ProfileDetailsFormValues) => {
   return {
     name: values.name,
@@ -176,5 +281,58 @@ export const profileDetailConfigPayload = (
 ) => {
   return {
     [getInstanceField("placement_group")]: values.placement_group,
+  };
+};
+
+export const instanceDetailPayload = (
+  values: InstanceDetailsFormValues,
+  hasImageRegistries: boolean,
+) => {
+  return {
+    name: values.name,
+    description: values.description,
+    type: values.instanceType,
+    profiles: values.profiles,
+    source: getInstanceSource(values, hasImageRegistries),
+  };
+};
+
+const getInstanceSource = (
+  values: InstanceDetailsFormValues,
+  hasImageRegistries: boolean,
+) => {
+  if (values.image?.registryName && hasImageRegistries) {
+    return {
+      alias: values.image?.aliases.split(",")[0],
+      mode: "pull",
+      image_registry: values.image?.registryName,
+      type: "image",
+    };
+  }
+
+  if (values.image?.server === LOCAL_IMAGE || values.image?.cached) {
+    return {
+      type: "image",
+      certificate: "",
+      fingerprint: values.image?.fingerprint,
+      allow_inconsistent: false,
+    };
+  }
+
+  if (values.image?.server === LOCAL_ISO) {
+    return {
+      type: "none",
+      certificate: "",
+      allow_inconsistent: false,
+    };
+  }
+
+  // legacy image from hardcoded remote
+  return {
+    alias: values.image?.aliases.split(",")[0],
+    mode: "pull",
+    protocol: "simplestreams",
+    server: values.image?.server,
+    type: "image",
   };
 };

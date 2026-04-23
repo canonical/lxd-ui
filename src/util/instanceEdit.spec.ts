@@ -1,4 +1,5 @@
-import { getInstanceEditValues, getInstancePayload } from "./instanceEdit";
+import { getInstanceEditValues } from "./instanceEdit";
+import { getInstancePayload } from "util/instanceAndProfilePayloads";
 import type { LxdInstance } from "types/instance";
 
 describe("conversion to form values and back with getInstanceEditValues and getInstancePayload", () => {
