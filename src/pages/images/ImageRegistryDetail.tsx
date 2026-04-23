@@ -9,12 +9,15 @@ import ImageRegistryDetailHeader from "pages/images/ImageRegistryDetailHeader";
 import ImageRegistryImages from "pages/images/ImageRegistryImages";
 import ImageRegistryConfiguration from "pages/images/ImageRegistryConfiguration";
 import { ROOT_PATH } from "util/rootPath";
+import { EditImageRegistryPanel } from "./panels/EditImageRegistryPanel";
+import usePanelParams, { panels } from "util/usePanelParams";
 
 const ImageRegistryDetail: FC = () => {
   const { name, activeTab } = useParams<{
     name: string;
     activeTab?: string;
   }>();
+  const panelParams = usePanelParams();
 
   if (!name) {
     return <>Missing name</>;
@@ -39,31 +42,36 @@ const ImageRegistryDetail: FC = () => {
   const tabs: string[] = ["Images", "Configuration"];
 
   return (
-    <CustomLayout
-      header={<ImageRegistryDetailHeader imageRegistry={imageRegistry} />}
-      contentClassName="detail-page"
-    >
-      <NotificationRow />
-      <Row>
-        <TabLinks
-          tabs={tabs}
-          activeTab={activeTab}
-          tabUrl={`${ROOT_PATH}/ui/image-registry/${encodeURIComponent(name)}`}
-        />
+    <>
+      <CustomLayout
+        header={<ImageRegistryDetailHeader imageRegistry={imageRegistry} />}
+        contentClassName="detail-page"
+      >
+        <NotificationRow />
+        <Row>
+          <TabLinks
+            tabs={tabs}
+            activeTab={activeTab}
+            tabUrl={`${ROOT_PATH}/ui/image-registry/${encodeURIComponent(name)}`}
+          />
 
-        {!activeTab && (
-          <div role="tabpanel" aria-labelledby="images">
-            <ImageRegistryImages imageRegistry={imageRegistry} />
-          </div>
-        )}
+          {!activeTab && (
+            <div role="tabpanel" aria-labelledby="images">
+              <ImageRegistryImages imageRegistry={imageRegistry} />
+            </div>
+          )}
 
-        {activeTab === "configuration" && (
-          <div role="tabpanel" aria-labelledby="configuration">
-            <ImageRegistryConfiguration imageRegistry={imageRegistry} />
-          </div>
-        )}
-      </Row>
-    </CustomLayout>
+          {activeTab === "configuration" && (
+            <div role="tabpanel" aria-labelledby="configuration">
+              <ImageRegistryConfiguration imageRegistry={imageRegistry} />
+            </div>
+          )}
+        </Row>
+      </CustomLayout>
+      {panelParams.panel === panels.editImageRegistry && (
+        <EditImageRegistryPanel />
+      )}
+    </>
   );
 };
 
