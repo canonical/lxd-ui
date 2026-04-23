@@ -114,7 +114,9 @@ test.describe("apply ACLs", () => {
     await expect(aclList).toBeDisabled();
 
     await expect(
-      page.getByText("Network must be of type OVN to customize ACLs."),
+      page.getByText(
+        "Instance device ACLs require an OVN network. Manage ACLs for all instances using this network in the detail page.",
+      ),
     ).toBeVisible();
 
     await expect(page.getByLabel("Egress traffic")).toBeDisabled();
@@ -169,7 +171,9 @@ test.describe("apply ACLs", () => {
     await expect(aclButton).toBeVisible();
     await expect(aclButton).toBeDisabled();
     await expect(
-      page.getByText("Network must be of type OVN to customize ACLs."),
+      page.getByText(
+        "Instance device ACLs require an OVN network. Manage ACLs for all instances using this network in the detail page.",
+      ),
     ).toBeVisible();
 
     await expect(page.getByLabel("Egress traffic")).toBeDisabled();
@@ -179,8 +183,10 @@ test.describe("apply ACLs", () => {
     await page.getByLabel("sub").getByText(ovn).first().click();
     await expect(aclButton).toBeEnabled();
     await expect(
-      page.getByText("Network must be of type OVN to customize ACLs."),
-    ).not.toBeVisible();
+      page.getByText(
+        "Instance device ACLs can be customized. Manage ACLs for all instances using this network in the detail page.",
+      ),
+    ).toBeVisible();
     await expect(page.getByLabel("Egress traffic")).toBeDisabled();
     await expect(page.getByLabel("Ingress traffic")).toBeDisabled();
 
