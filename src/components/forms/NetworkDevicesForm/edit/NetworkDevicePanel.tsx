@@ -33,6 +33,7 @@ import {
   getNetworkAcls,
   combineAcls,
   ovnType,
+  typesWithAcls,
 } from "util/networks";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDefaultACLSelector, {
@@ -43,6 +44,8 @@ import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import { useNetworkAcls } from "context/useNetworkAcls";
 import { getAttachedNetworkNames } from "util/devices";
 import type { LxdNetwork } from "types/network";
+import { Link } from "react-router";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   project: string;
@@ -282,7 +285,34 @@ const NetworkDevicePanel: FC<Props> = ({
         ? "Some ACLs are inherited from the network. They cannot be deselected here."
         : undefined;
     }
-    return "Network must be of type OVN to customize ACLs.";
+
+    if (!selectedNetwork || !typesWithAcls.includes(selectedNetwork.type)) {
+      return "ACLs require an OVN or a bridge network.";
+    }
+
+    const link = (
+      <Link
+        to={`${ROOT_PATH}/ui/project/${project}/network/${selectedNetwork.name}`}
+      >
+        detail page
+      </Link>
+    );
+
+    if (selectedNetwork.type === "bridge") {
+      return (
+        <>
+          Instance device ACLs require an OVN network. Manage ACLs for all
+          instances using this network in the {link}.
+        </>
+      );
+    }
+
+    return (
+      <>
+        Instance device ACLs can be customized. Manage ACLs for all instances
+        using this network in the {link}.
+      </>
+    );
   };
 
   const handleCancel = () => {
