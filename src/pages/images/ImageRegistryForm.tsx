@@ -1,4 +1,9 @@
-import { Form, Input, PrefixedInput } from "@canonical/react-components";
+import {
+  Form,
+  Input,
+  OutputField,
+  PrefixedInput,
+} from "@canonical/react-components";
 import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { ImageRegistryFormValues } from "types/forms/image";
@@ -22,15 +27,19 @@ export const ImageRegistryForm: FC<Props> = ({ formik, isEdit = false }) => {
     <Form onSubmit={formik.handleSubmit}>
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
-      <Input
-        {...formik.getFieldProps("name")}
-        type="text"
-        autoFocus={!isEdit}
-        label="Name"
-        required
-        error={getFieldError("name")}
-        placeholder="Enter name"
-      />
+      {isEdit ? (
+        <OutputField id="Name" label="Name" value={formik.values.name} />
+      ) : (
+        <Input
+          {...formik.getFieldProps("name")}
+          type="text"
+          autoFocus={!isEdit}
+          label="Name"
+          required
+          error={getFieldError("name")}
+          placeholder="Enter name"
+        />
+      )}
       <Input
         {...formik.getFieldProps("description")}
         type="text"
