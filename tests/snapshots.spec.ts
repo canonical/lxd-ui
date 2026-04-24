@@ -69,8 +69,7 @@ test("publish image from instance snapshot in custom project", async ({
   await createCustomProject(page, project);
 
   const instance = randomInstanceName();
-  const type = "container";
-  await createInstance(page, instance, type, project);
+  await createInstance(page, instance, "container", project);
 
   const snapshot = randomSnapshotName();
   await createInstanceSnapshot(page, instance, snapshot, project);

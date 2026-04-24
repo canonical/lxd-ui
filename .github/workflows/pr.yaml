@@ -31,7 +31,6 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-
       - name: Install dependencies
         run: yarn install --immutable
 
@@ -115,24 +114,19 @@ jobs:
 
       - name: Install LXD-UI dependencies
         run: |
-          set -x
           sudo chmod 0777 ../lxd-ui
           dotrun install
+
+      - name: Generate SSL keys for HAProxy
+        run: |
+          mkdir -p keys
+          openssl req -x509 -newkey rsa:4096 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -days 365 -nodes -subj "/CN=localhost"
+          cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
 
       - name: OVN dependencies
         run: |
           sudo snap refresh snapd --channel latest/beta || sudo snap install snapd --channel latest/beta
           sudo snap refresh core26 --channel latest/edge || sudo snap install core26 --channel latest/edge
-
-      - name: Run LXD-UI
-        env:
-          ENVIRONMENT: devel
-          PORT: 8407
-          LXD_UI_BACKEND_IP: 172.17.0.1
-          VITE_PORT: 3000
-        run: |
-          dotrun &
-          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Setup Ceph
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
@@ -142,19 +136,93 @@ jobs:
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
         uses: canonical/lxd/.github/actions/setup-microovn@405d18e6ab6c21b3cad1ede09c8b749c484c3e7a
 
-      - name: Install LXD
+      - name: Install Host LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
         with:
           channel: ${{ matrix.lxd_channel }}
-          group: lxd
 
-      - name: Setup LXD
+      - name: Setup LXD (Clustered)
+        if: ${{ matrix.deployment == 'clustered' }}
+        shell: bash
+        run: |
+          set -x
+          sudo lxd init --auto
+          sudo lxc launch ubuntu:24.04 vm1 --vm -c limits.cpu=2 -c limits.memory=2GiB
+          sudo lxc launch ubuntu:24.04 vm2 --vm -c limits.cpu=2 -c limits.memory=2GiB
+
+          sleep 60
+
+          sudo lxc exec vm1 -- snap install lxd --channel=${{ matrix.lxd_channel }}
+
+          sleep 60
+
+          sudo lxc exec vm2 -- snap install lxd --channel=${{ matrix.lxd_channel }}
+
+          sleep 60
+
+          VM1_IP=$(sudo lxc list vm1 --format csv -c 4 | cut -d' ' -f1 | cut -d',' -f1)
+          VM2_IP=$(sudo lxc list vm2 --format csv -c 4 | cut -d' ' -f1 | cut -d',' -f1)
+
+          # Bootstrap VM1
+          cat <<EOF | sudo lxc exec vm1 -- lxd init --preseed
+          config:
+            core.https_address: ${VM1_IP}:8443
+          cluster:
+            enabled: true
+            server_name: vm1
+          networks:
+          - name: lxdbr0
+            type: bridge
+            config:
+              ipv4.address: auto
+              ipv6.address: auto
+          EOF
+
+          TOKEN=$(sudo lxc exec vm1 -- lxc cluster add vm2 | grep -oE 'ey[A-Za-z0-9._=-]+')
+
+          # Join VM2
+          cat <<EOF | sudo lxc exec vm2 -- lxd init --preseed
+          cluster:
+            enabled: true
+            server_name: vm2
+            server_address: ${VM2_IP}:8443
+            cluster_token: ${TOKEN}
+          EOF
+
+          cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add - || true
+
+          echo "LXD_UI_BACKEND_IP=$VM1_IP" >> $GITHUB_ENV
+
+      - name: Setup LXD (Unclustered)
+        if: ${{ matrix.deployment == 'unclustered' }}
         shell: bash
         run: |
           set -x
           sudo lxc config set core.https_address "[::]:8443"
           sudo lxc config trust add keys/lxd-ui.crt
-          sudo lxc config set cluster.https_address "127.0.0.1"
+          echo "LXD_UI_BACKEND_IP=172.17.0.1" >> $GITHUB_ENV
+
+      - name: Setup for tests
+        shell: bash
+        env:
+          DEPLOYMENT: ${{ matrix.deployment }}
+          LXD_OIDC_ISSUER: ${{ env.LXD_OIDC_ISSUER }}
+          LXD_OIDC_CLIENT_ID: ${{ env.LXD_OIDC_CLIENT_ID }}
+          LXD_OIDC_CLIENT_SECRET: ${{ env.LXD_OIDC_CLIENT_SECRET }}
+          LXD_OIDC_AUDIENCE: ${{ env.LXD_OIDC_AUDIENCE }}
+          LXD_OIDC_GROUPS_CLAIM: ${{ env.LXD_OIDC_GROUPS_CLAIM }}
+        run: sudo -E ./tests/scripts/setup_test
+
+      - name: Run LXD-UI
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          LXD_UI_BACKEND_IP: ${{ env.LXD_UI_BACKEND_IP }}
+          VITE_PORT: 3000
+        run: |
+          dotrun &
+          sleep 10
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
@@ -163,25 +231,14 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Set lxd channel env variable
-        id: lxd-env
-        run: |
-          # need to change / to - in lxd channel string for report naming
-          LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
-          echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
-
-      - name: Setup for tests
-        if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        shell: bash
-        run: sudo -E ./tests/scripts/setup_test
-
       - name: Run Playwright tests
         env:
           BROWSER: ${{ matrix.browser }}
           DEPLOYMENT: ${{ matrix.deployment }}
-          LXD_CHANNEL: ${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+          LXD_CHANNEL: ${{ matrix.lxd_channel }}
         run: |
-          npx playwright test --project "${BROWSER}:lxd-${LXD_CHANNEL}:${DEPLOYMENT}"
+          LXD_CH=$(echo "${LXD_CHANNEL}" | sed 's#/#-#g')
+          npx playwright test --project "${BROWSER}:lxd-${LXD_CH}:${DEPLOYMENT}"
 
       - name: Rename Playwright report and artifacts folder
         if: always()
@@ -238,27 +295,5 @@ jobs:
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 14
-
-  js-tests:
-    name: js-tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
-
-      - name: Install Dotrun
-        run: |
-          sudo pip3 install dotrun
-
-      - name: Install LXD-UI dependencies
-        run: |
-          set -x
-          sudo chmod 0777 ../lxd-ui
-          dotrun install
-
-      - name: Run Javascript tests
-        run: dotrun test-js
+          name: test-results-${{ matrix.browser }}-${{ matrix.deployment }}
+          path: test-results/
