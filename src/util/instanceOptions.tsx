@@ -137,6 +137,18 @@ export const optionIscsiNvme = [
   },
 ];
 
+export const optionPowerStoreMode = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
+    label: "SCSI over TCP",
+    value: "iscsi",
+  },
+];
+
 export const optionNvmeSdc = [
   {
     label: "Select option",

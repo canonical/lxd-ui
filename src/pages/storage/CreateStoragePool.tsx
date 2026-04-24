@@ -18,6 +18,7 @@ import { zfsDriver } from "util/storageOptions";
 import {
   isAlletraIncomplete,
   isPowerflexIncomplete,
+  isPowerStoreIncomplete,
   isPureStorageIncomplete,
   testDuplicateStoragePoolName,
 } from "util/storagePool";
@@ -192,6 +193,7 @@ const CreateStoragePool: FC = () => {
             formik.isSubmitting ||
             !formik.values.name ||
             isPowerflexIncomplete(formik) ||
+            isPowerStoreIncomplete(formik) ||
             isPureStorageIncomplete(formik) ||
             isAlletraIncomplete(formik)
           }

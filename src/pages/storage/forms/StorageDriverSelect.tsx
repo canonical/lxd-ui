@@ -5,6 +5,7 @@ import {
   getCephObjectPoolFormFields,
   getCephPoolFormFields,
   getPowerflexPoolFormFields,
+  getPowerStorePoolFormFields,
   getPureStoragePoolFormFields,
   getZfsStoragePoolFormFields,
 } from "util/storagePool";
@@ -17,6 +18,7 @@ import {
   cephObject,
   alletraDriver,
   storageDriverLabels,
+  powerStore,
 } from "util/storageOptions";
 import type { FormikProps } from "formik";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
@@ -96,6 +98,12 @@ const StorageDriverSelect: FC<Props> = ({ formik }) => {
         formik.setFieldValue(field, undefined);
       }
     }
+    if (val !== powerStore) {
+      const powerstoreFields = getPowerStorePoolFormFields();
+      for (const field of powerstoreFields) {
+        formik.setFieldValue(field, undefined);
+      }
+    }
     if (val !== pureStorage) {
       const pureFields = getPureStoragePoolFormFields();
       for (const field of pureFields) {
@@ -141,12 +149,13 @@ const StorageDriverSelect: FC<Props> = ({ formik }) => {
           name="driver"
           label="Driver"
           wrapperClassName="select-input"
-          dropdownClassName="instance-target-dropdown"
+          dropdownClassName="storage-driver-dropdown"
           help={getHelpText()}
           onChange={onChange}
           options={storageDriverOptions}
           value={formik.values.driver}
           required
+          searchable={"never"}
         />
       )}
     </>
