@@ -22,6 +22,8 @@ import { isImageRegistryPublic } from "util/image-registries";
 import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { CreateImageRegistryPanel } from "./panels/CreateImageRegistryPanel";
+import { ImageRegistryActions } from "./actions/forms/ImageRegistryActions";
+import { EditImageRegistryPanel } from "./panels/EditImageRegistryPanel";
 
 const ImageRegistriesList: FC = () => {
   const notify = useNotify();
@@ -48,6 +50,9 @@ const ImageRegistriesList: FC = () => {
     {
       content: "Public",
       sortKey: "public",
+    },
+    {
+      content: "Actions",
     },
   ];
 
@@ -110,6 +115,18 @@ const ImageRegistriesList: FC = () => {
           content: isImageRegistryPublic(registry) ? "Yes" : "No",
           role: "cell",
           "aria-label": "Public",
+        },
+        {
+          content: (
+            <>
+              <ImageRegistryActions
+                imageRegistry={registry}
+                isShortVersion={true}
+              />
+            </>
+          ),
+          role: "cell",
+          "aria-label": "Actions",
         },
       ],
       sortData: {
@@ -197,6 +214,9 @@ const ImageRegistriesList: FC = () => {
 
       {panelParams.panel === panels.createImageRegistry && (
         <CreateImageRegistryPanel />
+      )}
+      {panelParams.panel === panels.editImageRegistry && (
+        <EditImageRegistryPanel />
       )}
     </>
   );

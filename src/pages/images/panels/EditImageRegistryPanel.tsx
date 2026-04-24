@@ -3,49 +3,38 @@ import {
   Button,
   ScrollableContainer,
   SidePanel,
+  Spinner,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import usePanelParams from "util/usePanelParams";
-import * as Yup from "yup";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { ImageRegistryFormValues } from "types/forms/image";
-import { createImageRegistry } from "api/image-registries";
+import { updateImageRegistry } from "api/image-registries";
 import { ImageRegistryForm } from "../ImageRegistryForm";
-import { checkDuplicateName } from "util/helpers";
 import ImageRegistryRichChip from "../ImageRegistryRichChip";
 import type { LxdImageRegistry, LxdImageRegistryConfig } from "types/image";
+import { useImageRegistry } from "context/useImageRegistries";
 
-export const CreateImageRegistryPanel: FC = () => {
+export const EditImageRegistryPanel: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const controllerState = useState<AbortController | null>(null);
+  const {
+    data: registry,
+    error,
+    isLoading,
+  } = useImageRegistry(panelParams.imageRegistry ?? "");
 
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
-
-  const schema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "An image registry with this name already exists.",
-        async (value) =>
-          checkDuplicateName(value, "", controllerState, "image-registries"),
-      )
-      .matches(/^[A-Za-z0-9/\-:_.]+$/, {
-        message:
-          "Name can only contain alphanumeric, forward slash, hyphen, colon, underscore and full stop characters.",
-      })
-      .required("Image registry name is required."),
-  });
 
   const getPayload = () => {
     const isSimpleStreams = formik.values.protocol === "simplestreams";
@@ -54,9 +43,7 @@ export const CreateImageRegistryPanel: FC = () => {
       public: isPublic ? "true" : "false",
     };
     const payload = {
-      name: formik.values.name,
       description: formik.values.description,
-      protocol: formik.values.protocol,
     } as Partial<LxdImageRegistry>;
 
     if (isSimpleStreams) {
@@ -72,16 +59,17 @@ export const CreateImageRegistryPanel: FC = () => {
 
   const formik = useFormik<ImageRegistryFormValues>({
     initialValues: {
-      isCreating: true,
-      name: "",
-      description: "",
-      sourceProject: "default",
-      cluster: "",
-      protocol: "lxd",
+      isCreating: false,
+      name: registry?.name ?? "",
+      description: registry?.description ?? "",
+      sourceProject: registry?.config?.source_project ?? "",
+      cluster: registry?.config?.cluster ?? "",
+      protocol: registry?.protocol ?? "lxd",
+      url: registry?.config?.url ?? "",
     },
-    validationSchema: schema,
+    enableReinitialize: true,
     onSubmit: () => {
-      createImageRegistry(JSON.stringify(getPayload()))
+      updateImageRegistry(registry?.name ?? "", JSON.stringify(getPayload()))
         .then(() => {
           toastNotify.success(
             <>
@@ -89,7 +77,7 @@ export const CreateImageRegistryPanel: FC = () => {
               <ImageRegistryRichChip
                 imageRegistryName={formik.values.name ?? ""}
               />{" "}
-              created.
+              updated.
             </>,
           );
 
@@ -99,17 +87,26 @@ export const CreateImageRegistryPanel: FC = () => {
           closePanel();
         })
         .catch((e) => {
-          notify.failure("Image registry creation failed", e);
+          notify.failure("Image registry update failed", e);
           formik.setSubmitting(false);
         });
     },
   });
 
+  if (isLoading) {
+    return <Spinner text="Loading image registry..." />;
+  }
+
+  if (error || !registry) {
+    notify.failure("Loading image registry failed", error);
+    return null;
+  }
+
   return (
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create image registry</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>Edit image registry</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">
@@ -137,7 +134,7 @@ export const CreateImageRegistryPanel: FC = () => {
             }
             loading={formik.isSubmitting}
           >
-            Create
+            Save
           </ActionButton>
         </SidePanel.Footer>
       </SidePanel>

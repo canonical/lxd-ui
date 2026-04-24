@@ -60,3 +60,16 @@ export const createImageRegistry = async (body: string): Promise<void> => {
     body: body,
   }).then(handleResponse);
 };
+
+export const updateImageRegistry = async (
+  name: string,
+  body: string,
+): Promise<void> => {
+  await fetch(`${ROOT_PATH}/1.0/image-registries/${encodeURIComponent(name)}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  }).then(handleResponse);
+};
