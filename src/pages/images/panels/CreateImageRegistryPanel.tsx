@@ -72,6 +72,7 @@ export const CreateImageRegistryPanel: FC = () => {
 
   const formik = useFormik<ImageRegistryFormValues>({
     initialValues: {
+      isCreating: true,
       name: "",
       description: "",
       sourceProject: "default",

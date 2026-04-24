@@ -19,11 +19,9 @@ import { ImageRegistryForm } from "../ImageRegistryForm";
 import ImageRegistryRichChip from "../ImageRegistryRichChip";
 import type { LxdImageRegistry, LxdImageRegistryConfig } from "types/image";
 import { useImageRegistry } from "context/useImageRegistries";
-import { useParams } from "react-router-dom";
 
 export const EditImageRegistryPanel: FC = () => {
   const panelParams = usePanelParams();
-  const params = useParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -31,16 +29,7 @@ export const EditImageRegistryPanel: FC = () => {
     data: registry,
     error,
     isLoading,
-  } = useImageRegistry(params.name ?? "");
-
-  if (isLoading) {
-    return <Spinner text="Loading image registry..." />;
-  }
-
-  if (error || !registry) {
-    notify.failure("Loading image registry failed", error);
-    return null;
-  }
+  } = useImageRegistry(panelParams.imageRegistry ?? "");
 
   const closePanel = () => {
     panelParams.clear();
@@ -55,7 +44,6 @@ export const EditImageRegistryPanel: FC = () => {
     };
     const payload = {
       description: formik.values.description,
-      protocol: formik.values.protocol,
     } as Partial<LxdImageRegistry>;
 
     if (isSimpleStreams) {
@@ -71,14 +59,17 @@ export const EditImageRegistryPanel: FC = () => {
 
   const formik = useFormik<ImageRegistryFormValues>({
     initialValues: {
-      name: registry.name,
-      description: registry.description,
-      sourceProject: registry.config?.source_project ?? "",
-      cluster: registry.config?.cluster ?? "",
-      protocol: registry.protocol,
+      isCreating: false,
+      name: registry?.name ?? "",
+      description: registry?.description ?? "",
+      sourceProject: registry?.config?.source_project ?? "",
+      cluster: registry?.config?.cluster ?? "",
+      protocol: registry?.protocol ?? "lxd",
+      url: registry?.config?.url ?? "",
     },
+    enableReinitialize: true,
     onSubmit: () => {
-      updateImageRegistry(registry.name, JSON.stringify(getPayload()))
+      updateImageRegistry(registry?.name ?? "", JSON.stringify(getPayload()))
         .then(() => {
           toastNotify.success(
             <>
@@ -91,7 +82,7 @@ export const EditImageRegistryPanel: FC = () => {
           );
 
           queryClient.invalidateQueries({
-            queryKey: [queryKeys.imageRegistries, registry.name],
+            queryKey: [queryKeys.imageRegistries],
           });
           closePanel();
         })
@@ -101,6 +92,15 @@ export const EditImageRegistryPanel: FC = () => {
         });
     },
   });
+
+  if (isLoading) {
+    return <Spinner text="Loading image registry..." />;
+  }
+
+  if (error || !registry) {
+    notify.failure("Loading image registry failed", error);
+    return null;
+  }
 
   return (
     <>

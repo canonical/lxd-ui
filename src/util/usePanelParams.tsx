@@ -18,8 +18,7 @@ export interface PanelHelper {
   target: string | null;
   deviceName: string | null;
   localPeering: string | null;
-  createImageRegistry: string | null;
-  editImageRegistry: string | null;
+  imageRegistry: string | null;
   clear: () => void;
   openCreateClusterGroup: () => void;
   openCreateClusterLink: () => void;
@@ -46,7 +45,7 @@ export interface PanelHelper {
   openCreateLocalPeering: () => void;
   openEditLocalPeering: (peering: string) => void;
   openCreateImageRegistry: () => void;
-  openEditImageRegistry: (registry: string) => void;
+  openEditImageRegistry: (imageRegistry: string) => void;
 }
 
 export const panels = {
@@ -120,7 +119,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("device-name");
     newParams.delete("local-peering");
     newParams.delete("create-image-registry");
-    newParams.delete("edit-image-registry");
+    newParams.delete("image-registry");
     setParams(newParams);
     craftResizeEvent();
   };
@@ -141,8 +140,7 @@ const usePanelParams = (): PanelHelper => {
     target: params.get("target") ?? "",
     deviceName: params.get("device-name"),
     localPeering: params.get("local-peering"),
-    createImageRegistry: params.get("create-image-registry"),
-    editImageRegistry: params.get("edit-image-registry"),
+    imageRegistry: params.get("image-registry"),
 
     clear: () => {
       clearParams();
@@ -282,8 +280,10 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.createImageRegistry);
     },
 
-    openEditImageRegistry: (registry) => {
-      setPanelParams(panels.editImageRegistry, { registry });
+    openEditImageRegistry: (imageRegistry) => {
+      setPanelParams(panels.editImageRegistry, {
+        "image-registry": imageRegistry,
+      });
     },
   };
 };
