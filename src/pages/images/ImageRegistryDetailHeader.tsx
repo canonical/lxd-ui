@@ -7,6 +7,7 @@ import type { RenameHeaderValues } from "components/RenameHeader";
 import { useFormik } from "formik";
 import ImageRegistryRichChip from "pages/images/ImageRegistryRichChip";
 import DeleteImageRegistryBtn from "pages/images/actions/DeleteImageRegistryBtn";
+import EditImageRegistryButton from "pages/images/actions/EditImageRegistryButton";
 import type { LxdImageRegistry } from "types/image";
 import { useImageRegistriesEntitlements } from "util/entitlements/images";
 import { checkDuplicateName } from "util/helpers";
@@ -101,6 +102,7 @@ const ImageRegistryDetailHeader: FC<Props> = ({ imageRegistry }) => {
         </Link>,
       ]}
       controls={[
+        <EditImageRegistryButton key="edit" imageRegistry={imageRegistry} />,
         <DeleteImageRegistryBtn key="delete" imageRegistry={imageRegistry} />,
       ]}
       isLoaded={Boolean(imageRegistry.name)}

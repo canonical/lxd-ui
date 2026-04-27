@@ -25,7 +25,9 @@ export const ClusterLinkSelector: FC<Props> = ({ formik }) => {
     text: link.name,
     label: (
       <div className="cluster-link-label">
-        <span className="cluster-link-name">{link.name}</span>
+        <span className="cluster-link-name u-truncate" title={link.name}>
+          {link.name}
+        </span>
         <span className="cluster-link-description u-text--muted">
           {link.type === "bidirectional"
             ? "public and private images"

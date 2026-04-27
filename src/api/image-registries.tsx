@@ -83,3 +83,16 @@ export const deleteImageRegistry = async (name: string): Promise<void> => {
     method: "DELETE",
   }).then(handleResponse);
 };
+
+export const updateImageRegistry = async (
+  name: string,
+  body: string,
+): Promise<void> => {
+  await fetch(`${ROOT_PATH}/1.0/image-registries/${encodeURIComponent(name)}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  }).then(handleResponse);
+};

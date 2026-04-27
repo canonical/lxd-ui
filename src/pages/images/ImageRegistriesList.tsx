@@ -23,6 +23,7 @@ import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
 import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { CreateImageRegistryPanel } from "./panels/CreateImageRegistryPanel";
+import { ImageRegistryProtocol } from "./ImageRegistryProtocol";
 
 const ImageRegistriesList: FC = () => {
   const notify = useNotify();
@@ -36,19 +37,30 @@ const ImageRegistriesList: FC = () => {
   }
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Description", sortKey: "description" },
+    { content: "Name", sortKey: "name", className: "name", title: "Name" },
+    {
+      content: "Description",
+      sortKey: "description",
+      className: "description",
+      title: "Description",
+    },
     {
       content: "Protocol",
       sortKey: "protocol",
+      className: "protocol",
+      title: "Protocol",
     },
     {
       content: "Built-in",
       sortKey: "builtin",
+      className: "built-in",
+      title: "Built-in",
     },
     {
       content: "Public",
       sortKey: "public",
+      className: "public",
+      title: "Public",
     },
   ];
 
@@ -63,21 +75,36 @@ const ImageRegistriesList: FC = () => {
       .map((value) => value.toLowerCase() === "yes"),
   };
 
-  const filteredImageRegistries = imageRegistries.filter(
-    (item) =>
+  const filteredImageRegistries = imageRegistries.filter((item) => {
+    const description = item.description ?? "";
+    const sourceProject = item.config?.source_project ?? "";
+    const cluster = item.config?.cluster ?? "";
+    const url = item?.config?.url ?? "";
+
+    return (
       (!filters.queries.length ||
         filters.queries.some(
           (query) =>
-            (item?.description ?? "").toLowerCase().includes(query) ||
-            item.name.toLowerCase().includes(query),
+            description.toLowerCase().includes(query) ||
+            item.name.toLowerCase().includes(query) ||
+            sourceProject.includes(query) ||
+            cluster.includes(query) ||
+            url.includes(query),
         )) &&
       (!filters.protocol.length || filters.protocol.includes(item.protocol)) &&
       (!filters.builtin.length || filters.builtin.includes(item.builtin)) &&
       (!filters.public.length ||
-        filters.public.includes(isImageRegistryPublic(item))),
-  );
+        filters.public.includes(isImageRegistryPublic(item)))
+    );
+  });
 
   const rows = filteredImageRegistries.map((registry) => {
+    const isPublicRegistry = isImageRegistryPublic(registry);
+    const isSimpleStreams = registry.protocol === "simplestreams";
+    const url = registry.config?.url ?? "";
+    const sourceProject = registry.config?.source_project ?? "";
+    const cluster = registry.config?.cluster ?? "";
+
     return {
       key: registry.name,
       name: registry.name,
@@ -94,6 +121,7 @@ const ImageRegistriesList: FC = () => {
           role: "rowheader",
           "aria-label": "Name",
           title: `Image registry ${registry.name}`,
+          className: "name",
         },
         {
           content: (
@@ -103,21 +131,25 @@ const ImageRegistriesList: FC = () => {
           ),
           role: "cell",
           "aria-label": "Description",
+          className: "description",
         },
         {
-          content: registry.protocol,
+          content: <ImageRegistryProtocol imageRegistry={registry} />,
           role: "cell",
           "aria-label": "Protocol",
+          className: "protocol",
         },
         {
           content: registry.builtin ? "Yes" : "No",
           role: "cell",
           "aria-label": "Built-in",
+          className: "built-in",
         },
         {
-          content: isImageRegistryPublic(registry) ? "Yes" : "No",
+          content: isPublicRegistry ? "Yes" : "No",
           role: "cell",
           "aria-label": "Public",
+          className: "public",
         },
       ],
       sortData: {
@@ -125,7 +157,10 @@ const ImageRegistriesList: FC = () => {
         description: registry.description.toLowerCase(),
         protocol: registry.protocol.toLowerCase(),
         builtin: registry.builtin,
-        public: isImageRegistryPublic(registry),
+        public: isPublicRegistry,
+        source: isSimpleStreams
+          ? url.toLowerCase()
+          : `${cluster}/${sourceProject}`.toLowerCase(),
       },
     };
   });
@@ -151,6 +186,7 @@ const ImageRegistriesList: FC = () => {
     <>
       <CustomLayout
         contentClassName="u-no-padding--bottom"
+        mainClassName="image-registry-list"
         header={
           <PageHeader>
             <PageHeader.Left>
@@ -191,6 +227,7 @@ const ImageRegistriesList: FC = () => {
             >
               <MainTable
                 id="image-registries-table"
+                className="image-registry-table"
                 defaultSort="Name"
                 headers={headers}
                 rows={rows}
