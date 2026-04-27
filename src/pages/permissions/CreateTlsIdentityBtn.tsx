@@ -1,23 +1,38 @@
-import { Button, Icon } from "@canonical/react-components";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
 import type { FC } from "react";
+import { Button, Icon } from "@canonical/react-components";
+import {
+  largeScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   openPanel: () => void;
+  className?: string;
+  onClose?: () => void;
 }
 
-const CreateTlsIdentityBtn: FC<Props> = ({ openPanel }) => {
-  const isSmallScreen = useIsScreenBelow();
+const CreateTlsIdentityBtn: FC<Props> = ({ openPanel, className, onClose }) => {
   const { canCreateIdentities } = useServerEntitlements();
+  const isSmallOrMediumScreen = useIsScreenBelow(largeScreenBreakpoint);
+
+  const handleClick = () => {
+    openPanel();
+    onClose?.();
+  };
+
+  const buttonClassName = className || "u-float-right u-no-margin--bottom";
+  const appearance = className?.includes("p-contextual-menu__link")
+    ? "base"
+    : "positive";
 
   return (
     <>
       <Button
-        appearance="positive"
-        className="u-float-right u-no-margin--bottom"
-        onClick={openPanel}
-        hasIcon={!isSmallScreen}
+        appearance={appearance}
+        className={buttonClassName}
+        onClick={handleClick}
+        hasIcon
         title={
           canCreateIdentities()
             ? ""
@@ -25,7 +40,7 @@ const CreateTlsIdentityBtn: FC<Props> = ({ openPanel }) => {
         }
         disabled={!canCreateIdentities()}
       >
-        {!isSmallScreen && <Icon name="plus" light />}
+        <Icon name="plus" light={!isSmallOrMediumScreen} />
         <span>Create TLS Identity</span>
       </Button>
     </>
