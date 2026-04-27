@@ -41,10 +41,16 @@ const CreateStorageBucketPanel: FC = () => {
 
   const bucketSchema = Yup.object().shape({
     name: Yup.string()
+      .min(3, "Name must be at least 3 characters")
+      .max(63, "Name must be at most 63 characters")
+      .matches(
+        /^[a-z0-9][a-z0-9.-]*$/,
+        "Name must contain only lowercase letters, numbers, periods, or hyphens and must start with a letter or number",
+      )
       .test(
         ...testDuplicateStorageBucketName(panelParams.project, controllerState),
       )
-      .required("Bucket name is required"),
+      .required("Storage bucket name is required"),
     pool: Yup.string().required("Pool must have a Ceph Object driver"),
   });
 
