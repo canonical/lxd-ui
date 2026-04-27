@@ -1,33 +1,19 @@
 import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import type {
-  CreateInstanceFormValues,
-  ResourceLimitsFormValues,
-} from "types/forms/instanceAndProfile";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import type { CpuLimit, MemoryLimit } from "types/limits";
-import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
+import {
+  cpuLimitToPayload,
+  memoryLimitToPayload,
+} from "util/instanceAndProfilePayloads";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
-
-export const resourceLimitsPayload = (values: ResourceLimitsFormValues) => {
-  return {
-    [getInstanceField("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
-    [getInstanceField("limits_memory")]: memoryLimitToPayload(
-      values.limits_memory,
-    ),
-    [getInstanceField("limits_memory_swap")]: values.limits_memory_swap,
-    [getInstanceField("limits_disk_priority")]:
-      values.limits_disk_priority?.toString(),
-    [getInstanceField("limits_processes")]: values.limits_processes?.toString(),
-  };
-};
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

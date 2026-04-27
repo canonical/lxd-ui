@@ -1,27 +1,5 @@
-import type { LxdProfile } from "types/profile";
-import type { LxdInstance } from "types/instance";
 import type { OptionHTMLAttributes } from "react";
-import type { LxdConfigPair } from "types/config";
-import type { LxdProject } from "types/project";
-import type { LxdStorageVolume } from "types/storage";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-
-export const getUnhandledKeyValues = (
-  item:
-    | LxdConfigPair
-    | LxdInstance
-    | LxdProfile
-    | LxdProject
-    | LxdStorageVolume,
-  handledKeys: Set<string>,
-) => {
-  return Object.fromEntries(
-    Object.entries(item).filter(
-      ([key]) =>
-        !handledKeys.has(key) && !key.startsWith("cloud-init.ssh-keys."),
-    ),
-  );
-};
 
 const collapsedViewMaxWidth = 1420;
 export const figureCollapsedScreen = (): boolean =>

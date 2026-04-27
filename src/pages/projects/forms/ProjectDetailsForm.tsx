@@ -16,7 +16,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { LxdConfigPair } from "types/config";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import NetworkSelector from "./NetworkSelector";
 import { useNetworks } from "context/useNetworks";

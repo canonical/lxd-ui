@@ -5,26 +5,14 @@ import CloudInitConfig from "components/forms/CloudInitConfig";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceField } from "util/instanceConfigFields";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import classnames from "classnames";
 import { getConfigRowMetadata } from "util/configInheritance";
 import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { getProfileFromSource } from "util/devices";
-import type {
-  CloudInitFormValues,
-  CloudInitKey,
-} from "types/forms/instanceAndProfile";
-
-export const cloudInitPayload = (values: CloudInitFormValues) => {
-  return {
-    [getInstanceField("cloud_init_network_config")]:
-      values.cloud_init_network_config,
-    [getInstanceField("cloud_init_user_data")]: values.cloud_init_user_data,
-    [getInstanceField("cloud_init_vendor_data")]: values.cloud_init_vendor_data,
-  };
-};
+import type { CloudInitKey } from "types/forms/instanceAndProfile";
+export { cloudInitPayload } from "util/instanceAndProfilePayloads";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

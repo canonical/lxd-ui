@@ -32,34 +32,6 @@ export const isEmptyDevice = (device: FormDevice): boolean =>
   device.name.length === 0 &&
   (device.network?.length ?? 0) === 0;
 
-export const formDeviceToPayload = (devices: FormDevice[]) => {
-  return devices
-    .filter((item) => !isEmptyDevice(item))
-    .reduce((obj, { name, ...item }) => {
-      if (
-        item.type === "unknown" ||
-        item.type === "custom-nic" ||
-        item.type === ISO_VOLUME_TYPE
-      ) {
-        return {
-          ...obj,
-          [name]: item.bare,
-        };
-      }
-      if (item.type === "disk") {
-        const { bare, ...rest } = item;
-        item = { ...bare, ...rest };
-      }
-      if ("size" in item && !item.size?.match(/^\d/)) {
-        delete item.size;
-      }
-      return {
-        ...obj,
-        [name]: item,
-      };
-    }, {});
-};
-
 export const parseDevices = (devices: LxdDevices): FormDevice[] => {
   return Object.keys(devices).map((key) => {
     const item = devices[key];

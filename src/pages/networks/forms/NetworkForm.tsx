@@ -28,7 +28,7 @@ import { slugify } from "util/slugify";
 import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";

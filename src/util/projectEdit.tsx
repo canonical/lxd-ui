@@ -11,7 +11,7 @@ import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestricti
 import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
 import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
 import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
-import { getUnhandledKeyValues } from "util/formFields";
+import { getUnhandledKeyValues } from "util/instanceAndProfilePayloads";
 import { getDefaultNetwork, getDefaultStoragePool } from "./helpers";
 import type { LxdProfile } from "types/profile";
 import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";

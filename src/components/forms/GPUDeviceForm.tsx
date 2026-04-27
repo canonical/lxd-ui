@@ -32,7 +32,7 @@ import {
   getExistingDeviceNames,
   getProfileFromSource,
 } from "util/devices";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import GPUDeviceInput from "components/forms/GPUDeviceInput";
 import { useProfiles } from "context/useProfiles";
 import DocLink from "components/DocLink";
@@ -58,9 +58,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
   }
 
   const inheritedGPUs = getInheritedGPUs(formik.values, profiles);
-
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
-
   const addGPUCard = (card: GpuCard) => {
     const drmId = card.drm?.id ? card.drm.id.toString() : undefined;
 

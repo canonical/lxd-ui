@@ -3,10 +3,10 @@ import type { FormDevice } from "types/formDevice";
 import {
   addNicDevice,
   addNoneDevice,
-  formDeviceToPayload,
   parseDevices,
   removeNicDevice,
 } from "./formDevices";
+import { formDeviceToPayload } from "util/instanceAndProfilePayloads";
 import { objectToYaml, yamlToObject } from "./yaml";
 import type { LxdInstance } from "types/instance";
 

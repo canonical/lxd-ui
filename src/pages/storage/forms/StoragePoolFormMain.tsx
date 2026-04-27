@@ -15,7 +15,7 @@ import { isCephDriver, isCephFSDriver } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ScrollableForm from "components/ScrollableForm";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { isClusteredServer } from "util/settings";
 import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
 import { isStoragePoolWithSize } from "util/storagePoolForm";

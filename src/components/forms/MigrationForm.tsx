@@ -1,23 +1,15 @@
 import type { FC } from "react";
 import { Select } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import type { MigrationFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import {
   clusterEvacuationOptions,
   optionAllowDeny,
 } from "util/instanceOptions";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
-
-export const migrationPayload = (values: MigrationFormValues) => {
-  return {
-    [getInstanceField("migration_stateful")]: values.migration_stateful,
-    [getInstanceField("cluster_evacuate")]: values.cluster_evacuate,
-  };
-};
+export { migrationPayload } from "util/instanceAndProfilePayloads";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

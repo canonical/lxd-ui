@@ -5,26 +5,10 @@ import type { FormikProps } from "formik/dist/types";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
-import { getInstanceField } from "util/instanceConfigFields";
-
-export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
-  return {
-    name: values.name,
-    description: values.description,
-    type: values.instanceType,
-    profiles: values.profiles,
-  };
-};
-
-export const instanceEditConfigPayload = (values: EditInstanceFormValues) => {
-  return {
-    [getInstanceField("placement_group")]: values.placement_group,
-  };
-};
 
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;

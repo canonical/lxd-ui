@@ -1,26 +1,14 @@
 import type { LxdProfile } from "types/profile";
 import type { LxdInstance } from "types/instance";
-import { formDeviceToPayload, parseDevices } from "util/formDevices";
+import { parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
-import { getInstanceConfigKeys } from "util/instanceConfigFields";
-import {
-  instanceEditConfigPayload,
-  instanceEditDetailPayload,
-} from "pages/instances/forms/EditInstanceDetails";
-import { resourceLimitsPayload } from "components/forms/ResourceLimitsForm";
-import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
-import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
-import { cloudInitPayload } from "components/forms/CloudInitForm";
-import { getUnhandledKeyValues } from "util/formFields";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
+import type {
+  EditInstanceFormValues,
+  EditProfileFormValues,
+  SshKey,
+} from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
-import type { EditProfileFormValues } from "types/forms/instanceAndProfile";
-import { migrationPayload } from "components/forms/MigrationForm";
-import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { bootPayload } from "util/instanceBoot";
-import type { SshKey } from "types/forms/instanceAndProfile";
-import { sshKeyPayload } from "components/forms/SshKeyForm";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,
@@ -124,38 +112,6 @@ export const getProfileEditValues = (
   };
 };
 
-export const getInstancePayload = (
-  instance: LxdInstance,
-  values: EditInstanceFormValues,
-) => {
-  const handledConfigKeys = getInstanceConfigKeys();
-  const handledKeys = new Set([
-    "name",
-    "description",
-    "type",
-    "profiles",
-    "devices",
-    "config",
-  ]);
-
-  return {
-    ...instanceEditDetailPayload(values),
-    devices: formDeviceToPayload(values.devices),
-    config: {
-      ...instanceEditConfigPayload(values),
-      ...resourceLimitsPayload(values),
-      ...securityPoliciesPayload(values),
-      ...snapshotsPayload(values),
-      ...migrationPayload(values),
-      ...bootPayload(values),
-      ...cloudInitPayload(values),
-      ...sshKeyPayload(values),
-      ...getUnhandledKeyValues(instance.config, handledConfigKeys),
-    },
-    ...getUnhandledKeyValues(instance, handledKeys),
-  };
-};
-
 export const InstanceEditSchema: Yup.ObjectSchema<{
   name: string;
   instanceType: string;
@@ -163,12 +119,6 @@ export const InstanceEditSchema: Yup.ObjectSchema<{
   name: Yup.string().required("Instance name is required"),
   instanceType: Yup.string().required("Instance type is required"),
 });
-
-export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
-  if (formik.values.readOnly) {
-    formik.setFieldValue("readOnly", false);
-  }
-};
 
 export const isInstanceCreation = (
   formik: InstanceAndProfileFormikProps,

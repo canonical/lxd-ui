@@ -14,7 +14,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { FormikProps } from "formik/dist/types";
 import NetworkAclRuleModal from "pages/networks/forms/NetworkAclRuleModal";
 import NetworkAclRuleTable from "pages/networks/forms/NetworkAclRuleTable";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { slugify } from "util/slugify";
 import { YAML_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import YamlForm from "components/forms/YamlForm";
