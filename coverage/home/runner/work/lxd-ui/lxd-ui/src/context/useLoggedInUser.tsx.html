@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>27/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>6/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -89,53 +89,53 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
-<span class="cline-any cline-yes">8139x</span>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">367x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
+<span class="cline-any cline-yes">8394x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useSettings } from "./useSettings";
 import { useIdentity } from "./useIdentities";
 import { getIdentityName } from "util/permissionIdentities";
 import { AUTH_METHOD } from "util/authentication";
 import { useAuth } from "context/auth";
 &nbsp;
-export const useLoggedInUser = () =&gt; {
-  const { data: settings } = useSettings();
-  const { authMethod } = useAuth();
+export const useLoggedInUser = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
+  const { authMethod } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 &nbsp;
-  const id = settings?.auth_user_name || "";
+  const id = <span class="cstat-no" title="statement not covered" >settings?.auth_user_name || <span class="branch-1 cbranch-no" title="branch not covered" >"";</span></span>
 &nbsp;
   const identityQueryEnabled =
-    !!id &amp;&amp; !!authMethod &amp;&amp; authMethod !== AUTH_METHOD.UNIX;
-  const { data: identity } = useIdentity(
+<span class="cstat-no" title="statement not covered" >    !!id &amp;&amp; !!authMethod &amp;&amp; authMethod !== AUTH_METHOD.UNIX;</span>
+  const { data: identity } = <span class="cstat-no" title="statement not covered" >useIdentity(</span>
     id,
     authMethod || "",
     identityQueryEnabled,
   );
 &nbsp;
-  return {
+<span class="cstat-no" title="statement not covered" >  return {</span>
     loggedInUserName:
       authMethod === AUTH_METHOD.<span class="branch-0 cbranch-no" title="branch not covered" >UNIX ? id : g</span>etIdentityName(identity),
     loggedInUserID: id,
@@ -148,7 +148,7 @@ export const useLoggedInUser = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-23T17:01:28.476Z
+                at 2026-04-27T08:05:19.654Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

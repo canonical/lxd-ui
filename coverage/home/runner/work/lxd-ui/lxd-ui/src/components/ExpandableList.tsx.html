@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">63.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/40</span>
+                <span class='fraction'>26/41</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.64% </span>
+                <span class="strong">68.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/34</span>
+                <span class='fraction'>24/35</span>
             </div>
         
             
@@ -97,23 +97,25 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -125,12 +127,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">910x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">944x</span>
+<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, ReactNode } from "react";
 import { useState } from "react";
 import { Button } from "@canonical/react-components";
@@ -139,21 +141,22 @@ const DISPLAY_COUNT = 5;
 &nbsp;
 interface Props {
   items: ReactNode[];
+  displayCount?: number;
 }
 &nbsp;
-const ExpandableList: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> items }) =&gt; {
-  const [displayCount, setDisplayCount] = <span class="cstat-no" title="statement not covered" >useState(DISPLAY_COUNT);</span>
+const ExpandableList: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> items, displayCount = DISPLAY_COUNT }) =&gt; {
+  const [currentDisplayCount, setCurrentDisplayCount] = <span class="cstat-no" title="statement not covered" >useState(displayCount);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;&gt;
-      {items.slice(0, displayCount)}
-      {displayCount &lt; items.<span class="branch-0 cbranch-no" title="branch not covered" >length &amp;&amp; (</span>
+      {items.slice(0, currentDisplayCount)}
+      {currentDisplayCount &lt; items.<span class="branch-0 cbranch-no" title="branch not covered" >length &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >          appearance="link"</span>
 <span class="cstat-no" title="statement not covered" >          className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >          small</span>
 <span class="cstat-no" title="statement not covered" >          onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setDisplayCount(items.length);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setCurrentDisplayCount(items.length);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            e.stopPropagation();</span></span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
@@ -172,7 +175,7 @@ export default ExpandableList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-23T17:01:28.476Z
+                at 2026-04-27T08:05:19.654Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
