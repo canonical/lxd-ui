@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
   Button,
@@ -27,6 +27,7 @@ interface Props {
   onDelete: (key: string) => void;
   value?: string;
   clusteredValue?: ClusterSpecificValues;
+  onSuccess?: (message: ReactNode) => void;
 }
 
 const SettingForm: FC<Props> = ({
@@ -34,6 +35,7 @@ const SettingForm: FC<Props> = ({
   onDelete,
   value,
   clusteredValue,
+  onSuccess,
 }) => {
   const { isRestricted } = useAuth();
   const [isEditMode, setEditMode] = useState(false);
@@ -68,7 +70,13 @@ const SettingForm: FC<Props> = ({
 
     mutation
       .then(() => {
-        toastNotify.success(<>Setting {settingLabel} updated.</>);
+        const message = <>Setting {settingLabel} updated.</>;
+        if (onSuccess) {
+          onSuccess(message);
+        } else {
+          toastNotify.success(message);
+        }
+
         setEditMode(false);
       })
       .catch((e) => {

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { ClusterSpecificValues } from "types/cluster";
 import SettingForm from "pages/settings/SettingForm";
@@ -21,6 +22,7 @@ export const getSettingRow = (
   clusteredValue: ClusterSpecificValues,
   deleteUserSetting: (key: string) => void,
   settings?: LxdSettings,
+  onSuccess?: (message: ReactNode) => void,
 ): MainTableRow => {
   const isDefault = !Object.keys(settings?.config ?? {}).some(
     (key) => key === configField.key,
@@ -57,6 +59,7 @@ export const getSettingRow = (
             value={value}
             clusteredValue={clusteredValue}
             onDelete={deleteUserSetting}
+            onSuccess={onSuccess}
           />
         ),
         role: "cell",
