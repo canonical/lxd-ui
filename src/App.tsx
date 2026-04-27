@@ -102,6 +102,9 @@ const ImageRegistriesList = lazy(
   async () => import("pages/images/ImageRegistriesList"),
 );
 
+const ImageRegistryDetail = lazy(
+  async () => import("pages/images/ImageRegistryDetail"),
+);
 const StorageVolumeDetail = lazy(
   async () => import("pages/storage/StorageVolumeDetail"),
 );
@@ -519,6 +522,14 @@ const App: FC = () => {
         <Route
           path={`${ROOT_PATH}/ui/image-registries`}
           element={<ProtectedRoute outlet={<ImageRegistriesList />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/image-registry/:name`}
+          element={<ProtectedRoute outlet={<ImageRegistryDetail />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/image-registry/:name/:activeTab`}
+          element={<ProtectedRoute outlet={<ImageRegistryDetail />} />}
         />
         <Route
           path={`${ROOT_PATH}/ui/server`}

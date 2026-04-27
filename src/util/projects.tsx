@@ -15,7 +15,7 @@ export const projectSubpages = [
   "network-acls",
   "network-ipam",
   "networks",
-  "images",
+  "local-images",
   "storage",
   "operations",
   "configuration",
@@ -46,6 +46,23 @@ export const getSubpageFromUrl = (url: string): string | undefined => {
   }
 
   return undefined;
+};
+
+export const getProjectSwitchTarget = (
+  url: string,
+  projectName: string,
+): string => {
+  const urlWithoutQuery = url.split("?")[0];
+
+  if (
+    urlWithoutQuery.includes("/ui/image-registry/") ||
+    urlWithoutQuery.includes("/ui/image-registries")
+  ) {
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instances`;
+  }
+
+  const targetSection = getSubpageFromUrl(url) ?? "instances";
+  return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/${targetSection}`;
 };
 
 export const isProjectEmpty = (project: LxdProject): boolean => {

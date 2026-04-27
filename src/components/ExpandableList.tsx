@@ -6,21 +6,22 @@ const DISPLAY_COUNT = 5;
 
 interface Props {
   items: ReactNode[];
+  displayCount?: number;
 }
 
-const ExpandableList: FC<Props> = ({ items }) => {
-  const [displayCount, setDisplayCount] = useState(DISPLAY_COUNT);
+const ExpandableList: FC<Props> = ({ items, displayCount = DISPLAY_COUNT }) => {
+  const [currentDisplayCount, setCurrentDisplayCount] = useState(displayCount);
 
   return (
     <>
-      {items.slice(0, displayCount)}
-      {displayCount < items.length && (
+      {items.slice(0, currentDisplayCount)}
+      {currentDisplayCount < items.length && (
         <Button
           appearance="link"
           className="u-no-margin--bottom"
           small
           onClick={(e) => {
-            setDisplayCount(items.length);
+            setCurrentDisplayCount(items.length);
             e.stopPropagation();
           }}
         >

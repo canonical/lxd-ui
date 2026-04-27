@@ -2,10 +2,9 @@ import type { Dispatch, FC, SetStateAction } from "react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { LxdProject } from "types/project";
-import { getSubpageFromUrl } from "util/projects";
+import { getProjectSwitchTarget } from "util/projects";
 import { filterUsedByType } from "util/usedBy";
 import { pluralize } from "util/helpers";
-import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   projects: LxdProject[];
@@ -20,8 +19,6 @@ const NavigationProjectSelectorList: FC<Props> = ({
   const [query, setQuery] = useState("");
 
   onMount(setQuery);
-
-  const targetSection = getSubpageFromUrl(location.pathname) ?? "instances";
 
   const getInstanceCount = (project: LxdProject) => {
     const count = filterUsedByType("instance", project.used_by).length;
@@ -47,7 +44,7 @@ const NavigationProjectSelectorList: FC<Props> = ({
         .map((project) => (
           <div key={project.name} className="p-contextual-menu__group">
             <Link
-              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/${targetSection}`}
+              to={getProjectSwitchTarget(location.pathname, project.name)}
               className="p-contextual-menu__link link"
             >
               <div title={project.name} className="u-truncate name">

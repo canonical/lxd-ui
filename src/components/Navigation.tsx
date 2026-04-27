@@ -29,7 +29,6 @@ import type { Location } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
-import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
 import { getReportBugURL } from "util/reportBug";
@@ -45,7 +44,8 @@ const initialiseOpenNavMenus = (location: Location) => {
     location.pathname.includes("/cluster/") ||
     location.pathname.includes("/placement-groups");
   const openImages =
-    location.pathname.includes("/image-registries") ||
+    location.pathname.includes("ui/image-registries") ||
+    location.pathname.includes("ui/image-registry/") ||
     location.pathname.includes("/local-images");
 
   const initialOpenMenus: AccordionNavMenu[] = [];
@@ -72,23 +72,7 @@ const initialiseOpenNavMenus = (location: Location) => {
   return initialOpenMenus;
 };
 
-const ALL_PROJECTS = "All projects";
-
-const initializeProjectName = (
-  isAllProjectsFromUrl: boolean,
-  isLoading: boolean,
-  project: LxdProject | undefined,
-) => {
-  if (isAllProjectsFromUrl) {
-    return ALL_PROJECTS;
-  }
-
-  if (project && !isLoading) {
-    return project.name;
-  }
-
-  return "default";
-};
+export const ALL_PROJECTS = "All projects";
 
 const Navigation: FC = () => {
   const { isRestricted, authMethod, isAuthenticated } = useAuth();
@@ -97,13 +81,11 @@ const Navigation: FC = () => {
     project,
     isAllProjects: isAllProjectsFromUrl,
     canViewProject,
-    isLoading,
+    projectName,
+    setProjectName,
   } = useCurrentProject();
 
   const isSmallScreen = useIsScreenBelow();
-  const [projectName, setProjectName] = useState(
-    initializeProjectName(isAllProjectsFromUrl, isLoading, project),
-  );
   const isAllProjects = projectName === ALL_PROJECTS;
   const { hasCustomVolumeIso, hasAccessManagement, hasImageRegistries } =
     useSupportedFeatures();
@@ -469,6 +451,7 @@ const Navigation: FC = () => {
                         <NavAccordion
                           baseUrls={[
                             `${ROOT_PATH}/ui/image-registries`,
+                            `${ROOT_PATH}/ui/image-registry/`,
                             `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/local-images`,
                           ]}
                           title={getNavTitle("image")}
@@ -493,6 +476,7 @@ const Navigation: FC = () => {
                             <NavLink
                               to={`${ROOT_PATH}/ui/image-registries`}
                               title={getNavTitle("image registries")}
+                              activeUrlMatches={["ui/image-registry/"]}
                               onClick={softToggleMenu}
                             >
                               Image registries

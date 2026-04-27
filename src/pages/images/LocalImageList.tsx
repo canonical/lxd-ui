@@ -19,19 +19,22 @@ import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromI
 import {
   getImageAlias,
   getImageName,
+  getImageTypeDisplayName,
   localLxdToRemoteImage,
 } from "util/images";
 import useSortTableData from "util/useSortTableData";
 import SelectableMainTable from "components/SelectableMainTable";
 import BulkDeleteImageBtn from "pages/images/actions/BulkDeleteImageBtn";
-import SelectedTableNotification from "components/SelectedTableNotification";
+import ExpandableList from "components/ExpandableList";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
+import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
 import ImportImageBtn from "pages/images/actions/ImportImageBtn";
 import { useLocalImagesInProject } from "context/useImages";
+import { getArchitectureDisplayName } from "util/architectures";
 import { useImageEntitlements } from "util/entitlements/images";
 
 const LocalImageList: FC = () => {
@@ -130,6 +133,17 @@ const LocalImageList: FC = () => {
     const imageAlias = getImageAlias(image);
     const imageName = getImageName(image);
 
+    const aliasItems =
+      image.aliases && Array.isArray(image.aliases)
+        ? image.aliases
+            .filter((alias) => alias && alias.name)
+            .map((alias) => (
+              <div key={alias.name} className="u-truncate" title={alias.name}>
+                {alias.name}
+              </div>
+            ))
+        : [];
+
     return {
       key: image.fingerprint,
       name: image.fingerprint,
@@ -140,13 +154,16 @@ const LocalImageList: FC = () => {
           "aria-label": "Name",
         },
         {
-          content: imageAlias,
+          content:
+            aliasItems.length > 0 ? (
+              <ExpandableList items={aliasItems} displayCount={2} />
+            ) : null,
           role: "cell",
           "aria-label": "Aliases",
           className: "aliases",
         },
         {
-          content: image.architecture,
+          content: getArchitectureDisplayName(image.architecture),
           role: "cell",
           "aria-label": "Architecture",
           className: "architecture",
@@ -158,7 +175,7 @@ const LocalImageList: FC = () => {
           className: "cached",
         },
         {
-          content: image.type == "virtual-machine" ? "VM" : "Container",
+          content: getImageTypeDisplayName(image),
           role: "cell",
           "aria-label": "Type",
           className: "type",

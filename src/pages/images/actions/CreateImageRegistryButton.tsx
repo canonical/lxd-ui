@@ -16,7 +16,9 @@ export const CreateImageRegistryButton: FC = () => {
       appearance="positive"
       className="u-float-right u-no-margin--bottom"
       title={
-        isDisabled && "You don't have permissions to create image registries"
+        isDisabled
+          ? "You don't have permissions to create image registries"
+          : undefined
       }
       onClick={openCreateImageRegistry}
     >
