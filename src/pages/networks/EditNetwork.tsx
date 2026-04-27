@@ -8,8 +8,8 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
+import { getNetworkNameValidation } from "util/networkForm";
 import { queryKeys } from "util/queryKeys";
-import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { updateNetwork, updateClusterNetwork } from "api/networks";
 import type { NetworkFormValues } from "types/forms/network";
@@ -85,15 +85,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   }, [networkOnMembers]);
 
   const NetworkSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "A network with this name already exists",
-        async (value) =>
-          value === network.name ||
-          checkDuplicateName(value, project, controllerState, "networks"),
-      )
-      .required("Network name is required"),
+    name: getNetworkNameValidation(project, controllerState, network.name),
     network: Yup.string().test(
       "required",
       "Uplink network is required",

@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
-import { checkDuplicateName } from "util/helpers";
+import { getNetworkNameValidation } from "util/networkForm";
 import { ROOT_PATH } from "util/rootPath";
 import {
   createClusterNetwork,
@@ -72,14 +72,7 @@ const CreateNetwork: FC = () => {
   }
 
   const NetworkSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "A network with this name already exists",
-        async (value) =>
-          checkDuplicateName(value, project, controllerState, "networks"),
-      )
-      .required("Network name is required"),
+    name: getNetworkNameValidation(project, controllerState),
   });
 
   const invalidateCache = () => {
