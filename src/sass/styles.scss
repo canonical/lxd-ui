@@ -4,6 +4,7 @@
 @import "vanilla-framework/scss/build";
 @import "./breakpoints";
 @import "pattern_icon";
+@import "@canonical/styles";
 @include lxdui-p-icon;
 @include vf-p-icon-add-canvas;
 @include vf-p-icon-add-logical-volume;
@@ -140,6 +141,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "permission_group_selection";
 @import "permission_groups";
 @import "pool_rich_tooltip";
+@import "pragma_override";
 @import "profile_detail_overview";
 @import "profile_detail_panel";
 @import "profile_list";
