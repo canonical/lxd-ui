@@ -3,6 +3,7 @@ import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 import { visitNetwork } from "./network";
+import { dismissNotification } from "./notification";
 
 export const randomNetworkAclName = (): string => {
   return `test-${randomNameSuffix()}`;
@@ -26,7 +27,7 @@ export const createNetworkAcl = async (page: Page, networkAcl: string) => {
   await page.getByRole("button", { name: "Add rule", exact: true }).click();
 
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Network ACL ${networkAcl} created.`);
+  await dismissNotification(page, `Network ACL ${networkAcl} created.`);
 };
 
 export const editNetworkAcl = async (page: Page, networkAcl: string) => {
@@ -39,7 +40,7 @@ export const editNetworkAcl = async (page: Page, networkAcl: string) => {
   await page.getByRole("button", { name: "Remove rule", exact: true }).click();
 
   await page.getByRole("button", { name: "Save 2 changes" }).click();
-  await page.waitForSelector(`text=Network ACL ${networkAcl} updated.`);
+  await dismissNotification(page, `Network ACL ${networkAcl} updated.`);
 
   await expect(page.getByText("desc-value")).not.toBeVisible();
   await expect(page.getByText("1.2.3.4:23")).not.toBeVisible();
@@ -55,8 +56,9 @@ export const renameNetworkAcl = async (
   await page.locator("li", { hasText: oldName }).click();
   await page.getByRole("textbox").first().fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(
-    `text=Network ACL ${oldName} renamed to ${newName}.`,
+  await dismissNotification(
+    page,
+    `Network ACL ${oldName} renamed to ${newName}.`,
   );
 };
 
@@ -68,7 +70,7 @@ export const deleteNetworkAcl = async (page: Page, networkAcl: string) => {
     .getByRole("button", { name: "Delete" })
     .click();
 
-  await page.waitForSelector(`text=Network ACL ${networkAcl} deleted.`);
+  await dismissNotification(page, `Network ACL ${networkAcl} deleted.`);
 };
 
 export const visitNetworkAcl = async (page: Page, networkAcl: string) => {

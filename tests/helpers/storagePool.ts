@@ -7,6 +7,7 @@ import {
   dirDriver,
   storageDriverLabels,
 } from "util/storageOptions";
+import { dismissNotification } from "./notification";
 
 export const randomPoolName = (): string => {
   return `playwright-pool-${randomNameSuffix()}`;
@@ -32,8 +33,7 @@ export const createPool = async (
     await page.getByLabel("Rados gateway endpoint").fill("http://localhost");
   }
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await expect(page.getByText(`Storage pool ${pool} created.`)).toBeVisible();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `Storage pool ${pool} created.`);
 };
 
 export const deletePool = async (page: Page, pool: string) => {
@@ -43,7 +43,7 @@ export const deletePool = async (page: Page, pool: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete pool" })
     .click();
-  await page.waitForSelector(`text=Storage pool ${pool} deleted.`);
+  await dismissNotification(page, `Storage pool ${pool} deleted.`);
 };
 
 export const visitPool = async (page: Page, pool: string) => {
@@ -61,6 +61,5 @@ export const editPool = async (page: Page, pool: string) => {
 
 export const savePool = async (page: Page, pool: string) => {
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.getByText(`Storage pool ${pool} updated.`).click();
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Storage pool ${pool} updated.`);
 };

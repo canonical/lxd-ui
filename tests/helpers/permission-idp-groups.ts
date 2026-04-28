@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
+import { dismissNotification } from "./notification";
 
 export const randomIdpGroupName = (): string => {
   return `playwright-idp-group-${randomNameSuffix()}`;
@@ -34,7 +35,7 @@ export const createIdpGroup = async (
     .getByLabel("Side panel")
     .getByRole("button", { name: "Create IDP group" })
     .click();
-  await page.waitForSelector(`text=IDP group ${idpGroup} created`);
+  await dismissNotification(page, `IDP group ${idpGroup} created.`);
 };
 
 export const deleteIdpGroup = async (page: Page, idpGroup: string) => {
@@ -43,7 +44,7 @@ export const deleteIdpGroup = async (page: Page, idpGroup: string) => {
     .getByLabel("Delete IDP group")
     .click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
-  await page.waitForSelector(`text=IDP group ${idpGroup} deleted.`);
+  await dismissNotification(page, `IDP group ${idpGroup} deleted.`);
 };
 
 export const editIdpGroup = async (
@@ -66,5 +67,5 @@ export const editIdpGroup = async (
   }
   await expect(page.getByText("2 groups will be modified")).toBeVisible();
   await page.getByRole("button", { name: "Save 2 group changes" }).click();
-  await page.waitForSelector(`text=IDP group ${newIdpGroupName} updated.`);
+  await dismissNotification(page, `IDP group ${newIdpGroupName} updated.`);
 };

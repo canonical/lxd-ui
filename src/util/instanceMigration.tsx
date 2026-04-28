@@ -69,6 +69,7 @@ export const useInstanceMigration = ({
             projectName={instance.project}
             location={instance.location}
           />
+          .
         </>
       );
     }

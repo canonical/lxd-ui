@@ -18,6 +18,7 @@ import {
   undoChange,
 } from "./helpers/permissions";
 import { skipIfNotSupported } from "./helpers/permissions";
+import { dismissNotification } from "./helpers/notification";
 
 test("manage groups for single identity", async ({ page, lxdVersion }) => {
   skipIfNotSupported(lxdVersion);
@@ -46,7 +47,7 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
     "added",
   );
   await page.getByRole("button", { name: "Confirm changes" }).click();
-  await page.waitForSelector(`text=Updated groups for bar`);
+  await dismissNotification(page, `Updated groups for ${identityBar}.`);
   await page
     .getByRole("row", { name: `Select ${identityBar} Name ID` })
     .getByLabel("Manage groups")
@@ -91,7 +92,7 @@ test("manage groups for many identities", async ({ page, lxdVersion }) => {
     "added",
   );
   await page.getByRole("button", { name: "Confirm changes" }).click();
-  await page.waitForSelector(`text=Updated groups for 2 identities`);
+  await dismissNotification(page, `Updated groups for 2 identities.`);
   await page.getByLabel("Modify groups").click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);
   await assertTextVisible(page, "2 groups will be modified");

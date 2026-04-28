@@ -18,6 +18,7 @@ import {
   updateSetting,
   visitServerSettings,
 } from "./helpers/server";
+import { dismissNotification } from "./helpers/notification";
 
 test("create and delete idp group", async ({ page, lxdVersion }) => {
   skipIfNotSupported(lxdVersion);
@@ -80,7 +81,7 @@ test("bulk delete idp groups", async ({ page, lxdVersion }) => {
     .click();
   await page.getByRole("button", { name: "Delete 2 IDP groups" }).click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
-  await page.waitForSelector(`text=2 IDP groups deleted.`);
+  await dismissNotification(page, `2 IDP groups deleted.`);
   await deleteGroup(page, groupOne);
   await deleteGroup(page, groupTwo);
 });

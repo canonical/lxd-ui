@@ -3,6 +3,7 @@ import { expect, test } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
+import { dismissNotification } from "./notification";
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -55,5 +56,5 @@ export const deleteClusterLink = async (page: Page, link: string) => {
     .getByRole("button", { name: "Delete cluster link" })
     .click();
 
-  await page.waitForSelector(`text=Cluster link ${link} deleted.`);
+  await dismissNotification(page, `Cluster link ${link} deleted.`);
 };

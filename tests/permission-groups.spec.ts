@@ -19,6 +19,7 @@ import {
   confirmIdentitiesModifiedForGroup,
 } from "./helpers/permissions";
 import { skipIfNotSupported } from "./helpers/permissions";
+import { dismissNotification } from "./helpers/notification";
 
 test("create and delete group", async ({ page, lxdVersion }) => {
   skipIfNotSupported(lxdVersion);
@@ -47,7 +48,7 @@ test("add new permissions to group", async ({ page, lxdVersion }) => {
   await addPermission(page, "Server", "server", "admin");
   await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(`text=Group ${group} updated.`);
+  await dismissNotification(page, `Group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
   await deleteGroup(page, group);
 });
@@ -61,7 +62,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await addPermission(page, "Server", "server", "admin");
   await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(`text=Group ${group} updated.`);
+  await dismissNotification(page, `Group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit permissions" }).click();
@@ -71,7 +72,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await addPermission(page, "Project", "default", "can_view");
   await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
-  await page.waitForSelector(`text=Group ${group} updated.`);
+  await dismissNotification(page, `Group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
   await deleteGroup(page, group);
 });
@@ -85,13 +86,13 @@ test("manage identities for single group", async ({ page, lxdVersion }) => {
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
   await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
-  await page.waitForSelector(`text=Group ${group} updated.`);
+  await dismissNotification(page, `Group ${group} updated.`);
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit identities" }).click();
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
   await page.getByText("Edit auth group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
-  await page.waitForSelector(`text=Group ${group} updated.`);
+  await dismissNotification(page, `Group ${group} updated.`);
   await deleteGroup(page, group);
 });
 
@@ -119,7 +120,7 @@ test("manage identities for many groups", async ({ page, lxdVersion }) => {
     "added",
   );
   await page.getByRole("button", { name: "Confirm changes" }).click();
-  await page.waitForSelector(`text=Updated identities for 2 groups`);
+  await dismissNotification(page, `Updated identities for 2 groups`);
   await page.getByRole("button", { name: "Manage identities" }).click();
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
   await assertTextVisible(page, "2 identities will be modified");
@@ -155,7 +156,7 @@ test("bulk delete groups", async ({ page, lxdVersion }) => {
   await page
     .getByRole("button", { name: "Permanently delete 2 group" })
     .click();
-  await page.waitForSelector(`text=2 groups deleted.`);
+  await dismissNotification(page, `2 groups deleted.`);
 });
 
 test("create group with permissions", async ({ page, lxdVersion }) => {

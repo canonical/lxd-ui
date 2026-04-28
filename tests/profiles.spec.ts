@@ -20,6 +20,7 @@ import {
   saveProfile,
   visitProfile,
 } from "./helpers/profile";
+import { dismissNotification } from "./helpers/notification";
 
 let profile = randomProfileName();
 
@@ -178,7 +179,7 @@ description: 'A-new-description'
 devices: {}
 name: ${profile}`);
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Profile ${profile} updated.`);
+  await dismissNotification(page, `Profile ${profile} updated.`);
 
   await page.locator("#form-footer").getByText("YAML Configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
@@ -205,7 +206,7 @@ test("Profile copy", async ({ page }) => {
   await page.getByLabel("New profile name").fill(copiedProfileName);
   await page.getByRole("button", { name: "Copy", exact: true }).click();
 
-  await page.waitForSelector(`text=Created profile ${copiedProfileName}.`);
+  await dismissNotification(page, `Created profile ${copiedProfileName}.`);
 
   await deleteProfile(page, copiedProfileName);
 });

@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
+import { dismissNotification } from "./notification";
 
 export const randomBucketName = (): string => {
   return `playwright-bucket-${randomNameSuffix()}`;
@@ -17,8 +18,7 @@ export const createBucket = async (page: Page, bucket: string) => {
     .getByLabel("Side panel")
     .getByRole("button", { name: "Create bucket" })
     .click();
-  await page.waitForSelector(`text=Storage bucket ${bucket} created.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Storage bucket ${bucket} created.`);
 };
 
 export const deleteBucket = async (page: Page, bucket: string) => {
@@ -28,8 +28,7 @@ export const deleteBucket = async (page: Page, bucket: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Storage bucket ${bucket} deleted.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Storage bucket ${bucket} deleted.`);
 };
 
 export const visitBucket = async (page: Page, bucket: string) => {
@@ -47,33 +46,34 @@ export const visitBucket = async (page: Page, bucket: string) => {
 export const createBucketKey = async (
   page: Page,
   bucket: string,
-  bucketkey: string,
+  bucketKey: string,
 ) => {
   await page.getByRole("button", { name: "Create key" }).click();
-  await page.getByPlaceholder("Enter name").fill(bucketkey);
+  await page.getByPlaceholder("Enter name").fill(bucketKey);
   await page.getByPlaceholder("Enter description").fill("Test description");
   await page
     .getByLabel("Side panel")
     .getByRole("button", { name: "Create key" })
     .click();
-  await page.waitForSelector(
-    `text=Key ${bucketkey} created for storage bucket ${bucket}`,
+  await dismissNotification(
+    page,
+    `Key ${bucketKey} created for storage bucket ${bucket}.`,
   );
-  await page.getByRole("button", { name: "Close notification" }).click();
 };
 
 export const deleteBucketKey = async (
   page: Page,
   bucket: string,
-  bucketkey: string,
+  bucketKey: string,
 ) => {
-  await page.getByRole("row").filter({ hasText: bucketkey }).hover();
-  await page.getByRole("button", { name: "Delete key", exact: true }).click();
+  const row = page.getByRole("row").filter({ hasText: bucketKey });
+  await row.getByRole("button", { name: "Delete key", exact: true }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(
-    `text=Key ${bucketkey} deleted for storage bucket ${bucket}`,
+  await dismissNotification(
+    page,
+    `Key ${bucketKey} deleted for storage bucket ${bucket}.`,
   );
 };

@@ -78,7 +78,7 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
         const modifiedGroupNames = Object.keys(identityGroupsChangeSummary);
         const successMessage =
           modifiedGroupNames.length > 1 ? (
-            `Updated groups for ${modifiedGroupNames.length} identities`
+            `Updated groups for ${modifiedGroupNames.length} identities.`
           ) : (
             <>
               Updated groups for{" "}
@@ -87,6 +87,7 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
                 value={modifiedGroupNames[0]}
                 to={`${ROOT_PATH}/ui/permissions/identities`}
               />
+              .
             </>
           );
 

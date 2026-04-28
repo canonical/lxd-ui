@@ -4,6 +4,7 @@ import { expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
 import { isServerClustered } from "./cluster-groups";
 import { searchEntityListPage } from "./search";
+import { dismissNotification } from "./notification";
 
 export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
@@ -29,8 +30,7 @@ export const createVolume = async (
     .getByPlaceholder("Enter content type")
     .selectOption({ label: volumeType });
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.getByText(`Storage volume ${volume} created.`).waitFor();
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Storage volume ${volume} created.`);
 };
 
 export const deleteVolume = async (
@@ -42,9 +42,7 @@ export const deleteVolume = async (
   await page.getByRole("button", { name: "Delete" }).click();
   const dialog = page.getByRole("dialog", { name: "Confirm delete" });
   await dialog.getByRole("button", { name: "Delete" }).click();
-  await expect(
-    page.getByText(`Storage volume ${volume} deleted.`),
-  ).toBeVisible();
+  await dismissNotification(page, `Storage volume ${volume} deleted.`);
 };
 
 export const visitVolume = async (
@@ -69,7 +67,7 @@ export const editVolume = async (page: Page, volume: string) => {
 
 export const saveVolume = async (page: Page, volume: string) => {
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(`text=Storage volume ${volume} updated.`);
+  await dismissNotification(page, `Storage volume ${volume} updated.`);
 };
 
 export const migrateVolumePool = async (
@@ -94,8 +92,9 @@ export const migrateVolumePool = async (
     .getByRole("button", { name: "Migrate", exact: true })
     .click();
 
-  await page.waitForSelector(
-    `text=successfully migrated to pool ${targetPool}`,
+  await dismissNotification(
+    page,
+    `successfully migrated to pool ${targetPool}`,
   );
 
   await expect(page).toHaveURL(
@@ -126,6 +125,7 @@ export const copyStorageVolume = async (
     await page.getByLabel("Target project").selectOption(targetProject);
   }
   await page.getByRole("button", { name: "Copy", exact: true }).click();
-  await page.waitForSelector(`text=Created volume ${newVolumeName}.`);
+  await dismissNotification(page, `Created volume ${newVolumeName}.`);
+
   return newVolumeName;
 };

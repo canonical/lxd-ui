@@ -20,6 +20,7 @@ import {
   randomInstanceName,
 } from "./helpers/instances";
 import { deleteAllImages } from "./helpers/images";
+import { dismissNotification } from "./helpers/notification";
 
 test("project create and remove", async ({ page }) => {
   const project = randomProjectName();
@@ -102,9 +103,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   } else {
     await page.getByRole("button", { name: "Save 33 changes" }).click();
   }
-
-  await page.getByText(`Project ${project} updated.`).waitFor();
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Project ${project} updated.`);
 
   await page.getByText("Project details").click();
 

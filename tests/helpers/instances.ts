@@ -4,6 +4,7 @@ import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
 import { visitLocalImages } from "./images";
 import { searchEntityListPage } from "./search";
+import { dismissNotification } from "./notification";
 
 const DEFAULT_IMAGE = "alpine/3.23/cloud";
 
@@ -82,8 +83,7 @@ export const saveInstance = async (
   const name =
     changeCount === 1 ? "Save 1 change" : `Save ${changeCount} changes`;
   await page.getByRole("button", { name }).click();
-  await expect(page.getByText(`Instance ${instance} updated.`)).toBeVisible();
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Instance ${instance} updated.`);
 };
 
 export const forceStopInstance = async (
@@ -95,8 +95,7 @@ export const forceStopInstance = async (
   await page.getByRole("button", { name: "Stop" }).click();
   await page.getByText("Force stop").click();
   await page.getByText("Stop", { exact: true }).click();
-  await expect(page.getByText(`Instance ${instance} stopped.`)).toBeVisible();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `Instance ${instance} stopped.`);
 };
 
 export const deleteInstance = async (
@@ -117,7 +116,7 @@ export const deleteInstance = async (
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Instance ${instance} deleted.`);
+  await dismissNotification(page, `Instance ${instance} deleted.`);
 };
 
 export const renameInstance = async (
@@ -130,7 +129,7 @@ export const renameInstance = async (
   await page.getByRole("textbox").press("Control+a");
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(`text=Instance ${oldName} renamed to ${newName}.`);
+  await dismissNotification(page, `Instance ${oldName} renamed to ${newName}.`);
 };
 
 export const createAndStartInstance = async (
@@ -158,14 +157,13 @@ export const createAndStartInstance = async (
     .getByRole("combobox", { name: "Instance type" })
     .selectOption(type);
   await page.getByRole("button", { name: "Create and start" }).first().click();
-
-  await page.waitForSelector(`text=Created and started instance ${instance}.`);
+  await page.getByText(`Created and started instance ${instance}.`).waitFor();
 };
 
 export const visitAndStartInstance = async (page: Page, instance: string) => {
   await visitInstance(page, instance);
   await page.getByRole("button", { name: "Start", exact: true }).click();
-  await page.waitForSelector(`text=Instance ${instance} started.`);
+  await dismissNotification(page, `Instance ${instance} started.`);
 };
 
 export const visitAndStopInstance = async (page: Page, instance: string) => {
@@ -175,7 +173,7 @@ export const visitAndStopInstance = async (page: Page, instance: string) => {
     await page.keyboard.down("Shift");
     await stopButton.click();
     await page.keyboard.up("Shift");
-    await page.waitForSelector(`text=Instance ${instance} stopped.`);
+    await dismissNotification(page, `Instance ${instance} stopped.`);
   }
 };
 
@@ -189,7 +187,7 @@ export const createImageFromInstance = async (
   await page.getByRole("button", { name: "Create Image" }).click();
   await page.getByLabel("Alias").fill(imageAlias);
   await page.getByText("Create image", { exact: true }).click();
-  await page.waitForSelector(`text=Image created from instance ${instance}.`);
+  await dismissNotification(page, `Image created from instance ${instance}.`);
 };
 
 export const removeCustomImages = async (page: Page) => {
@@ -204,8 +202,7 @@ export const removeCustomImages = async (page: Page) => {
       await page.keyboard.down("Shift");
       await row.getByRole("button", { name: "Delete" }).click();
       await page.keyboard.up("Shift");
-      await page.waitForSelector("text=/Image .* deleted\\./");
-      await page.getByTestId("notification-close-button").click();
+      await dismissNotification(page, `deleted`);
     }
   }
 };
@@ -229,7 +226,8 @@ export const migrateInstanceRootStorage = async (
     .getByLabel("Confirm migration")
     .getByRole("button", { name: "Migrate", exact: true })
     .click();
-  await page.waitForSelector(
-    `text=Instance ${instance} root storage successfully moved to pool ${pool}`,
+  await dismissNotification(
+    page,
+    `Instance ${instance} root storage successfully moved to pool ${pool}.`,
   );
 };

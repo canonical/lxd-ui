@@ -23,6 +23,7 @@ import { getClipPosition } from "./helpers/doc-screenshots";
 import { openInstancePanel } from "./helpers/instancePanel";
 import { deleteNetworkAcl } from "./helpers/network-acls";
 import { dirDriver, storageDriverLabels } from "util/storageOptions";
+import { dismissNotification } from "./helpers/notification";
 
 test.beforeEach(() => {
   test.skip(
@@ -173,7 +174,7 @@ test("networks", async ({ page }) => {
 
   await page.getByPlaceholder("Enter name").fill(networkACL);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `created`);
   await page.getByRole("link", { name: networkACL }).click();
   await page.getByText("Click the ACL name").waitFor();
   await page.screenshot({
@@ -222,7 +223,7 @@ test("network peering", async ({ page }) => {
     .click();
   await page.getByText("Add rule").click();
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `created`);
 
   // Create network
   await createOvnUplink(page, uplinkNetwork);
@@ -242,7 +243,7 @@ test("network peering", async ({ page }) => {
     network3,
     true,
   );
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `created`);
   await page.screenshot({
     path: "tests/screenshots/doc/images/networks/network_list_local_peerings.png",
     clip: getClipPosition(240, 0, 1440, 450),
@@ -326,7 +327,7 @@ test("storage volumes", async ({ page }) => {
   await page.getByPlaceholder("Enter value").fill("100");
   await page.getByLabel("Select disk size unit").selectOption("MB");
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `created`);
   await page.getByRole("link", { name: volumeName }).click();
   await page.getByText("Overview").waitFor();
   await page.screenshot({
@@ -467,8 +468,7 @@ test("LXD - Tutorial folder", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Create and start" }).click();
-  await page.getByTestId("notification-close-button").click();
-  await page.getByText(`Created and started instance ${instance}.`).waitFor();
+  await dismissNotification(page, `Created and started instance ${instance}.`);
   await openInstancePanel(page, instance);
   await page.getByText("Instance summary").click();
   await page.screenshot({
@@ -550,9 +550,10 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
   await page
     .getByRole("button", { name: "Create and start", exact: true })
     .click();
-  await page.getByTestId("notification-close-button").click();
-  await page.getByRole("link", { name: vminstance }).first().waitFor();
-  await page.getByText(`Created and started instance ${vminstance}.`).waitFor();
+  await dismissNotification(
+    page,
+    `Created and started instance ${vminstance}.`,
+  );
   await visitInstance(page, vminstance);
   await page.getByText("General").click();
   await page.getByTestId("tab-link-Console").click();
@@ -763,7 +764,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
 
   await page.getByLabel("Delete port 0").click();
   await page.getByRole("button", { name: "Create" }).click();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `created`);
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/forward_delete.png",
     clip: getClipPosition(240, 0, 1440, 360),
@@ -781,7 +782,7 @@ test("LXD - UI Folder - Networks", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Update" }).click();
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `updated`);
   await expect(page.getByTitle("Edit network forward")).toBeVisible();
   await page.screenshot({
     path: "tests/screenshots/doc/images/UI/forward_edit_ex1.png",

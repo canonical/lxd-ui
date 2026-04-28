@@ -3,6 +3,7 @@ import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import type { LxdVersions } from "../fixtures/lxd-test";
 import { expect, test } from "../fixtures/lxd-test";
+import { dismissNotification } from "./notification";
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -23,8 +24,7 @@ export const createPlacementGroup = async (
   await page.getByRole("button", { name: "Create placement group" }).click();
   await page.getByPlaceholder("Enter name").fill(placementGroup);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Placement group ${placementGroup} created.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Placement group ${placementGroup} created.`);
 };
 
 export const deletePlacementGroup = async (
@@ -41,8 +41,7 @@ export const deletePlacementGroup = async (
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Placement group ${placementGroup} deleted.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Placement group ${placementGroup} deleted.`);
 };
 
 export const editPlacementGroup = async (
@@ -59,8 +58,7 @@ export const editPlacementGroup = async (
     .getByPlaceholder("Enter description")
     .fill(placementGroup + " description");
   await page.getByRole("button", { name: "Save changes", exact: true }).click();
-  await page.waitForSelector(`text=Placement group ${placementGroup} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Placement group ${placementGroup} updated.`);
 };
 
 export const visitPlacementGroups = async (page: Page) => {

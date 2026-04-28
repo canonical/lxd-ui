@@ -73,9 +73,7 @@ test("add and delete user defined setting", async ({ page }) => {
 
   await visitServerSettings(page);
   await addUserSetting(page, key, value);
-
-  await page.waitForSelector(`text=Setting ${userKey} added.`);
-  await dismissNotification(page);
+  await dismissNotification(page, `Setting ${userKey} added.`);
 
   const keyElement = page.getByText(userKey);
   await keyElement.click();
@@ -84,9 +82,7 @@ test("add and delete user defined setting", async ({ page }) => {
   await expect(valueElement).toHaveCount(1);
 
   await deleteUserSetting(page, value);
-
-  await page.waitForSelector(`text=Setting ${userKey} deleted.`);
-  await dismissNotification(page);
+  await dismissNotification(page, `Setting ${userKey} deleted.`);
 
   await expect(keyElement).toHaveCount(0);
   await expect(valueElement).toHaveCount(0);

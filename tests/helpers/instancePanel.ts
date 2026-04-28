@@ -1,6 +1,7 @@
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 import { gotoURL } from "./navigate";
+import { dismissNotification } from "./notification";
 
 export const openInstancePanel = async (page: Page, instance: string) => {
   await gotoURL(page, "/ui/");
@@ -30,8 +31,7 @@ export const startInstanceFromPanel = async (page: Page, instance: string) => {
   const startButton = instanceDetailPanel.locator("css=button[title=Start]");
   await startButton.click();
 
-  await page.waitForSelector(`text=Instance ${instance} started.`);
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `Instance ${instance} started.`);
   await checkInstanceStatus(page, "Running");
 };
 
@@ -49,8 +49,7 @@ export const stopInstanceFromPanel = async (page: Page, instance: string) => {
   });
   await confirmStopButton.click();
 
-  await page.waitForSelector(`text=Instance ${instance} stopped.`);
-  await page.getByTestId("notification-close-button").click();
+  await dismissNotification(page, `Instance ${instance} stopped.`);
   await checkInstanceStatus(page, "Stopped");
 };
 
