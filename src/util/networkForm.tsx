@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 import type {
   LxdNetwork,
   LxdNetworkBridgeDriver,
@@ -5,8 +6,10 @@ import type {
   LXDNetworkOnClusterMemberFulfilled,
 } from "types/network";
 import type { NetworkFormValues } from "types/forms/network";
-import { getNetworkAcls, getNetworkKey } from "util/networks";
 import type { ClusterSpecificValues } from "types/cluster";
+import type { AbortControllerState } from "util/helpers";
+import { checkDuplicateName } from "util/helpers";
+import { getNetworkAcls, getNetworkKey } from "util/networks";
 
 export const toNetworkFormValues = (
   network: LxdNetwork,
@@ -87,4 +90,31 @@ export const toNetworkFormValues = (
     security_acls_default_ingress:
       network.config[getNetworkKey("security_acls_default_ingress")],
   };
+};
+
+export const getNetworkNameValidation = (
+  project: string,
+  controllerState: AbortControllerState,
+  excludeName?: string,
+) => {
+  return Yup.string()
+    .min(2, "Minimum length is 2 characters")
+    .max(15, "Maximum length is 15 characters")
+    .test(
+      "no-double-dots",
+      "Network name must not contain '..'",
+      (value) => !value || !value.includes(".."),
+    )
+    .matches(
+      /^[-_a-zA-Z0-9.]+$/,
+      "Network name can only contain letters, numbers, hyphens, underscores, and periods",
+    )
+    .test(
+      "deduplicate",
+      "A network with this name already exists",
+      async (value) =>
+        (excludeName && value === excludeName) ||
+        checkDuplicateName(value, project, controllerState, "networks"),
+    )
+    .required("Network name is required");
 };

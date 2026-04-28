@@ -5,7 +5,7 @@ import type { RenameHeaderValues } from "components/RenameHeader";
 import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { checkDuplicateName } from "util/helpers";
+import { getNetworkNameValidation } from "util/networkForm";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
@@ -34,15 +34,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const eventQueue = useEventQueue();
 
   const RenameSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "A network with this name already exists",
-        async (value) =>
-          network?.name === value ||
-          checkDuplicateName(value, project, controllerState, "networks"),
-      )
-      .required("Network name is required"),
+    name: getNetworkNameValidation(project, controllerState, network?.name),
   });
 
   const onSuccess = (networkName: string) => {
