@@ -18,6 +18,7 @@ import StoragePoolFormMenu, {
   CEPHOBJECT_CONFIGURATION,
   MAIN_CONFIGURATION,
   POWERFLEX,
+  POWERSTORE,
   PURE_STORAGE,
   YAML_CONFIGURATION,
   ZFS_CONFIGURATION,
@@ -26,20 +27,26 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdStoragePool } from "types/storage";
 import {
   alletraDriver,
-  btrfsDriver,
   cephObject,
   getSupportedStorageDrivers,
   powerFlex,
+  powerStore,
   pureStorage,
   zfsDriver,
 } from "util/storageOptions";
-import { getPoolKey, isCephDriver, isCephFSDriver } from "util/storagePool";
+import {
+  getPoolKey,
+  hasSource,
+  isCephDriver,
+  isCephFSDriver,
+} from "util/storagePool";
 import { slugify } from "util/slugify";
 import YamlForm from "components/forms/YamlForm";
 import { handleConfigKeys } from "util/storagePoolForm";
 import DocLink from "components/DocLink";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
+import StoragePoolFormPowerStore from "./StoragePoolFormPowerStore";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
 import { useSettings } from "context/useSettings";
 import { ensureEditMode } from "util/instanceEdit";
@@ -49,6 +56,7 @@ import StoragePoolFormCephObject from "./StoragePoolFormCephObject";
 import { objectToYaml } from "util/yaml";
 import StoragePoolFormAlletra from "./StoragePoolFormAlletra";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -59,9 +67,10 @@ interface Props {
 
 export const toStoragePool = (
   values: StoragePoolFormValues,
-  hasRemoteDropSource?: boolean,
+  hasRemoteDropSource: boolean,
 ): LxdStoragePool => {
   const isPowerFlexDriver = values.driver === powerFlex;
+  const isPowerStoreDriver = values.driver === powerStore;
   const isPureDriver = values.driver === pureStorage;
   const isZFSDriver = values.driver === zfsDriver;
   const isCephObjectDriver = values.driver === cephObject;
@@ -117,6 +126,17 @@ export const toStoragePool = (
         [getPoolKey("powerflex_sdt")]: values.powerflex_sdt,
         [getPoolKey("powerflex_user_name")]: values.powerflex_user_name,
         [getPoolKey("powerflex_user_password")]: values.powerflex_user_password,
+      };
+    }
+    if (isPowerStoreDriver) {
+      return {
+        [getPoolKey("powerstore_gateway")]: values.powerstore_gateway,
+        [getPoolKey("powerstore_gateway_verify")]:
+          values.powerstore_gateway_verify,
+        [getPoolKey("powerstore_mode")]: values.powerstore_mode,
+        [getPoolKey("powerstore_user_name")]: values.powerstore_user_name,
+        [getPoolKey("powerstore_user_password")]:
+          values.powerstore_user_password,
       };
     }
     if (isPureDriver) {
@@ -184,7 +204,9 @@ export const toStoragePool = (
     config: {
       ...missingConfigFields,
       ...getConfig(),
-      source: values.driver !== btrfsDriver ? values.source : undefined,
+      source: hasSource(values.driver, hasRemoteDropSource)
+        ? values.source
+        : undefined,
     },
   };
 };
@@ -197,6 +219,7 @@ const StoragePoolForm: FC<Props> = ({
 }) => {
   const { data: settings } = useSettings();
   const notify = useNotify();
+  const { hasRemoteDropSource } = useSupportedFeatures();
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -205,7 +228,7 @@ const StoragePoolForm: FC<Props> = ({
   useListener(window, updateFormHeight, "resize", true);
 
   const getYaml = () => {
-    const payload = toStoragePool(formik.values);
+    const payload = toStoragePool(formik.values, hasRemoteDropSource);
     return objectToYaml(payload);
   };
 
@@ -242,6 +265,9 @@ const StoragePoolForm: FC<Props> = ({
           )}
           {section === slugify(POWERFLEX) && (
             <StoragePoolFormPowerflex formik={formik} />
+          )}
+          {section === slugify(POWERSTORE) && (
+            <StoragePoolFormPowerStore formik={formik} />
           )}
           {section === slugify(PURE_STORAGE) && (
             <StoragePoolFormPure formik={formik} />

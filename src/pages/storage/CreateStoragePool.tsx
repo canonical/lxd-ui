@@ -19,6 +19,7 @@ import {
   isAlletraIncomplete,
   isCephObjectIncomplete,
   isPowerflexIncomplete,
+  isPowerStoreIncomplete,
   isPureStorageIncomplete,
   testDuplicateStoragePoolName,
 } from "util/storagePool";
@@ -193,6 +194,7 @@ const CreateStoragePool: FC = () => {
             formik.isSubmitting ||
             !formik.values.name ||
             isPowerflexIncomplete(formik) ||
+            isPowerStoreIncomplete(formik) ||
             isPureStorageIncomplete(formik) ||
             isAlletraIncomplete(formik) ||
             isCephObjectIncomplete(formik)

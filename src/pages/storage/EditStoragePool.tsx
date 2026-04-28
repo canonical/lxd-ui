@@ -53,7 +53,8 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const [version, setVersion] = useState(0);
   const { canEditPool } = useStoragePoolEntitlements();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
+  const { hasRemoteDropSource, hasStorageAndNetworkOperations } =
+    useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   if (!project) {
@@ -141,7 +142,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     onSubmit: (values) => {
       const savedPool = values.yaml
         ? (yamlToObject(values.yaml) as LxdStoragePool)
-        : toStoragePool(values);
+        : toStoragePool(values, hasRemoteDropSource);
 
       const mutation =
         clusterMembers.length > 0
