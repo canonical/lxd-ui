@@ -183,6 +183,15 @@ export const isAlletraIncomplete = (
   );
 };
 
+export const isCephObjectIncomplete = (
+  formik: FormikProps<StoragePoolFormValues>,
+): boolean => {
+  return (
+    formik.values.driver === cephObject &&
+    !formik.values.cephobject_radosgw_endpoint
+  );
+};
+
 export const isCephDriver = (values: StoragePoolFormValues) => {
   return values.driver === cephDriver;
 };
