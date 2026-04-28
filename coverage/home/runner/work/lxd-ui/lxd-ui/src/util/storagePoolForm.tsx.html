@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.38% </span>
+                <span class="strong">90.68% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>141/156</span>
+                <span class='fraction'>146/161</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.37% </span>
+                <span class="strong">85.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>54/64</span>
+                <span class='fraction'>59/69</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.62% </span>
+                <span class="strong">95.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>131/137</span>
+                <span class='fraction'>136/142</span>
             </div>
         
             
@@ -200,7 +200,12 @@
 <a name='L135'></a><a href='#L135'>135</a>
 <a name='L136'></a><a href='#L136'>136</a>
 <a name='L137'></a><a href='#L137'>137</a>
-<a name='L138'></a><a href='#L138'>138</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">17x</span>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -218,9 +223,9 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">138x</span>
-<span class="cline-any cline-yes">138x</span>
-<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -324,19 +329,24 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
-<span class="cline-any cline-yes">333x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
+<span class="cline-any cline-yes">336x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type {
   LxdStoragePool,
   LXDStoragePoolOnClusterMember,
@@ -422,6 +432,11 @@ export const toStoragePoolFormValues = (
     powerflex_sdt: pool.config?.["powerflex.sdt"],
     powerflex_user_name: pool.config?.["powerflex.user.name"],
     powerflex_user_password: pool.config?.["powerflex.user.password"],
+    powerstore_gateway: pool.config?.["powerstore.gateway"],
+    powerstore_gateway_verify: pool.config?.["powerstore.gateway.verify"],
+    powerstore_mode: pool.config?.["powerstore.mode"],
+    powerstore_user_name: pool.config?.["powerstore.user.name"],
+    powerstore_user_password: pool.config?.["powerstore.user.password"],
     pure_api_token: pool.config?.["pure.api.token"],
     pure_gateway: pool.config?.["pure.gateway"],
     pure_gateway_verify: pool.config?.["pure.gateway.verify"],
@@ -481,7 +496,7 @@ export const getFormProps = <span class="fstat-no" title="function not covered" 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-28T09:49:17.355Z
+                at 2026-04-28T10:44:56.814Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
