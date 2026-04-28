@@ -37,10 +37,12 @@ export const loadImagesFromAllRegistries = async (
       );
 
       imagesByRegistry[registry.name] = registryImages
-        .filter((image) => image.aliases !== null)
+        .filter((image) => {
+          return !(registry.builtin && image.aliases === null);
+        })
         .map((image) => {
           const item = localLxdToRemoteImage(image);
-          const ltsAlias = image.aliases.find((a) => a.name === "lts");
+          const ltsAlias = image.aliases?.find((a) => a.name === "lts");
 
           return {
             ...item,
@@ -106,9 +108,9 @@ export const loadImagesFromAllRegistries = async (
   ];
 
   // add images from custom registries
-  Object.entries(imagesByRegistry).forEach(([registry, images]) => {
+  Object.entries(imagesByRegistry).forEach(([registry, registryImages]) => {
     if (!ubuntuRegistries.includes(registry) && registry !== "images") {
-      images.push(...images);
+      images.push(...registryImages);
     }
   });
 
