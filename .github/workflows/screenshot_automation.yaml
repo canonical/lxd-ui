@@ -56,10 +56,10 @@ jobs:
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Setup Ceph
-        uses: canonical/lxd/.github/actions/setup-microceph@405d18e6ab6c21b3cad1ede09c8b749c484c3e7a
+        uses: canonical/lxd/.github/actions/setup-microceph@83beb32729de0814ac0e7e6b1223a7d009cde268
 
       - name: Setup OVN
-        uses: canonical/lxd/.github/actions/setup-microovn@405d18e6ab6c21b3cad1ede09c8b749c484c3e7a
+        uses: canonical/lxd/.github/actions/setup-microovn@83beb32729de0814ac0e7e6b1223a7d009cde268
 
       - name: Install LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
@@ -75,7 +75,7 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
 
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24
 
