@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>97/117</span>
+                <span class='fraction'>91/91</span>
             </div>
         
             
@@ -37,9 +37,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/12</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -154,15 +154,15 @@
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -177,8 +177,8 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -195,8 +195,8 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -211,8 +211,8 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -230,8 +230,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">361x</span>
-<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -253,48 +253,48 @@ import { ROOT_PATH } from "util/rootPath";
 &nbsp;
 const placementGroupEntitlements = ["can_delete", "can_edit"];
 &nbsp;
-export const fetchPlacementGroups = <span class="fstat-no" title="function not covered" >async (</span>
+export const fetchPlacementGroups = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise&lt;LxdPlacementGroup[]&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, placementGroupEntitlements);</span>
+  const params = new URLSearchParams();
+  params.set("recursion", "1");
+  params.set("project", project);
+  addEntitlements(params, isFineGrained, placementGroupEntitlements);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`)</span>
+  return fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`)
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdPlacementGroup[]&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+      return data.metadata;
     });
 };
 &nbsp;
-export const fetchPlacementGroup = <span class="fstat-no" title="function not covered" >async (</span>
+export const fetchPlacementGroup = async (
   group: string,
   project: string,
   isFineGrained: boolean | null,
 ): Promise&lt;LxdPlacementGroup&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  addEntitlements(params, isFineGrained, placementGroupEntitlements);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
+  addEntitlements(params, isFineGrained, placementGroupEntitlements);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return fetch(</span>
+  return fetch(
     `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(group)}?${params.toString()}`,
   )
     .then(handleResponse)
     .then((data: LxdApiResponse&lt;LxdPlacementGroup&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return data.metadata;</span>
+      return data.metadata;
     });
 };
 &nbsp;
-export const createPlacementGroup = <span class="fstat-no" title="function not covered" >async (</span>
+export const createPlacementGroup = async (
   body: string,
   project: string,
 ): Promise&lt;void&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`, {</span>
+  await fetch(`${ROOT_PATH}/1.0/placement-groups?${params.toString()}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -303,14 +303,14 @@ export const createPlacementGroup = <span class="fstat-no" title="function not c
   }).then(handleResponse);
 };
 &nbsp;
-export const updatePlacementGroup = <span class="fstat-no" title="function not covered" >async (</span>
+export const updatePlacementGroup = async (
   group: LxdPlacementGroup,
   project: string,
 ): Promise&lt;void&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+  await fetch(
     `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(group.name)}?${params.toString()}`,
     {
       method: "PUT",
@@ -322,14 +322,14 @@ export const updatePlacementGroup = <span class="fstat-no" title="function not c
   ).then(handleResponse);
 };
 &nbsp;
-export const deletePlacementGroup = <span class="fstat-no" title="function not covered" >async (</span>
+export const deletePlacementGroup = async (
   name: string,
   project: string,
 ): Promise&lt;void&gt; =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
+  const params = new URLSearchParams();
+  params.set("project", project);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await fetch(</span>
+  await fetch(
     `${ROOT_PATH}/1.0/placement-groups/${encodeURIComponent(name)}?${params.toString()}`,
     {
       method: "DELETE",
@@ -343,7 +343,7 @@ export const deletePlacementGroup = <span class="fstat-no" title="function not c
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-29T08:50:33.584Z
+                at 2026-04-29T12:45:02.043Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.45% </span>
+                <span class="strong">8.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/295</span>
+                <span class='fraction'>21/246</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -309,26 +309,26 @@
 <a name='L244'></a><a href='#L244'>244</a>
 <a name='L245'></a><a href='#L245'>245</a>
 <a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
+<a name='L247'></a><a href='#L247'>247</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -554,7 +554,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, FormEvent, ReactNode } from "react";
 import { useState } from "react";
 import { Button, Form, Input, Label, Modal } from "@canonical/react-components";
@@ -574,11 +574,11 @@ type SourceType =
   | "github"
   | "launchpad";
 &nbsp;
-const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> initialName, onSelect, onClose }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [name, setName] = <span class="cstat-no" title="statement not covered" >useState(initialName);</span></span>
-<span class="cstat-no" title="statement not covered" >  const [user, setUser] = <span class="cstat-no" title="statement not covered" >useState("root");</span></span>
-<span class="cstat-no" title="statement not covered" >  const [sourceType, setSourceType] = <span class="cstat-no" title="statement not covered" >useState&lt;SourceType&gt;("clipboard");</span></span>
-<span class="cstat-no" title="statement not covered" >  const [source, setSource] = <span class="cstat-no" title="statement not covered" >useState({</span></span>
+const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ initialName, onSelect, onClose }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const [name, setName] = useState(initialName);</span>
+<span class="cstat-no" title="statement not covered" >  const [user, setUser] = useState("root");</span>
+<span class="cstat-no" title="statement not covered" >  const [sourceType, setSourceType] = useState&lt;SourceType&gt;("clipboard");</span>
+<span class="cstat-no" title="statement not covered" >  const [source, setSource] = useState({</span>
 <span class="cstat-no" title="statement not covered" >    github: "",</span>
 <span class="cstat-no" title="statement not covered" >    launchpad: "",</span>
 <span class="cstat-no" title="statement not covered" >    fileUpload: "",</span>
@@ -586,30 +586,30 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >    generate: "",</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const getFingerprint = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    switch (sourceType) {</span></span>
+<span class="cstat-no" title="statement not covered" >  const getFingerprint = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    switch (sourceType) {</span>
 <span class="cstat-no" title="statement not covered" >      case "github":</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return `gh:${source.github}`;</span></span>
+<span class="cstat-no" title="statement not covered" >        return `gh:${source.github}`;</span>
 <span class="cstat-no" title="statement not covered" >      case "launchpad":</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return `lp:${source.launchpad}`;</span></span>
+<span class="cstat-no" title="statement not covered" >        return `lp:${source.launchpad}`;</span>
 <span class="cstat-no" title="statement not covered" >      case "fileUpload":</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return source.fileUpload;</span></span>
+<span class="cstat-no" title="statement not covered" >        return source.fileUpload;</span>
 <span class="cstat-no" title="statement not covered" >      case "clipboard":</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return source.clipboard;</span></span>
+<span class="cstat-no" title="statement not covered" >        return source.clipboard;</span>
 <span class="cstat-no" title="statement not covered" >      case "generate":</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return source.generate;</span></span>
+<span class="cstat-no" title="statement not covered" >        return source.generate;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const handleAdd = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: FormEvent) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    e.preventDefault();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    e.stopPropagation();</span></span>
-<span class="cstat-no" title="statement not covered" >    const fingerprint = <span class="cstat-no" title="statement not covered" >getFingerprint();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onSelect(name, user, fingerprint);</span></span>
+<span class="cstat-no" title="statement not covered" >  const handleAdd = (e: FormEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >    e.stopPropagation();</span>
+<span class="cstat-no" title="statement not covered" >    const fingerprint = getFingerprint();</span>
+<span class="cstat-no" title="statement not covered" >    onSelect(name, user, fingerprint);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const segmentButton = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>d: SourceType, label: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+<span class="cstat-no" title="statement not covered" >  const segmentButton = (id: SourceType, label: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;button</span>
 <span class="cstat-no" title="statement not covered" >        className="p-segmented-control__button"</span>
 <span class="cstat-no" title="statement not covered" >        role="tab"</span>
@@ -617,10 +617,10 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >        aria-selected={sourceType === id ? "true" : "false"}</span>
 <span class="cstat-no" title="statement not covered" >        aria-controls={`${id}-tab`}</span>
 <span class="cstat-no" title="statement not covered" >        id={id}</span>
-<span class="cstat-no" title="statement not covered" >        onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          setSourceType(id);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          if (id === "fileUpload") {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setTimeout(openFilePicker, 0);</span></span>
+<span class="cstat-no" title="statement not covered" >        onClick={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          setSourceType(id);</span>
+<span class="cstat-no" title="statement not covered" >          if (id === "fileUpload") {</span>
+<span class="cstat-no" title="statement not covered" >            setTimeout(openFilePicker, 0);</span>
 <span class="cstat-no" title="statement not covered" >          }</span>
 <span class="cstat-no" title="statement not covered" >        }}</span>
 <span class="cstat-no" title="statement not covered" >      &gt;</span>
@@ -629,27 +629,27 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const segmentContent = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>d: SourceType, children: ReactNode) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (id !== sourceType) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return null;</span></span>
+<span class="cstat-no" title="statement not covered" >  const segmentContent = (id: SourceType, children: ReactNode) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (id !== sourceType) {</span>
+<span class="cstat-no" title="statement not covered" >      return null;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div role="tabpanel" id={`${id}-tab`} aria-labelledby={id}&gt;</span>
 <span class="cstat-no" title="statement not covered" >        {children}</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const openFilePicker = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    document.getElementById("ssh-file-upload")?.click();</span></span>
+<span class="cstat-no" title="statement not covered" >  const openFilePicker = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    document.getElementById("ssh-file-upload")?.click();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const onSSHKeyGenerate = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(k</span>ey: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setSource({ ...source, generate: key });</span></span>
+<span class="cstat-no" title="statement not covered" >  const onSSHKeyGenerate = (key: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setSource({ ...source, generate: key });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Modal close={onClose} title="Add SSH key" className="ssh-key-add-modal"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Form onSubmit={handleAdd}&gt;</span>
 <span class="cstat-no" title="statement not covered" >        {/* hidden submit to enable enter key in inputs */}</span>
@@ -659,8 +659,8 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >          type="text"</span>
 <span class="cstat-no" title="statement not covered" >          placeholder="Enter name"</span>
 <span class="cstat-no" title="statement not covered" >          value={name}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setName(e.target.value);</span></span>
+<span class="cstat-no" title="statement not covered" >          onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setName(e.target.value);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Input</span>
@@ -668,8 +668,8 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >          type="text"</span>
 <span class="cstat-no" title="statement not covered" >          placeholder="ubuntu"</span>
 <span class="cstat-no" title="statement not covered" >          value={user}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setUser(e.target.value);</span></span>
+<span class="cstat-no" title="statement not covered" >          onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setUser(e.target.value);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -699,8 +699,8 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >              autoFocus</span>
 <span class="cstat-no" title="statement not covered" >              cols={50}</span>
 <span class="cstat-no" title="statement not covered" >              value={source.clipboard}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setSource({ ...source, clipboard: e.target.value });</span></span>
+<span class="cstat-no" title="statement not covered" >              onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setSource({ ...source, clipboard: e.target.value });</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
@@ -725,26 +725,26 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >                type="file"</span>
 <span class="cstat-no" title="statement not covered" >                accept=".pub"</span>
 <span class="cstat-no" title="statement not covered" >                autoFocus</span>
-<span class="cstat-no" title="statement not covered" >                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  if (!e.target.files) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                    setSource({ ...source, fileUpload: "" });</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                    return;</span></span>
+<span class="cstat-no" title="statement not covered" >                onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                  if (!e.target.files) {</span>
+<span class="cstat-no" title="statement not covered" >                    setSource({ ...source, fileUpload: "" });</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
 <span class="cstat-no" title="statement not covered" >                  }</span>
-<span class="cstat-no" title="statement not covered" >                  const file = <span class="cstat-no" title="statement not covered" >e.target.files[0];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  if (!file) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                    setSource({ ...source, fileUpload: "" });</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                    return;</span></span>
+<span class="cstat-no" title="statement not covered" >                  const file = e.target.files[0];</span>
+<span class="cstat-no" title="statement not covered" >                  if (!file) {</span>
+<span class="cstat-no" title="statement not covered" >                    setSource({ ...source, fileUpload: "" });</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
 <span class="cstat-no" title="statement not covered" >                  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >                  // get file content as text</span>
-<span class="cstat-no" title="statement not covered" >                  const reader = <span class="cstat-no" title="statement not covered" >new FileReader();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  reader.onload = <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >                    const body = <span class="cstat-no" title="statement not covered" >e.target?.result;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                    if (body) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                      setSource({ ...source, fileUpload: body as string });</span></span>
+<span class="cstat-no" title="statement not covered" >                  const reader = new FileReader();</span>
+<span class="cstat-no" title="statement not covered" >                  reader.onload = (e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                    const body = e.target?.result;</span>
+<span class="cstat-no" title="statement not covered" >                    if (body) {</span>
+<span class="cstat-no" title="statement not covered" >                      setSource({ ...source, fileUpload: body as string });</span>
 <span class="cstat-no" title="statement not covered" >                    }</span>
 <span class="cstat-no" title="statement not covered" >                  };</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  reader.readAsText(file);</span></span>
+<span class="cstat-no" title="statement not covered" >                  reader.readAsText(file);</span>
 <span class="cstat-no" title="statement not covered" >                }}</span>
 <span class="cstat-no" title="statement not covered" >              /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;,</span>
@@ -758,8 +758,8 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >              help="Instance must have internet access to import SSH keys from GitHub."</span>
 <span class="cstat-no" title="statement not covered" >              autoFocus</span>
 <span class="cstat-no" title="statement not covered" >              value={source.github}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setSource({ ...source, github: e.target.value });</span></span>
+<span class="cstat-no" title="statement not covered" >              onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setSource({ ...source, github: e.target.value });</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
@@ -772,8 +772,8 @@ const SshKeyAddModal: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >              help="Instance must have internet access to import SSH keys from Launchpad."</span>
 <span class="cstat-no" title="statement not covered" >              autoFocus</span>
 <span class="cstat-no" title="statement not covered" >              value={source.launchpad}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setSource({ ...source, launchpad: e.target.value });</span></span>
+<span class="cstat-no" title="statement not covered" >              onChange={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setSource({ ...source, launchpad: e.target.value });</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
 <span class="cstat-no" title="statement not covered" >            /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >          )}</span>
@@ -808,7 +808,7 @@ export default SshKeyAddModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-29T08:50:33.584Z
+                at 2026-04-29T12:45:02.043Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

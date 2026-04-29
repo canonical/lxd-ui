@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/instanceBoot.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/context/useClusteredSettings.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> instanceBoot.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/context</a> useClusteredSettings.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -32,21 +32,21 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
@@ -80,39 +80,45 @@
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">363x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { BootFormValues } from "types/forms/instanceAndProfile";
-import { getInstanceField } from "util/instanceConfigFields";
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-yes">85x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
+import { fetchSettingsFromClusterMembers } from "api/server";
+import type { LXDSettingOnClusterMember } from "types/server";
+import type { UseQueryResult } from "@tanstack/react-query";
+import { useClusterMembers } from "./useClusterMembers";
 &nbsp;
-export const bootPayload = (values: BootFormValues) =&gt; {
-  return {
-    [getInstanceField("boot_autostart")]: values.boot_autostart?.toString(),
-    [getInstanceField("boot_autostart_delay")]:
-      values.boot_autostart_delay?.toString(),
-    [getInstanceField("boot_autostart_priority")]:
-      values.boot_autostart_priority?.toString(),
-    [getInstanceField("boot_host_shutdown_timeout")]:
-      values.boot_host_shutdown_timeout?.toString(),
-    [getInstanceField("boot_mode")]: values.boot_mode?.toString(),
-    [getInstanceField("boot_stop_priority")]:
-      values.boot_stop_priority?.toString(),
-  };
+export const useClusteredSettings = (): UseQueryResult&lt;
+  LXDSettingOnClusterMember[]
+&gt; =&gt; {
+  const { data: clusterMembers = [] } = useClusterMembers();
+&nbsp;
+  return useQuery({
+    queryKey: [queryKeys.settings, queryKeys.cluster],
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; fetchSettingsFromClusterMembers(clusterMembers),</span>
+    enabled: clusterMembers.length &gt; 0,
+    retry: false,
+  });
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -121,7 +127,7 @@ export const bootPayload = (values: BootFormValues) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-29T08:50:33.584Z
+                at 2026-04-29T12:45:02.043Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.66% </span>
+                <span class="strong">98.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>66/72</span>
+                <span class='fraction'>55/56</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/9</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.43% </span>
+                <span class="strong">98.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>63/64</span>
+                <span class='fraction'>55/56</span>
             </div>
         
             
@@ -119,40 +119,24 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">108x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -189,41 +173,33 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Select } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import type { MigrationFormValues } from "types/forms/instanceAndProfile";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import {
   clusterEvacuationOptions,
   optionAllowDeny,
 } from "util/instanceOptions";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
-&nbsp;
-export const migrationPayload = (values: MigrationFormValues) =&gt; {
-  return {
-    [getInstanceField("migration_stateful")]: values.migration_stateful,
-    [getInstanceField("cluster_evacuate")]: values.cluster_evacuate,
-  };
-};
+export { migrationPayload } from "util/instanceAndProfilePayloads";
 &nbsp;
 interface Props {
   formik: InstanceAndProfileFormikProps;
 }
 &nbsp;
-const MigrationForm: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {
-  const isInstance = <span class="cstat-no" title="statement not covered" >formik.values.entityType === "instance";</span>
+const MigrationForm: FC&lt;Props&gt; = ({ formik }) =&gt; {
+  const isInstance = formik.values.entityType === "instance";
   const isVmOnlyDisabled =
-<span class="cstat-no" title="statement not covered" >    isInstance &amp;&amp;</span>
+    isInstance &amp;&amp;
     (formik.values as CreateInstanceFormValues).instanceType !==
       "virtual-machine";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;ScrollableConfigurationTable
       rows={[
         getConfigurationRow({
@@ -235,7 +211,7 @@ const MigrationForm: FC&lt;Props&gt; = <span class="fstat-no" title="function no
           disabledReason: <span class="branch-0 cbranch-no" title="branch not covered" >isVmOnlyDisabled</span>
 <span class="cstat-no" title="statement not covered" >            ? "Only available for virtual machines"</span>
             : undefined,
-          readOnlyRenderer: <span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >optionRenderer(val, optionAllowDeny),</span>
+          readOnlyRenderer: (val) =&gt; optionRenderer(val, optionAllowDeny),
           children: (
             &lt;Select options={optionAllowDeny} disabled={isVmOnlyDisabled} /&gt;
           ),
@@ -245,8 +221,8 @@ const MigrationForm: FC&lt;Props&gt; = <span class="fstat-no" title="function no
           label: "Cluster evacuation",
           name: "cluster_evacuate",
           defaultValue: "auto",
-          readOnlyRenderer: <span class="fstat-no" title="function not covered" >(v</span>al) =&gt;
-<span class="cstat-no" title="statement not covered" >            optionRenderer(val, clusterEvacuationOptions),</span>
+          readOnlyRenderer: (val) =&gt;
+            optionRenderer(val, clusterEvacuationOptions),
           children: &lt;Select options={clusterEvacuationOptions} /&gt;,
         }),
       ]}
@@ -262,7 +238,7 @@ export default MigrationForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-29T08:50:33.584Z
+                at 2026-04-29T12:45:02.043Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.21% </span>
+                <span class="strong">11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/146</span>
+                <span class='fraction'>11/100</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -163,15 +163,15 @@
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
 <a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
+<a name='L101'></a><a href='#L101'>101</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -261,8 +261,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">350x</span>
-<span class="cline-any cline-yes">350x</span>
+<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">115x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState, type FC } from "react";
 import { Button } from "@canonical/react-components";
 &nbsp;
@@ -271,13 +271,13 @@ interface Props {
   setSSHPublicKey: (value: string) =&gt; void;
 }
 &nbsp;
-const SshKeyGenerateAndDownload: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> keyName, setSSHPublicKey }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [privateKey, setPrivateKey] = <span class="cstat-no" title="statement not covered" >useState&lt;CryptoKey&gt;();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [publicKey, setPublicKey] = <span class="cstat-no" title="statement not covered" >useState&lt;CryptoKey&gt;();</span></span>
-<span class="cstat-no" title="statement not covered" >  const [isDownloaded, setIsDownloaded] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const generateSSHKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setSSHPublicKey("");</span></span>
-<span class="cstat-no" title="statement not covered" >    const key = <span class="cstat-no" title="statement not covered" >await window.crypto.subtle.generateKey(</span></span>
+const SshKeyGenerateAndDownload: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ keyName, setSSHPublicKey }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const [privateKey, setPrivateKey] = useState&lt;CryptoKey&gt;();</span>
+<span class="cstat-no" title="statement not covered" >  const [publicKey, setPublicKey] = useState&lt;CryptoKey&gt;();</span>
+<span class="cstat-no" title="statement not covered" >  const [isDownloaded, setIsDownloaded] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  const generateSSHKey = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setSSHPublicKey("");</span>
+<span class="cstat-no" title="statement not covered" >    const key = await window.crypto.subtle.generateKey(</span>
 <span class="cstat-no" title="statement not covered" >      {</span>
 <span class="cstat-no" title="statement not covered" >        name: "ECDSA",</span>
 <span class="cstat-no" title="statement not covered" >        namedCurve: "P-384",</span>
@@ -285,70 +285,70 @@ const SshKeyGenerateAndDownload: FC&lt;Props&gt; = <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >      true,</span>
 <span class="cstat-no" title="statement not covered" >      ["sign", "verify"],</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setPrivateKey(key.privateKey);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setPublicKey(key.publicKey);</span></span>
+<span class="cstat-no" title="statement not covered" >    setPrivateKey(key.privateKey);</span>
+<span class="cstat-no" title="statement not covered" >    setPublicKey(key.publicKey);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    generateSSHKey();</span></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    generateSSHKey();</span>
 <span class="cstat-no" title="statement not covered" >  }, []);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const exportEcdsaPublicKeyAsOpenSSH = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>ublicKey: ArrayBuffer) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const key = <span class="cstat-no" title="statement not covered" >new Uint8Array(publicKey);</span></span>
-<span class="cstat-no" title="statement not covered" >    const curveName = <span class="cstat-no" title="statement not covered" >"nistp384";</span></span>
-<span class="cstat-no" title="statement not covered" >    const sshAlgo = <span class="cstat-no" title="statement not covered" >"ecdsa-sha2-nistp384";</span></span>
+<span class="cstat-no" title="statement not covered" >  const exportEcdsaPublicKeyAsOpenSSH = (publicKey: ArrayBuffer) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const key = new Uint8Array(publicKey);</span>
+<span class="cstat-no" title="statement not covered" >    const curveName = "nistp384";</span>
+<span class="cstat-no" title="statement not covered" >    const sshAlgo = "ecdsa-sha2-nistp384";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const writeString = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nput: string | Uint8Array): Uint8Array =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    const writeString = (input: string | Uint8Array): Uint8Array =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      const data =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        typeof input === "string" ? new TextEncoder().encode(input) : input;</span></span>
-<span class="cstat-no" title="statement not covered" >      const len = <span class="cstat-no" title="statement not covered" >new Uint8Array(4);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      new DataView(len.buffer).setUint32(0, data.length, false); //big-endian</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return new Uint8Array([...len, ...data]);</span></span>
+<span class="cstat-no" title="statement not covered" >        typeof input === "string" ? new TextEncoder().encode(input) : input;</span>
+<span class="cstat-no" title="statement not covered" >      const len = new Uint8Array(4);</span>
+<span class="cstat-no" title="statement not covered" >      new DataView(len.buffer).setUint32(0, data.length, false); //big-endian</span>
+<span class="cstat-no" title="statement not covered" >      return new Uint8Array([...len, ...data]);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const combined = <span class="cstat-no" title="statement not covered" >new Uint8Array([</span></span>
+<span class="cstat-no" title="statement not covered" >    const combined = new Uint8Array([</span>
 <span class="cstat-no" title="statement not covered" >      ...writeString(sshAlgo),</span>
 <span class="cstat-no" title="statement not covered" >      ...writeString(curveName),</span>
 <span class="cstat-no" title="statement not covered" >      ...writeString(key),</span>
 <span class="cstat-no" title="statement not covered" >    ]);</span>
-<span class="cstat-no" title="statement not covered" >    const base64Key = <span class="cstat-no" title="statement not covered" >btoa(String.fromCharCode(...combined));</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return `${sshAlgo} ${base64Key}`;</span></span>
+<span class="cstat-no" title="statement not covered" >    const base64Key = btoa(String.fromCharCode(...combined));</span>
+<span class="cstat-no" title="statement not covered" >    return `${sshAlgo} ${base64Key}`;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const convertToPEMFormat = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(k</span>eyData: ArrayBuffer, label: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const base64 = <span class="cstat-no" title="statement not covered" >window.btoa(String.fromCharCode(...new Uint8Array(keyData)));</span></span>
-<span class="cstat-no" title="statement not covered" >    const lines = <span class="cstat-no" title="statement not covered" >base64.match(/.{1,64}/g)?.join("\n") ?? base64;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return `-----BEGIN ${label}-----\n${lines}\n-----END ${label}-----`;</span></span>
+<span class="cstat-no" title="statement not covered" >  const convertToPEMFormat = (keyData: ArrayBuffer, label: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const base64 = window.btoa(String.fromCharCode(...new Uint8Array(keyData)));</span>
+<span class="cstat-no" title="statement not covered" >    const lines = base64.match(/.{1,64}/g)?.join("\n") ?? base64;</span>
+<span class="cstat-no" title="statement not covered" >    return `-----BEGIN ${label}-----\n${lines}\n-----END ${label}-----`;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const downloadPEMFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>emString: string, filename: string) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const blob = <span class="cstat-no" title="statement not covered" >new Blob([pemString], { type: "application/x-pem-file" });</span></span>
-<span class="cstat-no" title="statement not covered" >    const url = <span class="cstat-no" title="statement not covered" >URL.createObjectURL(blob);</span></span>
-<span class="cstat-no" title="statement not covered" >    const a = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    a.href = url;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    a.download = filename;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    a.click();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    URL.revokeObjectURL(url);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setIsDownloaded(true);</span></span>
+<span class="cstat-no" title="statement not covered" >  const downloadPEMFile = (pemString: string, filename: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const blob = new Blob([pemString], { type: "application/x-pem-file" });</span>
+<span class="cstat-no" title="statement not covered" >    const url = URL.createObjectURL(blob);</span>
+<span class="cstat-no" title="statement not covered" >    const a = document.createElement("a");</span>
+<span class="cstat-no" title="statement not covered" >    a.href = url;</span>
+<span class="cstat-no" title="statement not covered" >    a.download = filename;</span>
+<span class="cstat-no" title="statement not covered" >    a.click();</span>
+<span class="cstat-no" title="statement not covered" >    URL.revokeObjectURL(url);</span>
+<span class="cstat-no" title="statement not covered" >    setIsDownloaded(true);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const downloadPrivateKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!privateKey || !publicKey) <span class="cstat-no" title="statement not covered" >return;</span></span></span>
-<span class="cstat-no" title="statement not covered" >    const privateKeyData = <span class="cstat-no" title="statement not covered" >await window.crypto.subtle.exportKey(</span></span>
+<span class="cstat-no" title="statement not covered" >  const downloadPrivateKey = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (!privateKey || !publicKey) return;</span>
+<span class="cstat-no" title="statement not covered" >    const privateKeyData = await window.crypto.subtle.exportKey(</span>
 <span class="cstat-no" title="statement not covered" >      "pkcs8",</span>
 <span class="cstat-no" title="statement not covered" >      privateKey,</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >    const privateKeyPEM = <span class="cstat-no" title="statement not covered" >convertToPEMFormat(privateKeyData, "EC PRIVATE KEY");</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    downloadPEMFile(privateKeyPEM, `lxd-${location.hostname}-${keyName}`);</span></span>
-<span class="cstat-no" title="statement not covered" >    const publicKeyDataRaw = <span class="cstat-no" title="statement not covered" >await window.crypto.subtle.exportKey(</span></span>
+<span class="cstat-no" title="statement not covered" >    const privateKeyPEM = convertToPEMFormat(privateKeyData, "EC PRIVATE KEY");</span>
+<span class="cstat-no" title="statement not covered" >    downloadPEMFile(privateKeyPEM, `lxd-${location.hostname}-${keyName}`);</span>
+<span class="cstat-no" title="statement not covered" >    const publicKeyDataRaw = await window.crypto.subtle.exportKey(</span>
 <span class="cstat-no" title="statement not covered" >      "raw",</span>
 <span class="cstat-no" title="statement not covered" >      publicKey,</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >    const publicKeyOpenSsh = <span class="cstat-no" title="statement not covered" >exportEcdsaPublicKeyAsOpenSSH(publicKeyDataRaw);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setSSHPublicKey(publicKeyOpenSsh);</span></span>
+<span class="cstat-no" title="statement not covered" >    const publicKeyOpenSsh = exportEcdsaPublicKeyAsOpenSSH(publicKeyDataRaw);</span>
+<span class="cstat-no" title="statement not covered" >    setSSHPublicKey(publicKeyOpenSsh);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;p className="u-text--muted"&gt;</span>
 <span class="cstat-no" title="statement not covered" >        {isDownloaded</span>
@@ -370,7 +370,7 @@ export default SshKeyGenerateAndDownload;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-29T08:50:33.584Z
+                at 2026-04-29T12:45:02.043Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
