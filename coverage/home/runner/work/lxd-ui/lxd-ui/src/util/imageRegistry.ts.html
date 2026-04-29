@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.74% </span>
+                <span class="strong">9.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/154</span>
+                <span class='fraction'>15/156</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.33% </span>
+                <span class="strong">11.76% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/15</span>
+                <span class='fraction'>2/17</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.06% </span>
+                <span class="strong">11.86% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/116</span>
+                <span class='fraction'>14/118</span>
             </div>
         
             
@@ -179,20 +179,24 @@
 <a name='L114'></a><a href='#L114'>114</a>
 <a name='L115'></a><a href='#L115'>115</a>
 <a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
-<span class="cline-any cline-yes">340x</span>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-yes">334x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -334,10 +338,12 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      imagesByRegistry[registry.name] = registryImages</span></span>
-<span class="cstat-no" title="statement not covered" >        .filter(<span class="fstat-no" title="function not covered" >(i</span>mage) =&gt; <span class="cstat-no" title="statement not covered" >image.aliases !== null)</span></span>
+<span class="cstat-no" title="statement not covered" >        .filter(<span class="fstat-no" title="function not covered" >(i</span>mage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return !(registry.builtin &amp;&amp; image.aliases === null);</span></span>
+<span class="cstat-no" title="statement not covered" >        })</span>
 <span class="cstat-no" title="statement not covered" >        .map(<span class="fstat-no" title="function not covered" >(i</span>mage) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >          const item = <span class="cstat-no" title="statement not covered" >localLxdToRemoteImage(image);</span></span>
-<span class="cstat-no" title="statement not covered" >          const ltsAlias = <span class="cstat-no" title="statement not covered" >image.aliases.find(<span class="fstat-no" title="function not covered" >(a</span>) =&gt; <span class="cstat-no" title="statement not covered" >a.name === "lts")</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >          const ltsAlias = <span class="cstat-no" title="statement not covered" >image.aliases?.find(<span class="fstat-no" title="function not covered" >(a</span>) =&gt; <span class="cstat-no" title="statement not covered" >a.name === "lts")</span>;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return {</span></span>
 <span class="cstat-no" title="statement not covered" >            ...item,</span>
@@ -403,9 +409,9 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  // add images from custom registries</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  Object.entries(imagesByRegistry).forEach(<span class="fstat-no" title="function not covered" >([</span>registry, images]) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  Object.entries(imagesByRegistry).forEach(<span class="fstat-no" title="function not covered" >([</span>registry, registryImages]) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!ubuntuRegistries.includes(registry) &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >registry !== "images") {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      images.push(...images);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      images.push(...registryImages);</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -418,7 +424,7 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-28T18:06:02.256Z
+                at 2026-04-29T08:47:47.902Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
