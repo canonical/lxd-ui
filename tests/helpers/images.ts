@@ -1,6 +1,7 @@
 import { expect } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
+import { dismissNotification } from "./notification";
 
 export const visitLocalImages = async (page: Page, project: string) => {
   await gotoURL(page, `/ui/project/${project}/local-images`);
@@ -38,5 +39,5 @@ export const deleteImage = async (page: Page, imageIdentifier: string) => {
     .getByRole("button", { name: "Delete" })
     .click();
 
-  await page.waitForSelector(`text=Image ${imageName} deleted.`);
+  await dismissNotification(page, `Image ${imageName} deleted.`);
 };

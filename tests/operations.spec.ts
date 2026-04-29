@@ -14,21 +14,18 @@ test("instance operations are recognised on the Operations page", async ({
 }) => {
   const instance = randomInstanceName();
   await createInstance(page, instance);
-  await dismissNotification(page);
+  await dismissNotification(page, `Created instance ${instance}.`);
   await validateOperation(page, `Creating instance${instance}`);
 
   // start instance and wait for the notification instance was started
   await visitAndStartInstance(page, instance);
-  await dismissNotification(page);
   await validateOperation(page, `Starting instance${instance}`);
 
   // stop instance and validate stop operation is in operation list
   await visitAndStopInstance(page, instance);
-  await dismissNotification(page);
   await validateOperation(page, `Stopping instance${instance}`);
 
   // delete instance and validate delete operation is in operation list
   await deleteInstance(page, instance);
-  await dismissNotification(page);
   await validateOperation(page, `Deleting instance`);
 });

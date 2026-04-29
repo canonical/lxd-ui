@@ -3,6 +3,7 @@ import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
 import type { LxdVersions } from "../fixtures/lxd-test";
 import { test } from "../fixtures/lxd-test";
+import { dismissNotification } from "./notification";
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -35,7 +36,7 @@ export const createClusterGroup = async (page: Page, group: string) => {
   const panel = page.getByLabel("Side panel");
   await panel.getByRole("button", { name: "Create group" }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} created.`);
+  await dismissNotification(page, `Cluster group ${group} created.`);
 };
 
 export const deleteClusterGroup = async (page: Page, group: string) => {
@@ -48,7 +49,7 @@ export const deleteClusterGroup = async (page: Page, group: string) => {
     .click();
   await page.getByText("Delete", { exact: true }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} deleted.`);
+  await dismissNotification(page, `Cluster group ${group} deleted.`);
 };
 
 export const toggleClusterGroupMember = async (
@@ -69,5 +70,5 @@ export const toggleClusterGroupMember = async (
     .click();
   await page.getByRole("button", { name: "Save changes" }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} saved.`);
+  await dismissNotification(page, `Cluster group ${group} saved.`);
 };

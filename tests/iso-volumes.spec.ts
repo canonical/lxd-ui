@@ -4,6 +4,7 @@ import { assertTextVisible } from "./helpers/permissions";
 import { activateOverride } from "./helpers/configuration";
 import { gotoURL } from "./helpers/navigate";
 import { randomIsoName } from "./helpers/storageVolume";
+import { dismissNotification } from "./helpers/notification";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
 test("upload and delete custom iso", async ({ page, lxdVersion }) => {
@@ -77,7 +78,7 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
     .selectOption("Deny");
   await page.getByRole("button", { name: "Create", exact: true }).click();
 
-  await page.waitForSelector(`text=Created instance ${instance}.`);
+  await dismissNotification(page, `Created instance ${instance}.`);
 
   await deleteInstance(page, instance);
   await gotoURL(page, "/ui/");

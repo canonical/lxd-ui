@@ -2,6 +2,7 @@ import type { Locator, Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
+import { dismissNotification } from "./notification";
 
 export type ServerSettingType = "checkbox" | "text" | "number" | "password";
 
@@ -33,8 +34,7 @@ export const removePassword = async (
     exact: true,
   });
   await removeButton.click();
-  await page.waitForSelector(`text=Setting ${settingName} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Setting ${settingName} updated.`);
   await validateSettingValue(settingRow, "not set");
 };
 
@@ -54,8 +54,7 @@ export const updateSetting = async (
     await settingInput.fill(content);
   }
   await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await page.waitForSelector(`text=Setting ${settingName} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Setting ${settingName} updated.`);
   await validateSettingValue(
     settingRow,
     settingType === "password" ? "set" : content,
@@ -88,8 +87,7 @@ export const resetSetting = async (
     .getByRole("button", { name: "Reset to default", exact: true })
     .click();
   await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await page.waitForSelector(`text=Setting ${settingName} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Setting ${settingName} updated.`);
   await validateSettingValue(settingRow, defaultValue);
 };
 

@@ -13,6 +13,7 @@ import {
   randomProjectName,
 } from "./helpers/projects";
 import { skipIfNotClustered } from "./helpers/cluster";
+import { dismissNotification } from "./helpers/notification";
 
 test("project edit configuration", async ({ page, lxdVersion }, testInfo) => {
   skipIfNotSupported(lxdVersion);
@@ -29,8 +30,7 @@ test("project edit configuration", async ({ page, lxdVersion }, testInfo) => {
   await setOption(page, "Direct cluster targeting", "allow");
 
   await page.getByRole("button", { name: "Save 4 changes" }).click();
-  await page.waitForSelector(`text=Project ${project} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Project ${project} updated.`);
 
   await page.getByText("Project details").click();
 

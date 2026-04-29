@@ -2,6 +2,7 @@ import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
+import { dismissNotification } from "./notification";
 
 export const randomProjectName = (): string => {
   return `playwright-project-${randomNameSuffix()}`;
@@ -23,8 +24,7 @@ const openProjectCreationForm = async (page: Page) => {
 const submitProjectCreationForm = async (page: Page, project: string) => {
   await page.getByPlaceholder("Enter name").fill(project);
   await page.getByRole("button", { name: "Create" }).click();
-  await page.getByText(`Project ${project} created.`).waitFor();
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Project ${project} created.`);
 };
 
 export const createProject = async (page: Page, project: string) => {

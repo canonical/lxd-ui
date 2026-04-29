@@ -6,10 +6,8 @@ import {
   deleteInstance,
   randomInstanceName,
   visitAndStartInstance,
-  visitAndStopInstance,
 } from "./helpers/instances";
 import {
-  checkNotificationExists,
   dismissNotification,
   checkNotificationHidden,
   toggleNotificationList,
@@ -33,16 +31,15 @@ test.afterAll(async ({ browser }) => {
 
 test("show notification after user action", async ({ page }) => {
   await visitAndStartInstance(page, instance);
-  await checkNotificationExists(page);
-});
-
-test("dismiss one notification", async ({ page }) => {
-  await visitAndStopInstance(page, instance);
-  await dismissNotification(page);
-});
-
-test("auto hide notification after a timeout", async ({ page }) => {
-  await visitAndStartInstance(page, instance);
+  const stopButton = page.getByRole("button", { name: "Stop", exact: true });
+  await page.keyboard.down("Shift");
+  await stopButton.click();
+  await page.keyboard.up("Shift");
+  await dismissNotification(page, `Instance ${instance} stopped.`);
+  const startButton = page.getByRole("button", { name: "Start", exact: true });
+  await page.keyboard.down("Shift");
+  await startButton.click();
+  await page.keyboard.up("Shift");
   await page.waitForTimeout(5000);
   await checkNotificationHidden(page);
 });

@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
+import { dismissNotification } from "./notification";
 
 export const randomProfileName = (): string => {
   return `playwright-profile-${randomNameSuffix()}`;
@@ -29,7 +30,7 @@ export const startProfileCreation = async (
 
 export const finishProfileCreation = async (page: Page, profile: string) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Profile ${profile} created.`);
+  await dismissNotification(page, `Profile ${profile} created.`);
 };
 
 export const deleteProfile = async (
@@ -43,7 +44,7 @@ export const deleteProfile = async (
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Profile ${profile} deleted.`);
+  await dismissNotification(page, `Profile ${profile} deleted.`);
 };
 
 export const visitProfile = async (
@@ -70,7 +71,7 @@ export const renameProfile = async (
   await page.getByRole("textbox").press("Control+a");
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(`text=Profile ${oldName} renamed to ${newName}.`);
+  await dismissNotification(page, `Profile ${oldName} renamed to ${newName}.`);
 };
 
 export const saveProfile = async (
@@ -81,8 +82,7 @@ export const saveProfile = async (
   const name =
     changeCount === 1 ? "Save 1 change" : `Save ${changeCount} changes`;
   await page.getByRole("button", { name }).click();
-  await page.waitForSelector(`text=Profile ${profile} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  await dismissNotification(page, `Profile ${profile} updated.`);
 };
 
 export const editProfile = async (page: Page, profile: string) => {

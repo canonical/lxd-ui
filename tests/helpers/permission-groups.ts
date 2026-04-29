@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
+import { dismissNotification } from "./notification";
 
 export const randomGroupName = (): string => {
   return `playwright-group-${randomNameSuffix()}`;
@@ -26,8 +27,9 @@ export const renameGroup = async (
   await page.getByPlaceholder("Enter name").fill(newGroupName);
 
   await page.getByRole("button", { name: "Save 1 change" }).click();
-  await page.waitForSelector(
-    `text=Group ${newGroupName ?? groupName} updated.`,
+  await dismissNotification(
+    page,
+    `Group ${newGroupName ?? groupName} updated.`,
   );
 };
 
@@ -147,7 +149,7 @@ export const createGroup = async (
     .locator("#panel-footer")
     .getByRole("button", { name: "Create group" })
     .click();
-  await page.waitForSelector(`text=Group ${groupName} created`);
+  await dismissNotification(page, `Group ${groupName} created.`);
 };
 
 export const deleteGroup = async (page: Page, groupName: string) => {
@@ -162,7 +164,7 @@ export const deleteGroup = async (page: Page, groupName: string) => {
   await page
     .getByRole("button", { name: "Permanently delete 1 group" })
     .click();
-  await page.waitForSelector(`text=Group ${groupName} deleted.`);
+  await dismissNotification(page, `Group ${groupName} deleted.`);
 };
 
 export const assertGroupPermissionsCount = async (

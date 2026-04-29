@@ -33,6 +33,7 @@ import { assertTextVisible } from "./helpers/permissions";
 import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
 import { gotoURL } from "./helpers/navigate";
 import { execSync } from "child_process";
+import { dismissNotification } from "./helpers/notification";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -274,7 +275,7 @@ test("instance yaml edit", async ({ page, lxdVersion }) => {
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.type("A-new-description");
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Instance ${vmInstance} updated.`);
+  await dismissNotification(page, `Instance ${vmInstance} updated.`);
 
   await page.getByText("YAML Configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
@@ -288,7 +289,7 @@ test("Copy an instance", async ({ page }) => {
     .getByRole("button", { name: "Copy" })
     .click();
 
-  await page.waitForSelector(`text=Created instance ${instance}-copy.`);
+  await dismissNotification(page, `Created instance ${instance}-copy.`);
   await deleteInstance(page, `${instance}-copy`);
 });
 
@@ -309,7 +310,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     .getByLabel("Confirm start")
     .getByRole("button", { name: "Start" })
     .click();
-  await page.waitForSelector(`text=instance started.`);
+  await dismissNotification(page, `instance started.`);
 
   //Bulk restart instances
   await page.locator("button").filter({ hasText: "Restart" }).click();
@@ -317,7 +318,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     .getByLabel("Confirm restart")
     .getByRole("button", { name: "Restart" })
     .click();
-  await page.waitForSelector(`text=instance restarted.`);
+  await dismissNotification(page, `instance restarted.`);
 
   //Bulk freeze instances
   await page.locator("button").filter({ hasText: "Freeze" }).click();
@@ -325,7 +326,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     .getByRole("dialog", { name: "Confirm freeze" })
     .getByRole("button", { name: "Freeze" })
     .click();
-  await page.waitForSelector(`text=instance frozen.`);
+  await dismissNotification(page, `instance frozen.`);
 
   //Bulk Start instances
   await page
@@ -336,7 +337,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     .getByRole("dialog", { name: "Confirm start" })
     .getByRole("button", { name: "Start" })
     .click();
-  await page.waitForSelector(`text=instance started.`);
+  await dismissNotification(page, `instance started.`);
 
   //Bulk Stop instances
   await page.locator("button").filter({ hasText: "Stop" }).click();
@@ -344,7 +345,7 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     .getByRole("dialog", { name: "Confirm stop" })
     .getByRole("button", { name: "Stop" })
     .click();
-  await page.waitForSelector(`text=instance stopped.`);
+  await dismissNotification(page, `instance stopped.`);
 });
 
 test("Export and Upload an instance backup", async ({ page }) => {
@@ -355,7 +356,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
   await page.getByRole("button", { name: "Export" }).click();
   await page.getByRole("button", { name: "Export instance" }).click();
   const download = await downloadPromise;
-  await page.waitForSelector(`text=Instance ${instance} download started`);
+  await dismissNotification(page, `Instance ${instance} download started`);
   const INSTANCE_FILE = "tests/fixtures/instance.tar.gz";
   await download.saveAs(INSTANCE_FILE);
 
@@ -367,7 +368,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
   await page.getByLabel("Local file").setInputFiles(INSTANCE_FILE);
   await page.getByLabel("New instance name").fill(`${instance}-1`);
   await page.getByRole("button", { name: "Upload and create" }).click();
-  await page.waitForSelector(`text=Created instance ${instance}-1`);
+  await dismissNotification(page, `Created instance ${instance}-1`);
   await deleteInstance(page, `${instance}-1`);
 });
 
@@ -398,7 +399,7 @@ test("Create instance from external instance file", async ({
   const instanceName = randomInstanceName();
   await page.getByLabel("New instance name").fill(instanceName);
   await page.getByRole("button", { name: "Upload and create" }).click();
-  await page.waitForSelector(`text=Created instance ${instanceName}.`);
+  await dismissNotification(page, `Created instance ${instanceName}.`);
   await deleteInstance(page, instanceName);
 });
 
