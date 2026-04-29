@@ -98,6 +98,22 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
   const isDisabled =
     isLoading || member.status !== "Online" || !!loadingType || !hasPermission;
 
+  const getConfirmButtonLabel = () => {
+    if (!hasPermission) {
+      return "You do not have permission to evacuate cluster members";
+    }
+    if (isLoading || loadingType === "Evacuating") {
+      return "Evacuating cluster member...";
+    }
+    if (member.status !== "Online") {
+      return "Member must be online to evacuate";
+    }
+    if (loadingType) {
+      return `Cluster member is currently ${loadingType.toLowerCase()}...`;
+    }
+    return "Evacuate cluster member";
+  };
+
   return (
     <ConfirmationButton
       appearance={hasLabel ? "" : "base"}
@@ -141,9 +157,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({
             </p>
           </>
         ),
-        confirmButtonLabel: hasPermission
-          ? "Evacuate cluster member"
-          : "You do not have permission to evacuate cluster members",
+        confirmButtonLabel: getConfirmButtonLabel(),
         onConfirm: handleEvacuate,
       }}
       shiftClickEnabled

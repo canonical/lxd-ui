@@ -102,6 +102,22 @@ const RestoreClusterMemberBtn: FC<Props> = ({
     !!loadingType ||
     !hasPermission;
 
+  const getConfirmButtonLabel = () => {
+    if (!hasPermission) {
+      return "You do not have permission to restore cluster members";
+    }
+    if (isLoading || loadingType === "Restoring") {
+      return "Restoring cluster member...";
+    }
+    if (member.status !== "Evacuated") {
+      return "Member must be evacuated to restore";
+    }
+    if (loadingType) {
+      return `Cluster member is currently ${loadingType.toLowerCase()}...`;
+    }
+    return "Restore cluster member";
+  };
+
   return (
     <ConfirmationButton
       appearance={hasLabel ? "" : "base"}
@@ -132,9 +148,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({
             </p>
           </>
         ),
-        confirmButtonLabel: hasPermission
-          ? "Restore cluster member"
-          : "You do not have permission to restore cluster members",
+        confirmButtonLabel: getConfirmButtonLabel(),
         onConfirm: handleRestore,
         confirmButtonAppearance: "positive",
       }}
