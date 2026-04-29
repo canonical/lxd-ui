@@ -21,12 +21,9 @@ export const selectAllInstances = async (page: Page) => {
   await page.getByRole("menuitem", { name: "Select all instances" }).click();
 };
 
-export const createInstance = async (
+export const visitCreateInstancePage = async (
   page: Page,
-  instance: string,
-  type = "container",
   project = "default",
-  image = DEFAULT_IMAGE,
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page.waitForLoadState("networkidle");
@@ -35,6 +32,16 @@ export const createInstance = async (
     .first()
     .click();
   await page.getByRole("button", { name: "Create instance" }).click();
+};
+
+export const createInstance = async (
+  page: Page,
+  instance: string,
+  type = "container",
+  project = "default",
+  image = DEFAULT_IMAGE,
+) => {
+  await visitCreateInstancePage(page, project);
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "Browse images" }).click();
