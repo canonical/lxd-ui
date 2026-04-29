@@ -194,13 +194,19 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             ? item.registryName.split("-").map(capitalizeFirstLetter).join(" ")
             : item.registryName;
         }
-        if (item.server === canonicalServer) {
+        const isKnownRegistry = [
+          "images",
+          "ubuntu",
+          "ubuntu-minimal",
+          "",
+        ].includes(item.registryName ?? "");
+        if (item.server === canonicalServer && isKnownRegistry) {
           source = "Ubuntu";
         }
-        if (item.server === minimalServer) {
+        if (item.server === minimalServer && isKnownRegistry) {
           source = "Ubuntu Minimal";
         }
-        if (item.server === imagesLxdServer) {
+        if (item.server === imagesLxdServer && isKnownRegistry) {
           source = "LXD Images";
         }
         return source;
@@ -213,7 +219,8 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           displayRelease +
           displayVariant +
           item.server +
-          item.fingerprint,
+          item.fingerprint +
+          item.registryName,
         className: "u-row",
         columns: [
           {
