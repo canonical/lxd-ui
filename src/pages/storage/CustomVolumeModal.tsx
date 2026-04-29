@@ -36,8 +36,8 @@ const CustomVolumeModal: FC<Props> = ({
   const instanceLocation = getInstanceLocation(formik);
 
   const handleCreateVolume = (volume: LxdStorageVolume) => {
-    setContent(SELECT_VOLUME);
     setPrimaryVolume(volume);
+    onFinish(volume);
   };
 
   const handleGoBack = () => {
