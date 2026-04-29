@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.08% </span>
+                <span class="strong">91.9% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>148/159</span>
+                <span class='fraction'>159/173</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.47% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/17</span>
+                <span class='fraction'>20/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.08% </span>
+                <span class="strong">91.9% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>148/159</span>
+                <span class='fraction'>159/173</span>
             </div>
         
             
@@ -222,7 +222,21 @@
 <a name='L157'></a><a href='#L157'>157</a>
 <a name='L158'></a><a href='#L158'>158</a>
 <a name='L159'></a><a href='#L159'>159</a>
-<a name='L160'></a><a href='#L160'>160</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -324,6 +338,22 @@
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
@@ -366,8 +396,6 @@
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
@@ -481,6 +509,22 @@ const EvacuateClusterMemberBtn: FC&lt;Props&gt; = ({
   const isDisabled =
     isLoading || member.status !== "Online" || !!loadingType || !hasPermission;
 &nbsp;
+  const getConfirmButtonLabel = () =&gt; {
+    if (!hasPermission) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return "You do not have permission to evacuate cluster members";</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+    if (isLoading || loadingType === "Evacuating") {
+      return "Evacuating cluster member...";
+    }
+    if (member.status !== "Online") {
+      return "Member must be online to evacuate";
+    }
+    if (loadingType) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return `Cluster member is currently ${loadingType.toLowerCase()}...`;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+    return "Evacuate cluster member";
+  };
+&nbsp;
   return (
     &lt;ConfirmationButton
       appearance={<span class="branch-0 cbranch-no" title="branch not covered" >hasLabel ? "" : "</span>base"}
@@ -524,9 +568,7 @@ const EvacuateClusterMemberBtn: FC&lt;Props&gt; = ({
             &lt;/p&gt;
           &lt;/&gt;
         ),
-        confirmButtonLabel: hasPermission
-          ? <span class="branch-0 cbranch-no" title="branch not covered" >"Evacuate cluster member"</span>
-<span class="cstat-no" title="statement not covered" >          : "You do not have permission to evacuate cluster members",</span>
+        confirmButtonLabel: getConfirmButtonLabel(),
         onConfirm: handleEvacuate,
       }}
       shiftClickEnabled
@@ -547,7 +589,7 @@ export default EvacuateClusterMemberBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-29T12:45:02.043Z
+                at 2026-04-29T16:24:59.128Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
