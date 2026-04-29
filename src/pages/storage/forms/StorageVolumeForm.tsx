@@ -30,7 +30,7 @@ import {
 import type { LxdStorageVolume } from "types/storage";
 import { slugify } from "util/slugify";
 import { driversWithFilesystemSupport } from "util/storageOptions";
-import { getUnhandledKeyValues } from "util/formFields";
+import { getUnhandledKeyValues } from "util/instanceAndProfilePayloads";
 import { useStoragePools } from "context/useStoragePools";
 import { useSettings } from "context/useSettings";
 import { useClusterMembers } from "context/useClusterMembers";

@@ -2,6 +2,8 @@ import type { LxdProject } from "types/project";
 import { slugify } from "./slugify";
 import { ROOT_PATH } from "util/rootPath";
 
+export const ALL_PROJECTS = "All projects";
+
 export const storageTabs: string[] = [
   "Pools",
   "Volumes",

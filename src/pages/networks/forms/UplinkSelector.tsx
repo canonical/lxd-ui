@@ -8,7 +8,7 @@ import {
   useNotify,
   Spinner,
 } from "@canonical/react-components";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";

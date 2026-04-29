@@ -1,7 +1,7 @@
 import type { LxdProject } from "types/project";
+import { ALL_PROJECTS } from "util/projects";
 
-export const ALL_PROJECTS = "__all_projects__";
-const LOCAL_STORAGE_KEY = "lxdLoginProject";
+export const LOCAL_STORAGE_KEY = "lxdLoginProject";
 
 export const loadLoginProject = (): string | undefined => {
   const saved = localStorage.getItem(LOCAL_STORAGE_KEY);

@@ -15,7 +15,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ScrollableForm from "components/ScrollableForm";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
 import type { LxdStoragePool } from "types/storage";
 import type { LxdSettings } from "types/server";

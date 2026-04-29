@@ -27,7 +27,7 @@ import {
   getInheritedSourceRow,
 } from "components/forms/InheritedDeviceRow";
 import { deviceKeyToLabel, getProfileFromSource } from "util/devices";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import NewProxyBtn from "components/forms/NewProxyBtn";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { optionEnabledDisabled } from "util/instanceOptions";

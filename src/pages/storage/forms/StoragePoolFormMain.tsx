@@ -15,7 +15,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { hasSource } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import { isClusteredServer } from "util/settings";
 import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
 import { isStoragePoolWithSize } from "util/storagePoolForm";

@@ -2,11 +2,11 @@ import type { FC, ReactNode } from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import type { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
-import { ALL_PROJECTS } from "components/Navigation";
 import { useProject } from "context/useProjects";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
 import { ROOT_PATH } from "util/rootPath";
+import { ALL_PROJECTS } from "util/projects";
 
 interface ContextProps {
   canViewProject: boolean;

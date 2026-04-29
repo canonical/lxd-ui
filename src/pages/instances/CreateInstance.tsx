@@ -22,23 +22,13 @@ import { objectToYaml, yamlToObject } from "util/yaml";
 import type { Location } from "react-router-dom";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import InstanceCreateDetailsForm, {
-  instanceDetailPayload,
-} from "pages/instances/forms/InstanceCreateDetailsForm";
+import InstanceCreateDetailsForm from "pages/instances/forms/InstanceCreateDetailsForm";
 import type { FormDevice } from "types/formDevice";
-import { formDeviceToPayload, remoteImageToIsoDevice } from "util/formDevices";
-import SecurityPoliciesForm, {
-  securityPoliciesPayload,
-} from "components/forms/SecurityPoliciesForm";
-import InstanceSnapshotsForm, {
-  snapshotsPayload,
-} from "components/forms/InstanceSnapshotsForm";
-import CloudInitForm, {
-  cloudInitPayload,
-} from "components/forms/CloudInitForm";
-import ResourceLimitsForm, {
-  resourceLimitsPayload,
-} from "components/forms/ResourceLimitsForm";
+import { remoteImageToIsoDevice } from "util/formDevices";
+import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
+import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
+import CloudInitForm from "components/forms/CloudInitForm";
+import ResourceLimitsForm from "components/forms/ResourceLimitsForm";
 import YamlForm from "components/forms/YamlForm";
 import InstanceFormMenu, {
   BOOT,
@@ -69,9 +59,7 @@ import {
 } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { instanceNameValidation } from "util/instances";
-import MigrationForm, {
-  migrationPayload,
-} from "components/forms/MigrationForm";
+import MigrationForm from "components/forms/MigrationForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import GPUDevicesForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
@@ -81,9 +69,18 @@ import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
 import type { InstanceIconType } from "types/instance";
 import BootForm from "components/forms/BootForm";
-import { bootPayload } from "util/instanceBoot";
+import {
+  bootPayload,
+  resourceLimitsPayload,
+  securityPoliciesPayload,
+  snapshotsPayload,
+  cloudInitPayload,
+  migrationPayload,
+  sshKeyPayload,
+  instanceDetailPayload,
+  formDeviceToPayload,
+} from "util/instanceAndProfilePayloads";
 import { useProfiles } from "context/useProfiles";
-import { sshKeyPayload } from "components/forms/SshKeyForm";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import { InstanceRichChip } from "./InstanceRichChip";

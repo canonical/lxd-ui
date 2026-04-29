@@ -4,7 +4,7 @@ import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";
 import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
-import { ensureEditMode } from "util/instanceEdit";
+import { ensureEditMode } from "util/editMode";
 import NetworkAclSelector from "pages/networks/forms/NetworkAclSelector";
 import { Label } from "@canonical/react-components";
 import NetworkDefaultACLSelector, {

@@ -19,7 +19,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
-import { ALL_PROJECTS } from "util/loginProject";
+import { ALL_PROJECTS } from "util/projects";
 import { AUTH_METHOD } from "util/authentication";
 
 const AuthenticationSetup = lazy(

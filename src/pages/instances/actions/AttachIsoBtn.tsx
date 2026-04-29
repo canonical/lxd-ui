@@ -9,7 +9,10 @@ import {
   usePortal,
   Icon,
 } from "@canonical/react-components";
-import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
+import {
+  getInstanceEditValues,
+  getInstancePayload,
+} from "util/instanceAndProfilePayloads";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { RemoteImage } from "types/image";

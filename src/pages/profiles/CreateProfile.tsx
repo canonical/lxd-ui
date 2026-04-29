@@ -18,19 +18,10 @@ import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
-import { formDeviceToPayload } from "util/formDevices";
-import SecurityPoliciesForm, {
-  securityPoliciesPayload,
-} from "components/forms/SecurityPoliciesForm";
-import InstanceSnapshotsForm, {
-  snapshotsPayload,
-} from "components/forms/InstanceSnapshotsForm";
-import CloudInitForm, {
-  cloudInitPayload,
-} from "components/forms/CloudInitForm";
-import ResourceLimitsForm, {
-  resourceLimitsPayload,
-} from "components/forms/ResourceLimitsForm";
+import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
+import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
+import CloudInitForm from "components/forms/CloudInitForm";
+import ResourceLimitsForm from "components/forms/ResourceLimitsForm";
 import YamlForm from "components/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
@@ -48,10 +39,7 @@ import ProfileFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
 } from "pages/profiles/forms/ProfileFormMenu";
-import { profileDetailConfigPayload } from "pages/profiles/forms/ProfileDetailsForm";
-import ProfileDetailsForm, {
-  profileDetailPayload,
-} from "pages/profiles/forms/ProfileDetailsForm";
+import ProfileDetailsForm from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm/NetworkDevicesForm";
@@ -59,9 +47,7 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import MigrationForm, {
-  migrationPayload,
-} from "components/forms/MigrationForm";
+import MigrationForm from "components/forms/MigrationForm";
 import GPUDevicesForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
@@ -69,8 +55,18 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import BootForm from "components/forms/BootForm";
-import { bootPayload } from "util/instanceBoot";
-import { sshKeyPayload } from "components/forms/SshKeyForm";
+import {
+  bootPayload,
+  resourceLimitsPayload,
+  securityPoliciesPayload,
+  snapshotsPayload,
+  cloudInitPayload,
+  migrationPayload,
+  sshKeyPayload,
+  formDeviceToPayload,
+  profileDetailPayload,
+  profileDetailConfigPayload,
+} from "util/instanceAndProfilePayloads";
 import usePanelParams, { panels } from "util/usePanelParams";
 import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/NetworkDevicePanel";
 import type { CreateProfileFormValues } from "types/forms/instanceAndProfile";

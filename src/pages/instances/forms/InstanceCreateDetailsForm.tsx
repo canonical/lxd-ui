@@ -9,18 +9,10 @@ import {
 } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
-import {
-  isContainerOnlyImage,
-  isVmOnlyImage,
-  LOCAL_IMAGE,
-  LOCAL_ISO,
-} from "util/images";
+import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import type { FormikProps } from "formik/dist/types";
-import type {
-  CreateInstanceFormValues,
-  InstanceDetailsFormValues,
-} from "types/forms/instanceAndProfile";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import type { LxdImageType, RemoteImage } from "types/image";
 import InstanceTargetSelect from "pages/instances/forms/InstanceTargetSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
@@ -29,59 +21,6 @@ import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
 import SshKeyForm from "components/forms/SshKeyForm";
-
-const getInstanceSource = (
-  values: InstanceDetailsFormValues,
-  hasImageRegistries: boolean,
-) => {
-  if (values.image?.registryName && hasImageRegistries) {
-    return {
-      alias: values.image?.aliases.split(",")[0],
-      mode: "pull",
-      image_registry: values.image?.registryName,
-      type: "image",
-    };
-  }
-
-  if (values.image?.server === LOCAL_IMAGE || values.image?.cached) {
-    return {
-      type: "image",
-      certificate: "",
-      fingerprint: values.image?.fingerprint,
-      allow_inconsistent: false,
-    };
-  }
-
-  if (values.image?.server === LOCAL_ISO) {
-    return {
-      type: "none",
-      certificate: "",
-      allow_inconsistent: false,
-    };
-  }
-
-  // legacy image from hardcoded remote
-  return {
-    alias: values.image?.aliases.split(",")[0],
-    mode: "pull",
-    protocol: "simplestreams",
-    server: values.image?.server,
-    type: "image",
-  };
-};
-
-export const instanceDetailPayload = (
-  values: InstanceDetailsFormValues,
-  hasImageRegistries: boolean,
-) => {
-  return {
-    name: values.name,
-    description: values.description,
-    type: values.instanceType,
-    profiles: values.profiles,
-    source: getInstanceSource(values, hasImageRegistries),
-  };
-};
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;

@@ -35,6 +35,7 @@ import { getReportBugURL } from "util/reportBug";
 import { AUTH_METHOD, authIcon } from "util/authentication";
 import DocLink from "components/DocLink";
 import AuthenticationTlsStepper from "./AuthenticationTlsStepper";
+import { ALL_PROJECTS } from "util/projects";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -71,8 +72,6 @@ const initialiseOpenNavMenus = (location: Location) => {
 
   return initialOpenMenus;
 };
-
-export const ALL_PROJECTS = "All projects";
 
 const Navigation: FC = () => {
   const { isRestricted, authMethod, isAuthenticated } = useAuth();

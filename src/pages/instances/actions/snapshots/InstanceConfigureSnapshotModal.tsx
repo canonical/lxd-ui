@@ -8,11 +8,11 @@ import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
 import { useQueryClient } from "@tanstack/react-query";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
 import { useParams } from "react-router-dom";
+import { InstanceEditSchema } from "util/instanceEdit";
 import {
-  getInstanceEditValues,
   getInstancePayload,
-  InstanceEditSchema,
-} from "util/instanceEdit";
+  getInstanceEditValues,
+} from "util/instanceAndProfilePayloads";
 import { useEventQueue } from "context/eventQueue";
 
 interface Props {

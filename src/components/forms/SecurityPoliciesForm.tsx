@@ -1,9 +1,6 @@
 import type { FC } from "react";
 import { Button, Input, Select } from "@canonical/react-components";
-import type {
-  CreateInstanceFormValues,
-  SecurityPoliciesFormValues,
-} from "types/forms/instanceAndProfile";
+import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import classnames from "classnames";
 import {
   optionAllowDeny,
@@ -17,30 +14,9 @@ import {
   getConfigurationRowBase,
 } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { getInstanceField } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { BOOT } from "pages/instances/forms/InstanceFormMenu";
-
-export const securityPoliciesPayload = (values: SecurityPoliciesFormValues) => {
-  return {
-    [getInstanceField("security_protection_delete")]:
-      values.security_protection_delete,
-    [getInstanceField("security_privileged")]: values.security_privileged,
-    [getInstanceField("security_nesting")]: values.security_nesting,
-    [getInstanceField("security_protection_shift")]:
-      values.security_protection_shift,
-    [getInstanceField("security_idmap_base")]: values.security_idmap_base,
-    [getInstanceField("security_idmap_size")]:
-      values.security_idmap_size?.toString(),
-    [getInstanceField("security_idmap_isolated")]:
-      values.security_idmap_isolated,
-    [getInstanceField("security_devlxd")]: values.security_devlxd,
-    [getInstanceField("security_devlxd_images")]: values.security_devlxd_images,
-    [getInstanceField("security_secureboot")]: values.security_secureboot,
-    [getInstanceField("security_csm")]: values.security_csm,
-  };
-};
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
