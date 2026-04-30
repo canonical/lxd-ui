@@ -6,12 +6,14 @@ import {
   Icon,
   SearchBox,
 } from "@canonical/react-components";
-import { useNavigate } from "react-router-dom";
-import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
-import { defaultFirst } from "util/helpers";
-import { ROOT_PATH } from "util/rootPath";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useCurrentProject } from "context/useCurrentProject";
 import { useProjects } from "context/useProjects";
+import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
 import { useServerEntitlements } from "util/entitlements/server";
+import { defaultFirst } from "util/helpers";
+import { isGlobalPage, ALL_PROJECTS } from "util/projects";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   activeProject: string;
@@ -21,8 +23,11 @@ const NavigationProjectSelector: FC<Props> = ({
   activeProject,
 }): React.JSX.Element => {
   const navigate = useNavigate();
+  const location = useLocation();
   const searchRef = useRef<HTMLInputElement>(null);
   const { canCreateProjects } = useServerEntitlements();
+  const { setProjectName } = useCurrentProject();
+  const isOnGlobalPage = isGlobalPage(location.pathname);
 
   const { data: projects = [] } = useProjects();
 
@@ -49,53 +54,62 @@ const NavigationProjectSelector: FC<Props> = ({
         title={`Select project (${activeProject})`}
         className="project-select is-dark"
       >
-        <div className="list is-dark" key="my-div">
-          {projects.length > 5 && (
-            <SearchBox
-              id="searchProjectSelector"
-              key="searchProjectSelector"
-              autoFocus={true}
-              autocomplete="off"
-              name="query"
-              placeholder="Search"
-              onChange={(val) => {
-                updateQuery(val);
+        {(close: () => void) => (
+          <div className="list is-dark" key="my-div">
+            {projects.length > 5 && (
+              <SearchBox
+                id="searchProjectSelector"
+                key="searchProjectSelector"
+                autoFocus={true}
+                autocomplete="off"
+                name="query"
+                placeholder="Search"
+                onChange={(val) => {
+                  updateQuery(val);
+                }}
+                ref={searchRef}
+              />
+            )}
+            <Button
+              onClick={() => {
+                if (isOnGlobalPage) {
+                  setProjectName(ALL_PROJECTS);
+                } else {
+                  navigate(`${ROOT_PATH}/ui/all-projects/instances`);
+                }
+                close();
               }}
-              ref={searchRef}
+              className="p-contextual-menu__link all-projects"
+              hasIcon
+            >
+              <Icon name="folder" light />
+              <span>All projects</span>
+            </Button>
+            <NavigationProjectSelectorList
+              projects={projects}
+              onMount={onChildMount}
+              onClose={close}
             />
-          )}
-          <Button
-            onClick={() => {
-              navigate(`${ROOT_PATH}/ui/all-projects/instances`);
-            }}
-            className="p-contextual-menu__link all-projects"
-            hasIcon
-          >
-            <Icon name="folder" light />
-            <span>All projects</span>
-          </Button>
-          <NavigationProjectSelectorList
-            projects={projects}
-            onMount={onChildMount}
-          />
-          <hr className="is-dark" />
-          <Button
-            onClick={() => {
-              navigate(`${ROOT_PATH}/ui/projects/create`);
-            }}
-            className="p-contextual-menu__link"
-            hasIcon
-            disabled={!canCreateProjects()}
-            title={
-              canCreateProjects()
-                ? ""
-                : "You do not have permission to create projects"
-            }
-          >
-            <Icon name="plus" light />
-            <span>Create project</span>
-          </Button>
-        </div>
+            <hr className="is-dark" />
+            <Button
+              onClick={() => {
+                navigate(`${ROOT_PATH}/ui/projects/create`);
+                close();
+              }}
+              className="p-contextual-menu__link"
+              hasIcon
+              disabled={!canCreateProjects()}
+              title={
+                canCreateProjects()
+                  ? ""
+                  : "You do not have permission to create projects"
+              }
+            >
+              <Icon name="plus" light />
+              <span>Create project</span>
+            </Button>
+          </div>
+        )}
       </ContextualMenu>
     </>
   );

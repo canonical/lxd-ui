@@ -50,17 +50,28 @@ export const getSubpageFromUrl = (url: string): string | undefined => {
   return undefined;
 };
 
+export const isGlobalPage = (url: string): boolean => {
+  const urlWithoutQuery = url.split("?")[0];
+  const globalPages = [
+    "/ui/server",
+    "/ui/cluster",
+    "/ui/operations",
+    "/ui/warnings",
+    "/ui/permissions",
+    "/ui/settings",
+    "/ui/image-registries",
+    "/ui/image-registry/",
+  ];
+
+  return globalPages.some((page) => urlWithoutQuery.includes(page));
+};
+
 export const getProjectSwitchTarget = (
   url: string,
   projectName: string,
 ): string => {
-  const urlWithoutQuery = url.split("?")[0];
-
-  if (
-    urlWithoutQuery.includes("/ui/image-registry/") ||
-    urlWithoutQuery.includes("/ui/image-registries")
-  ) {
-    return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instances`;
+  if (isGlobalPage(url)) {
+    return url;
   }
 
   const targetSection = getSubpageFromUrl(url) ?? "instances";
