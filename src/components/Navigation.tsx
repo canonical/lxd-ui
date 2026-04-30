@@ -462,6 +462,7 @@ const Navigation: FC = () => {
                           open={
                             openNavMenus.includes("images") && !menuCollapsed
                           }
+                          disabled={isAllProjects}
                         >
                           <NavLink
                             to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/local-images`}
