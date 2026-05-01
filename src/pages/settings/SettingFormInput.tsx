@@ -47,6 +47,7 @@ const SettingFormInput: FC<Props> = ({
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
       <Input
+        autoFocus
         aria-label={configField.key}
         id={configField.key}
         wrapperClassName="input-wrapper"

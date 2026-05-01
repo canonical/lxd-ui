@@ -35,6 +35,7 @@ const SettingFormCheckbox: FC<Props> = ({
   return (
     <>
       <Input
+        autoFocus
         label={label}
         id={configField.key}
         wrapperClassName="input-wrapper"
