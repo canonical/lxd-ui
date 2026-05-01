@@ -31,7 +31,6 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-
       - name: Install dependencies
         run: yarn install --immutable
 
@@ -93,7 +92,12 @@ jobs:
       matrix:
         lxd_channel: ["5.0/edge", "5.21/edge", "latest/edge"]
         browser: ["chromium", "firefox"]
-        deployment: ["unclustered", "clustered"]
+        deployment: ["unclustered", "clustered", "single-node-cluster"]
+        exclude:
+          - lxd_channel: "5.0/edge"
+            deployment: "clustered"
+          - lxd_channel: "5.0/edge"
+            deployment: "single-node-cluster"
     outputs:
       job_status: ${{job.status}}
     env:
@@ -115,24 +119,19 @@ jobs:
 
       - name: Install LXD-UI dependencies
         run: |
-          set -x
           sudo chmod 0777 ../lxd-ui
           dotrun install
+
+      - name: Generate SSL keys for HAProxy
+        run: |
+          mkdir -p keys
+          openssl req -x509 -newkey rsa:4096 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -days 365 -nodes -subj "/CN=localhost"
+          cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
 
       - name: OVN dependencies
         run: |
           sudo snap refresh snapd --channel latest/beta || sudo snap install snapd --channel latest/beta
           sudo snap refresh core26 --channel latest/edge || sudo snap install core26 --channel latest/edge
-
-      - name: Run LXD-UI
-        env:
-          ENVIRONMENT: devel
-          PORT: 8407
-          LXD_UI_BACKEND_IP: 172.17.0.1
-          VITE_PORT: 3000
-        run: |
-          dotrun &
-          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Setup Ceph
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
@@ -146,15 +145,168 @@ jobs:
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
         with:
           channel: ${{ matrix.lxd_channel }}
-          group: lxd
 
-      - name: Setup LXD
+      - name: Setup LXD (Clustered in VMs)
+        if: ${{ matrix.deployment == 'clustered' }}
+        shell: bash
+        run: |
+          set -x
+          sudo lxd init --auto
+          sudo lxc launch ubuntu:24.04 vm1 --vm
+          until sudo lxc exec vm1 -- true 2>/dev/null; do
+            sleep 1
+          done
+          sudo lxc exec vm1 -- cloud-init status --wait
+          sudo lxc launch ubuntu:24.04 vm2 --vm
+          until sudo lxc exec vm2 -- true 2>/dev/null; do
+            sleep 1
+          done
+          sudo lxc exec vm2 -- cloud-init status --wait
+
+          sudo lxc exec vm1 -- snap install lxd --channel=${{ matrix.lxd_channel }}
+          sudo lxc exec vm2 -- snap install lxd --channel=${{ matrix.lxd_channel }}
+
+          VM1_IP=$(sudo lxc list vm1 --format csv -c 4 | cut -d' ' -f1 | cut -d',' -f1)
+          VM2_IP=$(sudo lxc list vm2 --format csv -c 4 | cut -d' ' -f1 | cut -d',' -f1)
+
+          # Bootstrap VM1
+          cat <<EOF | sudo lxc exec vm1 -- lxd init --preseed
+          config:
+            core.https_address: ${VM1_IP}:8443
+          cluster:
+            enabled: true
+            server_name: vm1
+          networks:
+          - name: lxdbr0
+            type: bridge
+            config:
+              ipv4.address: auto
+              ipv6.address: auto
+          storage_pools:
+          - name: default
+            driver: dir
+            config: {}
+          profiles:
+          - name: default
+            devices:
+              root:
+                path: /
+                pool: default
+                type: disk
+          EOF
+
+          TOKEN=$(sudo lxc exec vm1 -- lxc cluster add vm2 | grep -oE 'ey[A-Za-z0-9._=-]+')
+
+          # Join VM2
+          cat <<EOF | sudo lxc exec vm2 -- lxd init --preseed
+          cluster:
+            enabled: true
+            server_name: vm2
+            server_address: ${VM2_IP}:8443
+            cluster_token: ${TOKEN}
+          EOF
+
+          cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add - || true
+
+          echo "LXD_UI_BACKEND_IP=$VM1_IP" > .env.local
+
+          sudo lxc exec vm1 -- sudo snap install snapd --channel=latest/beta
+          sudo lxc exec vm1 -- sudo snap install core26 --channel latest/edge
+          sudo lxc exec vm1 -- sudo snap install microovn --channel latest/edge
+          sudo lxc exec vm1 -- sudo microovn waitready
+          sudo lxc exec vm1 -- sudo microovn cluster bootstrap
+          sudo lxc exec vm1 -- sudo microovn status
+          OVN_TOKEN=$(sudo lxc exec vm1 -- sudo microovn cluster add vm2)
+
+          sudo lxc exec vm2 -- sudo snap install snapd --channel=latest/beta
+          sudo lxc exec vm2 -- sudo snap install core26 --channel latest/edge
+          sudo lxc exec vm2 -- sudo snap install microovn --channel latest/edge
+          sudo lxc exec vm2 -- sudo microovn waitready
+          sudo lxc exec vm2 -- sudo microovn cluster join "$OVN_TOKEN"
+          sudo lxc exec vm2 -- sudo microovn status
+
+          sudo lxc exec vm1 -- lxc config set network.ovn.northbound_connection "ssl:$VM1_IP:6641,ssl:$VM2_IP:6641"
+
+          # Wait for OVN chassis to be fully registered
+          echo "Waiting for OVN chassis registration..."
+          sleep 15
+
+          # Verify chassis are registered
+          echo "Checking chassis status..."
+          sudo lxc exec vm1 -- sudo ovn-sbctl show
+
+          # Wait for ovn-controller to be ready on both nodes
+          for vm in vm1 vm2; do
+            echo "Checking ovn-controller on $vm..."
+            sudo lxc exec $vm -- sudo systemctl is-active ovn-controller || true
+            sudo lxc exec $vm -- sudo ovn-sbctl list chassis || true
+          done
+
+      - name: Setup LXD (Unclustered on host)
+        if: ${{ matrix.deployment == 'unclustered' }}
         shell: bash
         run: |
           set -x
           sudo lxc config set core.https_address "[::]:8443"
           sudo lxc config trust add keys/lxd-ui.crt
-          sudo lxc config set cluster.https_address "127.0.0.1"
+
+      - name: Setup LXD (Single-node cluster)
+        if: ${{ matrix.deployment == 'single-node-cluster' }}
+        shell: bash
+        run: |
+          set -x
+          HOST_IP=$(ip route get 8.8.8.8 | awk '{print $7; exit}')
+          sudo lxc config trust add keys/lxd-ui.crt
+          cat <<EOF | sudo lxd init --preseed
+          config:
+            core.https_address: ${HOST_IP}:8443
+          networks:
+          - name: lxdbr0
+            type: bridge
+            config:
+              ipv4.address: auto
+              ipv6.address: auto
+          storage_pools:
+          - name: default
+            driver: dir
+            config: {}
+          profiles:
+          - name: default
+            devices:
+              root:
+                path: /
+                pool: default
+                type: disk
+          EOF
+          echo "LXD_UI_BACKEND_IP=${HOST_IP}" > .env.local
+
+      - name: Setup for tests
+        if: ${{ matrix.lxd_channel != '5.0/edge' }}
+        shell: bash
+        env:
+          DEPLOYMENT: ${{ matrix.deployment }}
+          LXD_OIDC_ISSUER: ${{ env.LXD_OIDC_ISSUER }}
+          LXD_OIDC_CLIENT_ID: ${{ env.LXD_OIDC_CLIENT_ID }}
+          LXD_OIDC_CLIENT_SECRET: ${{ env.LXD_OIDC_CLIENT_SECRET }}
+          LXD_OIDC_AUDIENCE: ${{ env.LXD_OIDC_AUDIENCE }}
+          LXD_OIDC_GROUPS_CLAIM: ${{ env.LXD_OIDC_GROUPS_CLAIM }}
+        run: sudo -E ./tests/scripts/setup_test
+
+      - name: Run LXD-UI
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          VITE_PORT: 3000
+        run: |
+          echo "Backend configuration:"
+          if [ -f .env.local ]; then
+            cat .env.local
+          else
+            echo "Using default backend configuration"
+          fi
+          dotrun &
+          sleep 10
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
@@ -163,25 +315,14 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Set lxd channel env variable
-        id: lxd-env
-        run: |
-          # need to change / to - in lxd channel string for report naming
-          LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
-          echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
-
-      - name: Setup for tests
-        if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        shell: bash
-        run: sudo -E ./tests/scripts/setup_test
-
       - name: Run Playwright tests
         env:
           BROWSER: ${{ matrix.browser }}
           DEPLOYMENT: ${{ matrix.deployment }}
-          LXD_CHANNEL: ${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+          LXD_CHANNEL: ${{ matrix.lxd_channel }}
         run: |
-          npx playwright test --project "${BROWSER}:lxd-${LXD_CHANNEL}:${DEPLOYMENT}"
+          PLAYWRIGHT_CHANNEL=$(echo "${LXD_CHANNEL}" | sed 's#/#-#g')
+          npx playwright test --project "${BROWSER}:lxd-${PLAYWRIGHT_CHANNEL}:${DEPLOYMENT}"
 
       - name: Rename Playwright report and artifacts folder
         if: always()

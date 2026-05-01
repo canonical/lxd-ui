@@ -97,7 +97,7 @@ const ClusterSpecificSelect: FC<Props> = ({
 
   return (
     <div className={classname}>
-      {canToggleSpecific && !isReadOnly && (
+      {canToggleSpecific && !isReadOnly && options.length > 1 && (
         <CheckboxInput
           id={`${id}-same-for-all-toggle`}
           label="Same for all cluster members"
