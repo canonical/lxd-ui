@@ -34,6 +34,7 @@ const SettingFormPassword: FC<Props> = ({
         <>
           <div className="input-row">
             <Input
+              autoFocus
               aria-label={configField.key}
               id={configField.key}
               wrapperClassName="input-wrapper"
