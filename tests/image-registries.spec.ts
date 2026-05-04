@@ -2,95 +2,145 @@ import { expect, test } from "./fixtures/lxd-test";
 import {
   skipIfNotSupported,
   visitImageRegistries,
+  visitImageRegistry,
   randomImageRegistryName,
+  createImageRegistry,
+  deleteImageRegistry,
+  openImageRegistryEditPanel,
+  validateRegistryRow,
+  validateRegistryDetailRow,
 } from "./helpers/image-registries";
 import { gotoURL } from "./helpers/navigate";
+import { dismissNotification } from "./helpers/notification";
+import {
+  createProject,
+  deleteProject,
+  openProjectConfiguration,
+  randomProjectName,
+} from "./helpers/projects";
+import { visitCreateInstancePage } from "./helpers/instances";
+
+const BUILTIN_IMAGE_REGISTRY = "ubuntu-daily";
+const BUILTIN_IMAGE_REGISTRY_URL = "https://cloud-images.ubuntu.com/daily/";
 
 test("search for an image registry", async ({ page, lxdVersion }) => {
   skipIfNotSupported(lxdVersion);
-  const builtinRegistryName = "ubuntu-daily";
 
   await gotoURL(page, "/ui");
   await page.getByRole("button", { name: "Images" }).click();
   await page
     .getByRole("link", { name: "Image registries", exact: true })
     .click();
-  await expect(page.getByTitle("Create registry")).toBeVisible();
+  await expect(page.getByText("Create registry")).toBeVisible();
 
   await page.getByPlaceholder("Search and filter").click();
-  await page.getByPlaceholder("Search and filter").fill(builtinRegistryName);
+  await page.getByPlaceholder("Search and filter").fill(BUILTIN_IMAGE_REGISTRY);
   await page.getByPlaceholder("Search and filter").press("Enter");
   await page.getByPlaceholder("Add filter").press("Escape");
 
-  const row = page.getByRole("row", {
-    name: builtinRegistryName,
-    exact: true,
-  });
-  await expect(row).toBeVisible();
-  await expect(row.getByRole("cell", { name: "Name" })).toContainText(
-    builtinRegistryName,
+  await validateRegistryRow(
+    page,
+    BUILTIN_IMAGE_REGISTRY,
+    "Protocol",
+    `simplestreams${BUILTIN_IMAGE_REGISTRY_URL}`,
   );
-  await expect(row.getByRole("cell", { name: "Protocol" })).toContainText(
-    "simplestreams",
-  );
-  await expect(row.getByRole("cell", { name: "Built-in" })).toContainText(
-    "Yes",
-  );
-  await expect(row.getByRole("cell", { name: "Public" })).toContainText("Yes");
+  await validateRegistryRow(page, BUILTIN_IMAGE_REGISTRY, "Built-in", "Yes");
+  await validateRegistryRow(page, BUILTIN_IMAGE_REGISTRY, "Public", "Yes");
 });
 
 test("search for built-in image registries", async ({ page, lxdVersion }) => {
   skipIfNotSupported(lxdVersion);
 
   await visitImageRegistries(page);
-
   await page.getByPlaceholder("Search and filter").click();
   await page.getByPlaceholder("Search and filter").press("Enter");
-  await page.getByRole("button", { name: /BUILTIN Yes/i }).click();
+  await page.getByRole("button").filter({ hasText: "BUILTINYes" }).click();
   await page.getByPlaceholder("Add filter").press("Escape");
 
   await expect(page.getByText("Showing all 5 image registries")).toBeVisible();
 });
 
-test("create SimpleStreams image registry", async ({ page, lxdVersion }) => {
+test("create, edit, and delete SimpleStreams image registry", async ({
+  page,
+  lxdVersion,
+}) => {
   skipIfNotSupported(lxdVersion);
+
   const registryName = randomImageRegistryName();
-  const url = "https://cloud-images.ubuntu.com/releases/";
-  await visitImageRegistries(page);
-  await page.getByTitle("Create registry").click();
-  await expect(
-    page.getByRole("heading", { name: "Create registry" }),
-  ).toBeVisible();
+  await createImageRegistry(page, registryName, "SimpleStreams", {
+    url: BUILTIN_IMAGE_REGISTRY_URL,
+  });
+  const createdRow = page.getByRole("row").filter({ hasText: registryName });
 
-  await page.getByLabel("Name").fill(registryName);
-  await page
-    .getByLabel("Description")
-    .fill("Playwright SimpleStreams registry");
-  await page
-    .getByLabel("Protocol")
-    .getByRole("radio", { name: "SimpleStreams" })
-    .check();
-  await expect(page.getByLabel("Source project")).not.toBeVisible();
-  await expect(page.getByLabel("Cluster link")).not.toBeVisible();
-  await page.getByLabel("Server URL").fill(url);
-
-  await page.getByRole("button", { name: "Create" }).click();
-
-  await expect(
-    page.getByText(`Image registry ${registryName} created.`),
-  ).toBeVisible();
-
-  const createdRow = page.getByRole("row", { name: registryName, exact: true });
-  await expect(createdRow.getByRole("cell", { name: "Name" })).toContainText(
+  await validateRegistryRow(
+    page,
     registryName,
+    "Protocol",
+    `simplestreams${BUILTIN_IMAGE_REGISTRY_URL}`,
   );
+  await validateRegistryRow(page, registryName, "Built-in", "No");
+  await validateRegistryRow(page, registryName, "Public", "Yes");
+
+  await openImageRegistryEditPanel(page, registryName);
+  const updatedDescription = "Updated Playwright description";
+  const sidePanel = page.getByLabel("Side panel");
+  await sidePanel.getByLabel("Description").fill(updatedDescription);
+  await sidePanel.getByRole("button", { name: "Save" }).click();
+  await dismissNotification(page, `Image registry ${registryName} updated.`);
+
+  await page.getByTestId("tab-link-Configuration").click();
+  await expect(page.getByText(updatedDescription)).toBeVisible();
+
+  await deleteImageRegistry(page, registryName);
+  await expect(createdRow).not.toBeVisible();
+});
+
+test("view image registry detail page", async ({ page, lxdVersion }) => {
+  skipIfNotSupported(lxdVersion);
+  await visitImageRegistry(page, BUILTIN_IMAGE_REGISTRY);
+
   await expect(
-    createdRow.getByRole("cell", { name: "Protocol" }),
-  ).toContainText("simplestreams");
+    page.getByRole("link", { name: "Images", exact: true }),
+  ).toBeVisible();
+  await page.getByTestId("tab-link-Configuration").click();
+
+  await validateRegistryDetailRow(page, "Name", BUILTIN_IMAGE_REGISTRY);
+  await validateRegistryDetailRow(page, "Protocol", "simplestreams");
+  await validateRegistryDetailRow(page, "Built-in", "Yes");
+  await validateRegistryDetailRow(page, "Public", "Yes");
+
   await expect(
-    createdRow.getByRole("cell", { name: "Built-in" }),
-  ).toContainText("No");
-  await expect(createdRow.getByRole("cell", { name: "Public" })).toContainText(
-    "Yes",
-  );
+    page.getByRole("button").filter({ hasText: "Edit registry" }),
+  ).toBeDisabled();
+  await expect(
+    page.getByRole("button").filter({ hasText: "Delete registry" }),
+  ).toBeDisabled();
+});
+
+test("project image registry restrictions", async ({ page, lxdVersion }) => {
+  skipIfNotSupported(lxdVersion);
+
+  const project = randomProjectName();
+  const registryName = randomImageRegistryName();
+
+  await createImageRegistry(page, registryName, "SimpleStreams", {
+    url: BUILTIN_IMAGE_REGISTRY_URL,
+  });
+  await createProject(page, project);
+  await openProjectConfiguration(page);
+
+  await page.getByText("Allow custom restrictions on a project level").click();
+
+  await page
+    .getByRole("navigation", { name: "Project form navigation" })
+    .getByText("Images")
+    .click();
+
+  // No image registry is allowed for use in the project by default.
+  await visitCreateInstancePage(page, project);
+  await page.getByRole("button", { name: "Browse images" }).click();
+  await expect(page.getByText("No matching images found")).toBeVisible();
+
+  await deleteProject(page, project);
+  await deleteImageRegistry(page, registryName);
 });
