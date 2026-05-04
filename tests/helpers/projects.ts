@@ -18,6 +18,7 @@ const openProjectCreationForm = async (page: Page) => {
   await expect(page.getByText("Loading storage pools")).not.toBeVisible();
 
   await page.getByLabel("Default instance network", { exact: true }).click();
+  await page.getByTitle("No network", { exact: true }).click();
 };
 
 const submitProjectCreationForm = async (page: Page, project: string) => {
