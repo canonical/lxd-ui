@@ -31,6 +31,7 @@ const ImageRegistryDetailHeader: FC<Props> = ({ imageRegistry }) => {
         "deduplicate",
         "An image registry with this name already exists",
         async (value) =>
+          imageRegistry.name === value ||
           checkDuplicateName(value, "", controllerState, "image-registries"),
       )
       .required("Image registry name is required"),
