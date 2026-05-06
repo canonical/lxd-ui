@@ -486,10 +486,10 @@
     hashery "^1.3.0"
     keyv "^5.5.5"
 
-"@canonical/react-components@4.5.1":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.5.1.tgz#91f14aa6994118f1e2de92edcf0245b4f1a2dc15"
-  integrity sha512-KQaniPNqYNHGB2zpHr/32lvZNrn7SGvXt0D4IEZqG8u6u/ardcaDUKjFhawiHpsUMc0hrGb/mlX8ZgUkOLKlzg==
+"@canonical/react-components@4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.5.2.tgz#a3d470c48ca8dbffdf2e4609f5dc6c48c7f58373"
+  integrity sha512-N/e046Sa+14pO8yXXBoShRcZ+BuKMWuY+dhdFoD12+/MtHSuttNzj9rpLVpOItT3L1NxOOCodjbiXjuDU6u3MA==
   dependencies:
     "@types/jest" "30.0.0"
     "@types/node" "20.19.30"
