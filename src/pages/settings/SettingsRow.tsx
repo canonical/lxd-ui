@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import classnames from "classnames";
 import type { ClusterSpecificValues } from "types/cluster";
 import SettingForm from "pages/settings/SettingForm";
 import type { ConfigField } from "types/config";
@@ -21,6 +23,8 @@ export const getSettingRow = (
   clusteredValue: ClusterSpecificValues,
   deleteUserSetting: (key: string) => void,
   settings?: LxdSettings,
+  onSuccess?: (message: ReactNode) => void,
+  groupClassName?: string,
 ): MainTableRow => {
   const isDefault = !Object.keys(settings?.config ?? {}).some(
     (key) => key === configField.key,
@@ -34,7 +38,7 @@ export const getSettingRow = (
           <h2 className="p-heading--5">{configField.category}</h2>
         ),
         role: "cell",
-        className: "group",
+        className: classnames("group", groupClassName),
         "aria-label": "Group",
       },
       {
@@ -57,6 +61,7 @@ export const getSettingRow = (
             value={value}
             clusteredValue={clusteredValue}
             onDelete={deleteUserSetting}
+            onSuccess={onSuccess}
           />
         ),
         role: "cell",

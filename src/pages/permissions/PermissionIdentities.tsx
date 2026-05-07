@@ -33,16 +33,14 @@ import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted } from "util/helpers";
-import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/helpers";
 import { getIdentityName } from "util/permissionIdentities";
-import CreateTLSIdentity from "./CreateTLSIdentity";
+import CreateTLSIdentity from "pages/permissions/CreateTLSIdentity";
+import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
 import type { ResourceIconType } from "components/ResourceIcon";
-import SsoNotification from "pages/permissions/SsoNotification";
-import { AUTH_METHOD } from "util/authentication";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -53,7 +51,6 @@ const PermissionIdentities: FC = () => {
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
   const { hasAccessManagementTLS } = useSupportedFeatures();
   const { canEditIdentity } = useIdentityEntitlements();
-  const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
 
   useEffect(() => {
     const validIdentityIds = new Set(identities.map((identity) => identity.id));
@@ -312,7 +309,7 @@ const PermissionIdentities: FC = () => {
               )}
             </PageHeader.Left>
             <PageHeader.BaseActions>
-              <CreateTlsIdentityBtn
+              <PermissionIdentitiesActions
                 openPanel={panelParams.openCreateTLSIdentity}
               />
             </PageHeader.BaseActions>
@@ -322,7 +319,6 @@ const PermissionIdentities: FC = () => {
         {!panelParams.panel && (
           <div className="row">
             <NotificationConsumer />
-            <SsoNotification hasOidc={hasOidc ?? false} />
           </div>
         )}
         <Row>
