@@ -1,5 +1,6 @@
 name: Test coverage
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -84,7 +85,25 @@ jobs:
         run: |
           set -x
           sudo chmod -R 0777 ../lxd-ui
-          yarn test-coverage
+          yarn test-js-coverage
+          yarn test-e2e-cleanup
+          yarn test-e2e-coverage
+
+          # stop dotrun
+          DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
+          docker stop $DOTRUN_CONTAINER_ID
+
+          # configure two node cluster as cluster test backend
+          tests/scripts/start_vm_cluster.sh latest/edge
+
+          # start dotrun with VM1 lxd backend
+          dotrun &
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
+
+          yarn test-e2e-cluster-coverage
+          
+          # combine coverage reports
+          yarn test-report-coverage
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
           DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
           docker stop $DOTRUN_CONTAINER_ID
