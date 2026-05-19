@@ -56,10 +56,10 @@ jobs:
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Setup Ceph
-        uses: canonical/lxd/.github/actions/setup-microceph@096f26663845d5b98f511b4c9575930a2fc4ddc7
+        uses: canonical/lxd/.github/actions/setup-microceph@1ab86cfe2747e3166f3f93aaaa04b7bc9c2e4752
 
       - name: Setup OVN
-        uses: canonical/lxd/.github/actions/setup-microovn@096f26663845d5b98f511b4c9575930a2fc4ddc7
+        uses: canonical/lxd/.github/actions/setup-microovn@1ab86cfe2747e3166f3f93aaaa04b7bc9c2e4752
 
       - name: Install LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
