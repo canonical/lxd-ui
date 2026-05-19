@@ -298,14 +298,16 @@ const PermissionIdentities: FC = () => {
                   <PermissionIdentitiesFilter />
                 </PageHeader.Search>
               )}
-              {!!selectedIdentityIds.length && (
-                <EditIdentityGroupsBtn
-                  identities={selectedIdentities}
-                  className="u-no-margin--bottom"
-                />
-              )}
-              {!!selectedIdentityIds.length && hasAccessManagementTLS && (
-                <BulkDeleteIdentitiesBtn identities={selectedIdentities} />
+              {selectedIdentityIds.length > 0 && (
+                <div>
+                  <EditIdentityGroupsBtn
+                    identities={selectedIdentities}
+                    className="u-no-margin--bottom"
+                  />
+                  {hasAccessManagementTLS && (
+                    <BulkDeleteIdentitiesBtn identities={selectedIdentities} />
+                  )}
+                </div>
               )}
             </PageHeader.Left>
             <PageHeader.BaseActions>
