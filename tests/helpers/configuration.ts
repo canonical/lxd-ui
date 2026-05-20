@@ -1,6 +1,5 @@
 import type { Page } from "@playwright/test";
-import type { LxdVersions } from "../fixtures/lxd-test";
-import { expect } from "../fixtures/lxd-test";
+import { expect, type LxdVersions } from "../fixtures/lxd-test";
 
 export const setOption = async (page: Page, field: string, value: string) => {
   await activateOverride(page, field);

@@ -3,8 +3,12 @@ import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
-import type { BulkOperationItem, BulkOperationResult } from "util/promises";
-import { continueOrFinish, pushSuccess } from "util/promises";
+import {
+  continueOrFinish,
+  pushSuccess,
+  type BulkOperationItem,
+  type BulkOperationResult,
+} from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import { isBucketCompatibleDriver } from "util/storageOptions";
 import { addTarget } from "util/target";

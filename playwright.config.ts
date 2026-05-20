@@ -1,5 +1,4 @@
-import type { PlaywrightTestConfig } from "@playwright/test";
-import { devices } from "@playwright/test";
+import { type PlaywrightTestConfig, devices } from "@playwright/test";
 import type { TestOptions } from "./tests/fixtures/lxd-test";
 import dotenv from "dotenv";
 import path from "path";

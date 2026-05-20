@@ -1,5 +1,5 @@
-import type { FC } from "react";
-import { List, Notification } from "@canonical/react-components";
+import { type FC } from "react";
+import { Notification, List } from "@canonical/react-components";
 import DocLink from "components/DocLink";
 
 const SsoNotification: FC = () => {

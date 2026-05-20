@@ -7,9 +7,9 @@ import {
   ScrollableContainer,
   SidePanel,
   useNotify,
+  isIPv4,
 } from "@canonical/react-components";
-import type { ReactNode } from "react";
-import { type FC } from "react";
+import type { FC, ReactNode } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdNicDevice } from "types/device";
@@ -23,8 +23,8 @@ import {
   getDeviceAcls,
   getExistingDeviceNames,
   isValidIPV6,
+  getAttachedNetworkNames,
 } from "util/devices";
-import { isIPv4 } from "@canonical/react-components";
 import type { FormDevice, FormNetworkDevice } from "types/formDevice";
 import { deduplicateName } from "util/formDevices";
 import { getInheritedNetworks } from "util/configInheritance";
@@ -42,7 +42,6 @@ import NetworkDefaultACLSelector, {
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import { useNetworkAcls } from "context/useNetworkAcls";
-import { getAttachedNetworkNames } from "util/devices";
 import type { LxdNetwork } from "types/network";
 import { Link } from "react-router";
 import { ROOT_PATH } from "util/rootPath";

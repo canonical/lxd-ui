@@ -7,27 +7,25 @@ import {
   SidePanel,
   useNotify,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
-import { pluralize } from "util/helpers";
+import { pluralize, isUnrestricted } from "util/helpers";
 import type { LxdAuthGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
-import type { PermissionIdentitiesFilterType } from "../PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD_FILTER,
   isSystemIdentity,
   SYSTEM_IDENTITIES,
   QUERY,
+  type PermissionIdentitiesFilterType,
 } from "../PermissionIdentitiesFilter";
 import NotificationRow from "components/NotificationRow";
 import useSortTableData from "util/useSortTableData";
-import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import {

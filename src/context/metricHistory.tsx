@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, type FC, type ReactNode } from "react";
 import type { LxdMetricGroup } from "types/metrics";
 
 export interface MetricHistoryEntry {

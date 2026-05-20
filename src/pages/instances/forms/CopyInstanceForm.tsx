@@ -1,6 +1,5 @@
-import type { FC } from "react";
-import { useState } from "react";
-import type { LxdInstance } from "types/instance";
+import { useState, type FC } from "react";
+import { type LxdInstance, type InstanceIconType } from "types/instance";
 import { useFormik } from "formik";
 import {
   ActionButton,
@@ -21,7 +20,6 @@ import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { getUniqueResourceName, truncateEntityName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
-import type { InstanceIconType } from "types/instance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";

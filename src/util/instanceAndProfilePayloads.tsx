@@ -25,8 +25,7 @@ import type { LxdStorageVolume } from "types/storage";
 import { LOCAL_IMAGE, LOCAL_ISO } from "util/images";
 import type { FormDevice } from "types/formDevice";
 import { ISO_VOLUME_TYPE } from "util/devices";
-import type { CpuLimit, MemoryLimit } from "types/limits";
-import { CPU_LIMIT_TYPE } from "types/limits";
+import { type CpuLimit, type MemoryLimit, CPU_LIMIT_TYPE } from "types/limits";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { parseSshKeys } from "util/instanceEdit";
 

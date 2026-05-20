@@ -1,5 +1,4 @@
-import type { AbortControllerState } from "./helpers";
-import { checkDuplicateName } from "./helpers";
+import { checkDuplicateName, type AbortControllerState } from "./helpers";
 import type * as Yup from "yup";
 import { deleteIdpGroups } from "api/auth-idp-groups";
 import { useNotify, useToastNotification } from "@canonical/react-components";

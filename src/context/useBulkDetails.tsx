@@ -1,6 +1,10 @@
 import type { BulkOperationResult } from "util/promises";
-import type { NotificationAction } from "@canonical/react-components";
-import { Icon, MainTable, Modal } from "@canonical/react-components";
+import {
+  Icon,
+  MainTable,
+  Modal,
+  type NotificationAction,
+} from "@canonical/react-components";
 import { useModal } from "context/useModal";
 import ResourceLink from "components/ResourceLink";
 

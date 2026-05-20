@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import {
   Form,
   Input,
@@ -25,7 +24,15 @@ import NetworkFormDns from "pages/networks/forms/NetworkFormDns";
 import NetworkFormIpv4 from "pages/networks/forms/NetworkFormIpv4";
 import NetworkFormIpv6 from "pages/networks/forms/NetworkFormIpv6";
 import { slugify } from "util/slugify";
-import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
+import {
+  getHandledNetworkConfigKeys,
+  getNetworkKey,
+  typesWithParent,
+  macvlanType,
+  ovnType,
+  physicalType,
+  sriovType,
+} from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/editMode";
@@ -34,13 +41,6 @@ import { debounce } from "util/debounce";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { LxdClusterMember } from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
-import {
-  typesWithParent,
-  macvlanType,
-  ovnType,
-  physicalType,
-  sriovType,
-} from "util/networks";
 import { getFirstVisibleSection } from "util/scroll";
 import type { NetworkFormValues } from "types/forms/network";
 

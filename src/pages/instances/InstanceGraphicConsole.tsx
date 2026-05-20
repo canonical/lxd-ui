@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { useParams } from "react-router-dom";
 import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";
@@ -10,8 +9,7 @@ import type { LxdInstance } from "types/instance";
 import { useListener, useNotify, Spinner } from "@canonical/react-components";
 import { isInstanceRunning } from "util/instanceStatus";
 import { useMounted } from "context/useMounted";
-import type { LoadingTypes } from "context/instanceLoading";
-import { useInstanceLoading } from "context/instanceLoading";
+import { useInstanceLoading, type LoadingTypes } from "context/instanceLoading";
 
 declare global {
   interface Window {

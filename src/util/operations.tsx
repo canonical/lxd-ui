@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import type { LxdOperation } from "types/operation";
+import type { LxdOperation, LxdOperationResponse } from "types/operation";
 import type { LxdEvent } from "types/event";
-import type { LxdOperationResponse } from "types/operation";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 // Extracts entity URLs from an operation, considering renaming operations where the original_entity_url is returned.

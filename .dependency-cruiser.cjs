@@ -1,6 +1,5 @@
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
-  options: { doNotFollow: { path: ["node_modules"] } },
   forbidden: [
     {
       name: "no-circular",

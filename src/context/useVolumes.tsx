@@ -1,8 +1,11 @@
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
 import { useSupportedFeatures } from "./useSupportedFeatures";
-import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
+import {
+  useQuery,
+  type UseQueryOptions,
+  type UseQueryResult,
+} from "@tanstack/react-query";
 import type { RemoteImage } from "types/image";
 import { loadIsoVolumes, loadVolumes } from "./loadIsoVolumes";
 import { loadCustomVolumes } from "./loadCustomVolumes";

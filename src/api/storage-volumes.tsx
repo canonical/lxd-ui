@@ -2,13 +2,17 @@ import { handleResponse, handleEtagResponse } from "util/helpers";
 import type { LxdStorageVolume, LxdStorageVolumeState } from "types/storage";
 import type { UploadState } from "types/upload";
 import type { LxdOperationResponse } from "types/operation";
-import type { AxiosResponse } from "axios";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
-import type { BulkOperationItem, BulkOperationResult } from "util/promises";
-import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
+import {
+  continueOrFinish,
+  pushFailure,
+  pushSuccess,
+  type BulkOperationItem,
+  type BulkOperationResult,
+} from "util/promises";
 import { linkForVolumeDetail } from "util/storageVolume";
 import { ROOT_PATH } from "util/rootPath";
 

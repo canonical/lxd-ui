@@ -1,10 +1,11 @@
-import type {
-  ActionButtonProps,
-  ConfirmationModalProps,
-  PropsWithSpread,
-  SubComponentProps,
+import {
+  ActionButton,
+  ConfirmationModal,
+  type ActionButtonProps,
+  type ConfirmationModalProps,
+  type PropsWithSpread,
+  type SubComponentProps,
 } from "@canonical/react-components";
-import { ActionButton, ConfirmationModal } from "@canonical/react-components";
 import type { MouseEvent, ReactNode } from "react";
 import { useModal } from "context/useModal";
 

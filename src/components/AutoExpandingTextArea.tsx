@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import type { TextareaProps } from "@canonical/react-components";
-import { Textarea } from "@canonical/react-components";
+import { Textarea, type TextareaProps } from "@canonical/react-components";
 
 const AutoExpandingTextArea: FC<TextareaProps> = (props) => {
   return (

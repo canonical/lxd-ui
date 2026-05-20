@@ -7,8 +7,7 @@ import type {
 } from "types/network";
 import type { NetworkFormValues } from "types/forms/network";
 import type { ClusterSpecificValues } from "types/cluster";
-import type { AbortControllerState } from "util/helpers";
-import { checkDuplicateName } from "util/helpers";
+import { checkDuplicateName, type AbortControllerState } from "util/helpers";
 import { getNetworkAcls, getNetworkKey } from "util/networks";
 
 export const toNetworkFormValues = (

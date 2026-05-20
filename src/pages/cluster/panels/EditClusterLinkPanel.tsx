@@ -10,8 +10,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
@@ -20,8 +19,9 @@ import ResourceLink from "components/ResourceLink";
 import { useClusterLink } from "context/useClusterLinks";
 import type { LxdIdentity } from "types/permissions";
 import { updateIdentity } from "api/auth-identities";
-import type { ClusterLinkFormValues } from "pages/cluster/ClusterLinkForm";
-import ClusterLinkForm from "pages/cluster/ClusterLinkForm";
+import ClusterLinkForm, {
+  type ClusterLinkFormValues,
+} from "pages/cluster/ClusterLinkForm";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {

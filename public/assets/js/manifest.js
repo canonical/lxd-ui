@@ -11,7 +11,7 @@ const dynamicManifest = JSON.stringify({
       sizes: "512x512",
     },
   ],
-  id: "LXDID-"  + window.location.origin,
+  id: "LXDID-" + window.location.origin,
   start_url: window.location.origin,
   background_color: "#E95420",
   display: "standalone",

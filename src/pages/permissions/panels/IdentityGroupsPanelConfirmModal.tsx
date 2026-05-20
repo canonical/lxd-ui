@@ -3,8 +3,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import type { LxdIdentity } from "types/permissions";
 import {
   generateGroupAllocationsForIdentities,

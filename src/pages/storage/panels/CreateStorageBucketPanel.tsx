@@ -6,8 +6,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { useEventQueue } from "context/eventQueue";
 import usePanelParams from "util/usePanelParams";
 import { useSupportedFeatures } from "context/useSupportedFeatures";

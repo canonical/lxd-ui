@@ -1,5 +1,4 @@
-import type { FC, MouseEvent } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC, type MouseEvent } from "react";
 import {
   Button,
   Icon,
@@ -23,10 +22,8 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import type { AccordionNavMenu } from "./NavAccordion";
-import NavAccordion from "./NavAccordion";
-import type { Location } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import NavAccordion, { type AccordionNavMenu } from "./NavAccordion";
+import { useLocation, type Location } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
 import { useIsScreenBelow } from "context/useIsScreenBelow";

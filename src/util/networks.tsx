@@ -9,8 +9,7 @@ import type {
 import type { LxdConfigOptionsKeys } from "types/config";
 import { capitalizeFirstLetter, constructMemberError } from "util/helpers";
 import type { AnyObject, TestFunction } from "yup";
-import { checkDuplicateName } from "./helpers";
-import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName, type AbortControllerState } from "./helpers";
 import type { useNotify } from "@canonical/react-components";
 import type { IpAddressFamily } from "types/forms/network";
 

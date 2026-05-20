@@ -1,7 +1,9 @@
 import type { LxdIdentity, LxdPermission } from "types/permissions";
 import type { LxdImage } from "types/image";
-import type { ResourceDetail } from "./resourceDetails";
-import { extractResourceDetailsFromUrl } from "./resourceDetails";
+import {
+  extractResourceDetailsFromUrl,
+  type ResourceDetail,
+} from "./resourceDetails";
 import type { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
 import type { FormPermission } from "types/forms/permissionGroup";

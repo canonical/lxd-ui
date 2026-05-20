@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, type FC } from "react";
 import {
   Button,
   Col,
@@ -24,6 +23,7 @@ import {
   testValidPort,
   getIpAddressFamily,
   getCidr,
+  bridgeType,
 } from "util/networks";
 import NotificationRow from "components/NotificationRow";
 import NetworkForwardFormPorts from "pages/networks/forms/NetworkForwardFormPorts";
@@ -31,7 +31,6 @@ import ScrollableForm from "components/ScrollableForm";
 import { focusField } from "util/formFields";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useClusterMembers } from "context/useClusterMembers";
-import { bridgeType } from "util/networks";
 import type { NetworkForwardFormValues } from "types/forms/networkForward";
 
 export const toNetworkForward = (

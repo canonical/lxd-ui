@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { cloneElement } from "react";
+import { cloneElement, type FC } from "react";
 import DeleteProfileBtn from "./DeleteProfileBtn";
 import type { LxdProfile } from "types/profile";
 import CopyProfileBtn from "./CopyProfileBtn";

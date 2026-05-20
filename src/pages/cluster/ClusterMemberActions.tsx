@@ -1,5 +1,4 @@
-import type { FC, ReactElement } from "react";
-import { cloneElement } from "react";
+import { cloneElement, type FC, type ReactElement } from "react";
 import EvacuateClusterMemberBtn from "pages/cluster/actions/EvacuateClusterMemberBtn";
 import RestoreClusterMemberBtn from "pages/cluster/actions/RestoreClusterMemberBtn";
 import EditClusterMemberBtn from "pages/cluster/actions/EditClusterMemberBtn";

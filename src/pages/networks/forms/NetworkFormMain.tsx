@@ -11,6 +11,7 @@ import {
   ovnType,
   sriovType,
   physicalType,
+  renderNetworkType,
 } from "util/networks";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 import { ensureEditMode } from "util/editMode";
@@ -22,7 +23,6 @@ import IpAddress from "pages/networks/forms/IpAddress";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import NetworkStatistics from "pages/networks/forms/NetworkStatistics";
 import NetworkDescriptionField from "pages/networks/forms/NetworkDescriptionField";
-import { renderNetworkType } from "util/networks";
 import NetworkAddresses from "pages/networks/forms/NetworkAddresses";
 import NetworkAcls from "pages/networks/forms/NetworkAcls";
 import NetworkVlanField from "pages/networks/forms/NetworkVlanField";

@@ -1,6 +1,4 @@
-import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
-import type { NotificationAction } from "@canonical/react-components";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   EmptyState,
   Icon,
@@ -10,6 +8,7 @@ import {
   useListener,
   useNotify,
   useToastNotification,
+  type NotificationAction,
 } from "@canonical/react-components";
 import { timeToString } from "util/helpers";
 import type { LxdInstance } from "types/instance";

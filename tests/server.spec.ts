@@ -1,6 +1,5 @@
 import { test, expect } from "./fixtures/lxd-test";
 import { dismissNotification } from "./helpers/notification";
-import type { ServerSettingType } from "./helpers/server";
 import {
   addUserSetting,
   deleteUserSetting,
@@ -9,6 +8,7 @@ import {
   resetSetting,
   updateSetting,
   visitServerSettings,
+  type ServerSettingType,
 } from "./helpers/server";
 
 const settings: {

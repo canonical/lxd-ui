@@ -2,11 +2,13 @@ import type { FC } from "react";
 import { Textarea } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import type { ProjectFormValues } from "types/forms/project";
+import type {
+  ProjectFormValues,
+  NetworkRestrictionFormValues,
+} from "types/forms/project";
 import type { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
 import type { LxdConfigPair } from "types/config";
-import type { NetworkRestrictionFormValues } from "types/forms/project";
 
 export const networkRestrictionPayload = (
   values: NetworkRestrictionFormValues,

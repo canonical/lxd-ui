@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { useState } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useQueryClient } from "@tanstack/react-query";

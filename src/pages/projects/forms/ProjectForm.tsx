@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Col, Form, Row } from "@canonical/react-components";
 import ProjectFormMenu, {
   CLUSTERS,

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useNotify, useToastNotification } from "@canonical/react-components";
@@ -6,7 +6,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createVolumeSnapshot } from "api/volume-snapshots";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
-import { useState } from "react";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import type { SnapshotFormValues } from "types/forms/snapshot";

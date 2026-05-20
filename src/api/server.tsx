@@ -7,8 +7,7 @@ import type { LXDSettingOnClusterMember, LxdSettings } from "types/server";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdMetadata, LxdConfigPair } from "types/config";
 import type { LxdResources } from "types/resources";
-import type { LxdClusterMember } from "types/cluster";
-import type { ClusterSpecificValues } from "types/cluster";
+import type { LxdClusterMember, ClusterSpecificValues } from "types/cluster";
 import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";
 

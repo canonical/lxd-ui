@@ -1,5 +1,4 @@
-import type { FC, FormEvent } from "react";
-import { useState } from "react";
+import { useState, type FC, type FormEvent } from "react";
 import { RadioInput, usePortal } from "@canonical/react-components";
 import YamlConfirmation from "components/forms/YamlConfirmation";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";

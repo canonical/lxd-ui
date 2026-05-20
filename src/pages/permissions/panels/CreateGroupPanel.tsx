@@ -7,27 +7,29 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
+import {
+  type PermissionGroupFormValues,
+  type FormPermission,
+  type GroupSubForm,
+} from "types/forms/permissionGroup";
 import GroupForm from "../forms/GroupForm";
 import { createGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
-import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
-import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
+import EditIdentitiesForm, {
+  type FormIdentity,
+} from "pages/permissions/panels/EditIdentitiesForm";
 import classnames from "classnames";
 import { updateIdentities } from "api/auth-identities";
-import type { FormPermission } from "types/forms/permissionGroup";
 import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
-import type { GroupSubForm } from "types/forms/permissionGroup";
 
 const CreateGroupPanel: FC = () => {
   const panelParams = usePanelParams();

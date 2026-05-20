@@ -1,5 +1,4 @@
-import type { FC, MouseEvent, PointerEvent } from "react";
-import { useState } from "react";
+import { useState, type FC, type MouseEvent, type PointerEvent } from "react";
 import type {
   MainTableRow,
   Props as MainTableProps,

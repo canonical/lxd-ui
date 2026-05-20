@@ -1,10 +1,11 @@
-import type { FC, ReactNode } from "react";
 import {
   Fragment,
-  type OptionHTMLAttributes,
   useEffect,
   useMemo,
   useState,
+  type OptionHTMLAttributes,
+  type FC,
+  type ReactNode,
 } from "react";
 import { CheckboxInput, Select } from "@canonical/react-components";
 import { intersection } from "util/intersection";

@@ -1,5 +1,11 @@
-import type { ReactNode, SyntheticEvent } from "react";
-import { createContext, useContext, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  type ReactNode,
+  type SyntheticEvent,
+} from "react";
 import { usePortal } from "@canonical/react-components";
 
 export interface ModalType {

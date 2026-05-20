@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-import { useState, useEffect, type FC } from "react";
+import { type FC, useState, useEffect, type ReactNode } from "react";
 import { Modal } from "@canonical/react-components";
 import YamlForm from "components/forms/YamlForm";
 

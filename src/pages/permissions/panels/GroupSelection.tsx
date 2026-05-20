@@ -1,5 +1,4 @@
-import type { DependencyList, FC } from "react";
-import { useState } from "react";
+import { useState, type DependencyList, type FC } from "react";
 import PermissionGroupsFilter from "../PermissionGroupsFilter";
 import type { LxdAuthGroup } from "types/permissions";
 import {

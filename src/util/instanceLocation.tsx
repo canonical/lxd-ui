@@ -1,6 +1,8 @@
 import type { FormikProps } from "formik/dist/types";
-import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
+import type {
+  CreateInstanceFormValues,
+  EditInstanceFormValues,
+} from "types/forms/instanceAndProfile";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { useIsClustered } from "context/useIsClustered";
 

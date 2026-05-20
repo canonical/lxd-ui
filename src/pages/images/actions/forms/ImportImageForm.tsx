@@ -1,5 +1,4 @@
-import type { ChangeEvent, FC } from "react";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FC } from "react";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import { createImageAlias, importImage } from "api/images";

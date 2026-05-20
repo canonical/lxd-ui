@@ -1,7 +1,10 @@
-import type { FC } from "react";
-import { useEffect } from "react";
-import type { CustomSelectOption } from "@canonical/react-components";
-import { CustomSelect, useNotify, Spinner } from "@canonical/react-components";
+import { useEffect, type FC } from "react";
+import {
+  CustomSelect,
+  useNotify,
+  Spinner,
+  type CustomSelectOption,
+} from "@canonical/react-components";
 import type { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
 import { cephObject } from "util/storageOptions";
 import StoragePoolOptionLabel from "./StoragePoolOptionLabel";

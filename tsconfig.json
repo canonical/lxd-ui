@@ -33,6 +33,10 @@
     "webpack.config.js",
     "tests/**/*.ts",
     "vite.config.ts",
-    "vitest.config.ts"
-  ],
+    "vitest.config.ts",
+    "eslint.config.mjs",
+    "fix-asset-paths.js",
+    ".dependency-cruiser.cjs",
+    "public/assets/js/manifest.js"
+  ]
 }

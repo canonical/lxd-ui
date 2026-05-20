@@ -1,5 +1,4 @@
-import type { FC, FormEvent, ReactNode } from "react";
-import { useState } from "react";
+import { useState, type FC, type FormEvent, type ReactNode } from "react";
 import { Button, Form, Input, Label, Modal } from "@canonical/react-components";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import SshKeyGenerateAndDownload from "./SshKeyGenerateAndDownload";

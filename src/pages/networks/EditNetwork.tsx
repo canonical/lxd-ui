@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import {
   Button,
   useNotify,
@@ -8,7 +7,10 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
-import { getNetworkNameValidation } from "util/networkForm";
+import {
+  getNetworkNameValidation,
+  toNetworkFormValues,
+} from "util/networkForm";
 import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 import { updateNetwork, updateClusterNetwork } from "api/networks";
@@ -19,7 +21,6 @@ import NetworkForm, {
 } from "pages/networks/forms/NetworkForm";
 import type { LxdNetwork } from "types/network";
 import { objectToYaml, yamlToObject } from "util/yaml";
-import { toNetworkFormValues } from "util/networkForm";
 import { slugify } from "util/slugify";
 import { useLocation, useNavigate } from "react-router-dom";
 import {

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useCallback, useMemo, type FC } from "react";
 import {
   ActionButton,
   Button,
@@ -10,7 +10,6 @@ import {
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useCallback, useMemo } from "react";
 import type { TLSIdentityFormValues } from "types/forms/tlsIdentity";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { useAuthGroups } from "context/useAuthGroups";

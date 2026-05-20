@@ -1,5 +1,4 @@
-import type { AbortControllerState } from "util/helpers";
-import { checkDuplicateName } from "util/helpers";
+import { checkDuplicateName, type AbortControllerState } from "util/helpers";
 import type { AnyObject, TestFunction } from "yup";
 import type { LxdConfigOptionsKeys } from "types/config";
 import type { FormikProps } from "formik";

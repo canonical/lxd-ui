@@ -8,8 +8,7 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import type { ChangeEvent, FC } from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, type ChangeEvent, type FC } from "react";
 import { fileToSanitisedName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdStorageVolume } from "types/storage";

@@ -1,8 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchSettingsFromClusterMembers } from "api/server";
 import type { LXDSettingOnClusterMember } from "types/server";
-import type { UseQueryResult } from "@tanstack/react-query";
 import { useClusterMembers } from "./useClusterMembers";
 
 export const useClusteredSettings = (): UseQueryResult<

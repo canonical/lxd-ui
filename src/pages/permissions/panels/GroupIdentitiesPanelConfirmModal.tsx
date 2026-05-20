@@ -3,8 +3,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import { pivotIdentityGroupsChangeSummary } from "util/permissionIdentities";
 import GroupsOrIdentityChangesTable from "./GroupOrIdentityChangesTable";

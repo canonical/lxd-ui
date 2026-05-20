@@ -11,16 +11,15 @@ import {
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import { useSearchParams } from "react-router-dom";
 import useSortTableData from "util/useSortTableData";
-import type { PermissionIdentitiesFilterType } from "./PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD_FILTER,
   isSystemIdentity,
   QUERY,
   SYSTEM_IDENTITIES,
+  type PermissionIdentitiesFilterType,
 } from "./PermissionIdentitiesFilter";
 import { useSettings } from "context/useSettings";
 import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
@@ -32,10 +31,9 @@ import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { isUnrestricted } from "util/helpers";
+import { isUnrestricted, pluralize } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { pluralize } from "util/helpers";
 import { getIdentityName } from "util/permissionIdentities";
 import CreateTLSIdentity from "pages/permissions/CreateTLSIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";

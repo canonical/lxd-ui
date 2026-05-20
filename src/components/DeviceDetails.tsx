@@ -1,9 +1,8 @@
 import type { FC } from "react";
-import { isRootDisk } from "util/devices";
+import { isRootDisk, isHostDiskDevice } from "util/devices";
 import type { FormDevice } from "types/formDevice";
 import type { LxdDeviceValue } from "types/device";
 import ResourceLink from "components/ResourceLink";
-import { isHostDiskDevice } from "util/devices";
 import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
 import { ROOT_PATH } from "util/rootPath";
 

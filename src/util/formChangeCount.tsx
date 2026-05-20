@@ -4,9 +4,11 @@ import type {
 } from "types/forms/configurationRow";
 
 import type { FormDevice } from "types/formDevice";
-import type { FormDeviceValues } from "types/forms/instanceAndProfile";
-import type { ResourceLimitsFormValues } from "types/forms/instanceAndProfile";
-import type { InstanceEditDetailsFormValues } from "types/forms/instanceAndProfile";
+import type {
+  FormDeviceValues,
+  ResourceLimitsFormValues,
+  InstanceEditDetailsFormValues,
+} from "types/forms/instanceAndProfile";
 import { isRootDisk } from "util/devices";
 import isEqual from "lodash.isequal";
 

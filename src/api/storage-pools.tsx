@@ -9,8 +9,7 @@ import type {
   LxdStoragePoolResources,
 } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
-import type { LxdClusterMember } from "types/cluster";
-import type { ClusterSpecificValues } from "types/cluster";
+import type { LxdClusterMember, ClusterSpecificValues } from "types/cluster";
 import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";

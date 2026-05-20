@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import type { ButtonProps } from "@canonical/react-components";
-import { Button, Icon } from "@canonical/react-components";
+import { Button, Icon, type ButtonProps } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import { useIdentityEntitlements } from "util/entitlements/identities";

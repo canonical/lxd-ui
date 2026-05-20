@@ -1,5 +1,4 @@
-import type { FC, KeyboardEvent } from "react";
-import { useState } from "react";
+import { useState, type FC, type KeyboardEvent } from "react";
 import { Modal } from "@canonical/react-components";
 import FormLink from "components/FormLink";
 import BackLink from "components/BackLink";

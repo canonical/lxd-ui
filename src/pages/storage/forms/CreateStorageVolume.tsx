@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import {
   ActionButton,
   Button,
@@ -15,8 +14,9 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
 import type { StorageVolumeFormValues } from "types/forms/storageVolume";
-import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
-import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
+import StorageVolumeForm, {
+  volumeFormToPayload,
+} from "pages/storage/forms/StorageVolumeForm";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import { POOL } from "../StorageVolumesFilter";

@@ -1,9 +1,8 @@
-import type { AnyObject, TestFunction } from "yup";
-import type { AbortControllerState } from "./helpers";
-import { checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
+import { checkDuplicateName, type AbortControllerState } from "./helpers";
 import type { LxdStorageVolume } from "types/storage";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
+import type { TestFunction, AnyObject } from "yup";
 
 export const testDuplicateVolumeSnapshotName = (
   volume: LxdStorageVolume,

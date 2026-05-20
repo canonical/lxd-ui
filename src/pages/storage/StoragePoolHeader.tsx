@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import RenameHeader from "components/RenameHeader";
-import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader, { type RenameHeaderValues } from "components/RenameHeader";
 import type { LxdStoragePool } from "types/storage";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { useNotify, useToastNotification } from "@canonical/react-components";

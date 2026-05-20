@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-import { cloneElement } from "react";
+import { cloneElement, type ReactNode } from "react";
 import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";

@@ -1,6 +1,5 @@
 import { queryKeys } from "util/queryKeys";
-import type { UseQueryResult } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { LxdNetwork, LxdNetworkPeer } from "types/network";
 import { fetchNetworkPeer, fetchNetworkPeers } from "api/network-local-peering";
 

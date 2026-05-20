@@ -1,7 +1,10 @@
 import type { FC, ReactNode } from "react";
 import { pluralize } from "util/helpers";
-import type { ConfirmationButtonProps } from "@canonical/react-components";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  type ConfirmationButtonProps,
+} from "@canonical/react-components";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 

@@ -1,5 +1,4 @@
-import type { SelectProps } from "@canonical/react-components";
-import { Select } from "@canonical/react-components";
+import { Select, type SelectProps } from "@canonical/react-components";
 import type { FC } from "react";
 import { useIsClustered } from "context/useIsClustered";
 import { useClusterMembers } from "context/useClusterMembers";

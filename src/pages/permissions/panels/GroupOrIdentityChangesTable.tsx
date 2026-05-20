@@ -1,8 +1,6 @@
 import { Button, Icon, useListener } from "@canonical/react-components";
-import type { FC } from "react";
-import { useEffect, useRef, useState } from "react";
-import type { ChangeSummary } from "util/permissionIdentities";
-import { getIdentityName } from "util/permissionIdentities";
+import { useEffect, useRef, useState, type FC } from "react";
+import { getIdentityName, type ChangeSummary } from "util/permissionIdentities";
 import Tag from "components/Tag";
 import type { LxdIdentity } from "types/permissions";
 import LoggedInUserNotification from "./LoggedInUserNotification";
