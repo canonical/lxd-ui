@@ -59,7 +59,7 @@ export const CreateImageRegistryPanel: FC = () => {
     } else {
       config.cluster = formik.values.cluster;
       config.source_project = formik.values.sourceProject;
-      config.url = formik.values.url;
+      config.url = "https://cloud-images.ubuntu.com/daily/";
     }
 
     return {
