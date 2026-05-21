@@ -1,23 +1,48 @@
-// 'use strict';
+import type { LxdFileExplorerItem } from "types/fileExplorer";
+import { handleResponse } from "./helpers";
+import { ROOT_PATH } from "./rootPath";
 
-// const Client = require('ssh2-sftp-client');
+export const fetchInstanceFile = async (
+  name: string,
+  project: string,
+  path: string,
+): Promise<LxdFileExplorerItem> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("path", path);
 
-// const config = {
-//   host: 'example.com',
-//   username: 'donald',
-//   password: 'my-secret'
-// };
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
+    {
+      method: "GET",
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdFileExplorerItem) => {
+      return data;
+    });
+};
 
-// const sftp = new Client('example-client');
+export const fetchInstanceFileHeader = async (
+  name: string,
+  project: string,
+  path: string,
+): Promise<Response> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("path", path);
 
-// sftp.connect(config)
-//   .then(() => {
-//     return sftp.cwd();
-//   })
-//   .then(p => {
-//     console.log(`Remote working directory is ${p}`);
-//     return sftp.end();
-//   })
-//   .catch(err => {
-//     console.log(`Error: ${err.message}`); // error message will include 'example-client'
-//   });
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
+    {
+      method: "HEAD",
+    },
+  ).then((response: Response) => {
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch instance file header: ${response.status} ${response.statusText}`,
+      );
+    }
+    return response;
+  });
+};

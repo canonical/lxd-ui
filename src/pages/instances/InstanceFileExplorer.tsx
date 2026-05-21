@@ -9,8 +9,8 @@ import {
 } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { isInstanceRunning } from "util/instanceStatus";
-import InstanceFileExplorerItem from "pages/instances/InstanceFileExplorerItem";
-import { fetchInstanceFile } from "api/instances";
+import { fetchInstanceFile } from "util/instanceFileExplorer";
+import FileExplorerTable from "./FileExplorerTable";
 
 interface Props {
   instance: LxdInstance;
@@ -20,40 +20,43 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [tree, setTree] = useState(new Map());
+  const [tree, setTree] = useState(new Map<string, string[]>());
   const [currentPath, setCurrentPath] = useState("/");
 
   const loadInstancePath = async (path: string) => {
-    const result = await fetchInstanceFile(
+    const fileExplorerItem = await fetchInstanceFile(
       instance.name,
       instance.project,
       path,
-    ).catch((e) => {
-      setIsLoading(false);
-      console.log(e);
+    );
+    if (!fileExplorerItem) return false;
+
+    setTree((prev) => {
+      const newMap = new Map(prev);
+      newMap.set(path, fileExplorerItem.metadata);
+      return newMap;
     });
-    const newMap = new Map(...tree);
-    newMap[path] = result.metadata;
-    setTree(newMap);
     setCurrentPath(path);
+    return true;
   };
 
   const handleConnect = async () => {
     setIsLoading(true);
     setError(null);
+    setIsConnected(false);
 
     try {
-      // TODO: Implement SFTP connection
       console.log("Connecting to SFTP for instance:", instance.name);
-      loadInstancePath("/");
+      const hasLoadedPath = await loadInstancePath("/");
 
-      // Placeholder for testing
-      setTimeout(() => {
-        setIsConnected(true);
-        setIsLoading(false);
-      }, 1000);
+      if (!hasLoadedPath) {
+        setError("Failed to load initial path");
+        return;
+      }
+      setIsConnected(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to connect");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -129,20 +132,18 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   return (
     <div className="p-panel">
       <div className="p-panel__header">
-        <h2 className="p-panel__title">Files</h2>
+        <h2 className="p-panel__title">Path - {currentPath}</h2>
       </div>
       <div className="p-panel__content">
-        <p>File listing will appear here (protocol research needed)</p>
-        <p>Current path: {currentPath}</p>
-        {tree[currentPath]?.map((item) => (
-          <InstanceFileExplorerItem
-            key={item}
-            instance={instance}
-            onClick={() => loadInstancePath(currentPath + "/" + item)}
-            currentPath={currentPath}
-            fileOrFolderName={item}
-          />
-        ))}
+        <FileExplorerTable
+          files={(tree.get(currentPath) as string[]) ?? []}
+          currentPath={currentPath}
+          instanceName={instance.name}
+          projectName={instance.project}
+          onNavigate={(newPath) => {
+            void loadInstancePath(newPath);
+          }}
+        />
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ import {
 } from "util/promises";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
-import type { LxdSftpConnection } from "types/sftp";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
@@ -392,44 +391,6 @@ export const connectInstanceExec = async (
     .then((data: LxdTerminal) => {
       return data;
     });
-};
-
-export const fetchInstanceFile = async (
-  name: string,
-  project: string,
-  path: string,
-): Promise<LxdSftpConnection> => {
-  const params = new URLSearchParams();
-  params.set("project", project);
-  params.set("path", path);
-
-  return fetch(
-    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
-    {
-      method: "GET",
-    },
-  )
-    .then(handleResponse)
-    .then((data: LxdSftpConnection) => {
-      return data;
-    });
-};
-
-export const fetchInstanceFileHeader = async (
-  name: string,
-  project: string,
-  path: string,
-): Promise<Response> => {
-  const params = new URLSearchParams();
-  params.set("project", project);
-  params.set("path", path);
-
-  return fetch(
-    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
-    {
-      method: "HEAD",
-    },
-  );
 };
 
 export const connectInstanceVga = async (
