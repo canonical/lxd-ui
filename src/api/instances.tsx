@@ -394,30 +394,42 @@ export const connectInstanceExec = async (
     });
 };
 
-export const connectInstanceSftp = async (
+export const fetchInstanceFile = async (
   name: string,
   project: string,
+  path: string,
 ): Promise<LxdSftpConnection> => {
   const params = new URLSearchParams();
   params.set("project", project);
-  params.set("wait", "10");
+  params.set("path", path);
 
   return fetch(
-    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/sftp?${params.toString()}`,
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
     {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "wait-for-websocket": true,
-      }),
+      method: "GET",
     },
   )
     .then(handleResponse)
     .then((data: LxdSftpConnection) => {
       return data;
     });
+};
+
+export const fetchInstanceFileHeader = async (
+  name: string,
+  project: string,
+  path: string,
+): Promise<Response> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("path", path);
+
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
+    {
+      method: "HEAD",
+    },
+  );
 };
 
 export const connectInstanceVga = async (

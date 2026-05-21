@@ -9,6 +9,8 @@ import {
 } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { isInstanceRunning } from "util/instanceStatus";
+import InstanceFileExplorerItem from "pages/instances/InstanceFileExplorerItem";
+import { fetchInstanceFile } from "api/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -18,6 +20,23 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [tree, setTree] = useState(new Map());
+  const [currentPath, setCurrentPath] = useState("/");
+
+  const loadInstancePath = async (path: string) => {
+    const result = await fetchInstanceFile(
+      instance.name,
+      instance.project,
+      path,
+    ).catch((e) => {
+      setIsLoading(false);
+      console.log(e);
+    });
+    const newMap = new Map(...tree);
+    newMap[path] = result.metadata;
+    setTree(newMap);
+    setCurrentPath(path);
+  };
 
   const handleConnect = async () => {
     setIsLoading(true);
@@ -26,6 +45,7 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     try {
       // TODO: Implement SFTP connection
       console.log("Connecting to SFTP for instance:", instance.name);
+      loadInstancePath("/");
 
       // Placeholder for testing
       setTimeout(() => {
@@ -66,7 +86,9 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
         <Notification
           severity="negative"
           title="Error connecting to file system"
-          onDismiss={() => setError(null)}
+          onDismiss={() => {
+            setError(null);
+          }}
         >
           {error}
         </Notification>
@@ -101,12 +123,7 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   }
 
   if (isLoading) {
-    return (
-      <Spinner
-        className="u-loader"
-        text="Loading file system..."
-      />
-    );
+    return <Spinner className="u-loader" text="Loading file system..." />;
   }
 
   return (
@@ -116,8 +133,16 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
       </div>
       <div className="p-panel__content">
         <p>File listing will appear here (protocol research needed)</p>
-        <p>Current path: /</p>
-        {/* TODO: Add file listing table */}
+        <p>Current path: {currentPath}</p>
+        {tree[currentPath]?.map((item) => (
+          <InstanceFileExplorerItem
+            key={item}
+            instance={instance}
+            onClick={() => loadInstancePath(currentPath + "/" + item)}
+            currentPath={currentPath}
+            fileOrFolderName={item}
+          />
+        ))}
       </div>
     </div>
   );
