@@ -12,6 +12,7 @@ import {
 } from "util/promises";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
+import type { LxdSftpConnection } from "types/sftp";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
@@ -389,6 +390,32 @@ export const connectInstanceExec = async (
   )
     .then(handleResponse)
     .then((data: LxdTerminal) => {
+      return data;
+    });
+};
+
+export const connectInstanceSftp = async (
+  name: string,
+  project: string,
+): Promise<LxdSftpConnection> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("wait", "10");
+
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/sftp?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "wait-for-websocket": true,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdSftpConnection) => {
       return data;
     });
 };
