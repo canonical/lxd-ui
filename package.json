@@ -27,9 +27,10 @@
     "test-e2e-edge": "tests/scripts/setup_test && npx playwright test --project chromium:lxd-latest-edge firefox:lxd-latest-edge && tests/scripts/teardown_test",
     "test-e2e-5.21-edge": "tests/scripts/setup_test && npx playwright test --project chromium:lxd-5.21-edge firefox:lxd-5.21-edge && tests/scripts/teardown_test",
     "test-e2e-5.0-edge": "npx playwright test --project chromium:lxd-5.0-edge firefox:lxd-5.0-edge",
-    "test-coverage": "yarn test-js-coverage && yarn test-e2e-coverage && yarn test-report-coverage",
     "test-js-coverage": "vitest --run --coverage",
-    "test-e2e-coverage": "rm -rf coverage/playwright* ;  PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage && npx playwright test --project coverage:clustered",
+    "test-e2e-cleanup": "rm -rf coverage/playwright*",
+    "test-e2e-coverage": "PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage && npx playwright test --project coverage:cluster-enable",
+    "test-e2e-cluster-coverage": "PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage:clustered",
     "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
   },
   "dependencies": {

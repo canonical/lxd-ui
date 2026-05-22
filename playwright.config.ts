@@ -189,6 +189,16 @@ const config: PlaywrightTestConfig<TestOptions> = {
       dependencies: ["login-chromium"],
     },
     {
+      name: "coverage:cluster-enable",
+      use: {
+        ...devices["Desktop Chrome"],
+        lxdVersion: "latest-edge",
+        hasCoverage: true,
+      },
+      dependencies: ["login-chromium"],
+      testMatch: "enable-clustering.spec.ts",
+    },
+    {
       name: "coverage:clustered",
       use: {
         ...devices["Desktop Chrome"],
