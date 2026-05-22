@@ -1,39 +1,51 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   EmptyState,
   Icon,
   Notification,
+  Row,
   Spinner,
 } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { isInstanceRunning } from "util/instanceStatus";
-import { fetchInstanceFile } from "util/instanceFileExplorer";
 import FileExplorerTable from "./FileExplorerTable";
+import { fetchInstanceFile } from "api/instances";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const InstanceFileExplorer: FC<Props> = ({ instance }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
   const [tree, setTree] = useState(new Map<string, string[]>());
   const [currentPath, setCurrentPath] = useState("/");
 
+  useEffect(() => {
+    if (isInstanceRunning(instance)) {
+      try {
+        void loadInstancePath("/");
+      } catch (e) {
+        console.error("Failed to load initial path:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  }, []);
+
   const loadInstancePath = async (path: string) => {
-    const fileExplorerItem = await fetchInstanceFile(
+    const currentDirectory = await fetchInstanceFile(
       instance.name,
       instance.project,
       path,
     );
-    if (!fileExplorerItem) return false;
+    if (!currentDirectory) return false;
 
     setTree((prev) => {
       const newMap = new Map(prev);
-      newMap.set(path, fileExplorerItem.metadata);
+      newMap.set(path, currentDirectory.metadata);
       return newMap;
     });
     setCurrentPath(path);
@@ -43,17 +55,15 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   const handleConnect = async () => {
     setIsLoading(true);
     setError(null);
-    setIsConnected(false);
 
     try {
-      console.log("Connecting to SFTP for instance:", instance.name);
+      console.log("Connecting to instance:", instance.name);
       const hasLoadedPath = await loadInstancePath("/");
 
       if (!hasLoadedPath) {
         setError("Failed to load initial path");
         return;
       }
-      setIsConnected(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to connect");
     } finally {
@@ -106,46 +116,23 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     );
   }
 
-  if (!isConnected) {
-    return (
-      <EmptyState
-        className="empty-state"
-        image={<Icon name="folder" className="empty-state-icon" />}
-        title="File explorer"
-      >
-        <p>Browse and manage files in this instance.</p>
-        <Button
-          appearance="positive"
-          onClick={handleConnect}
-          disabled={isLoading}
-        >
-          {isLoading ? "Connecting..." : "Connect to file system"}
-        </Button>
-      </EmptyState>
-    );
-  }
-
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading file system..." />;
   }
 
   return (
-    <div className="p-panel">
-      <div className="p-panel__header">
-        <h2 className="p-panel__title">Path - {currentPath}</h2>
-      </div>
-      <div className="p-panel__content">
-        <FileExplorerTable
-          files={(tree.get(currentPath) as string[]) ?? []}
-          currentPath={currentPath}
-          instanceName={instance.name}
-          projectName={instance.project}
-          onNavigate={(newPath) => {
-            void loadInstancePath(newPath);
-          }}
-        />
-      </div>
-    </div>
+    <Row className="general">
+      <h2 className="p-panel__title">Path {currentPath}</h2>
+      <FileExplorerTable
+        files={(tree.get(currentPath) as string[]) ?? []}
+        currentPath={currentPath}
+        instanceName={instance.name}
+        projectName={instance.project}
+        onNavigate={(newPath) => {
+          void loadInstancePath(newPath);
+        }}
+      />
+    </Row>
   );
 };
 

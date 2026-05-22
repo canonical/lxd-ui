@@ -6,9 +6,9 @@ import type {
   MainTableRow,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import useSortTableData from "util/useSortTableData";
-import { fetchInstanceFileHeader } from "util/instanceFileExplorer";
 import type { FileMetadata } from "types/fileExplorer";
 import { isoTimeToString } from "util/helpers";
+import { fetchInstanceFileHeader } from "api/instances";
 
 interface Props {
   files: string[];
@@ -102,17 +102,14 @@ const FileExplorerTable: FC<Props> = ({
       columns: [
         {
           content: (
-            <div
-              className="u-truncate"
-              style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
-            >
+            <a className="fe-item">
               <Icon name={getIcon()} />
               <span>{fileName}</span>
-            </div>
+            </a>
           ),
           role: "rowheader",
           "aria-label": "Name",
-          className: isDirectory ? "u-text--muted" : "",
+          className: isDirectory ? "fe-directory" : "",
           onClick: isDirectory
             ? () => {
                 onNavigate(

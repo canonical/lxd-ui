@@ -21,10 +21,10 @@ const tabs: string[] = [
   "Overview",
   "Configuration",
   "Snapshots",
+  "File Explorer",
   "Terminal",
   "Console",
   "Logs",
-  "File Explorer",
 ];
 
 const InstanceDetail: FC = () => {
@@ -121,6 +121,12 @@ const InstanceDetail: FC = () => {
             </div>
           )}
 
+          {activeTab === "file-explorer" && (
+            <div role="tabpanel" aria-labelledby="file-explorer">
+              <InstanceFileExplorer instance={instance} />
+            </div>
+          )}
+
           {activeTab === "terminal" && (
             <div role="tabpanel" aria-labelledby="terminal">
               <InstanceTerminal
@@ -139,12 +145,6 @@ const InstanceDetail: FC = () => {
           {activeTab === "logs" && (
             <div role="tabpanel" aria-labelledby="logs">
               <InstanceLogs instance={instance} />
-            </div>
-          )}
-
-          {activeTab === "file-explorer" && (
-            <div role="tabpanel" aria-labelledby="file-explorer">
-              <InstanceFileExplorer instance={instance} />
             </div>
           )}
         </Row>
