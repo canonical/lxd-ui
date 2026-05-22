@@ -58,5 +58,6 @@ export const useSupportedFeatures = () => {
     ),
     hasImageRegistries: apiExtensions.has("image_registries"),
     hasBulkOperations: apiExtensions.has("bulk_operations"),
+    hasClusterLinks: apiExtensions.has("cluster_links"),
   };
 };

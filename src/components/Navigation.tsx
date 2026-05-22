@@ -86,8 +86,12 @@ const Navigation: FC = () => {
 
   const isSmallScreen = useIsScreenBelow();
   const isAllProjects = projectName === ALL_PROJECTS;
-  const { hasCustomVolumeIso, hasAccessManagement, hasImageRegistries } =
-    useSupportedFeatures();
+  const {
+    hasCustomVolumeIso,
+    hasAccessManagement,
+    hasImageRegistries,
+    hasClusterLinks,
+  } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
@@ -542,16 +546,20 @@ const Navigation: FC = () => {
                                   Groups
                                 </NavLink>
                               </SideNavigationItem>,
-                              <SideNavigationItem key="links">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/cluster/links`}
-                                  title="Links"
-                                  onClick={softToggleMenu}
-                                  className="accordion-nav-secondary"
-                                >
-                                  Links
-                                </NavLink>
-                              </SideNavigationItem>,
+                              ...(hasClusterLinks
+                                ? [
+                                    <SideNavigationItem key="links">
+                                      <NavLink
+                                        to={`${ROOT_PATH}/ui/cluster/links`}
+                                        title="Links"
+                                        onClick={softToggleMenu}
+                                        className="accordion-nav-secondary"
+                                      >
+                                        Links
+                                      </NavLink>
+                                    </SideNavigationItem>,
+                                  ]
+                                : []),
                               <SideNavigationItem key="placement">
                                 <NavLink
                                   to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}

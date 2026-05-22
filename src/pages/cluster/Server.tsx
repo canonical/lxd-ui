@@ -7,18 +7,26 @@ import TabLinks from "components/TabLinks";
 import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
+import ClusterLinkList from "pages/cluster/ClusterLinkList";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   activeTab?: string;
 }
 
 const Server: FC<Props> = ({ activeTab }) => {
+  const { hasClusterLinks } = useSupportedFeatures();
+
   const tabs = ["Hardware", "Clustering"];
+
+  if (hasClusterLinks) {
+    tabs.push("Cluster links");
+  }
 
   return (
     <BaseLayout
       title="Server"
-      contentClassName="detail-page cluster-member-details"
+      contentClassName="detail-page cluster-member-details server"
     >
       <NotificationRow />
       <Row>
@@ -42,6 +50,7 @@ const Server: FC<Props> = ({ activeTab }) => {
             <EnableClusteringBtn />
           </EmptyState>
         )}
+        {activeTab === "cluster-links" && <ClusterLinkList variant="panel" />}
       </Row>
     </BaseLayout>
   );

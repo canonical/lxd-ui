@@ -542,6 +542,12 @@ const App: FC = () => {
           }
         />
         <Route
+          path={`${ROOT_PATH}/ui/server/cluster-links`}
+          element={
+            <ProtectedRoute outlet={<Server activeTab="cluster-links" />} />
+          }
+        />
+        <Route
           path={`${ROOT_PATH}/ui/cluster/groups`}
           element={<ProtectedRoute outlet={<ClusterGroupList />} />}
         />

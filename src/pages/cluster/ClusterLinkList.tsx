@@ -5,6 +5,7 @@ import {
   Icon,
   List,
   MainTable,
+  Panel,
   Row,
   ScrollableTable,
   Spinner,
@@ -28,7 +29,11 @@ import { useClusterLinks } from "context/useClusterLinks";
 import ClusterLinkAddresses from "pages/cluster/ClusterLinkAddresses";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
 
-const ClusterLinkList: FC = () => {
+interface Props {
+  variant?: "main" | "panel";
+}
+
+const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
@@ -149,9 +154,11 @@ const ClusterLinkList: FC = () => {
   const isEmptyState = clusterLinks.length === 0 && !isLoading;
   const panelIdentity = getLinkIdentity(panelParams.identity);
 
+  const Element = variant === "main" ? BaseLayout : Panel;
+
   return (
     <>
-      <BaseLayout
+      <Element
         title={
           <HelpLink
             docPath="/explanation/clustering/"
@@ -162,7 +169,7 @@ const ClusterLinkList: FC = () => {
         }
         controls={!isEmptyState && <CreateClusterLinkBtn />}
       >
-        <NotificationRow />
+        {variant === "main" && <NotificationRow />}
         <Row>
           {!isEmptyState && (
             <>
@@ -218,7 +225,7 @@ const ClusterLinkList: FC = () => {
             </EmptyState>
           )}
         </Row>
-      </BaseLayout>
+      </Element>
       <CreateClusterLink />
       {panelParams.panel === panels.editClusterLink && panelIdentity && (
         <EditClusterLinkPanel identity={panelIdentity} />
