@@ -105,3 +105,13 @@
     padding-left: 1.8rem;
   }
 }
+
+.server {
+  .p-panel__title {
+    display: none;
+  }
+
+  .pagination {
+    margin-right: $sph--x-large;
+  }
+}
