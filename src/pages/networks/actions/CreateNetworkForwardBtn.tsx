@@ -2,11 +2,11 @@ import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useNetworkEntitlements } from "util/entitlements/networks";
-import usePanelParams from "util/usePanelParams";
 import type { LxdNetwork } from "types/network";
 import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   network: LxdNetwork;
@@ -16,7 +16,7 @@ interface Props {
 const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
   const isSmallScreen = useIsScreenBelow();
   const { canEditNetwork } = useNetworkEntitlements();
-  const panelParams = usePanelParams();
+  const { projectName: project } = useCurrentProject();
   const navigate = useNavigate();
 
   return (
@@ -25,7 +25,7 @@ const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
       hasIcon={!isSmallScreen}
       onClick={() => {
         navigate(
-          `${ROOT_PATH}/ui/project/${encodeURIComponent(panelParams.project)}/network/${encodeURIComponent(network.name)}/forwards/create`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/create`,
         );
       }}
       className={classnames(

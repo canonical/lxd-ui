@@ -13,6 +13,8 @@ export const queryKeys = {
   isoVolumes: "isoVolumes",
   leases: "leases",
   links: "links",
+  loadBalancers: "loadBalancers",
+  loadBalancerPools: "loadBalancerPools",
   logs: "logs",
   members: "members",
   metrics: "metrics",

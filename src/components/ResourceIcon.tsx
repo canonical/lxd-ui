@@ -13,6 +13,8 @@ export type ResourceIconType =
   | "cluster-group"
   | "cluster-link"
   | "cluster-member"
+  | "load-balancer"
+  | "load-balancer-pool"
   | "network"
   | "network-acl"
   | "network-forward"
@@ -42,6 +44,8 @@ const resourceIcons: Record<ResourceIconType, string> = {
   "cluster-group": "cluster-host",
   "cluster-member": "single-host",
   "cluster-link": "applications",
+  "load-balancer": "exposed",
+  "load-balancer-pool": "exposed",
   network: "exposed",
   peering: "exposed",
   "network-acl": "security-tick",

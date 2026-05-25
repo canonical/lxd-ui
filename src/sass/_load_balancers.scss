@@ -1,0 +1,178 @@
+.load-balancers {
+  display: flex;
+
+  .form-navigation {
+    width: 14rem;
+  }
+
+  .content {
+    padding-left: 2.5rem;
+  }
+}
+
+.load-balancer-form {
+  .content-details {
+    width: 69rem;
+
+    > * {
+      padding-left: $sph--x-large;
+    }
+  }
+}
+
+.load-balancer-table-heading {
+  display: flex;
+  margin-right: $sph--x-large;
+
+  .left {
+    flex-grow: 1;
+  }
+}
+
+.load-balancers-table {
+  padding-right: $sph--x-large;
+
+  .listen-port {
+    width: 6rem;
+  }
+
+  .protocol {
+    width: 5rem;
+  }
+
+  .status-header {
+    padding-left: 1.8rem;
+  }
+
+  .status {
+    width: 12rem;
+  }
+
+  .actions {
+    width: 8rem;
+  }
+}
+
+.load-balancer-pools-table {
+  padding-right: $sph--x-large;
+
+  .pool-instances {
+    display: flex;
+    justify-content: space-between;
+    min-width: 0;
+    width: 100%;
+
+    .instance-chip {
+      flex-shrink: 1;
+    }
+
+    .instance-status {
+      min-width: 6rem;
+    }
+  }
+
+  .target-port {
+    max-width: 8rem;
+  }
+
+  .health-check {
+    max-width: 6rem;
+  }
+
+  .used-by {
+    max-width: 6rem;
+  }
+
+  .status-header {
+    padding-left: 1.8rem;
+  }
+
+  .actions {
+    max-width: 8rem;
+  }
+}
+
+.load-balancer-ports {
+  label {
+    padding-top: 0;
+  }
+
+  .listen-port {
+    width: 8.5rem;
+
+    .listen-port-input {
+      width: 8rem;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      /* stylelint-disable-next-line property-no-vendor-prefix -- hide arrows on number inputs */
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  .protocol {
+    width: 6rem;
+
+    .protocol-select {
+      min-width: 5rem;
+    }
+  }
+
+  .target-pool {
+    background-color: $colors--theme--background-hover;
+  }
+
+  .instances {
+    background-color: $colors--theme--background-hover;
+    width: 7rem;
+  }
+
+  .target-port {
+    background-color: $colors--theme--background-hover;
+    width: 8rem;
+  }
+
+  .pool-action {
+    background-color: $colors--theme--background-hover;
+    width: 9rem;
+  }
+
+  .actions {
+    width: 8rem;
+  }
+
+  tbody {
+    .instances,
+    .target-port {
+      padding-right: 1.6rem;
+      padding-top: 0.75rem;
+    }
+  }
+}
+
+.create-load-balancer,
+.edit-load-balancer {
+  max-width: 70rem;
+
+  .form-footer {
+    margin-right: 2.5rem;
+  }
+}
+
+@media screen and (width < 1450px) {
+  .load-balancer-form .content-details,
+  .create-load-balancer .form-footer,
+  .edit-load-balancer .form-footer {
+    min-width: 50rem;
+    width: calc(100% - 4rem);
+  }
+
+  .load-balancer-ports {
+    .instances,
+    .target-port {
+      display: none;
+    }
+  }
+}
