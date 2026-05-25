@@ -197,6 +197,7 @@ jobs:
         run: |
           set -x
           export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }} # zizmor: ignore[secrets-outside-env]
+          export PATH="$PWD/node_modules/.bin:$PATH" # to use eslint from yarn dependencies
           # need to source .profile, or TICSQServer command won't be found
           source ~/.profile
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
