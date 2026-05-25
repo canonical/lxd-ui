@@ -67,6 +67,13 @@ export const useProjectEntitlements = () => {
   const canEditProject = (project?: LxdProject) =>
     hasEntitlement(isFineGrained, "can_edit", project?.access_entitlements);
 
+  const canCreateReplicators = (project?: LxdProject) =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_replicators",
+      project?.access_entitlements,
+    ) || hasEntitlement(isFineGrained, "admin", project?.access_entitlements);
+
   return {
     canCreateImageAliases,
     canCreateImages,
@@ -78,5 +85,6 @@ export const useProjectEntitlements = () => {
     canCreateStorageBuckets,
     canDeleteProject,
     canEditProject,
+    canCreateReplicators,
   };
 };

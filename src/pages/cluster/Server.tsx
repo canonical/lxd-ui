@@ -9,18 +9,23 @@ import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
 import ClusterLinkList from "pages/cluster/ClusterLinkList";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import ReplicatorList from "./ReplicatorList";
 
 interface Props {
   activeTab?: string;
 }
 
 const Server: FC<Props> = ({ activeTab }) => {
-  const { hasClusterLinks } = useSupportedFeatures();
+  const { hasClusterLinks, hasReplicators } = useSupportedFeatures();
 
   const tabs = ["Hardware", "Clustering"];
 
   if (hasClusterLinks) {
     tabs.push("Cluster links");
+  }
+
+  if (hasReplicators) {
+    tabs.push("Replicators");
   }
 
   return (
@@ -51,6 +56,7 @@ const Server: FC<Props> = ({ activeTab }) => {
           </EmptyState>
         )}
         {activeTab === "cluster-links" && <ClusterLinkList variant="panel" />}
+        {activeTab === "replicators" && <ReplicatorList variant="panel" />}
       </Row>
     </BaseLayout>
   );

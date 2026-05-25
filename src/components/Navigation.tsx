@@ -91,6 +91,7 @@ const Navigation: FC = () => {
     hasAccessManagement,
     hasImageRegistries,
     hasClusterLinks,
+    hasReplicators,
   } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
@@ -570,6 +571,20 @@ const Navigation: FC = () => {
                                   Placement
                                 </NavLink>
                               </SideNavigationItem>,
+                              ...(hasReplicators
+                                ? [
+                                    <SideNavigationItem key="replicators">
+                                      <NavLink
+                                        to={`${ROOT_PATH}/ui/cluster/replicators`}
+                                        title="Replicators"
+                                        onClick={softToggleMenu}
+                                        className="accordion-nav-secondary"
+                                      >
+                                        Replicators
+                                      </NavLink>
+                                    </SideNavigationItem>,
+                                  ]
+                                : []),
                             ]}
                           </NavAccordion>
                         </SideNavigationItem>

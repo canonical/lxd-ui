@@ -10,7 +10,7 @@ import {
   useNotify,
   Spinner,
 } from "@canonical/react-components";
-import { isoTimeToString } from "util/helpers";
+import { timeToString } from "util/helpers";
 import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -133,7 +133,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
               </div>
               {isSmallScreen && (
                 <div className="u-text--muted">
-                  {isoTimeToString(snapshot.created_at)}
+                  {timeToString(snapshot.created_at)}
                 </div>
               )}
             </>
@@ -146,14 +146,14 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           ? []
           : [
               {
-                content: isoTimeToString(snapshot.created_at),
+                content: timeToString(snapshot.created_at),
                 role: "cell",
                 "aria-label": "Created at",
                 className: "created",
               },
             ]),
         {
-          content: isoTimeToString(snapshot.expires_at ?? ""),
+          content: timeToString(snapshot.expires_at ?? ""),
           role: "cell",
           "aria-label": "Expires at",
           className: "expiration",

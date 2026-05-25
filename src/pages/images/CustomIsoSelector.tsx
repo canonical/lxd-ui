@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button, MainTable, Spinner } from "@canonical/react-components";
-import { humanFileSize, isoTimeToString } from "util/helpers";
+import { humanFileSize, timeToString } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdImageType, RemoteImage } from "types/image";
 import type { IsoImage } from "types/iso";
@@ -60,7 +60,7 @@ const CustomIsoSelector: FC<Props> = ({
           onClick: selectIso,
         },
         {
-          content: isoTimeToString(new Date(image.created_at).toISOString()),
+          content: timeToString(new Date(image.created_at).toISOString()),
           role: "cell",
           "aria-label": "Uploaded at",
           onClick: selectIso,

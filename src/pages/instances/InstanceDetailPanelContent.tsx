@@ -3,7 +3,7 @@ import InstanceLink from "./InstanceLink";
 import type { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import InstanceIps from "./InstanceIps";
-import { getRootPool, isoTimeToString } from "util/helpers";
+import { getRootPool, timeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
@@ -159,11 +159,11 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         </tr>
         <tr>
           <th className="u-text--muted">Created</th>
-          <td>{isoTimeToString(instance.created_at)}</td>
+          <td>{timeToString(instance.created_at)}</td>
         </tr>
         <tr>
           <th className="u-text--muted">Last used</th>
-          <td>{isoTimeToString(instance.last_used_at)}</td>
+          <td>{timeToString(instance.last_used_at)}</td>
         </tr>
         <tr>
           <th>
@@ -212,7 +212,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                     />
                   </th>
                   <td className="u-text--muted">
-                    <i>{isoTimeToString(snapshot.created_at)}</i>
+                    <i>{timeToString(snapshot.created_at)}</i>
                   </td>
                 </tr>
               ))}
