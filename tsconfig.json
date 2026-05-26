@@ -11,7 +11,9 @@
       "pages/*": ["src/pages/*"],
       "types/*": ["src/types/*"],
       "util/*": ["src/util/*"],
-      "*": ["types/*.d.ts"]
+      "*": ["types/*.d.ts"],
+      "@storybook/react": ["node_modules/@storybook/react/dist/index.d.ts"],
+      "@storybook/react/*": ["node_modules/@storybook/react/dist/*"]
     },
     "module": "esnext",
     "esModuleInterop": true,
@@ -27,7 +29,7 @@
   "include": [
     "src",
     ".eslintrc.cjs",
-    "babel.config.js",
+    "babel.config.cjs",
     "merge.playwright.config.ts",
     "playwright.config.ts",
     "webpack.config.js",

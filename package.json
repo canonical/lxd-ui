@@ -31,7 +31,9 @@
     "test-e2e-cleanup": "rm -rf coverage/playwright*",
     "test-e2e-coverage": "PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage && npx playwright test --project coverage:cluster-enable",
     "test-e2e-cluster-coverage": "PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage:clustered",
-    "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
+    "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@canonical/react-components": "4.5.3",
@@ -57,6 +59,7 @@
     "@babel/preset-typescript": "7.28.5",
     "@canonical/typescript-config-react": "0.27.0",
     "@playwright/test": "1.58.2",
+    "@storybook/react-vite": "10.4.1",
     "@types/convert-source-map": "2.0.3",
     "@types/dotenv": "8.2.3",
     "@types/js-yaml": "4.0.9",
@@ -88,6 +91,7 @@
     "prettier": "3.7.4",
     "sass": "1.97.2",
     "serve": "14.2.5",
+    "storybook": "10.4.1",
     "stylelint": "16.26.1",
     "stylelint-config-standard-scss": "16.0.0",
     "stylelint-order": "7.0.1",
