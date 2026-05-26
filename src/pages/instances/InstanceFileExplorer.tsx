@@ -11,6 +11,7 @@ import {
 import type { LxdInstance } from "types/instance";
 import { isInstanceRunning } from "util/instanceStatus";
 import FileExplorerTable from "./FileExplorerTable";
+import BreadcrumbPath from "./BreadcrumbPath";
 import { fetchInstanceFile } from "api/instances";
 
 interface Props {
@@ -49,6 +50,7 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
       return newMap;
     });
     setCurrentPath(path);
+
     return true;
   };
 
@@ -122,7 +124,12 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
 
   return (
     <Row className="general">
-      <h2 className="p-panel__title">Path {currentPath}</h2>
+      <BreadcrumbPath
+        currentPath={currentPath}
+        onNavigate={(path) => {
+          void loadInstancePath(path);
+        }}
+      />
       <FileExplorerTable
         files={(tree.get(currentPath) as string[]) ?? []}
         currentPath={currentPath}

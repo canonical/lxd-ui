@@ -12,7 +12,7 @@ import {
   CustomLayout,
 } from "@canonical/react-components";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
-import { timeToString, nonBreakingSpaces } from "util/helpers";
+import { isoTimeToString, nonBreakingSpaces } from "util/helpers";
 import type { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
@@ -69,11 +69,11 @@ const OperationList: FC = () => {
             <>
               <div className="date-pair">
                 Initiated:{" "}
-                {nonBreakingSpaces(timeToString(operation.created_at))}
+                {nonBreakingSpaces(isoTimeToString(operation.created_at))}
               </div>
               <div className="date-pair u-text--muted">
                 Last update:{" "}
-                {nonBreakingSpaces(timeToString(operation.updated_at))}
+                {nonBreakingSpaces(isoTimeToString(operation.updated_at))}
               </div>
             </>
           ),

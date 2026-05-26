@@ -9,6 +9,7 @@ import useSortTableData from "util/useSortTableData";
 import type { FileMetadata } from "types/fileExplorer";
 import { isoTimeToString } from "util/helpers";
 import { fetchInstanceFileHeader } from "api/instances";
+import { Link } from "react-router-dom";
 
 interface Props {
   files: string[];
@@ -102,10 +103,10 @@ const FileExplorerTable: FC<Props> = ({
       columns: [
         {
           content: (
-            <a className="fe-item">
+            <Link to="#" className="fe-item">
               <Icon name={getIcon()} />
               <span>{fileName}</span>
-            </a>
+            </Link>
           ),
           role: "rowheader",
           "aria-label": "Name",

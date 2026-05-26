@@ -9,7 +9,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import type { LxdImage } from "types/image";
 import { getArchitectureDisplayName } from "util/architectures";
-import { humanFileSize, timeToString } from "util/helpers";
+import { humanFileSize, isoTimeToString } from "util/helpers";
 import {
   getImageAlias,
   getImageName,
@@ -115,7 +115,7 @@ const ImageTable: FC<Props> = ({
           className: "type",
         },
         {
-          content: timeToString(image.uploaded_at),
+          content: isoTimeToString(image.uploaded_at),
           role: "cell",
           "aria-label": "Upload date",
           className: "uploaded_at",

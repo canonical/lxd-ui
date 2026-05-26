@@ -6,7 +6,7 @@ import { Spinner } from "@canonical/react-components";
 import { getIpAddresses, sortIpv6Addresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
-import { timeToString } from "util/helpers";
+import { isoTimeToString } from "util/helpers";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { type TooltipRow } from "../../components/RichTooltipRow";
 import { RichTooltipTable } from "../../components/RichTooltipTable";
@@ -89,11 +89,11 @@ export const InstanceRichTooltip: FC<Props> = ({
     },
     {
       title: "Created",
-      value: instance ? timeToString(instance.created_at) : "-",
+      value: instance ? isoTimeToString(instance.created_at) : "-",
     },
     {
       title: "Last used",
-      value: instance ? timeToString(instance.last_used_at) : "-",
+      value: instance ? isoTimeToString(instance.last_used_at) : "-",
     },
   ];
 
