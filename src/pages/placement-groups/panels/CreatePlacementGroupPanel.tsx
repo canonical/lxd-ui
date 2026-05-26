@@ -6,8 +6,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -17,11 +16,10 @@ import { queryKeys } from "util/queryKeys";
 import { createPlacementGroup } from "api/placement-groups";
 import { useCurrentProject } from "context/useCurrentProject";
 import type { PlacementGroupFormValues } from "types/forms/placementGroup";
-import {
+import PlacementGroupForm, {
   PLACEMENT_GROUP_POLICY_COMPACT,
   PLACEMENT_GROUP_RIGOR_STRICT,
 } from "pages/placement-groups/PlacementGroupForm";
-import PlacementGroupForm from "pages/placement-groups/PlacementGroupForm";
 import ResourceLink from "components/ResourceLink";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";

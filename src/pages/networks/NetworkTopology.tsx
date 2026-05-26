@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";
 import { slugify } from "util/slugify";
@@ -7,7 +6,6 @@ import { CONNECTIONS } from "pages/networks/forms/NetworkFormMenu";
 import { filterUsedByType } from "util/usedBy";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import classNames from "classnames";
-import classnames from "classnames";
 import { useParams } from "react-router-dom";
 import { useNetworks } from "context/useNetworks";
 import { clusteredTypes } from "util/networks";
@@ -133,7 +131,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
               return (
                 <div
                   key={networkUrl}
-                  className={classnames("downstream-item", {
+                  className={classNames("downstream-item", {
                     "has-descendents": (item.used_by ?? []).length > 0,
                   })}
                 >

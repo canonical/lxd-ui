@@ -7,7 +7,10 @@ import {
   usePortal,
 } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import type { InstanceAndProfileFormValues } from "types/forms/instanceAndProfile";
+import type {
+  InstanceAndProfileFormValues,
+  SshKey,
+} from "types/forms/instanceAndProfile";
 import { ensureEditMode } from "util/editMode";
 import { parseSshKeys } from "util/instanceEdit";
 import { getAppliedProfiles } from "util/profiles";
@@ -19,7 +22,6 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
-import type { SshKey } from "types/forms/instanceAndProfile";
 
 interface InheritedSshKey {
   sshKey: SshKey;

@@ -18,20 +18,24 @@ if (!fs.existsSync(indexPath)) {
 let html = fs.readFileSync(indexPath, "utf-8");
 
 // 1. Patterns to find Vite's original tags
-const scriptPattern = /<script type="module"[^>]*src="\.\/assets\/([^"]+)"[^>]*><\/script>/g;
-const linkPattern = /<link rel="stylesheet"[^>]*href="\.\/assets\/([^"]+)"[^>]*>/g;
+const scriptPattern =
+  /<script type="module"[^>]*src="\.\/assets\/([^"]+)"[^>]*><\/script>/g;
+const linkPattern =
+  /<link rel="stylesheet"[^>]*href="\.\/assets\/([^"]+)"[^>]*>/g;
 
+/** @type {string[]} */
 const scriptAssets = [];
+/** @type {string[]} */
 const linkAssets = [];
 
 // 2. Extract and remove original tags
-html = html.replace(scriptPattern, (match, filename) => {
-  scriptAssets.push(filename);
+html = html.replace(scriptPattern, (_match, filename) => {
+  scriptAssets.push(String(filename));
   return "";
 });
 
-html = html.replace(linkPattern, (match, filename) => {
-  linkAssets.push(filename);
+html = html.replace(linkPattern, (_match, filename) => {
+  linkAssets.push(String(filename));
   return "";
 });
 

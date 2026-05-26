@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, type FC, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchCertificates } from "api/certificates";
@@ -7,8 +6,7 @@ import { fetchProjects } from "api/projects";
 import { fetchCurrentIdentity } from "api/auth-identities";
 import { useSupportedFeatures } from "./useSupportedFeatures";
 import { getLoginProject } from "util/loginProject";
-import type { LXDAuthMethod } from "util/authentication";
-import { AUTH_METHOD } from "util/authentication";
+import { AUTH_METHOD, type LXDAuthMethod } from "util/authentication";
 
 interface ContextProps {
   isAuthenticated: boolean;

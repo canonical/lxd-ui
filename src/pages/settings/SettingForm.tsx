@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import {
   Button,
   Icon,

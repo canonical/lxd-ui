@@ -1,6 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, type FC } from "react";
 import {
   Button,
   EmptyState,
@@ -27,13 +26,13 @@ import {
 } from "util/networks";
 import { useClusterMembers } from "context/useClusterMembers";
 import PageHeader from "components/PageHeader";
-import type { NetworkFilters } from "pages/networks/NetworkSearchFilter";
 import NetworkSearchFilter, {
   MANAGED,
   MEMBER,
   STATE,
   TYPE,
   QUERY,
+  type NetworkFilters,
 } from "pages/networks/NetworkSearchFilter";
 import type { LXDNetworkOnClusterMemberFulfilled } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";

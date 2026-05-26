@@ -17,8 +17,8 @@ import { identityBar, identityFoo } from "./helpers/permission-identities";
 import {
   assertTextVisible,
   confirmIdentitiesModifiedForGroup,
+  skipIfNotSupported,
 } from "./helpers/permissions";
-import { skipIfNotSupported } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
 
 test("create and delete group", async ({ page, lxdVersion }) => {

@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { cloneElement } from "react";
+import { cloneElement, type FC } from "react";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import type { LxdInstance } from "types/instance";
 import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";

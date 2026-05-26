@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { useState } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";

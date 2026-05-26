@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useRef } from "react";
+import { useRef, type FC } from "react";
 import {
   CustomSelect,
   Icon,

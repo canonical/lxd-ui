@@ -1,6 +1,11 @@
-import type { FC, ReactNode } from "react";
-import { useEffect } from "react";
-import { createContext, useContext, useState } from "react";
+import {
+  useEffect,
+  createContext,
+  useContext,
+  useState,
+  type FC,
+  type ReactNode,
+} from "react";
 import type { LxdInstance } from "types/instance";
 import { getInstanceKey } from "util/instances";
 import { useOperations } from "context/operationsProvider";

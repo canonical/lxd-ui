@@ -8,8 +8,7 @@ import {
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FC } from "react";
 import PermissionSelector from "./PermissionSelector";
 import {
   getPermissionIds,

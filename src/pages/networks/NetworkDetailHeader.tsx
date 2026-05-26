@@ -1,8 +1,6 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import type { RenameHeaderValues } from "components/RenameHeader";
-import RenameHeader from "components/RenameHeader";
+import RenameHeader, { type RenameHeaderValues } from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getNetworkNameValidation } from "util/networkForm";

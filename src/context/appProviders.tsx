@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { QueuedNotification } from "@canonical/react-components";
 import {
   NotificationProvider,
   ToastNotificationProvider,
+  type QueuedNotification,
 } from "@canonical/react-components";
 import { useLocation } from "react-router-dom";
 import { AuthProvider } from "context/auth";

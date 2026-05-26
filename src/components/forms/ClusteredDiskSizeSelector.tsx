@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, type FC } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
 import type { ClusterSpecificValues } from "types/cluster";
 import { useClusterMembers } from "context/useClusterMembers";

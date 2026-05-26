@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteClusterGroup } from "api/cluster-groups";
 import { queryKeys } from "util/queryKeys";

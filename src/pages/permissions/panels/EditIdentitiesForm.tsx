@@ -4,8 +4,7 @@ import {
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";

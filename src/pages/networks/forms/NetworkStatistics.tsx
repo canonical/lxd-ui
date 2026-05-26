@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, type FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";
 import { humanFileSize } from "util/helpers";

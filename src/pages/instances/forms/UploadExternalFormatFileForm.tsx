@@ -10,8 +10,7 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import type { ChangeEvent, FC } from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, type ChangeEvent, type FC } from "react";
 import { instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/upload";
 import { useEventQueue } from "context/eventQueue";
@@ -31,8 +30,9 @@ import {
 } from "util/uploadExternalFormatFile";
 import { getInstanceName } from "util/operations";
 import classnames from "classnames";
-import type { InstanceFileType } from "./InstanceFileTypeSelector";
-import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
+import InstanceFileTypeSelector, {
+  type InstanceFileType,
+} from "./InstanceFileTypeSelector";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";
 import { useClusterMembers } from "context/useClusterMembers";

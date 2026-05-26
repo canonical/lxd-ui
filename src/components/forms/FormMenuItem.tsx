@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { Fragment } from "react";
+import { Fragment, type FC } from "react";
 import { slugify } from "util/slugify";
 import { Button } from "@canonical/react-components";
 import classnames from "classnames";

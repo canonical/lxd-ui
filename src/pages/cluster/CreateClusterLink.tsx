@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { usePortal } from "@canonical/react-components";
 import usePanelParams, { panels } from "util/usePanelParams";
 import CreateClusterLinkModal from "pages/cluster/modals/CreateClusterLinkModal";

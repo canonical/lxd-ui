@@ -1,8 +1,6 @@
-import type { ChangeEvent, FC } from "react";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FC } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import type { NotificationType } from "@canonical/react-components";
 import {
   ActionButton,
   Button,
@@ -10,6 +8,7 @@ import {
   Input,
   Notification,
   Spinner,
+  type NotificationType,
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import ProgressBar from "components/ProgressBar";

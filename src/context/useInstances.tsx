@@ -1,6 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import type { UseQueryResult } from "@tanstack/react-query";
 import { fetchInstance, fetchInstances } from "api/instances";
 import { useAuth } from "./auth";
 import { useSupportedFeatures } from "./useSupportedFeatures";

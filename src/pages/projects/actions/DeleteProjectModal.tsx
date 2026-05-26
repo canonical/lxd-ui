@@ -1,6 +1,5 @@
 import ResourceLabel from "components/ResourceLabel";
-import type { ChangeEvent, FC, KeyboardEvent } from "react";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FC, type KeyboardEvent } from "react";
 import type { LxdProject } from "types/project";
 import { isProjectEmpty } from "util/projects";
 import ProjectUsedBy from "pages/projects/actions/ProjectUsedBy";

@@ -13,8 +13,7 @@ import {
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import useSortTableData from "util/useSortTableData";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";

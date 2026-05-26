@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, type FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { useListener, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";

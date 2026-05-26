@@ -8,12 +8,15 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import type { PermissionGroupFormValues } from "types/forms/permissionGroup";
+import {
+  type PermissionGroupFormValues,
+  type FormPermission,
+  type GroupSubForm,
+} from "types/forms/permissionGroup";
 import GroupForm from "../forms/GroupForm";
 import { renameGroup, updateGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
@@ -21,10 +24,10 @@ import { isAdminGroup, testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import classnames from "classnames";
-import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
-import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
+import EditIdentitiesForm, {
+  type FormIdentity,
+} from "pages/permissions/panels/EditIdentitiesForm";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
-import type { FormPermission } from "types/forms/permissionGroup";
 import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import {
   getIdentityNameLookup,
@@ -37,7 +40,6 @@ import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotif
 import { useSettings } from "context/useSettings";
 import { pluralize } from "util/helpers";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
-import type { GroupSubForm } from "types/forms/permissionGroup";
 import ResourceLink from "components/ResourceLink";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";

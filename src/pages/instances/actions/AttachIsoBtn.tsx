@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { updateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useParams } from "react-router-dom";

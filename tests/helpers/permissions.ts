@@ -1,5 +1,4 @@
-import type { LxdVersions } from "../fixtures/lxd-test";
-import { test, expect } from "../fixtures/lxd-test";
+import { test, expect, type LxdVersions } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {

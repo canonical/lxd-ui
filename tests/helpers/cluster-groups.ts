@@ -1,8 +1,7 @@
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
-import type { LxdVersions } from "../fixtures/lxd-test";
-import { test } from "../fixtures/lxd-test";
+import { test, type LxdVersions } from "../fixtures/lxd-test";
 import { dismissNotification } from "./notification";
 
 export const skipIfNotSupported = (lxdVersion: LxdVersions) => {

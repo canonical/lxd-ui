@@ -1,11 +1,10 @@
-import { test, expect } from "./fixtures/lxd-test";
+import { test, expect, type LxdVersions } from "./fixtures/lxd-test";
 import {
   removeCertificateTrust,
   restoreCertificateTrust,
   visitInitialAccessLink,
 } from "./helpers/auth";
 import { randomIdentityName } from "./helpers/permission-identities";
-import type { LxdVersions } from "./fixtures/lxd-test";
 
 const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(

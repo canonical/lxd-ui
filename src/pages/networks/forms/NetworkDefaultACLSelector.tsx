@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { Fragment } from "react";
+import { Fragment, type FC } from "react";
 import { Icon, Label, Select } from "@canonical/react-components";
 import { conjugateACLAction } from "util/helpers";
 

@@ -1,6 +1,11 @@
 import { handleResponse } from "util/helpers";
-import type { BulkOperationItem, BulkOperationResult } from "util/promises";
-import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
+import {
+  continueOrFinish,
+  pushFailure,
+  pushSuccess,
+  type BulkOperationItem,
+  type BulkOperationResult,
+} from "util/promises";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";

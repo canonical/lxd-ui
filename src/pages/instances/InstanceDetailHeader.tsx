@@ -1,9 +1,7 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import type { RenameHeaderValues } from "components/RenameHeader";
-import RenameHeader from "components/RenameHeader";
+import RenameHeader, { type RenameHeaderValues } from "components/RenameHeader";
 import { renameInstance } from "api/instances";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";

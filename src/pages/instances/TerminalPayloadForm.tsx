@@ -1,7 +1,10 @@
-import type { FC, KeyboardEvent } from "react";
-import { useState } from "react";
-import { useEffect, useRef } from "react";
-import type { NotificationType } from "@canonical/react-components";
+import {
+  useState,
+  useEffect,
+  useRef,
+  type FC,
+  type KeyboardEvent,
+} from "react";
 import {
   ActionButton,
   Button,
@@ -13,6 +16,7 @@ import {
   Notification,
   success,
   useListener,
+  type NotificationType,
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { TerminalConnectPayload } from "types/terminal";

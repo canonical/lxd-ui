@@ -12,8 +12,7 @@ import type {
 } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 import { areNetworksEqual } from "util/networks";
-import type { ClusterSpecificValues } from "types/cluster";
-import type { LxdClusterMember } from "types/cluster";
+import type { ClusterSpecificValues, LxdClusterMember } from "types/cluster";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";

@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { useState } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import CustomVolumeSelectModal from "pages/storage/CustomVolumeSelectModal";
 import CustomVolumeCreateModal from "pages/storage/CustomVolumeCreateModal";
 import { Modal } from "@canonical/react-components";

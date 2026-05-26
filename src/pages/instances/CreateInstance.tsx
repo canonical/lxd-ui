@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC, type ReactNode } from "react";
 import {
   ActionButton,
   Button,
@@ -19,9 +18,13 @@ import { queryKeys } from "util/queryKeys";
 import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { objectToYaml, yamlToObject } from "util/yaml";
-import type { Location } from "react-router-dom";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import type { LxdInstance } from "types/instance";
+import {
+  type Location,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import type { LxdInstance, InstanceIconType } from "types/instance";
 import InstanceCreateDetailsForm from "pages/instances/forms/InstanceCreateDetailsForm";
 import type { FormDevice } from "types/formDevice";
 import { remoteImageToIsoDevice } from "util/formDevices";
@@ -67,7 +70,6 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
-import type { InstanceIconType } from "types/instance";
 import BootForm from "components/forms/BootForm";
 import {
   bootPayload,

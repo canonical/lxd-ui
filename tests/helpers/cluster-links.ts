@@ -1,5 +1,4 @@
-import type { LxdVersions } from "../fixtures/lxd-test";
-import { expect, test } from "../fixtures/lxd-test";
+import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";

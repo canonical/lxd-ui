@@ -1,9 +1,8 @@
 import type { FC } from "react";
-import { CustomSelect } from "@canonical/react-components";
+import { CustomSelect, useNotify } from "@canonical/react-components";
 import { useClusterLinks } from "context/useClusterLinks";
 import type { FormikProps } from "formik";
 import type { ImageRegistryFormValues } from "types/forms/image";
-import { useNotify } from "@canonical/react-components";
 import { Link } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
 

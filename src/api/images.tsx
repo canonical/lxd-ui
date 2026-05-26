@@ -1,13 +1,17 @@
 import { handleResponse } from "util/helpers";
-import type { BulkOperationItem, BulkOperationResult } from "util/promises";
-import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
+import {
+  continueOrFinish,
+  pushFailure,
+  pushSuccess,
+  type BulkOperationItem,
+  type BulkOperationResult,
+} from "util/promises";
 import type { LxdImage } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
 import type { UploadState } from "types/upload";
-import type { AxiosResponse } from "axios";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { addEntitlements } from "util/entitlements/api";
 import { ROOT_PATH } from "util/rootPath";
 

@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import {
   Button,
   Col,
@@ -68,8 +67,9 @@ import NetworkDevicePanel from "components/forms/NetworkDevicesForm/edit/Network
 import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
-import type { YamlType } from "components/forms/YamlTypeSelector";
-import YamlTypeSelector from "components/forms/YamlTypeSelector";
+import YamlTypeSelector, {
+  type YamlType,
+} from "components/forms/YamlTypeSelector";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 
 interface Props {

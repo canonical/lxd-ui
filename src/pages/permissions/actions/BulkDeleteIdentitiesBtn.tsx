@@ -1,16 +1,14 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { pluralize } from "util/helpers";
+import { pluralize, logoutOidc } from "util/helpers";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
-import { logoutOidc } from "util/helpers";
 import { AUTH_METHOD } from "util/authentication";
 import { useAuth } from "context/auth";
 

@@ -1,14 +1,14 @@
 import type { FC } from "react";
 import { MainTable } from "@canonical/react-components";
-import { isRootDisk } from "util/devices";
-import type { FormDevice } from "types/formDevice";
-import ResourceLink from "components/ResourceLink";
 import {
+  isRootDisk,
   isDiskDevice,
   isHostDiskDevice,
   isOtherDevice,
   isVolumeDevice,
 } from "util/devices";
+import type { FormDevice } from "types/formDevice";
+import ResourceLink from "components/ResourceLink";
 import DeviceDetails from "./DeviceDetails";
 import { useParams } from "react-router-dom";
 import type { LxdDeviceValue, LxdDevices } from "types/device";

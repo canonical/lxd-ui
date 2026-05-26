@@ -16,8 +16,8 @@ import {
   confirmGroupsModifiedForIdentity,
   redoChange,
   undoChange,
+  skipIfNotSupported,
 } from "./helpers/permissions";
-import { skipIfNotSupported } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
 
 test("manage groups for single identity", async ({ page, lxdVersion }) => {

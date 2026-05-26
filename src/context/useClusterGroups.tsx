@@ -1,6 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import type { UseQueryResult } from "@tanstack/react-query";
 import type { LxdClusterGroup } from "types/cluster";
 import { fetchClusterGroup, fetchClusterGroups } from "api/cluster-groups";
 

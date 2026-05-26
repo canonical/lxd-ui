@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { getInstanceMetricReport } from "util/metricSelectors";
 import { Spinner, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";

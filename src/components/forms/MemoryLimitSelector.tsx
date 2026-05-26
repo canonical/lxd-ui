@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
-import type { MemoryLimit } from "types/limits";
-import { BYTES_UNITS, MEM_LIMIT_TYPE } from "types/limits";
+import { BYTES_UNITS, MEM_LIMIT_TYPE, type MemoryLimit } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 

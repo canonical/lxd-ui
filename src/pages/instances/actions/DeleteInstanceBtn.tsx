@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { deleteInstance, stopInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,7 @@ import {
   ConfirmationButton,
   Icon,
   useToastNotification,
+  Notification,
 } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
@@ -17,7 +17,6 @@ import { useInstanceLoading } from "context/instanceLoading";
 import ResourceLabel from "components/ResourceLabel";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceFrozen, isInstanceRunning } from "util/instanceStatus";
-import { Notification } from "@canonical/react-components";
 import { InstanceRichChip } from "../InstanceRichChip";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { ROOT_PATH } from "util/rootPath";

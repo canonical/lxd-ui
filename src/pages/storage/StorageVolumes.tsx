@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
   EmptyState,
@@ -14,13 +13,13 @@ import {
   Notification,
 } from "@canonical/react-components";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
-import type { StorageVolumesFilterType } from "pages/storage/StorageVolumesFilter";
-import { CLUSTER_MEMBER } from "pages/storage/StorageVolumesFilter";
 import StorageVolumesFilter, {
+  CLUSTER_MEMBER,
   CONTENT_TYPE,
   POOL,
   QUERY,
   VOLUME_TYPE,
+  type StorageVolumesFilterType,
 } from "pages/storage/StorageVolumesFilter";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import {

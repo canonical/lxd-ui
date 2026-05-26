@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Modal } from "@canonical/react-components";
 import type { UploadState } from "types/upload";
 import ProgressBar from "components/ProgressBar";

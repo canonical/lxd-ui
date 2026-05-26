@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { memo, useMemo, useEffect, useRef } from "react";
+import { memo, useMemo, useEffect, useRef, type FC } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SearchAndFilter } from "@canonical/react-components";
 import type {

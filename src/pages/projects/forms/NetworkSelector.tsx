@@ -1,8 +1,8 @@
 import type { FC } from "react";
-import { CustomSelect } from "@canonical/react-components";
-import type {
-  CustomSelectOption,
-  CustomSelectProps,
+import {
+  CustomSelect,
+  type CustomSelectOption,
+  type CustomSelectProps,
 } from "@canonical/react-components";
 import { getNetworkAcls } from "util/networks";
 import type { LxdNetwork } from "types/network";

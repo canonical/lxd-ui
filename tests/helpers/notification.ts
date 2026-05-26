@@ -1,5 +1,4 @@
-import type { Page } from "@playwright/test";
-import { expect } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 export const checkNotificationExists = async (page: Page) => {
   const notification = page.locator(".toast-notification");

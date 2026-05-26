@@ -1,5 +1,10 @@
-import type { FC, ReactNode } from "react";
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  type FC,
+  type ReactNode,
+} from "react";
 
 type LoadingTypes = "Evacuating" | "Restoring";
 

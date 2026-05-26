@@ -1,13 +1,14 @@
-import type { FC, KeyboardEvent } from "react";
-import { useState } from "react";
+import { useState, type FC, type KeyboardEvent } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import FormLink from "components/FormLink";
 import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
 import BackLink from "components/BackLink";
 import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
-import type { MigrationType } from "util/instanceMigration";
-import { useInstanceMigration } from "util/instanceMigration";
+import {
+  useInstanceMigration,
+  type MigrationType,
+} from "util/instanceMigration";
 import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
 import { useIsClustered } from "context/useIsClustered";
 

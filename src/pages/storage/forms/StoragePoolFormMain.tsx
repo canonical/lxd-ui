@@ -18,9 +18,8 @@ import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/editMode";
 import { isClusteredServer } from "util/settings";
 import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
-import { isStoragePoolWithSize } from "util/storagePoolForm";
+import { isStoragePoolWithSize, getFormProps } from "util/storagePoolForm";
 import StoragePoolSource from "./StoragePoolSource";
-import { getFormProps } from "util/storagePoolForm";
 import StorageDriverSelect from "./StorageDriverSelect";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 

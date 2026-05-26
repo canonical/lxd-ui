@@ -8,8 +8,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteGroups } from "api/auth-groups";
 import ResourceLabel from "components/ResourceLabel";
-import type { ChangeEvent, FC } from "react";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FC } from "react";
 import type { LxdAuthGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import { pluralize } from "util/helpers";

@@ -1,9 +1,7 @@
 import type * as Yup from "yup";
-import type { AbortControllerState } from "./helpers";
-import { checkDuplicateName } from "./helpers";
+import { checkDuplicateName, type AbortControllerState } from "./helpers";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
-import type { ChangeSummary } from "./permissionIdentities";
-import { getIdentityName } from "./permissionIdentities";
+import { getIdentityName, type ChangeSummary } from "./permissionIdentities";
 
 export const isAdminGroup = (group?: LxdAuthGroup) => group?.name === "admins";
 

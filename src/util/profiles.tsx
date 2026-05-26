@@ -1,6 +1,5 @@
 import type { LxdProfile } from "types/profile";
-import type { AbortControllerState } from "./helpers";
-import { checkDuplicateName } from "./helpers";
+import { type AbortControllerState, checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
 import type {
   CreateInstanceFormValues,

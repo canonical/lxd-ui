@@ -1,6 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import type { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
 import type { LxdProfile } from "types/profile";
 import { fetchProfile, fetchProfiles } from "api/profiles";

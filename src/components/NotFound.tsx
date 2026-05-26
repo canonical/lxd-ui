@@ -1,8 +1,7 @@
 import type { FC } from "react";
 import { Row, Col, Notification } from "@canonical/react-components";
 import { capitalizeFirstLetter } from "util/helpers";
-import type { ResourceIconType } from "components/ResourceIcon";
-import ResourceIcon from "components/ResourceIcon";
+import ResourceIcon, { type ResourceIconType } from "components/ResourceIcon";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import classnames from "classnames";
 

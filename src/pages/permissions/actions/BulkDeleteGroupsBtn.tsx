@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import type { LxdAuthGroup } from "types/permissions";
 import DeleteGroupModal from "./DeleteGroupModal";

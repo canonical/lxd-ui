@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, type FC } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {

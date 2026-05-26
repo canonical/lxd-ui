@@ -3,15 +3,19 @@ import {
   handleResponse,
   handleTextResponse,
 } from "util/helpers";
-import type { BulkOperationItem, BulkOperationResult } from "util/promises";
-import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
+import {
+  continueOrFinish,
+  pushFailure,
+  pushSuccess,
+  type BulkOperationItem,
+  type BulkOperationResult,
+} from "util/promises";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
-import type { AxiosResponse } from "axios";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import type { UploadState } from "types/upload";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";

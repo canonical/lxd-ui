@@ -29,10 +29,10 @@ import {
   ISO_VOLUME_PROFILE_NAME,
   ISO_VOLUME_TYPE,
   isRootDisk,
+  isVolumeDevice,
 } from "util/devices";
 import { isInstanceCreation } from "util/instanceEdit";
 import { ensureEditMode } from "util/editMode";
-import { isVolumeDevice } from "util/devices";
 import { focusField } from "util/formFields";
 import AttachDiskDeviceBtn from "pages/storage/AttachDiskDeviceBtn";
 import type { LxdProfile } from "types/profile";

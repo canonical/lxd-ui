@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import {
   Button,
   Col,
@@ -30,8 +29,7 @@ import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses, sortIpv6Addresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
-import type { InstanceFilters } from "util/instanceFilter";
-import { enrichStatuses } from "util/instanceFilter";
+import { enrichStatuses, type InstanceFilters } from "util/instanceFilter";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import type {

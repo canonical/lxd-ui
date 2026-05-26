@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import type { FC } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import {
   generateEntitlementOptions,
   generateResourceOptions,

@@ -1,5 +1,4 @@
-import type { FC, KeyboardEvent, ReactNode } from "react";
-import { useState } from "react";
+import { useState, type FC, type KeyboardEvent, type ReactNode } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
 import FormLink from "components/FormLink";

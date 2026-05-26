@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { cloneElement } from "react";
+import { cloneElement, type FC } from "react";
 import MigrateVolumeBtn from "./MigrateVolumeBtn";
 import ExportVolumeBtn from "./ExportVolumeBtn";
 import DeleteStorageVolumeBtn from "./actions/DeleteStorageVolumeBtn";

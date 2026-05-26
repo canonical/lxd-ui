@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { FC, ReactNode } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 
 interface Props {

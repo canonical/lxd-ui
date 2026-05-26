@@ -5,11 +5,11 @@ import type { LxdImageRegistry } from "types/image";
 import { useRegistryImages } from "context/useImageRegistries";
 import { useSettings } from "context/useSettings";
 import ImageTable from "pages/images/ImageTable";
-import type { ImagesSearchFilterType } from "pages/images/ImagesSearchFilter";
 import ImagesSearchFilter, {
   QUERY,
   ARCHITECTURE,
   TYPE,
+  type ImagesSearchFilterType,
 } from "pages/images/ImagesSearchFilter";
 import {
   getArchitectureAliases,

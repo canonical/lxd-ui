@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, type FC } from "react";
 import {
   EmptyState,
   Icon,
@@ -17,8 +16,7 @@ import PageHeader from "components/PageHeader";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworkAllocations } from "api/networks";
-import type { LxdUsedBy } from "util/usedBy";
-import { filterUsedByType } from "util/usedBy";
+import { filterUsedByType, type LxdUsedBy } from "util/usedBy";
 import UsedByItem from "components/UsedByItem";
 import DocLink from "components/DocLink";
 import { InstanceIpEdit } from "components/InstanceIpEdit";

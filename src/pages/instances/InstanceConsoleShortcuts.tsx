@@ -1,6 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import { ContextualMenu } from "@canonical/react-components";
 import {
   isAltPressed,

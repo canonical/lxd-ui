@@ -1,8 +1,6 @@
 import { useResources } from "context/useResources";
 import type { FC } from "react";
-import { useNotify } from "@canonical/react-components";
-import type { InputProps } from "@canonical/react-components";
-import { Input } from "@canonical/react-components";
+import { useNotify, Input, type InputProps } from "@canonical/react-components";
 import { ensureArray } from "util/helpers";
 
 type Props = InputProps;

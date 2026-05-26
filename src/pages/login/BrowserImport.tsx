@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Col, Row, Tabs } from "@canonical/react-components";
 import CertificateGenerateBtn from "./CertificateGenerateBtn";
 

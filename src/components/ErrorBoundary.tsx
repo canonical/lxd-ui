@@ -1,6 +1,4 @@
-import type { FC } from "react";
-import type { PropsWithChildren } from "react";
-import { Component } from "react";
+import { Component, type FC, type PropsWithChildren } from "react";
 
 type Props = PropsWithChildren & {
   fallback: FC<{ error?: Error }>;

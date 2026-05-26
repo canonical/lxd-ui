@@ -1,6 +1,8 @@
 import type { LxdStorageVolume } from "types/storage";
-import type { ResourceType } from "util/resourceDetails";
-import { extractResourceDetailsFromUrl } from "util/resourceDetails";
+import {
+  extractResourceDetailsFromUrl,
+  type ResourceType,
+} from "util/resourceDetails";
 import { linkForVolumeDetail } from "util/storageVolume";
 import { getStorageBucketURL } from "util/storageBucket";
 import { linkForInstanceDetail } from "util/instances";

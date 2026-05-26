@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useFormik } from "formik";
 import {

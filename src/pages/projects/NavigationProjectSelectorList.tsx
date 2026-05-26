@@ -1,5 +1,4 @@
-import type { Dispatch, FC, SetStateAction } from "react";
-import { useState } from "react";
+import { useState, type Dispatch, type FC, type SetStateAction } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { getProjectSwitchTarget } from "util/projects";

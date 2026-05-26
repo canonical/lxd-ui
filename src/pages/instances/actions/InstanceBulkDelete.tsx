@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { pluralize } from "util/helpers";

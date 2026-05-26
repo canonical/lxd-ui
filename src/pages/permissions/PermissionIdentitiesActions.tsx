@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { cloneElement } from "react";
+import { type FC, cloneElement } from "react";
 import { ContextualMenu } from "@canonical/react-components";
 import {
   largeScreenBreakpoint,

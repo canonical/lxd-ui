@@ -1,6 +1,5 @@
 import type { FC, ReactNode } from "react";
-import type { MainTableProps } from "@canonical/react-components";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, type MainTableProps } from "@canonical/react-components";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
 

@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, type FC } from "react";
 import { timeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { Col, Row, useListener, useNotify } from "@canonical/react-components";

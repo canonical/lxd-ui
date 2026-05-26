@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { FitAddon } from "@xterm/addon-fit";
 import { connectInstanceExec } from "api/instances";
@@ -12,7 +11,6 @@ import type { LxdInstance } from "types/instance";
 import { useInstanceStart } from "util/instanceStart";
 import Xterm from "components/Xterm";
 import type { Terminal } from "@xterm/xterm";
-import type { NotificationType } from "@canonical/react-components";
 import {
   ActionButton,
   EmptyState,
@@ -22,6 +20,7 @@ import {
   Spinner,
   Button,
   failure,
+  type NotificationType,
 } from "@canonical/react-components";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";

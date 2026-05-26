@@ -1,9 +1,7 @@
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";
-import type { RenameHeaderValues } from "components/RenameHeader";
-import RenameHeader from "components/RenameHeader";
+import RenameHeader, { type RenameHeaderValues } from "components/RenameHeader";
 import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";
 import * as Yup from "yup";

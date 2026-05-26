@@ -1,5 +1,4 @@
-import type { FC, ReactNode } from "react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, type FC, type ReactNode } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
 import FormEditButton from "components/FormEditButton";
 import type { ClusterSpecificValues } from "types/cluster";

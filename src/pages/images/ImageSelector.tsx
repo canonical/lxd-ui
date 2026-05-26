@@ -1,5 +1,4 @@
-import type { FC, OptionHTMLAttributes } from "react";
-import { useState } from "react";
+import { useState, type FC, type OptionHTMLAttributes } from "react";
 import {
   Button,
   CheckboxInput,

@@ -1,7 +1,9 @@
 import type { FC } from "react";
-import type { ValueOf } from "@canonical/react-components";
-import { CodeSnippetBlockAppearance } from "@canonical/react-components";
-import { CodeSnippet } from "@canonical/react-components";
+import {
+  CodeSnippetBlockAppearance,
+  CodeSnippet,
+  type ValueOf,
+} from "@canonical/react-components";
 import CopyToClipboard from "components/CopyToClipboard";
 import classnames from "classnames";
 

@@ -1,9 +1,6 @@
-import type { FC } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import Meter from "components/Meter";
-import type { CpuUsage } from "util/metricSelectors";
-import { getCpuUsage } from "util/metricSelectors";
+import { getCpuUsage, type CpuUsage } from "util/metricSelectors";
 import type { LxdInstance } from "types/instance";
 import { useMetricHistory } from "context/metricHistory";
 
