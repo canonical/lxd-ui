@@ -28,6 +28,7 @@ import EditClusterLinkPanel from "pages/cluster/panels/EditClusterLinkPanel";
 import { useClusterLinks } from "context/useClusterLinks";
 import ClusterLinkAddresses from "pages/cluster/ClusterLinkAddresses";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
+import { getLinkIdentity } from "util/clusterLinkStatus";
 
 interface Props {
   variant?: "main" | "panel";
@@ -43,14 +44,6 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
   if (error) {
     notify.failure("Loading cluster links failed", error);
   }
-
-  const getLinkIdentity = (name: string | null) => {
-    return identities.find(
-      (identity) =>
-        identity.name === name &&
-        identity.type.startsWith("Cluster link certificate"),
-    );
-  };
 
   const headers = [
     {
@@ -80,7 +73,7 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
   ];
 
   const rows = clusterLinks.map((clusterLink) => {
-    const identity = getLinkIdentity(clusterLink.name);
+    const identity = getLinkIdentity(identities, clusterLink.name);
     const authGroupCount = identity?.groups?.length ?? 0;
     const openEditLinkPanel = () => {
       panelParams.openEditClusterLink(clusterLink.name);
@@ -97,7 +90,7 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
           "aria-label": "Name",
         },
         {
-          content: <ClusterLinkStatus identity={identity} link={clusterLink} />,
+          content: <ClusterLinkStatus link={clusterLink} />,
           role: "cell",
           "aria-label": "Status",
         },
@@ -152,7 +145,7 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
 
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
   const isEmptyState = clusterLinks.length === 0 && !isLoading;
-  const panelIdentity = getLinkIdentity(panelParams.identity);
+  const panelIdentity = getLinkIdentity(identities, panelParams.identity);
 
   const Element = variant === "main" ? BaseLayout : Panel;
 

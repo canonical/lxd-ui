@@ -40,7 +40,8 @@ const initialiseOpenNavMenus = (location: Location) => {
   const openNetwork = location.pathname.includes("/network");
   const openCluster =
     location.pathname.includes("/cluster/") ||
-    location.pathname.includes("/placement-groups");
+    location.pathname.includes("/placement-groups") ||
+    location.pathname.includes("/replicator/");
   const openImages =
     location.pathname.includes("ui/image-registries") ||
     location.pathname.includes("ui/image-registry/") ||
@@ -511,6 +512,7 @@ const Navigation: FC = () => {
                             baseUrls={[
                               `${ROOT_PATH}/ui/cluster`,
                               `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`,
+                              `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/replicator/`,
                             ]}
                             title={getNavTitle("clustering")}
                             iconName="cluster-host"
@@ -575,6 +577,7 @@ const Navigation: FC = () => {
                                         to={`${ROOT_PATH}/ui/cluster/replicators`}
                                         title="Replicators"
                                         onClick={softToggleMenu}
+                                        activeUrlMatches={["/replicator/"]}
                                         className="accordion-nav-secondary"
                                       >
                                         Replicators
@@ -592,6 +595,7 @@ const Navigation: FC = () => {
                             to={`${ROOT_PATH}/ui/server`}
                             title="Server"
                             onClick={softToggleMenu}
+                            activeUrlMatches={["/replicator/"]}
                           >
                             <Icon
                               className="is-light p-side-navigation__icon"

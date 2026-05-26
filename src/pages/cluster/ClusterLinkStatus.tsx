@@ -1,13 +1,12 @@
 import type { FC } from "react";
 import { Icon, Spinner } from "@canonical/react-components";
-import type { LxdIdentity } from "types/permissions";
 import type { LxdClusterLink, StatusCaption } from "types/cluster";
 import { useClusterLinkState } from "context/useClusterLinks";
-import { getClusterLinksStatus } from "util/clusterLinkStatus";
+import { useIdentities } from "context/useIdentities";
+import { getClusterLinksStatus, getLinkIdentity } from "util/clusterLinkStatus";
 
 interface Props {
   link: LxdClusterLink;
-  identity?: LxdIdentity;
 }
 
 const STATUS_ICONS: Record<StatusCaption, string> = {
@@ -16,12 +15,15 @@ const STATUS_ICONS: Record<StatusCaption, string> = {
   Pending: "status-queued-small",
 };
 
-const ClusterLinkStatus: FC<Props> = ({ link, identity }) => {
+const ClusterLinkStatus: FC<Props> = ({ link }) => {
   const { data: state, isLoading } = useClusterLinkState(link.name);
+  const { data: identities = [] } = useIdentities();
+
   if (isLoading) {
     return <Spinner className="status-spinner" />;
   }
 
+  const identity = getLinkIdentity(identities, link.name);
   const status = getClusterLinksStatus(identity, state);
 
   return (

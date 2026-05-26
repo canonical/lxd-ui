@@ -15,3 +15,16 @@ export const getClusterLinksStatus = (
   }
   return "Unreachable";
 };
+
+export const getLinkIdentity = (
+  identities: LxdIdentity[],
+  linkName: string | undefined | null,
+) => {
+  if (!linkName) return undefined;
+
+  return identities.find(
+    (identity) =>
+      identity.name === linkName &&
+      identity.type.startsWith("Cluster link certificate"),
+  );
+};

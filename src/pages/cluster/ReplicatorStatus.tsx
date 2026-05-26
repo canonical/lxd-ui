@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
 import type { LxdReplicator, LxdReplicatorStatus } from "types/replicator";
+
 interface Props {
   replicator: LxdReplicator;
 }
