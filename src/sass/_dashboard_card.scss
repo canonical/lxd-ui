@@ -1,0 +1,10 @@
+.dashboard-card {
+  border: solid 1px var(--vf-color-border-default);
+  padding: $spv--x-large $sph--large;
+
+  .dashboard-card-title {
+    align-items: center;
+    display: flex;
+    gap: $sph--x-small;
+  }
+}
