@@ -15,7 +15,7 @@ import { ROOT_PATH } from "util/rootPath";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
-export const isoTimeToString = (isoTime: string): string => {
+export const timeToString = (isoTime: string): string => {
   if (isoTime === UNDEFINED_DATE || !isoTime) {
     return "";
   }

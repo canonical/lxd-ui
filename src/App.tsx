@@ -86,6 +86,7 @@ const ProjectConfig = lazy(
   async () => import("pages/projects/ProjectConfiguration"),
 );
 const ProtectedRoute = lazy(async () => import("components/ProtectedRoute"));
+const ReplicatorList = lazy(async () => import("pages/cluster/ReplicatorList"));
 const Server = lazy(async () => import("pages/cluster/Server"));
 const Settings = lazy(async () => import("pages/settings/Settings"));
 const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
@@ -548,6 +549,12 @@ const App: FC = () => {
           }
         />
         <Route
+          path={`${ROOT_PATH}/ui/server/replicators`}
+          element={
+            <ProtectedRoute outlet={<Server activeTab="replicators" />} />
+          }
+        />
+        <Route
           path={`${ROOT_PATH}/ui/cluster/groups`}
           element={<ProtectedRoute outlet={<ClusterGroupList />} />}
         />
@@ -566,6 +573,10 @@ const App: FC = () => {
         <Route
           path={`${ROOT_PATH}/ui/cluster/member/:name/:activeTab`}
           element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/cluster/replicators`}
+          element={<ProtectedRoute outlet={<ReplicatorList />} />}
         />
         <Route
           path={`${ROOT_PATH}/ui/operations`}

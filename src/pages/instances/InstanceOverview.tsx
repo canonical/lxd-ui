@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useEffect } from "react";
-import { isoTimeToString } from "util/helpers";
+import { timeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { Col, Row, useListener, useNotify } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
@@ -116,11 +116,11 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">Date created</th>
-                <td>{isoTimeToString(instance.created_at)}</td>
+                <td>{timeToString(instance.created_at)}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">Last used</th>
-                <td>{isoTimeToString(instance.last_used_at)}</td>
+                <td>{timeToString(instance.last_used_at)}</td>
               </tr>
             </tbody>
           </table>

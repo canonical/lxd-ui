@@ -12,7 +12,7 @@ import {
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import { humanFileSize, isoTimeToString } from "util/helpers";
+import { humanFileSize, timeToString } from "util/helpers";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
@@ -181,7 +181,7 @@ const LocalImageList: FC = () => {
           className: "type",
         },
         {
-          content: isoTimeToString(image.uploaded_at),
+          content: timeToString(image.uploaded_at),
           role: "cell",
           "aria-label": "Import date",
           className: "uploaded_at",
