@@ -83,6 +83,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "cloud_init_form";
 @import "cluster_group_form";
 @import "cluster_link";
+@import "cluster_link_rich_tooltip";
 @import "cluster_list";
 @import "cluster_specific_input";
 @import "code_snippet_with_copy";

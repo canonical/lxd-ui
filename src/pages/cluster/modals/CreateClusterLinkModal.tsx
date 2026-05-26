@@ -7,9 +7,9 @@ import {
   Notification,
   Tabs,
 } from "@canonical/react-components";
-import ResourceLabel from "components/ResourceLabel";
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
+import ClusterLinkRichChip from "../ClusterLinkRichChip";
 
 interface Props {
   onClose: () => void;
@@ -26,9 +26,7 @@ const CreateClusterLinkModal: FC<Props> = ({ onClose, token, linkName }) => {
       className="create-cluster-link"
       title={
         <>
-          Cluster link{" "}
-          <ResourceLabel type="cluster-link" value={linkName} bold truncate />{" "}
-          created
+          Cluster link <ClusterLinkRichChip clusterLink={linkName} /> created
         </>
       }
       buttonRow={[
@@ -62,8 +60,8 @@ const CreateClusterLinkModal: FC<Props> = ({ onClose, token, linkName }) => {
           />
           <Notification severity="caution" title="Copy the trust token">
             The trust token can be used to establish the cluster link{" "}
-            <ResourceLabel type="cluster-link" value={linkName} bold /> on the
-            target cluster. <br />
+            <ClusterLinkRichChip clusterLink={linkName} /> on the target
+            cluster. <br />
             Make sure to copy it now as you will not be able to see this again.
           </Notification>
           <Accordion

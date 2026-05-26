@@ -22,7 +22,7 @@ import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import { useDocs } from "context/useDocs";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
-import ResourceLink from "components/ResourceLink";
+import ClusterLinkRichChip from "./ClusterLinkRichChip";
 
 interface Props {
   variant?: "main" | "panel";
@@ -93,10 +93,8 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
         },
         {
           content: (
-            <ResourceLink
-              type="cluster-link"
-              value={replicator.config?.cluster || "unknown"}
-              to={`${ROOT_PATH}/ui/cluster/links`}
+            <ClusterLinkRichChip
+              clusterLink={replicator.config?.cluster || "unknown"}
             />
           ),
           role: "cell",

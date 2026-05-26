@@ -1,9 +1,8 @@
 import type { FC } from "react";
 import { Col, Row } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import type { LxdImageRegistry } from "types/image";
 import { isImageRegistryPublic } from "util/imageRegistries";
-import { ROOT_PATH } from "util/rootPath";
+import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 
 interface Props {
   imageRegistry: LxdImageRegistry;
@@ -59,10 +58,8 @@ const ImageRegistryConfiguration: FC<Props> = ({ imageRegistry }) => {
                 <th className="u-text--muted">Cluster</th>
                 <td>
                   {imageRegistry.config?.cluster ? (
-                    <ResourceLink
-                      type="cluster-link"
-                      value={imageRegistry.config?.cluster || ""}
-                      to={`${ROOT_PATH}/ui/cluster/links`}
+                    <ClusterLinkRichChip
+                      clusterLink={imageRegistry.config.cluster}
                     />
                   ) : (
                     "-"

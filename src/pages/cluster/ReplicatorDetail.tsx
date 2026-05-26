@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Col, CustomLayout, Row, Spinner } from "@canonical/react-components";
 import NotFound from "components/NotFound";
 import NotificationRow from "components/NotificationRow";
-import ResourceLink from "components/ResourceLink";
 import { useClusterLink } from "context/useClusterLinks";
 import { useReplicator } from "context/useReplicators";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
@@ -11,7 +10,7 @@ import ReplicatorDetailHeader from "pages/cluster/ReplicatorDetailHeader";
 import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
-import { ROOT_PATH } from "util/rootPath";
+import ClusterLinkRichChip from "./ClusterLinkRichChip";
 
 const ReplicatorDetail: FC = () => {
   const { project, name } = useParams<{
@@ -92,10 +91,8 @@ const ReplicatorDetail: FC = () => {
                     <td>
                       {replicator.config?.cluster ? (
                         <div className="u-flex">
-                          <ResourceLink
-                            type="cluster-link"
-                            value={replicator.config?.cluster}
-                            to={`${ROOT_PATH}/ui/cluster/links`}
+                          <ClusterLinkRichChip
+                            clusterLink={replicator.config?.cluster}
                           />
                         </div>
                       ) : (

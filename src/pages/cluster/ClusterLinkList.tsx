@@ -28,7 +28,7 @@ import EditClusterLinkPanel from "pages/cluster/panels/EditClusterLinkPanel";
 import { useClusterLinks } from "context/useClusterLinks";
 import ClusterLinkAddresses from "pages/cluster/ClusterLinkAddresses";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
-import { getLinkIdentity } from "util/clusterLinkStatus";
+import { getLinkIdentity } from "util/clusterLink";
 
 interface Props {
   variant?: "main" | "panel";
