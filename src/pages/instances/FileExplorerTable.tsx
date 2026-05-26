@@ -1,6 +1,11 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Icon, MainTable, Spinner } from "@canonical/react-components";
+import {
+  Icon,
+  MainTable,
+  ScrollableTable,
+  Spinner,
+} from "@canonical/react-components";
 import type {
   MainTableHeader,
   MainTableRow,
@@ -110,7 +115,6 @@ const FileExplorerTable: FC<Props> = ({
           ),
           role: "rowheader",
           "aria-label": "Name",
-          className: isDirectory ? "fe-directory" : "",
           onClick: isDirectory
             ? () => {
                 onNavigate(
@@ -120,17 +124,16 @@ const FileExplorerTable: FC<Props> = ({
                 );
               }
             : undefined,
-          style: isDirectory ? { cursor: "pointer" } : undefined,
         },
         {
-          content: metadata?.type ?? "loading...",
+          content: metadata?.type ?? "-",
           role: "cell",
           "aria-label": "Type",
         },
         {
           content: metadata?.modified
             ? isoTimeToString(metadata.modified)
-            : "loading...",
+            : "-",
           role: "cell",
           "aria-label": "Modified",
         },
@@ -153,13 +156,19 @@ const FileExplorerTable: FC<Props> = ({
   }
 
   return (
-    <MainTable
-      headers={headers}
-      rows={sortedRows}
-      onUpdateSort={updateSort}
-      emptyStateMsg="No files or directories"
-      sortable
-    />
+    <ScrollableTable
+      dependencies={[headers, sortedRows]}
+      tableId="file-explorer-table"
+      belowIds={["status-bar"]}
+    >
+      <MainTable
+        headers={headers}
+        rows={sortedRows}
+        onUpdateSort={updateSort}
+        emptyStateMsg="No files or directories"
+        sortable
+      />
+    </ScrollableTable>
   );
 };
 

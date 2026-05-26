@@ -16,7 +16,7 @@ const BreadcrumbPath: FC<Props> = ({ currentPath, onNavigate }) => {
     },
     ...segments.map((segment, index) => ({
       label: segment,
-      path: segments.slice(0, index + 1).join("/"),
+      path: "/" + segments.slice(0, index + 1).join("/"),
     })),
   ];
 

@@ -13,6 +13,7 @@ import { isInstanceRunning } from "util/instanceStatus";
 import FileExplorerTable from "./FileExplorerTable";
 import BreadcrumbPath from "./BreadcrumbPath";
 import { fetchInstanceFile } from "api/instances";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   instance: LxdInstance;
@@ -22,54 +23,48 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tree, setTree] = useState(new Map<string, string[]>());
-  const [currentPath, setCurrentPath] = useState("/");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPath = searchParams.get("path") || "/";
 
   useEffect(() => {
-    if (isInstanceRunning(instance)) {
-      try {
-        void loadInstancePath("/");
-      } catch (e) {
-        console.error("Failed to load initial path:", e);
-      } finally {
-        setIsLoading(false);
-      }
+    if (isInstanceRunning(instance) && !tree.has(currentPath)) {
+      void loadInstancePath(currentPath);
     }
-  }, []);
+  }, [currentPath]);
 
   const loadInstancePath = async (path: string) => {
-    const currentDirectory = await fetchInstanceFile(
-      instance.name,
-      instance.project,
-      path,
-    );
-    if (!currentDirectory) return false;
-
-    setTree((prev) => {
-      const newMap = new Map(prev);
-      newMap.set(path, currentDirectory.metadata);
-      return newMap;
-    });
-    setCurrentPath(path);
-
-    return true;
-  };
-
-  const handleConnect = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      console.log("Connecting to instance:", instance.name);
-      const hasLoadedPath = await loadInstancePath("/");
+      const currentDirectory = await fetchInstanceFile(
+        instance.name,
+        instance.project,
+        path,
+      );
 
-      if (!hasLoadedPath) {
-        setError("Failed to load initial path");
-        return;
-      }
+      if (!currentDirectory) return false;
+
+      setTree((prev) => {
+        const newMap = new Map(prev);
+        newMap.set(path, currentDirectory.metadata);
+        return newMap;
+      });
+
+      setSearchParams({ path });
+      return true;
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to connect");
+      setError(e instanceof Error ? e.message : "Failed to load path");
+      return false;
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleConnect = async () => {
+    const hasLoadedPath = await loadInstancePath("/");
+    if (!hasLoadedPath) {
+      setError((prev) => prev ?? "Failed to load initial path");
     }
   };
 
