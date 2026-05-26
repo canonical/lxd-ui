@@ -11,12 +11,16 @@ import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import ClusterLinkRichChip from "./ClusterLinkRichChip";
+import usePanelParams, { panels } from "util/usePanelParams";
+import { EditReplicatorPanel } from "./panels/EditReplicatorPanel";
 
 const ReplicatorDetail: FC = () => {
   const { project, name } = useParams<{
     project: string;
     name: string;
   }>();
+
+  const panelParams = usePanelParams();
 
   if (!name) {
     return <>Missing name</>;
@@ -145,6 +149,7 @@ const ReplicatorDetail: FC = () => {
           </Row>
         </Row>
       </CustomLayout>
+      {panelParams.panel === panels.editReplicator && <EditReplicatorPanel />}
     </>
   );
 };

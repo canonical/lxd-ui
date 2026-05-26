@@ -4,10 +4,8 @@ import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfi
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { optionRenderer } from "util/formFields";
-import {
-  clusterEvacuationOptions,
-  optionAllowDeny,
-} from "util/instanceOptions";
+import { optionAllowDeny } from "util/options";
+import { clusterEvacuationOptions } from "util/instanceOptions";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 export { migrationPayload } from "util/instanceAndProfilePayloads";
 

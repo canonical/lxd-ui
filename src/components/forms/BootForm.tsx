@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { bootModeOptions, optionYesNo } from "util/instanceOptions";
+import { optionYesNo } from "util/options";
+import { bootModeOptions } from "util/instanceOptions";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";

@@ -9,20 +9,26 @@ import {
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteReplicator } from "api/replicators";
-import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import type { LxdReplicator } from "types/replicator";
 import { useReplicatorEntitlements } from "util/entitlements/replicators";
 import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
+import classNames from "classnames";
 
 interface Props {
   replicator: LxdReplicator;
   className?: string;
   onClose?: () => void;
+  hasLabel?: boolean;
 }
 
-const DeleteReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
+const DeleteReplicatorBtn: FC<Props> = ({
+  replicator,
+  className,
+  onClose,
+  hasLabel = false,
+}) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const notify = useNotify();
@@ -82,8 +88,10 @@ const DeleteReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
   return (
     <ConfirmationButton
       onHoverText={disabledReason()}
-      appearance="default"
-      className={classnames("u-no-margin--bottom has-icon", className)}
+      appearance={hasLabel ? "default" : "base"}
+      className={classNames("u-no-margin--bottom has-icon", className, {
+        "is-dense": !hasLabel,
+      })}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
@@ -118,7 +126,7 @@ const DeleteReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
       showShiftClickHint
     >
       <Icon name="delete" />
-      <span>Delete</span>
+      {hasLabel && <span>Delete</span>}
     </ConfirmationButton>
   );
 };

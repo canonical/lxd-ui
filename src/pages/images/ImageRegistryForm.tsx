@@ -7,7 +7,7 @@ import {
 import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { ImageRegistryFormValues } from "types/forms/image";
-import { ClusterLinkSelector } from "./ClusterLinkSelector";
+import { ImageRegistryClusterLinkSelector } from "./ImageRegistryClusterLinkSelector";
 import { ImageRegistryProtocolSelector } from "./ImageRegistryProtocolSelector";
 
 interface Props {
@@ -88,7 +88,7 @@ export const ImageRegistryForm: FC<Props> = ({ formik }) => {
       )}
       {!isSimpleStreams && (
         <>
-          <ClusterLinkSelector formik={formik} />
+          <ImageRegistryClusterLinkSelector formik={formik} required />
           <Input
             {...formik.getFieldProps("sourceProject")}
             type="text"

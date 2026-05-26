@@ -3,7 +3,7 @@ import type { FC } from "react";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";
-import { optionTrueFalse } from "util/instanceOptions";
+import { optionTrueFalse } from "util/options";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import ClusteredZfsNameSelector from "./ClusteredZfsNameSelector";
 import { useIsClustered } from "context/useIsClustered";

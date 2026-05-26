@@ -8,7 +8,8 @@ import {
   cpuLimitToPayload,
   memoryLimitToPayload,
 } from "util/instanceAndProfilePayloads";
-import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
+import { optionAllowDeny } from "util/options";
+import { diskPriorities } from "util/instanceOptions";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "components/ConfigurationRow";

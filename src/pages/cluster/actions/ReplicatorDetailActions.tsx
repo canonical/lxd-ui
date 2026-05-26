@@ -24,16 +24,19 @@ const ReplicatorDetailActions: FC<Props> = ({ replicator }) => {
       key="run"
       replicator={replicator}
       className={classname}
+      hasLabel
     />,
     <EditReplicatorBtn
       key="edit"
       replicator={replicator}
       className={classname}
+      hasLabel
     />,
     <DeleteReplicatorBtn
       key="delete"
       replicator={replicator}
       className={classname}
+      hasLabel
     />,
   ];
 

@@ -3,7 +3,7 @@ import { Input, Select, Textarea } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import type { NetworkFormValues } from "types/forms/network";
-import { optionTrueFalse } from "util/instanceOptions";
+import { optionTrueFalse } from "util/options";
 import ConfigurationTable from "components/ConfigurationTable";
 import { IPV6 } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";

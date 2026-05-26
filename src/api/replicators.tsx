@@ -67,3 +67,37 @@ export const deleteReplicator = async (
     },
   ).then(handleResponse);
 };
+
+export const createReplicator = async (
+  body: string,
+  project: string,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  await fetch(`${ROOT_PATH}/1.0/replicators?${params.toString()}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  }).then(handleResponse);
+};
+
+export const updateReplicator = async (
+  name: string,
+  project: string,
+  body: string,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  await fetch(
+    `${ROOT_PATH}/1.0/replicators/${encodeURIComponent(name)}?${params.toString()}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    },
+  ).then(handleResponse);
+};

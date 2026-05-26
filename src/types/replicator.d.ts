@@ -10,7 +10,7 @@ export interface LxdReplicator {
   project: string;
   config: {
     cluster: string;
-    snapshot: boolean;
+    snapshot: "true" | "false";
     schedule: string;
   };
   last_run_at: string;
