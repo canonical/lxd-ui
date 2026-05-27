@@ -61,7 +61,7 @@ export const nonBreakingSpaces = (text: string): string => {
   return text.replace(/ /g, "\u00A0");
 };
 
-interface ErrorResponse {
+export interface ErrorResponse {
   error_code: number;
   error: string;
 }

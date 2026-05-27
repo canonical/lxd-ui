@@ -3,8 +3,7 @@ export interface LxdFileExplorerItem {
   metadata: string[];
 }
 
-export interface FileMetadata {
-  name: string;
+export interface LxdFileMetadata {
   type: string;
   modified: string;
 }

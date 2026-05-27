@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import {
   Button,
   EmptyState,
@@ -11,8 +10,8 @@ import {
 import type { LxdInstance } from "types/instance";
 import { isInstanceRunning } from "util/instanceStatus";
 import FileExplorerTable from "./FileExplorerTable";
-import BreadcrumbPath from "./BreadcrumbPath";
-import { fetchInstanceFile } from "api/instances";
+import FileExplorerBreadcrumb from "./FileExplorerBreadcrumb";
+import { fetchInstanceDirectory } from "api/instances";
 import { useSearchParams } from "react-router-dom";
 
 interface Props {
@@ -23,59 +22,53 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tree, setTree] = useState(new Map<string, string[]>());
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const currentPath = searchParams.get("path") || "/";
+  const canServeFiles =
+    isInstanceRunning(instance) || instance.type === "container";
 
   useEffect(() => {
-    if (isInstanceRunning(instance) && !tree.has(currentPath)) {
+    if (canServeFiles && !tree.has(currentPath)) {
       void loadInstancePath(currentPath);
     }
-  }, [currentPath]);
+  }, [canServeFiles, currentPath]);
 
   const loadInstancePath = async (path: string) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const currentDirectory = await fetchInstanceFile(
+      const currentDirectory = await fetchInstanceDirectory(
         instance.name,
         instance.project,
         path,
       );
 
       if (!currentDirectory) return false;
-
       setTree((prev) => {
         const newMap = new Map(prev);
         newMap.set(path, currentDirectory.metadata);
         return newMap;
       });
-
-      setSearchParams({ path });
-      return true;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load path");
-      return false;
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleConnect = async () => {
-    const hasLoadedPath = await loadInstancePath("/");
-    if (!hasLoadedPath) {
-      setError((prev) => prev ?? "Failed to load initial path");
-    }
+    await loadInstancePath(currentPath);
   };
 
-  if (!isInstanceRunning(instance)) {
+  if (!canServeFiles) {
     return (
       <EmptyState
         className="empty-state"
         image={<Icon name="containers" className="empty-state-icon" />}
         title="Instance is not running"
       >
-        <p>The instance must be running to browse files.</p>
+        <p>Virtual machines must be running to browse files.</p>
         <p>
           <a
             href={`https://documentation.ubuntu.com/lxd/en/latest/howto/instances_manage/`}
@@ -119,20 +112,11 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
 
   return (
     <Row className="general">
-      <BreadcrumbPath
-        currentPath={currentPath}
-        onNavigate={(path) => {
-          void loadInstancePath(path);
-        }}
-      />
+      <FileExplorerBreadcrumb currentPath={currentPath} instance={instance} />
       <FileExplorerTable
         files={(tree.get(currentPath) as string[]) ?? []}
         currentPath={currentPath}
-        instanceName={instance.name}
-        projectName={instance.project}
-        onNavigate={(newPath) => {
-          void loadInstancePath(newPath);
-        }}
+        instance={instance}
       />
     </Row>
   );

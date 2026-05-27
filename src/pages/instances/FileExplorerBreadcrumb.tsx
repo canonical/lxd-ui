@@ -1,12 +1,14 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
+import type { LxdInstance } from "types/instance";
+import { getFileExplorerDirectoryURL } from "util/instances";
 
 interface Props {
   currentPath: string;
-  onNavigate: (path: string) => void;
+  instance: LxdInstance;
 }
 
-const BreadcrumbPath: FC<Props> = ({ currentPath, onNavigate }) => {
+const FileExplorerBreadcrumb: FC<Props> = ({ currentPath, instance }) => {
   const segments = currentPath.split("/").filter(Boolean);
 
   const breadcrumbs = [
@@ -19,31 +21,22 @@ const BreadcrumbPath: FC<Props> = ({ currentPath, onNavigate }) => {
       path: "/" + segments.slice(0, index + 1).join("/"),
     })),
   ];
-
   return (
     <nav
       className="p-breadcrumbs p-breadcrumbs--large"
       aria-label="File Explorer Path"
     >
       <ol className="p-breadcrumbs__items breadcrumb-wrapper">
-        <li className="p-heading--4 breadcrumb-header">Directory:&nbsp; </li>
+        <li className="p-heading--4 breadcrumb-header">Directory:&nbsp;</li>
         {breadcrumbs.map((crumb, index) => {
-          const currentDirectory = index === breadcrumbs.length - 1;
+          const isCurrentDirectory = index === breadcrumbs.length - 1;
 
           return (
             <li key={crumb.path} className="p-heading--4 continuous-breadcrumb">
-              {currentDirectory ? (
-                // Current directory - not clickable
+              {isCurrentDirectory ? (
                 <span>{crumb.label}</span>
               ) : (
-                // Parent directories - clickable
-                <Link
-                  to="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onNavigate(crumb.path);
-                  }}
-                >
+                <Link to={getFileExplorerDirectoryURL(crumb.path, instance)}>
                   {crumb.label}
                 </Link>
               )}
@@ -55,4 +48,4 @@ const BreadcrumbPath: FC<Props> = ({ currentPath, onNavigate }) => {
   );
 };
 
-export default BreadcrumbPath;
+export default FileExplorerBreadcrumb;
