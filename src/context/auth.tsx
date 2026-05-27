@@ -43,6 +43,7 @@ interface ProviderProps {
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const {
     hasEntitiesWithEntitlements,
+    hasReplicators,
     isSettingsLoading,
     settings,
     settingsError,
@@ -82,7 +83,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
 
   const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: async () => fetchProjects(isFineGrained()),
+    queryFn: async () => fetchProjects(isFineGrained(), hasReplicators),
     enabled: settings?.auth === "trusted" && isFineGrained() !== null,
   });
 
