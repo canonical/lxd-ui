@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.85% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/35</span>
+                <span class='fraction'>32/40</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/27</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
@@ -90,44 +90,52 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">8596x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">372x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
-<span class="cline-any cline-yes">11522x</span>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">8393x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">364x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
+<span class="cline-any cline-yes">11113x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { LxdProject } from "types/project";
 import { useAuth } from "./auth";
 import { queryKeys } from "util/queryKeys";
 import { fetchProject, fetchProjects } from "api/projects";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 &nbsp;
 export const useProjects = <span class="fstat-no" title="function not covered" >(): UseQueryResult&lt;LxdProject[]&gt; =&gt; {</span>
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+  const { hasReplicators } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.projects],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProjects(isFineGrained),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProjects(isFineGrained, hasReplicators),</span>
     enabled: isFineGrained !== null,
   });
 };
@@ -137,9 +145,10 @@ export const useProject = <span class="fstat-no" title="function not covered" >(
   enabled?: boolean,
 ): UseQueryResult&lt;LxdProject&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+  const { hasReplicators } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.projects, project],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProject(project, isFineGrained),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProject(project, isFineGrained, hasReplicators),</span>
     retry: false, // disable for users with limited permissions not going into retry loop with delay
     enabled: (enabled ?? true) &amp;&amp; isFineGrained !== null,
   });
@@ -151,7 +160,7 @@ export const useProject = <span class="fstat-no" title="function not covered" >(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-26T18:57:17.620Z
+                at 2026-05-27T16:12:54.177Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
