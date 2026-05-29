@@ -1,14 +1,15 @@
 #!/bin/sh
 
+set -e
 set -x
 
 # configure two node cluster for cluster tests
-sudo lxc launch ubuntu:24.04 vm1 --vm
+sudo lxc launch ubuntu:24.04 vm1 --vm -c limits.cpu=2 -c limits.memory=4GiB
 until sudo lxc exec vm1 -- true 2>/dev/null; do
   sleep 1
 done
 sudo lxc exec vm1 -- cloud-init status --wait
-sudo lxc launch ubuntu:24.04 vm2 --vm
+sudo lxc launch ubuntu:24.04 vm2 --vm -c limits.cpu=2 -c limits.memory=4GiB
 until sudo lxc exec vm2 -- true 2>/dev/null; do
   sleep 1
 done
@@ -77,6 +78,24 @@ sudo lxc exec vm2 -- sudo microovn cluster join "$OVN_TOKEN"
 sudo lxc exec vm2 -- sudo microovn status
 
 sudo lxc exec vm1 -- lxc config set network.ovn.northbound_connection "ssl:$VM1_IP:6641,ssl:$VM2_IP:6641"
+
+sudo lxc exec vm1 -- sudo snap install microceph --channel latest/edge
+sudo lxc exec vm1 -- sudo microceph cluster bootstrap
+sudo lxc exec vm1 -- sudo microceph waitready
+sudo lxc exec vm1 -- sudo microceph status
+
+CEPH_TOKEN=$(sudo lxc exec vm1 -- sudo microceph cluster add vm2)
+
+sudo lxc exec vm2 -- sudo snap install microceph --channel latest/edge
+sudo lxc exec vm2 -- sudo microceph cluster join "$CEPH_TOKEN"
+sudo lxc exec vm2 -- sudo microceph waitready
+sudo lxc exec vm2 -- sudo microceph status
+
+sudo lxc exec vm1 -- sudo microceph disk add loop,1G,3
+sudo lxc exec vm1 -- sudo microceph enable rgw --port 80
+
+sudo lxc exec vm2 -- sudo microceph disk add loop,1G,3
+sudo lxc exec vm2 -- sudo microceph enable rgw --port 80
 
 # Wait for OVN chassis to be fully registered
 echo "Waiting for OVN chassis registration..."
