@@ -8,11 +8,10 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import ResourceLink from "components/ResourceLink";
 import type { LxdClusterLink } from "types/cluster";
 import ResourceLabel from "components/ResourceLabel";
-import { ROOT_PATH } from "util/rootPath";
 import { useClusterLinkEntitlements } from "util/entitlements/cluster-links";
+import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 
 interface Props {
   clusterLink: LxdClusterLink;
@@ -34,11 +33,7 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
         toastNotify.success(
           <>
             Cluster link{" "}
-            <ResourceLink
-              type="cluster-link"
-              value={clusterLink.name}
-              to={`${ROOT_PATH}/ui/cluster/links`}
-            />{" "}
+            <ResourceLabel type="cluster-link" value={clusterLink.name} />{" "}
             deleted.
           </>,
         );
@@ -66,7 +61,7 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
         children: (
           <p>
             This will permanently delete cluster link{" "}
-            <ResourceLabel type="cluster-link" value={clusterLink.name} bold />.
+            <ClusterLinkRichChip clusterLink={clusterLink.name} />.
           </p>
         ),
         confirmButtonLabel: canDelete

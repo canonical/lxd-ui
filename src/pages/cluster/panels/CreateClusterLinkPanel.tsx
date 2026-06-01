@@ -17,11 +17,10 @@ import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { createClusterLink } from "api/cluster-links";
 import { base64EncodeObject, checkDuplicateName } from "util/helpers";
-import ResourceLink from "components/ResourceLink";
 import ClusterLinkForm, {
   type ClusterLinkFormValues,
 } from "pages/cluster/ClusterLinkForm";
-import { ROOT_PATH } from "util/rootPath";
+import ClusterLinkRichChip from "../ClusterLinkRichChip";
 
 interface Props {
   onSuccess: (identityName: string, token: string) => void;
@@ -83,12 +82,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
           } else {
             toastNotify.success(
               <>
-                Cluster link{" "}
-                <ResourceLink
-                  type="cluster-link"
-                  value={values.name}
-                  to={`${ROOT_PATH}/ui/cluster/links`}
-                />{" "}
+                Cluster link <ClusterLinkRichChip clusterLink={values.name} />{" "}
                 created.
               </>,
             );

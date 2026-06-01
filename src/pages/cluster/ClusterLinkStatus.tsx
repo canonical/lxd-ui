@@ -3,7 +3,7 @@ import { Icon, Spinner } from "@canonical/react-components";
 import type { LxdClusterLink, StatusCaption } from "types/cluster";
 import { useClusterLinkState } from "context/useClusterLinks";
 import { useIdentities } from "context/useIdentities";
-import { getClusterLinksStatus, getLinkIdentity } from "util/clusterLinkStatus";
+import { getClusterLinksStatus, getLinkIdentity } from "util/clusterLink";
 
 interface Props {
   link: LxdClusterLink;

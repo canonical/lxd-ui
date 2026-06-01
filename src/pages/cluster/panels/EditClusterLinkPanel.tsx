@@ -15,14 +15,13 @@ import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { updateClusterLink } from "api/cluster-links";
-import ResourceLink from "components/ResourceLink";
 import { useClusterLink } from "context/useClusterLinks";
 import type { LxdIdentity } from "types/permissions";
 import { updateIdentity } from "api/auth-identities";
 import ClusterLinkForm, {
   type ClusterLinkFormValues,
 } from "pages/cluster/ClusterLinkForm";
-import { ROOT_PATH } from "util/rootPath";
+import ClusterLinkRichChip from "../ClusterLinkRichChip";
 
 interface Props {
   identity: LxdIdentity;
@@ -66,11 +65,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity }) => {
           toastNotify.success(
             <>
               Cluster link{" "}
-              <ResourceLink
-                type="cluster-link"
-                value={clusterLink?.name ?? ""}
-                to={`${ROOT_PATH}/ui/cluster/links`}
-              />{" "}
+              <ClusterLinkRichChip clusterLink={clusterLink?.name ?? ""} />{" "}
               saved.
             </>,
           );

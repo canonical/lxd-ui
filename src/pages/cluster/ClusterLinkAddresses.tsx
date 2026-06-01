@@ -10,7 +10,7 @@ interface Props {
 const ClusterLinkAddresses: FC<Props> = ({ clusterLink }) => {
   const addresses = clusterLink.config["volatile.addresses"];
   if (!addresses || addresses === "") {
-    return null;
+    return "-";
   }
 
   return (
