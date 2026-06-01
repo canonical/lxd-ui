@@ -92,7 +92,7 @@ jobs:
         run: |
           npx playwright test --project screenshots
           npx playwright test --project screenshots-clustered
-      
+
       - name: List screenshots
         run: ls -R tests/screenshots || echo "No screenshots found"
 

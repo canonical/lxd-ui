@@ -101,7 +101,7 @@ jobs:
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
           yarn test-e2e-cluster-coverage
-          
+
           # combine coverage reports
           yarn test-report-coverage
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
@@ -151,7 +151,7 @@ jobs:
           run: |
             git add .
             git commit -m "workflow: update coverage report"
-            
+
             # In case of another action job pushing to gh-pages while we are rebasing for the current job
             while true; do
               git pull --rebase
@@ -159,7 +159,7 @@ jobs:
                 echo "Failed to rebase. Please review manually."
                 exit 1
               fi
-  
+
               git push
               if [ $? -eq 0 ]; then
                 echo "Successfully pushed HTML report to repo."
