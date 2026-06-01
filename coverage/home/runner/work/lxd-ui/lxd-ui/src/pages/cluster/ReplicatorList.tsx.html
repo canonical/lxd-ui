@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">16.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/192</span>
+                <span class='fraction'>33/204</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">16.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/192</span>
+                <span class='fraction'>33/204</span>
             </div>
         
             
@@ -255,7 +255,19 @@
 <a name='L190'></a><a href='#L190'>190</a>
 <a name='L191'></a><a href='#L191'>191</a>
 <a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -285,6 +297,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -448,6 +472,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
+import { Link } from "react-router-dom";
 import {
   Row,
   ScrollableTable,
@@ -464,13 +489,13 @@ import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import { useReplicators } from "context/useReplicators";
 import useSortTableData from "util/useSortTableData";
-import { CreateReplicatorButton } from "./actions/CreateReplicatorBtn";
+import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
+import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
+import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import { useDocs } from "context/useDocs";
-import ReplicatorStatus from "./ReplicatorStatus";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
-import { ReplicatorRunTime } from "./ReplicatorRunTime";
 &nbsp;
 interface Props {
   variant?: "main" | "panel";
@@ -495,7 +520,11 @@ const ReplicatorList: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >      content: "Cluster",</span>
 <span class="cstat-no" title="statement not covered" >      sortKey: "cluster",</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    { content: "Status", sortKey: "status", className: "status-header" },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      content: "Status",</span>
+<span class="cstat-no" title="statement not covered" >      sortKey: "status",</span>
+<span class="cstat-no" title="statement not covered" >      className: "status-header",</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      content: "Last run at",</span>
 <span class="cstat-no" title="statement not covered" >      sortKey: "last_run_at",</span>
@@ -509,7 +538,14 @@ const ReplicatorList: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >      name: rowKey,</span>
 <span class="cstat-no" title="statement not covered" >      columns: [</span>
 <span class="cstat-no" title="statement not covered" >        {</span>
-<span class="cstat-no" title="statement not covered" >          content: replicator.name,</span>
+<span class="cstat-no" title="statement not covered" >          content: (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Link</span>
+<span class="cstat-no" title="statement not covered" >              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}/replicator/${encodeURIComponent(replicator.name)}`}</span>
+<span class="cstat-no" title="statement not covered" >              className="u-truncate"</span>
+<span class="cstat-no" title="statement not covered" >            &gt;</span>
+<span class="cstat-no" title="statement not covered" >              {replicator.name}</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/Link&gt;</span>
+<span class="cstat-no" title="statement not covered" >          ),</span>
 <span class="cstat-no" title="statement not covered" >          role: "rowheader",</span>
 <span class="cstat-no" title="statement not covered" >          "aria-label": "Name",</span>
 <span class="cstat-no" title="statement not covered" >          title: `Replicator ${replicator.name}`,</span>
@@ -517,7 +553,7 @@ const ReplicatorList: FC&lt;Props&gt; = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >        {</span>
 <span class="cstat-no" title="statement not covered" >          content: (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div className="u-truncate" title={replicator.description}&gt;</span>
-<span class="cstat-no" title="statement not covered" >              {replicator.description}</span>
+<span class="cstat-no" title="statement not covered" >              {replicator.description || "-"}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          ),</span>
 <span class="cstat-no" title="statement not covered" >          role: "cell",</span>
@@ -646,7 +682,7 @@ export default ReplicatorList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T13:57:06.919Z
+                at 2026-06-01T15:19:08.881Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
