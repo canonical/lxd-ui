@@ -32,11 +32,10 @@ export const getLinkIdentity = (
   );
 };
 
-export const isClusterLinkReachable = async (
-  cluster: string,
-): Promise<boolean> => {
+const isClusterLinkReachable = async (cluster: string): Promise<boolean> => {
   const state = await fetchClusterLinkState(cluster);
-  return getClusterLinksStatus(undefined, state) === "Reachable";
+  const status = getClusterLinksStatus(undefined, state);
+  return status === "Reachable";
 };
 
 const NOT_REACHABLE_ERROR_MESSAGE =

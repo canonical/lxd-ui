@@ -4,7 +4,7 @@ import type { LxdEvent } from "types/event";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 // Extracts entity URLs from an operation, considering renaming operations where the original_entity_url is returned.
-const getOperationEntityUrls = (
+export const getOperationEntityUrls = (
   operation?: LxdOperation,
   entities: string[] = [],
 ): string[] => {

@@ -26,7 +26,7 @@ import {
 } from "util/clusterLink";
 import { useProject } from "context/useProjects";
 
-export const EditReplicatorPanel: FC = () => {
+const EditReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -162,3 +162,5 @@ export const EditReplicatorPanel: FC = () => {
     </>
   );
 };
+
+export default EditReplicatorPanel;

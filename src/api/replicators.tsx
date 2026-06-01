@@ -1,6 +1,7 @@
 import { handleResponse } from "util/helpers";
 import type { LxdReplicator } from "types/replicator";
 import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -100,4 +101,25 @@ export const updateReplicator = async (
       body: body,
     },
   ).then(handleResponse);
+};
+
+export const runReplicator = async (
+  name: string,
+  project: string,
+  action: "restore" | "start",
+): Promise<LxdOperationResponse> => {
+  return fetch(
+    `${ROOT_PATH}/1.0/replicators/${encodeURIComponent(name)}/state?project=${encodeURIComponent(project)}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ action }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };

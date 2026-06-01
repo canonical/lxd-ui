@@ -1,18 +1,19 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import { useParams } from "react-router-dom";
 import { Col, CustomLayout, Row, Spinner } from "@canonical/react-components";
 import NotFound from "components/NotFound";
 import NotificationRow from "components/NotificationRow";
 import { useClusterLink } from "context/useClusterLinks";
+import { useReplicatorLoading } from "context/replicatorLoading";
 import { useReplicator } from "context/useReplicators";
+import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
 import ReplicatorDetailHeader from "pages/cluster/ReplicatorDetailHeader";
 import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
+import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
-import ClusterLinkRichChip from "./ClusterLinkRichChip";
 import usePanelParams, { panels } from "util/usePanelParams";
-import { EditReplicatorPanel } from "./panels/EditReplicatorPanel";
 
 const ReplicatorDetail: FC = () => {
   const { project, name } = useParams<{
@@ -31,9 +32,14 @@ const ReplicatorDetail: FC = () => {
     error,
     isLoading,
   } = useReplicator(name, project || "default");
+  const replicatorRunning = useReplicatorLoading();
   const { data: clusterLink } = useClusterLink(
     replicator?.config?.cluster || "",
   );
+
+  const lastRunError = replicator
+    ? replicatorRunning.getLastRunError(replicator)
+    : undefined;
 
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -142,6 +148,10 @@ const ReplicatorDetail: FC = () => {
                     <td className="status-cell">
                       <ReplicatorStatus replicator={replicator} />
                     </td>
+                  </tr>
+                  <tr>
+                    <th className="u-text--muted">Last error</th>
+                    <td>{lastRunError ?? "-"}</td>
                   </tr>
                 </tbody>
               </table>

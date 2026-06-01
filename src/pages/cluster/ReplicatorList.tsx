@@ -21,15 +21,15 @@ import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBt
 import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import { useDocs } from "context/useDocs";
-import ProjectRichChip from "pages/projects/ProjectRichChip";
-import { ROOT_PATH } from "util/rootPath";
-import ClusterLinkRichChip from "./ClusterLinkRichChip";
-import { CreateReplicatorPanel } from "./panels/CreateReplicatorPanel";
-import usePanelParams, { panels } from "util/usePanelParams";
-import { EditReplicatorPanel } from "./panels/EditReplicatorPanel";
+import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import DeleteReplicatorBtn from "pages/cluster/actions/DeleteReplicatorBtn";
 import EditReplicatorBtn from "pages/cluster/actions/EditReplicatorBtn";
 import RunReplicatorBtn from "pages/cluster/actions/RunReplicatorBtn";
+import CreateReplicatorPanel from "pages/cluster/panels/CreateReplicatorPanel";
+import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { ROOT_PATH } from "util/rootPath";
+import usePanelParams, { panels } from "util/usePanelParams";
 
 interface Props {
   variant?: "main" | "panel";

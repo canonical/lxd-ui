@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
+import { useReplicatorLoading } from "context/replicatorLoading";
 import type { LxdReplicator, LxdReplicatorStatus } from "types/replicator";
 
 interface Props {
@@ -14,7 +15,8 @@ const STATUS_ICONS: Record<LxdReplicatorStatus, string> = {
 };
 
 const ReplicatorStatus: FC<Props> = ({ replicator }) => {
-  const status = replicator.last_run_status;
+  const replicatorLoading = useReplicatorLoading();
+  const status = replicatorLoading.getStatus(replicator);
   const iconName = STATUS_ICONS[status] ?? "";
 
   return (

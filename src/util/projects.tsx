@@ -81,3 +81,6 @@ export const isProjectWithProfiles = (project?: LxdProject): boolean =>
 
 export const isProjectWithVolumes = (project?: LxdProject): boolean =>
   project?.config["features.storage.volumes"] === "true";
+
+export const isProjectReplicaModeStandby = (project?: LxdProject): boolean =>
+  project?.config["replica.mode"] === "standby";
