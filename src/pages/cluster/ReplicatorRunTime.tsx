@@ -5,6 +5,8 @@ import { timeToString } from "util/helpers";
 interface Props {
   replicator: LxdReplicator;
 }
-export const ReplicatorRunTime: FC<Props> = ({ replicator }) => {
+const ReplicatorRunTime: FC<Props> = ({ replicator }) => {
   return timeToString(replicator.last_run_at) || "Never";
 };
+
+export default ReplicatorRunTime;

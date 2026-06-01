@@ -17,7 +17,3 @@ export interface LxdReplicator {
   last_run_status: LxdReplicatorStatus;
   access_entitlements?: string[];
 }
-
-export interface LxdReplicatorState {
-  status: LxdReplicatorStatus;
-}

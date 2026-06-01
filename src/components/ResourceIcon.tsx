@@ -29,7 +29,8 @@ export type ResourceIconType =
   | "idp-group"
   | "device"
   | "setting"
-  | "peering";
+  | "peering"
+  | "replicator";
 
 const resourceIcons: Record<ResourceIconType, string> = {
   container: "pods",
@@ -60,6 +61,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   "bucket-key": "private-key",
   metric: "statistics",
   "placement-group": "repository",
+  replicator: "change-version",
 };
 
 interface Props {

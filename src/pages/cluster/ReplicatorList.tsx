@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import { Link } from "react-router-dom";
 import {
   Row,
   ScrollableTable,
@@ -15,13 +16,13 @@ import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import { useReplicators } from "context/useReplicators";
 import useSortTableData from "util/useSortTableData";
-import { CreateReplicatorButton } from "./actions/CreateReplicatorBtn";
+import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
+import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
+import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import { useDocs } from "context/useDocs";
-import ReplicatorStatus from "./ReplicatorStatus";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import ResourceLink from "components/ResourceLink";
-import { ReplicatorRunTime } from "./ReplicatorRunTime";
 
 interface Props {
   variant?: "main" | "panel";
@@ -46,7 +47,11 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
       content: "Cluster",
       sortKey: "cluster",
     },
-    { content: "Status", sortKey: "status", className: "status-header" },
+    {
+      content: "Status",
+      sortKey: "status",
+      className: "status-header",
+    },
     {
       content: "Last run at",
       sortKey: "last_run_at",
@@ -60,7 +65,14 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
       name: rowKey,
       columns: [
         {
-          content: replicator.name,
+          content: (
+            <Link
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}/replicator/${encodeURIComponent(replicator.name)}`}
+              className="u-truncate"
+            >
+              {replicator.name}
+            </Link>
+          ),
           role: "rowheader",
           "aria-label": "Name",
           title: `Replicator ${replicator.name}`,
@@ -68,7 +80,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
         {
           content: (
             <div className="u-truncate" title={replicator.description}>
-              {replicator.description}
+              {replicator.description || "-"}
             </div>
           ),
           role: "cell",

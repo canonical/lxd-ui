@@ -1,5 +1,5 @@
 import { handleResponse } from "util/helpers";
-import type { LxdReplicator, LxdReplicatorState } from "types/replicator";
+import type { LxdReplicator } from "types/replicator";
 import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { ROOT_PATH } from "util/rootPath";
@@ -43,19 +43,27 @@ export const fetchReplicator = async (
     });
 };
 
-export const fetchReplicatorState = async (
+export const renameReplicator = async (
+  oldName: string,
+  newName: string,
+): Promise<void> => {
+  await fetch(`${ROOT_PATH}/1.0/replicators/${encodeURIComponent(oldName)}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: newName }),
+  }).then(handleResponse);
+};
+
+export const deleteReplicator = async (
   name: string,
   project: string,
-  isFineGrained: boolean | null,
-): Promise<LxdReplicatorState> => {
-  const params = new URLSearchParams();
-  params.set("project", project);
-  addEntitlements(params, isFineGrained, replicatorEntitlements);
-  return fetch(
-    `${ROOT_PATH}/1.0/replicators/${encodeURIComponent(name)}/state?${params.toString()}`,
-  )
-    .then(handleResponse)
-    .then((data: LxdApiResponse<LxdReplicatorState>) => {
-      return data.metadata;
-    });
+): Promise<void> => {
+  await fetch(
+    `${ROOT_PATH}/1.0/replicators/${encodeURIComponent(name)}?project=${encodeURIComponent(project)}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };

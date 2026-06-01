@@ -1,0 +1,15 @@
+.replicator-table {
+  .status-header {
+    padding-left: 1.8rem;
+  }
+}
+
+.replicator-detail {
+  th {
+    width: 33%;
+  }
+
+  td:not(.status-cell) {
+    padding-left: 1.8rem;
+  }
+}
