@@ -98,7 +98,7 @@
     "vite": "7.3.2",
     "vite-plugin-istanbul": "7.2.1",
     "vite-tsconfig-paths": "6.0.3",
-    "vitest": "4.0.16"
+    "vitest": "4.1.0"
   },
   "lint-staged": {
     "src/**/*.{json,jsx,ts,tsx}": [
