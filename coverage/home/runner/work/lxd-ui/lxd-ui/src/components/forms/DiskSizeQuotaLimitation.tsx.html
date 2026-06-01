@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.25% </span>
+                <span class="strong">71.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>43/63</span>
+                <span class='fraction'>43/60</span>
             </div>
         
             
@@ -115,18 +115,7 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">143x</span>
 <span class="cline-any cline-yes">143x</span>
 <span class="cline-any cline-yes">143x</span>
 <span class="cline-any cline-yes">143x</span>
@@ -136,7 +125,18 @@
 <span class="cline-any cline-yes">143x</span>
 <span class="cline-any cline-yes">143x</span>
 <span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
 <span class="cline-any cline-yes">148x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,24 +149,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
+<span class="cline-any cline-yes">142x</span>
 <span class="cline-any cline-yes">143x</span>
 <span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">144x</span>
-<span class="cline-any cline-yes">144x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
 import { btrfsDriver, dirDriver } from "util/storageOptions";
@@ -176,10 +176,10 @@ interface Props {
   driver?: string;
 }
 &nbsp;
-const DiskSizeQuotaLimitation: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> driver }) =&gt; {
-  const getMessage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+const <span class="fstat-no" title="function not covered" >DiskSizeQuotaLimitation: FC&lt;Props&gt; = ({</span> driver }) =&gt; {
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >getMessage = () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (driver === dirDriver) {</span>
-<span class="cstat-no" title="statement not covered" >      return (</span>
+      return (
         &lt;&gt;
           Size limit might not be applied. See{" "}
           &lt;DocLink docPath="/reference/storage_dir/#quotas"&gt;
@@ -190,7 +190,7 @@ const DiskSizeQuotaLimitation: FC&lt;Props&gt; = <span class="fstat-no" title="f
       );
     }
 <span class="cstat-no" title="statement not covered" >    if (driver === btrfsDriver) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return (</span></span>
+<span class="cstat-no" title="statement not covered" >      return (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          Size limit might not be applied. See{" "}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;DocLink docPath="/reference/storage_btrfs/#quotas"&gt;</span>
@@ -208,7 +208,7 @@ const DiskSizeQuotaLimitation: FC&lt;Props&gt; = <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;Icon name="warning" style={{ marginRight: "0.5rem" }} /&gt;
       {message} Use a storage pool with another driver for full quota support.
@@ -226,7 +226,7 @@ export default DiskSizeQuotaLimitation;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

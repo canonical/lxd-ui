@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.89% </span>
+                <span class="strong">85.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>99/118</span>
+                <span class='fraction'>99/116</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.41% </span>
+                <span class="strong">12.76% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/48</span>
+                <span class='fraction'>6/47</span>
             </div>
         
             
@@ -166,26 +166,26 @@
 <a name='L101'></a><a href='#L101'>101</a>
 <a name='L102'></a><a href='#L102'>102</a>
 <a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
+<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -288,11 +288,11 @@ interface Props {
   projectName: string;
 }
 &nbsp;
-export const InstanceRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
+export const <span class="fstat-no" title="function not covered" >InstanceRichTooltip: FC&lt;Props&gt; = ({</span>
   instanceName,
   projectName,
 }) =&gt; {
-  const getAddresses = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nstance: LxdInstance, family: IpFamily) =&gt; {</span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >getAddresses = (i</span>nstance: LxdInstance, family: IpFamily) =&gt; {</span>
     const addresses = <span class="cstat-no" title="statement not covered" >getIpAddresses(instance, family);</span>
     const sortedAddresses =
 <span class="cstat-no" title="statement not covered" >      family === "inet6" ? sortIpv6Addresses(addresses) : addresses;</span>
@@ -301,7 +301,7 @@ export const InstanceRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title
 &nbsp;
   const { data: instance, isLoading } = <span class="cstat-no" title="statement not covered" >useInstance(instanceName, projectName);</span>
 <span class="cstat-no" title="statement not covered" >  if (!<span class="branch-0 cbranch-no" title="branch not covered" >instance &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!isLoading) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;&lt;/&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >    return &lt;&gt;&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   const ipv4Addresses = <span class="cstat-no" title="statement not covered" >instance ? getAddresses(instance, "inet"<span class="branch-0 cbranch-no" title="branch not covered" >) : [];</span></span>
@@ -368,7 +368,7 @@ export const InstanceRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title
     },
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;RichTooltipTable rows={rows} className="instance-rich-tooltip-table" /&gt;
   );
 };
@@ -379,7 +379,7 @@ export const InstanceRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

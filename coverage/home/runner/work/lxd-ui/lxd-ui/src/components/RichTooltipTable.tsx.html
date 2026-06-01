@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.73% </span>
+                <span class="strong">97.29% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/38</span>
+                <span class='fraction'>36/37</span>
             </div>
         
             
@@ -97,40 +97,40 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
 import { RichTooltipRow, type TooltipRow } from "./RichTooltipRow";
 import classNames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
@@ -142,8 +142,8 @@ interface Props {
 // Corresponding breakpoints exist in src/sass/_rich_tooltip.scss to adjust height of tooltip accordingly
 export const SMALL_TOOLTIP_BREAKPOINT = 500;
 &nbsp;
-export const RichTooltipTable: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> rows, className }) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return (</span>
+export const <span class="fstat-no" title="function not covered" >RichTooltipTable: FC&lt;Props&gt; = ({</span> rows, className }) =&gt; {
+  return (
     &lt;table
       className={classNames(
         "u-table-layout--auto u-no-margin--bottom rich-tooltip-table",
@@ -151,7 +151,7 @@ export const RichTooltipTable: FC&lt;Props&gt; = <span class="fstat-no" title="f
       )}
     &gt;
       &lt;tbody&gt;
-        {rows.map(<span class="fstat-no" title="function not covered" >(r</span>ow, index) =&gt; (
+        {rows.<span class="fstat-no" title="function not covered" >map((r</span>ow, index) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;RichTooltipRow</span>
             key={index}
             title={row.title}
@@ -172,7 +172,7 @@ export const RichTooltipTable: FC&lt;Props&gt; = <span class="fstat-no" title="f
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

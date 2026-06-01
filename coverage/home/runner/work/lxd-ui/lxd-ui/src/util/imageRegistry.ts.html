@@ -181,20 +181,20 @@
 <a name='L116'></a><a href='#L116'>116</a>
 <a name='L117'></a><a href='#L117'>117</a>
 <a name='L118'></a><a href='#L118'>118</a>
-<a name='L119'></a><a href='#L119'>119</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
-<span class="cline-any cline-yes">347x</span>
+<a name='L119'></a><a href='#L119'>119</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
+<span class="cline-any cline-yes">344x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -318,7 +318,7 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >): Promise&lt;RemoteImagesResult&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const registries = <span class="cstat-no" title="statement not covered" >await fetchImageRegistries(isFineGrained);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const isAllowedRegistry = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>egistry: LxdImageRegistry): boolean =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >isAllowedRegistry = (r</span>egistry: LxdImageRegistry): boolean =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const isProjectRestricted = <span class="cstat-no" title="statement not covered" >project?.config["restricted"];</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!isProjectRestricted) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return true;</span></span>
@@ -338,12 +338,12 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      imagesByRegistry[registry.name] = registryImages</span></span>
-<span class="cstat-no" title="statement not covered" >        .filter(<span class="fstat-no" title="function not covered" >(i</span>mage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        .<span class="fstat-no" title="function not covered" >filter((i</span>mage) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return !(registry.builtin &amp;&amp; image.aliases === null);</span></span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .map(<span class="fstat-no" title="function not covered" >(i</span>mage) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        .<span class="fstat-no" title="function not covered" >map((i</span>mage) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >          const item = <span class="cstat-no" title="statement not covered" >localLxdToRemoteImage(image);</span></span>
-<span class="cstat-no" title="statement not covered" >          const ltsAlias = <span class="cstat-no" title="statement not covered" >image.aliases?.find(<span class="fstat-no" title="function not covered" >(a</span>) =&gt; <span class="cstat-no" title="statement not covered" >a.name === "lts")</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >          const ltsAlias = <span class="cstat-no" title="statement not covered" >image.aliases?.<span class="fstat-no" title="function not covered" >find((a</span>) =&gt; <span class="cstat-no" title="statement not covered" >a.name === "lts")</span>;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return {</span></span>
 <span class="cstat-no" title="statement not covered" >            ...item,</span>
@@ -360,21 +360,21 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  // if any image request failed, throw</span>
 <span class="cstat-no" title="statement not covered" >  const errors: string[] = <span class="cstat-no" title="statement not covered" >[];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  imageRequests.forEach(<span class="fstat-no" title="function not covered" >(r</span>es) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  imageRequests.<span class="fstat-no" title="function not covered" >forEach((r</span>es) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (res.status !== "fulfilled") {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      errors.push(res.reason as string);</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const uniqueTitle = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+<span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >uniqueTitle = (</span></span></span>
 <span class="cstat-no" title="statement not covered" >    item: RemoteImage,</span>
 <span class="cstat-no" title="statement not covered" >    index: number,</span>
 <span class="cstat-no" title="statement not covered" >    self: RemoteImage[],</span>
 <span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return index === self.findIndex(<span class="fstat-no" title="function not covered" >(t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.title === item.title)</span>;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return index === self.<span class="fstat-no" title="function not covered" >findIndex((t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.title === item.title)</span>;</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const markVmAndContainerImagesAsOne = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>tem: RemoteImage) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >markVmAndContainerImagesAsOne = (i</span>tem: RemoteImage) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    delete item.type;</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    item.versions = {</span></span>
 <span class="cstat-no" title="statement not covered" >      vm: {</span>
@@ -392,7 +392,7 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >    "ubuntu-minimal-daily",</span>
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  ubuntuRegistries.forEach(<span class="fstat-no" title="function not covered" >(n</span>ame) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  ubuntuRegistries.<span class="fstat-no" title="function not covered" >forEach((n</span>ame) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const images = <span class="cstat-no" title="statement not covered" >name in imagesByRegistry ? imagesByRegistry[name] : [];</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    imagesByRegistry[name] = images.filter(uniqueTitle);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    imagesByRegistry[name].map(markVmAndContainerImagesAsOne);</span></span>
@@ -409,7 +409,7 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  // add images from custom registries</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  Object.entries(imagesByRegistry).forEach(<span class="fstat-no" title="function not covered" >([</span>registry, registryImages]) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  Object.entries(imagesByRegistry).<span class="fstat-no" title="function not covered" >forEach(([</span>registry, registryImages]) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!ubuntuRegistries.includes(registry) &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >registry !== "images") {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      images.push(...registryImages);</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
@@ -424,7 +424,7 @@ export const loadImagesFromAllRegistries = <span class="fstat-no" title="functio
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

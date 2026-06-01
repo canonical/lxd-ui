@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.91% </span>
+                <span class="strong">77.27% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/46</span>
+                <span class='fraction'>34/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">53.84% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/14</span>
+                <span class='fraction'>7/13</span>
             </div>
         
             
@@ -106,33 +106,33 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useResources } from "context/useResources";
 import type { FC } from "react";
 import { useNotify, Input, type InputProps } from "@canonical/react-components";
@@ -140,15 +140,15 @@ import { ensureArray } from "util/helpers";
 &nbsp;
 type Props = InputProps;
 &nbsp;
-export const ProjectCpuLimitInput: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> help, ...props }) =&gt; {
+export const <span class="fstat-no" title="function not covered" >ProjectCpuLimitInput: FC&lt;Props&gt; = ({</span> help, ...props }) =&gt; {
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
 &nbsp;
   const { data: resources = [], error } = <span class="cstat-no" title="statement not covered" >useResources();</span>
 <span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading resources failed", error);</span></span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-  const limitSum = <span class="cstat-no" title="statement not covered" >ensureArray(resources).reduce(</span>
-<span class="fstat-no" title="function not covered" >    (s</span>um, resource) =&gt; <span class="cstat-no" title="statement not covered" >sum + resource.cpu.total,</span>
+  const limitSum = <span class="cstat-no" title="statement not covered" >ensureArray(resources).<span class="fstat-no" title="function not covered" >reduce(</span></span>
+    (sum, resource) =&gt; <span class="cstat-no" title="statement not covered" >sum + resource.cpu.total,</span>
     0,
   );
   const hasLimits = <span class="cstat-no" title="statement not covered" >limitSum &gt; 0;</span>
@@ -159,14 +159,14 @@ export const ProjectCpuLimitInput: FC&lt;Props&gt; = <span class="fstat-no" titl
   ) : null;
 &nbsp;
   const helpText = (
-<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
+    &lt;&gt;
       {help}
-      {help &amp;&amp; limitText &amp;&amp; &lt;br /&gt;}
+      {help &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >limitText &amp;&amp; &lt;</span>br /&gt;}
       {limitText}
     &lt;/&gt;
   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return &lt;Input {...props} help={helpText} /&gt;;</span>
+  return &lt;Input {...props} help={helpText} /&gt;;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -175,7 +175,7 @@ export const ProjectCpuLimitInput: FC&lt;Props&gt; = <span class="fstat-no" titl
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

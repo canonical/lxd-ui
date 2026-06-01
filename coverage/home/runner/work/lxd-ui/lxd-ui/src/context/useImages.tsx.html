@@ -118,43 +118,43 @@
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">920x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">335x</span>
-<span class="cline-any cline-yes">335x</span>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">906x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-yes">330x</span>
+<span class="cline-any cline-yes">330x</span>
 <span class="cline-any cline-yes">103x</span>
 <span class="cline-any cline-yes">103x</span>
 <span class="cline-any cline-yes">103x</span>
@@ -186,7 +186,7 @@ import { loadImagesFromAllRegistries } from "util/imageRegistry";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useCurrentProject } from "context/useCurrentProject";
 &nbsp;
-export const useLocalImagesInProject = <span class="fstat-no" title="function not covered" >(</span>
+export const <span class="fstat-no" title="function not covered" >useLocalImagesInProject = (</span>
   project: string,
   enabled?: boolean,
 ): UseQueryResult&lt;LxdImage[]&gt; =&gt; {
@@ -198,7 +198,7 @@ export const useLocalImagesInProject = <span class="fstat-no" title="function no
   });
 };
 &nbsp;
-export const useImagesInAllProjects = <span class="fstat-no" title="function not covered" >(</span>
+export const <span class="fstat-no" title="function not covered" >useImagesInAllProjects = (</span>
   enabled?: boolean,
 ): UseQueryResult&lt;LxdImage[]&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
@@ -209,7 +209,7 @@ export const useImagesInAllProjects = <span class="fstat-no" title="function not
   });
 };
 &nbsp;
-export const useRemoteImages = <span class="fstat-no" title="function not covered" >(): UseQueryResult&lt;RemoteImagesResult&gt; =&gt; {</span>
+export const <span class="fstat-no" title="function not covered" >useRemoteImages = (): UseQueryResult&lt;RemoteImagesResult&gt; =&gt; {</span>
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { hasImageRegistries } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
   const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span>
@@ -235,7 +235,7 @@ export const useRemoteImages = <span class="fstat-no" title="function not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

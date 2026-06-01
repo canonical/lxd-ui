@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.08% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>55/67</span>
+                <span class='fraction'>55/66</span>
             </div>
         
             
@@ -121,9 +121,9 @@
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">173x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">79x</span>
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -135,13 +135,13 @@
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">173x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-yes">71x</span>
-<span class="cline-any cline-yes">71x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -149,22 +149,22 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-yes">173x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, type FC } from "react";
@@ -172,12 +172,12 @@ import { Notification } from "@canonical/react-components";
 import { pluralize } from "util/helpers";
 import DocLink from "components/DocLink";
 &nbsp;
-const loadClosed = <span class="fstat-no" title="function not covered" >(e</span>ntity: string) =&gt; {
+const <span class="fstat-no" title="function not covered" >loadClosed = (e</span>ntity: string) =&gt; {
   const saved = <span class="cstat-no" title="statement not covered" >localStorage.getItem(`yamlNotificationClosed${entity}`);</span>
 <span class="cstat-no" title="statement not covered" >  return Boolean(saved);</span>
 };
 &nbsp;
-const saveClosed = <span class="fstat-no" title="function not covered" >(e</span>ntity: string) =&gt; {
+const <span class="fstat-no" title="function not covered" >saveClosed = (e</span>ntity: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >  localStorage.setItem(`yamlNotificationClosed${entity}`, "yes");</span>
 };
 &nbsp;
@@ -186,14 +186,14 @@ interface Props {
   docPath: string;
 }
 &nbsp;
-const YamlNotification: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> entity, docPath }) =&gt; {
+const <span class="fstat-no" title="function not covered" >YamlNotification: FC&lt;Props&gt; = ({</span> entity, docPath }) =&gt; {
   const [closed, setClosed] = <span class="cstat-no" title="statement not covered" >useState(loadClosed(entity));</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (closed) {</span>
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 &nbsp;
-  const handleClose = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleClose = () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    saveClosed(entity);</span>
 <span class="cstat-no" title="statement not covered" >    setClosed(true);</span>
 <span class="cstat-no" title="statement not covered" >    setTimeout(() =&gt; {</span>
@@ -202,7 +202,7 @@ const YamlNotification: FC&lt;Props&gt; = <span class="fstat-no" title="function
     }, 250);
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Notification
       severity="information"
       title="YAML Configuration"
@@ -226,7 +226,7 @@ export default YamlNotification;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

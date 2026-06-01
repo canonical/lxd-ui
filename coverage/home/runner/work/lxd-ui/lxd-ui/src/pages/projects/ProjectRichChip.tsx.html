@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">92.45% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>49/56</span>
+                <span class='fraction'>49/53</span>
             </div>
         
             
@@ -129,38 +129,38 @@
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -178,7 +178,7 @@ interface Props {
   disabled?: boolean;
 }
 &nbsp;
-const ProjectRichChip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
+const <span class="fstat-no" title="function not covered" >ProjectRichChip: FC&lt;Props&gt; = ({</span>
   projectName,
   urlSuffix = <span class="branch-0 cbranch-no" title="branch not covered" >"",</span>
   className,
@@ -187,7 +187,7 @@ const ProjectRichChip: FC&lt;Props&gt; = <span class="fstat-no" title="function 
   const showTooltip = <span class="cstat-no" title="statement not covered" >!useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");</span>
 &nbsp;
   const resourceLink = (
-<span class="cstat-no" title="statement not covered" >    &lt;ResourceLink</span>
+    &lt;ResourceLink
       type="project"
       value={projectName}
       to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}${urlSuffix}`}
@@ -198,10 +198,10 @@ const ProjectRichChip: FC&lt;Props&gt; = <span class="fstat-no" title="function 
   );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!showTooltip) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;{resourceLink}&lt;/&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >    return &lt;&gt;{resourceLink}&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Tooltip
       zIndex={1000}
       position="right"
@@ -220,7 +220,7 @@ export default ProjectRichChip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

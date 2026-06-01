@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65% </span>
+                <span class="strong">68.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/40</span>
+                <span class='fraction'>26/38</span>
             </div>
         
             
@@ -97,51 +97,51 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useResources } from "context/useResources";
 import type { FC } from "react";
 import { humanFileSize, ensureArray } from "util/helpers";
 import { useNotify, Spinner } from "@canonical/react-components";
 &nbsp;
-export const ProjectMemoryLimit: FC = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+export const <span class="fstat-no" title="function not covered" >ProjectMemoryLimit: FC = () =&gt; {</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
 &nbsp;
   const { data: resources = [], error, isLoading } = <span class="cstat-no" title="statement not covered" >useResources();</span>
 <span class="cstat-no" title="statement not covered" >  if (isLoading) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;Spinner className="u-loader" text="Loading resources..." /&gt;;</span>
+    return &lt;Spinner className="u-loader" text="Loading resources..." /&gt;;
   }
 <span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading resources failed", error);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return null;</span></span>
 <span class="cstat-no" title="statement not covered" >  }</span>
   const resourceArray = <span class="cstat-no" title="statement not covered" >ensureArray(resources);</span>
-  const sumMemoryLimit = <span class="cstat-no" title="statement not covered" >resourceArray.reduce(</span>
-<span class="fstat-no" title="function not covered" >    (s</span>um, resource) =&gt; <span class="cstat-no" title="statement not covered" >sum + resource.memory.total,</span>
+  const sumMemoryLimit = <span class="cstat-no" title="statement not covered" >resourceArray.<span class="fstat-no" title="function not covered" >reduce(</span></span>
+    (sum, resource) =&gt; <span class="cstat-no" title="statement not covered" >sum + resource.memory.total,</span>
     0,
   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       Total memory: &lt;b&gt;{humanFileSize(sumMemoryLimit)}&lt;/b&gt;
     &lt;/&gt;
@@ -154,7 +154,7 @@ export const ProjectMemoryLimit: FC = <span class="fstat-no" title="function not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

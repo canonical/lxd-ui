@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.27% </span>
+                <span class="strong">72.04% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>67/94</span>
+                <span class='fraction'>67/93</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">43.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/36</span>
+                <span class='fraction'>13/30</span>
             </div>
         
             
@@ -150,27 +150,27 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
+<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
@@ -235,8 +235,8 @@
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">115x</span>
+<span class="cline-any cline-yes">114x</span>
+<span class="cline-any cline-yes">114x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import ResourceLink from "./ResourceLink";
 import type { LxdUsedBy } from "util/usedBy";
@@ -257,7 +257,7 @@ interface Props {
   projectLinkDetailPage?: string;
 }
 &nbsp;
-const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
+const <span class="fstat-no" title="function not covered" >UsedByItem: FC&lt;Props&gt; = ({</span>
   item,
   activeProject,
   type,
@@ -273,9 +273,9 @@ const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not c
   const image = <span class="cstat-no" title="statement not covered" >images.find((image) =&gt; image.fingerprint === item.name);</span>
   const label = <span class="cstat-no" title="statement not covered" >image?.properties?.description || <span class="branch-1 cbranch-no" title="branch not covered" >item.name;</span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div&gt;
-      {item.project !== activeProject &amp;&amp; (
+      {<span class="branch-0 cbranch-no" title="branch not covered" >item.project !== activeProject &amp;&amp; (</span>
         &lt;&gt;
           &lt;ProjectRichChip
             projectName={item.project}
@@ -284,7 +284,7 @@ const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not c
           /{" "}
         &lt;/&gt;
       )}
-      {type === <span class="branch-0 cbranch-no" title="branch not covered" >"snapshot" &amp;&amp; item.<span class="branch-0 cbranch-no" title="branch not covered" >instance &amp;&amp; (</span></span>
+      {type === <span class="branch-0 cbranch-no" title="branch not covered" >"snapshot" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >item.<span class="branch-0 cbranch-no" title="branch not covered" >instance &amp;&amp; (</span></span></span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >            type="instance"</span>
@@ -294,7 +294,7 @@ const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >          /{" "}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
       )}
-      {type === <span class="branch-0 cbranch-no" title="branch not covered" >"snapshot" &amp;&amp; item.<span class="branch-0 cbranch-no" title="branch not covered" >volume &amp;&amp; (</span></span>
+      {type === <span class="branch-0 cbranch-no" title="branch not covered" >"snapshot" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >item.<span class="branch-0 cbranch-no" title="branch not covered" >volume &amp;&amp; (</span></span></span>
 <span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >            type="volume"</span>
@@ -310,13 +310,13 @@ const UsedByItem: FC&lt;Props&gt; = <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >          /{" "}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
       )}
-      {type === "instance" &amp;&amp; (
+      {<span class="branch-0 cbranch-no" title="branch not covered" >type === "instance" &amp;&amp; (</span>
         &lt;InstanceRichChip instanceName={item.name} projectName={item.project} /&gt;
       )}
-      {type === "profile" &amp;&amp; (
+      {<span class="branch-0 cbranch-no" title="branch not covered" >type === "profile" &amp;&amp; (</span>
         &lt;ProfileRichChip profileName={item.name} projectName={item.project} /&gt;
       )}
-      {type !== "instance" &amp;&amp; type !== "profile" &amp;&amp; (
+      {type !== "instance" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >type !== "profile" &amp;&amp; (</span>
         &lt;ResourceLink type={type} value={label} to={to} /&gt;
       )}
     &lt;/div&gt;
@@ -331,7 +331,7 @@ export default UsedByItem;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.85% </span>
+                <span class="strong">20.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/136</span>
+                <span class='fraction'>27/134</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/24</span>
+                <span class='fraction'>0/23</span>
             </div>
         
             
@@ -187,30 +187,30 @@
 <a name='L122'></a><a href='#L122'>122</a>
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
-<a name='L125'></a><a href='#L125'>125</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
+<a name='L125'></a><a href='#L125'>125</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -309,8 +309,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">362x</span>
+<span class="cline-any cline-yes">361x</span>
+<span class="cline-any cline-yes">361x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
 import ProfileLink from "pages/profiles/ProfileLink";
 import { useProfile } from "context/useProfiles";
@@ -334,7 +334,7 @@ interface Props {
   projectName: string;
 }
 &nbsp;
-const ProfileRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> profileName, projectName }) =&gt; {</span>
+const <span class="fstat-no" title="function not covered" >ProfileRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> profileName, projectName }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const { data: profile, isLoading: isProfileLoading } = <span class="cstat-no" title="statement not covered" >useProfile(</span></span>
 <span class="cstat-no" title="statement not covered" >    profileName,</span>
 <span class="cstat-no" title="statement not covered" >    projectName,</span>
@@ -344,7 +344,7 @@ const ProfileRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >  const isLoading = <span class="cstat-no" title="statement not covered" >isProfileLoading || isProjectLoading;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (!profile &amp;&amp; !isLoading) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >        Profile &lt;ResourceLabel type="profile" value={profileName} bold /&gt; not</span>
 <span class="cstat-no" title="statement not covered" >        found</span>
@@ -363,7 +363,7 @@ const ProfileRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >  const rows: TooltipRow[] = <span class="cstat-no" title="statement not covered" >[</span></span>
 <span class="cstat-no" title="statement not covered" >    {</span>
 <span class="cstat-no" title="statement not covered" >      title: "Profile",</span>
-<span class="cstat-no" title="statement not covered" >      value: profile ? &lt;ProfileLink profile={profile} /&gt; : &lt;Spinner /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >      value: profile ? <span class="branch-0 cbranch-no" title="branch not covered" >&lt;ProfileLink profile={profile} /&gt; : &lt;S</span>pinner /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >      valueTitle: profileName,</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
@@ -429,7 +429,7 @@ const ProfileRichTooltip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;RichTooltipTable rows={rows} className="profile-rich-tooltip-table" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
@@ -442,7 +442,7 @@ export default ProfileRichTooltip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

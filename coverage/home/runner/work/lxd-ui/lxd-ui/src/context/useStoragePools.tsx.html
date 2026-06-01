@@ -155,28 +155,28 @@
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
-<span class="cline-any cline-yes">416x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
+<span class="cline-any cline-yes">415x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
-<span class="cline-any cline-yes">1185x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
+<span class="cline-any cline-yes">1178x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -192,25 +192,25 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">362x</span>
 <span class="cline-any cline-yes">362x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
-<span class="cline-any cline-yes">410x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
+<span class="cline-any cline-yes">396x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
@@ -241,7 +241,7 @@ export const useStoragePool = (
   });
 };
 &nbsp;
-export const useStoragePools = <span class="fstat-no" title="function not covered" >(</span>
+export const <span class="fstat-no" title="function not covered" >useStoragePools = (</span>
   enabled?: boolean,
 ): UseQueryResult&lt;LxdStoragePool[]&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
@@ -252,7 +252,7 @@ export const useStoragePools = <span class="fstat-no" title="function not covere
   });
 };
 &nbsp;
-export const usePoolFromClusterMembers = <span class="fstat-no" title="function not covered" >(</span>
+export const <span class="fstat-no" title="function not covered" >usePoolFromClusterMembers = (</span>
   pool: string,
 ): UseQueryResult&lt;LXDStoragePoolOnClusterMember[]&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
@@ -265,7 +265,7 @@ export const usePoolFromClusterMembers = <span class="fstat-no" title="function 
   });
 };
 &nbsp;
-export const useClusteredStoragePoolResources = <span class="fstat-no" title="function not covered" >(</span>
+export const <span class="fstat-no" title="function not covered" >useClusteredStoragePoolResources = (</span>
   pool?: string,
   member?: LxdClusterMember,
   enabled = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
@@ -292,7 +292,7 @@ export const useClusteredStoragePoolResources = <span class="fstat-no" title="fu
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-01T15:22:15.761Z
+                at 2026-06-01T16:53:22.089Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
