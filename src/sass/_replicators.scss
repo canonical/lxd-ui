@@ -21,3 +21,102 @@
     padding-left: 1.8rem;
   }
 }
+
+.run-replicator-modal {
+  .replicator-data-flow {
+    align-items: stretch;
+    background-color: transparent;
+    display: flex;
+    gap: $sph--x-large;
+    justify-content: center;
+    padding: $sph--x-large 0;
+
+    &__node {
+      align-items: center;
+      border: 1px solid var(--vf-color-border-default);
+      display: flex;
+      flex-direction: column;
+      gap: $spv--small;
+      justify-content: center;
+      padding: $sph--large $sph--x-large;
+    }
+
+    &__target {
+      margin-left: 20px;
+    }
+
+    .node-heading {
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    &__arrow-shaft {
+      align-items: center;
+      border-bottom: 1px solid var(--vf-color-border-default);
+      border-top: 1px solid var(--vf-color-border-default);
+      display: flex;
+      flex-grow: 1;
+      height: 3rem;
+      justify-content: center;
+      margin: auto 0;
+      max-width: 20rem;
+      position: relative;
+
+      &::after {
+        border-bottom: 32px solid transparent;
+        border-left: 1.5rem solid var(--vf-color-border-default);
+        border-top: 32px solid transparent;
+        content: "";
+        height: 0;
+        position: absolute;
+        right: -1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        z-index: 1;
+      }
+
+      &::before {
+        border-bottom: 30px solid transparent;
+        border-left: 20px solid var(--vf-color-background-default);
+        border-top: 30px solid transparent;
+        content: "";
+        height: 0;
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        z-index: 2;
+      }
+    }
+
+    &--reverse {
+      .replicator-data-flow__arrow-shaft {
+        &::after {
+          border-left: 0;
+          border-right: 1.5rem solid var(--vf-color-border-default);
+          left: -1.5rem;
+          right: auto;
+        }
+
+        &::before {
+          border-left: 0;
+          border-right: 20px solid var(--vf-color-background-default);
+          left: -20px;
+          right: auto;
+        }
+      }
+
+      .replicator-data-flow__target {
+        margin-left: 0;
+      }
+
+      .replicator-data-flow__source {
+        margin-right: 20px;
+      }
+    }
+  }
+}

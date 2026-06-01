@@ -1,9 +1,10 @@
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 import { useParams } from "react-router-dom";
 import { Col, CustomLayout, Row, Spinner } from "@canonical/react-components";
 import NotFound from "components/NotFound";
 import NotificationRow from "components/NotificationRow";
 import { useClusterLink } from "context/useClusterLinks";
+import { useOperations } from "context/operationsProvider";
 import { useReplicator } from "context/useReplicators";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
 import ReplicatorDetailHeader from "pages/cluster/ReplicatorDetailHeader";
@@ -27,9 +28,43 @@ const ReplicatorDetail: FC = () => {
     error,
     isLoading,
   } = useReplicator(name, project || "default");
+  const { operations } = useOperations();
   const { data: clusterLink } = useClusterLink(
     replicator?.config?.cluster || "",
   );
+
+  const persistedLastRunError = useMemo(() => {
+    if (!replicator || replicator.last_run_status !== "Failed") {
+      return undefined;
+    }
+
+    const replicatorPath = `/1.0/replicators/${encodeURIComponent(replicator.name)}`;
+    const projectQuery = `project=${encodeURIComponent(replicator.project)}`;
+
+    const latestFailure = operations
+      .filter((operation) => operation.status === "Failure")
+      .find((operation) => {
+        const entityUrl =
+          operation.original_entity_url ||
+          operation.entity_url ||
+          operation.metadata?.original_entity_url ||
+          operation.metadata?.entity_url ||
+          "";
+
+        return (
+          operation.description === "Running replicator" &&
+          entityUrl.startsWith(replicatorPath) &&
+          entityUrl.includes(projectQuery)
+        );
+      });
+
+    return latestFailure?.err || undefined;
+  }, [operations, replicator]);
+
+  const lastRunError =
+    replicator?.last_run_status === "Failed"
+      ? replicator.last_run_error || persistedLastRunError
+      : undefined;
 
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -139,6 +174,12 @@ const ReplicatorDetail: FC = () => {
                       <ReplicatorStatus replicator={replicator} />
                     </td>
                   </tr>
+                  {lastRunError && (
+                    <tr>
+                      <th className="u-text--muted">Last error</th>
+                      <td className="u-text--error">{lastRunError}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </Col>
