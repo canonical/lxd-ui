@@ -11,10 +11,9 @@ import type { LxdReplicator } from "types/replicator";
 
 interface Props {
   replicator: LxdReplicator;
-  project: string;
 }
 
-const ReplicatorDetailActions: FC<Props> = ({ replicator, project }) => {
+const ReplicatorDetailActions: FC<Props> = ({ replicator }) => {
   const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
   const classname = isSmallScreen
     ? "p-contextual-menu__link"
@@ -31,11 +30,7 @@ const ReplicatorDetailActions: FC<Props> = ({ replicator, project }) => {
       replicator={replicator}
       className={classname}
     />,
-    <DeleteReplicatorBtn
-      key="delete"
-      replicator={replicator}
-      project={project}
-    />,
+    <DeleteReplicatorBtn key="delete" replicator={replicator} />,
   ];
 
   return (
