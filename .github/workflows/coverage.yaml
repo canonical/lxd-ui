@@ -201,4 +201,7 @@ jobs:
           source ~/.profile
           # Update path so eslint is used through yarn dependencies
           export PATH="$PWD/node_modules/.bin:$PATH"
+          echo $PWD
+          which eslint
+          find . | grep eslint
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
