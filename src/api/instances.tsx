@@ -21,6 +21,7 @@ import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
 import { linkForInstanceDetail } from "util/instances";
 import { ROOT_PATH } from "util/rootPath";
+import type { LxdFileExplorerItem, LxdFileMetadata } from "types/fileExplorer";
 
 export const instanceEntitlements = [
   "can_access_console",
@@ -551,4 +552,52 @@ export const createInstanceBackup = async (
     .then((data: LxdOperationResponse) => {
       return data;
     });
+};
+
+export const fetchInstanceDirectory = async (
+  name: string,
+  project: string,
+  path: string,
+): Promise<LxdFileExplorerItem> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("path", path);
+
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
+    {
+      method: "GET",
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdFileExplorerItem) => {
+      return data;
+    });
+};
+
+export const fetchInstanceFileHeader = async (
+  instanceName: string,
+  project: string,
+  path: string,
+): Promise<LxdFileMetadata> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("path", path);
+
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instanceName)}/files?${params.toString()}`,
+    {
+      method: "HEAD",
+    },
+  ).then((response: Response) => {
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch instance file header: ${response.status} ${response.statusText}`,
+      );
+    }
+    return {
+      type: response.headers.get("x-lxd-type") ?? "unknown",
+      modified: response.headers.get("x-lxd-modified") ?? "-",
+    };
+  });
 };

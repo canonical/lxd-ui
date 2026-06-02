@@ -3,7 +3,7 @@ import { Col, Row, useListener } from "@canonical/react-components";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdStorageVolume } from "types/storage";
-import { timeToString } from "util/helpers";
+import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";
 import { useSettings } from "context/useSettings";
@@ -70,7 +70,7 @@ const StorageVolumeOverview: FC<Props> = ({ volume }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">Date created</th>
-                <td>{timeToString(volume.created_at)}</td>
+                <td>{isoTimeToString(volume.created_at)}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">Size</th>

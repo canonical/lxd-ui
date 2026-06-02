@@ -12,7 +12,7 @@ import {
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import { humanFileSize, timeToString } from "util/helpers";
+import { humanFileSize, isoTimeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
@@ -109,7 +109,7 @@ const CustomIsoList: FC = () => {
           className: "pool",
         },
         {
-          content: timeToString(new Date(image.created_at).toISOString()),
+          content: isoTimeToString(new Date(image.created_at).toISOString()),
           role: "cell",
           "aria-label": "Uploaded at",
           className: "uploaded_at",

@@ -7,7 +7,7 @@ import {
   CustomLayout,
 } from "@canonical/react-components";
 import { fetchWarnings } from "api/warnings";
-import { timeToString } from "util/helpers";
+import { isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
@@ -142,13 +142,13 @@ const WarningList: FC = () => {
           "aria-label": "Project",
         },
         {
-          content: timeToString(warning.first_seen_at),
+          content: isoTimeToString(warning.first_seen_at),
           role: "cell",
           "aria-label": "First seen",
           className: "first_seen_at",
         },
         {
-          content: timeToString(warning.last_seen_at),
+          content: isoTimeToString(warning.last_seen_at),
           role: "cell",
           "aria-label": "Last seen",
           className: "last_seen_at",

@@ -10,7 +10,7 @@ import {
   useToastNotification,
   type NotificationAction,
 } from "@canonical/react-components";
-import { timeToString } from "util/helpers";
+import { isoTimeToString } from "util/helpers";
 import type { LxdInstance } from "types/instance";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
 import ItemName from "components/ItemName";
@@ -137,7 +137,7 @@ const InstanceSnapshots = (props: Props) => {
               </div>
               {isSmallScreen && (
                 <div className="u-text--muted">
-                  {timeToString(snapshot.created_at)}
+                  {isoTimeToString(snapshot.created_at)}
                 </div>
               )}
             </>
@@ -150,14 +150,14 @@ const InstanceSnapshots = (props: Props) => {
           ? []
           : [
               {
-                content: timeToString(snapshot.created_at),
+                content: isoTimeToString(snapshot.created_at),
                 role: "cell",
                 "aria-label": "Created at",
                 className: "created",
               },
             ]),
         {
-          content: timeToString(snapshot.expires_at),
+          content: isoTimeToString(snapshot.expires_at),
           role: "cell",
           "aria-label": "Expires at",
           className: "expiration",

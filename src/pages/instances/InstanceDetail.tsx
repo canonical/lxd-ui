@@ -15,11 +15,13 @@ import { useInstance } from "context/useInstances";
 import { buildGrafanaUrl } from "util/grafanaUrl";
 import NotFound from "components/NotFound";
 import { ROOT_PATH } from "util/rootPath";
+import InstanceFileExplorer from "./InstanceFileExplorer";
 
 const tabs: string[] = [
   "Overview",
   "Configuration",
   "Snapshots",
+  "File Explorer",
   "Terminal",
   "Console",
   "Logs",
@@ -116,6 +118,12 @@ const InstanceDetail: FC = () => {
           {activeTab === "snapshots" && (
             <div role="tabpanel" aria-labelledby="snapshots">
               <InstanceSnapshots instance={instance} />
+            </div>
+          )}
+
+          {activeTab === "file-explorer" && (
+            <div role="tabpanel" aria-labelledby="file-explorer">
+              <InstanceFileExplorer instance={instance} />
             </div>
           )}
 
