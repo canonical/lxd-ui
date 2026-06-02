@@ -14,15 +14,22 @@ import { isoTimeToString } from "util/helpers";
 import { fetchInstanceFileHeader } from "api/instances";
 import FileExplorerDirectory from "./FileExplorerDirectory";
 import FileExplorerFile from "./FileExplorerFile";
+import FileExplorerActions from "./actions/FileExplorerActions";
 import type { LxdInstance } from "types/instance";
 
 interface Props {
   files: string[];
   currentPath: string;
   instance: LxdInstance;
+  onDeleteSuccess: () => void;
 }
 
-const FileExplorerTable: FC<Props> = ({ files, currentPath, instance }) => {
+const FileExplorerTable: FC<Props> = ({
+  files,
+  currentPath,
+  instance,
+  onDeleteSuccess,
+}) => {
   const [fileMetadata, setFileMetadata] = useState<
     Map<string, LxdFileMetadata>
   >(new Map());
@@ -78,6 +85,10 @@ const FileExplorerTable: FC<Props> = ({ files, currentPath, instance }) => {
       content: "Modified",
       sortKey: "modified",
     },
+    {
+      "aria-label": "Actions",
+      className: "actions",
+    },
   ];
 
   const rows: MainTableRow[] = files.map((fileName) => {
@@ -88,6 +99,8 @@ const FileExplorerTable: FC<Props> = ({ files, currentPath, instance }) => {
     const fileModified = metadata?.modified
       ? isoTimeToString(metadata.modified)
       : "-";
+    const filePath =
+      currentPath === "/" ? `/${fileName}` : `${currentPath}/${fileName}`;
 
     return {
       key: fileName,
@@ -120,7 +133,22 @@ const FileExplorerTable: FC<Props> = ({ files, currentPath, instance }) => {
           role: "cell",
           "aria-label": "Modified",
         },
+        {
+          content: (
+            <FileExplorerActions
+              instance={instance}
+              fileName={fileName}
+              filePath={filePath}
+              fileType={fileType}
+              onDeleteSuccess={onDeleteSuccess}
+            />
+          ),
+          role: "cell",
+          className: "u-align--right",
+          "aria-label": "Actions",
+        },
       ],
+      className: "u-row",
       sortData: {
         name: fileName.toLowerCase(),
         type: fileType,
@@ -149,6 +177,7 @@ const FileExplorerTable: FC<Props> = ({ files, currentPath, instance }) => {
         rows={sortedRows}
         onUpdateSort={updateSort}
         emptyStateMsg="No files or directories"
+        className="u-selectable-table-rows"
         sortable
       />
     </ScrollableTable>

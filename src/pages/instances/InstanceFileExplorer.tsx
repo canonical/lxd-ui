@@ -61,6 +61,15 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     await loadInstancePath(currentPath);
   };
 
+  const refreshCurrentPath = () => {
+    setTree((prev) => {
+      const newMap = new Map(prev);
+      newMap.delete(currentPath);
+      return newMap;
+    });
+    void loadInstancePath(currentPath);
+  };
+
   if (!canServeFiles) {
     return (
       <EmptyState
@@ -117,6 +126,7 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
         files={(tree.get(currentPath) as string[]) ?? []}
         currentPath={currentPath}
         instance={instance}
+        onDeleteSuccess={refreshCurrentPath}
       />
     </Row>
   );

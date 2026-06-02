@@ -25,6 +25,7 @@ import type { LxdFileExplorerItem, LxdFileMetadata } from "types/fileExplorer";
 
 export const instanceEntitlements = [
   "can_access_console",
+  "can_access_files",
   "can_delete",
   "can_edit",
   "can_exec",
@@ -599,5 +600,28 @@ export const fetchInstanceFileHeader = async (
       type: response.headers.get("x-lxd-type") ?? "unknown",
       modified: response.headers.get("x-lxd-modified") ?? "-",
     };
+  });
+};
+
+export const deleteInstanceFile = async (
+  instance: LxdInstance,
+  path: string,
+): Promise<Response> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+  params.set("path", path);
+
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`,
+    {
+      method: "DELETE",
+    },
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(
+        `Failed to delete file: ${response.status} ${response.statusText}`,
+      );
+    }
+    return response;
   });
 };

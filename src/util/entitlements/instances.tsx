@@ -42,8 +42,16 @@ export const useInstanceEntitlements = () => {
       instance?.access_entitlements,
     );
 
+  const canAccessInstanceFiles = (instance?: LxdInstance) =>
+    hasEntitlement(
+      isFineGrained,
+      "can_access_files",
+      instance?.access_entitlements,
+    );
+
   return {
     canAccessInstanceConsole,
+    canAccessInstanceFiles,
     canDeleteInstance,
     canEditInstance,
     canExecInstance,
