@@ -9,7 +9,7 @@ interface Props {
 const STATUS_ICONS: Record<LxdReplicatorStatus, string> = {
   Completed: "status-succeeded-small",
   Failed: "status-failed-small",
-  Running: "status-running-small",
+  Running: "status-waiting-small",
   Pending: "status-queued-small",
 };
 

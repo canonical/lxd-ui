@@ -14,10 +14,9 @@ import * as Yup from "yup";
 
 interface Props {
   replicator: LxdReplicator;
-  project: string;
 }
 
-const ReplicatorDetailHeader: FC<Props> = ({ replicator, project }) => {
+const ReplicatorDetailHeader: FC<Props> = ({ replicator }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -97,9 +96,7 @@ const ReplicatorDetailHeader: FC<Props> = ({ replicator, project }) => {
         </Link>,
       ]}
       controls={
-        replicator && (
-          <ReplicatorDetailActions replicator={replicator} project={project} />
-        )
+        replicator && <ReplicatorDetailActions replicator={replicator} />
       }
       isLoaded={Boolean(replicator.name)}
       formik={formik}

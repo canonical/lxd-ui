@@ -47,14 +47,7 @@ const ReplicatorDetail: FC = () => {
 
   return (
     <>
-      <CustomLayout
-        header={
-          <ReplicatorDetailHeader
-            replicator={replicator}
-            project={project || "default"}
-          />
-        }
-      >
+      <CustomLayout header={<ReplicatorDetailHeader replicator={replicator} />}>
         <NotificationRow />
         <Row className="replicator-detail">
           <Row className="section">

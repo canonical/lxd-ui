@@ -17,10 +17,9 @@ import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   replicator: LxdReplicator;
-  project: string;
 }
 
-const DeleteReplicatorBtn: FC<Props> = ({ replicator, project }) => {
+const DeleteReplicatorBtn: FC<Props> = ({ replicator }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const notify = useNotify();
@@ -72,7 +71,9 @@ const DeleteReplicatorBtn: FC<Props> = ({ replicator, project }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    deleteReplicator(replicator.name, project).then(onSuccess).catch(onFailure);
+    deleteReplicator(replicator.name, replicator.project)
+      .then(onSuccess)
+      .catch(onFailure);
   };
 
   return (

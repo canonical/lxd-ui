@@ -176,7 +176,9 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           {isEmptyState && (
             <EmptyState
               className="empty-state"
-              image={<Icon name="connected" className="empty-state-icon" />}
+              image={
+                <Icon name="change-version" className="empty-state-icon" />
+              }
               title="No replicators found"
             >
               <p>There are no replicators on this server.</p>
