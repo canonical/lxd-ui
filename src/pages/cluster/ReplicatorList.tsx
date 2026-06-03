@@ -90,6 +90,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           content: <ProjectRichChip projectName={replicator.project} />,
           role: "cell",
           "aria-label": "Project",
+          className: "chip-container",
         },
         {
           content: (
@@ -99,6 +100,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           ),
           role: "cell",
           "aria-label": "Cluster",
+          className: "chip-container",
         },
         {
           content: <ReplicatorStatus replicator={replicator} />,
