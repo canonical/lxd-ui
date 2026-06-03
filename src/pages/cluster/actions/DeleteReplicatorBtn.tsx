@@ -9,6 +9,7 @@ import {
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteReplicator } from "api/replicators";
+import classnames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import type { LxdReplicator } from "types/replicator";
 import { useReplicatorEntitlements } from "util/entitlements/replicators";
@@ -17,9 +18,11 @@ import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   replicator: LxdReplicator;
+  className?: string;
+  onClose?: () => void;
 }
 
-const DeleteReplicatorBtn: FC<Props> = ({ replicator }) => {
+const DeleteReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const notify = useNotify();
@@ -80,7 +83,7 @@ const DeleteReplicatorBtn: FC<Props> = ({ replicator }) => {
     <ConfirmationButton
       onHoverText={disabledReason()}
       appearance="default"
-      className="u-no-margin--bottom has-icon"
+      className={classnames("u-no-margin--bottom has-icon", className)}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
@@ -108,6 +111,7 @@ const DeleteReplicatorBtn: FC<Props> = ({ replicator }) => {
         ),
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
+        close: onClose,
       }}
       disabled={Boolean(disabledReason()) || isLoading}
       shiftClickEnabled
