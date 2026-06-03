@@ -30,7 +30,11 @@ const ReplicatorDetailActions: FC<Props> = ({ replicator }) => {
       replicator={replicator}
       className={classname}
     />,
-    <DeleteReplicatorBtn key="delete" replicator={replicator} />,
+    <DeleteReplicatorBtn
+      key="delete"
+      replicator={replicator}
+      className={classname}
+    />,
   ];
 
   return (

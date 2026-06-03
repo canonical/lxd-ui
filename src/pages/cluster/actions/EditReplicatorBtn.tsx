@@ -24,7 +24,7 @@ const EditReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
     <Button
       appearance="default"
       aria-label="Edit replicator"
-      className={classnames("u-no-margin--bottom has-icon", className)}
+      className={classnames("u-no-margin has-icon", className)}
       onClick={() => {
         console.log(
           `Edit replicator ${replicator.name} btn clicked. TODO: open side panel`,
