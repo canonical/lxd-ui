@@ -310,38 +310,38 @@
 <a name='L245'></a><a href='#L245'>245</a>
 <a name='L246'></a><a href='#L246'>246</a>
 <a name='L247'></a><a href='#L247'>247</a>
-<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
+<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
@@ -555,14 +555,14 @@
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">315x</span>
-<span class="cline-any cline-yes">315x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import InstanceLink from "./InstanceLink";
 import type { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import InstanceIps from "./InstanceIps";
-import { getRootPool, timeToString } from "util/helpers";
+import { getRootPool, isoTimeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
@@ -718,11 +718,11 @@ const InstanceDetailPanelContent: FC&lt;Props&gt; = ({ instance }) =&gt; {
         &lt;/tr&gt;
         &lt;tr&gt;
           &lt;th className="u-text--muted"&gt;Created&lt;/th&gt;
-          &lt;td&gt;{timeToString(instance.created_at)}&lt;/td&gt;
+          &lt;td&gt;{isoTimeToString(instance.created_at)}&lt;/td&gt;
         &lt;/tr&gt;
         &lt;tr&gt;
           &lt;th className="u-text--muted"&gt;Last used&lt;/th&gt;
-          &lt;td&gt;{timeToString(instance.last_used_at)}&lt;/td&gt;
+          &lt;td&gt;{isoTimeToString(instance.last_used_at)}&lt;/td&gt;
         &lt;/tr&gt;
         &lt;tr&gt;
           &lt;th&gt;
@@ -771,7 +771,7 @@ const InstanceDetailPanelContent: FC&lt;Props&gt; = ({ instance }) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;/th&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;td className="u-text--muted"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;i&gt;{timeToString(snapshot.created_at)}&lt;/i&gt;</span>
+<span class="cstat-no" title="statement not covered" >                    &lt;i&gt;{isoTimeToString(snapshot.created_at)}&lt;/i&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;/td&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/tr&gt;</span>
 <span class="cstat-no" title="statement not covered" >              ))}</span>
@@ -811,7 +811,7 @@ export default InstanceDetailPanelContent;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-02T15:13:09.183Z
+                at 2026-06-03T10:10:28.548Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
