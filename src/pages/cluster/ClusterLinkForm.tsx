@@ -77,7 +77,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
             />
             <RadioInput
               inline
-              label="Consume token"
+              label="I have a token"
               checked={formik.values.tokenType === "consume"}
               onChange={() => {
                 formik.setFieldValue("tokenType", "consume");
@@ -90,7 +90,8 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
               {...formik.getFieldProps("token")}
               type="text"
               label="Token"
-              placeholder="Enter token"
+              placeholder="Enter token (e.g. eyJhbGciOiJIUzI1Ni...)"
+              help="Paste the token you have generated on the target cluster"
             />
           )}
         </>

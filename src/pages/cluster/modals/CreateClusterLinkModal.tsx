@@ -2,6 +2,7 @@ import { useState, type FC } from "react";
 import {
   Accordion,
   ActionButton,
+  Input,
   List,
   Modal,
   Notification,
@@ -20,6 +21,7 @@ interface Props {
 const CreateClusterLinkModal: FC<Props> = ({ onClose, token, linkName }) => {
   const [isConfirmed, setConfirmed] = useState(false);
   const [howToUseActiveTab, setHowToUseActiveTab] = useState("ui-tab");
+  const [clusterName, setClusterName] = useState(linkName);
 
   return (
     <Modal
@@ -93,14 +95,22 @@ const CreateClusterLinkModal: FC<Props> = ({ onClose, token, linkName }) => {
                         For use with the LXC command-line tool, run on the
                         target cluster:
                         <CodeSnippetWithCopyButton
-                          code={`lxc cluster link create ${location.hostname} --auth-group admins --token ${token}`}
+                          code={`lxc cluster link create ${clusterName} --auth-group admins --token ${token}`}
                           tooltipMessage="Copy command"
                           className="u-no-margin--bottom"
+                          onCopyButtonClick={() => {
+                            setConfirmed(true);
+                          }}
                         />
-                        <span className="u-text--muted p-text--small u-sv3">
-                          You can replace <code>{location.hostname}</code> with
-                          a nickname for this server.
-                        </span>
+                        <Input
+                          label="Cluster link name"
+                          type="text"
+                          help="Customize the cluster link name for the command above."
+                          onChange={(e) => {
+                            setClusterName(e.target.value);
+                          }}
+                          value={clusterName}
+                        />
                       </>
                     )}
 
