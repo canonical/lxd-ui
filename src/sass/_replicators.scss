@@ -23,6 +23,12 @@
 }
 
 .run-replicator-modal {
+  .preflight-check-row {
+    &-error-message {
+      margin-left: calc(16px + 0.5rem);
+    }
+  }
+
   .replicator-data-flow {
     align-items: stretch;
     background-color: transparent;
@@ -93,7 +99,7 @@
       }
     }
 
-    &--reverse {
+    &--restore {
       .replicator-data-flow__arrow-shaft {
         &::after {
           border-left: 0;

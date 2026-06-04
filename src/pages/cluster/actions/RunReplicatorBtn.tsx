@@ -12,6 +12,7 @@ import classnames from "classnames";
 import ResourceLink from "components/ResourceLink";
 import { useProject } from "context/useProjects";
 import { useEventQueue } from "context/eventQueue";
+import RunReplicatorPreflightChecks from "pages/cluster/actions/RunReplicatorPreflightChecks";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { LxdReplicator } from "types/replicator";
@@ -32,28 +33,27 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(false);
   const { canEditReplicator } = useReplicatorEntitlements();
   const { data: project, isLoading: isProjectLoading } = useProject(
     replicator.project,
   );
+
   const clusterLink = replicator.config.cluster;
-  const isReverseFlow = isProjectReplicaModeStandby(project);
-  const buttonLabel = isReverseFlow ? "Restore" : "Run";
+  const isRestore = isProjectReplicaModeStandby(project);
+  const buttonLabel = isRestore ? "Restore" : "Run";
+  const hasPermission = canEditReplicator(replicator);
 
   const disabledReason = () => {
-    if (!canEditReplicator(replicator)) {
+    if (!hasPermission) {
       return "You do not have permission to run this replicator";
     }
-
     if (isLoading) {
-      // Request was sent, waiting for a response
       return "Replicator is starting...";
     }
-
     if (replicator.last_run_status === "Running") {
       return "This replicator is currently running";
     }
-
     return undefined;
   };
 
@@ -78,14 +78,12 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
       queryKeys.replicators,
       replicator.name,
     ];
-
     queryClient.setQueryData<LxdReplicator>(
       detailQueryKey,
       (currentReplicator) => {
         if (!currentReplicator) {
           return currentReplicator;
         }
-
         return {
           ...currentReplicator,
           last_run_status: "Running",
@@ -105,15 +103,10 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
         if (!currentReplicators) {
           return currentReplicators;
         }
-
-        return currentReplicators.map((currentReplicator) =>
-          currentReplicator.name === replicator.name
-            ? {
-                ...currentReplicator,
-                last_run_status: "Running",
-                last_run_error: undefined,
-              }
-            : currentReplicator,
+        return currentReplicators.map((r) =>
+          r.name === replicator.name
+            ? { ...r, last_run_status: "Running", last_run_error: undefined }
+            : r,
         );
       },
     );
@@ -132,18 +125,13 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
       queryKeys.replicators,
       replicator.name,
     ];
-
     queryClient.setQueryData<LxdReplicator>(
       detailQueryKey,
       (currentReplicator) => {
         if (!currentReplicator) {
           return currentReplicator;
         }
-
-        return {
-          ...currentReplicator,
-          last_run_error: errorMsg,
-        };
+        return { ...currentReplicator, last_run_error: errorMsg };
       },
     );
   };
@@ -191,7 +179,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
     runReplicator(
       replicator.name,
       replicator.project,
-      isReverseFlow ? "restore" : "start",
+      isRestore ? "restore" : "start",
     )
       .then((response) => {
         onSuccess();
@@ -225,52 +213,49 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
         ),
         children: (
           <>
+            <RunReplicatorPreflightChecks
+              replicator={replicator}
+              onValidationChange={(isValid) => {
+                setCanSubmit(isValid);
+              }}
+              isRestore={isRestore}
+            />
+
             <p>
               The project <ProjectRichChip projectName={replicator.project} />{" "}
               is in{" "}
               <strong>{project?.config["replica.mode"] || "unknown"}</strong>{" "}
               mode.
-              <br />
-              {/* TODO: use new API endpoint to promote/demote a project
-              https://github.com/canonical/lxd/pull/18312
-              Need to switch to standby ?{" "}
-              <Link
-                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}/replicator/${encodeURIComponent(replicator.name)}`}
-              >
-                Change mode
-              </Link> */}
             </p>
 
             <div
               className={classnames("replicator-data-flow u-hide--small", {
-                "replicator-data-flow--reverse": isReverseFlow,
+                "replicator-data-flow--restore": isRestore,
               })}
             >
               <div className="replicator-data-flow__node replicator-data-flow__source">
                 <span className="node-heading u-text--muted">
-                  {isReverseFlow ? "standby" : "leader"} project (local)
+                  {isRestore ? "standby" : "leader"} project (local)
                 </span>
                 <ProjectRichChip projectName={replicator.project} />
               </div>
-
               <div className="replicator-data-flow__arrow-shaft">
                 <ClusterLinkRichChip clusterLink={clusterLink} />
               </div>
-
               <div className="replicator-data-flow__node replicator-data-flow__target">
                 <span className="node-heading u-text--muted">
-                  {isReverseFlow ? "leader" : "standby"} project (remote)
+                  {isRestore ? "leader" : "standby"} project (remote)
                 </span>
                 <strong className="mono-font">{replicator.project}</strong>
               </div>
             </div>
 
-            {isReverseFlow ? (
+            {isRestore ? (
               <p>
                 This will sync all instances from the{" "}
                 <ClusterLinkRichChip clusterLink={clusterLink} /> cluster back
-                to the
-                <ProjectRichChip projectName={replicator.project} /> project.
+                to the <ProjectRichChip projectName={replicator.project} />{" "}
+                project.
               </p>
             ) : (
               <p>
@@ -281,7 +266,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
               </p>
             )}
 
-            {isReverseFlow && (
+            {isRestore && (
               <Notification
                 severity="caution"
                 messageElement="div"
@@ -297,6 +282,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
         ),
         onConfirm: handleRun,
         confirmButtonLabel: buttonLabel,
+        confirmButtonDisabled: !canSubmit || isLoading,
         close: onClose,
       }}
       disabled={Boolean(disabledReason())}
