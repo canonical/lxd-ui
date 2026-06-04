@@ -8,25 +8,24 @@ import type { LxdInstance } from "types/instance";
 import { deleteInstanceFile } from "api/instances";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";
+import { queryKeys } from "util/queryKeys";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   instance: LxdInstance;
-  fileName: string;
-  filePath: string;
+  fullPath: string;
   fileType: string;
-  onSuccess: () => void;
 }
 
-const FileExplorerDeleteBtn: FC<Props> = ({
-  instance,
-  fileName,
-  filePath,
-  fileType,
-  onSuccess,
-}) => {
+const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
   const [isLoading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
   const toastNotify = useToastNotification();
   const { canAccessInstanceFiles } = useInstanceEntitlements();
+  const fileName =
+    fileType === "file"
+      ? fullPath.split("/").slice(-1)[0]
+      : fullPath.split("/").slice(-2, -1)[0];
 
   const isDirectory = fileType === "directory";
   const directoryOrFile = isDirectory ? "Directory" : "File";
@@ -37,18 +36,32 @@ const FileExplorerDeleteBtn: FC<Props> = ({
     />
   );
 
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.instances,
+        instance.name,
+        instance.project,
+        queryKeys.files,
+        fullPath,
+      ],
+    });
+  };
+
   const handleDelete = () => {
     setLoading(true);
-    deleteInstanceFile(instance, filePath)
+    deleteInstanceFile(instance, fullPath)
       .then(() => {
         toastNotify.success(
-          `${directoryOrFile} ${fileName} deleted from ${instanceLink}`,
+          <>
+            {directoryOrFile} {fileName} deleted from {instanceLink}
+          </>,
         );
-        onSuccess();
+        invalidateCache();
       })
       .catch((e) => {
         toastNotify.failure(
-          `Deletion failed for ${directoryOrFile} ${fileName}`,
+          `Deletion failed for ${directoryOrFile.toLowerCase()} ${fileName}`,
           e,
         );
       })

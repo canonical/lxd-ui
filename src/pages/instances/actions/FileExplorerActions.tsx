@@ -6,19 +6,11 @@ import FileExplorerDeleteBtn from "./FileExplorerDeleteBtn";
 
 interface Props {
   instance: LxdInstance;
-  fileName: string;
-  filePath: string;
+  fullPath: string;
   fileType: string;
-  onDeleteSuccess: () => void;
 }
 
-const FileExplorerActions: FC<Props> = ({
-  instance,
-  fileName,
-  filePath,
-  fileType,
-  onDeleteSuccess,
-}) => {
+const FileExplorerActions: FC<Props> = ({ instance, fullPath, fileType }) => {
   return (
     <List
       inline
@@ -27,10 +19,8 @@ const FileExplorerActions: FC<Props> = ({
         <FileExplorerDeleteBtn
           key="delete"
           instance={instance}
-          fileName={fileName}
-          filePath={filePath}
+          fullPath={fullPath}
           fileType={fileType}
-          onSuccess={onDeleteSuccess}
         />,
       ]}
     />

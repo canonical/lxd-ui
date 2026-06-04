@@ -213,7 +213,10 @@ const Events: FC = () => {
             refetchOperations();
           }
         }
-        if (event.type === "lifecycle") {
+        if (
+          event.type === "lifecycle" &&
+          event.metadata.action !== "instance-file-retrieved"
+        ) {
           const rootQueryKey = getLifecycleRootQueryKey(event);
           queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === rootQueryKey,

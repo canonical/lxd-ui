@@ -606,7 +606,7 @@ export const fetchInstanceFileHeader = async (
 export const deleteInstanceFile = async (
   instance: LxdInstance,
   path: string,
-): Promise<Response> => {
+): Promise<void> => {
   const params = new URLSearchParams();
   params.set("project", instance.project);
   params.set("path", path);
@@ -616,12 +616,9 @@ export const deleteInstanceFile = async (
     {
       method: "DELETE",
     },
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(
-        `Failed to delete file: ${response.status} ${response.statusText}`,
-      );
-    }
-    return response;
-  });
+  )
+    .then(handleResponse)
+    .then(() => {
+      return;
+    });
 };

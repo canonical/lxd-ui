@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { type FC } from "react";
 import {
   Button,
   EmptyState,
@@ -13,61 +13,47 @@ import FileExplorerTable from "./FileExplorerTable";
 import FileExplorerBreadcrumb from "./FileExplorerBreadcrumb";
 import { fetchInstanceDirectory } from "api/instances";
 import { useSearchParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const InstanceFileExplorer: FC<Props> = ({ instance }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [tree, setTree] = useState(new Map<string, string[]>());
+  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const currentPath = searchParams.get("path") || "/";
   const canServeFiles =
     isInstanceRunning(instance) || instance.type === "container";
 
-  useEffect(() => {
-    if (canServeFiles && !tree.has(currentPath)) {
-      void loadInstancePath(currentPath);
-    }
-  }, [canServeFiles, currentPath]);
+  const {
+    data: directoryContent,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [
+      queryKeys.instances,
+      instance.name,
+      instance.project,
+      queryKeys.files,
+      currentPath,
+    ],
+    queryFn: async () =>
+      fetchInstanceDirectory(instance.name, instance.project, currentPath),
+    enabled: canServeFiles,
+  });
 
-  const loadInstancePath = async (path: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const currentDirectory = await fetchInstanceDirectory(
+  const invalidateCache = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.instances,
         instance.name,
         instance.project,
-        path,
-      );
-
-      if (!currentDirectory) return false;
-      setTree((prev) => {
-        const newMap = new Map(prev);
-        newMap.set(path, currentDirectory.metadata);
-        return newMap;
-      });
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to load path");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleConnect = async () => {
-    await loadInstancePath(currentPath);
-  };
-
-  const refreshCurrentPath = () => {
-    setTree((prev) => {
-      const newMap = new Map(prev);
-      newMap.delete(currentPath);
-      return newMap;
+        queryKeys.files,
+        currentPath,
+      ],
     });
-    void loadInstancePath(currentPath);
   };
 
   if (!canServeFiles) {
@@ -98,15 +84,12 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
         <Notification
           severity="negative"
           title="Error connecting to file system"
-          onDismiss={() => {
-            setError(null);
-          }}
         >
-          {error}
+          {error.message}
         </Notification>
         <div className="p-panel">
           <div className="p-panel__content">
-            <Button appearance="positive" onClick={handleConnect}>
+            <Button appearance="positive" onClick={invalidateCache}>
               Retry connection
             </Button>
           </div>
@@ -123,10 +106,10 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     <Row className="general">
       <FileExplorerBreadcrumb currentPath={currentPath} instance={instance} />
       <FileExplorerTable
-        files={(tree.get(currentPath) as string[]) ?? []}
+        key={directoryContent?.metadata.length}
+        files={directoryContent?.metadata ?? []}
         currentPath={currentPath}
         instance={instance}
-        onDeleteSuccess={refreshCurrentPath}
       />
     </Row>
   );

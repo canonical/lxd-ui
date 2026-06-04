@@ -1,77 +1,20 @@
-import { useEffect, useState, type FC } from "react";
-import {
-  MainTable,
-  ScrollableTable,
-  Spinner,
-} from "@canonical/react-components";
+import { type FC } from "react";
+import { MainTable, ScrollableTable } from "@canonical/react-components";
 import type {
   MainTableHeader,
   MainTableRow,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import useSortTableData from "util/useSortTableData";
-import type { LxdFileMetadata } from "types/fileExplorer";
-import { isoTimeToString } from "util/helpers";
-import { fetchInstanceFileHeader } from "api/instances";
-import FileExplorerDirectory from "./FileExplorerDirectory";
-import FileExplorerFile from "./FileExplorerFile";
-import FileExplorerActions from "./actions/FileExplorerActions";
 import type { LxdInstance } from "types/instance";
+import getFileExplorerTableRow from "pages/instances/getFileExplorerTableRow";
 
 interface Props {
   files: string[];
   currentPath: string;
   instance: LxdInstance;
-  onDeleteSuccess: () => void;
 }
 
-const FileExplorerTable: FC<Props> = ({
-  files,
-  currentPath,
-  instance,
-  onDeleteSuccess,
-}) => {
-  const [fileMetadata, setFileMetadata] = useState<
-    Map<string, LxdFileMetadata>
-  >(new Map());
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      setIsLoading(true);
-      const metadataMap = new Map<string, LxdFileMetadata>();
-
-      await Promise.all(
-        files.map(async (fileName) => {
-          try {
-            const filePath =
-              currentPath === "/"
-                ? `/${fileName}`
-                : `${currentPath}/${fileName}`;
-
-            const fileMetadata = await fetchInstanceFileHeader(
-              instance.name,
-              instance.project,
-              filePath,
-            );
-
-            metadataMap.set(fileName, fileMetadata);
-          } catch (e) {
-            console.error(`Failed to fetch metadata for ${fileName}:`, e);
-            metadataMap.set(fileName, {
-              type: "unknown",
-              modified: "-",
-            });
-          }
-        }),
-      );
-
-      setFileMetadata(metadataMap);
-      setIsLoading(false);
-    };
-
-    void fetchMetadata();
-  }, [files, currentPath, instance.name, instance.project]);
-
+const FileExplorerTable: FC<Props> = ({ files, currentPath, instance }) => {
   const headers: MainTableHeader[] = [
     {
       content: "Name",
@@ -91,80 +34,14 @@ const FileExplorerTable: FC<Props> = ({
     },
   ];
 
-  const rows: MainTableRow[] = files.map((fileName) => {
-    const metadata = fileMetadata.get(fileName);
-    const isDirectory = metadata?.type === "directory";
-    const isFile = metadata?.type === "file";
-    const fileType = metadata?.type ?? "unknown";
-    const fileModified = metadata?.modified
-      ? isoTimeToString(metadata.modified)
-      : "-";
-    const filePath =
-      currentPath === "/" ? `/${fileName}` : `${currentPath}/${fileName}`;
-
-    return {
-      key: fileName,
-      columns: [
-        {
-          content: isDirectory ? (
-            <FileExplorerDirectory
-              dirName={fileName}
-              parentPath={currentPath}
-              instance={instance}
-            />
-          ) : (
-            <FileExplorerFile
-              fileName={fileName}
-              parentPath={currentPath}
-              instance={instance}
-              icon={isFile ? "file-blank" : "pods"}
-            />
-          ),
-          role: "rowheader",
-          "aria-label": "Name",
-        },
-        {
-          content: fileType,
-          role: "cell",
-          "aria-label": "Type",
-        },
-        {
-          content: fileModified,
-          role: "cell",
-          "aria-label": "Modified",
-        },
-        {
-          content: (
-            <FileExplorerActions
-              instance={instance}
-              fileName={fileName}
-              filePath={filePath}
-              fileType={fileType}
-              onDeleteSuccess={onDeleteSuccess}
-            />
-          ),
-          role: "cell",
-          className: "u-align--right",
-          "aria-label": "Actions",
-        },
-      ],
-      className: "u-row",
-      sortData: {
-        name: fileName.toLowerCase(),
-        type: fileType,
-        modified: fileModified,
-      },
-    };
-  });
+  const rows: MainTableRow[] = files.map((fileName) =>
+    getFileExplorerTableRow(fileName, currentPath, instance),
+  );
 
   const { rows: sortedRows, updateSort } = useSortTableData({
     rows,
     defaultSort: "name",
   });
-
-  if (isLoading) {
-    return <Spinner text="Loading file metadata..." />;
-  }
 
   return (
     <ScrollableTable
