@@ -22,13 +22,11 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
   const queryClient = useQueryClient();
   const toastNotify = useToastNotification();
   const { canAccessInstanceFiles } = useInstanceEntitlements();
-  const fileName =
-    fileType === "file"
-      ? fullPath.split("/").slice(-1)[0]
-      : fullPath.split("/").slice(-2, -1)[0];
 
   const isDirectory = fileType === "directory";
-  const directoryOrFile = isDirectory ? "Directory" : "File";
+  const pathType = isDirectory ? "Directory" : "File";
+  const pathName = fullPath.split("/").slice(-1)[0];
+
   const instanceLink = (
     <InstanceRichChip
       instanceName={instance.name}
@@ -54,14 +52,14 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
       .then(() => {
         toastNotify.success(
           <>
-            {directoryOrFile} {fileName} deleted from {instanceLink}
+            {pathType} {pathName} deleted from {instanceLink}
           </>,
         );
         invalidateCache();
       })
       .catch((e) => {
         toastNotify.failure(
-          `Deletion failed for ${directoryOrFile.toLowerCase()} ${fileName}`,
+          `Deletion failed for ${pathType.toLowerCase()} ${pathName}`,
           e,
         );
       })
@@ -76,7 +74,7 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
     if (!hasPermission) {
       return "You do not have permission to manage files on this instance";
     }
-    return `Delete ${directoryOrFile.toLowerCase()} ${fileName}`;
+    return `Delete ${pathType.toLowerCase()} ${pathName}`;
   };
 
   return (
@@ -87,16 +85,10 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
       onHoverText={getHoverText()}
       confirmationModalProps={{
         title: "Confirm delete",
-        children: isDirectory ? (
+        children: (
           <p>
-            This will permanently delete directory <b>{fileName}</b> and all of
-            its contents.
-            <br />
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ) : (
-          <p>
-            This will permanently delete <b>{fileName}</b>.
+            This will permanently delete {pathType.toLowerCase()}{" "}
+            <b>{pathName}</b>.
             <br />
             This action cannot be undone, and can result in data loss.
           </p>

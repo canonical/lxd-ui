@@ -8,11 +8,9 @@ import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import type { TerminalConnectPayload } from "types/terminal";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
-import { useInstanceStart } from "util/instanceStart";
 import Xterm from "components/Xterm";
 import type { Terminal } from "@xterm/xterm";
 import {
-  ActionButton,
   EmptyState,
   Icon,
   Notification,
@@ -25,6 +23,7 @@ import {
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import { getDefaultPayload } from "util/instanceTerminal";
+import StartInstanceBtn from "./actions/StartInstanceBtn";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -56,7 +55,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const xtermRef = useRef<Terminal>(null);
   const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [version, setVersion] = useState(0);
-  const { canUpdateInstanceState, canExecInstance } = useInstanceEntitlements();
+  const { canExecInstance } = useInstanceEntitlements();
 
   usePrompt({
     when: userInteracted,
@@ -230,8 +229,6 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     xtermRef.current?.focus();
   };
 
-  const { handleStart, isLoading: isStartLoading } = useInstanceStart(instance);
-
   if (!canExec) {
     return (
       <Notification severity="caution" title="Restricted permissions">
@@ -239,9 +236,6 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       </Notification>
     );
   }
-
-  const isDisabled =
-    !canUpdateInstanceState(instance) || isBooting || isStartLoading;
 
   const handleFullscreen = () => {
     xtermRef.current?.element
@@ -327,19 +321,14 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
               ? "Terminal will be ready once the instance has finished booting."
               : "Start the instance to access the terminal."}
           </p>
-          <ActionButton
+          <StartInstanceBtn
+            instance={instance}
             appearance="positive"
-            loading={isStartLoading || isBooting}
-            onClick={handleStart}
-            disabled={isDisabled}
-            title={
-              canUpdateInstanceState(instance)
-                ? ""
-                : "You do not have permission to start this instance."
-            }
-          >
-            Start instance
-          </ActionButton>
+            dense={false}
+            iconClassname="is-light"
+            hasLabel
+            showBooting
+          />
         </EmptyState>
       )}
     </div>

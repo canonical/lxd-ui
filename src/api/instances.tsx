@@ -611,14 +611,10 @@ export const deleteInstanceFile = async (
   params.set("project", instance.project);
   params.set("path", path);
 
-  return fetch(
+  await fetch(
     `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`,
     {
       method: "DELETE",
     },
-  )
-    .then(handleResponse)
-    .then(() => {
-      return;
-    });
+  ).then(handleResponse);
 };
