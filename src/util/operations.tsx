@@ -18,6 +18,23 @@ const getOperationEntityUrls = (
   return Array.from(candidates);
 };
 
+export const getReplicatorOperationUrls = (
+  operation: LxdOperation,
+): string[] => {
+  const metadataUrls = Object.entries(operation.metadata ?? {})
+    .filter(
+      ([key, value]) =>
+        (key === "entity_url" ||
+          key === "original_entity_url" ||
+          key.endsWith("_url")) &&
+        typeof value === "string" &&
+        value.length > 0,
+    )
+    .map(([, value]) => value);
+
+  return [...new Set(metadataUrls)];
+};
+
 export const getInstanceName = (operation?: LxdOperation): string => {
   // the url can be one of below formats
   // /1.0/instances/<instance_name>

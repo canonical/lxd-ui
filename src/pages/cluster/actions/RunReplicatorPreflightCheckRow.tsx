@@ -18,7 +18,7 @@ const RunReplicatorPreflightCheckRow: FC<
 > = ({ check }) => {
   const getIcon = () => {
     if (check.status === "loading") {
-      return <Spinner />;
+      return <Spinner className="u-no-padding--top" />;
     }
     if (check.status === "pass") {
       return <Icon name="success" />;

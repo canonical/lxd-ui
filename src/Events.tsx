@@ -134,6 +134,20 @@ const Events: FC = () => {
     }
   };
 
+  const updateReplicatorLoading = (event: LxdEvent) => {
+    const isReplicatorOperation =
+      event.type === "operation" &&
+      event.metadata.description.toLowerCase().includes("replicator");
+
+    if (!isReplicatorOperation) {
+      return;
+    }
+
+    queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey[2] === queryKeys.replicators,
+    });
+  };
+
   const reEvaluateOperations = () => {
     operations.forEach((operation) => {
       handleEvent(operation.id, operation.status, operation.err, operation);
@@ -206,6 +220,7 @@ const Events: FC = () => {
           });
         }
         updateClusterMemberLoading(event);
+        updateReplicatorLoading(event);
         // ensure open requests that reply with an operation and register
         // new handlers in the eventQueue are closed before handling the event
         setTimeout(() => {

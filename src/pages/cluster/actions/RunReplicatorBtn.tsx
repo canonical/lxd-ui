@@ -10,6 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { runReplicator } from "api/replicators";
 import classnames from "classnames";
 import ResourceLink from "components/ResourceLink";
+import { useReplicatorLoading } from "context/replicatorLoading";
 import { useProject } from "context/useProjects";
 import { useEventQueue } from "context/eventQueue";
 import RunReplicatorPreflightChecks from "pages/cluster/actions/RunReplicatorPreflightChecks";
@@ -32,6 +33,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
   const toastNotify = useToastNotification();
+  const replicatorLoading = useReplicatorLoading();
   const [isLoading, setLoading] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
   const { canEditReplicator } = useReplicatorEntitlements();
@@ -51,7 +53,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
     if (isLoading) {
       return "Replicator is starting...";
     }
-    if (replicator.last_run_status === "Running") {
+    if (replicatorLoading.getStatus(replicator) === "Running") {
       return "This replicator is currently running";
     }
     return undefined;
@@ -71,80 +73,23 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
     );
   };
 
-  const markReplicatorRunning = () => {
-    const detailQueryKey = [
-      queryKeys.projects,
-      replicator.project,
-      queryKeys.replicators,
-      replicator.name,
-    ];
-    queryClient.setQueryData<LxdReplicator>(
-      detailQueryKey,
-      (currentReplicator) => {
-        if (!currentReplicator) {
-          return currentReplicator;
-        }
-        return {
-          ...currentReplicator,
-          last_run_status: "Running",
-          last_run_error: undefined,
-        };
-      },
-    );
-
-    const listQueryKey = [
-      queryKeys.projects,
-      replicator.project,
-      queryKeys.replicators,
-    ];
-    queryClient.setQueryData<LxdReplicator[]>(
-      listQueryKey,
-      (currentReplicators) => {
-        if (!currentReplicators) {
-          return currentReplicators;
-        }
-        return currentReplicators.map((r) =>
-          r.name === replicator.name
-            ? { ...r, last_run_status: "Running", last_run_error: undefined }
-            : r,
-        );
-      },
-    );
-  };
-
   const invalidateCache = () => {
     queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[2] === queryKeys.replicators,
     });
   };
 
-  const storeRunError = (errorMsg?: string) => {
-    const detailQueryKey = [
-      queryKeys.projects,
-      replicator.project,
-      queryKeys.replicators,
-      replicator.name,
-    ];
-    queryClient.setQueryData<LxdReplicator>(
-      detailQueryKey,
-      (currentReplicator) => {
-        if (!currentReplicator) {
-          return currentReplicator;
-        }
-        return { ...currentReplicator, last_run_error: errorMsg };
-      },
-    );
-  };
-
   const onSuccess = () => {
     setLoading(false);
-    markReplicatorRunning();
+    replicatorLoading.clearLastRunError(replicator);
+    replicatorLoading.setRunning(replicator);
     invalidateCache();
     notifySuccess(replicator.name);
   };
 
   const onOperationSuccess = () => {
-    storeRunError(undefined);
+    replicatorLoading.setFinish(replicator);
+    replicatorLoading.clearLastRunError(replicator);
     toastNotify.success(
       <>
         Replicator{" "}
@@ -160,7 +105,8 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
   };
 
   const onOperationFailure = (msg: string) => {
-    storeRunError(msg);
+    replicatorLoading.setFinish(replicator);
+    replicatorLoading.setLastRunError(replicator, msg);
     invalidateCache();
     notify.failure(
       `Replicator ${replicator.name} failed while running`,
@@ -170,6 +116,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
 
   const onFailure = (e: unknown) => {
     setLoading(false);
+    replicatorLoading.setFinish(replicator);
     invalidateCache();
     notify.failure(`Running replicator ${replicator.name} failed`, e);
   };
@@ -203,7 +150,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
         className: "run-replicator-modal",
         title: (
           <>
-            Run replicator{" "}
+            {isRestore ? "Restore" : "Run"} replicator{" "}
             <ResourceLink
               type="replicator"
               value={replicator.name}

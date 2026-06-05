@@ -12,6 +12,7 @@ import RunReplicatorPreflightCheckRow, {
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { LxdReplicator } from "types/replicator";
 import { getClusterLinksStatus, getLinkIdentity } from "util/clusterLink";
+import { pluralize } from "util/helpers";
 
 interface Props {
   replicator: LxdReplicator;
@@ -44,8 +45,8 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
     id: "replica-cluster-match",
     label: (
       <>
-        Replicator cluster matches the project{" "}
-        <ProjectRichChip projectName={project?.name || "default"} /> replica
+        Project <ProjectRichChip projectName={project?.name || "default"} />{" "}
+        <strong>replica cluster</strong> configuration matches replicator
         cluster
       </>
     ),
@@ -53,8 +54,9 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
     message:
       !isProjectLoading && !clusterMatches ? (
         <>
-          Project cluster <strong>{projectCluster || "none"}</strong> must match
-          replicator cluster <strong>{replicatorCluster || "none"}</strong>.{" "}
+          Project replica cluster <strong>{projectCluster || "none"}</strong>{" "}
+          must match replicator cluster{" "}
+          <strong>{replicatorCluster || "none"}</strong>.{" "}
           <Link
             to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration`}
           >
@@ -110,7 +112,10 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
           : "fail",
       message:
         !isInstancesLoading && !allInstancesStopped
-          ? `${runningInstances.length} active instance(s) running in this project namespace. Stop them to prevent data drift during sync.`
+          ? `${runningInstances.length} running ${pluralize(
+              "instance",
+              runningInstances.length,
+            )} in the project. Stop them to allow restore.`
           : undefined,
     });
   }
@@ -123,16 +128,11 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
   }, [allChecksPassed, isAnyCheckLoading, onValidationChange]);
 
   return (
-    <>
-      <p>
-        <strong>Preflight checks:</strong>
-      </p>
-      <List
-        items={checks.map((check) => (
-          <RunReplicatorPreflightCheckRow key={check.id} check={check} />
-        ))}
-      ></List>
-    </>
+    <List
+      items={checks.map((check) => (
+        <RunReplicatorPreflightCheckRow key={check.id} check={check} />
+      ))}
+    ></List>
   );
 };
 
