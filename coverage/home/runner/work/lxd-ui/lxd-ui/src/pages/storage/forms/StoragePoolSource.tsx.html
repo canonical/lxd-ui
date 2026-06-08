@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.85% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/70</span>
+                <span class='fraction'>63/70</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">43.75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/15</span>
+                <span class='fraction'>7/16</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.36% </span>
+                <span class="strong">98.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/63</span>
+                <span class='fraction'>62/63</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -151,32 +151,32 @@
 <span class="cline-any cline-yes">105x</span>
 <span class="cline-any cline-yes">105x</span>
 <span class="cline-any cline-yes">105x</span>
-<span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">105x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -214,20 +214,20 @@ const <span class="fstat-no" title="function not covered" >StoragePoolSource: FC
   const isCreating = <span class="cstat-no" title="statement not covered" >formik.values.isCreating;</span>
   const isClusterWideSource = <span class="cstat-no" title="statement not covered" >isClusterWideSourceDriver(formik.values.driver);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (isClusteredServer(settings)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ClusteredSourceSelector</span>
-<span class="cstat-no" title="statement not covered" >        formik={formik}</span>
-<span class="cstat-no" title="statement not covered" >        helpText={</span>
-<span class="cstat-no" title="statement not covered" >          isCreating</span>
-<span class="cstat-no" title="statement not covered" >            ? getSourceHelpForDriver(formik.values.driver)</span>
+<span class="cstat-no" title="statement not covered" >  if (isClusteredServer(settings)) {</span>
+    return (
+      &lt;ClusteredSourceSelector
+        formik={formik}
+        helpText={
+          isCreating
+            ? getSourceHelpForDriver(formik.values.driver<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
 <span class="cstat-no" title="statement not covered" >            : "Source can't be changed"</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >        disabledReason={formik.values.editRestriction}</span>
-<span class="cstat-no" title="statement not covered" >        canToggleMemberSpecific={!isClusterWideSource}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+        }
+        disabledReason={formik.values.editRestriction}
+        canToggleMemberSpecific={!isClusterWideSource}
+      /&gt;
+    );
+  }
 <span class="cstat-no" title="statement not covered" >  if (isCreating) {</span>
     return (
       &lt;Input
@@ -259,7 +259,7 @@ export default StoragePoolSource;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-05T10:08:36.476Z
+                at 2026-06-08T14:22:50.228Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

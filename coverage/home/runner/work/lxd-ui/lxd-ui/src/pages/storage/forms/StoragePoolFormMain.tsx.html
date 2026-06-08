@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.43% </span>
+                <span class="strong">36.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>125/363</span>
+                <span class='fraction'>133/363</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36% </span>
+                <span class="strong">42.3% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/25</span>
+                <span class='fraction'>11/26</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.99% </span>
+                <span class="strong">41.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>124/318</span>
+                <span class='fraction'>132/318</span>
             </div>
         
             
@@ -452,36 +452,36 @@
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
@@ -769,18 +769,18 @@ const <span class="fstat-no" title="function not covered" >StoragePoolFormMain: 
           /&gt;
           &lt;StorageDriverSelect formik={formik} /&gt;
           {<span class="branch-0 cbranch-no" title="branch not covered" >isStoragePoolWithSize(formik.values.driver) &amp;&amp;</span>
-            (isClusteredServer(settings<span class="branch-0 cbranch-no" title="branch not covered" >) ? (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;ClusteredDiskSizeSelector</span>
-<span class="cstat-no" title="statement not covered" >                id="sizePerClusterMember"</span>
-<span class="cstat-no" title="statement not covered" >                values={formik.values.sizePerClusterMember}</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                setValue={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span></span>
+            (isClusteredServer(settings) ? (
+              &lt;ClusteredDiskSizeSelector
+                id="sizePerClusterMember"
+                values={formik.values.sizePerClusterMember}
+<span class="fstat-no" title="function not covered" >                setValue={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  ensureEditMode(formik);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  formik.setFieldValue("sizePerClusterMember", value);</span></span>
 <span class="cstat-no" title="statement not covered" >                }}</span>
-<span class="cstat-no" title="statement not covered" >                helpText={</span>
-<span class="cstat-no" title="statement not covered" >                  "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"</span>
-<span class="cstat-no" title="statement not covered" >                }</span>
-<span class="cstat-no" title="statement not covered" >                disabledReason={formik.values.editRestriction}</span>
+                helpText={
+                  "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
+                }
+                disabledReason={formik.values.editRestriction}
               /&gt;
             ) : (
               &lt;DiskSizeSelector
@@ -1024,7 +1024,7 @@ export default StoragePoolFormMain;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-05T10:08:36.476Z
+                at 2026-06-08T14:22:50.228Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
