@@ -8,10 +8,12 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import type { LxdClusterLink } from "types/cluster";
 import ResourceLabel from "components/ResourceLabel";
-import { useClusterLinkEntitlements } from "util/entitlements/cluster-links";
+import { useReplicators } from "context/useReplicators";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
+import type { LxdClusterLink } from "types/cluster";
+import { useClusterLinkEntitlements } from "util/entitlements/cluster-links";
+import { pluralize } from "util/helpers";
 
 interface Props {
   clusterLink: LxdClusterLink;
@@ -23,8 +25,13 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { data: replicators = [] } = useReplicators();
 
   const canDelete = canDeleteClusterLink(clusterLink);
+  const replicatorsUsingLink = replicators.filter(
+    (r) => r.config?.cluster === clusterLink.name,
+  );
+  const isUsedByReplicator = replicatorsUsingLink.length > 0;
 
   const handleDelete = () => {
     setLoading(true);
@@ -49,12 +56,22 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
       });
   };
 
+  const disabledReason = () => {
+    if (isUsedByReplicator) {
+      return `This cluster link is used by ${replicatorsUsingLink.length} ${pluralize("replicator", replicatorsUsingLink.length)}: ${replicatorsUsingLink.map((r) => r.name).join(", ")}. Please delete the ${pluralize("replicator", replicatorsUsingLink.length)} to continue.`;
+    }
+    if (!canDelete) {
+      return "You do not have permission to delete this cluster link";
+    }
+    return undefined;
+  };
+
   return (
     <ConfirmationButton
       appearance="base"
       className="has-icon"
-      title="Delete cluster link"
-      disabled={!canDelete}
+      onHoverText={disabledReason()}
+      disabled={Boolean(disabledReason())}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
@@ -64,9 +81,7 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
             <ClusterLinkRichChip clusterLink={clusterLink.name} />.
           </p>
         ),
-        confirmButtonLabel: canDelete
-          ? "Delete cluster link"
-          : "You do not have permission to delete this cluster link",
+        confirmButtonLabel: "Delete cluster link",
         onConfirm: handleDelete,
       }}
       shiftClickEnabled

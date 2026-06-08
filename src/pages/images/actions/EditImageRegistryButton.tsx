@@ -25,15 +25,13 @@ const EditImageRegistryButton: FC<Props> = ({ imageRegistry }) => {
     return undefined;
   };
 
-  const isDisabled = disabledReason() !== undefined;
-
   return (
     <Button
       appearance="default"
       className={classnames("u-no-margin--bottom", {
         "has-icon": !isSmallScreen,
       })}
-      disabled={isDisabled}
+      disabled={Boolean(disabledReason())}
       type="button"
       hasIcon
       title={disabledReason() || "Edit registry"}
