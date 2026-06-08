@@ -3,12 +3,10 @@ set -e
 
 LXC_CMD="sudo lxc"
 LXD_CMD="sudo lxd"
-SNAP_CMD="sudo snap"
-if [ "$DEPLOYMENT" = "clustered" ]; then
-    echo "Configuring clustered environment via vm1..."
+if [ "$DEPLOYMENT" = "clustered" ] || [ "$DEPLOYMENT" = "unclustered" ] || [ "$DEPLOYMENT" = "single-node-cluster" ]; then
+    echo "Configuring environment via vm1..."
     LXC_CMD="sudo lxc exec vm1 -- lxc"
     LXD_CMD="sudo lxc exec vm1 -- lxd"
-    SNAP_CMD="sudo lxc exec vm1 -- snap"
 fi
 
 # hasNeededAPIExtension: check if LXD supports the needed extension.

@@ -22,7 +22,7 @@ export const randomNetworkName = (): string => {
 export const ensureOvnNorthboundConnection = () => {
   try {
     runCommand(
-      'lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"',
+      `lxc config set network.ovn.northbound_connection "ssl:127.0.0.1:6641"`,
     );
   } catch (error) {
     console.log("Failed to set OVN northbound connection:", error);

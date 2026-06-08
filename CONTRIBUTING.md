@@ -74,19 +74,24 @@
     </details>
 
 
-4. Install [dotrun](https://github.com/canonical/dotrun#installation) and launch it from the head of this repo
+4. Install [workshop](https://snapcraft.io/workshop) and launch it from the head of this repo
 
-       dotrun
+       snap install workshop --classic
+       workshop launch
 
-    You should enable a firewall as `dotrun` exposes an api to start or interact with unprivileged containers on your public
-    ip via port `8407`. Ensure that the lxd API on port `8443` is open, so `dotrun` can access it.
+    This concludes the dev setup. Now you can run the development server with
+
+        workshop run dev serve
+
+    You should enable a firewall as `workshop run dev serve` exposes an api to start or interact with unprivileged containers on your public
+    ip via port `8407`. Ensure that the lxd API on port `8443` is open, so `workshop` can access it.
 
     For local development, the UI is served by the Vite development server, which uses port 8507 by default. 
     If you have another process listening on this port on your system, create `.env.local` as a copy of the `.env` file and change the `VITE_PORT` variable in it to any free port.
 
-    The first time, running `dotrun` will generate certificates for you. You can find them in the `keys` folder on the top level of the repo. Trust them from your local `lxc` with
+    The first time, running `workshop run dev serve` will generate certificates for you. You can find them in the `keys` folder on the top level of the repo. Trust them from your local `lxc` with
 
-       sudo lxc auth identity create tls/dotrun-cert keys/lxd-ui.crt --group admins
+       sudo lxc auth identity create tls/workshop-cert keys/lxd-ui.crt --group admins
     
     If you are on a Mac and running LXD inside Multipass, set the `LXD_UI_BACKEND_IP` in the `.env.local` file:
 
@@ -95,7 +100,7 @@
     Now you can open https://localhost:8407/ to reach lxd-ui.
 
 
-5. To enable pre-commit checks, after the first successful run of `dotrun`, execute `yarn hooks-add`. To remove them, run `yarn hooks-remove`.
+5. To enable pre-commit checks, after the first successful run of `workshop`, execute `yarn hooks-add`. To remove them, run `yarn hooks-remove`.
 
 
 6. Create a new topic branch:
@@ -243,7 +248,7 @@ The login e2e tests will require oidc setup for your lxd server. You may refer t
     LXD_OIDC_USER=[login-user-email]
     LXD_OIDC_PASSWORD=[login-user-password]
 
-The tests expect the environment on localhost to be accessible. Execute `dotrun` first then run the tests against the latest LXD version with
+The tests expect the environment on localhost to be accessible. Execute `workshop run dev serve` first then run the tests against the latest LXD version with
 
     yarn test-e2e-edge
 
@@ -318,7 +323,7 @@ From the PR page, copy the `user:branch` reference, such as `edlerd:feature-bran
 ./tests/scripts/fetch-pr.sh edlerd:feature-branch
 ```
 
-(Re-) start `dotrun` and open the UI in your browser to review the changes.
+(Re-) start `workshop run dev serve` and open the UI in your browser to review the changes.
 
 # Advanced setup
 

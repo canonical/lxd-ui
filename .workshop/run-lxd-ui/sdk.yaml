@@ -1,0 +1,8 @@
+# Copyright 2026 Canonical Ltd.  All rights reserved.
+
+name: run-lxd-ui
+base: ubuntu@24.04
+slots:
+  lxd-ui:
+    interface: tunnel
+    endpoint: 8407

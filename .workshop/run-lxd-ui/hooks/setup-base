@@ -1,0 +1,21 @@
+#!/bin/bash -ex
+
+# Install haproxy
+apt-get update
+apt-get install -y --no-install-recommends haproxy
+
+# install npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+nvm install --lts
+
+# install global npm packages
+npm install --global serve
+npm install --global yarn
+
+# copy nvm and npm to workshop user
+cp -R /root/.nvm /home/workshop/.nvm
+chown -R workshop:workshop /home/workshop/.nvm
+cp -R /root/.npm /home/workshop/.npm
+chown -R workshop:workshop /home/workshop/.npm

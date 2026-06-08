@@ -113,84 +113,54 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install Dotrun
-        run: |
-          sudo pip3 install dotrun
-
-      - name: Install LXD-UI dependencies
-        run: |
-          sudo chmod 0777 ../lxd-ui
-          dotrun install
-
       - name: Generate SSL keys for HAProxy
         run: |
           mkdir -p keys
           openssl req -x509 -newkey rsa:4096 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -days 365 -nodes -subj "/CN=localhost"
           cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
 
-      - name: OVN dependencies
-        run: |
-          sudo snap refresh snapd --channel latest/beta || sudo snap install snapd --channel latest/beta
-          sudo snap refresh core26 --channel latest/edge || sudo snap install core26 --channel latest/edge
-
-      - name: Setup Ceph
-        if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        uses: canonical/lxd/.github/actions/setup-microceph@4c6a9fc7bcb5990ca9ab5b3db165cbce36cba3cc
-
-      - name: Setup OVN
-        if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        uses: canonical/lxd/.github/actions/setup-microovn@4c6a9fc7bcb5990ca9ab5b3db165cbce36cba3cc
-
       - name: Install LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
         with:
-          channel: ${{ matrix.lxd_channel }}
+          bridges: "lxdbr0,workshopbr0"
+          channel: "latest/stable"
 
-      - name: Setup LXD (Clustered in VMs)
+      - name: Install Workshop
+        run: |
+          set -x
+          sudo lxd init --auto
+          sudo snap install workshop --classic
+          workshop launch --verbose
+
+      - name: Setup LXD backend (Clustered in VMs)
         if: ${{ matrix.deployment == 'clustered' }}
         shell: bash
         run: |
           set -x
-          sudo lxd init --auto
           tests/scripts/start_vm_cluster.sh ${{ matrix.lxd_channel }}
 
-      - name: Setup LXD (Unclustered on host)
+      - name: Setup LXD backend (Unclustered in VM)
         if: ${{ matrix.deployment == 'unclustered' }}
         shell: bash
         run: |
           set -x
-          sudo lxc config set core.https_address "[::]:8443"
-          sudo lxc config trust add keys/lxd-ui.crt
+          tests/scripts/start_vm_single_unclustered.sh ${{ matrix.lxd_channel }}
+          # For LXD 5.0/edge, we need to add the certificate to the trust store as that version doesn't support login.
+          if [ "${{ matrix.lxd_channel }}" == '5.0/edge' ]; then
+            cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add - || true
+          fi
 
-      - name: Setup LXD (Single-node cluster)
+      - name: Setup LXD backend (Single-node cluster in VM)
         if: ${{ matrix.deployment == 'single-node-cluster' }}
         shell: bash
         run: |
           set -x
-          HOST_IP=$(ip route get 8.8.8.8 | awk '{print $7; exit}')
-          sudo lxc config trust add keys/lxd-ui.crt
-          cat <<EOF | sudo lxd init --preseed
-          config:
-            core.https_address: ${HOST_IP}:8443
-          networks:
-          - name: lxdbr0
-            type: bridge
-            config:
-              ipv4.address: auto
-              ipv6.address: auto
-          storage_pools:
-          - name: default
-            driver: dir
-            config: {}
-          profiles:
-          - name: default
-            devices:
-              root:
-                path: /
-                pool: default
-                type: disk
-          EOF
-          echo "LXD_UI_BACKEND_IP=${HOST_IP}" > .env.local
+          tests/scripts/start_vm_single_unclustered.sh ${{ matrix.lxd_channel }}
+
+      - name: Install LXD-UI dependencies
+        run: |
+          sudo chmod 0777 ../lxd-ui
+          workshop run dev install
 
       - name: Setup for tests
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
@@ -216,7 +186,7 @@ jobs:
           else
             echo "Using default backend configuration"
           fi
-          dotrun &
+          workshop run dev serve &
           sleep 10
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
@@ -235,6 +205,13 @@ jobs:
         run: |
           PLAYWRIGHT_CHANNEL=$(echo "${LXD_CHANNEL}" | sed 's#/#-#g')
           npx playwright test --project "${BROWSER}:lxd-${PLAYWRIGHT_CHANNEL}:${DEPLOYMENT}"
+
+      - name: Set lxd channel env variable
+        id: lxd-env
+        run: |
+          # need to change / to - in lxd channel string for report naming
+          LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
+          echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
 
       - name: Rename Playwright report and artifacts folder
         if: always()
@@ -303,15 +280,24 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install Dotrun
+      - name: Install LXD
+        uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
+        with:
+          bridges: "lxdbr0,workshopbr0"
+          channel: "latest/stable"
+
+      - name: Install Workshop
         run: |
-          sudo pip3 install dotrun
+          set -x
+          sudo lxd init --auto
+          sudo snap install workshop --classic
+          workshop launch --verbose
 
       - name: Install LXD-UI dependencies
         run: |
           set -x
           sudo chmod 0777 ../lxd-ui
-          dotrun install
+          workshop run dev install
 
       - name: Run Javascript tests
-        run: dotrun test-js
+        run: workshop run dev test-js

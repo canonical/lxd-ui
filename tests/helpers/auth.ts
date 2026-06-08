@@ -2,27 +2,51 @@ import { gotoURLWithNetworkIdle } from "./navigate";
 import { runCommand } from "./shell";
 import type { Page } from "@playwright/test";
 
+const NESTED_DEPLOYMENTS = ["clustered", "unclustered", "single-node-cluster"];
+
+export const isNestedDeployment = () => {
+  return NESTED_DEPLOYMENTS.includes(process.env.DEPLOYMENT ?? "");
+};
+
+export const getExecPrefix = () => {
+  return isNestedDeployment() ? "lxc exec vm1 -- " : "";
+};
+
+export const getLxcCmd = () => {
+  return `${getExecPrefix()}lxc`;
+};
+
+export const getLxdCmd = () => {
+  return `${getExecPrefix()}lxd`;
+};
+
 export const removeCertificateTrust = () => {
+  const lxcCmd = getLxcCmd();
+
   try {
     const fingerprint = runCommand(
-      "lxc config trust list | grep lxd-ui.crt | awk '{print $8}'",
+      `${lxcCmd} config trust list | grep -E "lxd-ui.crt|stdin" | awk '{print $8}'`,
     );
 
     if (fingerprint) {
-      runCommand(`lxc config trust remove ${fingerprint}`);
+      runCommand(`${lxcCmd} config trust remove ${fingerprint}`);
     }
-    runCommand("lxc auth identity delete tls/lxd-ui || true");
+    runCommand(`${lxcCmd} auth identity delete tls/lxd-ui || true`);
   } catch (err) {
     console.error("Error occurred while removing certificate trust:", err);
   }
 };
 
 export const restoreCertificateTrust = () => {
-  runCommand("lxc config trust add keys/lxd-ui.crt");
+  const cmd = isNestedDeployment()
+    ? "cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add -"
+    : "lxc config trust add keys/lxd-ui.crt";
+  runCommand(cmd);
 };
 
 const initAccessLink = (baseUrl: string) => {
-  const output = runCommand("lxd init --ui-initial-access-link");
+  const lxdCmd = getLxdCmd();
+  const output = runCommand(`${lxdCmd} init --ui-initial-access-link`);
   const urlMatch = output.match(/https?:\/\/[^\s]+/);
 
   if (!urlMatch) {

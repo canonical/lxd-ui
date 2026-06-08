@@ -64,6 +64,7 @@ jobs:
       - name: Install LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
         with:
+          bridges: "lxdbr0,workshopbr0"
           group: lxd
           channel: "latest/edge"
 

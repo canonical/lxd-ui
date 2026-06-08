@@ -16,14 +16,14 @@ In a clustered LXD environment the LXD-UI is available on all nodes, so you can 
 
 ```mermaid
     graph LR
-    U[User] --> D[Dotrun or Demo]
+    U[User] --> D[Workshop or Demo]
     D --> H[HaProxy]
     H -- API--> L[LXD API]
     H -- HTML & JS--> V[Vite]
     V -- update --> V
 ```
 
-For development, dotrun is launching the `start` script from [package.json](package.json) inside a docker container. The dotrun container is running Vite and HaProxy, while the LXD API is outside.
+For development, workshop is launching the `start` script from [package.json](package.json) inside a lxd container. The lxd container is running Vite and HaProxy, while the LXD API is outside.
 
 HaProxy is configured and launched from the [entrypoint](entrypoint) script. HaProxy is forwarding requests to LXD API or to npx serve depending on the [haproxy-dev.cfg](haproxy-dev.cfg) base config. HaProxy is used to serve both the UI and API requests under the same domain/ip and port, this avoids cross domain requests, just like in production.
 

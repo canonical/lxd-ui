@@ -16,7 +16,7 @@ if (fs.existsSync(".env.local")) {
 const scssSettings = fs.readFileSync("src/sass/_settings.scss", "utf-8").trim();
 
 const getGitHash = () => {
-  // set permissions for dotrun, ignore this in other environments
+  // set permissions for workshop, ignore this in other environments
   execSync(
     "[ -d /home/ubuntu/lxd-ui ] && git config --global --add safe.directory /home/ubuntu/lxd-ui || true",
   );

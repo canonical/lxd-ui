@@ -20,13 +20,14 @@ import { openInstancePanel } from "./helpers/instancePanel";
 import { skipIfNotSupported } from "./helpers/permissions";
 import { runCommand } from "./helpers/shell";
 import {
+  getExecPrefix,
+  getLxcCmd,
+  isNestedDeployment,
   removeCertificateTrust,
   restoreCertificateTrust,
 } from "./helpers/auth";
 
 test.describe("Given a user with Viewer Server permissions...", () => {
-  const ISO_FILE = "./tests/fixtures/foo.iso";
-
   const instanceName1 = randomInstanceName() + "-1";
   const instanceName2 = randomInstanceName() + "-2";
   const profileName = randomProfileName();
@@ -45,33 +46,44 @@ test.describe("Given a user with Viewer Server permissions...", () => {
       return;
     }
 
+    const lxc = getLxcCmd();
+    const execPrefix = getExecPrefix();
+
     try {
-      runCommand("lxc project switch default");
-      runCommand(`lxc init ubuntu:24.04 ${instanceName1}`);
-      runCommand(`lxc init ubuntu:24.04 ${instanceName2}`);
-      runCommand(`lxc profile create ${profileName}`);
-      runCommand(`lxc network create ${networkName}`);
-      runCommand(`lxc storage create ${poolName} dir`);
-      runCommand(`lxc storage volume create ${poolName} ${volumeName}`);
+      runCommand(`${lxc} project switch default`);
+      runCommand(`${lxc} init ubuntu:24.04 ${instanceName1}`);
+      runCommand(`${lxc} init ubuntu:24.04 ${instanceName2}`);
+      runCommand(`${lxc} profile create ${profileName}`);
+      runCommand(`${lxc} network create ${networkName}`);
+      runCommand(`${lxc} storage create ${poolName} dir`);
+      runCommand(`${lxc} storage volume create ${poolName} ${volumeName}`);
+      runCommand(`${execPrefix}sh -c 'echo "bar" > /tmp/foo.iso'`);
       runCommand(
-        `lxc storage volume import ${poolName} ${ISO_FILE} ${customISOName}`,
+        `${lxc} storage volume import ${poolName} /tmp/foo.iso ${customISOName}`,
       );
-      runCommand(`lxc network acl create ${aclName}`);
-      runCommand(`lxc network acl rule add ${aclName} ingress action=allow`);
-      runCommand(`lxc auth identity create tls/${identityName}`);
-      runCommand(`lxc auth group create ${groupName}`);
-      runCommand(`lxc auth identity-provider-group create ${idpGroupName}`);
+      runCommand(`${lxc} network acl create ${aclName}`);
+      runCommand(`${lxc} network acl rule add ${aclName} ingress action=allow`);
+      runCommand(`${lxc} auth identity create tls/${identityName}`);
+      runCommand(`${lxc} auth group create ${groupName}`);
+      runCommand(`${lxc} auth identity-provider-group create ${idpGroupName}`);
     } catch (err) {
       console.error("Error occurred:", err);
     }
 
     try {
       removeCertificateTrust();
-      runCommand(`lxc auth group create test-viewers`);
-      runCommand(`lxc auth group permission add test-viewers server viewer`);
-      runCommand(
-        `lxc auth identity create tls/lxd-ui --group test-viewers keys/lxd-ui.crt`,
-      );
+      runCommand(`${lxc} auth group create test-viewers`);
+      runCommand(`${lxc} auth group permission add test-viewers server viewer`);
+      if (isNestedDeployment()) {
+        runCommand(`lxc file push keys/lxd-ui.crt vm1/root/lxd-ui.crt`);
+        runCommand(
+          `lxc exec vm1 -- lxc auth identity create tls/lxd-ui --group test-viewers /root/lxd-ui.crt`,
+        );
+      } else {
+        runCommand(
+          `${lxc} auth identity create tls/lxd-ui --group test-viewers keys/lxd-ui.crt`,
+        );
+      }
     } catch (err) {
       console.error("Error occurred during setup:", err);
     }
@@ -82,25 +94,27 @@ test.describe("Given a user with Viewer Server permissions...", () => {
       return;
     }
 
+    const lxc = getLxcCmd();
+
     try {
-      runCommand(`lxc delete ${instanceName1} --force`);
-      runCommand(`lxc delete ${instanceName2} --force`);
-      runCommand(`lxc profile delete ${profileName}`);
-      runCommand(`lxc network delete ${networkName}`);
-      runCommand(`lxc storage volume delete ${poolName} ${volumeName}`);
-      runCommand(`lxc storage volume delete ${poolName} ${customISOName}`);
-      runCommand(`lxc storage delete ${poolName}`);
-      runCommand(`lxc network acl delete ${aclName}`);
-      runCommand(`lxc auth identity delete tls/${identityName}`);
-      runCommand(`lxc auth group delete ${groupName}`);
-      runCommand(`lxc auth identity-provider-group delete ${idpGroupName}`);
+      runCommand(`${lxc} delete ${instanceName1} --force`);
+      runCommand(`${lxc} delete ${instanceName2} --force`);
+      runCommand(`${lxc} profile delete ${profileName}`);
+      runCommand(`${lxc} network delete ${networkName}`);
+      runCommand(`${lxc} storage volume delete ${poolName} ${volumeName}`);
+      runCommand(`${lxc} storage volume delete ${poolName} ${customISOName}`);
+      runCommand(`${lxc} storage delete ${poolName}`);
+      runCommand(`${lxc} network acl delete ${aclName}`);
+      runCommand(`${lxc} auth identity delete tls/${identityName}`);
+      runCommand(`${lxc} auth group delete ${groupName}`);
+      runCommand(`${lxc} auth identity-provider-group delete ${idpGroupName}`);
     } catch (err) {
       console.error("Cleanup error:", err);
     }
 
     try {
-      runCommand("lxc auth identity delete tls/lxd-ui");
-      runCommand("lxc auth group delete test-viewers");
+      runCommand(`${lxc} auth identity delete tls/lxd-ui`);
+      runCommand(`${lxc} auth group delete test-viewers`);
       restoreCertificateTrust();
     } catch (err) {
       console.error("Error occurred during afterAll cleanup:", err);
