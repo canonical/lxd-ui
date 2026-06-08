@@ -8,9 +8,13 @@ import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   formik: FormikProps<ImageRegistryFormValues>;
+  required?: boolean;
 }
 
-export const ClusterLinkSelector: FC<Props> = ({ formik }) => {
+export const ImageRegistryClusterLinkSelector: FC<Props> = ({
+  formik,
+  required = false,
+}) => {
   const { data: links = [], error } = useClusterLinks();
   const notify = useNotify();
   const hasNoLinks = links.length === 0;
@@ -62,6 +66,7 @@ export const ClusterLinkSelector: FC<Props> = ({ formik }) => {
       onChange={(value) => {
         formik.setFieldValue("cluster", value);
       }}
+      required={required}
     />
   );
 };

@@ -10,6 +10,7 @@ import {
   Panel,
   EmptyState,
   Icon,
+  List,
 } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
@@ -23,6 +24,12 @@ import { useDocs } from "context/useDocs";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import ClusterLinkRichChip from "./ClusterLinkRichChip";
+import { CreateReplicatorPanel } from "./panels/CreateReplicatorPanel";
+import usePanelParams, { panels } from "util/usePanelParams";
+import { EditReplicatorPanel } from "./panels/EditReplicatorPanel";
+import DeleteReplicatorBtn from "pages/cluster/actions/DeleteReplicatorBtn";
+import EditReplicatorBtn from "pages/cluster/actions/EditReplicatorBtn";
+import RunReplicatorBtn from "pages/cluster/actions/RunReplicatorBtn";
 
 interface Props {
   variant?: "main" | "panel";
@@ -31,6 +38,7 @@ interface Props {
 const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
+  const panelParams = usePanelParams();
   const { data: replicators = [], error, isLoading } = useReplicators();
 
   if (error) {
@@ -55,6 +63,10 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
     {
       content: "Last run at",
       sortKey: "last_run_at",
+    },
+    {
+      "aria-label": "Actions",
+      className: "u-align--right actions",
     },
   ];
 
@@ -111,6 +123,21 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           content: <ReplicatorRunTime replicator={replicator} />,
           role: "cell",
         },
+        {
+          content: (
+            <List
+              inline
+              className="actions-list"
+              items={[
+                <RunReplicatorBtn key="run" replicator={replicator} />,
+                <EditReplicatorBtn key="edit" replicator={replicator} />,
+                <DeleteReplicatorBtn key="delete" replicator={replicator} />,
+              ]}
+            />
+          ),
+          role: "cell",
+          className: "actions",
+        },
       ],
       sortData: {
         name: replicator.name.toLowerCase(),
@@ -148,7 +175,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           )
         }
       >
-        {variant === "main" && <NotificationRow />}
+        {variant === "main" && !panelParams.panel && <NotificationRow />}
         <Row>
           {!isEmptyState && (
             <>
@@ -199,6 +226,11 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           )}
         </Row>
       </Element>
+
+      {panelParams.panel === panels.createReplicator && (
+        <CreateReplicatorPanel />
+      )}
+      {panelParams.panel === panels.editReplicator && <EditReplicatorPanel />}
     </>
   );
 };

@@ -3,15 +3,23 @@ import { Button, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import type { LxdReplicator } from "types/replicator";
 import { useReplicatorEntitlements } from "util/entitlements/replicators";
+import usePanelParams from "util/usePanelParams";
 
 interface Props {
   replicator: LxdReplicator;
   className?: string;
+  hasLabel?: boolean;
   onClose?: () => void;
 }
 
-const EditReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
+const EditReplicatorBtn: FC<Props> = ({
+  replicator,
+  className,
+  onClose,
+  hasLabel = false,
+}) => {
   const { canEditReplicator } = useReplicatorEntitlements();
+  const { openEditReplicator } = usePanelParams();
 
   const disabledReason = () => {
     if (!canEditReplicator(replicator)) {
@@ -22,20 +30,20 @@ const EditReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
 
   return (
     <Button
-      appearance="default"
+      appearance={hasLabel ? "default" : "base"}
       aria-label="Edit replicator"
-      className={classnames("u-no-margin has-icon", className)}
+      className={classnames("u-no-margin--bottom has-icon", className, {
+        "is-dense": !hasLabel,
+      })}
       onClick={() => {
-        console.log(
-          `Edit replicator ${replicator.name} btn clicked. TODO: open side panel`,
-          onClose,
-        );
+        openEditReplicator(replicator.project, replicator.name);
+        onClose?.();
       }}
       title={disabledReason()}
       disabled={Boolean(disabledReason())}
     >
       <Icon name="edit" />
-      <span>Edit</span>
+      {hasLabel && <span>Edit</span>}
     </Button>
   );
 };

@@ -3,7 +3,8 @@ import type { FC } from "react";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";
-import { optionNvmeSdc, optionTrueFalse } from "util/instanceOptions";
+import { optionTrueFalse } from "util/options";
+import { optionNvmeSdc } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {

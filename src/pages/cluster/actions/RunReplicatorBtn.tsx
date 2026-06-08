@@ -6,15 +6,27 @@ import type { LxdReplicator } from "types/replicator";
 interface Props {
   replicator: LxdReplicator;
   className?: string;
+  hasLabel?: boolean;
   onClose?: () => void;
 }
 
-const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
+const RunReplicatorBtn: FC<Props> = ({
+  replicator,
+  className,
+  onClose,
+  hasLabel = false,
+}) => {
   return (
     <Button
-      appearance="default"
+      appearance={hasLabel ? "default" : "base"}
       aria-label="Run replicator"
-      className={classnames("u-no-margin--bottom has-icon", className)}
+      className={classnames(
+        "u-no-margin--bottom has-icon",
+        {
+          "is-dense": !hasLabel,
+        },
+        className,
+      )}
       onClick={() => {
         console.log(
           `Run replicator ${replicator.name} btn clicked. TODO: open modal`,
@@ -24,7 +36,7 @@ const RunReplicatorBtn: FC<Props> = ({ replicator, className, onClose }) => {
       title="Run replicator"
     >
       <Icon name="play" />
-      <span>Run</span>
+      {hasLabel && <span>Run</span>}
     </Button>
   );
 };

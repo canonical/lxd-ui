@@ -2,11 +2,7 @@ import type { FC } from "react";
 import { Button, Input, Select } from "@canonical/react-components";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import classnames from "classnames";
-import {
-  optionAllowDeny,
-  optionTrueFalse,
-  optionYesNo,
-} from "util/instanceOptions";
+import { optionAllowDeny, optionTrueFalse, optionYesNo } from "util/options";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 import {

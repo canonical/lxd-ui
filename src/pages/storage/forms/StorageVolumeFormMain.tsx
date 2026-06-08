@@ -12,7 +12,7 @@ import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
-import { optionTrueFalse } from "util/instanceOptions";
+import { optionTrueFalse } from "util/options";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/editMode";

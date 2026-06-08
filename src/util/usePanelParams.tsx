@@ -19,6 +19,7 @@ export interface PanelHelper {
   deviceName: string | null;
   localPeering: string | null;
   imageRegistry: string | null;
+  replicator: string | null;
   clear: () => void;
   openCreateClusterGroup: () => void;
   openCreateClusterLink: () => void;
@@ -46,6 +47,8 @@ export interface PanelHelper {
   openEditLocalPeering: (peering: string) => void;
   openCreateImageRegistry: () => void;
   openEditImageRegistry: (imageRegistry: string) => void;
+  openCreateReplicator: () => void;
+  openEditReplicator: (project: string, replicator: string) => void;
 }
 
 export const panels = {
@@ -75,6 +78,8 @@ export const panels = {
   profileSummary: "profile-summary",
   createImageRegistry: "create-image-registry",
   editImageRegistry: "edit-image-registry",
+  createReplicator: "create-replicator",
+  editReplicator: "edit-replicator",
 };
 
 type ParamMap = Record<string, string>;
@@ -120,6 +125,9 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("local-peering");
     newParams.delete("create-image-registry");
     newParams.delete("image-registry");
+    newParams.delete("create-replicator");
+    newParams.delete("edit-replicator");
+    newParams.delete("replicator");
     setParams(newParams);
     craftResizeEvent();
   };
@@ -141,6 +149,7 @@ const usePanelParams = (): PanelHelper => {
     deviceName: params.get("device-name"),
     localPeering: params.get("local-peering"),
     imageRegistry: params.get("image-registry"),
+    replicator: params.get("replicator"),
 
     clear: () => {
       clearParams();
@@ -283,6 +292,17 @@ const usePanelParams = (): PanelHelper => {
     openEditImageRegistry: (imageRegistry) => {
       setPanelParams(panels.editImageRegistry, {
         "image-registry": imageRegistry,
+      });
+    },
+
+    openCreateReplicator: () => {
+      setPanelParams(panels.createReplicator);
+    },
+
+    openEditReplicator: (project, replicator) => {
+      setPanelParams(panels.editReplicator, {
+        "panel-project": project || "default",
+        replicator: replicator || "",
       });
     },
   };

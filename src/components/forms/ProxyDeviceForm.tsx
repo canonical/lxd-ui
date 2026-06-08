@@ -30,7 +30,7 @@ import { deviceKeyToLabel, getProfileFromSource } from "util/devices";
 import { ensureEditMode } from "util/editMode";
 import NewProxyBtn from "components/forms/NewProxyBtn";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import { optionEnabledDisabled } from "util/instanceOptions";
+import { optionEnabledDisabled } from "util/options";
 import { getProxyAddress } from "util/proxyDevices";
 import { useProfiles } from "context/useProfiles";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
