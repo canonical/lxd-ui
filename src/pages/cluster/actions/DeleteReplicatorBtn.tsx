@@ -15,6 +15,7 @@ import { useReplicatorEntitlements } from "util/entitlements/replicators";
 import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 import classNames from "classnames";
+import ReplicatorRichChip from "../ReplicatorRichChip";
 
 interface Props {
   replicator: LxdReplicator;
@@ -99,7 +100,11 @@ const DeleteReplicatorBtn: FC<Props> = ({
           <>
             <p>
               This will permanently delete replicator{" "}
-              <ResourceLabel type="replicator" value={replicator.name} bold />.
+              <ReplicatorRichChip
+                replicator={replicator.name}
+                project={replicator.project}
+              />
+              .
             </p>
             <p>Scheduled refreshes to the standby cluster will stop.</p>
             <p>

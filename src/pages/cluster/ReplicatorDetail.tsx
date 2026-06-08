@@ -14,6 +14,7 @@ import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import usePanelParams, { panels } from "util/usePanelParams";
+import ReplicatorSnapshotDescription from "./ReplicatorSnapshotDescription";
 
 const ReplicatorDetail: FC = () => {
   const { project, name } = useParams<{
@@ -126,11 +127,9 @@ const ReplicatorDetail: FC = () => {
               <table>
                 <tbody>
                   <tr>
-                    <th className="u-text--muted">Fresh snapshots</th>
+                    <th className="u-text--muted">Snapshots</th>
                     <td>
-                      {replicator.config?.snapshot
-                        ? "Sync using an existing snapshot, or automatically create one if needed"
-                        : "Take new snapshot before sync"}
+                      <ReplicatorSnapshotDescription replicator={replicator} />
                     </td>
                   </tr>
                   <tr>

@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import { renameReplicator } from "api/replicators";
 import RenameHeader, { type RenameHeaderValues } from "components/RenameHeader";
-import ResourceLink from "components/ResourceLink";
 import { useFormik } from "formik";
 import ReplicatorDetailActions from "pages/cluster/actions/ReplicatorDetailActions";
 import type { LxdReplicator } from "types/replicator";
@@ -11,6 +10,7 @@ import { useReplicatorEntitlements } from "util/entitlements/replicators";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import * as Yup from "yup";
+import ReplicatorRichChip from "./ReplicatorRichChip";
 
 interface Props {
   replicator: LxdReplicator;
@@ -53,7 +53,10 @@ const ReplicatorDetailHeader: FC<Props> = ({ replicator }) => {
     toastNotify.success(
       <>
         Replicator <strong>{replicator.name}</strong> renamed to{" "}
-        <ResourceLink type="replicator" value={replicatorName} to={url} />
+        <ReplicatorRichChip
+          replicator={replicatorName}
+          project={replicator.project}
+        />
       </>,
     );
   };

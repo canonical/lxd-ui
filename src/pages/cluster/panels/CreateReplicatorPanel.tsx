@@ -18,7 +18,6 @@ import { createReplicator } from "api/replicators";
 import { ReplicatorForm } from "../ReplicatorForm";
 import { checkDuplicateName } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
-import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
 import { getPayload } from "util/replicator";
 import { useProjects } from "context/useProjects";
@@ -28,6 +27,7 @@ import {
   testProjectReplicaCluster,
 } from "util/clusterLink";
 import { Link } from "react-router-dom";
+import ReplicatorRichChip from "../ReplicatorRichChip";
 
 const CreateReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -160,11 +160,9 @@ const CreateReplicatorPanel: FC = () => {
           toastNotify.success(
             <>
               Replicator{" "}
-              <ResourceLink
-                type="replicator"
-                value={formik.values.name}
-                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(formik.values.project)}/replicator/${encodeURIComponent(formik.values.name)}`}
-                key={formik.values.name}
+              <ReplicatorRichChip
+                replicator={formik.values.name}
+                project={formik.values.project}
               />
               created.
             </>,

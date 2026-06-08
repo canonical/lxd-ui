@@ -18,6 +18,14 @@ body.is-dark .rich-tooltip-table .p-icon--exposed {
   @include vf-icon-exposed($colors--dark-theme--icon);
 }
 
+body.is-dark .rich-tooltip-table .p-icon--applications {
+  @include vf-icon-applications($colors--light-theme--icon);
+}
+
+.rich-tooltip-table .p-icon--applications {
+  @include vf-icon-applications($colors--dark-theme--icon);
+}
+
 .p-tooltip__message:has(.rich-tooltip-table) {
   padding-right: 0;
 }

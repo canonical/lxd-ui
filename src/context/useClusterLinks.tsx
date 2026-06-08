@@ -18,11 +18,13 @@ export const useClusterLinks = (): UseQueryResult<LxdClusterLink[]> => {
 
 export const useClusterLink = (
   link: string,
+  isEnabled = true,
 ): UseQueryResult<LxdClusterLink> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.cluster, queryKeys.links, link],
     queryFn: async () => fetchClusterLink(link, isFineGrained),
+    enabled: isEnabled && !!link,
   });
 };
 

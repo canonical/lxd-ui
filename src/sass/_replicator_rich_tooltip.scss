@@ -1,0 +1,13 @@
+@import "rich_tooltip";
+
+.replicator-rich-tooltip-table {
+  .status-row {
+    td {
+      padding-left: 0.2rem;
+    }
+
+    .status-spinner {
+      margin-left: 0.2rem;
+    }
+  }
+}
