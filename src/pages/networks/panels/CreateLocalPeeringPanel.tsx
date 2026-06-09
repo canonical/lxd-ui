@@ -32,7 +32,7 @@ interface Props {
 
 const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
   const panelParams = usePanelParams();
-  const { project } = useCurrentProject();
+  const { projectName: project } = useCurrentProject();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -43,7 +43,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     panelParams.clear();
     notify.clear();
   };
-  const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project?.name ?? "")}/network/${encodeURIComponent(network.name)}`;
+  const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
   const projectOtherLabel = "Manually enter project";
   const networkOtherLabel = "Manually enter network";
 
@@ -75,7 +75,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     name: Yup.string()
       .test(
         ...testDuplicateLocalPeeringName(
-          panelParams.project,
+          project,
           network.name,
           controllerState,
         ),
@@ -87,7 +87,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     queryClient.invalidateQueries({
       queryKey: [
         queryKeys.projects,
-        panelParams.project,
+        project,
         queryKeys.networks,
         network.name,
         queryKeys.peers,
@@ -106,10 +106,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
           to={`${networkURL}/local-peerings`}
         />{" "}
         created for network{" "}
-        <NetworkRichChip
-          networkName={network.name}
-          projectName={project?.name || "default"}
-        />
+        <NetworkRichChip networkName={network.name} projectName={project} />
       </>,
     );
     closePanel();
@@ -126,11 +123,11 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
 
   const createMutualPeering = (
     network: string,
-    project: string,
+    peerProject: string,
     payload: object,
     localPeeringName: string,
   ) => {
-    createNetworkPeer(network, project, JSON.stringify(payload))
+    createNetworkPeer(network, peerProject, JSON.stringify(payload))
       .then((mutualOperation) => {
         if (hasStorageAndNetworkOperations) {
           eventQueue.set(
@@ -155,7 +152,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     initialValues: {
       name: "",
       description: "",
-      targetProject: project?.name || "",
+      targetProject: project,
       targetNetwork: "",
       customTargetNetwork: "",
       customTargetProject: "",
@@ -185,7 +182,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
 
       createNetworkPeer(
         network.name,
-        panelParams.project,
+        project,
         JSON.stringify(localPeeringPayload),
       )
         .then((operation) => {
@@ -193,7 +190,7 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
             const mutualPeeringPayload = {
               name: values.name,
               description: values.description,
-              target_project: panelParams.project,
+              target_project: project,
               target_network: network.name,
             };
 

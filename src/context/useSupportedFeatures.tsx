@@ -60,5 +60,6 @@ export const useSupportedFeatures = () => {
     hasBulkOperations: apiExtensions.has("bulk_operations"),
     hasClusterLinks: apiExtensions.has("cluster_links"),
     hasReplicators: apiExtensions.has("replicators"),
+    hasLoadBalancerPools: apiExtensions.has("network_load_balancer_pool"),
   };
 };

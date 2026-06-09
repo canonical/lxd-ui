@@ -16,6 +16,7 @@ import NetworkLeases from "pages/networks/NetworkLeases";
 import {
   typesWithForwards,
   typesWithLeases,
+  typesWithLoadBalancers,
   typesWithLocalPeerings,
 } from "util/networks";
 import NetworkPeers from "./NetworkPeers";
@@ -23,9 +24,12 @@ import { slugify } from "util/slugify";
 import classnames from "classnames";
 import NotFound from "components/NotFound";
 import { ROOT_PATH } from "util/rootPath";
+import LoadBalancers from "pages/networks/LoadBalancers";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
+  const { hasLoadBalancerPools } = useSupportedFeatures();
 
   const { name, project, member, activeTab } = useParams<{
     name: string;
@@ -58,6 +62,8 @@ const NetworkDetail: FC = () => {
   const isManagedNetwork = network?.managed ?? false;
   const hasForwards =
     typesWithForwards.includes(network?.type ?? "") && isManagedNetwork;
+  const hasLoadBalancers =
+    typesWithLoadBalancers.includes(network?.type ?? "") && isManagedNetwork;
   const hasLeases =
     typesWithLeases.includes(network?.type ?? "") && isManagedNetwork;
   const isPeeringSupported = typesWithLocalPeerings.includes(
@@ -94,6 +100,9 @@ const NetworkDetail: FC = () => {
   const tabs = [
     "Configuration",
     getTabLink("Forwards", hasForwards, "forwards"),
+    ...(hasLoadBalancerPools
+      ? [getTabLink("Load balancers", hasLoadBalancers, "load-balancers")]
+      : []),
     getTabLink("Leases", hasLeases, "leases"),
     getTabLink("Local peerings", isPeeringSupported, "local-peerings"),
   ];
@@ -126,6 +135,11 @@ const NetworkDetail: FC = () => {
               {network && (
                 <NetworkForwards network={network} project={project} />
               )}
+            </div>
+          )}
+          {activeTab === "load-balancers" && (
+            <div role="tabpanel" aria-labelledby="load-balancers">
+              {network && <LoadBalancers network={network} />}
             </div>
           )}
           {activeTab === "leases" && (

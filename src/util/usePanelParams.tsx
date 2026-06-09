@@ -43,8 +43,10 @@ export interface PanelHelper {
   openProfileSummary: (profile: string, project: string) => void;
   openEditNetworkDevice: (deviceName: string) => void;
   openCreateNetworkDevice: () => void;
+  openCreateLoadBalancerPool: () => void;
   openCreateLocalPeering: () => void;
   openEditLocalPeering: (peering: string) => void;
+  openEditLoadBalancerPool: (pool: string) => void;
   openCreateImageRegistry: () => void;
   openEditImageRegistry: (imageRegistry: string) => void;
   openCreateReplicator: () => void;
@@ -57,6 +59,7 @@ export const panels = {
   createGroup: "create-groups",
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
+  createLoadBalancerPool: "create-load-balancer-pool",
   createTLSIdentity: "create-tls-identity",
   createPlacementGroup: "create-placement-group",
   editPlacementGroup: "edit-placement-group",
@@ -65,6 +68,7 @@ export const panels = {
   editClusterGroups: "edit-cluster-group",
   editClusterLink: "edit-cluster-link",
   editClusterMember: "edit-cluster-member",
+  editLoadBalancerPool: "edit-load-balancer-pool",
   createNetworkDevice: "create-network-device",
   editNetworkDevice: "edit-network-device",
   createLocalPeering: "create-local-peering",
@@ -250,6 +254,10 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.createNetworkDevice);
     },
 
+    openCreateLoadBalancerPool: () => {
+      setPanelParams(panels.createLoadBalancerPool);
+    },
+
     openCreateLocalPeering: () => {
       setPanelParams(panels.createLocalPeering);
     },
@@ -259,6 +267,13 @@ const usePanelParams = (): PanelHelper => {
         "local-peering": localPeering || "",
       };
       setPanelParams(panels.editLocalPeering, params);
+    },
+
+    openEditLoadBalancerPool: (pool: string) => {
+      const params: ParamMap = {
+        "panel-pool": pool || "",
+      };
+      setPanelParams(panels.editLoadBalancerPool, params);
     },
 
     openGroupIdentities: (group) => {

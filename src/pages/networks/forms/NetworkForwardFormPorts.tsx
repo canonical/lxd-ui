@@ -125,11 +125,11 @@ const NetworkForwardFormPorts: FC<Props> = ({
                       : undefined
                   }
                   help={
-                    index === formik.values.ports.length - 1 && (
+                    index === formik.values.ports.length - 1 ? (
                       <>
                         Must be from the network <b>{network?.name}</b>.
                       </>
-                    )
+                    ) : undefined
                   }
                   aria-label={`Port ${index} target address`}
                 />

@@ -117,6 +117,8 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
       ...formik.values.ports,
       {
         protocol: "tcp",
+        listenPort: "",
+        targetPool: "",
       },
     ]);
 
