@@ -29,7 +29,7 @@ import {
 } from "util/clusterLink";
 import { Link } from "react-router-dom";
 
-export const CreateReplicatorPanel: FC = () => {
+const CreateReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -237,3 +237,5 @@ export const CreateReplicatorPanel: FC = () => {
     </>
   );
 };
+
+export default CreateReplicatorPanel;

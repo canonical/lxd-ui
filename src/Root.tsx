@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import Navigation from "components/Navigation";
 import { Application, SkipLink } from "@canonical/react-components";
-import Events from "pages/instances/Events";
+import Events from "./Events";
 import App from "./App";
 import ErrorBoundary from "components/ErrorBoundary";
 import ErrorPage from "components/ErrorPage";

@@ -11,6 +11,7 @@ import { EventQueueProvider } from "context/eventQueue";
 import { InstanceLoadingProvider } from "context/instanceLoading";
 import { ProjectProvider } from "context/useCurrentProject";
 import OperationsProvider from "context/operationsProvider";
+import { ReplicatorRunningProvider } from "context/replicatorLoading";
 import { MetricHistoryProvider } from "context/metricHistory";
 import { MemberLoadingProvider } from "context/memberLoading";
 import { ModalProvider } from "context/useModal";
@@ -59,7 +60,9 @@ const AppProviders: FC<AppProvidersProps> = ({ children }) => {
                         pathname={pathname}
                       >
                         <MetricHistoryProvider>
-                          {children}
+                          <ReplicatorRunningProvider>
+                            {children}
+                          </ReplicatorRunningProvider>
                         </MetricHistoryProvider>
                       </NotificationProvider>
                     </ToastNotificationProvider>
