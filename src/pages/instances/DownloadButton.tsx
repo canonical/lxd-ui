@@ -14,7 +14,7 @@ const DownloadButton: FC<DownloadButtonProps> = ({
   content,
   fileName,
 }) => {
-  const buttonRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const generateLink = (linkId: string, href: string) => {
     const link = document.createElement("a");
