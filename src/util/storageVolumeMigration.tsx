@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import type { LxdStorageVolume } from "types/storage";
 import { capitalizeFirstLetter } from "./helpers";
 import { queryKeys } from "./queryKeys";
-import { linkForVolumeDetail } from "./storageVolume";
+import { getVolumeDetailUrl } from "./storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
@@ -41,8 +41,8 @@ export const useStorageVolumeMigration = ({
   const handleSuccess = () => {
     let successMessage: ReactNode = "";
 
-    const oldVolumeDetailPage = linkForVolumeDetail(volume);
-    const newVolumeDetailPage = linkForVolumeDetail({
+    const oldVolumeDetailPage = getVolumeDetailUrl(volume);
+    const newVolumeDetailPage = getVolumeDetailUrl({
       ...volume,
       project: type === "project" ? target : volume.project,
       pool: type === "pool" ? target : volume.pool,

@@ -16,6 +16,8 @@ import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 import classNames from "classnames";
 import ReplicatorRichChip from "../ReplicatorRichChip";
+import { useIsClustered } from "context/useIsClustered";
+import { getReplicatorListUrl } from "util/replicator";
 
 interface Props {
   replicator: LxdReplicator;
@@ -36,6 +38,7 @@ const DeleteReplicatorBtn: FC<Props> = ({
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const { canDeleteReplicator } = useReplicatorEntitlements();
+  const isClustered = useIsClustered();
   const isReplicatorRunning = replicator.last_run_status === "Running";
 
   const disabledReason = () => {
@@ -67,7 +70,8 @@ const DeleteReplicatorBtn: FC<Props> = ({
     // Only navigate to the replicators list if we are still on the deleted replicator's detail page
     const replicatorDetailPath = `${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}/replicator/${encodeURIComponent(replicator.name)}`;
     if (location.pathname.startsWith(replicatorDetailPath)) {
-      navigate(`${ROOT_PATH}/ui/cluster/replicators`);
+      const replicatorListUrl = getReplicatorListUrl(isClustered);
+      navigate(replicatorListUrl);
     }
 
     notifySuccess(replicator.name);

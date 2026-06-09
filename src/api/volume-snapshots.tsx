@@ -11,7 +11,7 @@ import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { EventQueue } from "context/eventQueue";
 import {
-  linkForVolumeDetail,
+  getVolumeDetailUrl,
   splitVolumeSnapshotName,
 } from "util/storageVolume";
 import { addTarget } from "util/target";
@@ -77,7 +77,7 @@ export const deleteVolumeSnapshotBulk = async (
         const item: BulkOperationItem = {
           name: name,
           type: "snapshot",
-          href: `${linkForVolumeDetail(volume)}/snapshots`,
+          href: `${getVolumeDetailUrl(volume)}/snapshots`,
         };
         await deleteVolumeSnapshot(volume, { name })
           .then((operation) => {

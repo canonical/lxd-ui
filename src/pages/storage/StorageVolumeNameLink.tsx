@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import type { LxdStorageVolume } from "types/storage";
 import classnames from "classnames";
-import { linkForVolumeDetail, hasVolumeDetailPage } from "util/storageVolume";
+import { getVolumeDetailUrl, hasVolumeDetailPage } from "util/storageVolume";
 import { useInstances } from "context/useInstances";
 import { useLocalImagesInProject } from "context/useImages";
 import { getImageAlias, getImageName } from "util/images";
@@ -58,7 +58,7 @@ const StorageVolumeNameLink: FC<Props> = ({
       >
         {displayLink ? (
           <Link
-            to={linkForVolumeDetail(volume)}
+            to={getVolumeDetailUrl(volume)}
             className={isExternalLink ? "has-icon" : undefined}
           >
             {caption}

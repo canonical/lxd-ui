@@ -19,7 +19,7 @@ import axios, { type AxiosResponse } from "axios";
 import type { UploadState } from "types/upload";
 import { addEntitlements } from "util/entitlements/api";
 import { addTarget } from "util/target";
-import { linkForInstanceDetail } from "util/instances";
+import { getInstanceDetailUrl } from "util/instances";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdFileExplorerItem, LxdFileMetadata } from "types/fileExplorer";
 
@@ -273,7 +273,7 @@ export const updateInstanceBulkAction = async (
         const item: BulkOperationItem = {
           name,
           type: "instance",
-          href: linkForInstanceDetail(name, project),
+          href: getInstanceDetailUrl(name, project),
         };
         await putInstanceAction(name, project, action, isForce)
           .then((operation) => {
@@ -333,7 +333,7 @@ export const deleteInstanceBulk = async (
         const item: BulkOperationItem = {
           name: instance.name,
           type: "instance",
-          href: linkForInstanceDetail(instance.name, instance.project),
+          href: getInstanceDetailUrl(instance.name, instance.project),
         };
         await deleteInstance(instance)
           .then((operation) => {

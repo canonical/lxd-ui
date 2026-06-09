@@ -7,10 +7,10 @@ import ItemName from "components/ItemName";
 import { useClusterLink } from "context/useClusterLinks";
 import ClusterLinkStatus from "./ClusterLinkStatus";
 import ResourceLabel from "components/ResourceLabel";
-import { ROOT_PATH } from "util/rootPath";
 import ClusterLinkAddresses from "./ClusterLinkAddresses";
-import { getLinkIdentity } from "util/clusterLink";
 import { useIdentities } from "context/useIdentities";
+import { getClusterLinkListUrl, getLinkIdentity } from "util/clusterLink";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   clusterLink: string;
@@ -19,6 +19,7 @@ interface Props {
 const ClusterLinkRichTooltip: FC<Props> = ({ clusterLink }) => {
   const { data: link, isLoading: isLinkLoading } = useClusterLink(clusterLink);
   const { data: identities = [] } = useIdentities();
+  const isClustered = useIsClustered();
 
   if (!link && !isLinkLoading) {
     return (
@@ -37,7 +38,7 @@ const ClusterLinkRichTooltip: FC<Props> = ({ clusterLink }) => {
       title: "Cluster link",
       value: link ? (
         <Link
-          to={`${ROOT_PATH}/ui/cluster/links`}
+          to={getClusterLinkListUrl(isClustered)}
           onClick={(e) => {
             e.stopPropagation();
           }}

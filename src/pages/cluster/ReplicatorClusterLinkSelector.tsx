@@ -3,9 +3,10 @@ import { CustomSelect, useNotify } from "@canonical/react-components";
 import { useClusterLinks } from "context/useClusterLinks";
 import type { FormikProps } from "formik";
 import { Link } from "react-router-dom";
-import { ROOT_PATH } from "util/rootPath";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
+import { useIsClustered } from "context/useIsClustered";
+import { getClusterLinkListUrl } from "util/clusterLink";
 
 interface Props {
   formik: FormikProps<ReplicatorFormValues>;
@@ -17,7 +18,7 @@ export const ReplicatorClusterLinkSelector: FC<Props> = ({
 }) => {
   const { data: links = [], error, isLoading } = useClusterLinks();
   const notify = useNotify();
-
+  const isClustered = useIsClustered();
   const hasNoLinks = links.length === 0 && !isLoading;
 
   if (error) {
@@ -39,16 +40,14 @@ export const ReplicatorClusterLinkSelector: FC<Props> = ({
     ),
   }));
 
+  const helpLink = (
+    <Link to={getClusterLinkListUrl(isClustered)}>cluster links</Link>
+  );
+
   const helpText = hasNoLinks ? (
-    <>
-      Cluster to replicate to. Create your first{" "}
-      <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster link</Link>.
-    </>
+    <>Cluster to replicate to. Create your first {helpLink}.</>
   ) : (
-    <>
-      Cluster to replicate to. Manage your{" "}
-      <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster links</Link>.
-    </>
+    <>Cluster to replicate to. Manage your {helpLink}.</>
   );
   return (
     <CustomSelect

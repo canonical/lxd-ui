@@ -133,7 +133,7 @@ const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
   window.innerWidth <= collapsedViewMaxWidth;
 
-export const linkForVolumeDetail = (volume: LxdStorageVolume): string => {
+export const getVolumeDetailUrl = (volume: LxdStorageVolume): string => {
   // NOTE: name of a volume created from an instance is exactly the same as the instance name
   if (volume.type === "container" || volume.type === "virtual-machine") {
     return `${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/instance/${encodeURIComponent(volume.name)}`;
@@ -162,7 +162,7 @@ export const hasLocation = (volume?: LxdStorageVolume): boolean => {
 };
 
 export const hasVolumeDetailPage = (volume: LxdStorageVolume): boolean => {
-  return linkForVolumeDetail(volume).includes("/storage/pool/");
+  return getVolumeDetailUrl(volume).includes("/storage/pool/");
 };
 
 export const getStorageVolumeFormProps = (
