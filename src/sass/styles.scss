@@ -489,3 +489,10 @@ body.is-dark .lxd-icon {
   margin-left: $sph--small !important;
   margin-right: $sph--small !important;
 }
+
+.divider-line {
+  background: var(--vf-color-border-default);
+  height: 1px;
+  margin: 1rem 0;
+  width: 100%;
+}

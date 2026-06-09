@@ -41,7 +41,7 @@ const EditProject: FC<Props> = ({ project }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { section } = useParams<{ section?: string }>();
-  const { hasProjectsNetworksZones, hasStorageBuckets } =
+  const { hasProjectsNetworksZones, hasStorageBuckets, hasReplicators } =
     useSupportedFeatures();
   const { canEditProject } = useProjectEntitlements();
 
@@ -72,6 +72,11 @@ const EditProject: FC<Props> = ({ project }) => {
 
       if (!hasStorageBuckets) {
         values.features_storage_buckets = undefined;
+      }
+
+      if (!hasReplicators) {
+        values.replica_mode = undefined;
+        values.replica_cluster = undefined;
       }
 
       const projectPayload = getProjectPayload(project, values) as LxdProject;

@@ -40,6 +40,7 @@ import { useAuth } from "context/auth";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { ProjectFormValues } from "types/forms/project";
 import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
+import { replicaPayload } from "pages/projects/forms/ProjectReplicaForm";
 
 const CreateProject: FC = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const CreateProject: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(slugify(PROJECT_DETAILS));
-  const { hasProjectsNetworksZones, hasStorageBuckets } =
+  const { hasProjectsNetworksZones, hasStorageBuckets, hasReplicators } =
     useSupportedFeatures();
   const { isFineGrained } = useAuth();
 
@@ -127,6 +128,11 @@ const CreateProject: FC = () => {
         values.features_storage_buckets = undefined;
       }
 
+      if (!hasReplicators) {
+        values.replica_mode = undefined;
+        values.replica_cluster = undefined;
+      }
+
       const hasNetwork = values.default_project_network !== "none";
 
       createProject(
@@ -135,6 +141,7 @@ const CreateProject: FC = () => {
           config: {
             ...projectDetailRestrictionPayload(values),
             ...resourceLimitsPayload(values),
+            ...replicaPayload(values),
             ...restrictions,
           },
         }),

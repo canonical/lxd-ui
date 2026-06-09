@@ -154,6 +154,7 @@ const RunReplicatorBtn: FC<Props> = ({
 
   return (
     <ConfirmationButton
+      type="button"
       onHoverText={disabledReason()}
       appearance={hasLabel ? "default" : "base"}
       className={classnames("u-no-margin has-icon", className, {
@@ -191,7 +192,10 @@ const RunReplicatorBtn: FC<Props> = ({
                 <span className="node-heading u-text--muted">
                   {isRestore ? "standby" : "leader"} project (local)
                 </span>
-                <ProjectRichChip projectName={replicator.project} />
+                <ProjectRichChip
+                  projectName={replicator.project}
+                  urlSuffix="/configuration/replication"
+                />
               </div>
               <div className="replicator-data-flow__arrow-shaft">
                 <ClusterLinkRichChip clusterLink={clusterLink} />
@@ -209,7 +213,11 @@ const RunReplicatorBtn: FC<Props> = ({
                 This will sync {numberOfInstances}{" "}
                 {pluralize("instance", numberOfInstances)} from the{" "}
                 <ClusterLinkRichChip clusterLink={clusterLink} /> cluster back
-                to the <ProjectRichChip projectName={replicator.project} />{" "}
+                to the{" "}
+                <ProjectRichChip
+                  projectName={replicator.project}
+                  urlSuffix="/configuration/replication"
+                />{" "}
                 project.
               </p>
             ) : (
@@ -240,6 +248,12 @@ const RunReplicatorBtn: FC<Props> = ({
         ),
         onConfirm: handleRun,
         confirmButtonLabel: buttonLabel,
+        confirmButtonProps: {
+          type: "button",
+        },
+        cancelButtonProps: {
+          type: "button",
+        },
         confirmButtonDisabled:
           !canSubmit || isLoading || (isRestore && !isOverwriteConfirmed),
         close: onClose,

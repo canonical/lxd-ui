@@ -15,6 +15,7 @@ import { getUnhandledKeyValues } from "util/instanceAndProfilePayloads";
 import { getDefaultNetwork, getDefaultStoragePool } from "./helpers";
 import type { LxdProfile } from "types/profile";
 import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
+import { replicaPayload } from "pages/projects/forms/ProjectReplicaForm";
 
 export const getProjectEditValues = (
   project: LxdProject,
@@ -107,6 +108,9 @@ export const getProjectEditValues = (
 
     restricted_registries: project.config["restricted.registries"],
 
+    replica_mode: project.config["replica.mode"],
+    replica_cluster: project.config["replica.cluster"],
+
     editRestriction,
   };
 };
@@ -123,6 +127,7 @@ export const getProjectPayload = (
     config: {
       ...projectDetailRestrictionPayload(values),
       ...resourceLimitsPayload(values),
+      ...replicaPayload(values),
       ...(values.restricted
         ? {
             ...clusterRestrictionPayload(values),

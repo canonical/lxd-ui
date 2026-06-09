@@ -6,9 +6,18 @@ interface Props {
   label: string;
   value: string;
   help?: ReactNode;
+  suffix?: ReactNode;
+  isBold?: boolean;
 }
 
-const OutputField: FC<Props> = ({ id, label, value, help }) => {
+const OutputField: FC<Props> = ({
+  id,
+  label,
+  value,
+  help,
+  suffix,
+  isBold = true,
+}) => {
   return (
     <Field
       forId={id}
@@ -18,7 +27,8 @@ const OutputField: FC<Props> = ({ id, label, value, help }) => {
       className="output-field"
     >
       <output id={id} className="mono-font u-sv2">
-        <b>{value}</b>
+        {isBold ? <b>{value}</b> : value}
+        {suffix && <> {suffix}</>}
       </output>
     </Field>
   );

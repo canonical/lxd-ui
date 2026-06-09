@@ -38,6 +38,8 @@ const CreateReplicatorPanel: FC = () => {
   const { project: currentProject } = useCurrentProject();
   const { data: projects = [] } = useProjects();
   const { canCreateReplicators, canEditProject } = useProjectEntitlements();
+  const panelProject = panelParams.replicaProject ?? "";
+  const panelReplicaCluster = panelParams.replicaCluster ?? "";
 
   const closePanel = () => {
     panelParams.clear();
@@ -48,13 +50,13 @@ const CreateReplicatorPanel: FC = () => {
     return projects.find((project) => project.name === projectName);
   };
 
-  const getReplicaClusterConfigErrorMessage = (projectName?: string) => {
+  const getReplicaClusterConfigErrorMessage = (projectName: string) => {
     return (
       <>
         Project <code>replica.cluster</code> must match the selected cluster.
         Change it in the{" "}
         <Link
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName || "")}/configuration`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/configuration/replication`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -105,12 +107,16 @@ const CreateReplicatorPanel: FC = () => {
           const parent = context.parent as { cluster?: string };
           const project = getSelectedProject(value);
 
+          if (!project) {
+            return true;
+          }
+
           if (testProjectReplicaCluster(project, parent.cluster)) {
             return true;
           }
 
           return this.createError({
-            message: getReplicaClusterConfigErrorMessage(project?.name),
+            message: getReplicaClusterConfigErrorMessage(project.name),
           });
         },
       })
@@ -144,11 +150,12 @@ const CreateReplicatorPanel: FC = () => {
       isCreating: true,
       name: "",
       description: "",
-      project: "",
-      cluster: "",
+      project: panelProject,
+      cluster: panelReplicaCluster,
       snapshot: "false",
       schedule: "",
     },
+    enableReinitialize: true,
     validationSchema: schema,
     validateOnChange: true,
     onSubmit: () => {

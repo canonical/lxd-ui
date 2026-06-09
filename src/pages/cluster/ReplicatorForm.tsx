@@ -4,7 +4,7 @@ import { Form, Input, Select } from "@canonical/react-components";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 import ProjectSelector from "pages/networks/forms/ProjectSelector";
 import { useProjects } from "context/useProjects";
-import { ReplicatorClusterLinkSelector } from "pages/cluster/ReplicatorClusterLinkSelector";
+import ReplicatorClusterLinkSelector from "pages/cluster/ReplicatorClusterLinkSelector";
 import OutputField from "components/OutputField";
 import { Link } from "react-router";
 import DocLink from "components/DocLink";

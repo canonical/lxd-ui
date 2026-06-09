@@ -32,42 +32,33 @@ import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
 
 interface Props {
-  variant?: "main" | "panel";
+  variant?: "main" | "panel" | "project-configuration";
+  project?: string;
+  cluster?: string;
 }
 
-const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
+const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { data: replicators = [], error, isLoading } = useReplicators();
+  const { data: replicators = [], error, isLoading } = useReplicators(project);
+  const isProjectConfiguration = variant === "project-configuration";
+  const isEmptyState = replicators.length === 0 && !isLoading;
 
   if (error) {
     notify.failure("Loading replicators failed", error);
   }
+
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
-    {
-      content: "Project",
-      sortKey: "project",
-    },
-    {
-      content: "Cluster",
-      sortKey: "cluster",
-    },
-    {
-      content: "Status",
-      sortKey: "status",
-      className: "status-header",
-    },
-    {
-      content: "Last run at",
-      sortKey: "last_run_at",
-    },
-    {
-      "aria-label": "Actions",
-      className: "u-align--right actions",
-    },
+    ...(!isProjectConfiguration
+      ? [{ content: "Project", sortKey: "project" }]
+      : []),
+    { content: "Cluster", sortKey: "cluster" },
+    { content: "Status", sortKey: "status", className: "status-header" },
+    { content: "Last run at", sortKey: "last_run_at" },
+    { "aria-label": "Actions", className: "u-align--right actions" },
   ];
 
   const rows = replicators.map((replicator) => {
@@ -98,12 +89,16 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           role: "cell",
           "aria-label": "Description",
         },
-        {
-          content: <ProjectRichChip projectName={replicator.project} />,
-          role: "cell",
-          "aria-label": "Project",
-          className: "chip-container",
-        },
+        ...(!isProjectConfiguration
+          ? [
+              {
+                content: <ProjectRichChip projectName={replicator.project} />,
+                role: "cell",
+                "aria-label": "Project",
+                className: "chip-container",
+              },
+            ]
+          : []),
         {
           content: (
             <ClusterLinkRichChip
@@ -118,6 +113,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
           content: <ReplicatorStatus replicator={replicator} />,
           role: "cell",
           "aria-label": "Status",
+          className: "status-cell",
         },
         {
           content: <ReplicatorRunTime replicator={replicator} />,
@@ -151,16 +147,106 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
       },
     };
   });
+
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
+
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
-  const isEmptyState = replicators.length === 0 && !isLoading;
-  const Element = variant === "main" ? BaseLayout : Panel;
 
-  return (
-    <>
-      <Element
+  const tableContent = (
+    <Row>
+      {!isEmptyState && (
+        <ScrollableTable
+          dependencies={[replicators, notify.notification]}
+          tableId="replicator-table-id"
+          belowIds={
+            isProjectConfiguration
+              ? ["form-footer", "status-bar"]
+              : ["status-bar"]
+          }
+        >
+          {isProjectConfiguration ? (
+            <MainTable
+              id="replicator-table-id"
+              className="replicator-table"
+              headers={headers}
+              rows={sortedRows}
+              sortable
+              onUpdateSort={updateSort}
+            />
+          ) : (
+            <TablePagination
+              data={sortedRows}
+              id="pagination"
+              itemName="replicator"
+              className="u-no-margin--top"
+              aria-label="Table pagination control"
+            >
+              <MainTable
+                id="replicator-table-id"
+                className="replicator-table"
+                headers={headers}
+                sortable
+                onUpdateSort={updateSort}
+              />
+            </TablePagination>
+          )}
+        </ScrollableTable>
+      )}
+
+      {isEmptyState && (
+        <EmptyState
+          className="empty-state empty-state__full-width"
+          image={<Icon name="change-version" className="empty-state-icon" />}
+          title="No replicators found"
+        >
+          <p>
+            There are no replicators{" "}
+            {isProjectConfiguration ? "for this project" : "on this server"}.
+          </p>
+          <p>
+            <a
+              href={`${docBaseLink}/explanation/replicators/`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn more about replicators
+              <Icon className="external-link-icon" name="external-link" />
+            </a>
+          </p>
+          <CreateReplicatorButton
+            className="u-no-margin--bottom"
+            project={isProjectConfiguration ? project : undefined}
+            cluster={isProjectConfiguration ? cluster : undefined}
+            isPositive={!isProjectConfiguration}
+          />
+        </EmptyState>
+      )}
+    </Row>
+  );
+
+  const renderLayout = () => {
+    if (isProjectConfiguration) {
+      return (
+        <>
+          {!isEmptyState && (
+            <div className="u-align--right">
+              <CreateReplicatorButton
+                isPositive={!isProjectConfiguration}
+                project={isProjectConfiguration ? project : undefined}
+                cluster={isProjectConfiguration ? cluster : undefined}
+              />
+            </div>
+          )}
+          {tableContent}
+        </>
+      );
+    }
+
+    const BaseElement = variant === "main" ? BaseLayout : Panel;
+    return (
+      <BaseElement
         title={
           <HelpLink
             docPath="/explanation/replicators/"
@@ -171,64 +257,24 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
         }
         controls={
           !isEmptyState && (
-            <>
-              <CreateReplicatorButton />
-            </>
+            <CreateReplicatorButton
+              className="u-no-margin--bottom"
+              isPositive={!isProjectConfiguration}
+              project={isProjectConfiguration ? project : undefined}
+              cluster={isProjectConfiguration ? cluster : undefined}
+            />
           )
         }
       >
         {variant === "main" && !panelParams.panel && <NotificationRow />}
-        <Row>
-          {!isEmptyState && (
-            <>
-              <ScrollableTable
-                dependencies={[replicators, notify.notification]}
-                tableId="replicator-table-id"
-                belowIds={["status-bar"]}
-              >
-                <TablePagination
-                  data={sortedRows}
-                  id="pagination"
-                  itemName="replicator"
-                  className="u-no-margin--top"
-                  aria-label="Table pagination control"
-                >
-                  <MainTable
-                    id="replicator-table-id"
-                    className="replicator-table"
-                    headers={headers}
-                    sortable
-                    onUpdateSort={updateSort}
-                  />
-                </TablePagination>
-              </ScrollableTable>
-            </>
-          )}
-          {isEmptyState && (
-            <EmptyState
-              className="empty-state"
-              image={
-                <Icon name="change-version" className="empty-state-icon" />
-              }
-              title="No replicators found"
-            >
-              <p>There are no replicators on this server.</p>
-              <p>
-                <a
-                  href={`${docBaseLink}/explanation/replicators/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn more about replicators
-                  <Icon className="external-link-icon" name="external-link" />
-                </a>
-              </p>
-              <CreateReplicatorButton />
-            </EmptyState>
-          )}
-        </Row>
-      </Element>
+        {tableContent}
+      </BaseElement>
+    );
+  };
 
+  return (
+    <>
+      {renderLayout()}
       {panelParams.panel === panels.createReplicator && (
         <CreateReplicatorPanel />
       )}

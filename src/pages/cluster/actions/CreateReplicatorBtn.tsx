@@ -4,7 +4,19 @@ import usePanelParams from "util/usePanelParams";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProjects } from "context/useProjects";
 
-export const CreateReplicatorButton: FC = () => {
+interface Props {
+  isPositive?: boolean;
+  className?: string;
+  project?: string;
+  cluster?: string;
+}
+
+export const CreateReplicatorButton: FC<Props> = ({
+  isPositive = true,
+  className,
+  project,
+  cluster,
+}) => {
   const { openCreateReplicator } = usePanelParams();
   const { data: allProjects = [] } = useProjects();
   const { canCreateReplicators } = useProjectEntitlements();
@@ -13,11 +25,14 @@ export const CreateReplicatorButton: FC = () => {
   );
   return (
     <Button
+      type="button"
       name="Create replicator"
       hasIcon
-      appearance="positive"
-      className="u-no-margin--bottom"
-      onClick={openCreateReplicator}
+      appearance={isPositive ? "positive" : "default"}
+      className={className}
+      onClick={() => {
+        openCreateReplicator(project, cluster);
+      }}
       disabled={isDisabled}
       title={
         isDisabled
@@ -25,7 +40,7 @@ export const CreateReplicatorButton: FC = () => {
           : undefined
       }
     >
-      <Icon name="plus" light className="u-margin--right" />
+      <Icon name="plus" light={isPositive} className="u-margin--right" />
       <span>Create replicator</span>
     </Button>
   );

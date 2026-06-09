@@ -40,6 +40,8 @@ const projectConfigFormFieldsToPayload: Record<string, string> = {
   limits_cpu: "limits.cpu",
   limits_memory: "limits.memory",
   limits_processes: "limits.processes",
+  replica_mode: "replica.mode",
+  replica_cluster: "replica.cluster",
 };
 
 export const getProjectKey = (formField: string): string => {

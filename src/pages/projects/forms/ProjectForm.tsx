@@ -7,6 +7,7 @@ import ProjectFormMenu, {
   INSTANCES,
   NETWORKS,
   PROJECT_DETAILS,
+  REPLICATION,
   RESOURCE_LIMITS,
 } from "pages/projects/forms/ProjectFormMenu";
 import ProjectDetailsForm from "pages/projects/forms/ProjectDetailsForm";
@@ -16,11 +17,12 @@ import ClusterRestrictionForm from "pages/projects/forms/ClusterRestrictionForm"
 import InstanceRestrictionForm from "pages/projects/forms/InstanceRestrictionForm";
 import DeviceUsageRestrictionForm from "pages/projects/forms/DeviceUsageRestrictionForm";
 import NetworkRestrictionForm from "pages/projects/forms/NetworkRestrictionForm";
+import ImageRestrictionForm from "pages/projects/forms/ImageRestrictionForm";
+import ProjectReplicaForm from "pages/projects/forms/ProjectReplicaForm";
 import type { FormikProps } from "formik/dist/types";
 import type { LxdProject } from "types/project";
 import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";
-import ImageRestrictionForm from "pages/projects/forms/ImageRestrictionForm";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
@@ -65,6 +67,9 @@ const ProjectForm: FC<Props> = ({
             )}
             {section === slugify(RESOURCE_LIMITS) && (
               <ProjectResourceLimitsForm formik={formik} />
+            )}
+            {section === slugify(REPLICATION) && (
+              <ProjectReplicaForm formik={formik} />
             )}
             {section === slugify(CLUSTERS) && (
               <ClusterRestrictionForm formik={formik} />

@@ -45,12 +45,20 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
     id: "project-mode",
     label: projectMode ? (
       <>
-        Project <ProjectRichChip projectName={replicator.project} /> is in{" "}
-        <strong>{projectMode}</strong> mode
+        Project{" "}
+        <ProjectRichChip
+          projectName={replicator.project}
+          urlSuffix="/configuration/replication"
+        />{" "}
+        is in <strong>{projectMode}</strong> mode
       </>
     ) : (
       <>
-        Project <ProjectRichChip projectName={replicator.project} />{" "}
+        Project{" "}
+        <ProjectRichChip
+          projectName={replicator.project}
+          urlSuffix="/configuration/replication"
+        />{" "}
         <strong>replica mode</strong> is unset
       </>
     ),
@@ -67,7 +75,9 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
           It must be either <strong>leader</strong> or <strong>standby</strong>{" "}
           to run replicator.{" "}
           <Link
-            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration`}
+            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             See project configuration
           </Link>
@@ -82,7 +92,11 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
     id: "replica-cluster-match",
     label: (
       <>
-        Project <ProjectRichChip projectName={project?.name || "default"} />{" "}
+        Project{" "}
+        <ProjectRichChip
+          projectName={project?.name || "default"}
+          urlSuffix="/configuration/replication"
+        />{" "}
         <strong>replica cluster</strong> configuration matches replicator
         cluster
       </>
@@ -95,7 +109,9 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
           does not equal replicator cluster{" "}
           <strong>{replicatorCluster || "none"}</strong>.{" "}
           <Link
-            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration`}
+            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             See project configuration
           </Link>

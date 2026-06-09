@@ -30,6 +30,7 @@ const EditReplicatorBtn: FC<Props> = ({
 
   return (
     <Button
+      type="button"
       appearance={hasLabel ? "default" : "base"}
       aria-label="Edit replicator"
       className={classnames("u-no-margin--bottom has-icon", className, {
@@ -39,7 +40,7 @@ const EditReplicatorBtn: FC<Props> = ({
         openEditReplicator(replicator.project, replicator.name);
         onClose?.();
       }}
-      title={disabledReason()}
+      title={disabledReason() ?? "Edit"}
       disabled={Boolean(disabledReason())}
     >
       <Icon name="edit" />

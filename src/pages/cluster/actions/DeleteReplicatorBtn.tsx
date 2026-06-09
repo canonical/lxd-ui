@@ -92,6 +92,7 @@ const DeleteReplicatorBtn: FC<Props> = ({
 
   return (
     <ConfirmationButton
+      type="button"
       onHoverText={disabledReason()}
       appearance={hasLabel ? "default" : "base"}
       className={classNames("u-no-margin--bottom has-icon", className, {
@@ -128,6 +129,12 @@ const DeleteReplicatorBtn: FC<Props> = ({
         ),
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
+        confirmButtonProps: {
+          type: "button",
+        },
+        cancelButtonProps: {
+          type: "button",
+        },
         close: onClose,
       }}
       disabled={Boolean(disabledReason()) || isLoading}
