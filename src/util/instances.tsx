@@ -8,7 +8,7 @@ import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfi
 
 export const CLUSTER_GROUP_PREFIX = "@";
 
-export const linkForInstanceDetail = (name: string, project?: string) => {
+export const getInstanceDetailUrl = (name: string, project?: string) => {
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "default")}/instance/${encodeURIComponent(name)}`;
 };
 

@@ -3,7 +3,7 @@ import ResourceLink from "./ResourceLink";
 import type { LxdUsedBy } from "util/usedBy";
 import type { ResourceIconType } from "./ResourceIcon";
 import { useLocalImagesInProject } from "context/useImages";
-import { linkForVolumeDetail } from "util/storageVolume";
+import { getVolumeDetailUrl } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
@@ -60,7 +60,7 @@ const UsedByItem: FC<Props> = ({
           <ResourceLink
             type="volume"
             value={item.volume}
-            to={linkForVolumeDetail({
+            to={getVolumeDetailUrl({
               name: item.volume,
               project: item.project,
               pool: item.pool,

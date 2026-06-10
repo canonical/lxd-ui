@@ -13,7 +13,7 @@ import {
   type BulkOperationItem,
   type BulkOperationResult,
 } from "util/promises";
-import { linkForVolumeDetail } from "util/storageVolume";
+import { getVolumeDetailUrl } from "util/storageVolume";
 import { ROOT_PATH } from "util/rootPath";
 
 export const volumeEntitlements = [
@@ -250,7 +250,7 @@ export const deleteStorageVolumeBulk = async (
         const item: BulkOperationItem = {
           name: volume.name,
           type: "volume",
-          href: linkForVolumeDetail(volume),
+          href: getVolumeDetailUrl(volume),
         };
         return deleteStorageVolume(
           volume.name,

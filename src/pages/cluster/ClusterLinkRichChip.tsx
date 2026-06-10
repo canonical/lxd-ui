@@ -4,7 +4,8 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ResourceLink from "components/ResourceLink";
 import { SMALL_TOOLTIP_BREAKPOINT } from "components/RichTooltipTable";
 import ClusterLinkRichTooltip from "./ClusterLinkRichTooltip";
-import { ROOT_PATH } from "util/rootPath";
+import { getClusterLinkListUrl } from "util/clusterLink";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   clusterLink: string;
@@ -18,13 +19,13 @@ const ClusterLinkRichChip: FC<Props> = ({
   disabled,
 }) => {
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
+  const isClustered = useIsClustered();
 
-  const url = `${ROOT_PATH}/ui/cluster/links`;
   const resourceLink = (
     <ResourceLink
       type="cluster-link"
       value={clusterLink}
-      to={url}
+      to={getClusterLinkListUrl(isClustered)}
       hasTitle={!showTooltip}
       className={className}
       disabled={disabled}

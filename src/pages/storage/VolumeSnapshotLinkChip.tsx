@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import ResourceLink from "components/ResourceLink";
 import type { LxdStorageVolume } from "types/storage";
-import { linkForVolumeDetail } from "util/storageVolume";
+import { getVolumeDetailUrl } from "util/storageVolume";
 
 interface Props {
   name: string;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const VolumeSnapshotLinkChip: FC<Props> = ({ name, volume }) => {
-  const baseUrl = linkForVolumeDetail(volume);
+  const baseUrl = getVolumeDetailUrl(volume);
 
   return (
     <ResourceLink type="snapshot" value={name} to={`${baseUrl}/snapshots`} />

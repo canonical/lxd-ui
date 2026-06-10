@@ -21,7 +21,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import { updateStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
-import { linkForVolumeDetail } from "util/storageVolume";
+import { getVolumeDetailUrl } from "util/storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import { useEventQueue } from "context/eventQueue";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -118,7 +118,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     },
   });
 
-  const baseUrl = `${linkForVolumeDetail(volume)}/configuration`;
+  const baseUrl = `${getVolumeDetailUrl(volume)}/configuration`;
 
   const setSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {

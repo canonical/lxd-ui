@@ -3,9 +3,9 @@ import {
   extractResourceDetailsFromUrl,
   type ResourceType,
 } from "util/resourceDetails";
-import { linkForVolumeDetail } from "util/storageVolume";
+import { getVolumeDetailUrl } from "util/storageVolume";
 import { getStorageBucketURL } from "util/storageBucket";
-import { linkForInstanceDetail } from "util/instances";
+import { getInstanceDetailUrl } from "util/instances";
 import { ROOT_PATH } from "util/rootPath";
 
 export interface LxdUsedBy {
@@ -105,11 +105,11 @@ export const getProfileInstances = (
 export const getLinkTarget = (resource: LxdUsedBy, entityType: string) => {
   if (entityType === "snapshot") {
     if (resource.instance) {
-      return `${linkForInstanceDetail(resource.instance, resource.project)}/snapshots`;
+      return `${getInstanceDetailUrl(resource.instance, resource.project)}/snapshots`;
     }
 
     if (resource.volume && resource.pool) {
-      const volumeDetailUrl = linkForVolumeDetail({
+      const volumeDetailUrl = getVolumeDetailUrl({
         name: resource.volume,
         project: resource.project,
         pool: resource.pool,
@@ -121,7 +121,7 @@ export const getLinkTarget = (resource: LxdUsedBy, entityType: string) => {
   }
 
   if (entityType === "volume" && resource.pool) {
-    return linkForVolumeDetail({
+    return getVolumeDetailUrl({
       name: resource.name,
       project: resource.project,
       pool: resource.pool,

@@ -3,6 +3,7 @@ import type { LxdClusterLinkState, StatusCaption } from "types/cluster";
 import type { LxdIdentity } from "types/permissions";
 import type { LxdProject } from "types/project";
 import type { TestContext } from "yup";
+import { ROOT_PATH } from "./rootPath";
 
 export const getClusterLinksStatus = (
   identity?: LxdIdentity,
@@ -74,4 +75,10 @@ export const testProjectReplicaCluster = (
   }
 
   return replicaCluster === selectedCluster;
+};
+
+export const getClusterLinkListUrl = (isClustered = false): string => {
+  return isClustered
+    ? `${ROOT_PATH}/ui/cluster/links`
+    : `${ROOT_PATH}/ui/server/cluster-links`;
 };

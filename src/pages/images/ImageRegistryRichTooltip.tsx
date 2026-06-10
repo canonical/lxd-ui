@@ -7,7 +7,8 @@ import { Link } from "react-router";
 import { useImageRegistry } from "context/useImageRegistries";
 import { isImageRegistryPublic } from "util/imageRegistries";
 import ItemName from "components/ItemName";
-import { ROOT_PATH } from "util/rootPath";
+import { getClusterLinkListUrl } from "util/clusterLink";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   imageRegistryName: string;
@@ -20,6 +21,7 @@ const ImageRegistryRichTooltip: FC<Props> = ({
 }) => {
   const { data: imageRegistry, isLoading: isLoading } =
     useImageRegistry(imageRegistryName);
+  const isClustered = useIsClustered();
 
   if (!imageRegistry && !isLoading) {
     return (
@@ -83,7 +85,7 @@ const ImageRegistryRichTooltip: FC<Props> = ({
     rows.push({
       title: "Cluster",
       value: cluster ? (
-        <Link to={`${ROOT_PATH}/ui/cluster/links`}>{cluster}</Link>
+        <Link to={getClusterLinkListUrl(isClustered)}>{cluster}</Link>
       ) : (
         "-"
       ),

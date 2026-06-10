@@ -9,7 +9,7 @@ import {
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
-import { linkForInstanceDetail } from "util/instances";
+import { getInstanceDetailUrl } from "util/instances";
 import { ROOT_PATH } from "util/rootPath";
 
 export const createInstanceSnapshot = async (
@@ -72,7 +72,7 @@ export const deleteInstanceSnapshotBulk = async (
         const item: BulkOperationItem = {
           name: name,
           type: "snapshot",
-          href: `${linkForInstanceDetail(instance.name, instance.project)}/snapshots`,
+          href: `${getInstanceDetailUrl(instance.name, instance.project)}/snapshots`,
         };
         await deleteInstanceSnapshot(instance, { name })
           .then((operation) => {

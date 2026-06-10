@@ -26,7 +26,7 @@ import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { uploadVolume } from "api/storage-volumes";
 import {
-  linkForVolumeDetail,
+  getVolumeDetailUrl,
   testDuplicateStorageVolumeName,
 } from "util/storageVolume";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
@@ -64,7 +64,7 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
     location: string,
     pool: string,
   ) => {
-    const volumeDetailURL = linkForVolumeDetail({
+    const volumeDetailURL = getVolumeDetailUrl({
       location: location,
       name: volumeName,
       pool: pool,

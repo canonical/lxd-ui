@@ -8,7 +8,7 @@ import EditStorageVolume from "pages/storage/forms/EditStorageVolume";
 import TabLinks from "components/TabLinks";
 import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
 import { useStorageVolume } from "context/useVolumes";
-import { linkForVolumeDetail } from "util/storageVolume";
+import { getVolumeDetailUrl } from "util/storageVolume";
 import NotFound from "components/NotFound";
 
 const tabs: string[] = ["Overview", "Configuration", "Snapshots"];
@@ -70,7 +70,7 @@ const StorageVolumeDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={linkForVolumeDetail(volume)}
+          tabUrl={getVolumeDetailUrl(volume)}
         />
         <NotificationRow />
         {!activeTab && (
