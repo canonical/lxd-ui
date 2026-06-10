@@ -64,17 +64,9 @@ const LoadBalancerPortsForm: FC<Props> = ({ formik, network }) => {
               Target pool
             </Label>
           </th>
-          <th className="instances u-align--right">
-            Instances{" "}
-            <Tooltip message="Determined by selected target pool">
-              <Icon name="information" />
-            </Tooltip>
-          </th>
-          <th className="target-port u-align--right">
-            Target port{" "}
-            <Tooltip message="Determined by selected target pool">
-              <Icon name="information" />
-            </Tooltip>
+          <th className="instances u-align--right u-text--muted">Instances</th>
+          <th className="target-port u-align--right u-text--muted">
+            Target port
           </th>
           <th className="pool-action">
             <span className="u-off-screen">Pool action</span>
@@ -175,10 +167,16 @@ const LoadBalancerPortsForm: FC<Props> = ({ formik, network }) => {
                 />
               </td>
               <td className="instances u-align--right mono-font">
-                <b>{selectedTargetPool?.instances.length ?? 0}</b>
+                <b>{selectedTargetPool?.instances.length ?? "-"}</b>{" "}
+                <Tooltip message="Determined by selected target pool">
+                  <Icon name="information" />
+                </Tooltip>
               </td>
               <td className="target-port u-align--right mono-font">
-                <b>{selectedTargetPool?.config.target_port ?? 0}</b>
+                <b>{selectedTargetPool?.config.target_port ?? "-"}</b>{" "}
+                <Tooltip message="Determined by selected target pool">
+                  <Icon name="information" />
+                </Tooltip>
               </td>
               <td className="pool-action">
                 <EditLoadBalancerPoolBtn
@@ -186,7 +184,7 @@ const LoadBalancerPortsForm: FC<Props> = ({ formik, network }) => {
                   pool={port.targetPool}
                 />
               </td>
-              <td className="actions">
+              <td className="actions u-align--right">
                 <Button
                   appearance=""
                   onClick={async () =>
