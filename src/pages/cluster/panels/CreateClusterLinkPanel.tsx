@@ -69,7 +69,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
       const payload = {
         name: values.name,
         description: values.description,
-        trust_token: values.token,
+        trust_token: values.tokenType === "consume" ? values.token : undefined,
         auth_groups: values.authGroups,
         type: "bidirectional",
       };
