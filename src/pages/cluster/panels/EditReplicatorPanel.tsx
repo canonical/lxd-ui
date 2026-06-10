@@ -15,8 +15,6 @@ import { queryKeys } from "util/queryKeys";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 import { updateReplicator } from "api/replicators";
 import { ReplicatorForm } from "../ReplicatorForm";
-import ResourceLink from "components/ResourceLink";
-import { ROOT_PATH } from "util/rootPath";
 import { useReplicator } from "context/useReplicators";
 import { getPayload } from "util/replicator";
 import * as Yup from "yup";
@@ -25,6 +23,7 @@ import {
   testProjectReplicaCluster,
 } from "util/clusterLink";
 import { useProject } from "context/useProjects";
+import ReplicatorRichChip from "../ReplicatorRichChip";
 
 const EditReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -94,11 +93,9 @@ const EditReplicatorPanel: FC = () => {
           toastNotify.success(
             <>
               Replicator{" "}
-              <ResourceLink
-                type="replicator"
-                value={formik.values.name}
-                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(formik.values.project)}/replicator/${encodeURIComponent(formik.values.name)}`}
-                key={formik.values.name}
+              <ReplicatorRichChip
+                replicator={formik.values.name}
+                project={formik.values.project}
               />
               updated.
             </>,
