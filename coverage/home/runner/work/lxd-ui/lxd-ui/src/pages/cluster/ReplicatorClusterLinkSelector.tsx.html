@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.42% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/76</span>
+                <span class='fraction'>15/75</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.42% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/76</span>
+                <span class='fraction'>15/75</span>
             </div>
         
             
@@ -138,8 +138,7 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -153,8 +152,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -220,9 +218,10 @@ import { CustomSelect, useNotify } from "@canonical/react-components";
 import { useClusterLinks } from "context/useClusterLinks";
 import type { FormikProps } from "formik";
 import { Link } from "react-router-dom";
-import { ROOT_PATH } from "util/rootPath";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
+import { useIsClustered } from "context/useIsClustered";
+import { getClusterLinkListUrl } from "util/clusterLink";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;ReplicatorFormValues&gt;;
@@ -234,7 +233,7 @@ export const ReplicatorClusterLinkSelector: FC&lt;Props&gt; = <span class="fstat
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const { data: links = [], error, isLoading } = useClusterLinks();</span>
 <span class="cstat-no" title="statement not covered" >  const notify = useNotify();</span>
-<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const isClustered = useIsClustered();</span>
 <span class="cstat-no" title="statement not covered" >  const hasNoLinks = links.length === 0 &amp;&amp; !isLoading;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  if (error) {</span>
@@ -256,16 +255,14 @@ export const ReplicatorClusterLinkSelector: FC&lt;Props&gt; = <span class="fstat
 <span class="cstat-no" title="statement not covered" >    ),</span>
 <span class="cstat-no" title="statement not covered" >  }));</span>
 <span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const helpLink = (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Link to={getClusterLinkListUrl(isClustered)}&gt;cluster links&lt;/Link&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const helpText = hasNoLinks ? (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      Cluster to replicate to. Create your first{" "}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Link to={`${ROOT_PATH}/ui/cluster/links`}&gt;cluster link&lt;/Link&gt;.</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;&gt;Cluster to replicate to. Create your first {helpLink}.&lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >  ) : (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      Cluster to replicate to. Manage your{" "}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Link to={`${ROOT_PATH}/ui/cluster/links`}&gt;cluster links&lt;/Link&gt;.</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;&gt;Cluster to replicate to. Manage your {helpLink}.&lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;CustomSelect</span>
@@ -298,7 +295,7 @@ export const ReplicatorClusterLinkSelector: FC&lt;Props&gt; = <span class="fstat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-10T09:10:52.334Z
+                at 2026-06-10T11:00:14.227Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
