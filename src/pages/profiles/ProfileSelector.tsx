@@ -1,4 +1,4 @@
-import { useEffect, type FC } from "react";
+import { type FC } from "react";
 import {
   Button,
   Icon,
@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "@canonical/react-components";
 import { defaultFirst } from "util/helpers";
+import { focusField } from "util/formFields";
 import { useProfiles } from "context/useProfiles";
 
 interface Props {
@@ -34,14 +35,6 @@ const ProfileSelector: FC<Props> = ({
 
   const { data: profiles = [], error, isLoading } = useProfiles(project);
 
-  useEffect(() => {
-    const contentdetails = document.getElementById("content-details");
-
-    if (contentdetails) {
-      contentdetails.scrollTop = contentdetails.scrollHeight;
-    }
-  }, [selected]);
-
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading profiles..." />;
   }
@@ -65,7 +58,9 @@ const ProfileSelector: FC<Props> = ({
   const addProfile = () => {
     const nextProfile = unselected[0];
     if (nextProfile) {
+      const nextIndex = selected.length;
       setSelected([...selected, nextProfile]);
+      focusField(`profile-${nextIndex}`);
     }
   };
 
@@ -79,8 +74,8 @@ const ProfileSelector: FC<Props> = ({
               A profile stores a set of configuration, such as instance and
               device options.
               <br />
-              Each profile overrides the configuration specified in previous
-              profiles.
+              Profiles lower in this list take precedence and override values
+              from profiles above.
             </>
           }
         >
