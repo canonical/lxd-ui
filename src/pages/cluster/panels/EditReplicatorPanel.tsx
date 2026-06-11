@@ -73,7 +73,7 @@ const EditReplicatorPanel: FC = () => {
   const formik = useFormik<ReplicatorFormValues>({
     initialValues: {
       isCreating: false,
-      name: replicator?.name || "",
+      name: replicatorName || "",
       description: replicator?.description || "",
       project: panelParams.project,
       cluster: replicator?.config?.cluster || "",
