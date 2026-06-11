@@ -81,4 +81,35 @@
   .resource-label {
     max-width: 100%; // allow base image to take full width
   }
+
+  .instance-load-balancers {
+    margin-left: 40%;
+    margin-top: -0.5rem;
+    width: 21rem;
+
+    @include mobile-and-tablet {
+      margin-left: 33%;
+      width: auto;
+
+      .status-header {
+        padding-left: 1rem !important;
+      }
+    }
+
+    tr {
+      border-bottom: 0;
+    }
+
+    .pools-header {
+      min-width: 10rem;
+    }
+
+    .status-header {
+      padding-left: 2.1rem;
+    }
+  }
+
+  .p-table__expanding-panel:has(.instance-load-balancers:empty) {
+    display: none;
+  }
 }
