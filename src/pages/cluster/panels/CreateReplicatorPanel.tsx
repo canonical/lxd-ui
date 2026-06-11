@@ -134,7 +134,7 @@ const CreateReplicatorPanel: FC = () => {
     cluster: Yup.string()
       .test({
         name: "Reachable cluster link",
-        test: testReachableClusterLink(),
+        test: testReachableClusterLink,
       })
       .required("Cluster is required."),
   });
