@@ -58,9 +58,12 @@ const EditReplicatorPanel: FC = () => {
           });
         },
       })
-      .test({
-        name: "Reachable cluster link",
-        test: testReachableClusterLink(),
+      .test("Reachable cluster link", async (value, context) => {
+        if (replicator?.config?.cluster === value) {
+          // Skip this test if cluster has not changed (to avoid blocking update if the current cluster is not reachable)
+          return true;
+        }
+        return testReachableClusterLink(value, context);
       })
       .required("Cluster is required."),
   });

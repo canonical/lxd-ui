@@ -42,23 +42,25 @@ const isClusterLinkReachable = async (cluster: string): Promise<boolean> => {
 const NOT_REACHABLE_ERROR_MESSAGE =
   "The cluster must be Reachable. Make sure a matching link has been created on the target cluster using the generated token.";
 
-export const testReachableClusterLink =
-  () => async (value: string | undefined, context: TestContext) => {
-    if (!value) {
+export const testReachableClusterLink = async (
+  value: string | undefined,
+  context: TestContext,
+) => {
+  if (!value) {
+    return true;
+  }
+
+  try {
+    const isReachable = await isClusterLinkReachable(value);
+    if (isReachable) {
       return true;
     }
 
-    try {
-      const isReachable = await isClusterLinkReachable(value);
-      if (isReachable) {
-        return true;
-      }
-
-      return context.createError({ message: NOT_REACHABLE_ERROR_MESSAGE });
-    } catch {
-      return context.createError({ message: NOT_REACHABLE_ERROR_MESSAGE });
-    }
-  };
+    return context.createError({ message: NOT_REACHABLE_ERROR_MESSAGE });
+  } catch {
+    return context.createError({ message: NOT_REACHABLE_ERROR_MESSAGE });
+  }
+};
 
 export const testProjectReplicaCluster = (
   project?: LxdProject,
