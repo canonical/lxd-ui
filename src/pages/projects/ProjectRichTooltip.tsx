@@ -7,7 +7,10 @@ import ResourceLabel from "components/ResourceLabel";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { useProfile } from "context/useProfiles";
-import { isProjectWithProfiles } from "util/projects";
+import {
+  getInstancesUsedByProject,
+  isProjectWithProfiles,
+} from "util/projects";
 import { getDefaultStoragePool, getDefaultNetwork } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -153,6 +156,11 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
         ) : (
           "-"
         ),
+      truncate: false,
+    },
+    {
+      title: "Number of instances",
+      value: project ? getInstancesUsedByProject(project).length : "-",
       truncate: false,
     },
     {
