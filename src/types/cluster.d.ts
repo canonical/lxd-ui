@@ -50,6 +50,7 @@ export interface LxdClusterLink {
   name: string;
   type: string;
   access_entitlements?: string[];
+  used_by?: string[];
 }
 
 export interface LxdClusterLinkState {
