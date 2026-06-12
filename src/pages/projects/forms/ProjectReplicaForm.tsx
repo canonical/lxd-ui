@@ -1,69 +1,36 @@
 import { type FC } from "react";
-import { CustomSelect, Col, Row } from "@canonical/react-components";
-import DividerLine from "components/DividerLine";
+import { Col, Field, Notification, Row } from "@canonical/react-components";
 import ScrollableForm from "components/ScrollableForm";
 import type { FormikProps } from "formik/dist/types";
 import ClusterLinkSelector from "pages/cluster/ClusterLinkSelector";
 import ReplicatorList from "pages/cluster/ReplicatorList";
+import PromoteProjectBtn from "pages/projects/actions/PromoteProjectBtn";
+import DemoteProjectBtn from "pages/projects/actions/DemoteProjectBtn";
 import type { LxdConfigPair } from "types/config";
 import type {
   ProjectFormValues,
   ProjectReplicaFormValues,
 } from "types/forms/project";
 import { ensureEditMode } from "util/editMode";
-import { getProjectKey } from "util/projectConfigFields";
+import ClearProjectReplicaModeBtn from "../actions/ClearProjectReplicaModeBtn";
 
 export const replicaPayload = (
   values: ProjectReplicaFormValues,
 ): LxdConfigPair => {
-  const replicaMode = values.replica_mode || "";
-  const replicaCluster = values.replica_cluster || "";
-
-  const payload: LxdConfigPair = {};
-
-  if (replicaMode) {
-    payload[getProjectKey("replica_mode")] = replicaMode;
+  if (!values.replica_cluster) {
+    return {};
   }
-  if (replicaCluster) {
-    payload[getProjectKey("replica_cluster")] = replicaCluster;
-  }
-
-  return payload;
+  return {
+    "replica.cluster": values.replica_cluster,
+  };
 };
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
+  isEdit: boolean;
 }
 
-const ProjectReplicaForm: FC<Props> = ({ formik }) => {
-  const getModeLabel = (modeName: string, modeDescription: string) => (
-    <div className="label replica-mode-label">
-      <span className="name">{modeName}</span>
-      <span className="u-text--muted">{modeDescription}</span>
-    </div>
-  );
-
-  const modeOptions = [
-    {
-      value: "",
-      label: "None",
-      text: "None",
-    },
-    {
-      value: "leader",
-      label: getModeLabel("Leader", "Active source project"),
-      text: "Leader",
-    },
-    {
-      value: "standby",
-      label: getModeLabel(
-        "Standby",
-        "Read-only failover target. Acts as a passive receiver for replicated data from the remote leader cluster.",
-      ),
-      text: "Standby",
-    },
-  ];
-
+const ProjectReplicaForm: FC<Props> = ({ formik, isEdit }) => {
   const getClusterHelpText = (mode?: string) => {
     if (!mode) {
       return null;
@@ -72,8 +39,7 @@ const ProjectReplicaForm: FC<Props> = ({ formik }) => {
     if (mode === "leader") {
       return (
         <>
-          Cluster to replicate to. The project will be replicated to this
-          cluster.
+          Cluster to replicate this project to.
           <br />
         </>
       );
@@ -82,8 +48,7 @@ const ProjectReplicaForm: FC<Props> = ({ formik }) => {
     if (mode === "standby") {
       return (
         <>
-          Cluster to replicate from. The project will receive data from this
-          cluster.
+          Cluster this project will receive data from.
           <br />
         </>
       );
@@ -92,25 +57,72 @@ const ProjectReplicaForm: FC<Props> = ({ formik }) => {
     return null;
   };
 
+  const getModeDescription = (mode: string) => {
+    if (mode === "leader") {
+      return "This project is the active source project for replication. Its instances can be replicated to a remote standby cluster.";
+    }
+    if (mode === "standby") {
+      return "This project is a read-only failover target. It acts as a passive receiver for replicated data from the remote leader cluster.";
+    }
+    return "No replication configuration applied.";
+  };
+
+  const getModeActionButtons = (mode?: string) => {
+    const buttons = [];
+    if (mode !== "leader") {
+      buttons.push(
+        <PromoteProjectBtn
+          project={formik.values.name}
+          isEdit={isEdit}
+          key="promote-btn"
+        />,
+      );
+    }
+
+    if (mode !== "standby") {
+      buttons.push(
+        <DemoteProjectBtn
+          project={formik.values.name}
+          isEdit={isEdit}
+          key="demote-btn"
+        />,
+      );
+    }
+
+    if (mode) {
+      buttons.push(
+        <ClearProjectReplicaModeBtn
+          project={formik.values.name}
+          isEdit={isEdit}
+          key="clear-btn"
+        />,
+      );
+    }
+
+    return buttons;
+  };
+
   return (
-    <ScrollableForm>
+    <ScrollableForm className="project-replica-form">
       <Row>
         <Col size={12}>
-          <CustomSelect
-            name="replica_mode"
+          <Field
+            forId="replica_mode"
             label="Replica mode"
-            options={modeOptions}
-            value={formik.values.replica_mode || ""}
-            onChange={(value) => {
-              ensureEditMode(formik);
-              formik.setFieldValue("replica_mode", value);
-            }}
-            error={
-              formik.touched.replica_mode ? formik.errors.replica_mode : null
-            }
-            dropdownClassName="replica-mode-dropdown"
-            disabled={!!formik.values.editRestriction}
-          />
+            help={getModeDescription(formik.values.replica_mode || "")}
+            labelClassName="u-no-margin--bottom"
+            className="replica-mode-field"
+          >
+            <div className="replica-mode-output-wrapper">
+              <output id="replica_mode" className="mono-font u-sv2">
+                <b>{formik.values.replica_mode || "None"}</b>
+              </output>
+
+              <div className="replica-mode-action-buttons">
+                {getModeActionButtons(formik.values.replica_mode)}
+              </div>
+            </div>
+          </Field>
         </Col>
       </Row>
 
@@ -127,29 +139,32 @@ const ProjectReplicaForm: FC<Props> = ({ formik }) => {
             }
             onChange={(value) => {
               ensureEditMode(formik);
-              formik.setFieldError("replica_cluster", undefined);
-              void formik.setFieldTouched("replica_cluster", true, false);
-              void formik
-                .setFieldValue("replica_cluster", value, false)
-                .then(() => {
-                  void formik.validateField("replica_cluster");
-                });
+              void formik.setFieldValue("replica_cluster", value);
             }}
             help={getClusterHelpText(formik.values.replica_mode)}
             disabled={!!formik.values.editRestriction}
+            emptyOptionLabel="None"
           />
         </Col>
       </Row>
-
-      <DividerLine />
-
       <Row>
         <Col size={12}>
-          Replicators for this project
-          <ReplicatorList
-            variant="project-configuration"
-            project={formik.values.name}
-          />
+          <h2 className="p-heading--4">Replicators for this project</h2>
+          {isEdit ? (
+            <ReplicatorList
+              variant="project-configuration"
+              project={formik.values.name}
+              cluster={formik.values.replica_cluster}
+            />
+          ) : (
+            <Notification
+              severity="information"
+              title="Outgoing replicators will be managed here."
+            >
+              Replicators can be created and managed once this project has been
+              successfully created.
+            </Notification>
+          )}
         </Col>
       </Row>
     </ScrollableForm>

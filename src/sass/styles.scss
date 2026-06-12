@@ -137,7 +137,6 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "no_match";
 @import "not_found";
 @import "operation_list";
-@import "output_field";
 @import "page_header";
 @import "pattern_navigation";
 @import "pattern_terminal";
@@ -488,11 +487,4 @@ body.is-dark .lxd-icon {
 .back-link-icon {
   margin-left: $sph--small !important;
   margin-right: $sph--small !important;
-}
-
-.divider-line {
-  background: var(--vf-color-border-default);
-  height: 1px;
-  margin: 1rem 0;
-  width: 100%;
 }

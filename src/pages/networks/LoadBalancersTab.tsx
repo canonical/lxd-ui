@@ -69,11 +69,7 @@ const LoadBalancersTab: FC<Props> = ({ network }) => {
           appearance="positive"
           className="empty-state-button"
         />
-        <CreateLoadBalancerPoolBtn
-          network={network}
-          appearance=""
-          hasIcon={false}
-        />
+        <CreateLoadBalancerPoolBtn network={network} appearance="" />
       </EmptyState>
     );
   }

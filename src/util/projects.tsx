@@ -1,6 +1,8 @@
-import type { LxdProject } from "types/project";
+import type { LxdProject, ProjectReplicaMode } from "types/project";
 import { slugify } from "./slugify";
 import { ROOT_PATH } from "util/rootPath";
+import { updateProjectReplicaMode } from "api/projects";
+import { waitForOperation } from "api/operations";
 
 export const ALL_PROJECTS = "All projects";
 
@@ -83,7 +85,7 @@ export const isProjectWithVolumes = (project?: LxdProject): boolean =>
   project?.config["features.storage.volumes"] === "true";
 
 export const isProjectReplicaModeStandby = (project?: LxdProject): boolean =>
-  project?.config["replica.mode"] === "standby";
+  project?.replica_mode === "standby";
 
 export const getInstancesUsedByProject = (project: LxdProject): string[] => {
   if (!project.used_by) {
@@ -91,4 +93,24 @@ export const getInstancesUsedByProject = (project: LxdProject): string[] => {
   }
 
   return project.used_by.filter((item) => item.startsWith("/1.0/instances/"));
+};
+
+export const updateReplicaMode = async (
+  project: string,
+  mode: ProjectReplicaMode,
+  onSuccess: () => void,
+  onFailure: (e: unknown) => void,
+) => {
+  try {
+    const operation = await updateProjectReplicaMode(project, mode);
+    const operationId = operation?.metadata?.id;
+    if (!operationId) {
+      onFailure(new Error("Operation id missing"));
+      return;
+    }
+    await waitForOperation(operationId);
+    onSuccess();
+  } catch (e) {
+    onFailure(e as Error);
+  }
 };

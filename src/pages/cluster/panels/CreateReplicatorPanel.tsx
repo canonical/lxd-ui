@@ -39,7 +39,7 @@ const CreateReplicatorPanel: FC = () => {
   const { data: projects = [] } = useProjects();
   const { canCreateReplicators, canEditProject } = useProjectEntitlements();
   const panelProject = panelParams.replicaProject ?? "";
-  const panelReplicaCluster = panelParams.replicaCluster ?? "";
+  const panelClusterLink = panelParams.clusterLink ?? "";
 
   const closePanel = () => {
     panelParams.clear();
@@ -151,11 +151,16 @@ const CreateReplicatorPanel: FC = () => {
       name: "",
       description: "",
       project: panelProject,
-      cluster: panelReplicaCluster,
+      cluster: panelClusterLink,
       snapshot: "false",
       schedule: "",
     },
+    initialTouched: {
+      project: !!panelProject,
+      cluster: !!panelClusterLink,
+    },
     enableReinitialize: true,
+    validateOnMount: true,
     validationSchema: schema,
     validateOnChange: true,
     onSubmit: () => {

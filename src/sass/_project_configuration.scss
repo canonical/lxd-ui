@@ -46,3 +46,25 @@
     }
   }
 }
+
+.project-replica-form {
+  .replica-mode-field {
+    .replica-mode-output-wrapper {
+      align-items: baseline;
+      display: flex;
+      gap: $sph--large;
+
+      output.mono-font {
+        width: 15rem;
+      }
+    }
+
+    .p-form-help-text {
+      max-width: 15rem;
+    }
+  }
+
+  .replicator-list-project-configuration-empty-state {
+    margin-top: $spv--x-large;
+  }
+}

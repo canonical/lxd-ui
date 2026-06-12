@@ -41,7 +41,7 @@ const EditProject: FC<Props> = ({ project }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { section } = useParams<{ section?: string }>();
-  const { hasProjectsNetworksZones, hasStorageBuckets, hasReplicators } =
+  const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
   const { canEditProject } = useProjectEntitlements();
 
@@ -54,6 +54,8 @@ const EditProject: FC<Props> = ({ project }) => {
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string().required(),
+    replica_mode: Yup.string().oneOf(["", "leader", "standby"]).optional(),
+    replica_cluster: Yup.string().optional(),
   });
 
   const editRestriction = canEditProject(project)
@@ -72,11 +74,6 @@ const EditProject: FC<Props> = ({ project }) => {
 
       if (!hasStorageBuckets) {
         values.features_storage_buckets = undefined;
-      }
-
-      if (!hasReplicators) {
-        values.replica_mode = undefined;
-        values.replica_cluster = undefined;
       }
 
       const projectPayload = getProjectPayload(project, values) as LxdProject;

@@ -108,7 +108,7 @@ export const getProjectEditValues = (
 
     restricted_registries: project.config["restricted.registries"],
 
-    replica_mode: project.config["replica.mode"],
+    replica_mode: project.replica_mode,
     replica_cluster: project.config["replica.cluster"],
 
     editRestriction,
@@ -120,14 +120,18 @@ export const getProjectPayload = (
   values: ProjectFormValues,
 ): Partial<LxdProject> => {
   const handledConfigKeys = getProjectConfigKeys();
-  const handledKeys = new Set(["name", "description", "config"]);
+  const handledKeys = new Set([
+    "name",
+    "description",
+    "config",
+    "replica_mode",
+  ]);
 
   return {
     ...projectDetailPayload(values),
     config: {
       ...projectDetailRestrictionPayload(values),
       ...resourceLimitsPayload(values),
-      ...replicaPayload(values),
       ...(values.restricted
         ? {
             ...clusterRestrictionPayload(values),
@@ -137,6 +141,8 @@ export const getProjectPayload = (
             ...imageRestrictionPayload(values),
           }
         : {}),
+
+      ...replicaPayload(values),
       ...getUnhandledKeyValues(project.config, handledConfigKeys),
     },
     ...getUnhandledKeyValues(project, handledKeys),

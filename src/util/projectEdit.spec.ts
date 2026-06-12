@@ -29,12 +29,12 @@ describe("conversion to form values and back with getProjectEditValues and getPr
     expect(payload.config?.["user.key"]).toBe("custom-config-value");
   });
 
-  it("updates replica config fields from form values", () => {
+  it("includes replica_cluster in config and excludes replica_mode", () => {
     const project = {
       config: {
-        "replica.mode": "leader",
-        "replica.cluster": "cluster-a",
+        replica_cluster: "cluster-a",
       },
+      replica_mode: "leader",
     } as unknown as LxdProject;
 
     const formValues = {
@@ -44,7 +44,7 @@ describe("conversion to form values and back with getProjectEditValues and getPr
     };
     const payload = getProjectPayload(project, formValues);
 
-    expect(payload.config?.["replica.mode"]).toBe("standby");
     expect(payload.config?.["replica.cluster"]).toBe("cluster-b");
+    expect(payload.replica_mode).toBeUndefined();
   });
 });

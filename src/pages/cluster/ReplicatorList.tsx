@@ -1,20 +1,21 @@
 import { type FC } from "react";
 import { Link } from "react-router-dom";
 import {
-  Row,
+  List,
+  MainTable,
+  Notification,
+  Panel,
   ScrollableTable,
+  Spinner,
   TablePagination,
   useNotify,
-  Spinner,
-  MainTable,
-  Panel,
-  EmptyState,
-  Icon,
-  List,
+  Row,
 } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
+import { useClusterLinks } from "context/useClusterLinks";
+import { useIsClustered } from "context/useIsClustered";
 import { useReplicators } from "context/useReplicators";
 import useSortTableData from "util/useSortTableData";
 import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
@@ -22,11 +23,13 @@ import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import { useDocs } from "context/useDocs";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
+import CreateClusterLink from "pages/cluster/CreateClusterLink";
 import DeleteReplicatorBtn from "pages/cluster/actions/DeleteReplicatorBtn";
 import EditReplicatorBtn from "pages/cluster/actions/EditReplicatorBtn";
 import RunReplicatorBtn from "pages/cluster/actions/RunReplicatorBtn";
 import CreateReplicatorPanel from "pages/cluster/panels/CreateReplicatorPanel";
 import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
+import ReplicatorListEmptyState from "pages/cluster/ReplicatorListEmptyState";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -42,8 +45,30 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: replicators = [], error, isLoading } = useReplicators(project);
+  const { data: links = [], isLoading: linksLoading } = useClusterLinks();
+  const isClustered = useIsClustered();
+
   const isProjectConfiguration = variant === "project-configuration";
   const isEmptyState = replicators.length === 0 && !isLoading;
+  const hasClusterLinks = links.length > 0 && !linksLoading;
+
+  const projectConfigurationInfoNotification = (
+    <Notification
+      severity="information"
+      title="Only outgoing replicators are shown here."
+      className="u-no-margin--bottom"
+    >
+      Incoming replicators are configured on the{" "}
+      {cluster ? (
+        <>
+          replica cluster <ClusterLinkRichChip clusterLink={cluster} />
+        </>
+      ) : (
+        <strong>replica cluster</strong>
+      )}
+      .
+    </Notification>
+  );
 
   if (error) {
     notify.failure("Loading replicators failed", error);
@@ -156,26 +181,22 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
 
   const tableContent = (
     <Row>
-      {!isEmptyState && (
-        <ScrollableTable
-          dependencies={[replicators, notify.notification]}
-          tableId="replicator-table-id"
-          belowIds={
-            isProjectConfiguration
-              ? ["form-footer", "status-bar"]
-              : ["status-bar"]
-          }
-        >
-          {isProjectConfiguration ? (
-            <MainTable
-              id="replicator-table-id"
-              className="replicator-table"
-              headers={headers}
-              rows={sortedRows}
-              sortable
-              onUpdateSort={updateSort}
-            />
-          ) : (
+      {!isEmptyState &&
+        (isProjectConfiguration ? (
+          <MainTable
+            id="replicator-table-id"
+            className="replicator-table"
+            headers={headers}
+            rows={sortedRows}
+            sortable
+            onUpdateSort={updateSort}
+          />
+        ) : (
+          <ScrollableTable
+            dependencies={[replicators, notify.notification]}
+            tableId="replicator-table-id"
+            belowIds={["status-bar"]}
+          >
             <TablePagination
               data={sortedRows}
               id="pagination"
@@ -191,37 +212,21 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
                 onUpdateSort={updateSort}
               />
             </TablePagination>
-          )}
-        </ScrollableTable>
-      )}
+          </ScrollableTable>
+        ))}
 
       {isEmptyState && (
-        <EmptyState
-          className="empty-state empty-state__full-width"
-          image={<Icon name="change-version" className="empty-state-icon" />}
-          title="No replicators found"
-        >
-          <p>
-            There are no replicators{" "}
-            {isProjectConfiguration ? "for this project" : "on this server"}.
-          </p>
-          <p>
-            <a
-              href={`${docBaseLink}/explanation/replicators/`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more about replicators
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
-          </p>
-          <CreateReplicatorButton
-            className="u-no-margin--bottom"
-            project={isProjectConfiguration ? project : undefined}
-            cluster={isProjectConfiguration ? cluster : undefined}
-            isPositive={!isProjectConfiguration}
-          />
-        </EmptyState>
+        <ReplicatorListEmptyState
+          isProjectConfiguration={isProjectConfiguration}
+          projectConfigurationInfoNotification={
+            projectConfigurationInfoNotification
+          }
+          hasClusterLinks={hasClusterLinks}
+          isClustered={isClustered}
+          docBaseLink={docBaseLink}
+          project={project}
+          cluster={cluster}
+        />
       )}
     </Row>
   );
@@ -233,13 +238,14 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
           {!isEmptyState && (
             <div className="u-align--right">
               <CreateReplicatorButton
-                isPositive={!isProjectConfiguration}
-                project={isProjectConfiguration ? project : undefined}
-                cluster={isProjectConfiguration ? cluster : undefined}
+                appearance="default"
+                project={project}
+                cluster={cluster}
               />
             </div>
           )}
           {tableContent}
+          {!isEmptyState && projectConfigurationInfoNotification}
         </>
       );
     }
@@ -257,12 +263,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
         }
         controls={
           !isEmptyState && (
-            <CreateReplicatorButton
-              className="u-no-margin--bottom"
-              isPositive={!isProjectConfiguration}
-              project={isProjectConfiguration ? project : undefined}
-              cluster={isProjectConfiguration ? cluster : undefined}
-            />
+            <CreateReplicatorButton className="u-no-margin--bottom" />
           )
         }
       >
@@ -279,6 +280,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
         <CreateReplicatorPanel />
       )}
       {panelParams.panel === panels.editReplicator && <EditReplicatorPanel />}
+      <CreateClusterLink />
     </>
   );
 };

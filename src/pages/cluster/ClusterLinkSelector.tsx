@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import { Link } from "react-router-dom";
 import {
   CustomSelect,
@@ -21,6 +21,7 @@ interface ClusterLinkSelectorProps extends Omit<
   error?: string;
   required?: boolean;
   help?: React.ReactNode;
+  emptyOptionLabel?: string;
 }
 
 const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
@@ -31,13 +32,20 @@ const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
   error,
   required = false,
   help,
+  emptyOptionLabel = "Select a cluster",
   ...selectProps
 }) => {
   const { data: links = [], error: apiError, isLoading } = useClusterLinks();
   const notify = useNotify();
   const isClustered = useIsClustered();
+  const linkNames = links.map((link) => link.name);
 
   const hasNoLinks = links.length === 0 && !isLoading;
+  const hasMissingValue =
+    Boolean(value) && !isLoading && !linkNames.includes(value);
+  const emptyStateLabel = hasMissingValue
+    ? "Clear value"
+    : "No cluster links available";
 
   if (apiError) {
     notify.failure("Loading cluster links failed", apiError);
@@ -58,11 +66,41 @@ const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
     ),
   }));
 
+  const missingValueOption = hasMissingValue
+    ? [
+        {
+          value,
+          label: `${value} (no longer available)`,
+        },
+      ]
+    : [];
+
+  const mergedError = hasMissingValue
+    ? `Selected cluster link "${value}" no longer exists. Select another cluster link or clear the value.`
+    : error;
+
+  const selectorOptions = hasNoLinks
+    ? [...missingValueOption, { value: "", label: emptyStateLabel }]
+    : [
+        { value: "", label: emptyOptionLabel },
+        ...missingValueOption,
+        ...options,
+      ];
+
   const helpText = (
     <>
       {help}
-      Manage your{" "}
-      <Link to={getClusterLinkListUrl(isClustered)}>cluster links</Link>.
+      {hasNoLinks ? (
+        <>
+          Create your first{" "}
+          <Link to={getClusterLinkListUrl(isClustered)}>cluster link</Link>.
+        </>
+      ) : (
+        <>
+          Manage your{" "}
+          <Link to={getClusterLinkListUrl(isClustered)}>cluster links</Link>.
+        </>
+      )}
     </>
   );
 
@@ -71,15 +109,11 @@ const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
       {...selectProps}
       name={name}
       label={label}
-      options={
-        hasNoLinks
-          ? [{ value: "", label: "No cluster links available" }]
-          : [{ value: "", label: "None" }, ...options]
-      }
+      options={selectorOptions}
       value={value}
       help={helpText}
       required={required}
-      error={error}
+      error={mergedError}
       onChange={onChange}
     />
   );

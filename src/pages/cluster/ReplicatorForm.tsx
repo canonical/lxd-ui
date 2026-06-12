@@ -1,16 +1,15 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import type { FormikProps } from "formik";
-import { Form, Input, Select } from "@canonical/react-components";
-import type { ReplicatorFormValues } from "types/forms/replicator";
-import ProjectSelector from "pages/networks/forms/ProjectSelector";
-import { useProjects } from "context/useProjects";
-import ReplicatorClusterLinkSelector from "pages/cluster/ReplicatorClusterLinkSelector";
-import OutputField from "components/OutputField";
+import { Form, Input, OutputField, Select } from "@canonical/react-components";
 import { Link } from "react-router";
 import DocLink from "components/DocLink";
-import { ROOT_PATH } from "util/rootPath";
+import { useProjects } from "context/useProjects";
+import ClusterLinkSelector from "pages/cluster/ClusterLinkSelector";
 import { SnapshotScheduleInput } from "pages/cluster/SnapshotScheduleInput";
+import ProjectSelector from "pages/networks/forms/ProjectSelector";
 import { optionYesNo } from "util/options";
+import { ROOT_PATH } from "util/rootPath";
+import type { ReplicatorFormValues } from "types/forms/replicator";
 
 interface Props {
   formik: FormikProps<ReplicatorFormValues>;
@@ -28,6 +27,20 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
     <Form onSubmit={formik.handleSubmit}>
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
+      <ClusterLinkSelector
+        value={formik.values.cluster}
+        required
+        error={formik.touched.cluster ? formik.errors.cluster : undefined}
+        onChange={(value) => {
+          formik.setFieldError("cluster", undefined);
+          void formik.setFieldTouched("cluster", true, false);
+          void formik.setFieldValue("cluster", value, false).then(() => {
+            void formik.validateField("cluster");
+          });
+        }}
+        help="Cluster to replicate to. "
+        takeFocus
+      />
       {isEdit ? (
         <OutputField
           id="Name"
@@ -49,7 +62,6 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
         <Input
           {...formik.getFieldProps("name")}
           type="text"
-          autoFocus={!isEdit}
           label="Name"
           required
           error={getFieldError("name")}
@@ -89,7 +101,6 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
           error={getFieldError("project")}
         />
       )}
-      <ReplicatorClusterLinkSelector formik={formik} />
       <Select
         {...formik.getFieldProps("snapshot")}
         label="Snapshot"

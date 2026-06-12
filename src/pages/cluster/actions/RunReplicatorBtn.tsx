@@ -210,8 +210,7 @@ const RunReplicatorBtn: FC<Props> = ({
 
             {isRestore ? (
               <p>
-                This will sync {numberOfInstances}{" "}
-                {pluralize("instance", numberOfInstances)} from the{" "}
+                This will sync all instances from the{" "}
                 <ClusterLinkRichChip clusterLink={clusterLink} /> cluster back
                 to the{" "}
                 <ProjectRichChip

@@ -21,7 +21,7 @@ export interface PanelHelper {
   imageRegistry: string | null;
   replicator: string | null;
   replicaProject: string | null;
-  replicaCluster: string | null;
+  clusterLink: string | null;
   clear: () => void;
   openCreateClusterGroup: () => void;
   openCreateClusterLink: () => void;
@@ -51,10 +51,7 @@ export interface PanelHelper {
   openEditLoadBalancerPool: (pool: string) => void;
   openCreateImageRegistry: () => void;
   openEditImageRegistry: (imageRegistry: string) => void;
-  openCreateReplicator: (
-    replicaProject?: string,
-    replicaCluster?: string,
-  ) => void;
+  openCreateReplicator: (replicaProject?: string, clusterLink?: string) => void;
   openEditReplicator: (project: string, replicator: string) => void;
 }
 
@@ -137,8 +134,8 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("create-replicator");
     newParams.delete("edit-replicator");
     newParams.delete("replicator");
-    newParams.delete("panel-replica-project");
-    newParams.delete("panel-replica-cluster");
+    newParams.delete("replica-project");
+    newParams.delete("cluster-link");
     setParams(newParams);
     craftResizeEvent();
   };
@@ -160,8 +157,8 @@ const usePanelParams = (): PanelHelper => {
     deviceName: params.get("device-name"),
     localPeering: params.get("local-peering"),
     imageRegistry: params.get("image-registry"),
-    replicaProject: params.get("panel-replica-project"),
-    replicaCluster: params.get("panel-replica-cluster"),
+    replicaProject: params.get("replica-project"),
+    clusterLink: params.get("cluster-link"),
     replicator: params.get("replicator"),
 
     clear: () => {
@@ -318,13 +315,13 @@ const usePanelParams = (): PanelHelper => {
         "image-registry": imageRegistry,
       });
     },
-    openCreateReplicator: (replicaProject, replicaCluster) => {
+    openCreateReplicator: (replicaProject, clusterLink) => {
       const params: ParamMap = {};
       if (replicaProject) {
-        params["panel-replica-project"] = replicaProject;
+        params["replica-project"] = replicaProject;
       }
-      if (replicaCluster) {
-        params["panel-replica-cluster"] = replicaCluster;
+      if (clusterLink) {
+        params["cluster-link"] = clusterLink;
       }
       setPanelParams(panels.createReplicator, params);
     },

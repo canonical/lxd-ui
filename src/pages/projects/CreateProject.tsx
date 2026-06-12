@@ -67,6 +67,8 @@ const CreateProject: FC = () => {
           checkDuplicateName(value, "", controllerState, "projects"),
       )
       .required(),
+    replica_mode: Yup.string().oneOf(["", "leader", "standby"]).optional(),
+    replica_cluster: Yup.string().optional(),
   });
 
   const updateFormHeight = () => {
@@ -128,11 +130,6 @@ const CreateProject: FC = () => {
         values.features_storage_buckets = undefined;
       }
 
-      if (!hasReplicators) {
-        values.replica_mode = undefined;
-        values.replica_cluster = undefined;
-      }
-
       const hasNetwork = values.default_project_network !== "none";
 
       createProject(
@@ -141,8 +138,8 @@ const CreateProject: FC = () => {
           config: {
             ...projectDetailRestrictionPayload(values),
             ...resourceLimitsPayload(values),
-            ...replicaPayload(values),
             ...restrictions,
+            ...(hasReplicators ? replicaPayload(values) : {}),
           },
         }),
       )
@@ -189,10 +186,10 @@ const CreateProject: FC = () => {
             });
         })
         .catch((e: Error) => {
-          formik.setSubmitting(false);
           notify.failure("Project creation failed", e);
         })
         .finally(() => {
+          formik.setSubmitting(false);
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects],
           });
