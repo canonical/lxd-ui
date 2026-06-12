@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.5% </span>
+                <span class="strong">94.31% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>78/80</span>
+                <span class='fraction'>83/88</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.5% </span>
+                <span class="strong">94.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>78/80</span>
+                <span class='fraction'>83/88</span>
             </div>
         
             
@@ -143,7 +143,15 @@
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
 <a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -195,23 +203,31 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
@@ -274,12 +290,22 @@ const DeleteClusterLinkBtn: FC&lt;Props&gt; = ({ clusterLink }) =&gt; {
       });
   };
 &nbsp;
+  const disabledReason = () =&gt; {
+    if (clusterLink.used_by?.length) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return `Cannot delete this cluster link as it is currently in use.`;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+    if (!canDelete) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return "You do not have permission to delete this cluster link";</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+    return undefined;
+  };
+&nbsp;
   return (
     &lt;ConfirmationButton
       appearance="base"
       className="has-icon"
-      title="Delete cluster link"
-      disabled={!canDelete}
+      onHoverText={disabledReason()}
+      disabled={Boolean(disabledReason())}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
@@ -289,9 +315,7 @@ const DeleteClusterLinkBtn: FC&lt;Props&gt; = ({ clusterLink }) =&gt; {
             &lt;ClusterLinkRichChip clusterLink={clusterLink.name} /&gt;.
           &lt;/p&gt;
         ),
-        confirmButtonLabel: canDelete
-          ? <span class="branch-0 cbranch-no" title="branch not covered" >"Delete cluster link"</span>
-<span class="cstat-no" title="statement not covered" >          : "You do not have permission to delete this cluster link",</span>
+        confirmButtonLabel: "Delete cluster link",
         onConfirm: handleDelete,
       }}
       shiftClickEnabled
@@ -310,7 +334,7 @@ export default DeleteClusterLinkBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-12T14:24:59.259Z
+                at 2026-06-12T15:35:09.362Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
