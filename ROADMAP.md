@@ -1,3 +1,16 @@
+# Roadmap for 26.10 from May 2026 until October 2026
+
+- Accessibility audit
+- Additional storage driver (Dell PowerStore and Dell PowerFlex 5)
+- Replicators to sync projects to another cluster
+- Contextual help on all main pages
+- Dashboard page
+- File explorer for instances
+- Image registry support to load images from other clusters
+- Load balancers for OVN networks
+- Manage bearer token identities
+- Adopt pragma design system
+ 
 # Roadmap for 26.04 from October 2025 until May 2026
 
 - Manage cluster links
