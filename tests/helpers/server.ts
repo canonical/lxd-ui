@@ -18,6 +18,11 @@ export const visitServerSettings = async (page: Page) => {
   await page.getByRole("link", { name: "Settings", exact: true }).click();
 };
 
+export const visitServer = async (page: Page) => {
+  await gotoURL(page, "/ui/");
+  await page.getByRole("link", { name: "Server", exact: true }).click();
+};
+
 export const updateCheckbox = async (settingRow: Locator) => {
   const checkbox = settingRow.locator(".p-checkbox__label");
   await checkbox.click();
