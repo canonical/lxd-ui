@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.83% </span>
+                <span class="strong">14.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>35/253</span>
+                <span class='fraction'>39/262</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.83% </span>
+                <span class="strong">14.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>35/253</span>
+                <span class='fraction'>39/262</span>
             </div>
         
             
@@ -316,7 +316,16 @@
 <a name='L251'></a><a href='#L251'>251</a>
 <a name='L252'></a><a href='#L252'>252</a>
 <a name='L253'></a><a href='#L253'>253</a>
-<a name='L254'></a><a href='#L254'>254</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -349,6 +358,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -590,7 +608,11 @@ import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { LxdReplicator } from "types/replicator";
 import { useReplicatorEntitlements } from "util/entitlements/replicators";
-import { isProjectReplicaModeStandby } from "util/projects";
+import { pluralize } from "util/helpers";
+import {
+  getInstancesUsedByProject,
+  isProjectReplicaModeStandby,
+} from "util/projects";
 import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 &nbsp;
@@ -624,6 +646,9 @@ const RunReplicatorBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >  const isRestore = isProjectReplicaModeStandby(project);</span>
 <span class="cstat-no" title="statement not covered" >  const buttonLabel = isRestore ? "Restore" : "Run";</span>
 <span class="cstat-no" title="statement not covered" >  const hasPermission = canEditReplicator(replicator);</span>
+<span class="cstat-no" title="statement not covered" >  const numberOfInstances = project</span>
+<span class="cstat-no" title="statement not covered" >    ? getInstancesUsedByProject(project).length</span>
+<span class="cstat-no" title="statement not covered" >    : 0;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const disabledReason = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (!hasPermission) {</span>
@@ -770,16 +795,18 @@ const RunReplicatorBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            {isRestore ? (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                This will sync all instances from the{" "}</span>
+<span class="cstat-no" title="statement not covered" >                This will sync {numberOfInstances}{" "}</span>
+<span class="cstat-no" title="statement not covered" >                {pluralize("instance", numberOfInstances)} from the{" "}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ClusterLinkRichChip clusterLink={clusterLink} /&gt; cluster back</span>
 <span class="cstat-no" title="statement not covered" >                to the &lt;ProjectRichChip projectName={replicator.project} /&gt;{" "}</span>
 <span class="cstat-no" title="statement not covered" >                project.</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >            ) : (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                This will sync all instances from the source project{" "}</span>
-<span class="cstat-no" title="statement not covered" >                &lt;ProjectRichChip projectName={replicator.project} /&gt; to the</span>
-<span class="cstat-no" title="statement not covered" >                standby cluster{" "}</span>
+<span class="cstat-no" title="statement not covered" >                This will sync {numberOfInstances}{" "}</span>
+<span class="cstat-no" title="statement not covered" >                {pluralize("instance", numberOfInstances)} from the source</span>
+<span class="cstat-no" title="statement not covered" >                project &lt;ProjectRichChip projectName={replicator.project} /&gt; to</span>
+<span class="cstat-no" title="statement not covered" >                the standby cluster{" "}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;ClusterLinkRichChip clusterLink={clusterLink} /&gt;.</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >            )}</span>
@@ -791,7 +818,7 @@ const RunReplicatorBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >                title="All local data will be overwritten by the remote version"</span>
 <span class="cstat-no" title="statement not covered" >              &gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  All current instances in local project{" "}</span>
+<span class="cstat-no" title="statement not covered" >                  {numberOfInstances} instances in local project{" "}</span>
 <span class="cstat-no" title="statement not covered" >                  &lt;ProjectRichChip projectName={replicator.project} /&gt; will be</span>
 <span class="cstat-no" title="statement not covered" >                  permanently replaced by the version fetched from the remote</span>
 <span class="cstat-no" title="statement not covered" >                  cluster. This cannot be undone.</span>
@@ -829,7 +856,7 @@ export default RunReplicatorBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-11T15:41:40.647Z
+                at 2026-06-12T09:30:21.585Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
