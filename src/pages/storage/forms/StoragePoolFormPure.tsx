@@ -6,12 +6,14 @@ import { Input, Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/options";
 import { optionIscsiNvme } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
 }
 
 const StoragePoolFormPure: FC<Props> = ({ formik }) => {
+  const { hasStorageNvmeTcp } = useSupportedFeatures();
   return (
     <ScrollableConfigurationTable
       rows={[
@@ -28,7 +30,7 @@ const StoragePoolFormPure: FC<Props> = ({ formik }) => {
           name: "pure_mode",
           defaultValue: "",
           disabled: !formik.values.isCreating,
-          children: <Select options={optionIscsiNvme} />,
+          children: <Select options={optionIscsiNvme(hasStorageNvmeTcp)} />,
         }),
         getConfigurationRow({
           formik,

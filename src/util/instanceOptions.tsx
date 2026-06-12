@@ -1,3 +1,7 @@
+export const getNVMeTcpValue = (hasStorageNvmeTcp: boolean) => {
+  return hasStorageNvmeTcp ? "nvme/tcp" : "nvme";
+};
+
 export const instanceCreationTypes = [
   {
     label: "Container",
@@ -57,7 +61,7 @@ export const clusterEvacuationOptions = [
   },
 ];
 
-export const optionIscsiNvme = [
+export const optionIscsiNvme = (hasStorageNvmeTcp: boolean) => [
   {
     label: "Select option",
     value: "",
@@ -69,7 +73,7 @@ export const optionIscsiNvme = [
   },
   {
     label: "NVMe over TCP",
-    value: "nvme",
+    value: getNVMeTcpValue(hasStorageNvmeTcp),
   },
 ];
 
@@ -80,12 +84,16 @@ export const optionPowerStoreMode = [
     disabled: true,
   },
   {
-    label: "SCSI over TCP",
+    label: "iSCSI",
     value: "iscsi",
+  },
+  {
+    label: "SCSI over FC",
+    value: "scsi/fc",
   },
 ];
 
-export const optionNvmeSdc = [
+export const optionNvmeSdc = (hasStorageNvmeTcp: boolean) => [
   {
     label: "Select option",
     value: "",
@@ -93,7 +101,7 @@ export const optionNvmeSdc = [
   },
   {
     label: "NVMe over TCP",
-    value: "nvme",
+    value: getNVMeTcpValue(hasStorageNvmeTcp),
   },
   {
     label: "Dell Storage Data Client",

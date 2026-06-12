@@ -83,6 +83,7 @@ export const toStoragePoolFormValues = (
     powerflex_sdt: pool.config?.["powerflex.sdt"],
     powerflex_user_name: pool.config?.["powerflex.user.name"],
     powerflex_user_password: pool.config?.["powerflex.user.password"],
+    powerflex_version: pool.config?.["volatile.powerflex.version"],
     powerstore_gateway: pool.config?.["powerstore.gateway"],
     powerstore_gateway_verify: pool.config?.["powerstore.gateway.verify"],
     powerstore_mode: pool.config?.["powerstore.mode"],

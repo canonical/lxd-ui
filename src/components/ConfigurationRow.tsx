@@ -161,6 +161,9 @@ export const getConfigurationRow = ({
     if (isOverridden) {
       return getForm();
     }
+    if (hideOverrideBtn) {
+      return overrideValue;
+    }
     return wrapDisabledTooltip(
       <Button
         onClick={toggleDefault}

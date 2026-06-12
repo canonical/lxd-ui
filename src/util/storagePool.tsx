@@ -44,6 +44,7 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   powerflex_sdt: "powerflex.sdt",
   powerflex_user_name: "powerflex.user.name",
   powerflex_user_password: "powerflex.user.password",
+  powerflex_version: "volatile.powerflex.version",
   powerstore_gateway: "powerstore.gateway",
   powerstore_gateway_verify: "powerstore.gateway.verify",
   powerstore_mode: "powerstore.mode",
