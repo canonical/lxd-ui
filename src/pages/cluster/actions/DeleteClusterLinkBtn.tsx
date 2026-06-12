@@ -49,12 +49,22 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
       });
   };
 
+  const disabledReason = () => {
+    if (clusterLink.used_by?.length) {
+      return `Cannot delete this cluster link as it is currently in use.`;
+    }
+    if (!canDelete) {
+      return "You do not have permission to delete this cluster link";
+    }
+    return undefined;
+  };
+
   return (
     <ConfirmationButton
       appearance="base"
       className="has-icon"
-      title="Delete cluster link"
-      disabled={!canDelete}
+      onHoverText={disabledReason()}
+      disabled={Boolean(disabledReason())}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
@@ -64,9 +74,7 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
             <ClusterLinkRichChip clusterLink={clusterLink.name} />.
           </p>
         ),
-        confirmButtonLabel: canDelete
-          ? "Delete cluster link"
-          : "You do not have permission to delete this cluster link",
+        confirmButtonLabel: "Delete cluster link",
         onConfirm: handleDelete,
       }}
       shiftClickEnabled
