@@ -84,3 +84,11 @@ export const isProjectWithVolumes = (project?: LxdProject): boolean =>
 
 export const isProjectReplicaModeStandby = (project?: LxdProject): boolean =>
   project?.config["replica.mode"] === "standby";
+
+export const getInstancesUsedByProject = (project: LxdProject): string[] => {
+  if (!project.used_by) {
+    return [];
+  }
+
+  return project.used_by.filter((item) => item.startsWith("/1.0/instances/"));
+};

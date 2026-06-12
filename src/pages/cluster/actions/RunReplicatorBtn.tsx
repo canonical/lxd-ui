@@ -19,7 +19,11 @@ import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { LxdReplicator } from "types/replicator";
 import { useReplicatorEntitlements } from "util/entitlements/replicators";
-import { isProjectReplicaModeStandby } from "util/projects";
+import { pluralize } from "util/helpers";
+import {
+  getInstancesUsedByProject,
+  isProjectReplicaModeStandby,
+} from "util/projects";
 import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -53,6 +57,9 @@ const RunReplicatorBtn: FC<Props> = ({
   const isRestore = isProjectReplicaModeStandby(project);
   const buttonLabel = isRestore ? "Restore" : "Run";
   const hasPermission = canEditReplicator(replicator);
+  const numberOfInstances = project
+    ? getInstancesUsedByProject(project).length
+    : 0;
 
   const disabledReason = () => {
     if (!hasPermission) {
@@ -199,16 +206,18 @@ const RunReplicatorBtn: FC<Props> = ({
 
             {isRestore ? (
               <p>
-                This will sync all instances from the{" "}
+                This will sync {numberOfInstances}{" "}
+                {pluralize("instance", numberOfInstances)} from the{" "}
                 <ClusterLinkRichChip clusterLink={clusterLink} /> cluster back
                 to the <ProjectRichChip projectName={replicator.project} />{" "}
                 project.
               </p>
             ) : (
               <p>
-                This will sync all instances from the source project{" "}
-                <ProjectRichChip projectName={replicator.project} /> to the
-                standby cluster{" "}
+                This will sync {numberOfInstances}{" "}
+                {pluralize("instance", numberOfInstances)} from the source
+                project <ProjectRichChip projectName={replicator.project} /> to
+                the standby cluster{" "}
                 <ClusterLinkRichChip clusterLink={clusterLink} />.
               </p>
             )}
@@ -220,7 +229,7 @@ const RunReplicatorBtn: FC<Props> = ({
                 title="All local data will be overwritten by the remote version"
               >
                 <p>
-                  All current instances in local project{" "}
+                  {numberOfInstances} instances in local project{" "}
                   <ProjectRichChip projectName={replicator.project} /> will be
                   permanently replaced by the version fetched from the remote
                   cluster. This cannot be undone.
