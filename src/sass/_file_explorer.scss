@@ -2,8 +2,25 @@
   align-items: center;
   display: flex;
   gap: 0.5rem;
+  overflow: hidden;
+
+  [class*="p-icon"] {
+    flex-shrink: 0;
+  }
+}
+
+.file-explorer-item__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .breadcrumb-header {
   display: inline-block;
+}
+
+.file-explorer-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }

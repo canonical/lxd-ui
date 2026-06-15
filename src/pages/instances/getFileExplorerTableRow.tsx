@@ -55,6 +55,7 @@ const getFileExplorerTableRow = (
         ),
         role: "rowheader",
         "aria-label": "Name",
+        className: "u-truncate",
       },
       {
         content: fileType,

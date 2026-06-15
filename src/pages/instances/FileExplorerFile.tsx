@@ -16,7 +16,9 @@ const FileExplorerFile: FC<{
       className="file-explorer-item"
     >
       <Icon name={icon} />
-      <span>{fileName}</span>
+      <span className="file-explorer-item__name" title={fileName}>
+        {fileName}
+      </span>
     </a>
   );
 };
