@@ -176,7 +176,7 @@ const LoadBalancerForm: FC<Props> = ({ formik, isEdit, network }) => {
           stacked
         />
         {formik.values.ports.length > 0 && (
-          <Row>
+          <Row className="load-balancer-ports-row">
             <LoadBalancerPortsForm formik={formik} network={network} />
           </Row>
         )}

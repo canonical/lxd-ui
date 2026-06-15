@@ -75,6 +75,7 @@
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
 
+$border-default: 1px solid $colors--theme--border-default;
 $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
 @import "authentication_setup";

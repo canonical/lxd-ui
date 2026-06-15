@@ -92,7 +92,14 @@
   }
 }
 
+.load-balancer-ports-row {
+  max-width: 100%;
+  overflow: auto;
+}
+
 .load-balancer-ports {
+  min-width: 55rem;
+
   label {
     padding-top: 0;
   }
@@ -121,32 +128,29 @@
   }
 
   .target-pool {
-    background-color: $colors--theme--background-hover;
+    border-left: $border-default;
   }
 
   .instances {
-    background-color: $colors--theme--background-hover;
-    width: 7rem;
+    width: 5rem;
   }
 
   .target-port {
-    background-color: $colors--theme--background-hover;
-    width: 8rem;
+    width: 6rem;
   }
 
   .pool-action {
-    background-color: $colors--theme--background-hover;
-    width: 9rem;
+    border-right: $border-default;
+    width: 8.5rem;
   }
 
   .actions {
-    width: 8rem;
+    width: 8.5rem;
   }
 
   tbody {
     .instances,
     .target-port {
-      padding-right: 1.6rem;
       padding-top: 0.75rem;
     }
   }
@@ -165,14 +169,6 @@
   .load-balancer-form .content-details,
   .create-load-balancer .form-footer,
   .edit-load-balancer .form-footer {
-    min-width: 50rem;
     width: calc(100% - 4rem);
-  }
-
-  .load-balancer-ports {
-    .instances,
-    .target-port {
-      display: none;
-    }
   }
 }
