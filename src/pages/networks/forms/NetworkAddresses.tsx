@@ -33,6 +33,7 @@ const NetworkAddresses: FC<Props> = ({ formik, project }) => {
       <h2 className="p-heading--4">Addresses</h2>
       {(networkState?.addresses ?? []).length > 0 ? (
         <MainTable
+          className="network-addresses-table"
           sortable
           headers={[
             { content: "IP", sortKey: "ip" },

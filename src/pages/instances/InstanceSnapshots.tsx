@@ -275,6 +275,7 @@ const InstanceSnapshots = (props: Props) => {
             >
               <SelectableMainTable
                 id="instance-snapshot-table"
+                className="instance-snapshot-table"
                 headers={headers}
                 rows={sortedRows}
                 responsive

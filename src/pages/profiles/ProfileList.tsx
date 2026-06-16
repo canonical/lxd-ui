@@ -268,6 +268,7 @@ const ProfileList: FC = () => {
                 >
                   <MainTable
                     id="profile-table"
+                    className="profile-table"
                     headers={headers}
                     sortable
                     emptyStateMsg="No profile found matching this search"

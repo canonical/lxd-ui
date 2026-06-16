@@ -155,6 +155,7 @@ const ClusterGroupList: FC = () => {
           >
             <MainTable
               id="cluster-table"
+              className="cluster-group-table"
               headers={headers}
               sortable
               responsive

@@ -187,6 +187,7 @@ const EditIdentitiesForm: FC<Props> = ({
       >
         <SelectableMainTable
           id="group-identities-table"
+          className="group-identities-table"
           headers={headers}
           rows={sortedRows}
           sortable

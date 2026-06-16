@@ -188,6 +188,7 @@ const OperationList: FC = () => {
               >
                 <MainTable
                   id="operation-table"
+                  className="operation-table"
                   headers={headers}
                   sortable
                   responsive

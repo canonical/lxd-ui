@@ -201,6 +201,7 @@ const PlacementGroupList: FC = () => {
                 >
                   <MainTable
                     id="placement-group-table"
+                    className="placement-group-table"
                     headers={headers}
                     sortable
                     emptyStateMsg="No placement groups found matching this search"

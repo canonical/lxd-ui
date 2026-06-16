@@ -182,6 +182,7 @@ const ClusterMemberList: FC = () => {
           >
             <MainTable
               id="cluster-table"
+              className="cluster-member-table"
               headers={headers}
               sortable
               responsive

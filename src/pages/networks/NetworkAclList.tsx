@@ -148,6 +148,7 @@ const NetworkAclList: FC = () => {
       <Row>
         {networkAcls.length > 0 && (
           <MainTable
+            className="network-acl-table"
             headers={headers}
             rows={rows}
             responsive

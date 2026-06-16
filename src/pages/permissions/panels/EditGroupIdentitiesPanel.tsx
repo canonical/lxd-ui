@@ -280,6 +280,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     >
       <SelectableMainTable
         id="group-identities-table"
+        className="group-identities-table"
         headers={headers}
         rows={sortedRows}
         sortable

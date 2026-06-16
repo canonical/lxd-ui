@@ -500,3 +500,64 @@ body.is-dark .lxd-icon {
   display: flex;
   justify-content: flex-end;
 }
+
+.cluster-group-table,
+.cluster-link-rich-tooltip-table,
+.cluster-link-table,
+.cluster-member-table,
+.configuration-table,
+.confirm-table,
+.custom-iso-table,
+.device-table,
+.group-identities-table,
+.group-selection-table,
+.groups-table,
+.image-registry-image-table,
+.image-registry-rich-tooltip-table,
+.image-registry-table,
+.image-table,
+.instance-load-balancer-table,
+.instance-overview-profiles-table,
+.instance-rich-tooltip-table,
+.instance-snapshot-table,
+.iso-table,
+.load-balancer-pools-table,
+.load-balancers-table,
+.member-selection-table,
+.migrate-instance-table,
+.network-acl-rule-table,
+.network-acl-table,
+.network-acl-used-by-table,
+.network-addresses-table,
+.network-forwards-table,
+.network-ipam-table,
+.network-leases-table,
+.network-list-table,
+.network-peer-list,
+.oidc-configuration-table,
+.operation-table,
+.permission-identities-table,
+.permission-idp-group-table,
+.permissions-table,
+.placement-group-table,
+.profile-rich-tooltip-table,
+.profile-table,
+.project-rich-tooltip-table,
+.replicator-rich-tooltip-table,
+.replicator-table,
+.scrollable-table,
+.settings-table,
+.storage-buckets-table,
+.storage-pool-rich-tooltip-table,
+.storage-pool-table,
+.storage-volume-table,
+.volume-snapshot-table,
+.warnings-table {
+  .u-row:hover {
+    background-color: $colors--theme--background-hover;
+  }
+
+  .u-row--disabled:hover {
+    background-color: $colors--theme--background-default;
+  }
+}

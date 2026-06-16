@@ -74,7 +74,13 @@ const InstanceLoadBalancerTable: FC<Props> = ({ device, instance }) => {
     },
   ];
 
-  return <MainTable headers={headers} rows={rows} />;
+  return (
+    <MainTable
+      headers={headers}
+      rows={rows}
+      className="instance-load-balancer-table"
+    />
+  );
 };
 
 export default InstanceLoadBalancerTable;

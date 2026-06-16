@@ -22,6 +22,7 @@ const NetworkAclRuleTable: FC<Props> = ({
 
   return (
     <MainTable
+      className="network-acl-rule-table"
       sortable
       headers={[
         { content: "Action", sortKey: "action" },

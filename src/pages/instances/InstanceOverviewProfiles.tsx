@@ -64,7 +64,14 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     return <Spinner className="u-loader" text="Loading profiles..." />;
   }
 
-  return <MainTable headers={profileHeaders} rows={profileRows} sortable />;
+  return (
+    <MainTable
+      className="instance-overview-profiles-table"
+      headers={profileHeaders}
+      rows={profileRows}
+      sortable
+    />
+  );
 };
 
 export default InstanceOverviewProfiles;

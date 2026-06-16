@@ -233,6 +233,7 @@ const Settings: FC = () => {
             >
               <MainTable
                 id="settings-table"
+                className="settings-table"
                 headers={headers}
                 rows={rows}
                 emptyStateMsg="No data to display"
