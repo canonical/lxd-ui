@@ -6,12 +6,15 @@ import { Input, Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/options";
 import { optionNvmeSdc } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
 }
 
 const StoragePoolFormPowerflex: FC<Props> = ({ formik }) => {
+  const { hasStorageNvmeTcp } = useSupportedFeatures();
+
   return (
     <ScrollableConfigurationTable
       rows={[
@@ -41,8 +44,20 @@ const StoragePoolFormPowerflex: FC<Props> = ({ formik }) => {
           label: "Mode",
           name: "powerflex_mode",
           defaultValue: "",
-          children: <Select options={optionNvmeSdc} />,
+          children: <Select options={optionNvmeSdc(hasStorageNvmeTcp)} />,
         }),
+        ...(formik.values.powerflex_version
+          ? [
+              getConfigurationRow({
+                formik,
+                label: "Storage array version",
+                name: "powerflex_version",
+                defaultValue: formik.values.powerflex_version || "",
+                children: <></>,
+                hideOverrideBtn: true,
+              }),
+            ]
+          : []),
       ]}
     />
   );
