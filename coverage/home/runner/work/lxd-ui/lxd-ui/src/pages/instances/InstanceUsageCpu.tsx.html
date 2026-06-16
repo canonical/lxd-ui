@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">54.62% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>60/108</span>
+                <span class='fraction'>59/108</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">54.62% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>60/108</span>
+                <span class='fraction'>59/108</span>
             </div>
         
             
@@ -171,18 +171,18 @@
 <a name='L106'></a><a href='#L106'>106</a>
 <a name='L107'></a><a href='#L107'>107</a>
 <a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
+<a name='L109'></a><a href='#L109'>109</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -251,7 +251,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -277,8 +277,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState, type FC } from "react";
 import Meter from "components/Meter";
 import { getCpuUsage, type CpuUsage } from "util/metricSelectors";
@@ -327,13 +327,13 @@ const InstanceUsageCpu: FC&lt;Props&gt; = ({ instance }) =&gt; {
       return null;
 <span class="branch-0 cbranch-no" title="branch not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const getSecondsBusy = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    const <span class="fstat-no" title="function not covered" >getSecondsBusy = () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      const nowSeconds = nowCpu.cpuSecondsTotal - nowCpu.cpuSecondsIdle;</span>
 <span class="cstat-no" title="statement not covered" >      const prevSeconds = prevCpu.cpuSecondsTotal - prevCpu.cpuSecondsIdle;</span>
 <span class="cstat-no" title="statement not covered" >      return nowSeconds - prevSeconds;</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const getCoreCount = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    const <span class="fstat-no" title="function not covered" >getCoreCount = () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      if (nowCpu.coreCount &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return nowCpu.coreCount;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
@@ -359,19 +359,19 @@ const InstanceUsageCpu: FC&lt;Props&gt; = ({ instance }) =&gt; {
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    return Math.min(result, 100);</span>
-  };
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const cpuUsage = calculateCpuUsage();
   if (cpuUsage === null) {
     return (
       &lt;div
         className="u-text--muted p-text--small"
-        key={loadingSeconds &gt; 0 ? loadingSeconds : "long"}
+        key={loadingSeconds &gt; 0 ? <span class="branch-0 cbranch-no" title="branch not covered" >loadingSeconds : "long"}</span>
       &gt;
         loading
         {loadingSeconds &gt; 0
-          ? `, ${loadingSeconds<span class="branch-0 cbranch-no" title="branch not covered" >} seconds remaining to first CPU snapshot`</span>
-<span class="cstat-no" title="statement not covered" >          : <span class="branch-0 cbranch-no" title="branch not covered" >" takes longer than expected"}</span></span>
+          ? `, ${loadingSeconds}<span class="branch-0 cbranch-no" title="branch not covered" > seconds remaining to first CPU snapshot`</span>
+<span class="cstat-no" title="statement not covered" >          : " takes longer than expected"}</span>
       &lt;/div&gt;
     );
 <span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
@@ -394,7 +394,7 @@ export default InstanceUsageCpu;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.08% </span>
+                <span class="strong">79.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>197/246</span>
+                <span class='fraction'>196/246</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.08% </span>
+                <span class="strong">79.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>197/246</span>
+                <span class='fraction'>196/246</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -485,16 +485,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -548,8 +548,8 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -655,7 +655,7 @@ const EditStoragePool: FC&lt;Props&gt; = ({ pool }) =&gt; {
 <span class="cstat-no" title="statement not covered" >      // after disabling `ceph_rbd_du` and the volume state queries will fail. So we</span>
 <span class="cstat-no" title="statement not covered" >      // remove the queries to avoid serving the size from a stale cache.</span>
 <span class="cstat-no" title="statement not covered" >      queryClient.removeQueries({</span>
-<span class="cstat-no" title="statement not covered" >        predicate: <span class="fstat-no" title="function not covered" >(query) =&gt;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        predicate: (query) =&gt;</span></span>
 <span class="cstat-no" title="statement not covered" >          query.queryKey[0] === queryKeys.storage &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >          query.queryKey[1] === pool.name,</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
@@ -677,7 +677,7 @@ const EditStoragePool: FC&lt;Props&gt; = ({ pool }) =&gt; {
     );
   };
 &nbsp;
-  const onFailure = <span class="fstat-no" title="function not covered" >(</span>
+  const <span class="fstat-no" title="function not covered" >onFailure = (</span>
 <span class="cstat-no" title="statement not covered" >    values: StoragePoolFormValues,</span>
 <span class="cstat-no" title="statement not covered" >    storagePoolName: string,</span>
 <span class="cstat-no" title="statement not covered" >    e: unknown,</span>
@@ -731,7 +731,7 @@ const EditStoragePool: FC&lt;Props&gt; = ({ pool }) =&gt; {
               () =&gt; {
                 onSuccess(savedPool.name, values);
               },
-              (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >              (msg) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                onFailure(values, savedPool.name, new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
             );
@@ -747,7 +747,7 @@ const EditStoragePool: FC&lt;Props&gt; = ({ pool }) =&gt; {
 &nbsp;
   const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}/configuration`;
 &nbsp;
-  const updateSection = <span class="fstat-no" title="function not covered" >(newSection: string) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >updateSection = (newSection: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (newSection === MAIN_CONFIGURATION) {</span>
 <span class="cstat-no" title="statement not covered" >      navigate(baseUrl);</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
@@ -778,7 +778,7 @@ const EditStoragePool: FC&lt;Props&gt; = ({ pool }) =&gt; {
           &lt;&gt;
             &lt;Button
               appearance="base"
-              onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                setVersion((old) =&gt; old + 1);</span>
 <span class="cstat-no" title="statement not covered" >                void formik.setValues(</span>
 <span class="cstat-no" title="statement not covered" >                  toStoragePoolFormValues(pool, poolOnMembers),</span>
@@ -808,7 +808,7 @@ export default EditStoragePool;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

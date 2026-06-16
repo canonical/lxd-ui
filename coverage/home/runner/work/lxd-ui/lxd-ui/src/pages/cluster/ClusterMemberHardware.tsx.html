@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.87% </span>
+                <span class="strong">48.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>83/160</span>
+                <span class='fraction'>78/160</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.87% </span>
+                <span class="strong">48.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>83/160</span>
+                <span class='fraction'>78/160</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -309,9 +309,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -377,8 +374,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -448,11 +448,11 @@ const ClusterMemberHardware: FC&lt;Props&gt; = ({ member }) =&gt; {
 &nbsp;
   useEffect(() =&gt; {
     const wrapper = document.getElementById("content-details");
-    const activateSectionOnScroll = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+    const <span class="fstat-no" title="function not covered" >activateSectionOnScroll = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      const activeSection = getFirstVisibleSection(sections, wrapper);</span>
 <span class="cstat-no" title="statement not covered" >      setSection(activeSection.toLowerCase());</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
-    const scrollListener = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+    const <span class="fstat-no" title="function not covered" >scrollListener = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      debounce(activateSectionOnScroll, 20);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="branch-0 cbranch-no" title="branch not covered" >    wrapper?.addEventListener("</span>scroll", scrollListener);
@@ -469,9 +469,9 @@ const ClusterMemberHardware: FC&lt;Props&gt; = ({ member }) =&gt; {
 <span class="cstat-no" title="statement not covered" >        &lt;Notification</span>
 <span class="cstat-no" title="statement not covered" >          severity="negative"</span>
 <span class="cstat-no" title="statement not covered" >          title="Could not load details for this member"</span>
-        /&gt;
-      )}
-      {<span class="branch-0 cbranch-no" title="branch not covered" >resources &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      )}</span>
+<span class="cstat-no" title="statement not covered" >      {<span class="branch-0 cbranch-no" title="branch not covered" >resources &amp;&amp; (</span></span>
 <span class="cstat-no" title="statement not covered" >        &lt;ScrollableContainer dependencies={[resources]}&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {sections.map((sectionName) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;Row className="hardware-section" key={sectionName}&gt;</span>
@@ -537,8 +537,8 @@ const ClusterMemberHardware: FC&lt;Props&gt; = ({ member }) =&gt; {
 <span class="cstat-no" title="statement not covered" >            &lt;/nav&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/ScrollableContainer&gt;</span>
-      )}
-    &lt;/&gt;
+<span class="cstat-no" title="statement not covered" >      )}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
   );
 };
 &nbsp;
@@ -550,7 +550,7 @@ export default ClusterMemberHardware;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

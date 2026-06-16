@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.02% </span>
+                <span class="strong">91.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>127/138</span>
+                <span class='fraction'>126/138</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.02% </span>
+                <span class="strong">91.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>127/138</span>
+                <span class='fraction'>126/138</span>
             </div>
         
             
@@ -276,18 +276,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -309,26 +309,26 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -387,7 +387,7 @@ const VolumeConfigureSnapshotModal: FC&lt;Props&gt; = ({ volume, close }) =&gt; 
     });
   };
 &nbsp;
-  const handleFailure = <span class="fstat-no" title="function not covered" >(error: Error) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >handleFailure = (error: Error) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    notify.failure("Configuration update failed", error);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
@@ -414,7 +414,7 @@ const VolumeConfigureSnapshotModal: FC&lt;Props&gt; = ({ volume, close }) =&gt; 
             eventQueue.set(
               operation.metadata.id,
               handleSuccess,
-              (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >              (msg) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                handleFailure(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
               handleFinish,
@@ -428,7 +428,7 @@ const VolumeConfigureSnapshotModal: FC&lt;Props&gt; = ({ volume, close }) =&gt; 
     },
   });
 &nbsp;
-  const handleEscKey = <span class="fstat-no" title="function not covered" >(e: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >handleEscKey = (e: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (e.key === "Escape") {</span>
 <span class="cstat-no" title="statement not covered" >      close();</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
@@ -484,7 +484,7 @@ export default VolumeConfigureSnapshotModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

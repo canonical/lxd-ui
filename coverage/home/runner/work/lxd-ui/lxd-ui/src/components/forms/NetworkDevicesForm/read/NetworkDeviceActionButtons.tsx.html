@@ -274,28 +274,28 @@
 <a name='L209'></a><a href='#L209'>209</a>
 <a name='L210'></a><a href='#L210'>210</a>
 <a name='L211'></a><a href='#L211'>211</a>
-<a name='L212'></a><a href='#L212'>212</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
+<a name='L212'></a><a href='#L212'>212</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
 <span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-yes">50x</span>
@@ -483,8 +483,8 @@
 <span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-yes">50x</span>
 <span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Icon } from "@canonical/react-components";
 import { type FC } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
@@ -545,7 +545,7 @@ const NetworkDeviceActionButtons: FC&lt;Props&gt; = ({
   };
   const editTitle = getEditTitle();
 &nbsp;
-  const onEdit = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >onEdit = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (isPurelyInherited || hasNoneOverride) {</span>
 <span class="cstat-no" title="statement not covered" >      panelParams.openEditNetworkDevice(inheritedDevice.key);</span>
 <span class="cstat-no" title="statement not covered" >    } else if (device &amp;&amp; isNicDevice(device)) {</span>
@@ -553,17 +553,17 @@ const NetworkDeviceActionButtons: FC&lt;Props&gt; = ({
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const clearOverride = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >clearOverride = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    ensureEditMode(formik);</span>
 <span class="cstat-no" title="statement not covered" >    removeNicDevice({ formik, deviceName: device?.name || "" });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const detachInherited = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >detachInherited = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    ensureEditMode(formik);</span>
 <span class="cstat-no" title="statement not covered" >    addNoneDevice(inheritedDevice?.key || "", formik);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const detachOverridden = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >detachOverridden = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    ensureEditMode(formik);</span>
 <span class="cstat-no" title="statement not covered" >    removeNicDevice({ formik, deviceName: device?.name || "" });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -703,7 +703,7 @@ export default NetworkDeviceActionButtons;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

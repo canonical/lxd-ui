@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.23% </span>
+                <span class="strong">69.49% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>238/354</span>
+                <span class='fraction'>246/354</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32.95% </span>
+                <span class="strong">36.25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>29/88</span>
+                <span class='fraction'>29/80</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.28% </span>
+                <span class="strong">71.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>212/306</span>
+                <span class='fraction'>220/306</span>
             </div>
         
             
@@ -562,7 +562,7 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -625,28 +625,28 @@
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
+<span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-yes">131x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -903,7 +903,7 @@ const <span class="fstat-no" title="function not covered" >StoragePoolForm: FC&l
 <span class="cstat-no" title="statement not covered" >  useEffect(updateFormHeight, [notify.<span class="branch-0 cbranch-no" title="branch not covered" >notification?.message, s</span>ection]);</span>
 <span class="cstat-no" title="statement not covered" >  useListener(window, updateFormHeight, "resize", true);</span>
 &nbsp;
-  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >getYaml = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >getYaml = () =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" >    const payload = <span class="cstat-no" title="statement not covered" >toStoragePool(formik.values, hasRemoteDropSource);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return objectToYaml(payload);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -930,35 +930,35 @@ const <span class="fstat-no" title="function not covered" >StoragePoolForm: FC&l
           {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(MAIN_CONFIGURATION) &amp;&amp; (</span>
             &lt;StoragePoolFormMain formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(CEPH_CONFIGURATION<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormCeph formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(CEPH_CONFIGURATION) &amp;&amp; (</span>
+            &lt;StoragePoolFormCeph formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(CEPHFS_CONFIGURATION<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormCephFS formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(CEPHFS_CONFIGURATION) &amp;&amp; (</span>
+            &lt;StoragePoolFormCephFS formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(CEPHOBJECT_CONFIGURATION<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormCephObject formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(CEPHOBJECT_CONFIGURATION) &amp;&amp; (</span>
+            &lt;StoragePoolFormCephObject formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(POWERFLEX<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormPowerflex formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(POWERFLEX) &amp;&amp; (</span>
+            &lt;StoragePoolFormPowerflex formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(POWERSTORE<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormPowerStore formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(POWERSTORE) &amp;&amp; (</span>
+            &lt;StoragePoolFormPowerStore formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(PURE_STORAGE<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormPure formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(PURE_STORAGE) &amp;&amp; (</span>
+            &lt;StoragePoolFormPure formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(ZFS_CONFIGURATION<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormZFS formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(ZFS_CONFIGURATION) &amp;&amp; (</span>
+            &lt;StoragePoolFormZFS formik={formik} /&gt;
           )}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(ALLETRA_CONFIGURATION<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >            &lt;StoragePoolFormAlletra formik={formik} /&gt;</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >section === slugify(ALLETRA_CONFIGURATION) &amp;&amp; (</span>
+            &lt;StoragePoolFormAlletra formik={formik} /&gt;
           )}
           {section === slugify(YAML_CONFIGURATION<span class="branch-0 cbranch-no" title="branch not covered" >) &amp;&amp; (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;YamlForm</span>
 <span class="cstat-no" title="statement not covered" >              key={`yaml-form-${version}`}</span>
 <span class="cstat-no" title="statement not covered" >              yaml={getYaml()}</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              setYaml={<span class="fstat-no" title="function not covered" >(y</span>aml) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >              setYaml={(y</span>aml) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                ensureEditMode(formik);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                formik.setFieldValue("yaml", yaml);</span></span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
@@ -988,7 +988,7 @@ export default StoragePoolForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

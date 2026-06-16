@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.61% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>109/114</span>
+                <span class='fraction'>108/114</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.61% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/114</span>
+                <span class='fraction'>108/114</span>
             </div>
         
             
@@ -177,28 +177,28 @@
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
 <a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
+<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -245,7 +245,7 @@
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">82x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
@@ -289,8 +289,8 @@
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">82x</span>
-<span class="cline-any cline-yes">77x</span>
-<span class="cline-any cline-yes">77x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, KeyboardEvent } from "react";
 import {
   ActionButton,
@@ -314,7 +314,7 @@ interface Props {
 &nbsp;
 const SnapshotForm: FC&lt;Props&gt; = (props) =&gt; {
   const { isEdit, formik, close, additionalFormInput } = props;
-  const handleEscKey = <span class="fstat-no" title="function not covered" >(e: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >handleEscKey = (e: KeyboardEvent&lt;HTMLElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (e.key === "Escape") {</span>
 <span class="cstat-no" title="statement not covered" >      close();</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
@@ -359,7 +359,7 @@ const SnapshotForm: FC&lt;Props&gt; = (props) =&gt; {
           error={
             (formik.touched.name || isEdit) &amp;&amp; formik.errors.<span class="branch-0 cbranch-no" title="branch not covered" >name ? (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;span className="name-error"&gt;{formik.errors.name}&lt;/span&gt;</span>
-            ) : null
+<span class="cstat-no" title="statement not covered" >            ) : null</span>
           }
           takeFocus
         /&gt;
@@ -412,7 +412,7 @@ export default SnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

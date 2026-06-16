@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.16% </span>
+                <span class="strong">57.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>82/146</span>
+                <span class='fraction'>84/146</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.16% </span>
+                <span class="strong">57.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>82/146</span>
+                <span class='fraction'>84/146</span>
             </div>
         
             
@@ -209,27 +209,27 @@
 <a name='L144'></a><a href='#L144'>144</a>
 <a name='L145'></a><a href='#L145'>145</a>
 <a name='L146'></a><a href='#L146'>146</a>
-<a name='L147'></a><a href='#L147'>147</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-yes">120x</span>
+<a name='L147'></a><a href='#L147'>147</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
+<span class="cline-any cline-yes">112x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -329,8 +329,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -354,7 +352,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">112x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import {
   Button,
@@ -393,7 +393,7 @@ const SelectGPUModal: FC&lt;Props&gt; = ({ onSelect, onClose }) =&gt; {
   ];
 &nbsp;
   const rows = isLoading
-    ? <span class="branch-0 cbranch-no" title="branch not covered" >[]</span>
+    ? [<span class="branch-0 cbranch-no" title="branch not covered" >]</span>
 <span class="cstat-no" title="statement not covered" >    : resources?.gpu?.cards?.map((card) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const selectCard = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >          onSelect(card);</span>
@@ -474,9 +474,9 @@ const SelectGPUModal: FC&lt;Props&gt; = ({ onSelect, onClose }) =&gt; {
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
-              &lt;Spinner className="u-loader" text="Loading GPUs..."<span class="branch-0 cbranch-no" title="branch not covered" > /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            ) : (</span>
-<span class="cstat-no" title="statement not covered" >              "No GPUs found"</span>
+              &lt;Spinner className="u-loader" text="Loading GPUs..." /&gt;
+            ) : (
+<span class="branch-0 cbranch-no" title="branch not covered" >              "No GPUs found"</span>
             )
           }
         /&gt;
@@ -508,7 +508,7 @@ export default SelectGPUModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T09:17:03.947Z
+                at 2026-06-16T09:57:00.404Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
