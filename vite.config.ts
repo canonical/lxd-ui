@@ -1,9 +1,8 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { execSync } from "child_process";
+import { defineConfig } from "vitest/config";
 
 // Load .env.local if it exists to override default environment variables
 dotenv.config({ path: ".env", quiet: true });
@@ -36,7 +35,10 @@ export default defineConfig({
       },
     },
   },
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   server: {
     port: process.env.VITE_PORT ? Number(process.env.VITE_PORT) : 3000,
     strictPort: true,
@@ -44,13 +46,13 @@ export default defineConfig({
     proxy: {
       "^/ui/(assets|manifest.json)": {
         target: `http://localhost:${process.env.VITE_PORT || 3000}`,
-        rewrite: (path) => path.replace(/^\/ui/, ""),
+        rewrite: (path: string) => path.replace(/^\/ui/, ""),
         secure: false,
         changeOrigin: true,
       },
       "/ui/monaco-editor": {
         target: `http://localhost:${process.env.VITE_PORT || 3000}`,
-        rewrite: (path) =>
+        rewrite: (path: string) =>
           path.replace(/^\/ui\/monaco-editor/, "/node_modules/monaco-editor"),
         secure: false,
       },
@@ -58,7 +60,6 @@ export default defineConfig({
   },
   build: {
     outDir: "./build/ui",
-    minify: "esbuild",
   },
   define: {
     __UI_GIT_HASH__: getGitHash(),
