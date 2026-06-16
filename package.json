@@ -87,7 +87,7 @@
     "postcss-cli": "11.0.1",
     "prettier": "3.7.4",
     "sass": "1.97.2",
-    "serve": "14.2.5",
+    "serve": "14.2.6",
     "stylelint": "16.26.1",
     "stylelint-config-standard-scss": "16.0.0",
     "stylelint-order": "7.0.1",
