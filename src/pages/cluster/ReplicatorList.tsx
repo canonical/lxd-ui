@@ -145,7 +145,9 @@ const ReplicatorList: FC<Props> = ({ variant = "main" }) => {
         project: replicator.project.toLowerCase(),
         cluster: replicator.config?.cluster?.toLowerCase() ?? "",
         status: replicator.last_run_status?.toLowerCase() ?? "",
-        last_run_at: replicator.last_run_at ?? "",
+        last_run_at: replicator.last_run_at
+          ? new Date(replicator.last_run_at).getTime()
+          : 0,
       },
     };
   });

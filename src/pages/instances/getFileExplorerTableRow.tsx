@@ -83,7 +83,7 @@ const getFileExplorerTableRow = (
     sortData: {
       name: fileName.toLowerCase(),
       type: fileType,
-      modified: fileModified,
+      modified: metadata?.modified ? new Date(metadata.modified).getTime() : 0,
     },
   };
 };
