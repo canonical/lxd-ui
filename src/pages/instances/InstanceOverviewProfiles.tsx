@@ -34,6 +34,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     const description = profile?.description ?? "";
     return {
       key: profileName,
+      className: "u-row",
       columns: [
         {
           content: (

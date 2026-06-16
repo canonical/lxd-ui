@@ -58,6 +58,7 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
   const rows = localPeerings.map((localPeering) => {
     return {
       key: localPeering.name,
+      className: "u-row",
       columns: [
         {
           content: localPeering.name,

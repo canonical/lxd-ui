@@ -72,6 +72,7 @@ const ClusterMemberList: FC = () => {
     return {
       key: member.server_name,
       name: member.server_name,
+      className: "u-row",
       columns: [
         {
           content: (

@@ -108,6 +108,7 @@ const ImageRegistriesList: FC = () => {
     return {
       key: registry.name,
       name: registry.name,
+      className: "u-row",
       columns: [
         {
           content: (

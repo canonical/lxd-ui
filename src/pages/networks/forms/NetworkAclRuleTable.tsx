@@ -38,6 +38,7 @@ const NetworkAclRuleTable: FC<Props> = ({
         const destination = getPeer(rule.destination, rule.destination_port);
 
         return {
+          className: "u-row",
           columns: [
             {
               content: capitalizeFirstLetter(rule.action ?? ""),

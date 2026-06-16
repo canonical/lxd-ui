@@ -52,6 +52,7 @@ const NetworkAclList: FC = () => {
 
   const rows = networkAcls.map((acl) => {
     return {
+      className: "u-row",
       columns: [
         {
           content: (

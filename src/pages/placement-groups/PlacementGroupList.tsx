@@ -59,6 +59,7 @@ const PlacementGroupList: FC = () => {
   const rows = placementGroups.map((placementGroup) => {
     return {
       key: placementGroup.name,
+      className: "u-row",
       columns: [
         {
           content: placementGroup.name,

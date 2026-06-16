@@ -88,6 +88,7 @@ const CustomIsoList: FC = () => {
 
     return {
       key: image.fingerprint,
+      className: "u-row",
       columns: [
         {
           content: image.aliases,

@@ -65,6 +65,7 @@ const ClusterGroupList: FC = () => {
     return {
       key: group.name,
       name: group.name,
+      className: "u-row",
       columns: [
         {
           content: group.name,

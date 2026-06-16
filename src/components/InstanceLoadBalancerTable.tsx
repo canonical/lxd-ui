@@ -39,6 +39,7 @@ const InstanceLoadBalancerTable: FC<Props> = ({ device, instance }) => {
   const rows = [
     {
       key: device.network,
+      className: "u-row",
       columns: [
         {
           content: poolsReferencingInstance.map((item) => {

@@ -104,6 +104,7 @@ const WarningList: FC = () => {
     return {
       key: warning.uuid,
       name: warning.uuid,
+      className: "u-row",
       columns: [
         {
           content: warning.type,

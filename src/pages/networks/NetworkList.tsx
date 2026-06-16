@@ -178,6 +178,7 @@ const NetworkList: FC = () => {
 
       return {
         key: network.name + network.memberName,
+        className: "u-row",
         columns: [
           {
             content: <Link to={href}>{network.name}</Link>,

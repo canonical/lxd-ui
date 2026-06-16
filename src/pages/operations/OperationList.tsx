@@ -63,6 +63,7 @@ const OperationList: FC = () => {
     const projectName = getProjectName(operation);
     return {
       key: operation.id,
+      className: "u-row",
       columns: [
         {
           content: (
