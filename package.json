@@ -41,7 +41,7 @@
     "@xterm/xterm": "6.0.0",
     "axios": "1.16.0",
     "formik": "2.4.9",
-    "js-yaml": "4.1.1",
+    "js-yaml": "4.2.0",
     "lodash.isequal": "4.5.0",
     "node-forge": "1.4.0",
     "parse-prometheus-text-format": "1.1.1",
