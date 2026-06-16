@@ -64,12 +64,10 @@ const CloudInitForm: FC<Props> = ({ formik, project }) => {
           })}
         >
           <div className="mono-font">
-            <b>
-              <CloudInitConfig
-                key={`cloud-init-${name}-${metadata.value}`}
-                config={metadata.value as string}
-              />
-            </b>
+            <CloudInitConfig
+              key={`cloud-init-${name}-${metadata.value}`}
+              config={metadata.value as string}
+            />
           </div>
           {metadata && (
             <div className="u-d-flex u-margin-top--small">

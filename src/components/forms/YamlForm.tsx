@@ -1,16 +1,10 @@
-import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
-import { Editor, loader } from "@monaco-editor/react";
-import { updateMaxHeight } from "util/updateMaxHeight";
-import type { editor } from "monaco-editor/esm/vs/editor/editor.api";
-type IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import { useRef, type FC, type ReactNode, useEffect, useState } from "react";
 import classnames from "classnames";
+import ReactCodeMirror from "@uiw/react-codemirror";
+import { yaml as yamlExtension } from "@codemirror/lang-yaml";
 import { useListener } from "@canonical/react-components";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
-import { ROOT_PATH } from "util/rootPath";
-
-export interface YamlFormValues {
-  yaml?: string;
-}
+import { updateMaxHeight } from "util/updateMaxHeight";
+import { bespin } from "@uiw/codemirror-theme-bespin";
 
 interface Props {
   yaml: string;
@@ -29,27 +23,25 @@ const YamlForm: FC<Props> = ({
   readOnly = false,
   readOnlyMessage,
 }) => {
-  const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
+  const [height, setHeight] = useState(200);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isSmallScreen = useIsScreenBelow();
 
-  loader.config({ paths: { vs: `${ROOT_PATH}/ui/monaco-editor/min/vs` } });
-
-  const updateFormHeight = () => {
-    if (!editor || !containerRef.current) {
+  const updateEditorHeight = () => {
+    if (!containerRef.current || autoResize) {
       return;
     }
-    if (autoResize) {
-      editor.layout();
-      const contentHeight = editor.getContentHeight();
-      containerRef.current.style.height = `${contentHeight}px`;
-    } else {
-      updateMaxHeight("code-editor-wrapper", "p-bottom-controls");
-    }
-    editor.layout();
+
+    updateMaxHeight("code-editor-wrapper", "p-bottom-controls");
+    setTimeout(() => {
+      const height = document
+        ?.getElementsByClassName("code-editor-wrapper")
+        ?.item(0)
+        ?.getBoundingClientRect().height;
+      setHeight(height ?? 200);
+    }, 100);
   };
-  useListener(window, updateFormHeight, "resize", true);
-  useEffect(updateFormHeight, [editor, containerRef.current, yaml]);
+  useListener(window, updateEditorHeight, "resize", true);
+  useEffect(updateEditorHeight, [containerRef.current]);
 
   return (
     <>
@@ -58,34 +50,19 @@ const YamlForm: FC<Props> = ({
         ref={containerRef}
         className={classnames("code-editor-wrapper", { "read-only": readOnly })}
       >
-        <Editor
-          defaultValue={yaml}
-          language="yaml"
-          theme="hc-black"
+        <ReactCodeMirror
+          value={yaml}
+          extensions={[yamlExtension()]}
           onChange={(value: string | undefined) => {
             if (value && setYaml) {
               setYaml(value);
             }
           }}
-          options={{
-            fontSize: 18,
-            scrollBeyondLastLine: false,
-            wordWrap: "on",
-            wrappingStrategy: "advanced",
-            minimap: { enabled: false },
-            overviewRulerLanes: 0,
-            readOnly: readOnly,
-            scrollbar: {
-              vertical: "auto",
-              alwaysConsumeMouseWheel: false,
-            },
-            readOnlyMessage: { value: readOnlyMessage ?? "" },
-            lineNumbersMinChars: isSmallScreen ? 2 : 5,
-          }}
-          onMount={(editor: IStandaloneCodeEditor) => {
-            setEditor(editor);
-            editor.focus();
-          }}
+          autoFocus
+          readOnly={readOnly}
+          title={readOnlyMessage}
+          theme={bespin}
+          height={autoResize ? undefined : `${height}px`}
         />
       </div>
     </>

@@ -12,7 +12,6 @@ const CloudInitConfig: FC<Props> = ({ config, setConfig }) => {
       <YamlForm
         yaml={config}
         setYaml={setConfig}
-        autoResize={true}
         readOnly={!setConfig}
         readOnlyMessage="Read only editor for inherited value. Create an override to modify."
       />

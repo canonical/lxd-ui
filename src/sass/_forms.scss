@@ -127,10 +127,6 @@
     }
   }
 
-  .read-only .monaco-editor .cursors-layer > .cursor {
-    display: none !important;
-  }
-
   .cpu-limit-label,
   .ip-address-selector,
   .memory-limit-label {
@@ -373,13 +369,6 @@
 
   .form-contents:has(.code-editor-wrapper) {
     padding-left: 0;
-
-    .code-editor-wrapper {
-      .monaco-hover,
-      .monaco-hover-content {
-        display: none;
-      }
-    }
   }
 }
 
