@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/27</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/27</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,20 +101,20 @@
 <span class="cline-any cline-yes">69x</span>
 <span class="cline-any cline-yes">69x</span>
 <span class="cline-any cline-yes">69x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1421x</span>
+<span class="cline-any cline-yes">1421x</span>
+<span class="cline-any cline-yes">506x</span>
+<span class="cline-any cline-yes">1421x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">161x</span>
+<span class="cline-any cline-yes">1421x</span>
+<span class="cline-any cline-yes">1421x</span>
 <span class="cline-any cline-yes">69x</span>
 <span class="cline-any cline-yes">69x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -127,21 +127,21 @@ interface Props {
   project: string;
 }
 &nbsp;
-const NetworkLoadBalancerCount: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({ network, project }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (</span>
-<span class="cstat-no" title="statement not covered" >    network.managed === false ||</span>
-<span class="cstat-no" title="statement not covered" >    !typesWithLoadBalancers.includes(network.type)</span>
-<span class="cstat-no" title="statement not covered" >  ) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;&gt;-&lt;/&gt;;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { data: balancers = [], isLoading } = useLoadBalancers(</span>
-<span class="cstat-no" title="statement not covered" >    network.name,</span>
-<span class="cstat-no" title="statement not covered" >    project,</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return &lt;&gt;{isLoading ? "" : balancers.length}&lt;/&gt;;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const NetworkLoadBalancerCount: FC&lt;Props&gt; = ({ network, project }) =&gt; {
+  if (
+    network.managed === false ||
+    !typesWithLoadBalancers.includes(network.type)
+  ) {
+    return &lt;&gt;-&lt;/&gt;;
+  }
+&nbsp;
+  const { data: balancers = [], isLoading } = useLoadBalancers(
+    network.name,
+    project,
+  );
+&nbsp;
+  return &lt;&gt;{isLoading ? "" : balancers.length}&lt;/&gt;;
+};
 &nbsp;
 export default NetworkLoadBalancerCount;
 &nbsp;</pre></td></tr></table></pre>
@@ -151,7 +151,7 @@ export default NetworkLoadBalancerCount;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-15T15:42:20.480Z
+                at 2026-06-16T09:17:03.947Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

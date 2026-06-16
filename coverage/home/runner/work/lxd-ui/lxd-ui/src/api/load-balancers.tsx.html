@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.63% </span>
+                <span class="strong">28.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/110</span>
+                <span class='fraction'>31/110</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.63% </span>
+                <span class="strong">28.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/110</span>
+                <span class='fraction'>31/110</span>
             </div>
         
             
@@ -180,23 +180,23 @@
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -289,24 +289,24 @@ import type { LxdOperationResponse } from "types/operation";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdLoadBalancer } from "types/loadBalancers";
 &nbsp;
-export const fetchLoadBalancers = <span class="fstat-no" title="function not covered" >async (</span>
-<span class="cstat-no" title="statement not covered" >  network: string,</span>
-<span class="cstat-no" title="statement not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): Promise&lt;LxdLoadBalancer[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  params.set("project", project);</span>
-<span class="cstat-no" title="statement not covered" >  params.set("recursion", "1");</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return fetch(</span>
-<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/load-balancers?${params.toString()}`,</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
-<span class="cstat-no" title="statement not covered" >    .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >    .then((data: LxdApiResponse&lt;LxdLoadBalancer[]&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      return data.metadata.sort((a, b) =&gt;</span>
+export const fetchLoadBalancers = async (
+  network: string,
+  project: string,
+): Promise&lt;LxdLoadBalancer[]&gt; =&gt; {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("recursion", "1");
+&nbsp;
+  return fetch(
+    `${ROOT_PATH}/1.0/networks/${encodeURIComponent(network)}/load-balancers?${params.toString()}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse&lt;LxdLoadBalancer[]&gt;) =&gt; {
+      return data.metadata.sort((a, b) =&gt;
 <span class="cstat-no" title="statement not covered" >        a.listen_address.localeCompare(b.listen_address),</span>
-<span class="cstat-no" title="statement not covered" >      );</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+      );
+    });
+};
 &nbsp;
 export const fetchLoadBalancer = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  network: string,</span>
@@ -400,7 +400,7 @@ export const deleteLoadBalancer = <span class="fstat-no" title="function not cov
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-15T15:42:20.480Z
+                at 2026-06-16T09:17:03.947Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
