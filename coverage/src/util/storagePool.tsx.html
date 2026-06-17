@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.12% </span>
+                <span class="strong">65.27% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>155/238</span>
+                <span class='fraction'>156/239</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.12% </span>
+                <span class="strong">65.27% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>155/238</span>
+                <span class='fraction'>156/239</span>
             </div>
         
             
@@ -301,7 +301,9 @@
 <a name='L236'></a><a href='#L236'>236</a>
 <a name='L237'></a><a href='#L237'>237</a>
 <a name='L238'></a><a href='#L238'>238</a>
-<a name='L239'></a><a href='#L239'>239</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -585,6 +587,7 @@ export const storagePoolFormFieldToPayloadName: Record&lt;string, string&gt; = {
   powerflex_sdt: "powerflex.sdt",
   powerflex_user_name: "powerflex.user.name",
   powerflex_user_password: "powerflex.user.password",
+  powerflex_version: "volatile.powerflex.version",
   powerstore_gateway: "powerstore.gateway",
   powerstore_gateway_verify: "powerstore.gateway.verify",
   powerstore_mode: "powerstore.mode",
@@ -597,50 +600,50 @@ export const storagePoolFormFieldToPayloadName: Record&lt;string, string&gt; = {
   pure_target: "pure.target",
   zfs_clone_copy: "zfs.clone_copy",
   zfs_export: "zfs.export",
-  zfs_pool_name: "<span class="fstat-no" title="function not covered" >zfs.pool_name",</span>
+  zfs_pool_name: <span class="fstat-no" title="function not covered" >"zfs.pool_name",</span>
 <span class="cstat-no" title="statement not covered" >  alletra_target: "alletra.target",</span>
 <span class="cstat-no" title="statement not covered" >  alletra_wsapi: "alletra.wsapi",</span>
 <span class="cstat-no" title="statement not covered" >  alletra_user_name: "alletra.user.name",</span>
   alletra_user_password: "alletra.user.password",
-  allet<span class="fstat-no" title="function not covered" >ra_wsapi_verify: "alletra.wsapi.verify",</span>
+  alle<span class="fstat-no" title="function not covered" >tra_wsapi_verify: "alletra.wsapi.verify",</span>
 <span class="cstat-no" title="statement not covered" >  alletra_cpg: "alletra.cpg",</span>
 <span class="cstat-no" title="statement not covered" >  alletra_mode: "alletra.mode",</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const isClusterLocalDriver = (poolDriver: string) =&gt; {</span>
   const clusterLocalDrivers = [btrfsDriver, dirDriver, lvmDriver, zfsDriver];
-  return clu<span class="fstat-no" title="function not covered" >sterLocalDrivers.includes(poolDriver);</span>
+  return cl<span class="fstat-no" title="function not covered" >usterLocalDrivers.includes(poolDriver);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const getPoolKey = (formField: string): string =&gt; {</span>
-  if (!(formField in storagePoolFormFieldToPayloadN<span class="fstat-no" title="function not covered" >ame)) {</span>
+  if (!(formField in storagePoolFormFieldToPayload<span class="fstat-no" title="function not covered" >Name)) {</span>
 <span class="cstat-no" title="statement not covered" >    throw new Error(</span>
 <span class="cstat-no" title="statement not covered" >      `Could not find ${formField} in storagePoolFormFieldToPayloadName`,</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-  return storagePoolFormFieldToPayloadName[f<span class="fstat-no" title="function not covered" >ormField];</span>
+  return storagePoolFormFieldToPayloadName[<span class="fstat-no" title="function not covered" >formField];</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const getCephPoolFormFields = () =&gt; {</span>
   return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =&gt;
-    item.startsWith("ceph<span class="fstat-no" title="function not covered" >_"),</span>
+    item.startsWith("cep<span class="fstat-no" title="function not covered" >h_"),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const getCephObjectPoolFormFields = () =&gt; {</span>
   return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =&gt;
-    item.startsWith("c<span class="fstat-no" title="function not covered" >ephobject_"),</span>
+    item.startsWith("<span class="fstat-no" title="function not covered" >cephobject_"),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const getPowerflexPoolFormFields = () =&gt; {</span>
   return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =&gt;
-    ite<span class="fstat-no" title="function not covered" >m.startsWith("powerflex_"),</span>
+    it<span class="fstat-no" title="function not covered" >em.startsWith("powerflex_"),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const getPowerStorePoolFormFields = () =&gt; {</span>
-  return Object.keys(storagePoolFormFieldToPayloadName).filter((item<span class="fstat-no" title="function not covered" >) =&gt;</span>
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((ite<span class="fstat-no" title="function not covered" >m) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >    item.startsWith("powerstore_"),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
@@ -663,13 +666,13 @@ export const getAlletraStoragePoolFormFields = () =&gt; {
   );
 };
 &nbsp;
-const storagePoolDri<span class="fstat-no" title="function not covered" >verToOptionKey: Record&lt;string, LxdConfigOptionsKeys&gt; = {</span>
+const storagePoolDr<span class="fstat-no" title="function not covered" >iverToOptionKey: Record&lt;string, LxdConfigOptionsKeys&gt; = {</span>
 <span class="cstat-no" title="statement not covered" >  [dirDriver]: "storage-dir",</span>
 <span class="cstat-no" title="statement not covered" >  [btrfsDriver]: "storage-btrfs",</span>
 <span class="cstat-no" title="statement not covered" >  [lvmDriver]: "storage-lvm",</span>
 <span class="cstat-no" title="statement not covered" >  [zfsDriver]: "storage-zfs",</span>
   [cephDriver]: "storage-ceph",
-  [cephFSDriver]: "storage<span class="fstat-no" title="function not covered" >-cephfs",</span>
+  [cephFSDriver]: "storag<span class="fstat-no" title="function not covered" >e-cephfs",</span>
 <span class="cstat-no" title="statement not covered" >  [powerFlex]: "storage-powerflex",</span>
 <span class="cstat-no" title="statement not covered" >  [powerStore]: "storage-powerstore",</span>
 <span class="cstat-no" title="statement not covered" >  [pureStorage]: "storage-pure",</span>
@@ -678,12 +681,12 @@ const storagePoolDri<span class="fstat-no" title="function not covered" >verToOp
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 export const storagePoolFormDriverToOptionKey = (
-  driver: s<span class="fstat-no" title="function not covered" >tring,</span>
+  driver: <span class="fstat-no" title="function not covered" >string,</span>
 <span class="cstat-no" title="statement not covered" >): LxdConfigOptionsKeys =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  if (!(driver in storagePoolDriverToOptionKey)) {</span>
 <span class="cstat-no" title="statement not covered" >    throw new Error(`Could not find ${driver} in storagePoolDriverToOptionKey`);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-  return storagePoolDriverToOptionKey[dr<span class="fstat-no" title="function not covered" >iver];</span>
+  return storagePoolDriverToOptionKey[d<span class="fstat-no" title="function not covered" >river];</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export const testDuplicateStoragePoolName = (</span>
@@ -692,12 +695,12 @@ export const storagePoolFormDriverToOptionKey = (
 ): [string, string, TestFunction&lt;string | undefined, AnyObject&gt;] =&gt; {
   return [
     "deduplicate",
-    "<span class="fstat-no" title="function not covered" >A storage pool with this name already exists",</span>
+<span class="fstat-no" title="function not covered" >    "A storage pool with this name already exists",</span>
 <span class="cstat-no" title="statement not covered" >    async (value?: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      return checkDuplicateName(</span>
 <span class="cstat-no" title="statement not covered" >        value,</span>
         project,
-        controllerSt<span class="fstat-no" title="function not covered" >ate,</span>
+        controllerS<span class="fstat-no" title="function not covered" >tate,</span>
 <span class="cstat-no" title="statement not covered" >        `storage-pools`,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
@@ -709,17 +712,17 @@ export const storagePoolFormDriverToOptionKey = (
 <span class="cstat-no" title="statement not covered" >): boolean =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
     formik.values.driver === powerFlex &amp;&amp;
-    (!formik.values.powerflex_pool<span class="fstat-no" title="function not covered" > ||</span>
+    (!formik.values.powerflex_poo<span class="fstat-no" title="function not covered" >l ||</span>
 <span class="cstat-no" title="statement not covered" >      !formik.values.powerflex_gateway ||</span>
 <span class="cstat-no" title="statement not covered" >      !formik.values.powerflex_user_password)</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
-export const isPowerStoreIncomplete<span class="fstat-no" title="function not covered" > = (</span>
+export const isPowerStoreIncomplet<span class="fstat-no" title="function not covered" >e = (</span>
 <span class="cstat-no" title="statement not covered" >  formik: FormikProps&lt;StoragePoolFormValues&gt;,</span>
 ): boolean =&gt; {
   return (
-    for<span class="fstat-no" title="function not covered" >mik.values.driver === powerStore &amp;&amp;</span>
+    fo<span class="fstat-no" title="function not covered" >rmik.values.driver === powerStore &amp;&amp;</span>
     (!formik.values.powerstore_gateway ||
 <span class="fstat-no" title="function not covered" >      !formik.values.powerstore_user_name ||</span>
 <span class="cstat-no" title="statement not covered" >      !formik.values.powerstore_user_password)</span>
@@ -784,7 +787,7 @@ export const hasSource = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-16T11:48:18.069Z
+                at 2026-06-17T08:01:25.310Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
