@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.24% </span>
+                <span class="strong">90.32% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>83/93</span>
+                <span class='fraction'>84/93</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.13% </span>
+                <span class="strong">93.25% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>82/89</span>
+                <span class='fraction'>83/89</span>
             </div>
         
             
@@ -152,23 +152,23 @@
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
+<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
@@ -181,7 +181,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
@@ -239,8 +239,8 @@
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">140x</span>
+<span class="cline-any cline-yes">140x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Input, Notification } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
@@ -264,13 +264,13 @@ const <span class="fstat-no" title="function not covered" >StorageVolumeFormSnap
   return (
     &lt;&gt;
       {<span class="branch-0 cbranch-no" title="branch not covered" >snapshotDisabled &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Notification</span>
+<span class="cstat-no" title="statement not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >        &lt;Notification</span></span>
 <span class="cstat-no" title="statement not covered" >          severity="caution"</span>
 <span class="cstat-no" title="statement not covered" >          title={`Snapshot creation has been disabled for volumes in the project ${project?.name}`}</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;SnapshotDisabledWarningLink project={project} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/Notification&gt;</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
+      )}
       &lt;ScrollableConfigurationTable
         rows={[
           getConfigurationRow({
@@ -337,7 +337,7 @@ export default StorageVolumeFormSnapshots;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-17T08:01:25.310Z
+                at 2026-06-17T10:12:09.795Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

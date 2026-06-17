@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.1% </span>
+                <span class="strong">48.97% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>81/147</span>
+                <span class='fraction'>72/147</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.81% </span>
+                <span class="strong">30.43% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/22</span>
+                <span class='fraction'>7/23</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.83% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>79/120</span>
+                <span class='fraction'>70/120</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -251,8 +251,6 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -274,13 +272,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -340,13 +340,13 @@ const <span class="fstat-no" title="function not covered" >ClusteredDiskSizeSele
 <span class="cstat-no" title="statement not covered" >    }</span>
   }, [isSpecific, values]);
 &nbsp;
-  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >setValueForAllMembers = (v</span>alue: string) =&gt; {</span></span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >setValueForAllMembers = <span class="fstat-no" title="function not covered" >(v</span>alue: string) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const update: ClusterSpecificValues = <span class="cstat-no" title="statement not covered" >{};</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    memberNames.<span class="fstat-no" title="function not covered" >forEach((m</span>ember) =&gt; (<span class="cstat-no" title="statement not covered" >update[member] = value))</span>;</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setValue(update);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >setValueForMember = (v</span>alue: string, member: string) =&gt; {</span></span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >setValueForMember = <span class="fstat-no" title="function not covered" >(v</span>alue: string, member: string) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const update = <span class="cstat-no" title="statement not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      ...values,</span>
 <span class="cstat-no" title="statement not covered" >      [member]: value,</span>
@@ -362,7 +362,7 @@ const <span class="fstat-no" title="function not covered" >ClusteredDiskSizeSele
           id={`${id}-same-for-all-toggle`}
           label="Same for all cluster members"
           checked={!isSpecific}
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >          onChange={() =&gt; {</span></span>
+<span class="fstat-no" title="function not covered" >          onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setValueForAllMembers(firstValue);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            setIsSpecific((v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val)</span>;</span></span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
@@ -370,9 +370,9 @@ const <span class="fstat-no" title="function not covered" >ClusteredDiskSizeSele
           title={disabledReason}
         /&gt;
       )}
-      {<span class="branch-0 cbranch-no" title="branch not covered" >isSpecific &amp;&amp; (</span>
-        &lt;div className="cluster-specific-input"&gt;
-          {memberNames.map((item) =&gt; {
+      {<span class="branch-0 cbranch-no" title="branch not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isSpecific &amp;&amp; (</span></span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="cluster-specific-input"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          {memberNames.map((item) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            const activeValue = <span class="cstat-no" title="statement not covered" >values?.[item] ?? "";</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return (</span></span>
@@ -394,13 +394,13 @@ const <span class="fstat-no" title="function not covered" >ClusteredDiskSizeSele
 <span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/Fragment&gt;</span>
 <span class="cstat-no" title="statement not covered" >            );</span>
-          })}
-          {helpText &amp;&amp; (
-            &lt;div className="p-form-help-text cluster-specific-helptext"&gt;
-              {helpText}
-            &lt;/div&gt;
-          )}
-        &lt;/div&gt;
+<span class="cstat-no" title="statement not covered" >          })}</span>
+<span class="cstat-no" title="statement not covered" >          {helpText &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="p-form-help-text cluster-specific-helptext"&gt;</span>
+<span class="cstat-no" title="statement not covered" >              {helpText}</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
       )}
 &nbsp;
       {<span class="branch-0 cbranch-no" title="branch not covered" >!isSpecific &amp;&amp; (</span>
@@ -409,7 +409,7 @@ const <span class="fstat-no" title="function not covered" >ClusteredDiskSizeSele
             &lt;DiskSizeSelector
               id={id}
               value={firstValue}
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >              setMemoryLimit={(v</span>alue) =&gt; {</span>
+<span class="fstat-no" title="function not covered" >              setMemoryLimit={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setValueForAllMembers(value);</span></span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
               disabled={!!disabledReason}
@@ -430,7 +430,7 @@ export default ClusteredDiskSizeSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-17T08:01:25.310Z
+                at 2026-06-17T10:12:09.795Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

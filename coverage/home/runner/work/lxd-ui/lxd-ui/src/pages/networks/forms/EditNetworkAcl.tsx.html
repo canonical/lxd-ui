@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.18% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>161/189</span>
+                <span class='fraction'>162/189</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.18% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>161/189</span>
+                <span class='fraction'>162/189</span>
             </div>
         
             
@@ -369,16 +369,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -434,8 +434,8 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
@@ -526,7 +526,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
     );
   };
 &nbsp;
-  const <span class="fstat-no" title="function not covered" >onFailure = (e: unknown) =&gt; {</span>
+  const onFailure = <span class="fstat-no" title="function not covered" >(e: unknown) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    invalidateCache();</span>
 <span class="cstat-no" title="statement not covered" >    notify.failure(`Update of network ACL ${networkAcl.name} failed`, e);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -558,7 +558,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
               () =&gt; {
                 onSuccess();
               },
-<span class="cstat-no" title="statement not covered" >              (msg) =&gt; {</span>
+              (msg) =&gt; {
 <span class="cstat-no" title="statement not covered" >                onFailure(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
             );
@@ -575,7 +575,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
     },
   });
 &nbsp;
-  const <span class="fstat-no" title="function not covered" >setSection = (newSection: string) =&gt; {</span>
+  const setSection = <span class="fstat-no" title="function not covered" >(newSection: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (newSection === GENERAL) {</span>
 <span class="cstat-no" title="statement not covered" >      navigate(baseUrl);</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
@@ -584,7 +584,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
 <span class="cstat-no" title="statement not covered" >    updateSection(slugify(newSection));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const <span class="fstat-no" title="function not covered" >getYaml = () =&gt; {</span>
+  const getYaml = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const payload = toNetworkAcl(formik.values, networkAcl);</span>
 <span class="cstat-no" title="statement not covered" >    return objectToYaml(payload);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -598,7 +598,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
         &lt;YamlSwitch
           formik={formik}
           section={section}
-<span class="fstat-no" title="function not covered" >          setSection={() =&gt; {</span>
+          setSection={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setSection(</span>
 <span class="cstat-no" title="statement not covered" >              section === slugify(YAML_CONFIGURATION)</span>
 <span class="cstat-no" title="statement not covered" >                ? GENERAL</span>
@@ -610,7 +610,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
           &lt;&gt;
             &lt;Button
               appearance="base"
-<span class="fstat-no" title="function not covered" >              onClick={() =&gt; {</span>
+              onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                void formik.setValues(initialValues);</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
             &gt;
@@ -637,7 +637,7 @@ export default EditNetworkAcl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-17T08:01:25.310Z
+                at 2026-06-17T10:12:09.795Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
