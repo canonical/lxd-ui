@@ -205,7 +205,7 @@ const LocalImageList: FC = () => {
         cached: image.cached,
         type: image.type,
         size: +image.size,
-        uploaded_at: image.uploaded_at,
+        uploaded_at: new Date(image.uploaded_at).getTime(),
       },
     };
   });
