@@ -172,7 +172,7 @@ test("profile yaml edit", async ({ page }) => {
   await page.getByText("YAML configuration").click();
   await page.getByRole("button", { name: "Close notification" }).click();
 
-  await page.locator(".view-lines").click();
+  await page.locator(".cm-editor").click();
   await page.keyboard.press("Control+a");
   await page.keyboard.type(`config: {}
 description: 'A-new-description'

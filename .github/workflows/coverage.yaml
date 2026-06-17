@@ -108,8 +108,6 @@ jobs:
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
           DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
           docker stop $DOTRUN_CONTAINER_ID
-          # Remove all monaco-editor build files, which causes error in upload-artifact due to invalid characters in file naming
-          find . -type d -name "monaco-editor" -exec rm -r {} +
 
       - name: Upload coverage report
         if: always()

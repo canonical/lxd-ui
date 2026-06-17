@@ -46,7 +46,7 @@ export const setCodeInput = async (
   await activateOverride(page, field);
   await page
     .getByRole("row", { name: field })
-    .locator(".override .view-lines")
+    .locator(".override .cm-editor")
     .click();
   await page.keyboard.type(value);
 };
@@ -54,7 +54,7 @@ export const setCodeInput = async (
 export const assertCode = async (page: Page, field: string, value: string) => {
   await page
     .getByRole("row", { name: field })
-    .locator(".override .view-lines")
+    .locator(".override .cm-editor")
     .click();
   await page.getByText(value).click();
 };

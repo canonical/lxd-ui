@@ -264,7 +264,7 @@ test("instance yaml edit", async ({ page, lxdVersion }) => {
   await page.getByText("YAML configuration").click();
   await page.getByRole("button", { name: "Close notification" }).click();
 
-  await page.locator(".view-lines").click();
+  await page.locator(".cm-editor").click();
   const editorLine = lxdVersion === "5.0-edge" ? "architecture" : "description";
   await page.getByText(editorLine, { exact: true }).click();
   await page.keyboard.press("ControlOrMeta+f");

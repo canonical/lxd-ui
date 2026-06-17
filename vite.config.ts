@@ -48,12 +48,6 @@ export default defineConfig({
         secure: false,
         changeOrigin: true,
       },
-      "/ui/monaco-editor": {
-        target: `http://localhost:${process.env.VITE_PORT || 3000}`,
-        rewrite: (path) =>
-          path.replace(/^\/ui\/monaco-editor/, "/node_modules/monaco-editor"),
-        secure: false,
-      },
     },
   },
   build: {
