@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">83.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>38/38</span>
+                <span class='fraction'>41/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -101,37 +101,37 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-yes">25x</span>
@@ -149,32 +149,32 @@ import {
 import type { LxdClusterLink, LxdClusterLinkState } from "types/cluster";
 import { useAuth } from "context/auth";
 &nbsp;
-export const useClusterLinks = (): UseQueryResult&lt;LxdClusterLink[]&gt; =&gt; {
-  const { isFineGrained } = useAuth();
-  return useQuery({
+export const <span class="fstat-no" title="function not covered" >useClusterLinks = (): UseQueryResult&lt;LxdClusterLink[]&gt; =&gt; {</span>
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.cluster, queryKeys.links],
-    queryFn: async () =&gt; fetchClusterLinks(isFineGrained),
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchClusterLinks(isFineGrained),</span>
   });
 };
 &nbsp;
-export const useClusterLink = (
+export const <span class="fstat-no" title="function not covered" >useClusterLink = (</span>
   link: string,
-  isEnabled = true,
+  isEnabled = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
 ): UseQueryResult&lt;LxdClusterLink&gt; =&gt; {
-  const { isFineGrained } = useAuth();
-  return useQuery({
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.cluster, queryKeys.links, link],
-    queryFn: async () =&gt; fetchClusterLink(link, isFineGrained),
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchClusterLink(link, isFineGrained),</span>
     enabled: isEnabled &amp;&amp; !!link,
   });
 };
 &nbsp;
-export const useClusterLinkState = (
+export const <span class="fstat-no" title="function not covered" >useClusterLinkState = (</span>
   link: string,
 ): UseQueryResult&lt;LxdClusterLinkState&gt; =&gt; {
-  return useQuery({
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.cluster, queryKeys.links, link, queryKeys.state],
-    queryFn: async () =&gt; fetchClusterLinkState(link),
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchClusterLinkState(link),</span>
   });
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -184,7 +184,7 @@ export const useClusterLinkState = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T14:56:12.722Z
+                at 2026-06-18T15:00:15.392Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

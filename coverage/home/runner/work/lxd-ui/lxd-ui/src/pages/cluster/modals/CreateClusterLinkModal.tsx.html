@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.11% </span>
+                <span class="strong">76.97% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>116/143</span>
+                <span class='fraction'>117/152</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">8.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>1/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -206,27 +206,27 @@
 <a name='L141'></a><a href='#L141'>141</a>
 <a name='L142'></a><a href='#L142'>142</a>
 <a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<a name='L144'></a><a href='#L144'>144</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
@@ -347,8 +347,8 @@
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, type FC } from "react";
 import {
   Accordion,
@@ -369,10 +369,10 @@ interface Props {
   linkName: string;
 }
 &nbsp;
-const CreateClusterLinkModal: FC&lt;Props&gt; = ({ onClose, token, linkName }) =&gt; {
-  const [isConfirmed, setConfirmed] = useState(false);
-  const [howToUseActiveTab, setHowToUseActiveTab] = useState("ui-tab");
-  const [clusterName, setClusterName] = useState(linkName);
+const <span class="fstat-no" title="function not covered" >CreateClusterLinkModal: FC&lt;Props&gt; = ({</span> onClose, token, linkName }) =&gt; {
+  const [isConfirmed, setConfirmed] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [howToUseActiveTab, setHowToUseActiveTab] = <span class="cstat-no" title="statement not covered" >useState("ui-tab");</span>
+  const [clusterName, setClusterName] = <span class="cstat-no" title="statement not covered" >useState(linkName);</span>
 &nbsp;
   return (
     &lt;Modal
@@ -401,14 +401,14 @@ const CreateClusterLinkModal: FC&lt;Props&gt; = ({ onClose, token, linkName }) =
       ]}
       closeOnOutsideClick={false}
     &gt;
-      {token &amp;&amp; (
+      {<span class="branch-0 cbranch-no" title="branch not covered" >token &amp;&amp; (</span>
         &lt;&gt;
           &lt;CodeSnippetWithCopyButton
             code={token}
             title="Your trust token"
             tooltipMessage="Copy token"
-            onCopyButtonClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              setConfirmed(true);</span>
+<span class="fstat-no" title="function not covered" >            onCopyButtonClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              setConfirmed(true);</span></span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
           /&gt;
           &lt;Notification severity="caution" title="Copy the trust token"&gt;
@@ -428,20 +428,20 @@ const CreateClusterLinkModal: FC&lt;Props&gt; = ({ onClose, token, linkName }) =
                         {
                           label: "CLI",
                           active: howToUseActiveTab === "cli-tab",
-                          onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                            setHowToUseActiveTab("cli-tab");</span>
+<span class="fstat-no" title="function not covered" >                          onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                            setHowToUseActiveTab("cli-tab");</span></span>
 <span class="cstat-no" title="statement not covered" >                          },</span>
                         },
                         {
                           label: "UI",
                           active: howToUseActiveTab === "ui-tab",
-                          onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                            setHowToUseActiveTab("ui-tab");</span>
+<span class="fstat-no" title="function not covered" >                          onClick: <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                            setHowToUseActiveTab("ui-tab");</span></span>
 <span class="cstat-no" title="statement not covered" >                          },</span>
                         },
                       ]}
                     /&gt;
-                    {howToUseActiveTab === <span class="branch-0 cbranch-no" title="branch not covered" >"cli-tab" &amp;&amp; (</span>
+                    {<span class="branch-0 cbranch-no" title="branch not covered" >howToUseActiveTab === <span class="branch-0 cbranch-no" title="branch not covered" >"cli-tab" &amp;&amp; (</span></span>
 <span class="cstat-no" title="statement not covered" >                      &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >                        For use with the LXC command-line tool, run on the</span>
 <span class="cstat-no" title="statement not covered" >                        target cluster:</span>
@@ -449,23 +449,23 @@ const CreateClusterLinkModal: FC&lt;Props&gt; = ({ onClose, token, linkName }) =
 <span class="cstat-no" title="statement not covered" >                          code={`lxc cluster link create ${clusterName} --auth-group admins --token ${token}`}</span>
 <span class="cstat-no" title="statement not covered" >                          tooltipMessage="Copy command"</span>
 <span class="cstat-no" title="statement not covered" >                          className="u-no-margin--bottom"</span>
-<span class="cstat-no" title="statement not covered" >                          onCopyButtonClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >                            setConfirmed(true);</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                          onCopyButtonClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                            setConfirmed(true);</span></span>
 <span class="cstat-no" title="statement not covered" >                          }}</span>
 <span class="cstat-no" title="statement not covered" >                        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                        &lt;Input</span>
 <span class="cstat-no" title="statement not covered" >                          label="Cluster link name"</span>
 <span class="cstat-no" title="statement not covered" >                          type="text"</span>
 <span class="cstat-no" title="statement not covered" >                          help="Customize the cluster link name for the command above."</span>
-<span class="cstat-no" title="statement not covered" >                          onChange={<span class="fstat-no" title="function not covered" >(e) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >                            setClusterName(e.target.value);</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                          onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                            setClusterName(e.target.value);</span></span>
 <span class="cstat-no" title="statement not covered" >                          }}</span>
 <span class="cstat-no" title="statement not covered" >                          value={clusterName}</span>
 <span class="cstat-no" title="statement not covered" >                        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                      &lt;/&gt;</span>
                     )}
 &nbsp;
-                    {howToUseActiveTab === "ui-tab" &amp;&amp; (
+                    {<span class="branch-0 cbranch-no" title="branch not covered" >howToUseActiveTab === "ui-tab" &amp;&amp; (</span>
                       &lt;List
                         className="u-no-margin--bottom"
                         items={[
@@ -499,7 +499,7 @@ export default CreateClusterLinkModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T14:56:12.722Z
+                at 2026-06-18T15:00:15.392Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

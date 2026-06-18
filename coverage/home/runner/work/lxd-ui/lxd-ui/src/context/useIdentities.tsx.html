@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">82.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/27</span>
+                <span class='fraction'>29/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>5/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
@@ -90,57 +90,57 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">277x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">373x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
-<span class="cline-any cline-yes">9139x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">273x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">368x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
+<span class="cline-any cline-yes">9056x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
 import type { LxdIdentity } from "types/permissions";
 import { fetchIdentities, fetchIdentity } from "api/auth-identities";
 &nbsp;
-export const useIdentities = (): UseQueryResult&lt;LxdIdentity[]&gt; =&gt; {
-  const { isFineGrained } = useAuth();
-  return useQuery({
+export const <span class="fstat-no" title="function not covered" >useIdentities = (): UseQueryResult&lt;LxdIdentity[]&gt; =&gt; {</span>
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.identities],
-    queryFn: async () =&gt; fetchIdentities(isFineGrained),
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchIdentities(isFineGrained),</span>
     enabled: isFineGrained !== null,
   });
 };
 &nbsp;
-export const useIdentity = (
+export const <span class="fstat-no" title="function not covered" >useIdentity = (</span>
   id: string,
   authMethod: string,
   enabled?: boolean,
 ): UseQueryResult&lt;LxdIdentity&gt; =&gt; {
-  const { isFineGrained } = useAuth();
-  return useQuery({
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.identities, authMethod, id],
-    queryFn: async () =&gt; fetchIdentity(id, authMethod, isFineGrained),
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchIdentity(id, authMethod, isFineGrained),</span>
     enabled: (<span class="branch-0 cbranch-no" title="branch not covered" >enabled ?? true) &amp;&amp; i</span>sFineGrained !== null,
   });
 };
@@ -151,7 +151,7 @@ export const useIdentity = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T14:56:12.722Z
+                at 2026-06-18T15:00:15.392Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

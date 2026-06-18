@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">29.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/51</span>
+                <span class='fraction'>18/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">32.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/51</span>
+                <span class='fraction'>17/52</span>
             </div>
         
             
@@ -114,21 +114,22 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -163,8 +164,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
@@ -179,34 +181,35 @@ interface Props {
   onClose?: () =&gt; void;
 }
 &nbsp;
-const EditReplicatorBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
+const <span class="fstat-no" title="function not covered" >EditReplicatorBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span></span>
 <span class="cstat-no" title="statement not covered" >  replicator,</span>
 <span class="cstat-no" title="statement not covered" >  className,</span>
 <span class="cstat-no" title="statement not covered" >  onClose,</span>
-<span class="cstat-no" title="statement not covered" >  hasLabel = false,</span>
+<span class="cstat-no" title="statement not covered" >  hasLabel = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span></span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { canEditReplicator } = useReplicatorEntitlements();</span>
-<span class="cstat-no" title="statement not covered" >  const { openEditReplicator } = usePanelParams();</span>
+<span class="cstat-no" title="statement not covered" >  const { canEditReplicator } = <span class="cstat-no" title="statement not covered" >useReplicatorEntitlements();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { openEditReplicator } = <span class="cstat-no" title="statement not covered" >usePanelParams();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const disabledReason = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!canEditReplicator(replicator)) {</span>
-<span class="cstat-no" title="statement not covered" >      return "You do not have permission to edit this replicator";</span>
+<span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >disabledReason = () =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!canEditReplicator(replicator)) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return "You do not have permission to edit this replicator";</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    return undefined;</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return undefined;</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >      type="button"</span>
 <span class="cstat-no" title="statement not covered" >      appearance={hasLabel ? "default" : "base"}</span>
 <span class="cstat-no" title="statement not covered" >      aria-label="Edit replicator"</span>
 <span class="cstat-no" title="statement not covered" >      className={classnames("u-no-margin--bottom has-icon", className, {</span>
 <span class="cstat-no" title="statement not covered" >        "is-dense": !hasLabel,</span>
 <span class="cstat-no" title="statement not covered" >      })}</span>
-<span class="cstat-no" title="statement not covered" >      onClick={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        openEditReplicator(replicator.project, replicator.name);</span>
-<span class="cstat-no" title="statement not covered" >        onClose?.();</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      onClick={() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        openEditReplicator(replicator.project, replicator.name);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        onClose?.();</span></span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
-<span class="cstat-no" title="statement not covered" >      title={disabledReason()}</span>
+<span class="cstat-no" title="statement not covered" >      title={disabledReason() ?? "Edit"}</span>
 <span class="cstat-no" title="statement not covered" >      disabled={Boolean(disabledReason())}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Icon name="edit" /&gt;</span>
@@ -223,7 +226,7 @@ export default EditReplicatorBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T14:56:12.722Z
+                at 2026-06-18T15:00:15.392Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

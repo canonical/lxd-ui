@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.96% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/53</span>
+                <span class='fraction'>19/57</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
@@ -116,22 +116,22 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -167,8 +167,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Tooltip } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
@@ -184,15 +184,15 @@ interface Props {
   disabled?: boolean;
 }
 &nbsp;
-const ReplicatorRichChip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
+const <span class="fstat-no" title="function not covered" >ReplicatorRichChip: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span></span>
 <span class="cstat-no" title="statement not covered" >  replicator,</span>
 <span class="cstat-no" title="statement not covered" >  project,</span>
 <span class="cstat-no" title="statement not covered" >  className,</span>
 <span class="cstat-no" title="statement not covered" >  disabled,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");</span>
+<span class="cstat-no" title="statement not covered" >  const showTooltip = <span class="cstat-no" title="statement not covered" >!useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const url = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/replicator/${encodeURIComponent(replicator)}`;</span>
+<span class="cstat-no" title="statement not covered" >  const url = <span class="cstat-no" title="statement not covered" >`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/replicator/${encodeURIComponent(replicator)}`;</span></span>
 <span class="cstat-no" title="statement not covered" >  const resourceLink = (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ResourceLink</span>
 <span class="cstat-no" title="statement not covered" >      type="replicator"</span>
@@ -204,7 +204,7 @@ const ReplicatorRichChip: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  if (!showTooltip) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (!showTooltip) {</span></span>
 <span class="cstat-no" title="statement not covered" >    return &lt;&gt;{resourceLink}&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -229,7 +229,7 @@ export default ReplicatorRichChip;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T14:56:12.722Z
+                at 2026-06-18T15:00:15.392Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
