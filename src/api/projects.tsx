@@ -1,5 +1,5 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
-import type { LxdProject } from "types/project";
+import type { LxdProject, ProjectReplicaMode } from "types/project";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
@@ -64,7 +64,7 @@ export const createProject = async (body: string): Promise<void> => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: body,
+    body,
   }).then(handleResponse);
 };
 
@@ -110,6 +110,32 @@ export const deleteProject = async (
 
   return fetch(url, {
     method: "DELETE",
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
+};
+
+export const updateProjectReplicaMode = async (
+  projectName: string,
+  replicaMode: ProjectReplicaMode,
+  force?: boolean,
+): Promise<LxdOperationResponse> => {
+  const params = new URLSearchParams();
+  if (force) {
+    params.set("force", "true");
+  }
+  const url = `${ROOT_PATH}/1.0/projects/${encodeURIComponent(projectName)}/state?${params.toString()}`;
+
+  return fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      replica_mode: replicaMode,
+    }),
   })
     .then(handleResponse)
     .then((data: LxdOperationResponse) => {

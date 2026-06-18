@@ -38,19 +38,27 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
 
   const checks: PreflightCheck[] = [];
 
-  const projectMode = project?.config?.["replica.mode"];
+  const projectMode = project?.replica_mode;
   const projectModeValid =
     projectMode === "leader" || projectMode === "standby";
   checks.push({
     id: "project-mode",
     label: projectMode ? (
       <>
-        Project <ProjectRichChip projectName={replicator.project} /> is in{" "}
-        <strong>{projectMode}</strong> mode
+        Project{" "}
+        <ProjectRichChip
+          projectName={replicator.project}
+          urlSuffix="/configuration/replication"
+        />{" "}
+        is in <strong>{projectMode}</strong> mode
       </>
     ) : (
       <>
-        Project <ProjectRichChip projectName={replicator.project} />{" "}
+        Project{" "}
+        <ProjectRichChip
+          projectName={replicator.project}
+          urlSuffix="/configuration/replication"
+        />{" "}
         <strong>replica mode</strong> is unset
       </>
     ),
@@ -67,7 +75,9 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
           It must be either <strong>leader</strong> or <strong>standby</strong>{" "}
           to run replicator.{" "}
           <Link
-            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration`}
+            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             See project configuration
           </Link>
@@ -77,31 +87,41 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
 
   const projectCluster = project?.config?.["replica.cluster"];
   const replicatorCluster = replicator.config?.cluster;
-  const clusterMatches = projectCluster === replicatorCluster;
-  checks.push({
-    id: "replica-cluster-match",
-    label: (
-      <>
-        Project <ProjectRichChip projectName={project?.name || "default"} />{" "}
-        <strong>replica cluster</strong> configuration matches replicator
-        cluster
-      </>
-    ),
-    status: isProjectLoading ? "loading" : clusterMatches ? "pass" : "fail",
-    message:
-      !isProjectLoading && !clusterMatches ? (
+  const shouldShowClusterMatch =
+    !isProjectLoading && projectMode === "standby" && Boolean(projectCluster);
+
+  if (shouldShowClusterMatch) {
+    const clusterMatches = projectCluster === replicatorCluster;
+    checks.push({
+      id: "replica-cluster-match",
+      label: (
+        <>
+          Project{" "}
+          <ProjectRichChip
+            projectName={project?.name || "default"}
+            urlSuffix="/configuration/replication"
+          />{" "}
+          <strong>replica cluster</strong> configuration matches replicator
+          cluster
+        </>
+      ),
+      status: clusterMatches ? "pass" : "fail",
+      message: !clusterMatches ? (
         <>
           Project replica cluster <strong>{projectCluster || "none"}</strong>{" "}
           does not equal replicator cluster{" "}
           <strong>{replicatorCluster || "none"}</strong>.{" "}
           <Link
-            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration`}
+            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             See project configuration
           </Link>
         </>
       ) : undefined,
-  });
+    });
+  }
 
   const clusterLinkStatus = getClusterLinksStatus(identity, clusterLinkState);
   const isReachable = clusterLinkStatus === "Reachable";

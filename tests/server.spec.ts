@@ -106,7 +106,7 @@ test("server page tabs are visible", async ({ page, lxdVersion }) => {
   if (lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge") {
     await tabs.filter({ hasText: "Cluster links" }).click();
     await expect(
-      page.getByRole("button", { name: "Create link" }),
+      page.getByRole("button", { name: "Create cluster link" }),
     ).toBeVisible();
     await tabs.filter({ hasText: "Replicators" }).click();
     await expect(

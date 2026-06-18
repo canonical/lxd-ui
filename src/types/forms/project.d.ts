@@ -44,6 +44,11 @@ export interface ProjectResourceLimitsFormValues {
   limits_processes?: number;
 }
 
+export interface ProjectReplicaFormValues {
+  replica_cluster?: string;
+  replica_mode?: string;
+}
+
 export interface InstanceRestrictionFormValues {
   restricted_virtual_machines_low_level?: string;
   restricted_containers_low_level?: string;
@@ -73,4 +78,5 @@ export type ProjectFormValues = ProjectDetailsFormValues &
   InstanceRestrictionFormValues &
   DeviceUsageRestrictionFormValues &
   NetworkRestrictionFormValues &
-  ImageRestrictionFormValues;
+  ImageRestrictionFormValues &
+  ProjectReplicaFormValues;

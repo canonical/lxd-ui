@@ -9,19 +9,17 @@ interface Props {
   network: LxdNetwork;
   className?: string;
   appearance?: string;
-  hasIcon?: boolean;
 }
 
 const CreateLoadBalancerPoolBtn: FC<Props> = ({
   network,
   className,
   appearance = "positive",
-  hasIcon = true,
 }) => {
   const isSmallScreen = useIsScreenBelow();
   const { canEditNetwork } = useNetworkEntitlements();
   const panelParams = usePanelParams();
-  const showIcon = !isSmallScreen && hasIcon;
+  const showIcon = !isSmallScreen;
 
   return (
     <Button
@@ -36,7 +34,7 @@ const CreateLoadBalancerPoolBtn: FC<Props> = ({
           : "You do not have permission to create load balancer pools for this network"
       }
     >
-      {showIcon && <Icon name="plus" light />}
+      {showIcon && <Icon name="plus" light={appearance === "positive"} />}
       <span>Create load balancer pool</span>
     </Button>
   );

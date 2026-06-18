@@ -40,6 +40,7 @@ import { useAuth } from "context/auth";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { ProjectFormValues } from "types/forms/project";
 import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
+import { replicaPayload } from "pages/projects/forms/ProjectReplicaForm";
 
 const CreateProject: FC = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const CreateProject: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(slugify(PROJECT_DETAILS));
-  const { hasProjectsNetworksZones, hasStorageBuckets } =
+  const { hasProjectsNetworksZones, hasStorageBuckets, hasReplicators } =
     useSupportedFeatures();
   const { isFineGrained } = useAuth();
 
@@ -66,6 +67,8 @@ const CreateProject: FC = () => {
           checkDuplicateName(value, "", controllerState, "projects"),
       )
       .required(),
+    replica_mode: Yup.string().oneOf(["", "leader", "standby"]).optional(),
+    replica_cluster: Yup.string().optional(),
   });
 
   const updateFormHeight = () => {
@@ -136,6 +139,7 @@ const CreateProject: FC = () => {
             ...projectDetailRestrictionPayload(values),
             ...resourceLimitsPayload(values),
             ...restrictions,
+            ...(hasReplicators ? replicaPayload(values) : {}),
           },
         }),
       )
@@ -182,10 +186,10 @@ const CreateProject: FC = () => {
             });
         })
         .catch((e: Error) => {
-          formik.setSubmitting(false);
           notify.failure("Project creation failed", e);
         })
         .finally(() => {
+          formik.setSubmitting(false);
           queryClient.invalidateQueries({
             queryKey: [queryKeys.projects],
           });

@@ -20,6 +20,8 @@ export interface PanelHelper {
   localPeering: string | null;
   imageRegistry: string | null;
   replicator: string | null;
+  replicaProject: string | null;
+  clusterLink: string | null;
   clear: () => void;
   openCreateClusterGroup: () => void;
   openCreateClusterLink: () => void;
@@ -49,7 +51,7 @@ export interface PanelHelper {
   openEditLoadBalancerPool: (pool: string) => void;
   openCreateImageRegistry: () => void;
   openEditImageRegistry: (imageRegistry: string) => void;
-  openCreateReplicator: () => void;
+  openCreateReplicator: (replicaProject?: string, clusterLink?: string) => void;
   openEditReplicator: (project: string, replicator: string) => void;
 }
 
@@ -132,6 +134,8 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("create-replicator");
     newParams.delete("edit-replicator");
     newParams.delete("replicator");
+    newParams.delete("replica-project");
+    newParams.delete("cluster-link");
     setParams(newParams);
     craftResizeEvent();
   };
@@ -153,6 +157,8 @@ const usePanelParams = (): PanelHelper => {
     deviceName: params.get("device-name"),
     localPeering: params.get("local-peering"),
     imageRegistry: params.get("image-registry"),
+    replicaProject: params.get("replica-project"),
+    clusterLink: params.get("cluster-link"),
     replicator: params.get("replicator"),
 
     clear: () => {
@@ -309,9 +315,15 @@ const usePanelParams = (): PanelHelper => {
         "image-registry": imageRegistry,
       });
     },
-
-    openCreateReplicator: () => {
-      setPanelParams(panels.createReplicator);
+    openCreateReplicator: (replicaProject, clusterLink) => {
+      const params: ParamMap = {};
+      if (replicaProject) {
+        params["replica-project"] = replicaProject;
+      }
+      if (clusterLink) {
+        params["cluster-link"] = clusterLink;
+      }
+      setPanelParams(panels.createReplicator, params);
     },
 
     openEditReplicator: (project, replicator) => {

@@ -21,7 +21,7 @@ export const visitClusterLinks = async (page: Page) => {
   await page.getByRole("button", { name: "Clustering" }).click();
   await page.getByRole("link", { name: "Links" }).click();
   await expect(
-    page.getByRole("button").filter({ hasText: "Create link" }),
+    page.getByRole("button").filter({ hasText: "Create cluster link" }),
   ).toBeVisible();
 };
 
@@ -31,8 +31,10 @@ export const createClusterLink = async (
   token?: string,
 ) => {
   await visitClusterLinks(page);
-  await page.getByRole("button", { name: "Create link" }).click();
-  await expect(page.getByText("Create cluster link")).toBeVisible();
+  await page.getByRole("button", { name: "Create cluster link" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Create cluster link" }),
+  ).toBeVisible();
   await page.getByPlaceholder("Enter name").fill(link);
   const panel = page.getByLabel("Side panel");
   if (token) {

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { CustomSelect } from "@canonical/react-components";
+import { CustomSelect, OutputField } from "@canonical/react-components";
 import {
   getAlletraStoragePoolFormFields,
   getCephObjectPoolFormFields,
@@ -27,7 +27,6 @@ import {
   isStoragePoolWithSource,
 } from "util/storagePoolForm";
 import { useSettings } from "context/useSettings";
-import OutputField from "components/OutputField";
 import DocLink from "components/DocLink";
 
 interface Props {

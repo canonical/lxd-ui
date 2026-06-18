@@ -1,7 +1,8 @@
 .network-type-label,
 .acl-action-label,
 .storage-driver-label,
-.cluster-link-label {
+.cluster-link-label,
+.replica-mode-label {
   display: flex;
 
   .network-type-name {
@@ -40,7 +41,8 @@
 .load-balancer-pool-dropdown,
 .storage-driver-dropdown,
 .placement-group-dropdown,
-.acl-action-dropdown {
+.acl-action-dropdown,
+.replica-mode-dropdown {
   z-index: 105;
 
   .header {

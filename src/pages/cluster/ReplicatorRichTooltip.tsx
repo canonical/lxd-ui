@@ -9,10 +9,12 @@ import { ROOT_PATH } from "util/rootPath";
 import { useReplicator } from "context/useReplicators";
 import ClusterLinkStatus from "./ClusterLinkStatus";
 import { useClusterLink } from "context/useClusterLinks";
+import { useIsClustered } from "context/useIsClustered";
 import ReplicatorRunTime from "./ReplicatorRunTime";
 import ReplicatorStatus from "./ReplicatorStatus";
 import ReplicatorSnapshotDescription from "./ReplicatorSnapshotDescription";
 import ResourceLink from "components/ResourceLink";
+import { getClusterLinkListUrl } from "util/clusterLink";
 
 interface Props {
   replicatorName: string;
@@ -24,6 +26,7 @@ const ReplicatorRichTooltip: FC<Props> = ({ replicatorName, project }) => {
     replicatorName,
     project,
   );
+  const isClustered = useIsClustered();
 
   const isEnabled = !!replicator && !!replicator.config?.cluster;
   const { data: link } = useClusterLink(
@@ -69,7 +72,7 @@ const ReplicatorRichTooltip: FC<Props> = ({ replicatorName, project }) => {
         <ResourceLink
           type="project"
           value={replicator.project}
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}`}
+          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
         />
       ) : (
         "-"
@@ -82,7 +85,7 @@ const ReplicatorRichTooltip: FC<Props> = ({ replicatorName, project }) => {
         <ResourceLink
           type="cluster-link"
           value={replicator.config.cluster}
-          to={`${ROOT_PATH}/ui/cluster/links`}
+          to={getClusterLinkListUrl(isClustered)}
         />
       ) : (
         "-"

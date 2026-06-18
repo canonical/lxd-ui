@@ -70,7 +70,7 @@ export const testProjectReplicaCluster = (
     return true;
   }
 
-  const replicaCluster = project.config["replica.cluster"];
+  const replicaCluster = project.config?.["replica.cluster"];
 
   if (!replicaCluster || !selectedCluster) {
     return true;

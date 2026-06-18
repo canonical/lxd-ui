@@ -54,6 +54,8 @@ const EditProject: FC<Props> = ({ project }) => {
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string().required(),
+    replica_mode: Yup.string().oneOf(["", "leader", "standby"]).optional(),
+    replica_cluster: Yup.string().optional(),
   });
 
   const editRestriction = canEditProject(project)

@@ -11,6 +11,10 @@
     }
   }
 
+  .status-cell {
+    white-space: nowrap;
+  }
+
   .actions {
     width: calc(3 * (16px + 2rem) + 2px);
   }
