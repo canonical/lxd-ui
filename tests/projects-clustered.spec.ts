@@ -3,6 +3,7 @@ import { skipIfNotClustered } from "./helpers/cluster";
 import { skipIfNotSupported } from "./helpers/cluster-groups";
 import {
   assertReadMode,
+  selectionCustomSelectOption,
   setMultiselectOption,
   setOption,
 } from "./helpers/configuration";
@@ -20,7 +21,9 @@ import {
   deleteClusterLink,
   deleteClusterLinkOnRemoteCluster,
   randomLinkName,
+  visitClusterLinks,
 } from "./helpers/cluster-links";
+import { skipIfNotSupported as skipIfReplicatorsNotSupported } from "./helpers/replicators";
 
 let project: string;
 
@@ -56,23 +59,25 @@ test("project edit configuration", async ({ page }) => {
 
 test("project replication configuration with cluster link", async ({
   page,
+  lxdVersion,
 }) => {
+  skipIfReplicatorsNotSupported(lxdVersion);
+
   // Create a reachable cluster link
   const linkName = randomLinkName();
   const token = createClusterLinkOnRemoteCluster(linkName);
   await createClusterLink(page, linkName, token);
 
-  await openProjectConfiguration(page);
+  await openProjectConfiguration(page, project);
   await page.getByText("Replication").click();
 
-  const replicaModeText = await page
-    .getByRole("group", { name: "Replica mode" })
-    .textContent();
-  expect(replicaModeText).toContain("None");
+  await expect(page.getByRole("status", { name: "Replica mode" })).toHaveText(
+    "None",
+  );
   await page.getByText("No replication configuration applied.").waitFor();
-  await page.getByText("Outgoing replicators will be managed here.").waitFor();
+  await page.getByText("Only outgoing replicators are shown here.").waitFor();
 
-  await setOption(page, "Replica cluster", linkName);
+  await selectionCustomSelectOption(page, "Replica cluster", linkName);
 
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await dismissNotification(page, `Project ${project} updated.`);
@@ -86,10 +91,9 @@ test("project replication configuration with cluster link", async ({
   await page.getByRole("button", { name: "Demote to standby" }).click();
   await dismissNotification(page, `Project ${project} demoted to standby.`);
 
-  const demotedModeText = await page
-    .getByRole("group", { name: "Replica mode" })
-    .textContent();
-  expect(demotedModeText).toContain("standby");
+  await expect(page.getByRole("status", { name: "Replica mode" })).toHaveText(
+    "standby",
+  );
   await page
     .getByText("This project is a read-only failover target.")
     .waitFor();
@@ -99,28 +103,29 @@ test("project replication configuration with cluster link", async ({
 
   await deleteProject(page, project);
   deleteClusterLinkOnRemoteCluster(linkName);
+  await visitClusterLinks(page);
   await deleteClusterLink(page, linkName);
 });
 
 test("project replication configuration promote to leader", async ({
   page,
+  lxdVersion,
 }) => {
+  skipIfReplicatorsNotSupported(lxdVersion);
+
   await page.getByText("Replication").click();
 
-  const replicaModeText = await page
-    .getByRole("group", { name: "Replica mode" })
-    .textContent();
-  expect(replicaModeText).toContain("None");
+  await expect(page.getByRole("status", { name: "Replica mode" })).toHaveText(
+    "None",
+  );
 
   // Promote project to leader
   await page.getByRole("button", { name: "Promote to leader" }).click();
   await dismissNotification(page, `Project ${project} promoted to leader.`);
 
-  const promotedModeText = await page
-    .getByRole("group", { name: "Replica mode" })
-    .textContent();
-  expect(promotedModeText).toContain("leader");
-
+  await expect(page.getByRole("status", { name: "Replica mode" })).toHaveText(
+    "leader",
+  );
   await page
     .getByText("This project is the active source project for replication.")
     .waitFor();

@@ -178,3 +178,15 @@ export const checkAllOptions = async (
     await page.getByRole("combobox", { name: name }).selectOption(option);
   }
 };
+
+export const selectionCustomSelectOption = async (
+  page: Page,
+  labelText: string,
+  optionValue: string,
+) => {
+  const toggle = page.getByRole("button", { name: labelText, exact: true });
+  await toggle.click();
+
+  const option = page.getByRole("option", { name: optionValue, exact: true });
+  await option.click();
+};
