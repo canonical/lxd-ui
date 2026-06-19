@@ -6,7 +6,7 @@ import {
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
-import { useEffect, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -18,15 +18,7 @@ import { createReplicator } from "api/replicators";
 import { ReplicatorForm } from "../ReplicatorForm";
 import { checkDuplicateName } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
-import { ROOT_PATH } from "util/rootPath";
 import { getPayload } from "util/replicator";
-import { useProjects } from "context/useProjects";
-import { useProjectEntitlements } from "util/entitlements/projects";
-import {
-  testReachableClusterLink,
-  testProjectReplicaCluster,
-} from "util/clusterLink";
-import { Link } from "react-router-dom";
 import ReplicatorRichChip from "../ReplicatorRichChip";
 
 const CreateReplicatorPanel: FC = () => {
@@ -36,46 +28,12 @@ const CreateReplicatorPanel: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const { project: currentProject } = useCurrentProject();
-  const { data: projects = [] } = useProjects();
-  const { canCreateReplicators, canEditProject } = useProjectEntitlements();
   const panelProject = panelParams.replicaProject ?? "";
   const panelClusterLink = panelParams.clusterLink ?? "";
 
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
-  };
-
-  const getSelectedProject = (projectName?: string) => {
-    return projects.find((project) => project.name === projectName);
-  };
-
-  const getReplicaClusterConfigErrorMessage = (projectName: string) => {
-    return (
-      <>
-        Project <code>replica.cluster</code> must match the selected cluster.
-        Change it in the{" "}
-        <Link
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/configuration/replication`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          project configuration
-        </Link>
-        .
-      </>
-    ) as unknown as string;
-  };
-
-  const testProjectReplicatorPermissions = (projectName?: string): boolean => {
-    const selectedProject = getSelectedProject(projectName);
-    if (!selectedProject) {
-      return true;
-    }
-
-    return (
-      canEditProject(selectedProject) && canCreateReplicators(selectedProject)
-    );
   };
 
   const schema = Yup.object().shape({
@@ -99,50 +57,8 @@ const CreateReplicatorPanel: FC = () => {
           "Name can only contain alphanumeric, forward slash, hyphen, colon, underscore and full stop characters.",
       })
       .required("Replicator name is required."),
-    project: Yup.string()
-      .required("Project is required.")
-      .test({
-        name: "replica cluster matches selected cluster link",
-        test(value, context) {
-          const parent = context.parent as { cluster?: string };
-          const project = getSelectedProject(value);
-
-          if (!project) {
-            return true;
-          }
-
-          if (testProjectReplicaCluster(project, parent.cluster)) {
-            return true;
-          }
-
-          return this.createError({
-            message: getReplicaClusterConfigErrorMessage(project.name),
-          });
-        },
-      })
-      .test({
-        name: "Can edit and create replicator",
-        test(value) {
-          if (testProjectReplicatorPermissions(value)) {
-            return true;
-          }
-
-          return this.createError({
-            message: (
-              <>
-                You need the <code>edit</code> and{" "}
-                <code>can_create_replicators</code> permission on the project.
-              </>
-            ) as unknown as string,
-          });
-        },
-      }),
-    cluster: Yup.string()
-      .test({
-        name: "Reachable cluster link",
-        test: testReachableClusterLink,
-      })
-      .required("Cluster is required."),
+    project: Yup.string().required("Project is required."),
+    cluster: Yup.string().required("Cluster is required."),
   });
 
   const formik = useFormik<ReplicatorFormValues>({
@@ -198,15 +114,6 @@ const CreateReplicatorPanel: FC = () => {
         });
     },
   });
-
-  // Re-validate project when cluster changes.
-  useEffect(() => {
-    if (!formik.values.project) {
-      return;
-    }
-
-    void formik.validateField("project");
-  }, [formik.values.cluster]);
 
   return (
     <>
