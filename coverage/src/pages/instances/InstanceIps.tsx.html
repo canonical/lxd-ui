@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.12% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/32</span>
+                <span class='fraction'>32/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
+                <span class='fraction'>6/6</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
                 <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">53.12% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/32</span>
+                <span class='fraction'>32/32</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,38 +95,38 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">414x</span>
+<span class="cline-any cline-yes">414x</span>
+<span class="cline-any cline-yes">414x</span>
+<span class="cline-any cline-yes">414x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">369x</span>
+<span class="cline-any cline-yes">369x</span>
+<span class="cline-any cline-yes">369x</span>
+<span class="cline-any cline-yes">414x</span>
+<span class="cline-any cline-yes">414x</span>
+<span class="cline-any cline-yes">337x</span>
+<span class="cline-any cline-yes">337x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { getIpAddresses, sortIpv6Addresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
@@ -143,22 +143,22 @@ const InstanceIps: FC&lt;Props&gt; = ({ instance, family }) =&gt; {
     family === "inet6" ? sortIpv6Addresses(addresses) : addresses;
   return addresses.length ? (
     &lt;ExpandableList
-      items={sortedAddresses.m<span class="fstat-no" title="function not covered" >ap((item) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div</span>
-<span class="cstat-no" title="statement not covered" >          key={item.address}</span>
-<span class="cstat-no" title="statement not covered" >          className="ip u-truncate"</span>
-<span class="cstat-no" title="statement not covered" >          title={`IP ${item.address} (${item.iface})`}</span>
-<span class="cstat-no" title="statement not covered" >        &gt;</span>
-<span class="cstat-no" title="statement not covered" >          {item.address} ({item.iface})</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      ))}</span>
-<span class="cstat-no" title="statement not covered" >    /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  ) : (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;&gt;-&lt;/&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default InstanceIps;</span>
+      items={sortedAddresses.map((item) =&gt; (
+        &lt;div
+          key={item.address}
+          className="ip u-truncate"
+          title={`IP ${item.address} (${item.iface})`}
+        &gt;
+          {item.address} ({item.iface})
+        &lt;/div&gt;
+      ))}
+    /&gt;
+  ) : (
+    &lt;&gt;-&lt;/&gt;
+  );
+};
+&nbsp;
+export default InstanceIps;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -166,7 +166,7 @@ const InstanceIps: FC&lt;Props&gt; = ({ instance, family }) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-19T12:44:08.320Z
+                at 2026-06-19T17:39:53.397Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
