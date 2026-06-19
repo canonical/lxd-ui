@@ -7,6 +7,7 @@ import EditLoadBalancerPoolBtn from "pages/networks/actions/EditLoadBalancerPool
 import LoadBalancerPoolInstances from "pages/networks/LoadBalancerPoolInstances";
 import LoadBalancerPoolHealthCheck from "pages/networks/LoadBalancerPoolHealthCheck";
 import LoadBalancerPoolStatuses from "pages/networks/LoadBalancerPoolInstanceStatuses";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   loadBalancerPools: LxdLoadBalancerPool[];
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const LoadBalancerPoolsTable: FC<Props> = ({ loadBalancerPools, network }) => {
+  const { hasLoadBalancerHealthChecks } = useSupportedFeatures();
+
   const headers = [
     { content: "Name", sortKey: "name", className: "name" },
     {
@@ -26,7 +29,9 @@ const LoadBalancerPoolsTable: FC<Props> = ({ loadBalancerPools, network }) => {
       sortKey: "usedBy",
       className: "u-align--right used-by",
     },
-    { content: "Health check", className: "health-check" },
+    ...(hasLoadBalancerHealthChecks
+      ? [{ content: "Health check", className: "health-check" }]
+      : []),
     { content: "Instances" },
     { content: "Instance statuses", className: "status-header" },
     {
@@ -70,12 +75,16 @@ const LoadBalancerPoolsTable: FC<Props> = ({ loadBalancerPools, network }) => {
           "aria-label": "Used by",
           className: "u-align--right used-by",
         },
-        {
-          content: <LoadBalancerPoolHealthCheck pool={pool} />,
-          role: "cell",
-          "aria-label": "Health check",
-          className: "health-check",
-        },
+        ...(hasLoadBalancerHealthChecks
+          ? [
+              {
+                content: <LoadBalancerPoolHealthCheck pool={pool} />,
+                role: "cell",
+                "aria-label": "Health check",
+                className: "health-check",
+              },
+            ]
+          : []),
         {
           content: <LoadBalancerPoolInstances pool={pool} />,
           role: "cell",

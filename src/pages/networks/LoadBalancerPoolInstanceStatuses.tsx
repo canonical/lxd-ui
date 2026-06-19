@@ -3,7 +3,6 @@ import type { LxdLoadBalancerPool } from "types/loadBalancers";
 import type { LxdNetwork } from "types/network";
 import { useLoadBalancerPoolState } from "context/useLoadBalancerPools";
 import { useCurrentProject } from "context/useCurrentProject";
-import { Icon } from "@canonical/react-components";
 import LoadBalancerPoolInstanceStatus from "pages/networks/LoadBalancerPoolInstanceStatus";
 
 interface Props {
@@ -28,11 +27,7 @@ const LoadBalancerPoolInstanceStatuses: FC<Props> = ({ pool, network }) => {
   };
 
   if (pool.instances.length === 0) {
-    return (
-      <>
-        <Icon name="status-queued-small" className="status-icon" /> -
-      </>
-    );
+    return <div className="empty-instance-status">-</div>;
   }
 
   return pool.instances.map((instance) => {
