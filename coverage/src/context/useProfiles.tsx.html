@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.14% </span>
+                <span class="strong">82.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/27</span>
+                <span class='fraction'>29/35</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">44.44% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>4/9</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">50% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">48.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/27</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,60 +90,60 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">5273x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
+<span class="cline-any cline-yes">878x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
 import type { LxdProfile } from "types/profile";
 import { fetchProfile, fetchProfiles } from "api/profiles";
 &nbsp;
-export const useProfiles = (project: string): UseQueryResult&lt;LxdProfile[]&gt; <span class="fstat-no" title="function not covered" >=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { isFineGrained } = useAuth();</span>
+export const <span class="fstat-no" title="function not covered" >useProfiles = (p</span>roject: string): UseQueryResult&lt;LxdProfile[]&gt; =&gt; {
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.profiles, project],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchProfiles(project, isFineGrained),</span>
-<span class="cstat-no" title="statement not covered" >    enabled: !!project &amp;&amp; isFineGrained !== null,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-export const useProfile = (
+    queryKey: [queryKeys.profiles, project],
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProfiles(project, isFineGrained),</span>
+    enabled: !!project &amp;&amp; isFineGrained !== null,
+  });
+};
+&nbsp;
+export const <span class="fstat-no" title="function not covered" >useProfile = (</span>
   profile: string,
   project: string,
   enabled?: boolean,
 ): UseQueryResult&lt;LxdProfile&gt; =&gt; {
-  const { isFineGraine<span class="fstat-no" title="function not covered" >d } = useAuth();</span>
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.profiles, profile, queryKeys.projects, project],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchProfile(profile, project, isFineGrained),</span>
-<span class="cstat-no" title="statement not covered" >    enabled: (enabled ?? true) &amp;&amp; isFineGrained !== null,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+    queryKey: [queryKeys.profiles, profile, queryKeys.projects, project],
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProfile(profile, project, isFineGrained),</span>
+    enabled: (enabled ?? true) &amp;&amp; isFineGrained !== null,
+  });
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -151,7 +151,7 @@ export const useProfile = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T15:00:15.392Z
+                at 2026-06-19T08:56:39.489Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
