@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Input,
   Modal,
@@ -182,16 +183,14 @@ const ExportVolumeModal: FC<Props> = ({ volume, close }) => {
             }))}
           />
         )}
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("optimizedStorage")}
-          type="checkbox"
           label="Use storage driver optimized format"
           help="Can only be restored on a similar pool"
           checked={formik.values.optimizedStorage}
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("volumeOnly")}
-          type="checkbox"
           label="Export without volume snapshots"
           error={formik.touched.volumeOnly ? formik.errors.volumeOnly : null}
           checked={formik.values.volumeOnly}

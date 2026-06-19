@@ -67,7 +67,7 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
           >
             <RadioInput
               inline
-              labelClassName="margin-right--large"
+              className="margin-right--large"
               label="Generate token"
               checked={formik.values.tokenType === "generate"}
               onChange={() => {

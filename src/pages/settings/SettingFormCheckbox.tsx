@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { Input, Button, Icon } from "@canonical/react-components";
+import { CheckboxInput, Button, Icon } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
@@ -33,14 +33,13 @@ const SettingFormCheckbox: FC<Props> = ({
 
   return (
     <>
-      <Input
+      <CheckboxInput
         autoFocus
         label={label}
         id={configField.key}
-        wrapperClassName="input-wrapper"
-        type="checkbox"
+        className="input-wrapper"
         checked={checked}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setChecked(e.target.checked);
         }}
         help={<ConfigFieldDescription description={configField.longdesc} />}

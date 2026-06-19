@@ -73,7 +73,7 @@ const ClusterSpecificInput: FC<Props> = ({
           id={`${id}-same-for-all-toggle`}
           label="Same for all cluster members"
           checked={!isSpecific}
-          labelClassName="cluster-specific-toggle-label"
+          className="cluster-specific-toggle-label"
           onChange={() => {
             if (isSpecific) {
               setValueForAllMembers(firstValue ?? "");

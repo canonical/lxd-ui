@@ -26,7 +26,7 @@ export const ImageRegistryProtocolSelector: FC<Props> = ({ formik }) => {
         <RadioInput
           inline
           aria-label="LXD"
-          labelClassName="lxd-protocol-input"
+          className="lxd-protocol-input"
           label="LXD"
           checked={formik.values.protocol === "lxd"}
           onChange={() => {

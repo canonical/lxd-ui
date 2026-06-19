@@ -38,12 +38,11 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
         </>
       }
       buttonRow={[
-        <span className="u-float-left confirm-input" key="confirm-input">
-          <ConfirmationCheckbox
-            label="I have copied the token"
-            confirmed={[isConfirmed, setConfirmed]}
-          />
-        </span>,
+        <ConfirmationCheckbox
+          label="I have copied the token"
+          confirmed={[isConfirmed, setConfirmed]}
+          key="confirm-checkbox"
+        />,
         <ActionButton
           key="confirm-action-button"
           appearance="positive"

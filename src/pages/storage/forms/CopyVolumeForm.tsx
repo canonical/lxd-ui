@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Input,
   Modal,
@@ -204,9 +205,8 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
             };
           })}
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("copySnapshots")}
-          type="checkbox"
           label="Copy with snapshots"
           checked={formik.values.copySnapshots}
           error={

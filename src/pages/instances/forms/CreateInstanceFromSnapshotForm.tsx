@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Input,
   Modal,
@@ -286,9 +287,8 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
           error={formik.errors.targetProject}
         />
         {snapshot.stateful && (
-          <Input
+          <CheckboxInput
             {...formik.getFieldProps("stateful")}
-            type="checkbox"
             label="Copy stateful"
           />
         )}

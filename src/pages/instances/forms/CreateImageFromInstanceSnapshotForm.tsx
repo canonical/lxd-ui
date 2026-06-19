@@ -6,6 +6,7 @@ import { createImage } from "api/images";
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Input,
   Modal,
@@ -154,9 +155,8 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
               : "You do not have permission to create image aliases in this project"
           }
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("isPublic")}
-          type="checkbox"
           label="Make the image publicly available"
           error={formik.touched.isPublic ? formik.errors.isPublic : null}
         />

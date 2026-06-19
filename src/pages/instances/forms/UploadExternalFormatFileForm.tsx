@@ -1,6 +1,7 @@
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Icon,
   Input,
@@ -295,9 +296,8 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           title={noFileSelectedMessage}
         />
         <label htmlFor="">Conversion options</label>
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("formatConversion")}
-          type="checkbox"
           label={
             <span title={noFileSelectedMessage}>
               Convert to raw format{" "}
@@ -314,9 +314,8 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           disabled={!!noFileSelectedMessage}
           checked={formik.values.formatConversion}
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("virtioConversion")}
-          type="checkbox"
           label={
             <span title={noFileSelectedMessage}>
               Add Virtio drivers{" "}
