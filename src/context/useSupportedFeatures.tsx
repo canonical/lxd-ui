@@ -62,5 +62,8 @@ export const useSupportedFeatures = () => {
     hasReplicators: apiExtensions.has("replicators"),
     hasLoadBalancerPools: apiExtensions.has("network_load_balancer_pool"),
     hasStorageNvmeTcp: apiExtensions.has("storage_nvme_tcp"),
+    hasLoadBalancerHealthChecks: apiExtensions.has(
+      "network_load_balancer_pool_health_checks",
+    ),
   };
 };

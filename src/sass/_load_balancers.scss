@@ -90,6 +90,12 @@
   .actions {
     max-width: 8rem;
   }
+
+  @include large {
+    .empty-instance-status {
+      padding-left: 1.4rem;
+    }
+  }
 }
 
 .load-balancer-ports-row {

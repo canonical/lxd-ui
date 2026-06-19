@@ -15,6 +15,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LoadBalancerPoolFormValues } from "types/forms/loadBalancers";
 import LoadBalancerInstanceSelector from "pages/networks/forms/LoadBalancerInstanceSelector";
 import type { LxdLoadBalancerPool } from "types/loadBalancers";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export const toLoadBalancerPool = (
   values: LoadBalancerPoolFormValues,
@@ -75,6 +76,7 @@ interface Props {
 
 const LoadBalancerPoolForm: FC<Props> = ({ formik, isEdit, network }) => {
   const notify = useNotify();
+  const { hasLoadBalancerHealthChecks } = useSupportedFeatures();
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -145,17 +147,19 @@ const LoadBalancerPoolForm: FC<Props> = ({ formik, isEdit, network }) => {
           }}
           network={network}
         />
-        <Select
-          {...formik.getFieldProps("healthCheckType")}
-          id="healthCheckType"
-          label="Health check"
-          options={[
-            { value: "custom", label: "Custom" },
-            { value: "default", label: "Default" },
-            { value: "disabled", label: "Disabled" },
-          ]}
-          help="Default uses LXD's default health check settings. Custom allows you to specify the health check settings. Disabled turns off health checks."
-        />
+        {hasLoadBalancerHealthChecks && (
+          <Select
+            {...formik.getFieldProps("healthCheckType")}
+            id="healthCheckType"
+            label="Health check"
+            options={[
+              { value: "custom", label: "Custom" },
+              { value: "default", label: "Default" },
+              { value: "disabled", label: "Disabled" },
+            ]}
+            help="Default uses LXD's default health check settings. Custom allows you to specify the health check settings. Disabled turns off health checks."
+          />
+        )}
         {formik.values.healthCheckType === "custom" && (
           <>
             <Input
