@@ -21,7 +21,7 @@ export const CreateReplicatorButton: FC<Props> = ({
 }) => {
   const { openCreateReplicator } = usePanelParams();
   const { data: allProjects = [] } = useProjects();
-  const { data: projectObject } = useProject(project || "");
+  const { data: projectObject } = useProject(project || "", !!project);
   const { canCreateReplicators } = useProjectEntitlements();
   const isDisabled =
     !hasClusterLinks ||

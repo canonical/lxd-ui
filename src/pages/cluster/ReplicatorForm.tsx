@@ -91,8 +91,7 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
           label="Project"
           value={formik.values.project || ""}
           setValue={(value) => {
-            void formik.setFieldTouched("project", true);
-            void formik.setFieldValue("project", value, true);
+            void formik.setFieldValue("project", value);
           }}
           disabled={isEdit}
           projects={projects}
