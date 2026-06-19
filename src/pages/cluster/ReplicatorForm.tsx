@@ -60,12 +60,24 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
         />
       ) : (
         <Input
-          {...formik.getFieldProps("name")}
+          name="name"
           type="text"
+          value={formik.values.name}
           label="Name"
           required
           error={getFieldError("name")}
           placeholder="Enter name"
+          onChange={(e) => {
+            formik.setFieldError("name", undefined);
+            void formik
+              .setFieldValue("name", e.target.value, false)
+              .then(() => {
+                void formik.validateField("name");
+              });
+          }}
+          onBlur={() => {
+            void formik.setFieldTouched("name", true, true);
+          }}
         />
       )}
 
@@ -91,8 +103,9 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
           label="Project"
           value={formik.values.project || ""}
           setValue={(value) => {
-            void formik.setFieldTouched("project", true);
-            void formik.setFieldValue("project", value, true);
+            void formik.setFieldValue("project", value, true).then(() => {
+              void formik.setFieldTouched("project", true, false);
+            });
           }}
           disabled={isEdit}
           projects={projects}
