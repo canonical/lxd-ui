@@ -4,6 +4,7 @@ import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
+import { getRemoteClusterVm } from "./cluster";
 
 export const skipIfClusterLinksNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -11,6 +12,9 @@ export const skipIfClusterLinksNotSupported = (lxdVersion: LxdVersions) => {
     "Cluster link tests not supported for lxd 5.0 and 5.21",
   );
 };
+
+export const DELETE_ALL_CLUSTER_LINKS_COMMAND =
+  "lxc cluster link list --format csv | cut -d, -f1 | xargs -r -n1 lxc cluster link delete";
 
 export const randomLinkName = (): string => {
   return `playwright-cluster-link-${randomNameSuffix()}`;
@@ -30,7 +34,6 @@ export const createClusterLink = async (
   link: string,
   token?: string,
 ) => {
-  await visitClusterLinks(page);
   await page.getByRole("button", { name: "Create cluster link" }).click();
   await expect(
     page.getByRole("heading", { name: "Create cluster link" }),
@@ -79,10 +82,10 @@ export const deleteClusterLink = async (page: Page, link: string) => {
 };
 
 export const createClusterLinkOnRemoteCluster = (link: string) => {
-  const targetVM = getRemoteClusterVm();
+  const remoteVm = getRemoteClusterVm();
   const generateTokenCommand = `lxc cluster link create ${link} --auth-group admins`;
   const output = runCommand(
-    `lxc exec ${targetVM} -- sh -c '${generateTokenCommand}'`,
+    `lxc exec ${remoteVm} -- sh -c '${generateTokenCommand}'`,
   )
     .toString()
     .trim();
@@ -92,14 +95,6 @@ export const createClusterLinkOnRemoteCluster = (link: string) => {
 };
 
 export const deleteClusterLinkOnRemoteCluster = (link: string) => {
-  const targetVM = getRemoteClusterVm();
-  runCommand(`lxc exec ${targetVM} -- sh -c 'lxc cluster link delete ${link}'`);
-};
-
-const getRemoteClusterVm = () => {
-  const targetVM = process.env.LXD_UI_CLUSTER_LINK_TARGET_VM;
-  if (!targetVM) {
-    throw new Error("Missing required env var: LXD_UI_CLUSTER_LINK_TARGET_VM");
-  }
-  return targetVM;
+  const remoteVm = getRemoteClusterVm();
+  runCommand(`lxc exec ${remoteVm} -- sh -c 'lxc cluster link delete ${link}'`);
 };

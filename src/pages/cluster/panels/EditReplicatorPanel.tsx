@@ -48,7 +48,6 @@ const EditReplicatorPanel: FC = () => {
       description: replicator?.description || "",
       project: panelParams.project,
       cluster: replicator?.config?.cluster || "",
-      snapshot: replicator?.config?.snapshot || "false",
       schedule: replicator?.config?.schedule || "",
     },
     enableReinitialize: true,

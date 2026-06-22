@@ -7,7 +7,7 @@ interface Props {
   formik: FormikProps<ReplicatorFormValues>;
 }
 
-export const SnapshotScheduleInput: FC<Props> = ({ formik }) => {
+export const ReplicatorScheduleInput: FC<Props> = ({ formik }) => {
   return (
     <Input
       {...formik.getFieldProps("schedule")}

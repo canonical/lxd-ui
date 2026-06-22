@@ -68,7 +68,6 @@ const CreateReplicatorPanel: FC = () => {
       description: "",
       project: panelProject,
       cluster: panelClusterLink,
-      snapshot: "false",
       schedule: "",
     },
     initialTouched: {

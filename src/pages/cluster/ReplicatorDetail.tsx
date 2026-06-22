@@ -14,7 +14,6 @@ import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import usePanelParams, { panels } from "util/usePanelParams";
-import ReplicatorSnapshotDescription from "./ReplicatorSnapshotDescription";
 
 const ReplicatorDetail: FC = () => {
   const { project, name } = useParams<{
@@ -126,12 +125,6 @@ const ReplicatorDetail: FC = () => {
             <Col size={7}>
               <table>
                 <tbody>
-                  <tr>
-                    <th className="u-text--muted">Snapshots</th>
-                    <td>
-                      <ReplicatorSnapshotDescription replicator={replicator} />
-                    </td>
-                  </tr>
                   <tr>
                     <th className="u-text--muted">Schedule</th>
                     <td>{replicator.config?.schedule || "-"}</td>
