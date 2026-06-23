@@ -174,6 +174,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   const getYaml = () => {
     const exclude = new Set([
+      "access_entitlements",
       "backups",
       "snapshots",
       "state",

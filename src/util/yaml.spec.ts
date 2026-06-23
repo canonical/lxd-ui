@@ -30,6 +30,7 @@ describe("expandInheritedValuesYaml", () => {
   ];
 
   const instance: LxdInstance = {
+    access_entitlements: ["can_delete"],
     name: "test-vm",
     status: "Running",
     profiles: ["default", "cloud-init"],
