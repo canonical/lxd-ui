@@ -6,10 +6,10 @@ import { Icon } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
-  iconOnly?: boolean;
+  compact?: boolean;
 }
 
-const InstanceStatusIcon: FC<Props> = ({ instance, iconOnly = false }) => {
+const InstanceStatusIcon: FC<Props> = ({ instance, compact = false }) => {
   const instanceLoading = useInstanceLoading();
   const loadingType = instanceLoading.getType(instance);
 
@@ -26,10 +26,35 @@ const InstanceStatusIcon: FC<Props> = ({ instance, iconOnly = false }) => {
     );
   };
 
+  const getAbbreviation = (status: string) => {
+    return (
+      {
+        Error: "E",
+        Frozen: "F",
+        Ready: "✓",
+        Running: "R",
+        Stopped: "S",
+      }[status] ?? ""
+    );
+  };
+
+  if (compact) {
+    if (loadingType || instance.status === "Freezing") {
+      return <Icon className="u-animation--spin status-icon" name="spinner" />;
+    }
+    return (
+      <span
+        className={`status-abbr status-abbr--${instance.status.toLowerCase()}`}
+      >
+        {getAbbreviation(instance.status)}
+      </span>
+    );
+  }
+
   return loadingType ? (
     <>
       <Icon className="u-animation--spin status-icon" name="spinner" />
-      {!iconOnly && <i>{loadingType}</i>}
+      <i>{loadingType}</i>
     </>
   ) : (
     <>
@@ -39,7 +64,7 @@ const InstanceStatusIcon: FC<Props> = ({ instance, iconOnly = false }) => {
           "u-animation--spin": instance.status === "Freezing",
         })}
       />
-      {!iconOnly && instance.status}
+      {instance.status}
     </>
   );
 };

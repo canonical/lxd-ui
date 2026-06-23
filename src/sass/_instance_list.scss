@@ -103,6 +103,18 @@
     }
   }
 
+  .status-abbr {
+    font-size: 0.7rem;
+    font-weight: bold;
+    vertical-align: middle;
+
+    &--running { color: $color-positive; }
+    &--stopped { color: $color-mid; }
+    &--error   { color: $color-negative; }
+    &--frozen  { color: $color-information; }
+    &--ready   { color: $color-information; }
+  }
+
   .status-header {
     padding-left: 3.33rem;
     pointer-events: none;

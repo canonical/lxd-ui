@@ -602,7 +602,7 @@ const InstanceList: FC = () => {
         const loadingType = instanceLoading.getType(instance);
         return (
           <span title={loadingType ?? instance.status}>
-            <InstanceStatusIcon instance={instance} iconOnly />
+            <InstanceStatusIcon instance={instance} compact />
           </span>
         );
       }
