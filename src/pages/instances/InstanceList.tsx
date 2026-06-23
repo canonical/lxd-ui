@@ -216,9 +216,11 @@ const InstanceList: FC = () => {
     if (
       !filters.queries.every(
         (q) =>
-          item.name.toLowerCase().includes(q) ||
-          item.description.toLowerCase().includes(q) ||
-          item.config["image.description"]?.toLowerCase().includes(q),
+          item.name.toLowerCase().includes(q.toLowerCase()) ||
+          item.description.toLowerCase().includes(q.toLowerCase()) ||
+          item.config["image.description"]
+            ?.toLowerCase()
+            .includes(q.toLowerCase()),
       )
     ) {
       return false;

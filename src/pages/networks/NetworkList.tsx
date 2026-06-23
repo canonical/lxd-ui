@@ -141,8 +141,8 @@ const NetworkList: FC = () => {
       if (
         !filters.queries.every(
           (q) =>
-            network.name.toLowerCase().includes(q) ||
-            network.description?.toLowerCase().includes(q),
+            network.name.toLowerCase().includes(q.toLowerCase()) ||
+            network.description?.toLowerCase().includes(q.toLowerCase()),
         )
       ) {
         return false;
