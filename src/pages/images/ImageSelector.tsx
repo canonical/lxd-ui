@@ -3,6 +3,7 @@ import {
   Button,
   CheckboxInput,
   Col,
+  Icon,
   MainTable,
   Modal,
   Notification,
@@ -11,7 +12,9 @@ import {
   SearchBox,
   Select,
   Spinner,
+  useListener,
 } from "@canonical/react-components";
+import classnames from "classnames";
 import type { LxdImageType, RemoteImage } from "types/image";
 import { capitalizeFirstLetter } from "util/helpers";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -43,6 +46,16 @@ const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
 
+const LARGE_BREAKPOINT = 1090;
+const SMALL_BREAKPOINT = 800;
+
+type ScreenSize = "large" | "medium" | "small";
+const figureScreenSize = (): ScreenSize => {
+  if (window.innerWidth >= LARGE_BREAKPOINT) return "large";
+  if (window.innerWidth >= SMALL_BREAKPOINT) return "medium";
+  return "small";
+};
+
 const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [query, setQuery] = useState<string>("");
   const [os, setOs] = useState<string>("");
@@ -53,7 +66,14 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [hideRemote, setHideRemote] = useState(false);
   const [error, setError] = useState("");
   const [hideError, setHideError] = useState(false);
+  const [screenSize, setScreenSize] = useState<ScreenSize>(figureScreenSize());
+  const [showFilters, setShowFilters] = useState(false);
   const { project } = useParams<{ project: string }>();
+
+  const resize = () => {
+    setScreenSize(figureScreenSize());
+  };
+  useListener(window, resize, "resize", true);
 
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
   const { data: remoteImages, isLoading: isRemoteImagesLoading } =
@@ -247,7 +267,6 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             onClick: selectImage,
           },
           {
-            className: "u-hide--small u-hide--medium",
             content: item.aliases.split(",").pop(),
             title: item.aliases.split(",").pop(),
             role: "cell",
@@ -261,14 +280,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             onClick: selectImage,
           },
           {
-            className: "u-hide--small u-hide--medium",
             content: item.cached ? "Cached" : "Remote",
             role: "cell",
             "aria-label": "Cached",
             onClick: selectImage,
           },
           {
-            className: "u-hide--small u-hide--medium",
             content: (
               <Button
                 onClick={selectImage}
@@ -307,21 +324,120 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     {
       content: "Alias",
       sortKey: "alias",
-      className: "u-hide--small u-hide--medium",
     },
     {
       content: "Source",
     },
     {
-      className: "u-hide--small u-hide--medium",
       content: "Cached",
     },
     {
-      className: "u-hide--small u-hide--medium",
       content: "",
       "aria-label": "Actions",
     },
   ];
+
+  const filters = (
+    <div
+      className={classnames("image-select-filters", {
+        "image-select-filters--small": screenSize === "small",
+        "image-select-filters--medium": screenSize === "medium",
+      })}
+    >
+      <Select
+        id="imageFilterDistribution"
+        label="Distribution"
+        name="distribution"
+        onChange={(v) => {
+          setOs(v.target.value);
+          setRelease("");
+        }}
+        options={getOptionList((item: RemoteImage) => item.os)}
+        value={os}
+      />
+      <Select
+        id="imageFilterRelease"
+        label="Release"
+        name="release"
+        onChange={(v) => {
+          setRelease(v.target.value);
+        }}
+        options={getOptionList(
+          (item) => item.release,
+          (item) => item.os === os,
+        )}
+        value={release}
+        disabled={os === ""}
+      />
+      <Select
+        id="imageFilterVariant"
+        label="Variant"
+        name="variant"
+        onChange={(v) => {
+          setVariant(v.target.value);
+        }}
+        options={[
+          {
+            label: "Any",
+            value: ANY,
+          },
+        ].concat(
+          variantAll
+            .filter((item) => Boolean(item))
+            .map((item) => {
+              return {
+                label: item ?? "",
+                value: item ?? "",
+              };
+            }),
+        )}
+        value={variant}
+      />
+      <Select
+        id="imageFilterArchitecture"
+        label="Architecture"
+        name="architecture"
+        onChange={(v) => {
+          setArch(v.target.value);
+        }}
+        options={archAll.map((item) => {
+          return {
+            label: item,
+            value: item,
+          };
+        })}
+        value={arch}
+      />
+      <Select
+        id="imageFilterType"
+        label="Type"
+        name="type"
+        onChange={(v) => {
+          setType(
+            v.target.value === ANY
+              ? undefined
+              : (v.target.value as LxdImageType),
+          );
+        }}
+        options={[
+          {
+            label: "Any",
+            value: ANY,
+          },
+          ...instanceCreationTypes,
+        ]}
+        value={type ?? ""}
+      />
+      <CheckboxInput
+        aria-label="Only show cached images"
+        checked={hideRemote}
+        label="Show only cached images"
+        onChange={() => {
+          setHideRemote((prev) => !prev);
+        }}
+      />
+    </div>
+  );
 
   return (
     <Modal
@@ -330,103 +446,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       className="image-select-modal"
     >
       <Row className="u-no-padding--left u-no-padding--right">
-        <Col size={3}>
-          <div className="image-select-filters">
-            <Select
-              id="imageFilterDistribution"
-              label="Distribution"
-              name="distribution"
-              onChange={(v) => {
-                setOs(v.target.value);
-                setRelease("");
-              }}
-              options={getOptionList((item: RemoteImage) => item.os)}
-              value={os}
-            />
-            <Select
-              id="imageFilterRelease"
-              label="Release"
-              name="release"
-              onChange={(v) => {
-                setRelease(v.target.value);
-              }}
-              options={getOptionList(
-                (item) => item.release,
-                (item) => item.os === os,
-              )}
-              value={release}
-              disabled={os === ""}
-            />
-            <Select
-              id="imageFilterVariant"
-              label="Variant"
-              name="variant"
-              onChange={(v) => {
-                setVariant(v.target.value);
-              }}
-              options={[
-                {
-                  label: "Any",
-                  value: ANY,
-                },
-              ].concat(
-                variantAll
-                  .filter((item) => Boolean(item))
-                  .map((item) => {
-                    return {
-                      label: item ?? "",
-                      value: item ?? "",
-                    };
-                  }),
-              )}
-              value={variant}
-            />
-            <Select
-              id="imageFilterArchitecture"
-              label="Architecture"
-              name="architecture"
-              onChange={(v) => {
-                setArch(v.target.value);
-              }}
-              options={archAll.map((item) => {
-                return {
-                  label: item,
-                  value: item,
-                };
-              })}
-              value={arch}
-            />
-            <Select
-              id="imageFilterType"
-              label="Type"
-              name="type"
-              onChange={(v) => {
-                setType(
-                  v.target.value === ANY
-                    ? undefined
-                    : (v.target.value as LxdImageType),
-                );
-              }}
-              options={[
-                {
-                  label: "Any",
-                  value: ANY,
-                },
-                ...instanceCreationTypes,
-              ]}
-              value={type ?? ""}
-            />
-            <CheckboxInput
-              aria-label="Only show cached images"
-              checked={hideRemote}
-              label="Show only cached images"
-              onChange={() => {
-                setHideRemote((prev) => !prev);
-              }}
-            />
-          </div>
-        </Col>
-        <Col size={9}>
+        {screenSize === "large" && <Col size={3}>{filters}</Col>}
+        <Col size={screenSize === "large" ? 9 : 12}>
+          {screenSize === "medium" && filters}
           <div className="image-select-header">
             {error && !hideError ? (
               <Notification
@@ -454,7 +476,22 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 />
               </div>
             )}
+            {screenSize === "small" && (
+              <Button
+                type="button"
+                hasIcon
+                className="image-filter-toggle u-no-margin--bottom"
+                aria-expanded={showFilters}
+                aria-label={showFilters ? "Hide filters" : "Show filters"}
+                onClick={() => {
+                  setShowFilters((prev) => !prev);
+                }}
+              >
+                <Icon name="filter" />
+              </Button>
+            )}
           </div>
+          {screenSize === "small" && showFilters && filters}
           <div className="image-list">
             <ScrollableTable
               dependencies={[images]}
@@ -473,6 +510,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 headers={headers}
                 rows={rows}
                 paginate={null}
+                responsive={screenSize === "small"}
                 sortable
               />
             </ScrollableTable>

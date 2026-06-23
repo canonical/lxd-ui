@@ -487,18 +487,57 @@
     min-height: 100%;
   }
 
+  @media screen and (width < 500px) {
+    .p-modal__dialog {
+      left: 0px;
+      right: 0px;
+    }
+  }
+
   .image-select-filters {
     height: 100%;
     margin-right: 2rem;
   }
 
-  @include mobile-and-tablet {
-    .image-select-filters {
-      display: none;
+  .image-select-filters--medium {
+    column-gap: $sph--large;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    height: auto;
+    margin-bottom: $spv--large;
+    margin-right: 0;
+  }
+
+  .image-select-filters--small {
+    column-gap: $sph--large;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: auto;
+    margin-bottom: $spv--large;
+    margin-right: 0;
+  }
+
+  .image-filter-toggle {
+    flex-shrink: 0;
+    margin-left: $sph--small;
+
+    &[aria-expanded="true"] {
+      background-color: $colors--theme--background-active;
     }
   }
 
+  .table-image-select td[data-heading=""]::before {
+    display: none;
+  }
+
+  // vanilla's default minmax(12rem) only fits 2 columns from ~440px viewport.
+  // reducing to 10rem lets 2 columns fit from 400px (content width ~368px).
+  .table-image-select.p-table--mobile-card tbody {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  }
+
   .image-select-header {
+    align-items: flex-start;
     display: flex;
 
     > :first-child {
