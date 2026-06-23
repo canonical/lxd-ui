@@ -590,6 +590,24 @@ const InstanceList: FC = () => {
     rows: getRows(userHidden.concat(sizeHidden)),
   });
 
+  const instanceByKey = new Map(
+    filteredInstances.map((i) => [getInstanceKey(i), i]),
+  );
+  const showTrailingStatus = sizeHidden.includes(STATUS);
+  const trailingHeaderContent = showTrailingStatus ? null : undefined;
+  const trailingRowContent = showTrailingStatus
+    ? (row: MainTableRow) => {
+        const instance = instanceByKey.get(row.name ?? "");
+        if (!instance) return null;
+        const loadingType = instanceLoading.getType(instance);
+        return (
+          <span title={loadingType ?? instance.status}>
+            <InstanceStatusIcon instance={instance} iconOnly />
+          </span>
+        );
+      }
+    : undefined;
+
   const figureSizeHidden = () => {
     const wrapper = document.getElementById("instance-table-measure");
     const tableHead = wrapper?.children[0]?.children[0]?.children[0];
@@ -786,6 +804,8 @@ const InstanceList: FC = () => {
                       disabledNames={processingNames}
                       filteredNames={filteredInstances.map(getInstanceKey)}
                       onUpdateSort={updateSort}
+                      trailingHeaderContent={trailingHeaderContent}
+                      trailingRowContent={trailingRowContent}
                     />
                   </TablePagination>
                 </ScrollableTable>

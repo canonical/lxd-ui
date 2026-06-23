@@ -45,6 +45,20 @@
   }
 }
 
+@media screen and (width < 500px) {
+  .select {
+    width: 40px;
+
+    .select-context-menu {
+      display: none;
+    }
+  }
+
+  .select-header {
+    padding-top: 0.75rem;
+  }
+}
+
 .disabled-row {
   opacity: 0.5;
 

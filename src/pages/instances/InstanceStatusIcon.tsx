@@ -6,9 +6,10 @@ import { Icon } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
+  iconOnly?: boolean;
 }
 
-const InstanceStatusIcon: FC<Props> = ({ instance }) => {
+const InstanceStatusIcon: FC<Props> = ({ instance, iconOnly = false }) => {
   const instanceLoading = useInstanceLoading();
   const loadingType = instanceLoading.getType(instance);
 
@@ -28,7 +29,7 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
   return loadingType ? (
     <>
       <Icon className="u-animation--spin status-icon" name="spinner" />
-      <i>{loadingType}</i>
+      {!iconOnly && <i>{loadingType}</i>}
     </>
   ) : (
     <>
@@ -38,7 +39,7 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
           "u-animation--spin": instance.status === "Freezing",
         })}
       />
-      {instance.status}
+      {!iconOnly && instance.status}
     </>
   );
 };

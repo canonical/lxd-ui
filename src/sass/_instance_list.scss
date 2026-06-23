@@ -93,6 +93,16 @@
     margin-left: $spv--x-large;
   }
 
+  th.trailing-status-col,
+  td.trailing-status-col {
+    padding-left: 0;
+    width: 1.5rem;
+
+    .status-icon {
+      margin-left: 0;
+    }
+  }
+
   .status-header {
     padding-left: 3.33rem;
     pointer-events: none;

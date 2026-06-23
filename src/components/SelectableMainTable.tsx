@@ -1,4 +1,10 @@
-import { useState, type FC, type MouseEvent, type PointerEvent } from "react";
+import {
+  useState,
+  type FC,
+  type MouseEvent,
+  type PointerEvent,
+  type ReactNode,
+} from "react";
 import type {
   MainTableRow,
   Props as MainTableProps,
@@ -27,6 +33,8 @@ interface SelectableMainTableProps {
   hideContextualMenu?: boolean;
   defaultSortKey?: string;
   disableSelectAll?: boolean;
+  trailingHeaderContent?: ReactNode;
+  trailingRowContent?: (row: MainTableRow) => ReactNode;
 }
 
 type Props = SelectableMainTableProps & MainTableProps;
@@ -46,6 +54,8 @@ const SelectableMainTable: FC<Props> = ({
   hideContextualMenu,
   defaultSortKey,
   disableSelectAll,
+  trailingHeaderContent,
+  trailingRowContent,
   ...props
 }: Props) => {
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
@@ -131,6 +141,15 @@ const SelectableMainTable: FC<Props> = ({
       "aria-label": "select",
     },
     ...(headers ?? []),
+    ...(trailingHeaderContent !== undefined
+      ? [
+          {
+            content: trailingHeaderContent,
+            className: "trailing-status-col",
+            "aria-label": "Status",
+          },
+        ]
+      : []),
   ];
 
   const selectedNamesLookup = new Set(selectedNames);
@@ -197,6 +216,15 @@ const SelectableMainTable: FC<Props> = ({
         className: "select",
       },
       ...(row.columns ?? []),
+      ...(trailingRowContent
+        ? [
+            {
+              content: trailingRowContent(row),
+              role: "cell",
+              className: "trailing-status-col",
+            },
+          ]
+        : []),
     ];
 
     const className = classnames(row.className, {
