@@ -173,7 +173,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
   };
 
   const getYaml = () => {
-    const exclude = new Set(["used_by", "etag"]);
+    const exclude = new Set(["access_entitlements", "used_by", "etag"]);
     const profilePayload = getProfilePayload(profile, formik.values);
     const bareProfile = Object.fromEntries(
       Object.entries(profilePayload).filter((e) => !exclude.has(e[0])),

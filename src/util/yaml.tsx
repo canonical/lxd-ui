@@ -42,6 +42,7 @@ export const expandInheritedValuesYaml = (
   const sections: string[] = [];
 
   const exclude = [
+    "access_entitlements",
     "config",
     "devices",
     "expanded_config",

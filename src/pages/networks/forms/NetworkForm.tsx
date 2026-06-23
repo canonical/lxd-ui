@@ -46,6 +46,7 @@ import type { NetworkFormValues } from "types/forms/network";
 
 export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
   const excludeMainKeys = new Set([
+    "access_entitlements",
     "used_by",
     "etag",
     "status",

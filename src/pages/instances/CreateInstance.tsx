@@ -425,7 +425,7 @@ const CreateInstance: FC = () => {
     setSection(newItem);
   };
 
-  function getYaml() {
+  const getYaml = () => {
     if (
       location.state?.retryFormSection === YAML_CONFIGURATION &&
       formik.values.yaml
@@ -434,7 +434,7 @@ const CreateInstance: FC = () => {
     }
     const payload = getPayload(formik.values);
     return objectToYaml(payload);
-  }
+  };
 
   const diskError = hasDiskError(formik);
   const networkError = hasNetworkError(formik);

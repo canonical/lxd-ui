@@ -172,6 +172,7 @@ export const toStoragePool = (
   };
 
   const excludeMainKeys = new Set([
+    "access_entitlements",
     "used_by",
     "etag",
     "status",
