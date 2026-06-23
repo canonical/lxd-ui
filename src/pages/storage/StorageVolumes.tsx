@@ -134,15 +134,7 @@ const StorageVolumes: FC = () => {
         ]
       : []),
     {
-      content: isSmallScreen ? (
-        <>
-          {TYPE_COL}
-          <br />
-          <div className="header-second-row">{CONTENT_TYPE_COL}</div>
-        </>
-      ) : (
-        TYPE_COL
-      ),
+      content: TYPE_COL,
       sortKey: isSmallScreen ? "contentType" : "type",
       style: {
         width: COLUMN_WIDTHS[isSmallScreen ? CONTENT_TYPE_COL : TYPE_COL],

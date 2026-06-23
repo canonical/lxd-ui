@@ -102,6 +102,10 @@
 .storage-bucket-list,
 .storage-volume-list {
   .storage-volume-table {
+    .select-header {
+      padding-top: 10px;
+    }
+
     .used_by {
       width: 5rem;
     }
