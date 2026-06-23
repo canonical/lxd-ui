@@ -12,9 +12,13 @@ import {
   SearchBox,
   Select,
   Spinner,
-  useListener,
 } from "@canonical/react-components";
 import classnames from "classnames";
+import {
+  largeScreenBreakpoint,
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import type { LxdImageType, RemoteImage } from "types/image";
 import { capitalizeFirstLetter } from "util/helpers";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -46,15 +50,7 @@ const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
 
-const LARGE_BREAKPOINT = 1090;
-const SMALL_BREAKPOINT = 800;
-
 type ScreenSize = "large" | "medium" | "small";
-const figureScreenSize = (): ScreenSize => {
-  if (window.innerWidth >= LARGE_BREAKPOINT) return "large";
-  if (window.innerWidth >= SMALL_BREAKPOINT) return "medium";
-  return "small";
-};
 
 const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [query, setQuery] = useState<string>("");
@@ -66,14 +62,17 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [hideRemote, setHideRemote] = useState(false);
   const [error, setError] = useState("");
   const [hideError, setHideError] = useState(false);
-  const [screenSize, setScreenSize] = useState<ScreenSize>(figureScreenSize());
   const [showFilters, setShowFilters] = useState(false);
   const { project } = useParams<{ project: string }>();
 
-  const resize = () => {
-    setScreenSize(figureScreenSize());
-  };
-  useListener(window, resize, "resize", true);
+  const isBelowLarge = useIsScreenBelow(largeScreenBreakpoint);
+  const isBelowMedium = useIsScreenBelow(mediumScreenBreakpoint);
+  let screenSize: ScreenSize = "large";
+  if (isBelowMedium) {
+    screenSize = "small";
+  } else if (isBelowLarge) {
+    screenSize = "medium";
+  }
 
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
   const { data: remoteImages, isLoading: isRemoteImagesLoading } =
