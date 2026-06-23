@@ -43,6 +43,10 @@
     background-color: $colors--theme--background-hover;
   }
 
+  .u-row-no-click td {
+    cursor: default;
+  }
+
   .instance-actions button {
     margin-bottom: -3px;
   }
@@ -51,12 +55,14 @@
     background-color: $colors--theme--background-active;
   }
 
-  // show actions only on hover if a pointing device is used
+  // show actions only on hover if a pointing device is used and screen is wide enough
   @media screen and (pointer: fine) {
     .instance-actions {
       visibility: hidden;
     }
+  }
 
+  @media screen and (pointer: fine) and (min-width: 620px) {
     .u-row:hover {
       .instance-actions {
         visibility: visible;

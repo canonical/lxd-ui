@@ -5,6 +5,7 @@ import { useListener } from "@canonical/react-components";
 export const smallScreenBreakpoint = 620;
 export const mediumScreenBreakpoint = 820;
 export const largeScreenBreakpoint = 1200;
+export const sidePanelBreakpoint = 1090;
 
 export const useIsScreenBelow = (
   breakpoint = smallScreenBreakpoint,
