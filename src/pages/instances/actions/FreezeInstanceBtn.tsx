@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import classnames from "classnames";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -14,9 +15,10 @@ import { InstanceRichChip } from "../InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
+  classname?: string;
 }
 
-const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
+const FreezeInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
@@ -94,12 +96,13 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
           ? "Freeze"
           : "You do not have permission to freeze this instance",
       }}
-      className="has-icon is-dense"
+      className={classnames("has-icon", classname ?? "is-dense")}
       disabled={isDisabled || !canUpdateInstanceState(instance) || isLoading}
       shiftClickEnabled
       showShiftClickHint
     >
       <Icon name="pause" />
+      {classname && <span>Freeze</span>}
     </MountedConfirmationButton>
   );
 };

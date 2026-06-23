@@ -16,6 +16,10 @@ import { useToastNotification } from "@canonical/react-components";
 import { useInstanceLoading } from "context/instanceLoading";
 import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import {
+  smallScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 
 interface Props {
   name: string;
@@ -37,6 +41,7 @@ const InstanceDetailHeader: FC<Props> = ({
   const controllerState = useState<AbortController | null>(null);
   const { canViewProject } = useCurrentProject();
   const instanceLoading = useInstanceLoading();
+  const isSmallScreen = useIsScreenBelow(smallScreenBreakpoint);
 
   const loadingType = instance ? instanceLoading.getType(instance) : undefined;
 
@@ -143,8 +148,15 @@ const InstanceDetailHeader: FC<Props> = ({
           </Link>,
         ]}
         renameDisabledReason={getDisabledReason()}
+        nameAddon={
+          isSmallScreen && instance ? (
+            <i className="status u-text--muted">
+              {loadingType ?? instance.status}
+            </i>
+          ) : undefined
+        }
         centerControls={
-          instance ? (
+          !isSmallScreen && instance ? (
             <div className="instance-header-state-controls">
               <i className="status u-text--muted">
                 {loadingType ?? instance.status}

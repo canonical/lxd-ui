@@ -7,17 +7,16 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
+  classname?: string;
 }
 
-const StartInstanceBtn: FC<Props> = ({ instance }) => {
+const StartInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const { handleStart, isLoading, isDisabled } = useInstanceStart(instance);
   const { canUpdateInstanceState } = useInstanceEntitlements();
 
   return (
     <Button
       appearance="base"
-      hasIcon
-      dense={true}
       disabled={isDisabled || !canUpdateInstanceState(instance)}
       onClick={handleStart}
       type="button"
@@ -27,11 +26,13 @@ const StartInstanceBtn: FC<Props> = ({ instance }) => {
           ? "Start"
           : "You do not have permission to start this instance"
       }
+      className={classnames("has-icon", classname ?? "is-dense")}
     >
       <Icon
         className={classnames({ "u-animation--spin": isLoading })}
         name={isLoading ? "spinner" : "play"}
       />
+      {classname && <span>Start</span>}
     </Button>
   );
 };

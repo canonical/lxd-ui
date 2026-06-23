@@ -6,8 +6,13 @@ import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
 import CopyInstanceBtn from "./actions/CopyInstanceBtn";
 import { ContextualMenu } from "@canonical/react-components";
 import ExportInstanceBtn from "pages/instances/actions/ExportInstanceBtn";
+import StartInstanceBtn from "pages/instances/actions/StartInstanceBtn";
+import StopInstanceBtn from "pages/instances/actions/StopInstanceBtn";
+import RestartInstanceBtn from "pages/instances/actions/RestartInstanceBtn";
+import FreezeInstanceBtn from "pages/instances/actions/FreezeInstanceBtn";
 import {
   largeScreenBreakpoint,
+  smallScreenBreakpoint,
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
 
@@ -19,6 +24,7 @@ interface Props {
 
 const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
   const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
+  const isMobileScreen = useIsScreenBelow(smallScreenBreakpoint);
 
   const classname = isSmallScreen
     ? "p-contextual-menu__link"
@@ -66,6 +72,17 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
         >
           {(close: () => void) => (
             <span>
+              {isMobileScreen && [
+                <StartInstanceBtn key="start" instance={instance} classname={classname} />,
+                <RestartInstanceBtn key="restart" instance={instance} classname={classname} />,
+                <FreezeInstanceBtn key="freeze" instance={instance} classname={classname} />,
+                <StopInstanceBtn key="stop" instance={instance} classname={classname} />,
+              ].map((item) => (
+                <span key={item.key} onClick={close}>
+                  {item}
+                </span>
+              ))}
+              {isMobileScreen && <hr className="u-no-margin" />}
               {[...menuElements].map((item) =>
                 cloneElement(item, { onClose: close }),
               )}

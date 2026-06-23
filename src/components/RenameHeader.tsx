@@ -18,6 +18,7 @@ interface Props {
   relatedChip?: ReactNode;
   titleClassName?: string;
   parentItems: ReactNode[];
+  nameAddon?: ReactNode;
   centerControls?: ReactNode;
   controls?: ReactNode;
   isLoaded: boolean;
@@ -30,6 +31,7 @@ const RenameHeader: FC<Props> = ({
   relatedChip,
   titleClassName,
   parentItems,
+  nameAddon,
   centerControls,
   controls,
   isLoaded,
@@ -104,18 +106,26 @@ const RenameHeader: FC<Props> = ({
                 </div>
               </li>
             ) : (
-              <li
-                className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb u-truncate"
-                onClick={toggleRename}
-                title={canRename ? `Rename ${name}` : ""}
-              >
-                <Tooltip
-                  message={!canRename && renameDisabledReason}
-                  position="btm-left"
+              <>
+                <li
+                  className={classnames(
+                    "p-heading--4 u-no-margin--bottom name continuous-breadcrumb u-truncate",
+                    { "has-addon": !!nameAddon },
+                  )}
+                  onClick={toggleRename}
+                  title={canRename ? `Rename ${name}` : ""}
                 >
-                  {name}
-                </Tooltip>
-              </li>
+                  <Tooltip
+                    message={!canRename && renameDisabledReason}
+                    position="btm-left"
+                  >
+                    {name}
+                  </Tooltip>
+                </li>
+                {nameAddon && (
+                  <li className="name-addon-item">{nameAddon}</li>
+                )}
+              </>
             )}
           </ol>
           {relatedChip}

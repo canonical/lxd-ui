@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FC } from "react";
+import classnames from "classnames";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -14,9 +15,10 @@ import MountedConfirmationButton from "components/MountedConfirmationButton";
 
 interface Props {
   instance: LxdInstance;
+  classname?: string;
 }
 
-const RestartInstanceBtn: FC<Props> = ({ instance }) => {
+const RestartInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
@@ -77,7 +79,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
     <MountedConfirmationButton
       appearance="base"
       loading={isLoading}
-      className="has-icon is-dense"
+      className={classnames("has-icon", classname ?? "is-dense")}
       confirmationModalProps={{
         title: "Confirm restart",
         children: (
@@ -105,6 +107,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       showShiftClickHint
     >
       <Icon name="restart" />
+      {classname && <span>Restart</span>}
     </MountedConfirmationButton>
   );
 };

@@ -11,12 +11,14 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
 import { InstanceRichChip } from "../InstanceRichChip";
+import classnames from "classnames";
 
 interface Props {
   instance: LxdInstance;
+  classname?: string;
 }
 
-const StopInstanceBtn: FC<Props> = ({ instance }) => {
+const StopInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
@@ -115,11 +117,12 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
           ? "Stop"
           : "You do not have permission to stop this instance",
       }}
-      className="has-icon is-dense"
+      className={classnames("has-icon", classname ?? "is-dense")}
       shiftClickEnabled
       showShiftClickHint
     >
       <Icon name="stop" />
+      {classname && <span>Stop</span>}
     </MountedConfirmationButton>
   );
 };

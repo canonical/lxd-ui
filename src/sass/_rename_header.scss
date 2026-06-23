@@ -1,7 +1,12 @@
 .rename-header {
+  @include mobile {
+    align-items: flex-start;
+  }
+
   .p-panel__title {
     display: flex;
     flex-direction: column;
+    flex: 1;
     max-width: 100%;
     min-width: 0;
 
@@ -10,8 +15,42 @@
       flex-direction: row;
     }
 
+    .p-breadcrumbs {
+      @include mobile {
+        width: 100%;
+      }
+    }
+
     .breadcrumb-wrapper {
       display: flex !important;
+
+      @include mobile {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        width: 100%;
+
+        .continuous-breadcrumb:not(.name) {
+          grid-row: 1;
+          grid-column: 1;
+        }
+
+        .name-addon-item {
+          grid-row: 1;
+          grid-column: 2;
+          display: flex;
+          align-items: center;
+          padding-right: $sph--small;
+        }
+
+        .name {
+          grid-row: 2;
+          grid-column: 1 / -1;
+          overflow: hidden !important;
+          white-space: nowrap !important;
+          text-overflow: ellipsis !important;
+          margin-right: 0;
+        }
+      }
     }
 
     .name {
@@ -26,6 +65,10 @@
         display: inherit !important;
       }
 
+      &.has-addon::after {
+        content: "";
+      }
+
       &:hover {
         background: linear-gradient(
             45deg,
@@ -34,6 +77,10 @@
           )
           no-repeat;
       }
+    }
+
+    .name-addon-item {
+      display: none;
     }
 
     .rename {
