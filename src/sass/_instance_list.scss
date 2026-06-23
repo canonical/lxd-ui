@@ -62,7 +62,7 @@
     }
   }
 
-  @media screen and (pointer: fine) and (min-width: 620px) {
+  @media screen and (pointer: fine) and (width >= 620px) {
     .u-row:hover {
       .instance-actions {
         visibility: visible;
@@ -114,11 +114,25 @@
     font-weight: bold;
     vertical-align: middle;
 
-    &--running { color: $color-positive; }
-    &--stopped { color: $color-mid; }
-    &--error   { color: $color-negative; }
-    &--frozen  { color: $color-information; }
-    &--ready   { color: $color-information; }
+    &--running {
+      color: $color-positive;
+    }
+
+    &--stopped {
+      color: $color-mid;
+    }
+
+    &--error {
+      color: $color-negative;
+    }
+
+    &--frozen {
+      color: $color-information;
+    }
+
+    &--ready {
+      color: $color-information;
+    }
   }
 
   .status-header {

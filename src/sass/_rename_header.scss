@@ -5,8 +5,8 @@
 
   .p-panel__title {
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
     max-width: 100%;
     min-width: 0;
 
@@ -27,29 +27,29 @@
       @include mobile {
         display: grid !important;
         grid-template-columns: 1fr auto;
-        width: 100%;
         margin-top: 8px;
+        width: 100%;
 
         .continuous-breadcrumb:not(.name) {
-          grid-row: 1;
           grid-column: 1;
+          grid-row: 1;
         }
 
         .name-addon-item {
-          grid-row: 1;
-          grid-column: 2;
-          display: flex;
           align-items: center;
+          display: flex;
+          grid-column: 2;
+          grid-row: 1;
           padding-right: $sph--small;
         }
 
         .name {
-          grid-row: 2;
           grid-column: 1 / -1;
-          overflow: hidden !important;
-          white-space: nowrap !important;
-          text-overflow: ellipsis !important;
+          grid-row: 2;
           margin-right: 0;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          white-space: nowrap !important;
         }
       }
     }

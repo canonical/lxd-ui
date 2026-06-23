@@ -347,13 +347,17 @@ const InstanceList: FC = () => {
     },
   ];
 
-
   const visibleHeaders = visibleHeaderColumns(
     headers,
     userHidden.concat(sizeHidden),
   ).map((h) =>
     !h.content
-      ? { ...h, className: classnames(h.className, { "u-hide": panelParams.instance || isSmallScreen }) }
+      ? {
+          ...h,
+          className: classnames(h.className, {
+            "u-hide": panelParams.instance || isSmallScreen,
+          }),
+        }
       : h,
   );
 

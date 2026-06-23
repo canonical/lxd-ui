@@ -122,9 +122,7 @@ const RenameHeader: FC<Props> = ({
                     {name}
                   </Tooltip>
                 </li>
-                {nameAddon && (
-                  <li className="name-addon-item">{nameAddon}</li>
-                )}
+                {nameAddon && <li className="name-addon-item">{nameAddon}</li>}
               </>
             )}
           </ol>

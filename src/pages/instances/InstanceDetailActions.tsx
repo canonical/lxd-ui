@@ -72,16 +72,33 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
         >
           {(close: () => void) => (
             <span>
-              {isMobileScreen && [
-                <StartInstanceBtn key="start" instance={instance} classname={classname} />,
-                <RestartInstanceBtn key="restart" instance={instance} classname={classname} />,
-                <FreezeInstanceBtn key="freeze" instance={instance} classname={classname} />,
-                <StopInstanceBtn key="stop" instance={instance} classname={classname} />,
-              ].map((item) => (
-                <span key={item.key} onClick={close}>
-                  {item}
-                </span>
-              ))}
+              {isMobileScreen &&
+                [
+                  <StartInstanceBtn
+                    key="start"
+                    instance={instance}
+                    classname={classname}
+                  />,
+                  <RestartInstanceBtn
+                    key="restart"
+                    instance={instance}
+                    classname={classname}
+                  />,
+                  <FreezeInstanceBtn
+                    key="freeze"
+                    instance={instance}
+                    classname={classname}
+                  />,
+                  <StopInstanceBtn
+                    key="stop"
+                    instance={instance}
+                    classname={classname}
+                  />,
+                ].map((item) => (
+                  <span key={item.key} onClick={close}>
+                    {item}
+                  </span>
+                ))}
               {isMobileScreen && <hr className="u-no-margin" />}
               {[...menuElements].map((item) =>
                 cloneElement(item, { onClose: close }),

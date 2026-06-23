@@ -1,6 +1,11 @@
 import { useEffect, useState, type FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { Button, Icon, useListener, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  useListener,
+  useNotify,
+} from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
@@ -13,7 +18,6 @@ import {
   isProxyDevice,
 } from "util/devices";
 import { slugify } from "util/slugify";
-import classnames from "classnames";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk";
@@ -74,7 +78,9 @@ const InstanceFormMenu: FC<Props> = ({
     { label: NETWORK_DEVICES, hasError: hasNetworkError },
     { label: GPU_DEVICES, hasError: false },
     { label: PROXY_DEVICES, hasError: false },
-    ...(hasMetadataConfiguration ? [{ label: OTHER_DEVICES, hasError: false }] : []),
+    ...(hasMetadataConfiguration
+      ? [{ label: OTHER_DEVICES, hasError: false }]
+      : []),
     { label: RESOURCE_LIMITS, hasError: false },
     { label: SECURITY_POLICIES, hasError: false },
     { label: SNAPSHOTS, hasError: false },
@@ -84,7 +90,7 @@ const InstanceFormMenu: FC<Props> = ({
   ];
 
   const activeSection = sections.find(
-    (s) => slugify(s.label) === slugify(active)
+    (s) => slugify(s.label) === slugify(active),
   );
   const activeLabel = activeSection ? activeSection.label : active;
 
@@ -99,14 +105,18 @@ const InstanceFormMenu: FC<Props> = ({
         {isOverlayOpen && (
           <div
             className="mobile-dropdown-backdrop"
-            onClick={() => setIsOverlayOpen(false)}
+            onClick={() => {
+              setIsOverlayOpen(false);
+            }}
           />
         )}
         <div className="mobile-menu-trigger-container">
           <button
             type="button"
             className="mobile-menu-trigger-btn"
-            onClick={() => setIsOverlayOpen(!isOverlayOpen)}
+            onClick={() => {
+              setIsOverlayOpen(!isOverlayOpen);
+            }}
             aria-expanded={isOverlayOpen}
           >
             <span>{activeLabel}</span>
@@ -145,93 +155,93 @@ const InstanceFormMenu: FC<Props> = ({
                     <ul
                       className="p-side-navigation__list"
                       aria-expanded={isDeviceExpanded ? "true" : "false"}
-                      >
+                    >
+                      <MenuItem
+                        label={DISK_DEVICES}
+                        hasError={hasDiskError}
+                        {...menuItemProps}
+                        isBold={formik.values.devices.some(isDiskDevice)}
+                        setActive={onItemClick}
+                      />
+                      <MenuItem
+                        label={NETWORK_DEVICES}
+                        hasError={hasNetworkError}
+                        {...menuItemProps}
+                        isBold={formik.values.devices.some(isNicDevice)}
+                        setActive={onItemClick}
+                      />
+                      <MenuItem
+                        label={GPU_DEVICES}
+                        {...menuItemProps}
+                        isBold={formik.values.devices.some(isGPUDevice)}
+                        setActive={onItemClick}
+                      />
+                      <MenuItem
+                        label={PROXY_DEVICES}
+                        {...menuItemProps}
+                        isBold={formik.values.devices.some(isProxyDevice)}
+                        setActive={onItemClick}
+                      />
+                      {hasMetadataConfiguration && (
                         <MenuItem
-                          label={DISK_DEVICES}
-                          hasError={hasDiskError}
+                          label={OTHER_DEVICES}
                           {...menuItemProps}
-                          isBold={formik.values.devices.some(isDiskDevice)}
+                          isBold={formik.values.devices.some(isOtherDevice)}
                           setActive={onItemClick}
                         />
-                        <MenuItem
-                          label={NETWORK_DEVICES}
-                          hasError={hasNetworkError}
-                          {...menuItemProps}
-                          isBold={formik.values.devices.some(isNicDevice)}
-                          setActive={onItemClick}
-                        />
-                        <MenuItem
-                          label={GPU_DEVICES}
-                          {...menuItemProps}
-                          isBold={formik.values.devices.some(isGPUDevice)}
-                          setActive={onItemClick}
-                        />
-                        <MenuItem
-                          label={PROXY_DEVICES}
-                          {...menuItemProps}
-                          isBold={formik.values.devices.some(isProxyDevice)}
-                          setActive={onItemClick}
-                        />
-                        {hasMetadataConfiguration && (
-                          <MenuItem
-                            label={OTHER_DEVICES}
-                            {...menuItemProps}
-                            isBold={formik.values.devices.some(isOtherDevice)}
-                            setActive={onItemClick}
-                          />
-                        )}
-                      </ul>
-                    </li>
-                    <MenuItem
-                      label={RESOURCE_LIMITS}
-                      {...menuItemProps}
-                      isBold={hasPrefixValue(formik, "limits_")}
-                      setActive={onItemClick}
-                    />
-                    <MenuItem
-                      label={SECURITY_POLICIES}
-                      {...menuItemProps}
-                      isBold={hasPrefixValue(formik, "security_")}
-                      setActive={onItemClick}
-                    />
-                    <MenuItem
-                      label={SNAPSHOTS}
-                      {...menuItemProps}
-                      isBold={hasPrefixValue(formik, "snapshots_")}
-                      setActive={onItemClick}
-                    />
-                    <MenuItem
-                      label={MIGRATION}
-                      {...menuItemProps}
-                      isBold={
-                        hasPrefixValue(formik, "migration_") ||
-                        hasPrefixValue(formik, "cluster_")
-                      }
-                      setActive={onItemClick}
-                    />
-                    <MenuItem
-                      label={BOOT}
-                      {...menuItemProps}
-                      isBold={hasPrefixValue(formik, "boot_")}
-                      setActive={onItemClick}
-                    />
-                    <MenuItem
-                      label={CLOUD_INIT}
-                      {...menuItemProps}
-                      isBold={hasPrefixValue(
-                        formik,
-                        "cloud_init_",
-                        "cloud_init_ssh_keys",
                       )}
-                      setActive={onItemClick}
-                    />
-                  </ul>
-                </nav>
-              </div>
-            )}
-          </div>
-        </>
-      );
+                    </ul>
+                  </li>
+                  <MenuItem
+                    label={RESOURCE_LIMITS}
+                    {...menuItemProps}
+                    isBold={hasPrefixValue(formik, "limits_")}
+                    setActive={onItemClick}
+                  />
+                  <MenuItem
+                    label={SECURITY_POLICIES}
+                    {...menuItemProps}
+                    isBold={hasPrefixValue(formik, "security_")}
+                    setActive={onItemClick}
+                  />
+                  <MenuItem
+                    label={SNAPSHOTS}
+                    {...menuItemProps}
+                    isBold={hasPrefixValue(formik, "snapshots_")}
+                    setActive={onItemClick}
+                  />
+                  <MenuItem
+                    label={MIGRATION}
+                    {...menuItemProps}
+                    isBold={
+                      hasPrefixValue(formik, "migration_") ||
+                      hasPrefixValue(formik, "cluster_")
+                    }
+                    setActive={onItemClick}
+                  />
+                  <MenuItem
+                    label={BOOT}
+                    {...menuItemProps}
+                    isBold={hasPrefixValue(formik, "boot_")}
+                    setActive={onItemClick}
+                  />
+                  <MenuItem
+                    label={CLOUD_INIT}
+                    {...menuItemProps}
+                    isBold={hasPrefixValue(
+                      formik,
+                      "cloud_init_",
+                      "cloud_init_ssh_keys",
+                    )}
+                    setActive={onItemClick}
+                  />
+                </ul>
+              </nav>
+            </div>
+          )}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -341,4 +351,3 @@ const InstanceFormMenu: FC<Props> = ({
 };
 
 export default InstanceFormMenu;
-
