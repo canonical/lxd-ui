@@ -93,8 +93,8 @@ const PermissionIdentities: FC = () => {
     if (
       !filters.queries.every(
         (q) =>
-          getIdentityName(identity).toLowerCase().includes(q) ||
-          identity.id.toLowerCase().includes(q),
+          getIdentityName(identity).toLowerCase().includes(q.toLowerCase()) ||
+          identity.id.toLowerCase().includes(q.toLowerCase()),
       )
     ) {
       return false;

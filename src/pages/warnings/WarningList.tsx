@@ -52,8 +52,8 @@ const WarningList: FC = () => {
     if (
       !filters.queries.every(
         (q) =>
-          item.type.toLowerCase().includes(q) ||
-          item.last_message.toLowerCase().includes(q),
+          item.type.toLowerCase().includes(q.toLowerCase()) ||
+          item.last_message.toLowerCase().includes(q.toLowerCase()),
       )
     ) {
       return false;

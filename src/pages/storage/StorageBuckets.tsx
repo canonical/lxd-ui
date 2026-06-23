@@ -122,7 +122,11 @@ const StorageBuckets: FC = () => {
   ];
 
   const filteredBuckets = buckets.filter((item) => {
-    if (!filters.queries.every((q) => item.name.toLowerCase().includes(q))) {
+    if (
+      !filters.queries.every((q) =>
+        item.name.toLowerCase().includes(q.toLowerCase()),
+      )
+    ) {
       return false;
     }
     if (filters.pools.length > 0 && !filters.pools.includes(item.pool)) {
