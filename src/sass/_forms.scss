@@ -18,6 +18,11 @@
 .local-peering-create-form {
   padding-bottom: 0;
 
+  .mobile-menu-trigger-container,
+  .mobile-navigation-overlay {
+    display: none;
+  }
+
   .p-notification--caution {
     background-image: none;
     border: 0;
@@ -112,7 +117,64 @@
 
   @include mobile-and-tablet {
     .form {
+      flex-direction: column;
       margin-top: 13px;
+    }
+
+    .form-navigation {
+      display: none;
+    }
+
+    .form-contents {
+      padding-left: 0;
+    }
+
+    .mobile-menu-trigger-container {
+      display: block;
+      margin-bottom: 1.5rem;
+      position: relative;
+      width: 100%;
+
+      .mobile-menu-trigger-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        margin: 0;
+        background-color: $colors--theme--background-alt;
+        border: 1px solid $colors--theme--border-high-contrast;
+        cursor: pointer;
+      }
+
+      .mobile-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background-color: $colors--theme--background-default;
+        border: 1px solid $colors--theme--border-high-contrast;
+        border-top: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        max-height: 70vh;
+        overflow-y: auto;
+
+        .p-side-navigation__list {
+          margin: 0;
+          padding: $spv--small 0;
+
+          .p-side-navigation__link {
+            min-width: unset;
+          }
+        }
+      }
+    }
+
+    .mobile-dropdown-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 99;
     }
   }
 
