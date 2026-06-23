@@ -28,6 +28,7 @@
         display: grid !important;
         grid-template-columns: 1fr auto;
         width: 100%;
+        margin-top: 8px;
 
         .continuous-breadcrumb:not(.name) {
           grid-row: 1;
@@ -114,5 +115,11 @@
   .p-panel__controls {
     flex-shrink: 0;
     margin-top: 0.2rem;
+
+    @include mobile {
+      .p-contextual-menu__toggle {
+        margin-bottom: 0;
+      }
+    }
   }
 }
