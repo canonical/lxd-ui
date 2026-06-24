@@ -60,6 +60,7 @@ const StoragePools: FC = () => {
   const rows = pools.map((pool) => {
     return {
       key: pool.name,
+      className: "u-row",
       columns: [
         {
           content: (

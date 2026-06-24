@@ -63,6 +63,7 @@ const OperationList: FC = () => {
     const projectName = getProjectName(operation);
     return {
       key: operation.id,
+      className: "u-row",
       columns: [
         {
           content: (
@@ -188,6 +189,7 @@ const OperationList: FC = () => {
               >
                 <MainTable
                   id="operation-table"
+                  className="operation-table"
                   headers={headers}
                   sortable
                   responsive

@@ -72,6 +72,7 @@ const ClusterMemberList: FC = () => {
     return {
       key: member.server_name,
       name: member.server_name,
+      className: "u-row",
       columns: [
         {
           content: (
@@ -182,6 +183,7 @@ const ClusterMemberList: FC = () => {
           >
             <MainTable
               id="cluster-table"
+              className="cluster-member-table"
               headers={headers}
               sortable
               responsive

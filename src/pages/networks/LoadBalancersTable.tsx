@@ -34,6 +34,7 @@ const LoadBalancersTable: FC<Props> = ({ network, loadBalancers, project }) => {
   const rows = loadBalancers.map((loadBalancer) => {
     return {
       key: loadBalancer.listen_address,
+      className: "u-row",
       columns: [
         {
           content: (

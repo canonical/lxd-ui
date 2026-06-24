@@ -39,6 +39,7 @@ const InstanceLoadBalancerTable: FC<Props> = ({ device, instance }) => {
   const rows = [
     {
       key: device.network,
+      className: "u-row",
       columns: [
         {
           content: poolsReferencingInstance.map((item) => {
@@ -74,7 +75,13 @@ const InstanceLoadBalancerTable: FC<Props> = ({ device, instance }) => {
     },
   ];
 
-  return <MainTable headers={headers} rows={rows} />;
+  return (
+    <MainTable
+      headers={headers}
+      rows={rows}
+      className="instance-load-balancer-table"
+    />
+  );
 };
 
 export default InstanceLoadBalancerTable;

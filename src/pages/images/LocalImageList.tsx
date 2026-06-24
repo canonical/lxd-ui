@@ -146,6 +146,7 @@ const LocalImageList: FC = () => {
     return {
       key: image.fingerprint,
       name: image.fingerprint,
+      className: "u-row",
       columns: [
         {
           content: imageName,

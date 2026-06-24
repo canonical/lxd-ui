@@ -81,6 +81,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
 
       return {
         key: network.name,
+        className: "u-row",
         columns: [
           {
             content: (
@@ -168,6 +169,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
     <MainTable
       headers={networksHeaders}
       rows={networksRows}
+      className="network-list-table"
       sortable
       expanding
     />

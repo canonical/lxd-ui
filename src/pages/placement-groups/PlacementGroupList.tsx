@@ -59,6 +59,7 @@ const PlacementGroupList: FC = () => {
   const rows = placementGroups.map((placementGroup) => {
     return {
       key: placementGroup.name,
+      className: "u-row",
       columns: [
         {
           content: placementGroup.name,
@@ -201,6 +202,7 @@ const PlacementGroupList: FC = () => {
                 >
                   <MainTable
                     id="placement-group-table"
+                    className="placement-group-table"
                     headers={headers}
                     sortable
                     emptyStateMsg="No placement groups found matching this search"

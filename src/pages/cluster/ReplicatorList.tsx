@@ -91,6 +91,7 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
     return {
       key: rowKey,
       name: rowKey,
+      className: "u-row",
       columns: [
         {
           content: (

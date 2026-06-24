@@ -81,6 +81,7 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
 
     return {
       key: clusterLink.name,
+      className: "u-row",
       columns: [
         {
           content: clusterLink.name,

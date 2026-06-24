@@ -99,6 +99,7 @@ const OidcConfigurationForm: FC<Props> = ({ closeModal }: Props) => {
       <NotificationRow className="u-no-padding" />
       <MainTable
         id="settings-table"
+        className="oidc-configuration-table"
         headers={headers}
         rows={rows}
         emptyStateMsg="No data to display"

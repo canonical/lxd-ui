@@ -267,6 +267,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
             >
               <SelectableMainTable
                 id="volume-snapshot-table"
+                className="volume-snapshot-table"
                 headers={headers}
                 rows={sortedRows}
                 responsive

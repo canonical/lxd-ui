@@ -45,6 +45,7 @@ const LoadBalancerPoolsTable: FC<Props> = ({ loadBalancerPools, network }) => {
 
     return {
       key: pool.name,
+      className: "u-row",
       columns: [
         {
           content: (

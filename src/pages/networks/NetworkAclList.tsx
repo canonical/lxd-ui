@@ -52,6 +52,7 @@ const NetworkAclList: FC = () => {
 
   const rows = networkAcls.map((acl) => {
     return {
+      className: "u-row",
       columns: [
         {
           content: (
@@ -148,6 +149,7 @@ const NetworkAclList: FC = () => {
       <Row>
         {networkAcls.length > 0 && (
           <MainTable
+            className="network-acl-table"
             headers={headers}
             rows={rows}
             responsive

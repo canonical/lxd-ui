@@ -85,6 +85,7 @@ const NetworkIPAM: FC = () => {
     };
 
     return {
+      className: "u-row",
       columns: [
         {
           content: allocation.type,

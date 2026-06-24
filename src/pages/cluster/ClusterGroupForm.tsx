@@ -108,6 +108,7 @@ const ClusterGroupForm: FC<Props> = ({ formik }) => {
             return {
               key: name,
               name: name,
+              className: "u-row",
               columns: [
                 {
                   content: name,

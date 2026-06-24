@@ -22,6 +22,7 @@ const NetworkAclRuleTable: FC<Props> = ({
 
   return (
     <MainTable
+      className="network-acl-rule-table"
       sortable
       headers={[
         { content: "Action", sortKey: "action" },
@@ -37,6 +38,7 @@ const NetworkAclRuleTable: FC<Props> = ({
         const destination = getPeer(rule.destination, rule.destination_port);
 
         return {
+          className: "u-row",
           columns: [
             {
               content: capitalizeFirstLetter(rule.action ?? ""),
