@@ -93,7 +93,7 @@ const SelectableMainTable: FC<Props> = ({
         <>
           <CheckboxInput
             label={<div className="u-off-screen">Select all</div>}
-            labelClassName="multiselect-checkbox"
+            className="multiselect-checkbox"
             checked={isAllSelected}
             indeterminate={isSomeSelected && !isAllSelected}
             onChange={isSomeSelected ? selectNone : selectPage}
