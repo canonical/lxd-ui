@@ -353,9 +353,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.waitForLoadState("networkidle");
-  await page
-    .getByRole("textbox", { name: "LXD backup archive (.tar.gz)" })
-    .setInputFiles(INSTANCE_FILE);
+  await page.getByLabel("Local file").setInputFiles(INSTANCE_FILE);
   await page.getByRole("textbox", { name: "Enter name" }).fill(`${instance}-1`);
   await page
     .getByLabel("Upload instance file")
@@ -388,9 +386,7 @@ test("Create instance from external instance file", async ({
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.getByText("External format (.qcow2, .").click();
   await page.waitForLoadState("networkidle");
-  await page
-    .getByRole("textbox", { name: "External format (.qcow2, ." })
-    .setInputFiles(instanceFile);
+  await page.getByLabel("Local file").setInputFiles(instanceFile);
   const instanceName = randomInstanceName();
   await page.getByRole("textbox", { name: "Enter name" }).fill(instanceName);
   await page
