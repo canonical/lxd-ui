@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.61% </span>
+                <span class="strong">17.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/97</span>
+                <span class='fraction'>20/116</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.67% </span>
+                <span class="strong">19.79% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/77</span>
+                <span class='fraction'>19/96</span>
             </div>
         
             
@@ -140,7 +140,26 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -157,6 +176,25 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -218,11 +256,11 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
-  ActionButton,
-  useNotify,
+  ConfirmationButton,
   useToastNotification,
 } from "@canonical/react-components";
 import { type FC, useState } from "react";
+import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
@@ -236,9 +274,9 @@ interface Props {
 const <span class="fstat-no" title="function not covered" >DemoteProjectBtn: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> project, isEdit }: Props) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const [isDemoting, setIsDemoting] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
 <span class="cstat-no" title="statement not covered" >  const isSmallScreen = <span class="cstat-no" title="statement not covered" >useIsScreenBelow();</span></span>
-<span class="cstat-no" title="statement not covered" >  const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span></span>
 <span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
 <span class="cstat-no" title="statement not covered" >  const { canEditProject } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span></span>
+<span class="cstat-no" title="statement not covered" >  const [isForce, setForce] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >disabledReason = () =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (!canEditProject) {</span></span>
@@ -261,35 +299,54 @@ const <span class="fstat-no" title="function not covered" >DemoteProjectBtn: FC&
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleFailure = (e</span>: unknown) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Could not demote project to standby.", e as Error);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.failure("Could not demote project to standby.", e as Error);</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >demoteToStandby = () =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setIsDemoting(true);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateReplicaMode(project, "standby", handleSuccess, handleFailure).<span class="fstat-no" title="function not covered" >finally(</span></span></span>
-<span class="cstat-no" title="statement not covered" >      () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setIsDemoting(false);</span></span>
-<span class="cstat-no" title="statement not covered" >      },</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateReplicaMode(</span></span>
+<span class="cstat-no" title="statement not covered" >      project,</span>
+<span class="cstat-no" title="statement not covered" >      "standby",</span>
+<span class="cstat-no" title="statement not covered" >      handleSuccess,</span>
+<span class="cstat-no" title="statement not covered" >      handleFailure,</span>
+<span class="cstat-no" title="statement not covered" >      isForce,</span>
+<span class="cstat-no" title="statement not covered" >    ).<span class="fstat-no" title="function not covered" >finally(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      setIsDemoting(false);</span></span>
+<span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ActionButton</span>
+<span class="cstat-no" title="statement not covered" >    &lt;ConfirmationButton</span>
 <span class="cstat-no" title="statement not covered" >      type="button"</span>
 <span class="cstat-no" title="statement not covered" >      name="Demote to standby"</span>
 <span class="cstat-no" title="statement not covered" >      hasIcon</span>
 <span class="cstat-no" title="statement not covered" >      appearance="default"</span>
 <span class="cstat-no" title="statement not covered" >      onClick={demoteToStandby}</span>
 <span class="cstat-no" title="statement not covered" >      loading={isDemoting}</span>
-<span class="cstat-no" title="statement not covered" >      title={</span>
+<span class="cstat-no" title="statement not covered" >      onHoverText={</span>
 <span class="cstat-no" title="statement not covered" >        disabledReason() ??</span>
 <span class="cstat-no" title="statement not covered" >        "Project will become the read-only replication target."</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >      className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >      disabled={Boolean(disabledReason())}</span>
+<span class="cstat-no" title="statement not covered" >      confirmationModalProps={{</span>
+<span class="cstat-no" title="statement not covered" >        title: "Confirm demote",</span>
+<span class="cstat-no" title="statement not covered" >        children: (</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p&gt;</span>
+<span class="cstat-no" title="statement not covered" >            This will demote project &lt;ProjectRichChip projectName={project} /&gt;{" "}</span>
+<span class="cstat-no" title="statement not covered" >            to standby.</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >        ),</span>
+<span class="cstat-no" title="statement not covered" >        confirmButtonLabel: "Demote",</span>
+<span class="cstat-no" title="statement not covered" >        onConfirm: demoteToStandby,</span>
+<span class="cstat-no" title="statement not covered" >        confirmExtra: (</span>
+<span class="cstat-no" title="statement not covered" >          &lt;ConfirmationCheckbox label="Force" confirmed={[isForce, setForce]} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        ),</span>
+<span class="cstat-no" title="statement not covered" >        confirmButtonAppearance: "positive",</span>
+<span class="cstat-no" title="statement not covered" >      }}</span>
 <span class="cstat-no" title="statement not covered" >    &gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;span&gt;{isSmallScreen ? "Demote" : "Demote to standby"}&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ActionButton&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/ConfirmationButton&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
@@ -301,7 +358,7 @@ export default DemoteProjectBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-23T09:11:10.455Z
+                at 2026-06-24T09:32:58.962Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
