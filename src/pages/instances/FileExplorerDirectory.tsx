@@ -18,7 +18,9 @@ const FileExplorerDirectory: FC<{
       className="file-explorer-item"
     >
       <Icon name="folder" />
-      <span>{dirName}</span>
+      <span className="file-explorer-item__name" title={dirName}>
+        {dirName}
+      </span>
     </Link>
   );
 };

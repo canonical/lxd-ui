@@ -618,3 +618,33 @@ export const deleteInstanceFile = async (
     },
   ).then(handleResponse);
 };
+
+export const uploadInstanceFile = async (
+  instance: LxdInstance,
+  path: string,
+  file: File,
+  setUploadState: (value: UploadState) => void,
+  abortController: AbortController,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+  params.set("path", path);
+
+  await axios.post(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`,
+    file,
+    {
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      onUploadProgress: (event) => {
+        setUploadState({
+          percentage: event.progress ? Math.floor(event.progress * 100) : 0,
+          loaded: event.loaded,
+          total: event.total,
+        });
+      },
+      signal: abortController.signal,
+    },
+  );
+};

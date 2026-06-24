@@ -11,6 +11,7 @@ import type { LxdInstance } from "types/instance";
 import { isInstanceRunning } from "util/instanceStatus";
 import FileExplorerTable from "./FileExplorerTable";
 import FileExplorerBreadcrumb from "./FileExplorerBreadcrumb";
+import UploadFileExplorerBtn from "./UploadFileExplorerBtn";
 import { fetchInstanceDirectory } from "api/instances";
 import { useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -79,7 +80,15 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
 
   return (
     <Row className="general">
-      <FileExplorerBreadcrumb currentPath={currentPath} instance={instance} />
+      <div className="file-explorer-header">
+        <FileExplorerBreadcrumb currentPath={currentPath} instance={instance} />
+        <UploadFileExplorerBtn
+          instance={instance}
+          currentPath={currentPath}
+          refreshDirectoryList={invalidateCache}
+          directoryContent={directoryContent?.metadata ?? []}
+        />
+      </div>
       {error ? (
         <>
           <Notification
