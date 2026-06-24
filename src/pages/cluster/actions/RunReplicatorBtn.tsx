@@ -3,7 +3,6 @@ import {
   ConfirmationButton,
   Icon,
   Notification,
-  useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
@@ -42,7 +41,6 @@ const RunReplicatorBtn: FC<Props> = ({
 }) => {
   const queryClient = useQueryClient();
   const eventQueue = useEventQueue();
-  const notify = useNotify();
   const toastNotify = useToastNotification();
   const replicatorLoading = useReplicatorLoading();
   const [isLoading, setLoading] = useState(false);
@@ -103,7 +101,7 @@ const RunReplicatorBtn: FC<Props> = ({
     setLoading(false);
     replicatorLoading.setFinish(replicator);
     invalidateCache();
-    notify.failure(`Running replicator ${replicator.name} failed`, e);
+    toastNotify.failure(`Running replicator ${replicator.name} failed`, e);
   };
 
   const onOperationSuccess = () => {

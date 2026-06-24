@@ -100,9 +100,10 @@ export const updateReplicaMode = async (
   mode: ProjectReplicaMode,
   onSuccess: () => void,
   onFailure: (e: unknown) => void,
+  force?: boolean,
 ) => {
   try {
-    const operation = await updateProjectReplicaMode(project, mode);
+    const operation = await updateProjectReplicaMode(project, mode, force);
     const operationId = operation?.metadata?.id;
     if (!operationId) {
       onFailure(new Error("Operation id missing"));

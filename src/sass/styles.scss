@@ -488,3 +488,15 @@ body.is-dark .lxd-icon {
   margin-left: $sph--small !important;
   margin-right: $sph--small !important;
 }
+
+.confirmation-checkbox {
+  margin: 0;
+  margin-right: auto;
+  padding: 0;
+}
+
+.p-modal__footer {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}

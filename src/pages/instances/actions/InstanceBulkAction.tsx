@@ -151,7 +151,7 @@ const InstanceBulkAction: FC<Props> = ({
             {getRestrictedInstances()}
           </p>
         ),
-        confirmExtra: confirmExtra,
+        confirmExtra,
         onConfirm: onClick,
         confirmButtonLabel: confirmLabel,
         confirmButtonAppearance: confirmAppearance,

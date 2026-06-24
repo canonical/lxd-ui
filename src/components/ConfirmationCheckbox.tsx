@@ -11,19 +11,17 @@ const ConfirmationCheckbox: FC<Props> = ({ label, confirmed, disabled }) => {
   const [isConfirmed, setConfirmed] = confirmed;
 
   return (
-    <span className="u-float-left">
-      <CheckboxInput
-        key={`confirmation-checkbox-${isConfirmed}`}
-        inline
-        label={label}
-        tabIndex={-1}
-        defaultChecked={isConfirmed}
-        onChange={() => {
-          setConfirmed((prev) => !prev);
-        }}
-        disabled={disabled}
-      />
-    </span>
+    <CheckboxInput
+      key={`confirmation-checkbox-${isConfirmed}`}
+      inline
+      label={label}
+      defaultChecked={isConfirmed}
+      onChange={() => {
+        setConfirmed((prev) => !prev);
+      }}
+      disabled={disabled}
+      className="confirmation-checkbox"
+    />
   );
 };
 
