@@ -1,4 +1,4 @@
-import type { FC, FormEvent } from "react";
+import { useEffect, useRef, type FC, type FormEvent } from "react";
 import { Switch, usePortal } from "@canonical/react-components";
 import YamlConfirmation from "components/forms/YamlConfirmation";
 import { slugify } from "util/slugify";
@@ -26,8 +26,20 @@ const YamlSwitch: FC<Props> = ({
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const yamlFormik = formik as FormikProps<{ yaml: string }>;
   const isSmallScreen = useIsScreenBelow();
+  const isYamlSection = slugify(section ?? "") === slugify(YAML_CONFIGURATION);
+  const previousSection = useRef<string>(
+    isYamlSection || !section ? MAIN_CONFIGURATION : section,
+  );
 
-  const isChecked = slugify(section ?? "") === slugify(YAML_CONFIGURATION);
+  useEffect(() => {
+    if (!section) {
+      return;
+    }
+
+    if (!isYamlSection) {
+      previousSection.current = section;
+    }
+  }, [section]);
 
   const handleSwitch = (e: FormEvent<HTMLInputElement>) => {
     if (yamlFormik.values.yaml) {
@@ -35,14 +47,16 @@ const YamlSwitch: FC<Props> = ({
       return;
     }
 
-    const newSection = isChecked ? MAIN_CONFIGURATION : YAML_CONFIGURATION;
+    const newSection = isYamlSection
+      ? previousSection.current
+      : YAML_CONFIGURATION;
     setSection(newSection);
   };
 
   const handleConfirm = () => {
     void yamlFormik.setFieldValue("yaml", undefined);
     closePortal();
-    setSection(MAIN_CONFIGURATION);
+    setSection(previousSection.current);
   };
 
   return (
@@ -60,7 +74,7 @@ const YamlSwitch: FC<Props> = ({
       <div className="u-flex">
         <Switch
           label={isSmallScreen ? "YAML" : "YAML Configuration"}
-          checked={isChecked}
+          checked={isYamlSection}
           onChange={handleSwitch}
           disabled={disableReason !== undefined}
         />
