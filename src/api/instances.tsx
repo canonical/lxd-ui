@@ -619,6 +619,25 @@ export const deleteInstanceFile = async (
   ).then(handleResponse);
 };
 
+export const createInstanceDirectory = async (
+  instance: LxdInstance,
+  path: string,
+): Promise<void> => {
+  const params = new URLSearchParams();
+  params.set("project", instance.project);
+  params.set("path", path);
+
+  await fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "X-LXD-type": "directory",
+      },
+    },
+  ).then(handleResponse);
+};
+
 export const uploadInstanceFile = async (
   instance: LxdInstance,
   path: string,

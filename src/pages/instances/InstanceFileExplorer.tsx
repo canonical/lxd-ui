@@ -12,11 +12,13 @@ import { isInstanceRunning } from "util/instanceStatus";
 import FileExplorerTable from "./FileExplorerTable";
 import FileExplorerBreadcrumb from "./FileExplorerBreadcrumb";
 import UploadFileExplorerBtn from "./UploadFileExplorerBtn";
+import FileExplorerCreateBtn from "./FileExplorerCreateBtn";
 import { fetchInstanceDirectory } from "api/instances";
 import { useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   instance: LxdInstance;
@@ -80,15 +82,28 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
 
   return (
     <Row className="general">
-      <div className="file-explorer-header">
-        <FileExplorerBreadcrumb currentPath={currentPath} instance={instance} />
-        <UploadFileExplorerBtn
-          instance={instance}
-          currentPath={currentPath}
-          refreshDirectoryList={invalidateCache}
-          directoryContent={directoryContent?.metadata ?? []}
-        />
+      <div className="upper-controls-bar">
+        <div className="search-box-wrapper">
+          <FileExplorerBreadcrumb
+            currentPath={currentPath}
+            instance={instance}
+          />
+        </div>
+        <div>
+          <FileExplorerCreateBtn
+            instance={instance}
+            currentPath={currentPath}
+            refreshDirectoryList={invalidateCache}
+          />
+          <UploadFileExplorerBtn
+            instance={instance}
+            currentPath={currentPath}
+            refreshDirectoryList={invalidateCache}
+            directoryContent={directoryContent?.metadata ?? []}
+          />
+        </div>
       </div>
+      <NotificationRow />
       {error ? (
         <>
           <Notification
