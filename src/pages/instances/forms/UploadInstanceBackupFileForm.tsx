@@ -200,7 +200,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           name="instanceFile"
           type="file"
           accept=".tar, application/gzip, application/x-bzip, application/x-xz, application/x-lzma, application/x-squashfs, application/x-qcow2, application/zstd"
-          label="Local file"
+          label="LXD backup archive (.tar.gz)"
           labelClassName={hasInstanceImportConversion ? "u-hide" : ""}
           onChange={(e) => void changeFile(e)}
         />

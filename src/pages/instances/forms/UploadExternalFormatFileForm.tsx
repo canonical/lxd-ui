@@ -251,7 +251,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           id="image-file"
           name="file"
           type="file"
-          label="Local file"
+          label="External format (.qcow2, .vmdk, etc...)"
           accept=".img, .qcow, .qcow2, .vdi, .vhdx, .vmdk"
           labelClassName="u-hide"
           onChange={(e) => void handleFileChange(e)}

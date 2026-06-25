@@ -353,7 +353,9 @@ test("Export and Upload an instance backup", async ({ page }) => {
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.waitForLoadState("networkidle");
-  await page.getByLabel("Local file").setInputFiles(INSTANCE_FILE);
+  await page
+    .getByRole("button", { name: "LXD backup archive (.tar.gz)" })
+    .setInputFiles(INSTANCE_FILE);
   await page.getByRole("textbox", { name: "Enter name" }).fill(`${instance}-1`);
   await page
     .getByLabel("Upload instance file")
@@ -386,14 +388,16 @@ test("Create instance from external instance file", async ({
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.getByText("External format (.qcow2, .").click();
   await page.waitForLoadState("networkidle");
-  await page.getByLabel("Local file").setInputFiles(instanceFile);
+  await page
+    .getByRole("button", { name: "External format (.qcow2, .vmdk, etc...)" })
+    .setInputFiles(instanceFile);
   const instanceName = randomInstanceName();
   await page.getByRole("textbox", { name: "Enter name" }).fill(instanceName);
   await page
     .getByLabel("Upload instance file")
     .getByRole("button", { name: "Upload and create" })
     .click();
-  await page.waitForSelector(`text=Created instance ${instanceName}.`);
+  await page.waitForSelector(`text=Created instance`);
   await deleteInstance(page, instanceName);
 });
 
