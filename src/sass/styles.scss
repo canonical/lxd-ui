@@ -287,11 +287,18 @@ body.is-dark .lxd-icon {
   width: inherit;
 
   .p-breadcrumbs__items {
+    list-style: none;
     margin-bottom: 0;
 
+    > li {
+      display: inline;
+    }
+
     .continuous-breadcrumb {
-      display: inline-block;
+      line-height: 1.8;
       margin-bottom: 0 !important;
+      overflow-wrap: break-word;
+      word-break: break-all;
     }
   }
 
@@ -423,6 +430,7 @@ body.is-dark .lxd-icon {
 }
 
 .create-instance-from-snapshot-modal,
+.create-directory-modal,
 .copy-instances-modal,
 .copy-volumes-modal,
 .create-image-from-instance-modal,

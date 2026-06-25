@@ -1,3 +1,19 @@
+.file-explorer-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .search-box-wrapper {
+    flex: 1 1 0;
+    max-width: 45rem;
+    min-width: 0;
+  }
+}
+
+.file-explorer-actions {
+  margin-left: auto;
+}
+
 .file-explorer-item {
   align-items: center;
   display: flex;
@@ -15,12 +31,30 @@
   white-space: nowrap;
 }
 
-.breadcrumb-header {
-  display: inline-block;
-}
-
-.file-explorer-header {
+.file-explorer-breadcrumb-bar {
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+
+  .p-breadcrumbs,
+  .p-heading--5 {
+    margin-bottom: 0;
+  }
+
+  .p-breadcrumbs {
+    overflow: hidden;
+  }
+}
+
+.file-explorer-path-editor {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: 100%;
+}
+
+.file-explorer-path-input {
+  min-width: 0;
+  width: 100%;
 }
