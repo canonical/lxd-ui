@@ -3,7 +3,11 @@ import { gotoURL } from "./navigate";
 import { expect, test } from "../fixtures/lxd-test";
 
 export const skipIfNotClustered = (projectName: string) => {
-  test.skip(!projectName.includes(":clustered"));
+  test.skip(!isClusteredTestProject(projectName));
+};
+
+export const isClusteredTestProject = (projectName: string) => {
+  return projectName.includes(":clustered");
 };
 
 export const getFirstClusterMember = async (page: Page): Promise<string> => {
