@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.16% </span>
+                <span class="strong">96.15% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/24</span>
+                <span class='fraction'>25/26</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">60% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>3/5</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">50% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">79.16% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/24</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -87,30 +87,30 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
@@ -121,20 +121,20 @@ interface Props {
   profile: LxdProfile;
 }
 &nbsp;
-const ProfileLink: FC&lt;Props&gt; = ({ profile }) =&gt; {
+const <span class="fstat-no" title="function not covered" >ProfileLink: FC&lt;Props&gt; = ({</span> profile }) =&gt; {
   return (
     &lt;Link
-      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(profile?.project ?? "default")}/profile/${encodeURIComponent(profile.name)}`}
-      onClick={(e) =&gt; {
-        e.stopPropagation();
+      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(profile?.<span class="branch-0 cbranch-no" title="branch not covered" >project ?? <span class="branch-1 cbranch-no" title="branch not covered" >"default")</span></span>}/profile/${encodeURIComponent(profile.name)}`}
+<span class="fstat-no" title="function not covered" >      onClick={(e</span>) =&gt; {
+<span class="cstat-no" title="statement not covered" >        e.stopPropagation();</span>
       }}
     &gt;
-      &lt;ItemName<span class="fstat-no" title="function not covered" > item={profile} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/Link&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default ProfileLink;</span>
+      &lt;ItemName item={profile} /&gt;
+    &lt;/Link&gt;
+  );
+};
+&nbsp;
+export default ProfileLink;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -142,7 +142,7 @@ const ProfileLink: FC&lt;Props&gt; = ({ profile }) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-24T16:04:57.708Z
+                at 2026-06-26T15:44:00.718Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
