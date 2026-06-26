@@ -186,7 +186,7 @@ const SelectableMainTable: FC<Props> = ({
             label={
               <div className="u-off-screen">Select {row.name ?? "row"}</div>
             }
-            labelClassName="u-no-margin--bottom"
+            className="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}
             disabled={isRowDisabled || !row.name || disableSelect}

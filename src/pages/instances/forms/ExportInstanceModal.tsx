@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Input,
   Modal,
@@ -204,16 +205,14 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
             }))}
           />
         )}
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("optimizedStorage")}
-          type="checkbox"
           label="Use storage driver optimized format"
           help="Can only be restored on a similar pool"
           checked={formik.values.optimizedStorage}
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("instanceOnly")}
-          type="checkbox"
           label="Export without instance snapshots"
           error={
             formik.touched.instanceOnly ? formik.errors.instanceOnly : null

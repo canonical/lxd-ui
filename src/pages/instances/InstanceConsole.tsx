@@ -88,7 +88,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
         <div className="p-panel__controls">
           <div className="console-radio-wrapper">
             <RadioInput
-              labelClassName="right-margin"
+              className="right-margin"
               label="Graphic"
               checked={isGraphic}
               onChange={() => {

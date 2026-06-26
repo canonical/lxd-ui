@@ -7,8 +7,8 @@ import {
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useEventQueue } from "context/eventQueue";
 import {
+  CheckboxInput,
   Icon,
-  Input,
   List,
   Tooltip,
   useNotify,
@@ -131,13 +131,12 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
     <List
       inline
       items={[
-        <Input
+        <CheckboxInput
           key="stateful"
           id="stateful"
           name="stateful"
-          type="checkbox"
           label="Stateful"
-          wrapperClassName="u-inline-block"
+          className="u-inline-block"
           disabled={!isStateful || !isRunning}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}

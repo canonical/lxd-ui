@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import {
   ActionButton,
   Button,
+  CheckboxInput,
   Form,
   Input,
   Modal,
@@ -229,9 +230,8 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
             };
           })}
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("allowInconsistent")}
-          type="checkbox"
           label="Ignore copy errors for volatile files"
           error={
             formik.touched.allowInconsistent
@@ -239,9 +239,8 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
               : null
           }
         />
-        <Input
+        <CheckboxInput
           {...formik.getFieldProps("instanceOnly")}
-          type="checkbox"
           label="Copy without instance snapshots"
           error={
             formik.touched.instanceOnly ? formik.errors.instanceOnly : null

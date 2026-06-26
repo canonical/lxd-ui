@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { Form, Input } from "@canonical/react-components";
+import { Form, Input, CheckboxInput } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import type { LxdNetwork } from "types/network";
@@ -197,13 +197,12 @@ const NetworkLocalPeeringForm: FC<Props> = ({ formik, network, isEditing }) => {
       )}
 
       {!isEditing && (
-        <Input
+        <CheckboxInput
           id="createMutualPeering"
           name="createMutualPeering"
-          type="checkbox"
           label="Create mutual peering"
           checked={formik.values.createMutualPeering}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             formik.setFieldValue("createMutualPeering", e.target.checked);
           }}
           disabled={
