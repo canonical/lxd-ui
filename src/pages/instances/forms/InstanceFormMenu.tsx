@@ -136,11 +136,10 @@ const InstanceFormMenu: FC<Props> = ({
                   <li className="p-side-navigation__item">
                     <Button
                       type="button"
-                      className="p-side-navigation__accordion-button"
-                      aria-expanded={isDeviceExpanded ? "true" : "false"}
+                      className="p-side-navigation__link p-button--base"
                       onClick={() => {
                         if (!isDisabled) {
-                          setDeviceExpanded(!isDeviceExpanded);
+                          onItemClick(DISK_DEVICES);
                         }
                       }}
                       disabled={isDisabled}
@@ -154,7 +153,7 @@ const InstanceFormMenu: FC<Props> = ({
                     </Button>
                     <ul
                       className="p-side-navigation__list"
-                      aria-expanded={isDeviceExpanded ? "true" : "false"}
+                      aria-expanded="true"
                     >
                       <MenuItem
                         label={DISK_DEVICES}
