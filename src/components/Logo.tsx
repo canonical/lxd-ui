@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useCurrentProject } from "context/useCurrentProject";
 import { NavLink } from "react-router-dom";
 import { useSettings } from "context/useSettings";
 import classNames from "classnames";
@@ -11,7 +10,6 @@ interface Props {
 }
 
 const Logo: FC<Props> = ({ light }) => {
-  const { project, isLoading } = useCurrentProject();
   const { data: settings } = useSettings();
   const isMicroCloud = hasMicroCloudFlag(settings);
 
@@ -20,15 +18,8 @@ const Logo: FC<Props> = ({ light }) => {
     : `${ROOT_PATH}/ui/assets/img/lxd-logo.svg`;
   const heading = isMicroCloud ? "MicroCloud" : "LXD";
 
-  const getLogoLink = () => {
-    if (isLoading || !project) {
-      return `${ROOT_PATH}/ui/`;
-    }
-    return `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}`;
-  };
-
   return (
-    <NavLink className="p-panel__logo" to={getLogoLink()}>
+    <NavLink className="p-panel__logo" to={`${ROOT_PATH}/ui/overview`}>
       <img src={src} alt="LXD-UI logo" className="p-panel__logo-image" />
       <div
         className={classNames("logo-text p-heading--4", { "is-light": light })}

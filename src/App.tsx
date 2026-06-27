@@ -8,6 +8,7 @@ import NoMatch from "components/NoMatch";
 import { isBearerAuthError, logoutBearerToken, logoutOidc } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import lazy from "util/lazyWithRetry";
+import { useFeatureFlags } from "context/useFeatureFlags";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import {
@@ -59,6 +60,7 @@ const CreateProject = lazy(async () => import("pages/projects/CreateProject"));
 const CreateStoragePool = lazy(
   async () => import("pages/storage/CreateStoragePool"),
 );
+const Overview = lazy(async () => import("pages/overview/Overview"));
 const EditNetworkForward = lazy(
   async () => import("pages/networks/EditNetworkForward"),
 );
@@ -148,6 +150,7 @@ const App: FC = () => {
   } = useAuth();
   const notify = useNotify();
   const { data: settings } = useSettings();
+  const { isOverviewEnabled } = useFeatureFlags();
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   setFavicon();
@@ -631,6 +634,12 @@ const App: FC = () => {
           path={`${ROOT_PATH}/ui/settings`}
           element={<ProtectedRoute outlet={<Settings />} />}
         />
+        {isOverviewEnabled() && (
+          <Route
+            path={`${ROOT_PATH}/ui/overview`}
+            element={<ProtectedRoute outlet={<Overview />} />}
+          />
+        )}
         <Route path={`${ROOT_PATH}/ui/login`} element={<Login />} />
         <Route
           path={`${ROOT_PATH}/ui/login/certificate-generate`}
