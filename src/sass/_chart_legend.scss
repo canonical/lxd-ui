@@ -1,0 +1,21 @@
+.chart-legend {
+  $golden-ratio: 1.618;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .chart-legend__item {
+    align-items: center;
+    display: flex;
+    white-space: nowrap;
+
+    .chart-legend__dot {
+      border-radius: 50%;
+      display: inline-block;
+      height: calc(1rem / $golden-ratio);
+      margin-right: $sph--small;
+      width: calc(1rem / $golden-ratio);
+    }
+  }
+}
