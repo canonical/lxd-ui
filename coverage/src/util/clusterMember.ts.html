@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.02% </span>
+                <span class="strong">41.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/47</span>
+                <span class='fraction'>14/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/9</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.7% </span>
+                <span class="strong">41.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/34</span>
+                <span class='fraction'>14/34</span>
             </div>
         
             
@@ -97,14 +97,11 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">318x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -120,51 +117,54 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-yes">323x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const <span class="fstat-no" title="function not covered" >isClusterMemberRoleAutomatic = <span class="fstat-no" title="function not covered" >(r</span>ole: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return role.startsWith("database");</span></span>
-<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const isClusterMemberRoleAutomatic = <span class="fstat-no" title="function not covered" >(role: string) =&gt; {</span>
+  return role.startsWith("database");
+};
 &nbsp;
-export const <span class="fstat-no" title="function not covered" >classifyClusterMemberRoles = <span class="fstat-no" title="function not covered" >(r</span>oles?: string[]) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (!roles || <span class="branch-1 cbranch-no" title="branch not covered" >roles.length === 0) {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return {</span></span>
+export const classifyClusterMembe<span class="fstat-no" title="function not covered" >rRoles = (roles?: string[]) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (!roles || roles.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
 <span class="cstat-no" title="statement not covered" >      automaticRoles: [],</span>
 <span class="cstat-no" title="statement not covered" >      customRoles: [],</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const automaticRoles = <span class="cstat-no" title="statement not covered" >roles.<span class="fstat-no" title="function not covered" >filter((r</span>ole) =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    isClusterMemberRoleAutomatic(role),</span></span>
+<span class="cstat-no" title="statement not covered" >  const automaticRoles = roles.filter((role) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    isClusterMemberRoleAutomatic(role),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >  const customRoles = <span class="cstat-no" title="statement not covered" >roles.<span class="fstat-no" title="function not covered" >filter(</span></span></span>
-<span class="cstat-no" title="statement not covered" >    (role) =&gt; <span class="cstat-no" title="statement not covered" >!isClusterMemberRoleAutomatic(role),</span></span>
+<span class="cstat-no" title="statement not covered" >  const customRoles = roles.filter(</span>
+<span class="cstat-no" title="statement not covered" >    (role) =&gt; !isClusterMemberRoleAutomatic(role),</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return {</span></span>
-<span class="cstat-no" title="statement not covered" >    automaticRoles,</span>
-<span class="cstat-no" title="statement not covered" >    customRoles,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    automaticRoles,
+    customRoles,
+  };
+};
 &nbsp;
-export const <span class="fstat-no" title="function not covered" >getClusterMemberRolesList = <span class="fstat-no" title="function not covered" >(r</span>oles?: string[]) =&gt; {</span>
+export const ge<span class="fstat-no" title="function not covered" >tClusterMemberRolesList = (roles?: string[]) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const { automaticRoles: automatic, customRoles: custom } =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    classifyClusterMemberRoles(roles);</span></span>
+<span class="cstat-no" title="statement not covered" >    classifyClusterMemberRoles(roles);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return {</span></span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
 <span class="cstat-no" title="statement not covered" >    automaticRoles: automatic.length &gt; 0 ? automatic.join(", ") : "-",</span>
-<span class="cstat-no" title="statement not covered" >    customRoles: custom.length &gt; 0 ? custom.join(", ") : "-",</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+    customRoles: custom.length &gt; 0 ? custom.join(", ") : "-",
+  };
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -172,7 +172,7 @@ export const <span class="fstat-no" title="function not covered" >getClusterMemb
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-29T13:52:47.241Z
+                at 2026-06-29T15:38:22.686Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
