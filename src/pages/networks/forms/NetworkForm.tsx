@@ -213,6 +213,9 @@ const NetworkForm: FC<Props> = ({
     const wrapper = document.getElementById("content-details");
 
     const activateSectionOnScroll = () => {
+      if (section === slugify(YAML_CONFIGURATION)) {
+        return;
+      }
       const sections = availableSections.map(slugify);
       const activeSection = getFirstVisibleSection(sections, wrapper);
       setSection(activeSection, "scroll");
@@ -223,7 +226,7 @@ const NetworkForm: FC<Props> = ({
     wrapper?.addEventListener("scroll", scrollListener);
 
     return () => wrapper?.removeEventListener("scroll", scrollListener);
-  }, [availableSections]);
+  }, [availableSections, section]);
 
   const isUnmanagedNetwork = formik.values.bareNetwork?.managed === false;
 
