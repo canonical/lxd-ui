@@ -51,6 +51,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import NotificationRow from "components/NotificationRow";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
@@ -158,7 +159,10 @@ const EditProfile: FC<Props> = ({ profile }) => {
             handleFinish();
           }
         })
-        .catch(handleFailure);
+        .catch((e: Error) => {
+          handleFailure(e);
+          formik.setSubmitting(false);
+        });
     },
   });
 
@@ -196,6 +200,8 @@ const EditProfile: FC<Props> = ({ profile }) => {
         )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
+            {!panelParams.panel && <NotificationRow />}
+
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
               <ProfileDetailsForm
                 formik={formik}
