@@ -14,16 +14,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 import { updateReplicator } from "api/replicators";
-import { ReplicatorForm } from "../ReplicatorForm";
+import { ReplicatorForm } from "pages/cluster/ReplicatorForm";
+import ReplicatorRichChip from "pages/cluster/ReplicatorRichChip";
 import { useReplicator } from "context/useReplicators";
 import { getPayload } from "util/replicator";
 import * as Yup from "yup";
-import {
-  testReachableClusterLink,
-  testProjectReplicaCluster,
-} from "util/clusterLink";
-import { useProject } from "context/useProjects";
-import ReplicatorRichChip from "../ReplicatorRichChip";
 
 const EditReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -36,36 +31,9 @@ const EditReplicatorPanel: FC = () => {
     panelParams.project,
     !!replicatorName,
   );
-  const { data: project } = useProject(panelParams.project);
 
   const schema = Yup.object().shape({
-    cluster: Yup.string()
-      .test({
-        name: "replica cluster matches selected cluster link",
-        test(value) {
-          if (testProjectReplicaCluster(project, value)) {
-            return true;
-          }
-          const replicaCluster = project?.config["replica.cluster"];
-
-          return this.createError({
-            message: (
-              <>
-                Cluster must match the project <code>replica.cluster</code>{" "}
-                <code>{replicaCluster}</code>.
-              </>
-            ) as unknown as string,
-          });
-        },
-      })
-      .test("Reachable cluster link", async (value, context) => {
-        if (replicator?.config?.cluster === value) {
-          // Skip this test if cluster has not changed (to avoid blocking update if the current cluster is not reachable)
-          return true;
-        }
-        return testReachableClusterLink(value, context);
-      })
-      .required("Cluster is required."),
+    cluster: Yup.string().required("Cluster is required."),
   });
 
   const closePanel = () => {
@@ -99,7 +67,7 @@ const EditReplicatorPanel: FC = () => {
               <ReplicatorRichChip
                 replicator={formik.values.name}
                 project={formik.values.project}
-              />
+              />{" "}
               updated.
             </>,
           );
