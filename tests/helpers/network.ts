@@ -62,9 +62,17 @@ export const prepareCreateNetwork = async (
   options: NetworkOptions = {},
 ) => {
   const { hasMemberSpecificParents, networkACL, uplink, ipv4, ipv6 } = options;
-  await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Networking" }).click();
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
+  const networksLink = page.getByRole("link", {
+    name: "Networks",
+    exact: true,
+  });
+
+  // If the link isn't visible, the accordion is collapsed
+  if (!(await networksLink.isVisible())) {
+    await page.getByRole("button", { name: "Networking" }).click();
+  }
+
+  await networksLink.click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
   await page.getByRole("button", { name: "Type" }).click();
@@ -232,7 +240,19 @@ export const getNetworkLink = async (page: Page, network: string) => {
   // network actions may result in ERR_NETWORK_CHANGED, we should wait for network to settle before checking visibility
   await page.waitForLoadState("networkidle");
   await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Networking" }).click();
+
+  // If the link isn't visible, the accordion is collapsed
+  if (
+    !(await page
+      .getByRole("link", {
+        name: "Networks",
+        exact: true,
+      })
+      .isVisible())
+  ) {
+    await page.getByRole("button", { name: "Networking" }).click();
+  }
+
   await page.getByTitle("Networks (default)").click();
   const networkLink = page.getByRole("link", { name: network, exact: true });
   return networkLink;
@@ -240,9 +260,10 @@ export const getNetworkLink = async (page: Page, network: string) => {
 
 export const submitCreateNetwork = async (page: Page, network: string) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForTimeout(5000);
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
+  const networkRow = page.getByRole("row").filter({ hasText: network });
+  await expect(networkRow.getByText("Created")).toBeVisible({ timeout: 5000 });
 };
 
 export const createNetworkLocalPeering = async (
