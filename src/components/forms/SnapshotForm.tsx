@@ -34,12 +34,7 @@ const SnapshotForm: FC<Props> = (props) => {
       title={`${isEdit ? "Edit" : "Create"} snapshot`}
       buttonRow={
         <>
-          <Button
-            appearance="base"
-            className="u-no-margin--bottom"
-            type="button"
-            onClick={close}
-          >
+          <Button appearance="base" type="button" onClick={close}>
             Cancel
           </Button>
           <ActionButton
