@@ -96,7 +96,7 @@ export const deleteClusterLinkOnRemoteCluster = (link: string) => {
   runCommand(`lxc exec ${targetVM} -- sh -c 'lxc cluster link delete ${link}'`);
 };
 
-const getRemoteClusterVm = () => {
+export const getRemoteClusterVm = () => {
   const targetVM = process.env.LXD_UI_CLUSTER_LINK_TARGET_VM;
   if (!targetVM) {
     throw new Error("Missing required env var: LXD_UI_CLUSTER_LINK_TARGET_VM");
