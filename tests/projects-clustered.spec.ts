@@ -1,5 +1,5 @@
 import { test } from "./fixtures/lxd-test";
-import { skipIfNotSupported } from "./helpers/cluster-groups";
+import { skipIfClusteringNotSupported } from "./helpers/cluster-groups";
 import {
   assertReadMode,
   setMultiselectOption,
@@ -16,7 +16,7 @@ import { skipIfNotClustered } from "./helpers/cluster";
 import { dismissNotification } from "./helpers/notification";
 
 test("project edit configuration", async ({ page, lxdVersion }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfClusteringNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
   const project = randomProjectName();
   await createProject(page, project);

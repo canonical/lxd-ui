@@ -5,10 +5,10 @@ import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+export const skipIfClusterLinksNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
     lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
-    "Cluster tests not supported for lxd 5.0",
+    "Cluster link tests not supported for lxd 5.0 and 5.21",
   );
 };
 

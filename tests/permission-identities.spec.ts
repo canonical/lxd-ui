@@ -16,12 +16,12 @@ import {
   confirmGroupsModifiedForIdentity,
   redoChange,
   undoChange,
-  skipIfNotSupported,
+  skipIfFineGrainedAuthorisationNotSupported,
 } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
 
 test("manage groups for single identity", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   // first create some groups
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
@@ -66,7 +66,7 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
 });
 
 test("manage groups for many identities", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   // first create some groups
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();

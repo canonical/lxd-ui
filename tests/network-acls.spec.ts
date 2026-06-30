@@ -1,5 +1,5 @@
 import { test, expect } from "./fixtures/lxd-test";
-import { skipIfNotSupported } from "./helpers/cluster-groups";
+import { skipIfClusteringNotSupported } from "./helpers/cluster-groups";
 import {
   createNetwork,
   deleteNetwork,
@@ -150,7 +150,7 @@ test.describe("apply ACLs", () => {
     page,
     lxdVersion,
   }, testInfo) => {
-    skipIfNotSupported(lxdVersion);
+    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     const bridge = randomNetworkName();

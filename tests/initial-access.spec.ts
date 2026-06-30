@@ -6,16 +6,20 @@ import {
 } from "./helpers/auth";
 import { randomIdentityName } from "./helpers/permission-identities";
 
-const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+const supportsInitialAccess = (lxdVersion: LxdVersions) => {
+  return lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge";
+};
+
+const skipIfInitialAccessNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
-    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
+    !supportsInitialAccess(lxdVersion),
     "Initial access link is not available for LXD prior to 6.7",
   );
 };
 
 test.describe("Initial access with bearer token", () => {
   test.beforeAll(({ lxdVersion }) => {
-    if (lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge") {
+    if (!supportsInitialAccess(lxdVersion)) {
       return;
     }
 
@@ -23,7 +27,7 @@ test.describe("Initial access with bearer token", () => {
   });
 
   test.afterAll(({ lxdVersion }) => {
-    if (lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge") {
+    if (!supportsInitialAccess(lxdVersion)) {
       return;
     }
 
@@ -35,7 +39,7 @@ test.describe("Initial access with bearer token", () => {
     baseURL,
     lxdVersion,
   }) => {
-    skipIfNotSupported(lxdVersion);
+    skipIfInitialAccessNotSupported(lxdVersion);
 
     if (!baseURL) {
       test.fail(true, "Missing baseUrl from configuration");

@@ -1,5 +1,8 @@
 import { expect, test } from "./fixtures/lxd-test";
-import { skipIfNotSupported } from "./helpers/cluster-groups";
+import {
+  skipIfClusteringNotSupported,
+  supportsClustering,
+} from "./helpers/cluster-groups";
 import {
   createNetwork,
   createNetworkLocalPeering,
@@ -9,15 +12,15 @@ import {
   randomNetworkName,
   visitNetwork,
 } from "./helpers/network";
-import { skipIfNotClustered } from "./helpers/cluster";
+import { isClusteredTestProject, skipIfNotClustered } from "./helpers/cluster";
 
 test.describe("Network Local Peering", () => {
   const UPLINK_NAME = "ovn-uplink";
 
   test.beforeAll(async ({ browser, lxdVersion }, testInfo) => {
     if (
-      lxdVersion === "5.0-edge" ||
-      !testInfo.project.name.includes(":clustered")
+      !supportsClustering(lxdVersion) ||
+      !isClusteredTestProject(testInfo.project.name)
     ) {
       console.log("Skipping uplink creation");
       return;
@@ -29,8 +32,8 @@ test.describe("Network Local Peering", () => {
 
   test.afterAll(async ({ browser, lxdVersion }, testInfo) => {
     if (
-      lxdVersion === "5.0-edge" ||
-      !testInfo.project.name.includes(":clustered")
+      !supportsClustering(lxdVersion) ||
+      !isClusteredTestProject(testInfo.project.name)
     ) {
       console.log("Skipping uplink deletion");
       return;
@@ -44,7 +47,7 @@ test.describe("Network Local Peering", () => {
     page,
     lxdVersion,
   }, testInfo) => {
-    skipIfNotSupported(lxdVersion);
+    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     const networkA = randomNetworkName();
@@ -81,7 +84,7 @@ test.describe("Network Local Peering", () => {
     page,
     lxdVersion,
   }, testInfo) => {
-    skipIfNotSupported(lxdVersion);
+    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     const networkA = randomNetworkName();
@@ -129,7 +132,7 @@ test.describe("Network Local Peering", () => {
     page,
     lxdVersion,
   }, testInfo) => {
-    skipIfNotSupported(lxdVersion);
+    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     const networkA = randomNetworkName();

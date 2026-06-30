@@ -17,12 +17,12 @@ import { identityBar, identityFoo } from "./helpers/permission-identities";
 import {
   assertTextVisible,
   confirmIdentitiesModifiedForGroup,
-  skipIfNotSupported,
+  skipIfFineGrainedAuthorisationNotSupported,
 } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
 
 test("create and delete group", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
   await visitGroups(page);
   await createGroup(page, group, `${group}-desc`);
@@ -30,7 +30,7 @@ test("create and delete group", async ({ page, lxdVersion }) => {
 });
 
 test("edit and rename group", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
   const newGroupName = randomGroupName();
   await createGroup(page, group, group);
@@ -40,7 +40,7 @@ test("edit and rename group", async ({ page, lxdVersion }) => {
 });
 
 test("add new permissions to group", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
   await createGroup(page, group, group);
   await openEditGroupPanel(page, group);
@@ -54,7 +54,7 @@ test("add new permissions to group", async ({ page, lxdVersion }) => {
 });
 
 test("edit existing permission for group", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
   await createGroup(page, group, group);
   await openEditGroupPanel(page, group);
@@ -78,7 +78,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
 });
 
 test("manage identities for single group", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
   await createGroup(page, group, group);
   await openEditGroupPanel(page, group);
@@ -97,7 +97,7 @@ test("manage identities for single group", async ({ page, lxdVersion }) => {
 });
 
 test("manage identities for many groups", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
   await createGroup(page, groupOne, groupOne);
@@ -142,7 +142,7 @@ test("manage identities for many groups", async ({ page, lxdVersion }) => {
 });
 
 test("bulk delete groups", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
   await createGroup(page, groupOne, groupOne);
@@ -160,7 +160,7 @@ test("bulk delete groups", async ({ page, lxdVersion }) => {
 });
 
 test("create group with permissions", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
   await visitGroups(page);
   const withPermission = true;

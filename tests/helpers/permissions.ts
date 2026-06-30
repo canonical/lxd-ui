@@ -1,9 +1,15 @@
 import { test, expect, type LxdVersions } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+export const supportsFineGrainedAuthorisation = (lxdVersion: LxdVersions) => {
+  return lxdVersion !== "5.0-edge";
+};
+
+export const skipIfFineGrainedAuthorisationNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
   test.skip(
-    lxdVersion === "5.0-edge",
+    !supportsFineGrainedAuthorisation(lxdVersion),
     "Fine grained authorisation is not available for lxd 5.0",
   );
 };

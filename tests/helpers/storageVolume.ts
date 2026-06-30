@@ -1,10 +1,17 @@
 import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
-import { expect } from "../fixtures/lxd-test";
+import { test, expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
 import { isServerClustered } from "./cluster-groups";
 import { searchEntityListPage } from "./search";
 import { dismissNotification } from "./notification";
+
+export const skipIfCustomStorageVolumeNotSupported = (lxdVersion: string) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "custom storage volume iso import not supported in lxd v5.0/edge",
+  );
+};
 
 export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;

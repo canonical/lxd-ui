@@ -3,15 +3,15 @@ import { deleteInstance, randomInstanceName } from "./helpers/instances";
 import { assertTextVisible } from "./helpers/permissions";
 import { activateOverride } from "./helpers/configuration";
 import { gotoURL } from "./helpers/navigate";
-import { randomIsoName } from "./helpers/storageVolume";
+import {
+  randomIsoName,
+  skipIfCustomStorageVolumeNotSupported,
+} from "./helpers/storageVolume";
 import { dismissNotification } from "./helpers/notification";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
 test("upload and delete custom iso", async ({ page, lxdVersion }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "custom storage volume iso import not supported in lxd v5.0/edge",
-  );
+  skipIfCustomStorageVolumeNotSupported(lxdVersion);
   const isoName = randomIsoName();
 
   await gotoURL(page, "/ui/");
@@ -44,10 +44,7 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
 });
 
 test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "custom storage volume iso import not supported in lxd v5.0/edge",
-  );
+  skipIfCustomStorageVolumeNotSupported(lxdVersion);
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
