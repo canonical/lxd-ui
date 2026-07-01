@@ -1,0 +1,119 @@
+.overview-content {
+  $golden-ratio: 1.618;
+
+  .overview-row {
+    display: flex;
+    gap: $sph--large;
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  .overview-card {
+    .p-card__title {
+      i {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+    }
+
+    &.cluster,
+    &.storage,
+    &.memory {
+      flex: 1;
+    }
+
+    &.instances {
+      max-width: calc(50% - $sph--large / 2);
+      min-width: 20rem;
+
+      .p-card__content {
+        align-items: center;
+        display: flex;
+        gap: calc($sph--x-large * 2);
+
+        .group-by-type-container,
+        .group-by-status-container {
+          flex: 1;
+        }
+
+        .group-by-status-container {
+          .group-by-status {
+            border-left: solid 5px var(--vf-color-button-positive-default);
+            padding-left: $sph--large;
+
+            &.running {
+              border-color: var(--vf-color-button-positive-default);
+            }
+
+            &.stopped {
+              border-color: #c18f02;
+            }
+
+            &.pending {
+              border-color: #6e7d8a;
+            }
+
+            &.error {
+              border-color: var(--vf-color-button-negative-default);
+            }
+
+            p.status-label {
+              margin-bottom: $spv--small;
+            }
+
+            .status-count {
+              font-size: calc(1rem * $golden-ratio);
+            }
+          }
+        }
+
+        .group-by-type-container {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+
+          .dot {
+            border-radius: 50%;
+            display: inline-block;
+            height: calc(1rem / $golden-ratio);
+            margin-right: $sph--small;
+            width: calc(1rem / $golden-ratio);
+          }
+
+          span {
+            white-space: nowrap;
+          }
+        }
+      }
+
+      @include mobile {
+        min-width: 100%;
+
+        .p-card__content {
+          flex-direction: column;
+
+          .group-by-status-container {
+            display: flex;
+            width: 100%;
+
+            .mobile-row {
+              flex: 1;
+            }
+          }
+        }
+      }
+    }
+
+    &.projects {
+      .projects-instances-ranking-table {
+        max-width: 22rem;
+      }
+
+      .plus-n-more {
+        margin-left: $sph--small;
+      }
+    }
+  }
+}
