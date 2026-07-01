@@ -1,3 +1,5 @@
+import type { useNotify } from "@canonical/react-components";
+import type { IpAddressFamily } from "types/forms/network";
 import type { IpAddress, IpFamily, LxdInstance } from "types/instance";
 import type {
   LxdNetwork,
@@ -7,11 +9,16 @@ import type {
   LXDNetworkOnClusterMemberFulfilled,
 } from "types/network";
 import type { LxdConfigOptionsKeys } from "types/config";
-import { capitalizeFirstLetter, constructMemberError } from "util/helpers";
+import {
+  capitalizeFirstLetter,
+  checkDuplicateName,
+  constructMemberError,
+  type AbortControllerState,
+} from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import type { AnyObject, TestFunction } from "yup";
-import { checkDuplicateName, type AbortControllerState } from "./helpers";
-import type { useNotify } from "@canonical/react-components";
-import type { IpAddressFamily } from "types/forms/network";
+
+export const unmanagedNetworkDetailRoute = `${ROOT_PATH}/ui/project/:project/member/:member/network/:name`;
 
 export const bridgeType = "bridge";
 export const macvlanType = "macvlan";

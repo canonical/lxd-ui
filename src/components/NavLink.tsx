@@ -1,5 +1,5 @@
 import type { FC, LinkHTMLAttributes, ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, matchPath, useLocation } from "react-router-dom";
 import classnames from "classnames";
 
 interface Props {
@@ -30,7 +30,10 @@ const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
 
   // this caters for more custom url matches for link to be active e.g. /identities & /identity/oidc etc
   for (const match of activeUrlMatches) {
-    if (location.pathname.includes(match)) {
+    if (
+      location.pathname.includes(match) ||
+      matchPath({ path: match, end: false }, location.pathname)
+    ) {
       isActive = true;
     }
   }
