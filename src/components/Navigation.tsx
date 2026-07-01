@@ -28,11 +28,12 @@ import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
-import { getReportBugURL } from "util/reportBug";
 import { AUTH_METHOD, authIcon } from "util/authentication";
+import { unmanagedNetworkDetailRoute } from "util/networks";
+import { ALL_PROJECTS } from "util/projects";
+import { getReportBugURL } from "util/reportBug";
 import DocLink from "components/DocLink";
 import AuthenticationTlsStepper from "./AuthenticationTlsStepper";
-import { ALL_PROJECTS } from "util/projects";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -313,6 +314,7 @@ const Navigation: FC = () => {
                         <NavAccordion
                           baseUrls={[
                             `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network`,
+                            unmanagedNetworkDetailRoute,
                           ]}
                           title={getNavTitle("networking")}
                           disabled={isAllProjects}
@@ -335,6 +337,7 @@ const Navigation: FC = () => {
                                 title={`Networks (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
+                                activeUrlMatches={[unmanagedNetworkDetailRoute]}
                                 ignoreUrlMatches={[
                                   "network-acl",
                                   "network-acls",

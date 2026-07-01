@@ -1,6 +1,6 @@
 import { Icon } from "@canonical/react-components";
 import type { FC, ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { matchPath, useLocation } from "react-router-dom";
 import classnames from "classnames";
 
 export type AccordionNavMenu =
@@ -32,8 +32,10 @@ const NavAccordion: FC<Props> = ({
   disabled,
 }) => {
   const location = useLocation();
-  const isActive = baseUrls.some((baseUrl) =>
-    location.pathname.includes(baseUrl),
+  const isActive = baseUrls.some(
+    (baseUrl) =>
+      location.pathname.includes(baseUrl) ||
+      Boolean(matchPath({ path: baseUrl, end: false }, location.pathname)),
   );
 
   return (

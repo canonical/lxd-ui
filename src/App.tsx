@@ -18,6 +18,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
+import { unmanagedNetworkDetailRoute } from "util/networks";
 import { ALL_PROJECTS } from "util/projects";
 import { AUTH_METHOD } from "util/authentication";
 
@@ -333,7 +334,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path={`${ROOT_PATH}/ui/project/:project/member/:member/network/:name`}
+          path={unmanagedNetworkDetailRoute}
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
