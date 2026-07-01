@@ -91,7 +91,7 @@ const CreateReplicatorPanel: FC = () => {
               <ReplicatorRichChip
                 replicator={formik.values.name}
                 project={formik.values.project}
-              />
+              />{" "}
               created.
             </>,
           );

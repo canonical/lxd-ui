@@ -119,8 +119,13 @@ const CreateClusterLinkModal: FC<Props> = ({ onClose, token, linkName }) => {
                         items={[
                           <>Open the target cluster UI.</>,
                           <>
-                            Select <b>Clustering</b>, <b>Links</b>,{" "}
-                            <b>Create link</b> and <b>I have a token</b>.
+                            Click <b>Clustering</b> in the navigation, then
+                            select <b>Links</b> from the expanded drop-down
+                            list.
+                          </>,
+                          <>
+                            Click <b>Create link</b> and check{" "}
+                            <b>I have a token</b>
                           </>,
                           <>
                             Use this trust token to establish the cluster link.

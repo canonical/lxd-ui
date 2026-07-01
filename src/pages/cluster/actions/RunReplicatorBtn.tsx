@@ -234,7 +234,8 @@ const RunReplicatorBtn: FC<Props> = ({
                 title="All local data will be overwritten by the remote version"
               >
                 <p>
-                  {numberOfInstances} instances in local project{" "}
+                  {numberOfInstances} {pluralize("instance", numberOfInstances)}{" "}
+                  in local project{" "}
                   <ProjectRichChip projectName={replicator.project} /> will be
                   permanently replaced by the version fetched from the remote
                   cluster. This cannot be undone.
