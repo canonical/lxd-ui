@@ -105,5 +105,15 @@
         }
       }
     }
+
+    &.projects {
+      .projects-instances-ranking-table {
+        max-width: 22rem;
+      }
+
+      .plus-n-more {
+        margin-left: $sph--small;
+      }
+    }
   }
 }
