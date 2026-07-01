@@ -4,7 +4,6 @@ import {
   Col,
   ColumnSelector,
   CustomLayout,
-  EmptyState,
   Icon,
   Row,
   ScrollableTable,
@@ -79,12 +78,12 @@ import { useIsClustered } from "context/useIsClustered";
 import { useProject } from "context/useProjects";
 import { getTypeFromDisplayName } from "util/images";
 import { getInstanceKey, getInstanceType } from "util/instances";
-import DocLink from "components/DocLink";
+import InstanceCreationProgress from "components/InstanceCreationProgress";
 import TruncatedList from "components/TruncatedList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
-import { ROOT_PATH } from "util/rootPath";
+import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
-import InstanceCreationProgress from "components/InstanceCreationProgress";
+import { ROOT_PATH } from "util/rootPath";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -806,38 +805,7 @@ const InstanceList: FC = () => {
                 </div>
               </>
             )}
-            {!hasInstances && (
-              <EmptyState
-                className="empty-state"
-                image={<Icon name="pods" className="empty-state-icon" />}
-                title="No instances found"
-              >
-                <p>
-                  There are no instances in {project ? "this" : "any"} project.
-                  {canCreateInstances(project)
-                    ? " Spin up your first instance!"
-                    : ""}
-                </p>
-                <p>
-                  <DocLink docPath="/howto/instances_create/" hasExternalIcon>
-                    How to create instances
-                  </DocLink>
-                </p>
-                <Button
-                  className="empty-state-button"
-                  appearance="positive"
-                  onClick={async () =>
-                    navigate(
-                      `${ROOT_PATH}/ui/project/${encodeURIComponent(projectForCreationName)}/instances/create`,
-                    )
-                  }
-                  disabled={!!createInstanceRestriction}
-                  title={createInstanceRestriction}
-                >
-                  Create instance
-                </Button>
-              </EmptyState>
-            )}
+            {!hasInstances && <InstanceEmptyState />}
           </Col>
         </Row>
       </CustomLayout>
