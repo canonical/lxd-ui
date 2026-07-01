@@ -5,7 +5,7 @@ import {
   deleteNetwork,
   randomLoadBalancerPoolName,
   randomNetworkName,
-  skipIfNotSupported,
+  skipIfLoadBalancersNotSupported,
   supportsLoadBalancers,
   visitNetwork,
 } from "./helpers/network";
@@ -45,7 +45,7 @@ test.describe("Network Load Balancer", () => {
     page,
     lxdVersion,
   }, testInfo) => {
-    skipIfNotSupported(lxdVersion);
+    skipIfLoadBalancersNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     const network = randomNetworkName();

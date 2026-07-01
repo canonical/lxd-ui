@@ -11,6 +11,8 @@ import {
   deleteNetwork,
   prepareNetworkTabEdit,
   randomNetworkName,
+  skipIfOvnNotSupported,
+  supportsOvn,
   visitNetwork,
 } from "./helpers/network";
 import {
@@ -190,7 +192,7 @@ test.describe("physical type", () => {
 
 test.describe("OVN type", () => {
   test.beforeAll(async ({ browser, lxdVersion }) => {
-    if (lxdVersion === "5.0-edge") {
+    if (!supportsOvn(lxdVersion)) {
       return;
     }
 
@@ -213,7 +215,7 @@ test.describe("OVN type", () => {
   });
 
   test.afterAll(async ({ browser, lxdVersion }) => {
-    if (lxdVersion === "5.0-edge") {
+    if (!supportsOvn(lxdVersion)) {
       return;
     }
 
@@ -231,10 +233,7 @@ test.describe("OVN type", () => {
   });
 
   test.beforeEach(async ({ page, lxdVersion }) => {
-    test.skip(
-      lxdVersion === "5.0-edge",
-      "OVN can not be configured in lxd v5.0/edge",
-    );
+    skipIfOvnNotSupported(lxdVersion);
 
     await gotoURL(page, "/ui/");
     await page.getByRole("button", { name: "Networking" }).click();

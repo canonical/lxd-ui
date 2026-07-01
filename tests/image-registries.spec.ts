@@ -1,6 +1,6 @@
 import { expect, test } from "./fixtures/lxd-test";
 import {
-  skipIfNotSupported,
+  skipIfImageRegistriesNotSupported,
   visitImageRegistries,
   visitImageRegistry,
   randomImageRegistryName,
@@ -25,7 +25,7 @@ const BUILTIN_IMAGE_REGISTRY = "ubuntu-daily";
 const BUILTIN_IMAGE_REGISTRY_URL = "https://cloud-images.ubuntu.com/daily/";
 
 test("search for an image registry", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfImageRegistriesNotSupported(lxdVersion);
 
   await gotoURL(page, "/ui");
   await page.getByRole("button", { name: "Images" }).click();
@@ -50,7 +50,7 @@ test("search for an image registry", async ({ page, lxdVersion }) => {
 });
 
 test("search for built-in image registries", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfImageRegistriesNotSupported(lxdVersion);
 
   await visitImageRegistries(page);
   await page.getByPlaceholder("Search and filter").click();
@@ -65,7 +65,7 @@ test("create, edit, and delete SimpleStreams image registry", async ({
   page,
   lxdVersion,
 }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfImageRegistriesNotSupported(lxdVersion);
 
   const registryName = randomImageRegistryName();
   await createImageRegistry(page, registryName, "SimpleStreams", {
@@ -97,7 +97,7 @@ test("create, edit, and delete SimpleStreams image registry", async ({
 });
 
 test("view image registry detail page", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfImageRegistriesNotSupported(lxdVersion);
   await visitImageRegistry(page, BUILTIN_IMAGE_REGISTRY);
 
   await expect(
@@ -119,7 +119,7 @@ test("view image registry detail page", async ({ page, lxdVersion }) => {
 });
 
 test("project image registry restrictions", async ({ page, lxdVersion }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfImageRegistriesNotSupported(lxdVersion);
 
   const project = randomProjectName();
   const registryName = randomImageRegistryName();

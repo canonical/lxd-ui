@@ -4,9 +4,13 @@ import { randomNameSuffix } from "./name";
 import { test, type LxdVersions } from "../fixtures/lxd-test";
 import { dismissNotification } from "./notification";
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+export const supportsClustering = (lxdVersion: LxdVersions) => {
+  return lxdVersion !== "5.0-edge";
+};
+
+export const skipIfClusteringNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
-    lxdVersion === "5.0-edge",
+    !supportsClustering(lxdVersion),
     "Cluster tests not supported for lxd 5.0",
   );
 };

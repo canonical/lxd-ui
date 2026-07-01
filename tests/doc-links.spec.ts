@@ -14,7 +14,7 @@ import {
 import {
   collectAllDocPaths,
   checkDocumentationExists,
-  skipIfNotSupported,
+  skipIfEmbeddedDocumentationNotSupported,
   validateLink,
 } from "./helpers/doc-links";
 import { openServerSetting, visitServerSettings } from "./helpers/server";
@@ -226,7 +226,7 @@ test("DocLink validation: collect all doc paths and verify they exist", async ({
   page,
   lxdVersion,
 }) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfEmbeddedDocumentationNotSupported(lxdVersion);
 
   const allDocPaths = collectAllDocPaths();
   console.log(`\nTotal unique doc paths found: ${allDocPaths.size}`);

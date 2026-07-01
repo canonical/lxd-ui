@@ -9,7 +9,7 @@ export const randomImageRegistryName = () => {
   return `playwright-image-registry-${randomNameSuffix()}`;
 };
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+export const skipIfImageRegistriesNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
     lxdVersion === "latest-edge" ||
       lxdVersion === "5.0-edge" ||

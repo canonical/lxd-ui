@@ -4,7 +4,7 @@ import {
   deleteClusterLink,
   editClusterLink,
   randomLinkName,
-  skipIfNotSupported,
+  skipIfClusterLinksNotSupported,
   createClusterLinkOnRemoteCluster,
   deleteClusterLinkOnRemoteCluster,
 } from "./helpers/cluster-links";
@@ -14,7 +14,7 @@ test("cluster link create edit delete", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfClusterLinksNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();
@@ -41,7 +41,7 @@ test("cluster link table displays all links", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfClusterLinksNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const link1 = randomLinkName();
@@ -63,7 +63,7 @@ test("consume token to create cluster link", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfClusterLinksNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();

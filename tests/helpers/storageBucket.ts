@@ -1,8 +1,15 @@
 import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
-import { expect } from "../fixtures/lxd-test";
+import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
+
+export const skipIfCephNotSupported = (lxdVersion: LxdVersions) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "Ceph is not configured in CI for 5.0 in github runners",
+  );
+};
 
 export const randomBucketName = (): string => {
   return `playwright-bucket-${randomNameSuffix()}`;

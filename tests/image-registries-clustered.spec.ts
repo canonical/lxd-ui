@@ -2,7 +2,7 @@ import { test } from "./fixtures/lxd-test";
 import { skipIfNotClustered } from "./helpers/cluster";
 import { createClusterLink, randomLinkName } from "./helpers/cluster-links";
 import {
-  skipIfNotSupported,
+  skipIfImageRegistriesNotSupported,
   createImageRegistry,
   randomImageRegistryName,
   deleteImageRegistry,
@@ -13,7 +13,7 @@ test("create private LXD image registry", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfImageRegistriesNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const clusterName = randomLinkName();

@@ -6,6 +6,7 @@ import {
   deleteBucket,
   deleteBucketKey,
   randomBucketName,
+  skipIfCephNotSupported,
   visitBucket,
 } from "./helpers/storageBucket";
 import { cephObject, storageDriverLabels } from "util/storageOptions";
@@ -16,10 +17,7 @@ test("storage bucket create, edit, delete", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Ceph is not configured in CI for 5.0 in github runners",
-  );
+  skipIfCephNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const bucket = randomBucketName();
@@ -49,10 +47,7 @@ test("storage bucket keys create, edit, delete", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Ceph is not configured in CI for 5.0 in github runners",
-  );
+  skipIfCephNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const bucket = randomBucketName();

@@ -4,7 +4,7 @@ import {
   deletePlacementGroup,
   editPlacementGroup,
   randomPlacementGroupName,
-  skipIfNotSupported,
+  skipIfPlacementGroupsNotSupported,
 } from "./helpers/placement-groups";
 import {
   createProfile,
@@ -28,7 +28,7 @@ test("placement group create, edit, delete", async ({
   lxdVersion,
   page,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfPlacementGroupsNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
   const placementGroup = randomPlacementGroupName();
 
@@ -41,7 +41,7 @@ test("apply placement group to profile", async ({
   lxdVersion,
   page,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfPlacementGroupsNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
   const placementGroup = randomPlacementGroupName();
   const profile = randomProfileName();
@@ -67,7 +67,7 @@ test("apply placement group to instance", async ({
   lxdVersion,
   page,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfPlacementGroupsNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
   const placementGroup = randomPlacementGroupName();
   const instance = randomInstanceName();

@@ -52,7 +52,7 @@ export async function checkDocumentationExists(
   }
 }
 
-export function skipIfNotSupported(lxdVersion: string) {
+export function skipIfEmbeddedDocumentationNotSupported(lxdVersion: string) {
   test.skip(
     lxdVersion === "5.0-edge",
     "Embedded documentation is not supported in LXD 5.0 and older; skipping link validation.",

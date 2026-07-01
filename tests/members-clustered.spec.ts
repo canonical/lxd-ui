@@ -1,5 +1,5 @@
 import { test } from "./fixtures/lxd-test";
-import { skipIfNotSupported } from "./helpers/cluster-groups";
+import { skipIfClusteringNotSupported } from "./helpers/cluster-groups";
 import { getFirstClusterMember, skipIfNotClustered } from "./helpers/cluster";
 import { dismissNotification } from "./helpers/notification";
 
@@ -7,7 +7,7 @@ test("cluster member evacuate and restore", async ({
   page,
   lxdVersion,
 }, testInfo) => {
-  skipIfNotSupported(lxdVersion);
+  skipIfClusteringNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const member = await getFirstClusterMember(page);

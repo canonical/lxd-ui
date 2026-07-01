@@ -4,7 +4,7 @@ import { gotoURL } from "./navigate";
 import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
 import { dismissNotification } from "./notification";
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+export const skipIfPlacementGroupsNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
     lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
     "Placement groups are not available in LXD prior to 6.6",

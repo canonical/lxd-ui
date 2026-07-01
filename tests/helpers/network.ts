@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
-import { expect, type LxdVersions, test } from "../fixtures/lxd-test";
+import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster-groups";
 import type { IpAddressFamily } from "types/forms/network";
 import { runCommand } from "./shell";
@@ -15,7 +15,7 @@ interface NetworkOptions {
   ipv6?: string;
 }
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
+export const skipIfLoadBalancersNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
     !supportsLoadBalancers(lxdVersion),
     "Load balancers with health checks are not supported for lxd 5.0 and 5.21",
@@ -24,6 +24,17 @@ export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
 
 export const supportsLoadBalancers = (lxdVersion: LxdVersions) => {
   return lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge";
+};
+
+export const supportsOvn = (lxdVersion: string) => {
+  return lxdVersion !== "5.0-edge";
+};
+
+export const skipIfOvnNotSupported = (lxdVersion: string) => {
+  test.skip(
+    !supportsOvn(lxdVersion),
+    "OVN can not be configured in lxd v5.0/edge",
+  );
 };
 
 export const randomNetworkName = (): string => {
