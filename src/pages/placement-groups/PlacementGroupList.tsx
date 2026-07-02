@@ -62,6 +62,12 @@ const PlacementGroupList: FC = () => {
             Placement groups
           </HelpLink>
         }
+        controls={
+          <CreatePlacementGroupBtn
+            className="u-no-margin--bottom u-float-right"
+            disabled
+          />
+        }
       >
         <NotClusteredEmptyState text="To manage placement groups, you first need to enable clustering." />
       </BaseLayout>

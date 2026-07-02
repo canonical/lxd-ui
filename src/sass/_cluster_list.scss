@@ -52,10 +52,7 @@
     min-width: 12rem;
     position: absolute;
     right: 1rem;
-    top: calc(
-      0.25rem + 1.5rem + 0.75rem - 0.75rem + 1.5rem + 0.75rem + 1.5rem +
-        0.75rem + 1.5rem + $spv--x-large
-    );
+    top: calc(8.25rem + $spv--x-large);
 
     ul {
       border-left: $border-thin;
@@ -113,14 +110,13 @@
   .aside {
     top: calc(
       0.25rem + 1.5rem + 0.75rem /* header */ + 1.5rem
-        /* panel content padding top */ + 0.5rem - 1px
-        /* notification padding-top */ + 1.5rem
-        /* notification title line height */ + 0.375rem + 1.5rem + 1.125rem
-        /* first p */ + 0.375rem + 3rem + 1.125rem /* second p */ + 0.5rem +
-        1rem + 0.5rem /* notification meta */ + 0.5rem - 1px
-        /* notification padding-bottom */ + 1px + 1px
-        /* notification border-top and border-bottom */ + 1.5rem
-        /* notification margin-bottom */ + $spv--x-large
+      /* panel content padding top */ + 0.5rem - 1px
+      /* notification padding-top */ + 1.5rem
+      /* notification title line height */ + 0.5rem + 1rem + 0.5rem
+      /* notification meta */ + 0.5rem - 1px
+      /* notification padding-bottom */ + 1px + 1px
+      /* notification border-top and border-bottom */ + 1.5rem
+      /* notification margin-bottom */ + $spv--x-large
     );
   }
 }
@@ -131,12 +127,8 @@
   }
 }
 
-.server {
-  .p-panel__title {
-    display: none;
-  }
-
-  .pagination {
-    margin-right: $sph--x-large;
+.cluster-server {
+  .cluster-server-notification {
+    max-width: 40rem;
   }
 }

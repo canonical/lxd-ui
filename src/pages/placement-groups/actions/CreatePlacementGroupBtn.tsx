@@ -8,9 +8,10 @@ import usePanelParams from "util/usePanelParams";
 
 interface Props {
   className?: string;
+  disabled?: boolean;
 }
 
-const CreatePlacementGroupBtn: FC<Props> = ({ className }) => {
+const CreatePlacementGroupBtn: FC<Props> = ({ className, disabled }) => {
   const isSmallScreen = useIsScreenBelow(smallScreenBreakpoint);
   const panelParams = usePanelParams();
   return (
@@ -19,6 +20,7 @@ const CreatePlacementGroupBtn: FC<Props> = ({ className }) => {
       className={className}
       onClick={panelParams.openCreatePlacementGroup}
       hasIcon={!isSmallScreen}
+      disabled={disabled}
     >
       {!isSmallScreen && <Icon name="plus" light />}
       <span>Create placement group</span>

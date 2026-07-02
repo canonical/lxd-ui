@@ -27,6 +27,7 @@ import { useLocation, type Location } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import { useIsClustered } from "context/useIsClustered";
 import { AUTH_METHOD, authIcon } from "util/authentication";
 import { unmanagedNetworkDetailRoute } from "util/networks";
 import { ALL_PROJECTS } from "util/projects";
@@ -104,6 +105,7 @@ const Navigation: FC = () => {
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const isOidc = authMethod === AUTH_METHOD.OIDC;
   const isBearerToken = authMethod === AUTH_METHOD.BEARER;
+  const isClustered = useIsClustered();
 
   useEffect(() => {
     const isAllProjects = isAllProjectsFromUrl || !canViewProject;
@@ -526,16 +528,31 @@ const Navigation: FC = () => {
                           }
                         >
                           {[
-                            <SideNavigationItem key="members">
-                              <NavLink
-                                to={`${ROOT_PATH}/ui/cluster/members`}
-                                title="Members"
-                                onClick={softToggleMenu}
-                                className="accordion-nav-secondary"
-                              >
-                                Members
-                              </NavLink>
-                            </SideNavigationItem>,
+                            {
+                              ...(isClustered ? (
+                                <SideNavigationItem key="members">
+                                  <NavLink
+                                    to={`${ROOT_PATH}/ui/cluster/members`}
+                                    title="Members"
+                                    onClick={softToggleMenu}
+                                    className="accordion-nav-secondary"
+                                  >
+                                    Members
+                                  </NavLink>
+                                </SideNavigationItem>
+                              ) : (
+                                <SideNavigationItem key="server">
+                                  <NavLink
+                                    to={`${ROOT_PATH}/ui/cluster/server`}
+                                    title="Server"
+                                    onClick={softToggleMenu}
+                                    className="accordion-nav-secondary"
+                                  >
+                                    Server
+                                  </NavLink>
+                                </SideNavigationItem>
+                              )),
+                            },
                             <SideNavigationItem key="groups">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/cluster/groups`}

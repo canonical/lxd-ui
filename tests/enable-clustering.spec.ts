@@ -8,18 +8,8 @@ test("check enabling clustering", async ({ page, lxdVersion }, testInfo) => {
 
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-
-  await page.getByRole("link", { name: "Members" }).click();
+  await page.getByRole("link", { name: "Server" }).click();
   await expect(page.getByText("Server", { exact: true })).toBeVisible();
-  await expect(page.getByText("This server is not clustered")).toBeVisible();
-  await expect(
-    page.getByText("The local server hardware details are shown below."),
-  ).toBeVisible();
-  await expect(
-    page.getByText(
-      "To form a multi-node cluster and manage multiple members, you first need to enable clustering.",
-    ),
-  ).toBeVisible();
   await expect(page.getByText("System")).toBeVisible();
   await page.getByRole("button", { name: "Enable clustering" }).click();
   await page.getByRole("button", { name: "Close" }).click();
@@ -66,7 +56,7 @@ test("check enabling clustering", async ({ page, lxdVersion }, testInfo) => {
     page.getByText("This server is not clustered", { exact: true }),
   ).not.toBeVisible();
 
-  await page.getByRole("link", { name: "Members" }).click();
+  await page.getByRole("link", { name: "Server" }).click();
   await page.getByRole("button", { name: "Enable clustering" }).click();
   await page.getByLabel("Server name").fill("micro1");
   await page.getByLabel("Cluster address").fill("127.0.0.1");

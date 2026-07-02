@@ -22,7 +22,7 @@ const EnableClusteringBtn: FC<Props> = ({ className, hasIcon = true }) => {
   return (
     <>
       <Button
-        appearance="positive"
+        appearance="default"
         className={className}
         hasIcon={hasIcon}
         onClick={openPortal}

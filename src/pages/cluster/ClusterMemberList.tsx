@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Button,
   MainTable,
-  Notification,
   Row,
   ScrollableTable,
   TablePagination,
@@ -12,20 +11,18 @@ import {
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
-import DocLink from "components/DocLink";
 import HelpLink from "components/HelpLink";
 import { useMemberLoading } from "context/memberLoading";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
-import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
 import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
-import ClusterMemberHardware from "pages/cluster/ClusterMemberHardware";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
 import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
 import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
 import usePanelParams from "util/usePanelParams";
 import useSortTableData from "util/useSortTableData";
+import NotClusteredEmptyState from "./NotClusteredEmptyState";
 
 const ClusterMemberList: FC = () => {
   const notify = useNotify();
@@ -50,41 +47,14 @@ const ClusterMemberList: FC = () => {
             docPath="/explanation/clustering/"
             title="Learn more about clustering"
           >
-            Server
+            Cluster members
           </HelpLink>
         }
       >
-        <Row>
-          <Notification
-            severity="information"
-            title="This server is not clustered"
-            messageElement="div"
-            actions={[
-              <DocLink
-                docPath="/explanation/clustering/"
-                hasExternalIcon
-                className="p-button--link p-notification__action"
-                key="doc-link"
-              >
-                Learn more about clustering
-              </DocLink>,
-              <EnableClusteringBtn
-                key="enable-clustering-btn"
-                className="p-button--link p-notification__action"
-                hasIcon={false}
-              />,
-            ]}
-          >
-            <p>The local server hardware details are shown below.</p>
-            <p>
-              To form a multi-node cluster and manage multiple members, you
-              first need to enable clustering.
-            </p>
-          </Notification>
-        </Row>
-        <div className="cluster-member-hardware-details">
-          <ClusterMemberHardware />
-        </div>
+        <NotClusteredEmptyState
+          text="To manage multiple members, you first
+            need to enable clustering."
+        />
       </BaseLayout>
     );
   }

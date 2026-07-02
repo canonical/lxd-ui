@@ -48,6 +48,7 @@ const ClusterGroupList: FC = () => {
             Cluster groups
           </HelpLink>
         }
+        controls={<CreateClusterGroupBtn disabled />}
       >
         <NotClusteredEmptyState text="To organize your servers into groups, you first need to enable clustering." />
       </BaseLayout>
