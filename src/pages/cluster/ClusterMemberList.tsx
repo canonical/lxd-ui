@@ -63,10 +63,16 @@ const ClusterMemberList: FC = () => {
               <DocLink
                 docPath="/explanation/clustering/"
                 hasExternalIcon
+                className="p-button--link p-notification__action"
                 key="doc-link"
               >
                 Learn more about clustering
               </DocLink>,
+              <EnableClusteringBtn
+                key="enable-clustering-btn"
+                className="p-button--link p-notification__action"
+                hasIcon={false}
+              />,
             ]}
           >
             <p>The local server hardware details are shown below.</p>
@@ -74,7 +80,6 @@ const ClusterMemberList: FC = () => {
               To form a multi-node cluster and manage multiple members, you
               first need to enable clustering.
             </p>
-            <EnableClusteringBtn />
           </Notification>
         </Row>
         <div className="cluster-member-hardware-details">
