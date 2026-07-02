@@ -21,7 +21,7 @@ const tabs: string[] = [
   "Overview",
   "Configuration",
   "Snapshots",
-  "File Explorer",
+  "File explorer",
   "Terminal",
   "Console",
   "Logs",

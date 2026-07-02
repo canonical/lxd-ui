@@ -15,12 +15,34 @@
   white-space: nowrap;
 }
 
-.breadcrumb-header {
-  display: inline-block;
-}
-
-.file-explorer-header {
+.file-explorer-breadcrumb-bar {
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
+  max-width: 25rem;
+  width: 100%;
+
+  .p-breadcrumbs,
+  .p-heading--5 {
+    margin-bottom: 0;
+  }
+
+  .p-breadcrumbs {
+    overflow: hidden;
+  }
+}
+
+.file-explorer-path-input {
+  margin-bottom: 0;
+  max-width: 25rem;
+  width: 100%;
+}
+
+.file-explorer-edit-btn-wrapper {
+  padding-left: 0.25rem;
+}
+
+.file-explorer-edit-btn,
+.file-explorer-go-btn {
+  flex-shrink: 0;
 }
