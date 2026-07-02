@@ -4,7 +4,11 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import CreateClusterGroupPanel from "pages/cluster/panels/CreateClusterGroupPanel";
 import { useServerEntitlements } from "util/entitlements/server";
 
-const CreateClusterGroupBtn: FC = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+const CreateClusterGroupBtn: FC<Props> = ({ disabled }) => {
   const panelParams = usePanelParams();
   const { canEditServerConfiguration } = useServerEntitlements();
 
@@ -15,7 +19,7 @@ const CreateClusterGroupBtn: FC = () => {
       <Button
         appearance="positive"
         className="u-no-margin--bottom"
-        disabled={!hasPermission}
+        disabled={disabled || !hasPermission}
         title={
           hasPermission
             ? undefined

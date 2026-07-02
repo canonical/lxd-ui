@@ -1,4 +1,5 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   MainTable,
@@ -11,26 +12,51 @@ import {
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
-import useSortTableData from "util/useSortTableData";
-import { Link } from "react-router-dom";
-import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
+import { useMemberLoading } from "context/memberLoading";
 import { useClusterMembers } from "context/useClusterMembers";
-import usePanelParams from "util/usePanelParams";
+import { useIsClustered } from "context/useIsClustered";
+import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
 import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
-import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
+import usePanelParams from "util/usePanelParams";
+import useSortTableData from "util/useSortTableData";
+import NotClusteredEmptyState from "./NotClusteredEmptyState";
 
 const ClusterMemberList: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
+  const isClustered = useIsClustered();
   const { data: members = [], error, isLoading } = useClusterMembers();
   const memberLoading = useMemberLoading();
   const { canEditServerConfiguration } = useServerEntitlements();
 
-  if (error) {
-    notify.failure("Loading cluster members failed", error);
+  useEffect(() => {
+    if (error && isClustered) {
+      notify.failure("Loading cluster members failed", error);
+    }
+  }, [error, isClustered]);
+
+  if (!isClustered) {
+    return (
+      <BaseLayout
+        mainClassName="cluster-list"
+        title={
+          <HelpLink
+            docPath="/explanation/clustering/"
+            title="Learn more about clustering"
+          >
+            Cluster members
+          </HelpLink>
+        }
+      >
+        <NotClusteredEmptyState
+          text="To manage multiple members, you first
+            need to enable clustering."
+        />
+      </BaseLayout>
+    );
   }
 
   const headers = [

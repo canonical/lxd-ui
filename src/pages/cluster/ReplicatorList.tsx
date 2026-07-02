@@ -4,7 +4,6 @@ import {
   List,
   MainTable,
   Notification,
-  Panel,
   ScrollableTable,
   Spinner,
   TablePagination,
@@ -35,7 +34,7 @@ import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
 
 interface Props {
-  variant?: "main" | "panel" | "project-configuration";
+  variant?: "main" | "project-configuration";
   project?: string;
   cluster?: string;
 }
@@ -251,9 +250,8 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
       );
     }
 
-    const BaseElement = variant === "main" ? BaseLayout : Panel;
     return (
-      <BaseElement
+      <BaseLayout
         title={
           <HelpLink
             docPath="/explanation/replicators/"
@@ -268,9 +266,9 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
           )
         }
       >
-        {variant === "main" && !panelParams.panel && <NotificationRow />}
+        <NotificationRow />
         {tableContent}
-      </BaseElement>
+      </BaseLayout>
     );
   };
 

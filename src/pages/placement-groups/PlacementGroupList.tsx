@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import {
   Button,
   Col,
@@ -16,33 +16,62 @@ import {
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import useSortTableData from "util/useSortTableData";
+import BaseLayout from "components/BaseLayout";
+import DocLink from "components/DocLink";
 import PageHeader from "components/PageHeader";
+import { useIsClustered } from "context/useIsClustered";
 import { usePlacementGroups } from "context/usePlacementGroups";
-import usePanelParams, { panels } from "util/usePanelParams";
+import NotClusteredEmptyState from "pages/cluster/NotClusteredEmptyState";
 import CreatePlacementGroupPanel from "pages/placement-groups/panels/CreatePlacementGroupPanel";
 import EditPlacementGroupPanel from "pages/placement-groups/panels/EditPlacementGroupPanel";
 import DeletePlacementGroupBtn from "pages/placement-groups/actions/DeletePlacementGroupBtn";
 import CreatePlacementGroupBtn from "pages/placement-groups/actions/CreatePlacementGroupBtn";
-import DocLink from "components/DocLink";
+import usePanelParams, { panels } from "util/usePanelParams";
+import useSortTableData from "util/useSortTableData";
 
 const PlacementGroupList: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
+  const isClustered = useIsClustered();
   const { project: projectName } = useParams<{ project: string }>();
+  const {
+    data: placementGroups = [],
+    error,
+    isLoading,
+  } = usePlacementGroups(projectName, isClustered);
+
+  useEffect(() => {
+    if (error && isClustered) {
+      notify.failure("Loading placement groups failed", error);
+    }
+  }, [error, isClustered]);
 
   if (!projectName) {
     return <>Missing project</>;
   }
 
-  const {
-    data: placementGroups = [],
-    error,
-    isLoading,
-  } = usePlacementGroups(projectName);
-
-  if (error) {
-    notify.failure("Loading placement groups failed", error);
+  if (!isClustered) {
+    return (
+      <BaseLayout
+        mainClassName="placement-groups-list"
+        title={
+          <HelpLink
+            docPath="/howto/cluster_placement_groups/"
+            title="Learn how to use placement groups"
+          >
+            Placement groups
+          </HelpLink>
+        }
+        controls={
+          <CreatePlacementGroupBtn
+            className="u-no-margin--bottom u-float-right"
+            disabled
+          />
+        }
+      >
+        <NotClusteredEmptyState text="To manage placement groups, you first need to enable clustering." />
+      </BaseLayout>
+    );
   }
 
   const headers = [
