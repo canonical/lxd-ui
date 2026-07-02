@@ -12,7 +12,6 @@ import { useClusterLink } from "context/useClusterLinks";
 import { useIsClustered } from "context/useIsClustered";
 import ReplicatorRunTime from "./ReplicatorRunTime";
 import ReplicatorStatus from "./ReplicatorStatus";
-import ReplicatorSnapshotDescription from "./ReplicatorSnapshotDescription";
 import ResourceLink from "components/ResourceLink";
 import { getClusterLinkListUrl } from "util/clusterLink";
 
@@ -96,14 +95,6 @@ const ReplicatorRichTooltip: FC<Props> = ({ replicatorName, project }) => {
       title: "Cluster status",
       value: link ? <ClusterLinkStatus link={link} /> : "-",
       className: "status-row",
-    },
-    {
-      title: "Snapshots",
-      value: replicator ? (
-        <ReplicatorSnapshotDescription replicator={replicator} />
-      ) : (
-        "-"
-      ),
     },
     {
       title: "Schedule",

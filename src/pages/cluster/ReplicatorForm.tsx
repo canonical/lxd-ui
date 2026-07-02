@@ -1,13 +1,11 @@
 import { type FC } from "react";
 import type { FormikProps } from "formik";
-import { Form, Input, OutputField, Select } from "@canonical/react-components";
+import { Form, Input, OutputField } from "@canonical/react-components";
 import { Link } from "react-router";
-import DocLink from "components/DocLink";
 import { useProjects } from "context/useProjects";
 import ClusterLinkSelector from "pages/cluster/ClusterLinkSelector";
-import { SnapshotScheduleInput } from "pages/cluster/SnapshotScheduleInput";
+import { ReplicatorScheduleInput } from "pages/cluster/ReplicatorScheduleInput";
 import ProjectSelector from "pages/networks/forms/ProjectSelector";
-import { optionYesNo } from "util/options";
 import { ROOT_PATH } from "util/rootPath";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 
@@ -100,21 +98,7 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
           error={getFieldError("project")}
         />
       )}
-      <Select
-        {...formik.getFieldProps("snapshot")}
-        label="Snapshot"
-        options={optionYesNo}
-        help={
-          <>
-            Enable snapshots to{" "}
-            <DocLink docPath="/reference/storage_drivers/#optimized-volume-refresh">
-              optimize instance refresh
-            </DocLink>
-            .
-          </>
-        }
-      />
-      <SnapshotScheduleInput formik={formik} />
+      <ReplicatorScheduleInput formik={formik} />
     </Form>
   );
 };

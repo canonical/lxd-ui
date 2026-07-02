@@ -98,7 +98,8 @@ cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add - || true
 
 cat <<EOF > .env.local
 LXD_UI_BACKEND_IP=$VM1_IP
-LXD_UI_CLUSTER_LINK_TARGET_VM=vm-standalone
+LXD_UI_CLUSTER_LINK_LOCAL_VM=vm1
+LXD_UI_CLUSTER_LINK_REMOTE_VM=vm-standalone
 EOF
 
 sudo lxc exec vm1 -- sudo snap install snapd --channel=latest/beta

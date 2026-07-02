@@ -7,6 +7,7 @@ import {
   skipIfClusterLinksNotSupported,
   createClusterLinkOnRemoteCluster,
   deleteClusterLinkOnRemoteCluster,
+  visitClusterLinks,
 } from "./helpers/cluster-links";
 import { skipIfNotClustered } from "./helpers/cluster";
 
@@ -18,6 +19,7 @@ test("cluster link create edit delete", async ({
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();
+  await visitClusterLinks(page);
   await createClusterLink(page, link);
   const row = page.getByRole("row").filter({ hasText: link });
   await expect(row).toBeVisible();
@@ -46,6 +48,7 @@ test("cluster link table displays all links", async ({
 
   const link1 = randomLinkName();
   const link2 = randomLinkName();
+  await visitClusterLinks(page);
   await createClusterLink(page, link1);
   await createClusterLink(page, link2);
 
@@ -67,6 +70,7 @@ test("consume token to create cluster link", async ({
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();
+  await visitClusterLinks(page);
 
   const token = createClusterLinkOnRemoteCluster(link);
   await createClusterLink(page, link, token);
