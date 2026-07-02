@@ -3,10 +3,13 @@ import { queryKeys } from "util/queryKeys";
 import type { LxdClusterGroup } from "types/cluster";
 import { fetchClusterGroup, fetchClusterGroups } from "api/cluster-groups";
 
-export const useClusterGroups = (): UseQueryResult<LxdClusterGroup[]> => {
+export const useClusterGroups = (
+  enabled = true,
+): UseQueryResult<LxdClusterGroup[]> => {
   return useQuery({
     queryKey: [queryKeys.cluster, queryKeys.groups],
     queryFn: fetchClusterGroups,
+    enabled,
   });
 };
 

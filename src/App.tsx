@@ -96,7 +96,6 @@ const ReplicatorDetail = lazy(
   async () => import("pages/cluster/ReplicatorDetail"),
 );
 const ReplicatorList = lazy(async () => import("pages/cluster/ReplicatorList"));
-const Server = lazy(async () => import("pages/cluster/Server"));
 const Settings = lazy(async () => import("pages/settings/Settings"));
 const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
 const StorageVolumes = lazy(async () => import("pages/storage/StorageVolumes"));
@@ -556,28 +555,6 @@ const App: FC = () => {
         <Route
           path={`${ROOT_PATH}/ui/image-registry/:name/:activeTab`}
           element={<ProtectedRoute outlet={<ImageRegistryDetail />} />}
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server`}
-          element={<ProtectedRoute outlet={<Server />} />}
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server/clustering`}
-          element={
-            <ProtectedRoute outlet={<Server activeTab="clustering" />} />
-          }
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server/cluster-links`}
-          element={
-            <ProtectedRoute outlet={<Server activeTab="cluster-links" />} />
-          }
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server/replicators`}
-          element={
-            <ProtectedRoute outlet={<Server activeTab="replicators" />} />
-          }
         />
         <Route
           path={`${ROOT_PATH}/ui/cluster/groups`}

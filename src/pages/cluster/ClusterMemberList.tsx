@@ -1,7 +1,9 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   MainTable,
+  Notification,
   Row,
   ScrollableTable,
   TablePagination,
@@ -10,27 +12,76 @@ import {
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
+import DocLink from "components/DocLink";
 import HelpLink from "components/HelpLink";
-import useSortTableData from "util/useSortTableData";
-import { Link } from "react-router-dom";
-import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
+import { useMemberLoading } from "context/memberLoading";
 import { useClusterMembers } from "context/useClusterMembers";
-import usePanelParams from "util/usePanelParams";
+import { useIsClustered } from "context/useIsClustered";
+import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
+import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
+import ClusterMemberHardware from "pages/cluster/ClusterMemberHardware";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
 import ClusterMemberMemoryUsage from "pages/cluster/ClusterMemberMemoryUsage";
-import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
+import usePanelParams from "util/usePanelParams";
+import useSortTableData from "util/useSortTableData";
 
 const ClusterMemberList: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
+  const isClustered = useIsClustered();
   const { data: members = [], error, isLoading } = useClusterMembers();
   const memberLoading = useMemberLoading();
   const { canEditServerConfiguration } = useServerEntitlements();
 
-  if (error) {
-    notify.failure("Loading cluster members failed", error);
+  useEffect(() => {
+    if (error && isClustered) {
+      notify.failure("Loading cluster members failed", error);
+    }
+  }, [error, isClustered]);
+
+  if (!isClustered) {
+    return (
+      <BaseLayout
+        mainClassName="cluster-list"
+        title={
+          <HelpLink
+            docPath="/explanation/clustering/"
+            title="Learn more about clustering"
+          >
+            Server
+          </HelpLink>
+        }
+      >
+        <Row>
+          <Notification
+            severity="information"
+            title="This server is not clustered"
+            messageElement="div"
+            actions={[
+              <DocLink
+                docPath="/explanation/clustering/"
+                hasExternalIcon
+                key="doc-link"
+              >
+                Learn more about clustering
+              </DocLink>,
+            ]}
+          >
+            <p>The local server hardware details are shown below.</p>
+            <p>
+              To form a multi-node cluster and manage multiple members, you
+              first need to enable clustering.
+            </p>
+            <EnableClusteringBtn />
+          </Notification>
+        </Row>
+        <div className="cluster-member-hardware-details">
+          <ClusterMemberHardware />
+        </div>
+      </BaseLayout>
+    );
   }
 
   const headers = [

@@ -27,7 +27,6 @@ import { useLocation, type Location } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
-import { useIsClustered } from "context/useIsClustered";
 import { AUTH_METHOD, authIcon } from "util/authentication";
 import { unmanagedNetworkDetailRoute } from "util/networks";
 import { ALL_PROJECTS } from "util/projects";
@@ -103,7 +102,6 @@ const Navigation: FC = () => {
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
-  const isClustered = useIsClustered();
   const isOidc = authMethod === AUTH_METHOD.OIDC;
   const isBearerToken = authMethod === AUTH_METHOD.BEARER;
 
@@ -509,105 +507,87 @@ const Navigation: FC = () => {
                           "is-light": isLight,
                         })}
                       />
-                      {isClustered && (
-                        <SideNavigationItem>
-                          <NavAccordion
-                            baseUrls={[
-                              `${ROOT_PATH}/ui/cluster`,
-                              `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`,
-                              `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/replicator/`,
-                            ]}
-                            title={getNavTitle("clustering")}
-                            iconName="cluster-host"
-                            label="Clustering"
-                            onOpen={() => {
-                              toggleAccordionNav("clustering");
-                            }}
-                            open={
-                              openNavMenus.includes("clustering") &&
-                              !menuCollapsed
-                            }
-                          >
-                            {[
-                              <SideNavigationItem key="members">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/cluster/members`}
-                                  title="Members"
-                                  onClick={softToggleMenu}
-                                  className="accordion-nav-secondary"
-                                >
-                                  Members
-                                </NavLink>
-                              </SideNavigationItem>,
-                              <SideNavigationItem key="groups">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/cluster/groups`}
-                                  title="Groups"
-                                  onClick={softToggleMenu}
-                                  className="accordion-nav-secondary"
-                                >
-                                  Groups
-                                </NavLink>
-                              </SideNavigationItem>,
-                              ...(hasClusterLinks
-                                ? [
-                                    <SideNavigationItem key="links">
-                                      <NavLink
-                                        to={`${ROOT_PATH}/ui/cluster/links`}
-                                        title="Links"
-                                        onClick={softToggleMenu}
-                                        className="accordion-nav-secondary"
-                                      >
-                                        Links
-                                      </NavLink>
-                                    </SideNavigationItem>,
-                                  ]
-                                : []),
-                              <SideNavigationItem key="placement">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
-                                  title={`Placement groups (${projectName})`}
-                                  onClick={softToggleMenu}
-                                  className="accordion-nav-secondary"
-                                >
-                                  Placement
-                                </NavLink>
-                              </SideNavigationItem>,
-                              ...(hasReplicators
-                                ? [
-                                    <SideNavigationItem key="replicators">
-                                      <NavLink
-                                        to={`${ROOT_PATH}/ui/cluster/replicators`}
-                                        title="Replicators"
-                                        onClick={softToggleMenu}
-                                        activeUrlMatches={["/replicator/"]}
-                                        className="accordion-nav-secondary"
-                                      >
-                                        Replicators
-                                      </NavLink>
-                                    </SideNavigationItem>,
-                                  ]
-                                : []),
-                            ]}
-                          </NavAccordion>
-                        </SideNavigationItem>
-                      )}
-                      {!isClustered && (
-                        <SideNavigationItem>
-                          <NavLink
-                            to={`${ROOT_PATH}/ui/server`}
-                            title="Server"
-                            onClick={softToggleMenu}
-                            activeUrlMatches={["/replicator/"]}
-                          >
-                            <Icon
-                              className="is-light p-side-navigation__icon"
-                              name="cluster-host"
-                            />{" "}
-                            Server
-                          </NavLink>
-                        </SideNavigationItem>
-                      )}
+                      <SideNavigationItem>
+                        <NavAccordion
+                          baseUrls={[
+                            `${ROOT_PATH}/ui/cluster`,
+                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`,
+                            `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/replicator/`,
+                          ]}
+                          title={getNavTitle("clustering")}
+                          iconName="cluster-host"
+                          label="Clustering"
+                          onOpen={() => {
+                            toggleAccordionNav("clustering");
+                          }}
+                          open={
+                            openNavMenus.includes("clustering") &&
+                            !menuCollapsed
+                          }
+                        >
+                          {[
+                            <SideNavigationItem key="members">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/cluster/members`}
+                                title="Members"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Members
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem key="groups">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/cluster/groups`}
+                                title="Groups"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Groups
+                              </NavLink>
+                            </SideNavigationItem>,
+                            ...(hasClusterLinks
+                              ? [
+                                  <SideNavigationItem key="links">
+                                    <NavLink
+                                      to={`${ROOT_PATH}/ui/cluster/links`}
+                                      title="Links"
+                                      onClick={softToggleMenu}
+                                      className="accordion-nav-secondary"
+                                    >
+                                      Links
+                                    </NavLink>
+                                  </SideNavigationItem>,
+                                ]
+                              : []),
+                            <SideNavigationItem key="placement">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
+                                title={`Placement groups (${projectName})`}
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Placement
+                              </NavLink>
+                            </SideNavigationItem>,
+                            ...(hasReplicators
+                              ? [
+                                  <SideNavigationItem key="replicators">
+                                    <NavLink
+                                      to={`${ROOT_PATH}/ui/cluster/replicators`}
+                                      title="Replicators"
+                                      onClick={softToggleMenu}
+                                      activeUrlMatches={["/replicator/"]}
+                                      className="accordion-nav-secondary"
+                                    >
+                                      Replicators
+                                    </NavLink>
+                                  </SideNavigationItem>,
+                                ]
+                              : []),
+                          ]}
+                        </NavAccordion>
+                      </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
                           to={`${ROOT_PATH}/ui/operations`}

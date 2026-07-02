@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import {
   Button,
   List,
@@ -20,15 +20,38 @@ import { useClusterGroups } from "context/useClusterGroups";
 import usePanelParams from "util/usePanelParams";
 import { useServerEntitlements } from "util/entitlements/server";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { useIsClustered } from "context/useIsClustered";
+import NotClusteredEmptyState from "pages/cluster/NotClusteredEmptyState";
 
 const ClusterGroupList: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { data: groups = [], error, isLoading } = useClusterGroups();
+  const isClustered = useIsClustered();
+  const { data: groups = [], error, isLoading } = useClusterGroups(isClustered);
   const { canEditServerConfiguration } = useServerEntitlements();
 
-  if (error) {
-    notify.failure("Loading cluster groups failed", error);
+  useEffect(() => {
+    if (error && isClustered) {
+      notify.failure("Loading cluster groups failed", error);
+    }
+  }, [error, isClustered]);
+
+  if (!isClustered) {
+    return (
+      <BaseLayout
+        mainClassName="cluster-list"
+        title={
+          <HelpLink
+            docPath="/explanation/clustering/#cluster-groups"
+            title="Learn more about cluster groups"
+          >
+            Cluster groups
+          </HelpLink>
+        }
+      >
+        <NotClusteredEmptyState text="To organize your servers into groups, you first need to enable clustering." />
+      </BaseLayout>
+    );
   }
 
   const headers = [
