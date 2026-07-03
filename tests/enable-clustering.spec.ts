@@ -7,9 +7,62 @@ test("check enabling clustering", async ({ page, lxdVersion }, testInfo) => {
   test.skip(!testInfo.project.name.includes("enable-clustering"));
 
   await gotoURL(page, "/ui/");
-  await page.getByText("Server", { exact: true }).click();
-  await page.getByTestId("tab-link-Clustering").click();
-  await expect(page.getByText("This server is not clustered")).toBeVisible();
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Server" }).click();
+  await expect(page.getByText("Server", { exact: true })).toBeVisible();
+  await expect(page.getByText("System")).toBeVisible();
+  await page.getByRole("button", { name: "Enable clustering" }).click();
+  await page.getByRole("button", { name: "Close" }).click();
+
+  await page.getByRole("link", { name: "Groups" }).click();
+  await expect(page.getByText("Cluster groups", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("This server is not clustered", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "To organize your servers into groups, you first need to enable clustering.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Enable clustering" }).click();
+  await page.getByRole("button", { name: "Close" }).click();
+
+  await page.getByRole("link", { name: "Links" }).click();
+  await expect(page.getByText("Cluster links", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Create cluster link" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Create cluster link" }),
+  ).toBeEnabled();
+
+  await page.getByRole("link", { name: "Placement" }).click();
+  await expect(
+    page.getByText("Placement groups", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("This server is not clustered", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "To manage placement groups, you first need to enable clustering.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Enable clustering" }).click();
+  await page.getByRole("button", { name: "Close" }).click();
+
+  await page.getByRole("link", { name: "Replicators" }).click();
+  await expect(page.getByText("Replicators", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Create cluster link" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Create cluster link" }),
+  ).toBeEnabled();
+
+  await page.getByRole("link", { name: "Server" }).click();
   await page.getByRole("button", { name: "Enable clustering" }).click();
   await page.getByLabel("Server name").fill("micro1");
   await page.getByLabel("Cluster address").fill("127.0.0.1");

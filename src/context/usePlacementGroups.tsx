@@ -8,12 +8,17 @@ import {
 import type { LxdPlacementGroup } from "types/placementGroup";
 
 export const usePlacementGroups = (
-  project: string,
+  project?: string,
+  enabled = true,
 ): UseQueryResult<LxdPlacementGroup[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.placementGroups, project],
-    queryFn: async () => fetchPlacementGroups(project, isFineGrained),
+    queryFn: async () => {
+      if (!project) return [];
+      return fetchPlacementGroups(project, isFineGrained);
+    },
+    enabled: !!project && enabled,
   });
 };
 

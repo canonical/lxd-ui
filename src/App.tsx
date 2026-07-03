@@ -8,6 +8,7 @@ import NoMatch from "components/NoMatch";
 import { isBearerAuthError, logoutBearerToken, logoutOidc } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import lazy from "util/lazyWithRetry";
+import { useIsClustered } from "context/useIsClustered";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import {
@@ -38,6 +39,7 @@ const ClusterMemberList = lazy(
 const ClusterLinkList = lazy(
   async () => import("pages/cluster/ClusterLinkList"),
 );
+const ClusterServer = lazy(async () => import("pages/cluster/ClusterServer"));
 const ClusterMemberDetail = lazy(
   async () => import("pages/cluster/ClusterMemberDetail"),
 );
@@ -96,7 +98,6 @@ const ReplicatorDetail = lazy(
   async () => import("pages/cluster/ReplicatorDetail"),
 );
 const ReplicatorList = lazy(async () => import("pages/cluster/ReplicatorList"));
-const Server = lazy(async () => import("pages/cluster/Server"));
 const Settings = lazy(async () => import("pages/settings/Settings"));
 const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
 const StorageVolumes = lazy(async () => import("pages/storage/StorageVolumes"));
@@ -148,6 +149,8 @@ const App: FC = () => {
   } = useAuth();
   const notify = useNotify();
   const { data: settings } = useSettings();
+  const isClustered = useIsClustered();
+
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   setFavicon();
@@ -558,28 +561,6 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<ImageRegistryDetail />} />}
         />
         <Route
-          path={`${ROOT_PATH}/ui/server`}
-          element={<ProtectedRoute outlet={<Server />} />}
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server/clustering`}
-          element={
-            <ProtectedRoute outlet={<Server activeTab="clustering" />} />
-          }
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server/cluster-links`}
-          element={
-            <ProtectedRoute outlet={<Server activeTab="cluster-links" />} />
-          }
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/server/replicators`}
-          element={
-            <ProtectedRoute outlet={<Server activeTab="replicators" />} />
-          }
-        />
-        <Route
           path={`${ROOT_PATH}/ui/cluster/groups`}
           element={<ProtectedRoute outlet={<ClusterGroupList />} />}
         />
@@ -587,18 +568,27 @@ const App: FC = () => {
           path={`${ROOT_PATH}/ui/cluster/links`}
           element={<ProtectedRoute outlet={<ClusterLinkList />} />}
         />
-        <Route
-          path={`${ROOT_PATH}/ui/cluster/members`}
-          element={<ProtectedRoute outlet={<ClusterMemberList />} />}
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/cluster/member/:name`}
-          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
-        />
-        <Route
-          path={`${ROOT_PATH}/ui/cluster/member/:name/:activeTab`}
-          element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
-        />
+        {isClustered ? (
+          <>
+            <Route
+              path={`${ROOT_PATH}/ui/cluster/members`}
+              element={<ProtectedRoute outlet={<ClusterMemberList />} />}
+            />
+            <Route
+              path={`${ROOT_PATH}/ui/cluster/member/:name`}
+              element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+            />
+            <Route
+              path={`${ROOT_PATH}/ui/cluster/member/:name/:activeTab`}
+              element={<ProtectedRoute outlet={<ClusterMemberDetail />} />}
+            />
+          </>
+        ) : (
+          <Route
+            path={`${ROOT_PATH}/ui/cluster/server`}
+            element={<ProtectedRoute outlet={<ClusterServer />} />}
+          />
+        )}
         <Route
           path={`${ROOT_PATH}/ui/cluster/replicators`}
           element={<ProtectedRoute outlet={<ReplicatorList />} />}

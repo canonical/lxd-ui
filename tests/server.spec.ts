@@ -7,7 +7,6 @@ import {
   randomSettingValue,
   resetSetting,
   updateSetting,
-  visitServer,
   visitServerSettings,
   type ServerSettingType,
 } from "./helpers/server";
@@ -87,30 +86,4 @@ test("add and delete user defined setting", async ({ page }) => {
 
   await expect(keyElement).toHaveCount(0);
   await expect(valueElement).toHaveCount(0);
-});
-
-test("server page tabs are visible", async ({ page, lxdVersion }) => {
-  await visitServer(page);
-  const tabs = page.locator(".p-tabs__link");
-
-  await expect(tabs.filter({ hasText: "Hardware" })).toBeVisible();
-
-  if (lxdVersion !== "5.0-edge") {
-    await tabs.filter({ hasText: "Clustering" }).click();
-    await expect(page.getByText("This server is not clustered")).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Enable clustering" }),
-    ).toBeVisible();
-  }
-
-  if (lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge") {
-    await tabs.filter({ hasText: "Cluster links" }).click();
-    await expect(
-      page.getByRole("button", { name: "Create cluster link" }),
-    ).toBeVisible();
-    await tabs.filter({ hasText: "Replicators" }).click();
-    await expect(
-      page.getByRole("button", { name: "Create replicator" }),
-    ).toBeVisible();
-  }
 });

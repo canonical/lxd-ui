@@ -1,8 +1,7 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import {
   Button,
   Col,
-  CustomLayout,
   EmptyState,
   Icon,
   List,
@@ -16,33 +15,37 @@ import {
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import useSortTableData from "util/useSortTableData";
-import PageHeader from "components/PageHeader";
+import BaseLayout from "components/BaseLayout";
+import DocLink from "components/DocLink";
+import { useIsClustered } from "context/useIsClustered";
 import { usePlacementGroups } from "context/usePlacementGroups";
-import usePanelParams, { panels } from "util/usePanelParams";
+import NotClusteredEmptyState from "pages/cluster/NotClusteredEmptyState";
 import CreatePlacementGroupPanel from "pages/placement-groups/panels/CreatePlacementGroupPanel";
 import EditPlacementGroupPanel from "pages/placement-groups/panels/EditPlacementGroupPanel";
 import DeletePlacementGroupBtn from "pages/placement-groups/actions/DeletePlacementGroupBtn";
 import CreatePlacementGroupBtn from "pages/placement-groups/actions/CreatePlacementGroupBtn";
-import DocLink from "components/DocLink";
+import usePanelParams, { panels } from "util/usePanelParams";
+import useSortTableData from "util/useSortTableData";
 
 const PlacementGroupList: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
+  const isClustered = useIsClustered();
   const { project: projectName } = useParams<{ project: string }>();
-
-  if (!projectName) {
-    return <>Missing project</>;
-  }
-
   const {
     data: placementGroups = [],
     error,
     isLoading,
-  } = usePlacementGroups(projectName);
+  } = usePlacementGroups(projectName, isClustered);
 
-  if (error) {
-    notify.failure("Loading placement groups failed", error);
+  useEffect(() => {
+    if (error && isClustered) {
+      notify.failure("Loading placement groups failed", error);
+    }
+  }, [error, isClustered]);
+
+  if (!projectName) {
+    return <>Missing project</>;
   }
 
   const headers = [
@@ -144,31 +147,31 @@ const PlacementGroupList: FC = () => {
 
   return (
     <>
-      <CustomLayout
+      <BaseLayout
         mainClassName="placement-groups-list"
-        header={
-          <PageHeader>
-            <PageHeader.Left>
-              <PageHeader.Title>
-                <HelpLink
-                  docPath="/howto/cluster_placement_groups/"
-                  title="Learn how to use placement groups"
-                >
-                  Placement groups
-                </HelpLink>
-              </PageHeader.Title>
-            </PageHeader.Left>
-            <PageHeader.BaseActions>
-              {!isEmpty && (
-                <CreatePlacementGroupBtn className="u-no-margin--bottom u-float-right" />
-              )}
-            </PageHeader.BaseActions>
-          </PageHeader>
+        title={
+          <HelpLink
+            docPath="/howto/cluster_placement_groups/"
+            title="Learn how to use placement groups"
+          >
+            Placement groups
+          </HelpLink>
+        }
+        controls={
+          isClustered &&
+          !isEmpty && (
+            <CreatePlacementGroupBtn className="u-no-margin--bottom u-float-right" />
+          )
         }
       >
         <NotificationRow />
-        <Row className="no-grid-gap">
-          <Col size={12}>
+        {!isClustered ? (
+          <NotClusteredEmptyState
+            text="To manage placement groups, you first need to enable clustering."
+            extraButton={<CreatePlacementGroupBtn disabled />}
+          />
+        ) : (
+          <Row className="no-grid-gap">
             {isEmpty && (
               <EmptyState
                 className="empty-state"
@@ -187,33 +190,36 @@ const PlacementGroupList: FC = () => {
                 <CreatePlacementGroupBtn />
               </EmptyState>
             )}
+
             {!isEmpty && (
-              <ScrollableTable
-                dependencies={[placementGroups, notify.notification]}
-                tableId="placement-group-table"
-                belowIds={["status-bar"]}
-              >
-                <TablePagination
-                  id="pagination"
-                  data={sortedRows}
-                  itemName="placement group"
-                  className="u-no-margin--top"
-                  aria-label="Table pagination control"
+              <Col size={12}>
+                <ScrollableTable
+                  dependencies={[placementGroups, notify.notification]}
+                  tableId="placement-group-table"
+                  belowIds={["status-bar"]}
                 >
-                  <MainTable
-                    id="placement-group-table"
-                    className="placement-group-table"
-                    headers={headers}
-                    sortable
-                    emptyStateMsg="No placement groups found matching this search"
-                    onUpdateSort={updateSort}
-                  />
-                </TablePagination>
-              </ScrollableTable>
+                  <TablePagination
+                    id="pagination"
+                    data={sortedRows}
+                    itemName="placement group"
+                    className="u-no-margin--top"
+                    aria-label="Table pagination control"
+                  >
+                    <MainTable
+                      id="placement-group-table"
+                      className="placement-group-table"
+                      headers={headers}
+                      sortable
+                      emptyStateMsg="No placement groups found matching this search"
+                      onUpdateSort={updateSort}
+                    />
+                  </TablePagination>
+                </ScrollableTable>
+              </Col>
             )}
-          </Col>
-        </Row>
-      </CustomLayout>
+          </Row>
+        )}
+      </BaseLayout>
       {panelParams.panel === panels.createPlacementGroup && (
         <CreatePlacementGroupPanel />
       )}

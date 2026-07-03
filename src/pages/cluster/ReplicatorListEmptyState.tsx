@@ -65,7 +65,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
 
   return (
     <EmptyState
-      className="empty-state empty-state__full-width"
+      className="empty-state"
       image={<Icon name="change-version" className="empty-state-icon" />}
       title="No replicators found"
     >
@@ -91,7 +91,6 @@ const ReplicatorListEmptyState: FC<Props> = ({
         </a>
       </p>
       <CreateReplicatorButton
-        className="u-no-margin--bottom"
         hasClusterLinks={hasClusterLinks}
         appearance="positive"
       />
