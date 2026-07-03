@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.26% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/41</span>
+                <span class='fraction'>12/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.66% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/30</span>
+                <span class='fraction'>12/30</span>
             </div>
         
             
@@ -93,18 +93,18 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-yes">371x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -133,25 +133,25 @@ interface Props {
   project: string;
 }
 &nbsp;
-export const <span class="fstat-no" title="function not covered" >NetworkParentTooltipRow: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span> network, project }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { data: networksFromClusterMembers } = <span class="cstat-no" title="statement not covered" >useNetworkFromClusterMembers(</span></span>
+export const NetworkParentTooltipRow: FC&lt;Props&gt; = ({ network, project }) =&gt; {
+  const { data: networksFromC<span class="fstat-no" title="function not covered" >lusterMembers } = useNetworkFromClusterMembers(</span>
 <span class="cstat-no" title="statement not covered" >    network.name,</span>
 <span class="cstat-no" title="statement not covered" >    project,</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  if (networksFromClusterMembers &amp;&amp; networksFromClusterMembers.length &gt; 0) {</span></span>
-<span class="cstat-no" title="statement not covered" >    const parents = <span class="cstat-no" title="statement not covered" >networksFromClusterMembers</span></span>
+<span class="cstat-no" title="statement not covered" >  if (networksFromClusterMembers &amp;&amp; networksFromClusterMembers.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    const parents = networksFromClusterMembers</span>
 <span class="cstat-no" title="statement not covered" >      .filter(isNetwork)</span>
-<span class="cstat-no" title="statement not covered" >      .<span class="fstat-no" title="function not covered" >filter((n</span>) =&gt; <span class="cstat-no" title="statement not covered" >n !== undefined &amp;&amp; n.config &amp;&amp; n.config.parent)</span></span>
-<span class="cstat-no" title="statement not covered" >      .<span class="fstat-no" title="function not covered" >map((n</span>) =&gt; <span class="cstat-no" title="statement not covered" >n.config.parent)</span>;</span>
+<span class="cstat-no" title="statement not covered" >      .filter((n) =&gt; n !== undefined &amp;&amp; n.config &amp;&amp; n.config.parent)</span>
+<span class="cstat-no" title="statement not covered" >      .map((n) =&gt; n.config.parent);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (parents.length === 0) <span class="cstat-no" title="statement not covered" >return "-";</span></span></span>
+<span class="cstat-no" title="statement not covered" >    if (parents.length === 0) return "-";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const uniqueParents = <span class="cstat-no" title="statement not covered" >[...new Set(parents)];</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return uniqueParents.length === 1</span></span>
+<span class="cstat-no" title="statement not covered" >    const uniqueParents = [...new Set(parents)];</span>
+<span class="cstat-no" title="statement not covered" >    return uniqueParents.length === 1</span>
 <span class="cstat-no" title="statement not covered" >      ? uniqueParents[0]</span>
 <span class="cstat-no" title="statement not covered" >      : `${uniqueParents.length} different parents`;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return network?.config.parent || "-";</span></span>
+<span class="cstat-no" title="statement not covered" >  return network?.config.parent || "-";</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -160,7 +160,7 @@ export const <span class="fstat-no" title="function not covered" >NetworkParentT
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-01T12:42:07.652Z
+                at 2026-07-03T08:08:55.599Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
