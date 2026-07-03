@@ -90,3 +90,51 @@ export const deleteProject = async (page: Page, project: string) => {
 
   await confirmDelete(page, project);
 };
+
+export const promoteProjectToLeader = async (page: Page, project: string) => {
+  await page.getByRole("button", { name: "Promote to leader" }).click();
+  const confirmButton = page
+    .getByRole("dialog", { name: "Confirm promote" })
+    .getByRole("button")
+    .filter({ hasText: "Promote" });
+  await confirmButton.click();
+  await dismissNotification(page, `Project ${project} promoted to leader`);
+  await assertProjectReplicaMode(page, "leader");
+  await expect(
+    page.getByText("This project is the active source project for replication"),
+  ).toBeVisible();
+};
+
+export const demoteProjectToStandby = async (page: Page, project: string) => {
+  await page.getByRole("button", { name: "Demote to standby" }).click();
+  const confirmButton = page
+    .getByRole("dialog", { name: "Confirm demote" })
+    .getByRole("button")
+    .filter({ hasText: "Demote" });
+  await confirmButton.click();
+  await dismissNotification(page, `Project ${project} demoted to standby`);
+  await assertProjectReplicaMode(page, "standby");
+  await expect(
+    page.getByText("This project is a read-only failover target"),
+  ).toBeVisible();
+};
+
+export const selectReplicaCluster = async (page: Page, clusterName: string) => {
+  await page.getByLabel("Replica cluster").click();
+  const clusterOption = page.getByRole("option", { name: clusterName });
+  await clusterOption.click();
+};
+
+export const assertProjectReplicaMode = async (
+  page: Page,
+  expectedMode: string,
+) => {
+  await expect(
+    page.getByRole("status", { name: "Replica mode" }),
+  ).toContainText(expectedMode);
+};
+
+export const saveProjectConfiguration = async (page: Page, project: string) => {
+  await page.getByRole("button").filter({ hasText: "Save" }).click();
+  await dismissNotification(page, `Project ${project} updated.`);
+};

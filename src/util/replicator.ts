@@ -12,7 +12,6 @@ export const getPayload = (
     config: {
       cluster: formik.values.cluster,
       schedule: formik.values.schedule,
-      snapshot: formik.values.snapshot,
     },
   };
 };
