@@ -6,6 +6,7 @@ import {
   type PropsWithSpread,
   type SubComponentProps,
 } from "@canonical/react-components";
+import { KeyboardKey } from "@canonical/react-ds-global";
 import type { MouseEvent, ReactNode } from "react";
 import { useModal } from "context/useModal";
 
@@ -72,9 +73,9 @@ export const MountedConfirmationButton = ({
       >
         {confirmationModalProps.children}
         {showShiftClickHint && (
-          <p className="p-text--small u-text--muted u-hide--small">
+          <p className="u-text--muted u-hide--small">
             Next time, you can skip this confirmation by holding{" "}
-            <code>SHIFT</code> and clicking the action.
+            <KeyboardKey keyValue="shift" /> and clicking the action.
           </p>
         )}
       </ConfirmationModal>,

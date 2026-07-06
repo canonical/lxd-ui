@@ -78,6 +78,8 @@
 $border-default: 1px solid $colors--theme--border-default;
 $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
+@import "@canonical/styles";
+@import "@canonical/react-ds-global-form/dist/esm/index.css";
 @import "authentication_setup";
 @import "authentication_options";
 @import "certificate_add";
