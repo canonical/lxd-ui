@@ -1,18 +1,23 @@
 import { type FC } from "react";
-import { Col, Field, Notification, Row } from "@canonical/react-components";
+import {
+  Col,
+  Notification,
+  OutputField,
+  Row,
+} from "@canonical/react-components";
 import ScrollableForm from "components/ScrollableForm";
 import type { FormikProps } from "formik/dist/types";
 import ClusterLinkSelector from "pages/cluster/ClusterLinkSelector";
 import ReplicatorList from "pages/cluster/ReplicatorList";
-import PromoteProjectBtn from "pages/projects/actions/PromoteProjectBtn";
+import ClearProjectReplicaModeBtn from "pages/projects/actions/ClearProjectReplicaModeBtn";
 import DemoteProjectBtn from "pages/projects/actions/DemoteProjectBtn";
+import PromoteProjectBtn from "pages/projects/actions/PromoteProjectBtn";
 import type { LxdConfigPair } from "types/config";
 import type {
   ProjectFormValues,
   ProjectReplicaFormValues,
 } from "types/forms/project";
 import { ensureEditMode } from "util/editMode";
-import ClearProjectReplicaModeBtn from "../actions/ClearProjectReplicaModeBtn";
 
 export const replicaPayload = (
   values: ProjectReplicaFormValues,
@@ -105,24 +110,16 @@ const ProjectReplicaForm: FC<Props> = ({ formik, isEdit }) => {
   return (
     <ScrollableForm className="project-replica-form">
       <Row>
-        <Col size={12}>
-          <Field
-            forId="replica_mode"
+        <Col size={12} className="replica-mode-container">
+          <OutputField
+            id="replica_mode"
             label="Replica mode"
+            value={formik.values.replica_mode || "None"}
             help={getModeDescription(formik.values.replica_mode || "")}
-            labelClassName="u-no-margin--bottom"
-            className="replica-mode-field"
-          >
-            <div className="replica-mode-output-wrapper">
-              <output id="replica_mode" className="mono-font u-sv2">
-                <b>{formik.values.replica_mode || "None"}</b>
-              </output>
-
-              <div className="replica-mode-action-buttons">
-                {getModeActionButtons(formik.values.replica_mode)}
-              </div>
-            </div>
-          </Field>
+          />
+          <div className="replica-mode-action-buttons">
+            {getModeActionButtons(formik.values.replica_mode)}
+          </div>
         </Col>
       </Row>
 

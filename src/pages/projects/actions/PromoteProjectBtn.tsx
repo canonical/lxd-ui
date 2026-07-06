@@ -69,7 +69,6 @@ const PromoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
       onHoverText={
         disabledReason() ?? "Project will become the active replication source."
       }
-      className="u-no-margin--bottom"
       disabled={Boolean(disabledReason())}
       confirmationModalProps={{
         title: "Confirm promote",

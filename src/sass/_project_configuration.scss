@@ -48,19 +48,29 @@
 }
 
 .project-replica-form {
-  .replica-mode-field {
-    .replica-mode-output-wrapper {
-      align-items: baseline;
-      display: flex;
-      gap: $sph--large;
+  .replica-mode-container {
+    position: relative;
 
-      output.mono-font {
-        width: 15rem;
+    .replica-mode-action-buttons {
+      left: unset;
+      margin-bottom: $spv--small;
+      position: unset;
+      top: unset;
+
+      > .p-action-button {
+        margin-bottom: $spv--small;
       }
-    }
 
-    .p-form-help-text {
-      max-width: 15rem;
+      @media screen and (width >= 1200px) {
+        left: 16rem;
+        margin-bottom: 0;
+        position: absolute;
+        top: calc(1.5rem + 0.375rem);
+
+        > .p-button--default.p-action-button {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 

@@ -70,7 +70,6 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
         disabledReason() ??
         "Project will become the read-only replication target."
       }
-      className="u-no-margin--bottom"
       disabled={Boolean(disabledReason())}
       confirmationModalProps={{
         title: "Confirm demote",
