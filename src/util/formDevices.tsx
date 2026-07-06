@@ -61,6 +61,10 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           pool: item.pool,
           source: "source" in item ? item.source : undefined,
           size: "size" in item ? item.size : undefined,
+          readonly: "readonly" in item ? item.readonly : undefined,
+          recursive: "recursive" in item ? item.recursive : undefined,
+          required: "required" in item ? item.required : undefined,
+          shift: "shift" in item ? item.shift : undefined,
           type: "disk",
           bare: item,
         };

@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FC,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { Button, Input, Modal } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { LxdDiskDevice } from "types/device";
@@ -40,6 +47,25 @@ const HostPathDeviceModal: FC<Props> = ({
     onFinish(device);
   };
 
+  const canSubmit = !!source && !!path && !formik.isSubmitting;
+
+  const handleEnterAttach = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") {
+      return;
+    }
+
+    e.preventDefault();
+
+    touchedRef.current.source = true;
+    touchedRef.current.path = true;
+
+    if (!canSubmit) {
+      return;
+    }
+
+    handleFinish();
+  };
+
   return (
     <Modal
       className="host-path-device-modal"
@@ -56,11 +82,11 @@ const HostPathDeviceModal: FC<Props> = ({
             Back
           </Button>
           <Button
-            appearance=""
+            appearance="positive"
             className="u-no-margin--bottom"
             type="button"
             loading={formik.isSubmitting}
-            disabled={!source || !path || formik.isSubmitting}
+            disabled={!canSubmit}
             onClick={handleFinish}
           >
             Attach
@@ -75,6 +101,7 @@ const HostPathDeviceModal: FC<Props> = ({
           touchedRef.current.source = true;
           setSource(e.target.value);
         }}
+        onKeyDown={handleEnterAttach}
         type="text"
         label="Host path"
         required
@@ -91,6 +118,7 @@ const HostPathDeviceModal: FC<Props> = ({
           touchedRef.current.path = true;
           setPath(e.target.value);
         }}
+        onKeyDown={handleEnterAttach}
         type="text"
         label="Mount point"
         required

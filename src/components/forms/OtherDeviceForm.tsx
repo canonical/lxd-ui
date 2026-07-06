@@ -8,12 +8,9 @@ import {
   useNotify,
   Spinner,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import type { LxdDeviceValue } from "types/device";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { fetchConfigOptions } from "api/server";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useConfigOptions } from "context/useConfigOptions";
 import { toConfigFields } from "util/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ScrollableForm from "components/ScrollableForm";
@@ -60,12 +57,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
     (formik.values as EditInstanceFormValues).instanceType ===
       "virtual-machine";
 
-  const { hasMetadataConfiguration } = useSupportedFeatures();
-
-  const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
-  });
+  const { data: configOptions, isLoading: isConfigOptionsLoading } =
+    useConfigOptions();
 
   const {
     data: profiles = [],
@@ -234,7 +227,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
     customRows.push(
       getConfigurationRowBase({
-        className: "no-border-top inherited-with-form u-text--muted",
+        className: "no-border-top inherited-with-form",
         configuration: <Label forId={`devices.${index}.type`}>Type</Label>,
         inherited: (
           <Select
@@ -297,7 +290,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
       customRows.push(
         getConfigurationRowBase({
-          className: "no-border-top inherited-with-form u-text--muted",
+          className: "no-border-top inherited-with-form",
           configuration: (
             <Label forId={key}>{deviceKeyToLabel(field.key)}</Label>
           ),

@@ -118,6 +118,7 @@ describe("General util functions for permissions feature", () => {
       const metadata: LxdMetadata = {
         configs: {
           cluster: {},
+          "device-disk": {},
           instance: {},
           "network-bridge": {},
           "network-macvlan": {},

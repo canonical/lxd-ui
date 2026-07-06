@@ -12,11 +12,10 @@ import {
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
-import { queryKeys } from "util/queryKeys";
-import { fetchConfigOptions, updateSettings } from "api/server";
-import { useQuery } from "@tanstack/react-query";
+import { updateSettings } from "api/server";
 import { toConfigFields } from "util/config";
 import PageHeader from "components/PageHeader";
+import { useConfigOptions } from "context/useConfigOptions";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useClusteredSettings } from "context/useClusteredSettings";
@@ -109,10 +108,8 @@ const Settings: FC = () => {
 
   const { canEditServerConfiguration } = useServerEntitlements();
 
-  const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
-  });
+  const { data: configOptions, isLoading: isConfigOptionsLoading } =
+    useConfigOptions();
   const { data: clusteredSettings = [], error: clusterError } =
     useClusteredSettings();
 

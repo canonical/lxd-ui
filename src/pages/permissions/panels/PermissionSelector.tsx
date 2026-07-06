@@ -1,7 +1,7 @@
 import { Button, CustomSelect, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
-import { fetchConfigOptions } from "api/server";
+import { useConfigOptions } from "context/useConfigOptions";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEffect, useRef, useState, type FC } from "react";
 import {
@@ -33,8 +33,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
   const [entitlement, setEntitlement] = useState("");
-  const { hasMetadataConfiguration, hasEntityTypeMetadata } =
-    useSupportedFeatures();
+  const { hasEntityTypeMetadata } = useSupportedFeatures();
   const permissionSelectorRef = useRef<HTMLDivElement>(null);
 
   // Refs for select components, these contain methods to open/close the dropdown programmatically
@@ -59,10 +58,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
   const imageLookup = getImageLookup(images);
   const identityNamesLookup = getIdentityNameLookup(identities);
 
-  const { data: metadata, isLoading: isMetadataLoading } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
-  });
+  const { data: metadata, isLoading: isMetadataLoading } = useConfigOptions();
 
   const isLoading = isPermissionsLoading || isMetadataLoading;
 

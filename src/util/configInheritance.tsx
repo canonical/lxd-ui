@@ -19,10 +19,7 @@ import type {
 import type { ProjectFormValues } from "types/forms/project";
 import type { ConfigurationRowFormikValues } from "types/forms/configurationRow";
 import type { ConfigField } from "types/config";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchConfigOptions } from "api/server";
-import { toConfigFields } from "util/config";
+import { getConfigFieldByKey, toConfigFields } from "util/config";
 import { getInstanceField } from "util/instanceConfigFields";
 import { useParams } from "react-router-dom";
 import { getProjectKey } from "util/projectConfigFields";
@@ -31,7 +28,7 @@ import { getVolumeKey } from "util/storageVolume";
 import { getNetworkKey, networkFormTypeToOptionKey } from "util/networks";
 import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useConfigOptions } from "context/useConfigOptions";
 import type { NetworkFormValues } from "types/forms/network";
 import { useSettings } from "context/useSettings";
 import { useProfiles } from "context/useProfiles";
@@ -74,11 +71,7 @@ export const getConfigRowMetadata = (
 };
 
 const getConfigOptions = () => {
-  const { hasMetadataConfiguration } = useSupportedFeatures();
-  const { data: configOptions } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
-  });
+  const { data: configOptions } = useConfigOptions();
 
   return configOptions;
 };
@@ -91,7 +84,7 @@ const getInstanceRowMetadata = (
 
   const configFields = toConfigFields(configOptions?.configs.instance ?? {});
   const configKey = getInstanceField(name);
-  const configField = configFields.find((item) => item.key === configKey);
+  const configField = getConfigFieldByKey(configFields, configKey);
 
   const { project } = useParams<{ project: string }>();
   const { data: profiles = [] } = useProfiles(project as string);
@@ -127,7 +120,7 @@ const getProjectRowMetadata = (
 
   const configFields = toConfigFields(configOptions?.configs.project ?? {});
   const configKey = getProjectKey(name);
-  const configField = configFields.find((item) => item.key === configKey);
+  const configField = getConfigFieldByKey(configFields, configKey);
 
   return getInstanceProfileProjectDefaults(values, configKey, configField);
 };
@@ -153,7 +146,7 @@ const getStorageVolumeRowMetadata = (
   const optionKey = storagePoolFormDriverToOptionKey(pool?.driver ?? "zfs");
   const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
   const configKey = getVolumeKey(name);
-  const configField = configFields.find((item) => item.key === configKey);
+  const configField = getConfigFieldByKey(configFields, configKey);
 
   const lxdDefault = getLxdDefault(configField);
 
@@ -177,7 +170,7 @@ export const getNetworkMetadata = (
   const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
 
   const configKey = getNetworkKey(name);
-  const configField = configFields.find((item) => item.key === configKey);
+  const configField = getConfigFieldByKey(configFields, configKey);
   const lxdDefault = getLxdDefault(configField);
   return { value: lxdDefault, source: "LXD", configField };
 };
@@ -192,7 +185,7 @@ const getStoragePoolRowMetadata = (
   const optionKey = storagePoolFormDriverToOptionKey(values.driver);
   const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
   const configKey = getPoolKey(name);
-  const configField = configFields.find((item) => item.key === configKey);
+  const configField = getConfigFieldByKey(configFields, configKey);
 
   const lxdDefault = getLxdDefault(configField);
 

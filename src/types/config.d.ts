@@ -39,6 +39,7 @@ export interface LxdEntityEntitlements {
 export interface LxdMetadata {
   configs: {
     cluster: LxcConfigOptionCategories;
+    "device-disk": LxcConfigOptionCategories;
     instance: LxcConfigOptionCategories;
     "network-bridge": LxcConfigOptionCategories;
     "network-macvlan": LxcConfigOptionCategories;

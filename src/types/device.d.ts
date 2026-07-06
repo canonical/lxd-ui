@@ -2,6 +2,10 @@ export interface LxdDiskDevice {
   name?: string;
   path?: string;
   pool?: string;
+  readonly?: string;
+  recursive?: string;
+  required?: string;
+  shift?: string;
   size?: string;
   "boot.priority"?: string;
   "size.state"?: string;

@@ -7,7 +7,7 @@ import ProfileRichChip from "pages/profiles/ProfileRichChip";
 
 interface Props {
   id?: string;
-  label: string;
+  label: ReactNode;
   inheritValue: ReactNode;
   inheritSource?: string;
   readOnly: boolean;
@@ -40,16 +40,14 @@ export const getInheritedDeviceRow = ({
     className: classnames("no-border-top", className),
     configuration: id ? (
       !readOnly && overrideValue ? (
-        <Label forId={id} className="u-text--muted">
-          {label}
-        </Label>
+        <Label forId={id}>{label}</Label>
       ) : (
-        <p className="p-form__label u-no-margin--bottom u-no-padding--top u-text--muted">
+        <p className="p-form__label u-no-margin--bottom u-no-padding--top">
           {label}
         </p>
       )
     ) : (
-      <div className="u-text--muted">{label}</div>
+      <div>{label}</div>
     ),
     inherited: inheritValue && (
       <div
