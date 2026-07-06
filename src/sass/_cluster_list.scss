@@ -37,7 +37,8 @@
   }
 }
 
-.cluster-member-details {
+.cluster-member-details,
+.cluster-member-hardware-details {
   .row {
     padding-right: 0;
   }
@@ -51,7 +52,7 @@
     min-width: 12rem;
     position: absolute;
     right: 1rem;
-    top: 154px;
+    top: calc(8.25rem + $spv--x-large);
 
     ul {
       border-left: $border-thin;
@@ -100,18 +101,33 @@
   }
 }
 
+.cluster-member-hardware-details {
+  .hardware-section {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .aside {
+    top: 4rem;
+  }
+}
+
 .cluster-link-table {
   .status-header {
     padding-left: 1.8rem;
   }
 }
 
-.server {
-  .p-panel__title {
-    display: none;
+.cluster-server {
+  .cluster-server-notification {
+    max-width: 40rem;
   }
 
-  .pagination {
-    margin-right: $sph--x-large;
+  &:has(.cluster-server-notification) {
+    .cluster-member-hardware-details {
+      .aside {
+        top: calc(10rem + $spv--x-large);
+      }
+    }
   }
 }

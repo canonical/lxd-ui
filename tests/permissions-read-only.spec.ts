@@ -415,8 +415,12 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
 
     await gotoURL(page, "/ui/");
-    await page.getByText("Server", { exact: true }).click();
-    await page.getByTestId("tab-link-Clustering").click();
+    const clusteringToggle = page.getByRole("button", {
+      name: "Clustering",
+      exact: true,
+    });
+    await clusteringToggle.click();
+    await page.getByRole("link", { name: "Server" }).click();
     await expect(
       page.getByRole("button", { name: "Enable clustering" }),
     ).toBeDisabled();
@@ -425,6 +429,10 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await page.waitForSelector(
       "text=You do not have permission to view or edit server settings",
     );
+
+    if ((await clusteringToggle.getAttribute("aria-expanded")) === "true") {
+      await clusteringToggle.click();
+    }
   });
 
   test("Cannot interact with Identities", async ({ page, lxdVersion }) => {
@@ -450,7 +458,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
 
     await gotoURL(page, "/ui/");
     await page.getByText("Permissions", { exact: true }).click();
-    await page.getByText("Groups", { exact: true }).click();
+    await page.getByRole("link", { name: "Groups", exact: true }).click();
     await expect(
       page.getByRole("button", { name: "Create group" }),
     ).toBeDisabled();

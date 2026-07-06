@@ -1,12 +1,18 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import usePanelParams, { panels } from "util/usePanelParams";
+import { useIsScreenBelow } from "context/useIsScreenBelow";
 import CreateClusterGroupPanel from "pages/cluster/panels/CreateClusterGroupPanel";
 import { useServerEntitlements } from "util/entitlements/server";
+import usePanelParams, { panels } from "util/usePanelParams";
 
-const CreateClusterGroupBtn: FC = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+const CreateClusterGroupBtn: FC<Props> = ({ disabled }) => {
   const panelParams = usePanelParams();
   const { canEditServerConfiguration } = useServerEntitlements();
+  const isSmallScreen = useIsScreenBelow();
 
   const hasPermission = canEditServerConfiguration();
 
@@ -14,8 +20,8 @@ const CreateClusterGroupBtn: FC = () => {
     <>
       <Button
         appearance="positive"
-        className="u-no-margin--bottom"
-        disabled={!hasPermission}
+        className={isSmallScreen ? undefined : "u-no-margin--bottom"}
+        disabled={disabled || !hasPermission}
         title={
           hasPermission
             ? undefined

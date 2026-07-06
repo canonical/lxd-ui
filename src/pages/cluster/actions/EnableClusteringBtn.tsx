@@ -3,7 +3,12 @@ import { Button, Icon, usePortal } from "@canonical/react-components";
 import EnableClusteringModal from "pages/cluster/EnableClusteringModal";
 import { useServerEntitlements } from "util/entitlements/server";
 
-const EnableClusteringBtn: FC = () => {
+interface Props {
+  className?: string;
+  hasIcon?: boolean;
+}
+
+const EnableClusteringBtn: FC<Props> = ({ className, hasIcon = true }) => {
   const { canEditServerConfiguration } = useServerEntitlements();
   const { openPortal, closePortal, isOpen, Portal } = usePortal({
     programmaticallyOpen: true,
@@ -17,13 +22,14 @@ const EnableClusteringBtn: FC = () => {
   return (
     <>
       <Button
-        appearance="positive"
-        hasIcon
+        appearance="default"
+        className={className}
+        hasIcon={hasIcon}
         onClick={openPortal}
         disabled={!canEdit}
         title={title}
       >
-        <Icon name="plus" light />
+        {hasIcon && <Icon name="plus" />}
         <span>Enable clustering</span>
       </Button>
       {isOpen && (

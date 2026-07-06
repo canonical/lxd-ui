@@ -5,7 +5,6 @@ import {
   Icon,
   List,
   MainTable,
-  Panel,
   Row,
   ScrollableTable,
   Spinner,
@@ -30,11 +29,7 @@ import ClusterLinkAddresses from "pages/cluster/ClusterLinkAddresses";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
 import { getLinkIdentity } from "util/clusterLink";
 
-interface Props {
-  variant?: "main" | "panel";
-}
-
-const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
+const ClusterLinkList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
@@ -148,11 +143,13 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
   const isEmptyState = clusterLinks.length === 0 && !isLoading;
   const panelIdentity = getLinkIdentity(identities, panelParams.identity);
 
-  const Element = variant === "main" ? BaseLayout : Panel;
+  if (isLoading) {
+    return <Spinner className="u-loader" text="Loading cluster links..." />;
+  }
 
   return (
     <>
-      <Element
+      <BaseLayout
         title={
           <HelpLink
             docPath="/explanation/clustering/"
@@ -163,7 +160,7 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
         }
         controls={!isEmptyState && <CreateClusterLinkBtn />}
       >
-        {variant === "main" && <NotificationRow />}
+        <NotificationRow />
         <Row>
           {!isEmptyState && (
             <>
@@ -185,14 +182,6 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
                     headers={headers}
                     sortable
                     onUpdateSort={updateSort}
-                    emptyStateMsg={
-                      isLoading && (
-                        <Spinner
-                          className="u-loader"
-                          text="Loading cluster links..."
-                        />
-                      )
-                    }
                   />
                 </TablePagination>
               </ScrollableTable>
@@ -219,7 +208,7 @@ const ClusterLinkList: FC<Props> = ({ variant = "main" }) => {
             </EmptyState>
           )}
         </Row>
-      </Element>
+      </BaseLayout>
       <CreateClusterLink />
       {panelParams.panel === panels.editClusterLink && panelIdentity && (
         <EditClusterLinkPanel identity={panelIdentity} />

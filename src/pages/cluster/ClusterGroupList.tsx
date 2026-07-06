@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import {
   Button,
   List,
@@ -20,16 +20,21 @@ import { useClusterGroups } from "context/useClusterGroups";
 import usePanelParams from "util/usePanelParams";
 import { useServerEntitlements } from "util/entitlements/server";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { useIsClustered } from "context/useIsClustered";
+import NotClusteredEmptyState from "pages/cluster/NotClusteredEmptyState";
 
 const ClusterGroupList: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { data: groups = [], error, isLoading } = useClusterGroups();
+  const isClustered = useIsClustered();
+  const { data: groups = [], error, isLoading } = useClusterGroups(isClustered);
   const { canEditServerConfiguration } = useServerEntitlements();
 
-  if (error) {
-    notify.failure("Loading cluster groups failed", error);
-  }
+  useEffect(() => {
+    if (error && isClustered) {
+      notify.failure("Loading cluster groups failed", error);
+    }
+  }, [error, isClustered]);
 
   const headers = [
     {
@@ -138,41 +143,48 @@ const ClusterGroupList: FC = () => {
           Cluster groups
         </HelpLink>
       }
-      controls={<CreateClusterGroupBtn />}
+      controls={isClustered && <CreateClusterGroupBtn />}
     >
       <NotificationRow />
-      <Row>
-        <ScrollableTable
-          dependencies={[groups, notify.notification]}
-          tableId="cluster-table"
-          belowIds={["status-bar"]}
-        >
-          <TablePagination
-            data={sortedRows}
-            id="pagination"
-            itemName="cluster group"
-            className="u-no-margin--top"
-            aria-label="Table pagination control"
+      {!isClustered ? (
+        <NotClusteredEmptyState
+          text="To organize your servers into groups, you first need to enable clustering."
+          extraButton={<CreateClusterGroupBtn disabled />}
+        />
+      ) : (
+        <Row>
+          <ScrollableTable
+            dependencies={[groups, notify.notification]}
+            tableId="cluster-table"
+            belowIds={["status-bar"]}
           >
-            <MainTable
-              id="cluster-table"
-              className="cluster-group-table"
-              headers={headers}
-              sortable
-              responsive
-              onUpdateSort={updateSort}
-              emptyStateMsg={
-                isLoading && (
-                  <Spinner
-                    className="u-loader"
-                    text="Loading cluster groups..."
-                  />
-                )
-              }
-            />
-          </TablePagination>
-        </ScrollableTable>
-      </Row>
+            <TablePagination
+              data={sortedRows}
+              id="pagination"
+              itemName="cluster group"
+              className="u-no-margin--top"
+              aria-label="Table pagination control"
+            >
+              <MainTable
+                id="cluster-table"
+                className="cluster-group-table"
+                headers={headers}
+                sortable
+                responsive
+                onUpdateSort={updateSort}
+                emptyStateMsg={
+                  isLoading && (
+                    <Spinner
+                      className="u-loader"
+                      text="Loading cluster groups..."
+                    />
+                  )
+                }
+              />
+            </TablePagination>
+          </ScrollableTable>
+        </Row>
+      )}
     </BaseLayout>
   );
 };
