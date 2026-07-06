@@ -15,6 +15,18 @@ import {
   visitInstance,
 } from "./helpers/instances";
 import {
+  visitFileExplorer,
+  randomFileName,
+  openDirectory,
+  assertFileExists,
+  assertFileNotExists,
+  assertDirectoryExists,
+  deleteFile,
+  downloadFile,
+  uploadFile,
+  createFile,
+} from "./helpers/instance-file-explorer";
+import {
   assertCode,
   assertReadMode,
   setCodeInput,
@@ -451,4 +463,93 @@ test("instance deletion (with and without force delete support)", async ({
   await expect(
     page.getByText(`Instance ${toDeleteInstance} deleted.`),
   ).toBeVisible();
+});
+
+// File Explorer Tests
+
+test("navigate with breadcrumb navigation", async ({ page }) => {
+  await visitAndStartInstance(page, instance);
+  await visitFileExplorer(page, instance);
+
+  await assertDirectoryExists(page, "root");
+  await assertDirectoryExists(page, "home");
+  await assertDirectoryExists(page, "etc");
+  await assertDirectoryExists(page, "var");
+  await assertDirectoryExists(page, "tmp");
+
+  await openDirectory(page, "var");
+  await openDirectory(page, "log");
+  await expect(page).toHaveURL(/path=%2Fvar%2Flog/);
+
+  const breadcrumb = page.getByRole("navigation", {
+    name: "File Explorer Path",
+  });
+  await expect(
+    breadcrumb.getByRole("link", { name: "root", exact: true }),
+  ).toBeVisible();
+  await expect(
+    breadcrumb.getByRole("link", { name: "var", exact: true }),
+  ).toBeVisible();
+  await expect(breadcrumb.getByText("log", { exact: true })).toBeVisible();
+
+  // Click on breadcrumb to go back to the parent directory
+  const parentBreadcrumb = breadcrumb.getByRole("link", {
+    name: "var",
+    exact: true,
+  });
+  await parentBreadcrumb.click();
+
+  await expect(page).toHaveURL(/path=%2Fvar/);
+  await assertDirectoryExists(page, "log");
+});
+
+test("upload, download, and delete file from file explorer", async ({
+  page,
+}, testInfo) => {
+  await visitAndStartInstance(page, instance);
+  await visitFileExplorer(page, instance);
+
+  await openDirectory(page, "tmp");
+
+  const createdFileName = randomFileName();
+  const uploadedFileName = randomFileName();
+  await createFile(page, createdFileName);
+  await assertFileExists(page, createdFileName);
+
+  const download = await downloadFile(page, createdFileName);
+  const downloadedFilePath = testInfo.outputPath(uploadedFileName);
+  await download.saveAs(downloadedFilePath);
+
+  expect(download.suggestedFilename()).toBe(createdFileName);
+
+  const rows = page.getByRole("grid").first().getByRole("row");
+  const rowCount = await rows.count();
+
+  await uploadFile(page, downloadedFilePath);
+  await assertFileExists(page, createdFileName);
+  await assertFileExists(page, uploadedFileName);
+  await expect(rows).toHaveCount(rowCount + 1);
+
+  await deleteFile(page, uploadedFileName, instance);
+  await assertFileNotExists(page, uploadedFileName);
+  await expect(rows).toHaveCount(rowCount);
+
+  await deleteFile(page, createdFileName, instance);
+  await assertFileNotExists(page, createdFileName);
+});
+
+test("file explorer shows empty state for a stopped virtual machine", async ({
+  page,
+}) => {
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+  await visitInstance(page, vmInstance, "default");
+  await page.getByRole("link", { name: "File Explorer" }).click();
+  await expect(page.getByText("Instance is not running")).toBeVisible();
+  await expect(
+    page.getByText("Virtual machines must be running to browse files."),
+  ).toBeVisible();
+  await expect(page.getByText("Start instance")).toBeVisible();
 });
