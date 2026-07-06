@@ -45,6 +45,7 @@ const PermissionIdpGroups: FC = () => {
   const { canCreateIdpGroups } = useServerEntitlements();
   const { canEditIdpGroup } = useIdpGroupEntitlements();
   const isSmallScreen = useIsScreenBelow();
+  const [isNotification, setIsNotification] = useState(true);
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -221,7 +222,16 @@ const PermissionIdpGroups: FC = () => {
 
   const content = hasGroups ? (
     <>
-      <Notification severity="information">{idpGroupsInfo}</Notification>
+      {isNotification && (
+        <Notification
+          severity="information"
+          onDismiss={() => {
+            setIsNotification(false);
+          }}
+        >
+          {idpGroupsInfo}
+        </Notification>
+      )}
       <ScrollableTable
         dependencies={[groups]}
         tableId="idp-groups-table"
