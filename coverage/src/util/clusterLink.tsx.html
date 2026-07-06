@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.43% </span>
+                <span class="strong">80.39% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/51</span>
+                <span class='fraction'>41/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.28% </span>
+                <span class="strong">65.51% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>18/28</span>
+                <span class='fraction'>19/29</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.29% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/37</span>
+                <span class='fraction'>37/37</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -100,11 +100,11 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -118,25 +118,25 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
-<span class="cline-any cline-yes">37x</span>
-<span class="cline-any cline-yes">37x</span>
-<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">118x</span>
 <span class="cline-any cline-yes">35x</span>
-<span class="cline-any cline-yes">37x</span>
-<span class="cline-any cline-yes">37x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">227x</span>
-<span class="cline-any cline-yes">227x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">227x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">224x</span>
+<span class="cline-any cline-yes">221x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">224x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdClusterLinkState, StatusCaption } from "types/cluster";
 import type { LxdIdentity } from "types/permissions";
 import { ROOT_PATH } from "util/rootPath";
@@ -172,7 +172,7 @@ export const <span class="fstat-no" title="function not covered" >getLinkIdentit
 export const <span class="fstat-no" title="function not covered" >getClusterLinkListUrl = (i</span>sClustered = false): string =&gt; {
 <span class="cstat-no" title="statement not covered" >  return isClustered</span>
     ? `${ROOT_PATH}/ui/cluster/links`
-<span class="cstat-no" title="statement not covered" >    : `${ROOT_PATH}/ui/server/cluster-links`;</span>
+    : `${ROOT_PATH}/ui/server/cluster-links`;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -181,7 +181,7 @@ export const <span class="fstat-no" title="function not covered" >getClusterLink
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-06T12:04:09.608Z
+                at 2026-07-06T12:08:56.680Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
