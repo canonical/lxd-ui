@@ -45,6 +45,7 @@ import { assertTextVisible } from "./helpers/permissions";
 import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
 import { gotoURL } from "./helpers/navigate";
 import { execSync } from "child_process";
+import { rmSync } from "fs";
 import { dismissNotification } from "./helpers/notification";
 
 let instance = randomInstanceName();
@@ -511,31 +512,41 @@ test("upload, download, and delete file from file explorer", async ({
 
   await openDirectory(page, "tmp");
 
-  const createdFileName = randomFileName();
-  const uploadedFileName = randomFileName();
-  await createFile(page, createdFileName);
-  await assertFileExists(page, createdFileName);
+  const sourceFileName = randomFileName();
+  const targetFileName = randomFileName();
+  const stagedDownloadPath = testInfo.outputPath(targetFileName);
 
-  const download = await downloadFile(page, createdFileName);
-  const downloadedFilePath = testInfo.outputPath(uploadedFileName);
-  await download.saveAs(downloadedFilePath);
+  // Create the source file inside the instance so the explorer has something to download.
+  await createFile(page, sourceFileName);
+  await assertFileExists(page, sourceFileName);
 
-  expect(download.suggestedFilename()).toBe(createdFileName);
+  try {
+    // Download the source file to the test output directory, then reuse that file for upload.
+    const download = await downloadFile(page, sourceFileName);
+    await download.saveAs(stagedDownloadPath);
 
-  const rows = page.getByRole("grid").first().getByRole("row");
-  const rowCount = await rows.count();
+    expect(download.suggestedFilename()).toBe(sourceFileName);
 
-  await uploadFile(page, downloadedFilePath);
-  await assertFileExists(page, createdFileName);
-  await assertFileExists(page, uploadedFileName);
-  await expect(rows).toHaveCount(rowCount + 1);
+    const rows = page.getByRole("grid").first().getByRole("row");
+    const rowCount = await rows.count();
 
-  await deleteFile(page, uploadedFileName, instance);
-  await assertFileNotExists(page, uploadedFileName);
-  await expect(rows).toHaveCount(rowCount);
+    // Upload the downloaded copy and verify the directory now contains both files.
+    await uploadFile(page, stagedDownloadPath);
+    await assertFileExists(page, sourceFileName);
+    await assertFileExists(page, targetFileName);
+    await expect(rows).toHaveCount(rowCount + 1);
 
-  await deleteFile(page, createdFileName, instance);
-  await assertFileNotExists(page, createdFileName);
+    // Remove the uploaded copy and original file created in the instance.
+    await deleteFile(page, targetFileName, instance);
+    await assertFileNotExists(page, targetFileName);
+
+    await deleteFile(page, sourceFileName, instance);
+    await assertFileNotExists(page, sourceFileName);
+    await expect(rows).toHaveCount(rowCount - 1);
+  } finally {
+    // Keep the test-results artifact directory clean for the post-test steps.
+    rmSync(stagedDownloadPath, { force: true });
+  }
 });
 
 test("file explorer shows empty state for a stopped virtual machine", async ({
@@ -545,7 +556,7 @@ test("file explorer shows empty state for a stopped virtual machine", async ({
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
   );
-  await visitInstance(page, vmInstance, "default");
+  await visitAndStopInstance(page, vmInstance);
   await page.getByRole("link", { name: "File Explorer" }).click();
   await expect(page.getByText("Instance is not running")).toBeVisible();
   await expect(
