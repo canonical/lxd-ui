@@ -28,6 +28,7 @@ import { useLoggedInUser } from "context/useLoggedInUser";
 import { useSettings } from "context/useSettings";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
+import { useFeatureFlags } from "context/useFeatureFlags";
 import { AUTH_METHOD, authIcon } from "util/authentication";
 import { unmanagedNetworkDetailRoute } from "util/networks";
 import { ALL_PROJECTS } from "util/projects";
@@ -98,6 +99,7 @@ const Navigation: FC = () => {
   const [openNavMenus, setOpenNavMenus] = useState<AccordionNavMenu[]>(() =>
     initialiseOpenNavMenus(location),
   );
+  const { isOverviewEnabled } = useFeatureFlags();
 
   const onGenerate = location.pathname.includes("certificate-generate");
   const onTrustToken = location.pathname.includes("certificate-add");
@@ -277,6 +279,21 @@ const Navigation: FC = () => {
                           activeProject={projectName}
                         />
                       </li>
+                      {isOverviewEnabled() && (
+                        <SideNavigationItem>
+                          <NavLink
+                            to={`${ROOT_PATH}/ui/overview`}
+                            title={`Overview (${projectName})`}
+                            onClick={softToggleMenu}
+                          >
+                            <Icon
+                              className="is-light p-side-navigation__icon"
+                              name="switcher-dashboard"
+                            />{" "}
+                            Overview
+                          </NavLink>
+                        </SideNavigationItem>
+                      )}
                       <SideNavigationItem>
                         <NavLink
                           to={

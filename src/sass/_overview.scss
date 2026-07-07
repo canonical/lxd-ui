@@ -1,0 +1,92 @@
+.overview-content {
+  $golden-ratio: 1.618;
+
+  .overview-row {
+    display: flex;
+    gap: $sph--large;
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  .overview-card {
+    .p-card__title {
+      i {
+        height: 1.5rem;
+        margin-bottom: calc(-1 * $spv--small / 2);
+        width: 1.5rem;
+      }
+    }
+
+    &.cluster,
+    &.storage,
+    &.memory {
+      flex: 1;
+    }
+
+    &.instances {
+      max-width: calc(50% - $sph--large / 2);
+      min-width: 20rem;
+
+      .card-content {
+        align-items: center;
+        display: flex;
+
+        .group-by-status-container {
+          .group-by-status {
+            border-left: solid 5px var(--vf-color-button-positive-default);
+            padding-left: $sph--large;
+
+            &.running {
+              border-color: var(--vf-color-button-positive-default);
+            }
+
+            &.stopped {
+              border-color: var(--vf-color-text-default);
+            }
+
+            &.frozen {
+              border-color: var(--vf-color-link-default);
+            }
+
+            &.error {
+              border-color: var(--vf-color-button-negative-default);
+            }
+
+            p.status-label {
+              margin-bottom: 0;
+            }
+
+            .status-count {
+              font-size: calc(1rem * $golden-ratio);
+            }
+          }
+        }
+
+        .group-by-type-container {
+          align-items: center;
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+
+          .group-by-type-doughnut-chart {
+            .doughnut-chart__segment {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .card-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: $spv--small;
+      }
+
+      @include mobile {
+        min-width: 100%;
+      }
+    }
+  }
+}

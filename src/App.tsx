@@ -9,6 +9,7 @@ import { isBearerAuthError, logoutBearerToken, logoutOidc } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import lazy from "util/lazyWithRetry";
 import { useIsClustered } from "context/useIsClustered";
+import { useFeatureFlags } from "context/useFeatureFlags";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import {
@@ -61,6 +62,7 @@ const CreateProject = lazy(async () => import("pages/projects/CreateProject"));
 const CreateStoragePool = lazy(
   async () => import("pages/storage/CreateStoragePool"),
 );
+const Overview = lazy(async () => import("pages/overview/Overview"));
 const EditNetworkForward = lazy(
   async () => import("pages/networks/EditNetworkForward"),
 );
@@ -150,7 +152,7 @@ const App: FC = () => {
   const notify = useNotify();
   const { data: settings } = useSettings();
   const isClustered = useIsClustered();
-
+  const { isOverviewEnabled } = useFeatureFlags();
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   setFavicon();
@@ -160,6 +162,18 @@ const App: FC = () => {
     const theme = loadTheme();
     applyTheme(theme);
   }, []);
+
+  const getHomeRedirectPath = () => {
+    if (isOverviewEnabled()) {
+      return `${ROOT_PATH}/ui/overview`;
+    }
+
+    if (hasNoProjects || defaultProject === ALL_PROJECTS) {
+      return `${ROOT_PATH}/ui/all-projects/instances`;
+    }
+
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/instances`;
+  };
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -212,16 +226,7 @@ const App: FC = () => {
           <Route
             key={path}
             path={path}
-            element={
-              <Navigate
-                to={
-                  hasNoProjects || defaultProject === ALL_PROJECTS
-                    ? `${ROOT_PATH}/ui/all-projects/instances`
-                    : `${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/instances`
-                }
-                replace={true}
-              />
-            }
+            element={<Navigate to={getHomeRedirectPath()} replace={true} />}
           />
         ))}
         <Route
@@ -621,6 +626,12 @@ const App: FC = () => {
           path={`${ROOT_PATH}/ui/settings`}
           element={<ProtectedRoute outlet={<Settings />} />}
         />
+        {isOverviewEnabled() && (
+          <Route
+            path={`${ROOT_PATH}/ui/overview`}
+            element={<ProtectedRoute outlet={<Overview />} />}
+          />
+        )}
         <Route path={`${ROOT_PATH}/ui/login`} element={<Login />} />
         <Route
           path={`${ROOT_PATH}/ui/login/certificate-generate`}

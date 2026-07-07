@@ -10,6 +10,7 @@ import { AuthProvider } from "context/auth";
 import { EventQueueProvider } from "context/eventQueue";
 import { InstanceLoadingProvider } from "context/instanceLoading";
 import { ProjectProvider } from "context/useCurrentProject";
+import { FeatureFlagProvider } from "context/useFeatureFlags";
 import OperationsProvider from "context/operationsProvider";
 import { ReplicatorRunningProvider } from "context/replicatorLoading";
 import { MetricHistoryProvider } from "context/metricHistory";
@@ -61,7 +62,9 @@ const AppProviders: FC<AppProvidersProps> = ({ children }) => {
                       >
                         <MetricHistoryProvider>
                           <ReplicatorRunningProvider>
-                            {children}
+                            <FeatureFlagProvider>
+                              {children}
+                            </FeatureFlagProvider>
                           </ReplicatorRunningProvider>
                         </MetricHistoryProvider>
                       </NotificationProvider>
