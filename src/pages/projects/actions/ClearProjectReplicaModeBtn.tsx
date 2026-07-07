@@ -61,7 +61,6 @@ const ClearProjectReplicaModeBtn: FC<Props> = ({ project, isEdit }: Props) => {
       appearance="base"
       onClick={clearReplicaMode}
       loading={isClearing}
-      className="u-no-margin--bottom"
       title={disabledReason() ?? "Clear replica mode for project."}
       disabled={Boolean(disabledReason())}
     >
