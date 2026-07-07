@@ -17,8 +17,9 @@ export const skipIfClusteringNotSupported = (lxdVersion: LxdVersions) => {
 
 export const isServerClustered = async (page: Page) => {
   await gotoURL(page, "/ui/");
+  await page.getByRole("button", { name: "Clustering", exact: true }).click();
 
-  if ((await page.getByRole("button", { name: "Clustering" }).count()) === 0) {
+  if ((await page.getByRole("link", { name: "Members" }).count()) === 0) {
     return false;
   } else {
     return true;
