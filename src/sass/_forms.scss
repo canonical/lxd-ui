@@ -45,6 +45,10 @@
         top: 0.3rem;
         z-index: 1;
       }
+
+      .instance-form-menu-toggle {
+        min-width: auto;
+      }
     }
 
     .form-contents {
@@ -113,6 +117,16 @@
   @include mobile-and-tablet {
     .form {
       margin-top: 13px;
+
+      .form-navigation.is-collapsed {
+        min-width: auto;
+        overflow: visible;
+      }
+
+      .instance-form-menu-toggle {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
   }
 
