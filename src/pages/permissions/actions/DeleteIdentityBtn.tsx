@@ -9,13 +9,13 @@ import {
 } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import { deleteIdentity } from "api/auth-identities";
-import { useIdentityEntitlements } from "util/entitlements/identities";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
+import IdentityResource from "components/IdentityResource";
 import { useSettings } from "context/useSettings";
-import { logoutOidc } from "util/helpers";
-import ResourceLabel from "components/ResourceLabel";
-import { AUTH_METHOD } from "util/authentication";
 import { useAuth } from "context/auth";
+import { AUTH_METHOD } from "util/authentication";
+import { useIdentityEntitlements } from "util/entitlements/identities";
+import { logoutOidc } from "util/helpers";
 
 interface Props {
   identity: LxdIdentity;
@@ -53,13 +53,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         });
         toastNotify.success(
           <>
-            Identity{" "}
-            <ResourceLabel
-              type="certificate"
-              value={identity.name}
-              bold
-              truncate
-            />{" "}
+            Identity <IdentityResource identity={identity} variant="label" />{" "}
             deleted.
           </>,
         );
@@ -71,12 +65,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         notify.failure(
           `Identity deletion failed`,
           e,
-          <ResourceLabel
-            type="certificate"
-            value={identity.name}
-            bold
-            truncate
-          />,
+          <IdentityResource identity={identity} variant="label" />,
         );
       });
   };
@@ -98,7 +87,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
             <LoggedInUserNotification isVisible={isSelf} />
             <p>
               This will permanently delete identity{" "}
-              <ResourceLabel type="certificate" value={identity.name} bold />
+              <IdentityResource identity={identity} variant="label" />
               .
               <br />
               This action cannot be undone, and can result in data loss.

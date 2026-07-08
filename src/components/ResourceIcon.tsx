@@ -32,7 +32,8 @@ export type ResourceIconType =
   | "device"
   | "setting"
   | "peering"
-  | "replicator";
+  | "replicator"
+  | "token-bearer";
 
 const resourceIcons: Record<ResourceIconType, string> = {
   container: "pods",
@@ -66,6 +67,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   metric: "statistics",
   "placement-group": "repository",
   replicator: "change-version",
+  "token-bearer": "private-key",
 };
 
 interface Props {

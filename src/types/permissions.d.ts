@@ -10,9 +10,14 @@ export interface LxdIdentity {
     | "Cluster link certificate (pending)"
     | "Metrics certificate (unrestricted)"
     | "OIDC client"
-    | "Server certificate";
+    | "Client token bearer"
+    | "Server certificate"
+    | "DevLXD token bearer";
   name: string;
-  authentication_method: typeof AUTH_METHOD.TLS | typeof AUTH_METHOD.OIDC;
+  authentication_method:
+    | typeof AUTH_METHOD.TLS
+    | typeof AUTH_METHOD.OIDC
+    | typeof AUTH_METHOD.BEARER;
   tls_certificate: string;
   groups?: string[] | null;
   effective_groups?: string[];
@@ -27,6 +32,7 @@ export interface LxdAuthGroup {
   description: string;
   permissions?: LxdPermission[];
   identities?: {
+    bearer?: string[];
     oidc?: string[];
     tls?: string[];
   };
