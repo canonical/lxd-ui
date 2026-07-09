@@ -1,7 +1,17 @@
 import { useEffect, useState, type FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { Button, useListener, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  useListener,
+  useNotify,
+} from "@canonical/react-components";
+import classnames from "classnames";
 import { updateMaxHeight } from "util/updateMaxHeight";
+import {
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { hasPrefixValue } from "util/formFields";
@@ -47,6 +57,12 @@ const InstanceFormMenu: FC<Props> = ({
   const notify = useNotify();
   const [isDeviceExpanded, setDeviceExpanded] = useState(true);
   const { hasMetadataConfiguration } = useSupportedFeatures();
+  const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
+  const [isMenuExpanded, setMenuExpanded] = useState(!isMediumScreen);
+
+  useEffect(() => {
+    setMenuExpanded(!isMediumScreen);
+  }, [isMediumScreen]);
 
   const disableReason = isDisabled
     ? "Please select an image before adding custom configuration"
@@ -54,7 +70,12 @@ const InstanceFormMenu: FC<Props> = ({
 
   const menuItemProps = {
     active,
-    setActive,
+    setActive: (val: string) => {
+      setActive(val);
+      if (isMediumScreen) {
+        setMenuExpanded(false);
+      }
+    },
     disableReason,
   };
 
@@ -65,103 +86,123 @@ const InstanceFormMenu: FC<Props> = ({
   useListener(window, resize, "resize", true);
 
   return (
-    <div className="p-side-navigation--accordion form-navigation">
-      <nav aria-label="Instance form navigation">
-        <ul className="p-side-navigation__list">
-          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} isBold />
-          <li className="p-side-navigation__item">
-            <Button
-              type="button"
-              className="p-side-navigation__accordion-button"
-              aria-expanded={isDeviceExpanded ? "true" : "false"}
-              onClick={() => {
-                if (!isDisabled) {
-                  setDeviceExpanded(!isDeviceExpanded);
-                }
-              }}
-              disabled={isDisabled}
-              title={disableReason}
-            >
-              {formik.values.devices.length > 0 ? (
-                <strong>Devices</strong>
-              ) : (
-                "Devices"
-              )}
-            </Button>
-            <ul
-              className="p-side-navigation__list"
-              aria-expanded={isDeviceExpanded ? "true" : "false"}
-            >
-              <MenuItem
-                label={DISK_DEVICES}
-                hasError={hasDiskError}
-                {...menuItemProps}
-                isBold={formik.values.devices.some(isDiskDevice)}
-              />
-              <MenuItem
-                label={NETWORK_DEVICES}
-                hasError={hasNetworkError}
-                {...menuItemProps}
-                isBold={formik.values.devices.some(isNicDevice)}
-              />
-              <MenuItem
-                label={GPU_DEVICES}
-                {...menuItemProps}
-                isBold={formik.values.devices.some(isGPUDevice)}
-              />
-              <MenuItem
-                label={PROXY_DEVICES}
-                {...menuItemProps}
-                isBold={formik.values.devices.some(isProxyDevice)}
-              />
-              {hasMetadataConfiguration && (
+    <div
+      className={classnames("p-side-navigation--accordion form-navigation", {
+        "is-collapsed": isMediumScreen && !isMenuExpanded,
+      })}
+    >
+      {isMediumScreen && (
+        <Button
+          type="button"
+          appearance="base"
+          className="instance-form-menu-toggle"
+          aria-label={isMenuExpanded ? "Collapse menu" : "Open menu"}
+          aria-expanded={isMenuExpanded ? "true" : "false"}
+          onClick={() => {
+            setMenuExpanded(!isMenuExpanded);
+          }}
+        >
+          <Icon name={isMenuExpanded ? "chevron-left" : "chevron-right"} />
+        </Button>
+      )}
+      {(!isMediumScreen || isMenuExpanded) && (
+        <nav aria-label="Instance form navigation">
+          <ul className="p-side-navigation__list">
+            <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} isBold />
+            <li className="p-side-navigation__item">
+              <Button
+                type="button"
+                className="p-side-navigation__accordion-button"
+                aria-expanded={isDeviceExpanded ? "true" : "false"}
+                onClick={() => {
+                  if (!isDisabled) {
+                    setDeviceExpanded(!isDeviceExpanded);
+                  }
+                }}
+                disabled={isDisabled}
+                title={disableReason}
+              >
+                {formik.values.devices.length > 0 ? (
+                  <strong>Devices</strong>
+                ) : (
+                  "Devices"
+                )}
+              </Button>
+              <ul
+                className="p-side-navigation__list"
+                aria-expanded={isDeviceExpanded ? "true" : "false"}
+              >
                 <MenuItem
-                  label={OTHER_DEVICES}
+                  label={DISK_DEVICES}
+                  hasError={hasDiskError}
                   {...menuItemProps}
-                  isBold={formik.values.devices.some(isOtherDevice)}
+                  isBold={formik.values.devices.some(isDiskDevice)}
                 />
+                <MenuItem
+                  label={NETWORK_DEVICES}
+                  hasError={hasNetworkError}
+                  {...menuItemProps}
+                  isBold={formik.values.devices.some(isNicDevice)}
+                />
+                <MenuItem
+                  label={GPU_DEVICES}
+                  {...menuItemProps}
+                  isBold={formik.values.devices.some(isGPUDevice)}
+                />
+                <MenuItem
+                  label={PROXY_DEVICES}
+                  {...menuItemProps}
+                  isBold={formik.values.devices.some(isProxyDevice)}
+                />
+                {hasMetadataConfiguration && (
+                  <MenuItem
+                    label={OTHER_DEVICES}
+                    {...menuItemProps}
+                    isBold={formik.values.devices.some(isOtherDevice)}
+                  />
+                )}
+              </ul>
+            </li>
+            <MenuItem
+              label={RESOURCE_LIMITS}
+              {...menuItemProps}
+              isBold={hasPrefixValue(formik, "limits_")}
+            />
+            <MenuItem
+              label={SECURITY_POLICIES}
+              {...menuItemProps}
+              isBold={hasPrefixValue(formik, "security_")}
+            />
+            <MenuItem
+              label={SNAPSHOTS}
+              {...menuItemProps}
+              isBold={hasPrefixValue(formik, "snapshots_")}
+            />
+            <MenuItem
+              label={MIGRATION}
+              {...menuItemProps}
+              isBold={
+                hasPrefixValue(formik, "migration_") ||
+                hasPrefixValue(formik, "cluster_")
+              }
+            />
+            <MenuItem
+              label={BOOT}
+              {...menuItemProps}
+              isBold={hasPrefixValue(formik, "boot_")}
+            />
+            <MenuItem
+              label={CLOUD_INIT}
+              {...menuItemProps}
+              isBold={hasPrefixValue(
+                formik,
+                "cloud_init_",
+                "cloud_init_ssh_keys",
               )}
-            </ul>
-          </li>
-          <MenuItem
-            label={RESOURCE_LIMITS}
-            {...menuItemProps}
-            isBold={hasPrefixValue(formik, "limits_")}
-          />
-          <MenuItem
-            label={SECURITY_POLICIES}
-            {...menuItemProps}
-            isBold={hasPrefixValue(formik, "security_")}
-          />
-          <MenuItem
-            label={SNAPSHOTS}
-            {...menuItemProps}
-            isBold={hasPrefixValue(formik, "snapshots_")}
-          />
-          <MenuItem
-            label={MIGRATION}
-            {...menuItemProps}
-            isBold={
-              hasPrefixValue(formik, "migration_") ||
-              hasPrefixValue(formik, "cluster_")
-            }
-          />
-          <MenuItem
-            label={BOOT}
-            {...menuItemProps}
-            isBold={hasPrefixValue(formik, "boot_")}
-          />
-          <MenuItem
-            label={CLOUD_INIT}
-            {...menuItemProps}
-            isBold={hasPrefixValue(
-              formik,
-              "cloud_init_",
-              "cloud_init_ssh_keys",
-            )}
-          />
-        </ul>
-      </nav>
+            />
+          </ul>
+        </nav>
+      )}
     </div>
   );
 };
