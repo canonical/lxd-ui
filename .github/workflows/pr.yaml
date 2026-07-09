@@ -150,7 +150,7 @@ jobs:
             cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add - || true
           fi
 
-      - name: Setup LXD backend (Single-node cluster in VM)
+      - name: Setup LXD backend (Single-node cluster in VM) 
         if: ${{ matrix.deployment == 'single-node-cluster' }}
         shell: bash
         run: |
