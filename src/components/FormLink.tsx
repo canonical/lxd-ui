@@ -1,5 +1,6 @@
 import { Button, Icon } from "@canonical/react-components";
 import type { FC, ReactNode } from "react";
+import classnames from "classnames";
 
 interface Props {
   title: ReactNode;
@@ -7,6 +8,7 @@ interface Props {
   onClick: () => void;
   isModified?: boolean;
   subText?: ReactNode;
+  subTextBelowTitle?: boolean;
   disabled?: boolean;
   onHoverText?: string;
 }
@@ -16,6 +18,7 @@ const FormLink: FC<Props> = ({
   icon,
   onClick,
   subText,
+  subTextBelowTitle,
   isModified,
   disabled,
   onHoverText,
@@ -23,7 +26,9 @@ const FormLink: FC<Props> = ({
   return (
     <Button
       appearance="base"
-      className="form-link"
+      className={classnames("form-link", {
+        "form-link--subtext-below": subTextBelowTitle,
+      })}
       onClick={onClick}
       type="button"
       disabled={disabled}
@@ -31,11 +36,20 @@ const FormLink: FC<Props> = ({
     >
       <span className="form-link__column">
         <Icon name={icon} className="form-link__icon" />
-        <span className="form-link__title">{title}</span>
+        <span className="form-link__title-wrapper">
+          <span className="form-link__title">{title}</span>
+          {subTextBelowTitle && subText && (
+            <span className="form-link__subtext u-text--muted p-text--small">
+              {subText}
+            </span>
+          )}
+        </span>
       </span>
       <span className="form-link__column u-align--right">
         {isModified && <Icon name="status-in-progress-small" />}
-        <span className="form-link__count u-text--muted">{subText}</span>
+        {!subTextBelowTitle && (
+          <span className="form-link__count u-text--muted">{subText}</span>
+        )}
         <Icon name="chevron-right" />
       </span>
     </Button>

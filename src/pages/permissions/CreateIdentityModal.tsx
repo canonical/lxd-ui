@@ -1,24 +1,36 @@
-import { useState, type FC } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import ResourceLabel from "components/ResourceLabel";
 import {
   Accordion,
   ActionButton,
-  List,
   Modal,
   Notification,
   Tabs,
 } from "@canonical/react-components";
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
-import { Link } from "react-router-dom";
+import type { IdentityFormValues } from "types/forms/identity";
+import { IDENTITY_TYPE } from "util/permissionIdentities";
 
 interface Props {
   onClose: () => void;
   token: string;
-  identityName: string;
+  identity: IdentityFormValues;
+  title: string;
+  notification: string;
+  howToUseCli?: ReactNode;
+  howToUseUi?: ReactNode;
 }
 
-const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
+const CreateIdentityModal: FC<Props> = ({
+  onClose,
+  token,
+  identity,
+  title,
+  notification,
+  howToUseCli,
+  howToUseUi,
+}) => {
   const [isConfirmed, setConfirmed] = useState(false);
   const [howToUseActiveTab, setHowToUseActiveTab] = useState("ui-tab");
 
@@ -29,8 +41,12 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
         <>
           Identity{" "}
           <ResourceLabel
-            type="certificate"
-            value={identityName}
+            type={
+              identity.identityType === IDENTITY_TYPE.TLS
+                ? "certificate"
+                : "token-bearer"
+            }
+            value={identity.name}
             bold
             truncate
           />{" "}
@@ -59,79 +75,47 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
         <>
           <CodeSnippetWithCopyButton
             code={token}
-            title="Your identity trust token"
+            title={title}
             tooltipMessage="Copy token"
             onCopyButtonClick={() => {
               setConfirmed(true);
             }}
           />
-          <Notification
-            severity="caution"
-            title="Copy the identity trust token"
-          >
-            You will need the token to authenticate your client. <br />
+          <Notification severity="caution" title={notification}>
             Make sure to copy it now as you will not be able to see this again.
           </Notification>
           <Accordion
             sections={[
               {
                 title: "How to use it?",
-                content: (
-                  <>
-                    <Tabs
-                      links={[
-                        {
-                          label: "CLI",
-                          active: howToUseActiveTab === "cli-tab",
-                          onClick: () => {
-                            setHowToUseActiveTab("cli-tab");
+                content:
+                  Boolean(howToUseCli) && Boolean(howToUseUi) ? (
+                    <>
+                      <Tabs
+                        links={[
+                          {
+                            label: "CLI",
+                            active: howToUseActiveTab === "cli-tab",
+                            onClick: () => {
+                              setHowToUseActiveTab("cli-tab");
+                            },
                           },
-                        },
-                        {
-                          label: "UI",
-                          active: howToUseActiveTab === "ui-tab",
-                          onClick: () => {
-                            setHowToUseActiveTab("ui-tab");
+                          {
+                            label: "UI",
+                            active: howToUseActiveTab === "ui-tab",
+                            onClick: () => {
+                              setHowToUseActiveTab("ui-tab");
+                            },
                           },
-                        },
-                      ]}
-                    />
-                    {howToUseActiveTab === "cli-tab" && (
-                      <>
-                        For use with the LXC command-line tool, run:
-                        <CodeSnippetWithCopyButton
-                          code={`lxc remote add ${location.hostname} ${token}`}
-                          tooltipMessage="Copy command"
-                          className="u-no-margin--bottom"
-                        />
-                        <span className="u-text--muted p-text--small u-sv3">
-                          You can replace <code>{location.hostname}</code> with
-                          a nickname for this server.
-                        </span>
-                      </>
-                    )}
-
-                    {howToUseActiveTab === "ui-tab" && (
-                      <List
-                        className="u-no-margin--bottom"
-                        items={[
-                          <>
-                            Open an unauthenticated browser on{" "}
-                            <Link to={location.origin}>{location.origin}</Link>.
-                          </>,
-                          <>
-                            Select <b>Setup TLS login</b> and follow the
-                            instructions to configure the browser certificate.
-                          </>,
-                          <>
-                            Use this identity trust token to add the new browser
-                            certificate to this server&apos;s trust store.
-                          </>,
                         ]}
                       />
-                    )}
-                  </>
-                ),
+                      {howToUseActiveTab === "cli-tab" && howToUseCli}
+
+                      {howToUseActiveTab === "ui-tab" && howToUseUi}
+                    </>
+                  ) : (
+                    howToUseCli
+                  ),
               },
             ]}
           />

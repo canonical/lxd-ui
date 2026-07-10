@@ -442,7 +442,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await page.getByText("Permissions", { exact: true }).click();
     await page.getByText("Identities", { exact: true }).click();
     await expect(
-      page.getByRole("button", { name: "Create TLS identity" }),
+      page.getByRole("button", { name: "Create identity" }),
     ).toBeDisabled();
 
     await page.getByPlaceholder("Filter").click();

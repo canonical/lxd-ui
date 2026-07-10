@@ -29,7 +29,7 @@ export interface PanelHelper {
   openCreateIdpGroup: () => void;
   openCreateStorageBucket: (project: string) => void;
   openCreateStorageBucketKey: (project: string) => void;
-  openCreateTLSIdentity: () => void;
+  openCreateIdentity: () => void;
   openEditClusterGroup: (group: string) => void;
   openEditClusterLink: (link: string) => void;
   openEditGroup: (group: string, subForm?: GroupSubForm) => void;
@@ -62,7 +62,7 @@ export const panels = {
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
   createLoadBalancerPool: "create-load-balancer-pool",
-  createTLSIdentity: "create-tls-identity",
+  createIdentity: "create-identity",
   createPlacementGroup: "create-placement-group",
   editPlacementGroup: "edit-placement-group",
   createStorageBucket: "create-bucket",
@@ -193,8 +193,8 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.createStorageBucketKey);
     },
 
-    openCreateTLSIdentity: () => {
-      setPanelParams(panels.createTLSIdentity);
+    openCreateIdentity: () => {
+      setPanelParams(panels.createIdentity);
     },
 
     openEditClusterGroup: (group) => {
