@@ -1,28 +1,46 @@
 @import "vanilla-framework/scss/vanilla";
 
 button.form-link {
+  align-items: center;
   display: flex;
   width: 100%;
 
   .form-link__column {
-    align-self: center;
+    align-items: center;
+    display: flex;
     flex: 1 1 auto;
     text-align: left;
+  }
+
+  .form-link__icon {
+    flex-shrink: 0;
+    height: $sp-x-large;
+    margin-right: $sph--x-large;
+    width: $sp-x-large;
+  }
+
+  .form-link__title-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-link__subtext {
+    margin-top: $spv--x-small;
   }
 
   .form-link__count {
     margin-right: $sph--large;
   }
 
-  .form-link__title {
-    margin-top: -$spv--large;
-    vertical-align: middle;
-  }
+  &.form-link--subtext-below {
+    align-items: flex-start;
 
-  [class*="p-icon"].form-link__icon {
-    height: $sp-x-large;
-    margin-right: $sph--x-large;
-    vertical-align: middle;
-    width: $sp-x-large;
+    .form-link__column {
+      align-items: flex-start;
+    }
+
+    .form-link__icon {
+      margin-top: $spv--x-small;
+    }
   }
 }

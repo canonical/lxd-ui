@@ -5,7 +5,7 @@ import {
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
 import OidcConfigurationBtn from "pages/permissions/OidcConfigurationBtn";
-import CreateTlsIdentityBtn from "pages/permissions/CreateTlsIdentityBtn";
+import CreateIdentityBtn from "pages/permissions/CreateIdentityBtn";
 
 interface Props {
   openPanel: () => void;
@@ -19,7 +19,7 @@ const PermissionIdentitiesActions: FC<Props> = ({ openPanel }) => {
 
   const menuElements = [
     <OidcConfigurationBtn key="oidc-configuration" className={classname} />,
-    <CreateTlsIdentityBtn
+    <CreateIdentityBtn
       key="create-identity"
       openPanel={openPanel}
       className={classname}

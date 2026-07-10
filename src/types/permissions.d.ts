@@ -18,7 +18,7 @@ export interface LxdIdentity {
     | typeof AUTH_METHOD.TLS
     | typeof AUTH_METHOD.OIDC
     | typeof AUTH_METHOD.BEARER;
-  tls_certificate: string;
+  tls_certificate?: string;
   groups?: string[] | null;
   effective_groups?: string[];
   effective_permissions?: LxdPermission[];
