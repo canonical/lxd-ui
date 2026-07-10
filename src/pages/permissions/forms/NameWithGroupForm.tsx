@@ -1,11 +1,11 @@
-import type { FC } from "react";
+import { type FC } from "react";
 import { Form, Input } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type { IdpGroupFormValues } from "types/forms/idpGroup";
-import type { TLSIdentityFormValues } from "types/forms/tlsIdentity";
+import type { IdentityFormValues } from "types/forms/identity";
 
 interface Props {
-  formik: FormikProps<IdpGroupFormValues | TLSIdentityFormValues>;
+  formik: FormikProps<IdpGroupFormValues> | FormikProps<IdentityFormValues>;
 }
 
 const NameWithGroupForm: FC<Props> = ({ formik }) => {

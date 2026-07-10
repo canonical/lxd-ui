@@ -66,3 +66,17 @@
     justify-content: center;
   }
 }
+
+.choose-identity-type {
+  margin-top: $spv--large;
+}
+
+.create-identity-panel-token-expiry {
+  padding-left: $spv--x-small;
+}
+
+.create-identity-panel-token-expiry-custom-container {
+  align-items: flex-start;
+  display: flex;
+  gap: $sph--large;
+}
