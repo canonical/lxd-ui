@@ -1,8 +1,9 @@
 import type { LxdProject, ProjectReplicaMode } from "types/project";
 import { slugify } from "./slugify";
-import { ROOT_PATH } from "util/rootPath";
 import { updateProjectReplicaMode } from "api/projects";
 import { waitForOperation } from "api/operations";
+import { pluralize } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 
 export const ALL_PROJECTS = "All projects";
 
@@ -93,6 +94,11 @@ export const getInstancesUsedByProject = (project: LxdProject): string[] => {
   }
 
   return project.used_by.filter((item) => item.startsWith("/1.0/instances/"));
+};
+
+export const getInstanceCount = (project: LxdProject): string => {
+  const count = getInstancesUsedByProject(project).length;
+  return `${count} ${pluralize("instance", count)}`;
 };
 
 export const updateReplicaMode = async (
