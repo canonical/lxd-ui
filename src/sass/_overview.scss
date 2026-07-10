@@ -19,6 +19,12 @@
       }
     }
 
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: $spv--small;
+    }
+
     &.cluster,
     &.storage,
     &.memory {
@@ -78,14 +84,17 @@
         }
       }
 
-      .card-footer {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: $spv--small;
-      }
-
       @include mobile {
         min-width: 100%;
+      }
+    }
+
+    &.projects {
+      max-width: calc(50% - $sph--large / 2);
+      min-width: 20rem;
+
+      .plus-n-more {
+        margin-left: $sph--small;
       }
     }
   }

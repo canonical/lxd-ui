@@ -46,7 +46,10 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
 
   const parts = url.split("/");
   const project = parts[0] === "project" ? parts[1] : "";
-  const isAllProjects = parts[0] === "all-projects" || parts[0] === "projects";
+  const isAllProjects =
+    parts[0] === "all-projects" ||
+    parts[0] === "projects" ||
+    parts[0] === "overview";
 
   const initializeProjectName = (
     isAllProjectsFromUrl: boolean,
