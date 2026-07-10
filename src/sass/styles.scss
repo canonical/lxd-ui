@@ -287,18 +287,11 @@ body.is-dark .lxd-icon {
   width: inherit;
 
   .p-breadcrumbs__items {
-    list-style: none;
     margin-bottom: 0;
 
-    > li {
-      display: inline;
-    }
-
     .continuous-breadcrumb {
-      line-height: 1.8;
+      display: inline-block;
       margin-bottom: 0 !important;
-      overflow-wrap: break-word;
-      word-break: break-all;
     }
   }
 

@@ -1,11 +1,13 @@
-import { useState, type FC, type FormEvent } from "react";
+import { useState, type FC } from "react";
 import {
   Button,
   Input,
   Modal,
+  useNotify,
   useToastNotification,
 } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
+import NotificationRow from "components/NotificationRow";
 import { createInstanceDirectory } from "api/instances";
 import {
   validateDirectoryPathSyntax,
@@ -31,45 +33,59 @@ const FileExplorerCreateModal: FC<Props> = ({
   const [isCreating, setIsCreating] = useState(false);
   const [inputError, setInputError] = useState<string | undefined>(undefined);
 
+  const notify = useNotify();
   const toastNotify = useToastNotification();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleClose = () => {
+    notify.clear();
+    close();
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const syntaxError = validateDirectoryPathSyntax(parentPath);
+    setInputError(undefined);
+
+    const trimmedParentPath = parentPath.trim();
+    const trimmedDirectoryName = directoryName.trim();
+
+    const fullPath = trimmedParentPath.endsWith("/")
+      ? `${trimmedParentPath}${trimmedDirectoryName}`
+      : `${trimmedParentPath}/${trimmedDirectoryName}`;
+
+    const syntaxError =
+      validateDirectoryPathSyntax(trimmedParentPath) ||
+      validateDirectoryPathSyntax(fullPath);
+
     if (syntaxError) {
       setInputError(syntaxError);
       setIsCreating(false);
       return;
     }
 
-    const fullPath =
-      parentPath === "/"
-        ? `/${directoryName}`
-        : `${parentPath}/${directoryName}`;
-
     setIsCreating(true);
     try {
       await createInstanceDirectory(instance, fullPath);
-      toastNotify.success(`Directory ${directoryName} created successfully.`);
-      navigate(getFileExplorerDirectoryURL(parentPath, instance));
+      toastNotify.success(
+        `Directory ${trimmedDirectoryName} created successfully.`,
+      );
+      navigate(getFileExplorerDirectoryURL(trimmedParentPath, instance));
       onSuccess();
     } catch (e) {
-      close();
-      toastNotify.failure("Directory creation failed", e);
+      notify.failure("Directory creation failed", e);
       setIsCreating(false);
     }
   };
 
   return (
     <Modal
-      close={close}
+      close={handleClose}
       title="Create directory"
       className="create-directory-modal"
       buttonRow={
         <>
-          <Button className="u-no-margin--bottom" onClick={close}>
+          <Button className="u-no-margin--bottom" onClick={handleClose}>
             Cancel
           </Button>
           <Button
@@ -84,6 +100,7 @@ const FileExplorerCreateModal: FC<Props> = ({
         </>
       }
     >
+      <NotificationRow />
       <form onSubmit={(e) => void handleSubmit(e)}>
         <Input type="submit" hidden value="Hidden input" />
         <Input

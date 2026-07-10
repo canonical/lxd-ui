@@ -45,6 +45,20 @@
   .p-breadcrumbs {
     overflow: hidden;
   }
+
+  .p-breadcrumbs__items {
+    list-style: none;
+
+    > li {
+      display: inline;
+    }
+  }
+
+  .continuous-breadcrumb {
+    line-height: 1.8;
+    overflow-wrap: break-word;
+    word-break: break-all;
+  }
 }
 
 .file-explorer-path-editor {
