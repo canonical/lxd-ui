@@ -60,7 +60,7 @@ import {
 } from "util/operations";
 import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import HelpLink from "components/HelpLink";
+import InstanceExplanationTooltip from "pages/instances/InstanceExplanationTooltip";
 import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
@@ -661,12 +661,9 @@ const InstanceList: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/explanation/instances/#expl-instances"
-                  title="Learn more about instances"
-                >
+                <InstanceExplanationTooltip>
                   Instances
-                </HelpLink>
+                </InstanceExplanationTooltip>
               </PageHeader.Title>
               {hasInstances && selectedNames.length === 0 && (
                 <PageHeader.Search>
