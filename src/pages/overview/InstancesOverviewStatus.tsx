@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { Link } from "@canonical/react-components";
+import { Link } from "react-router-dom";
 import { capitalizeFirstLetter } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { type LxdInstanceStatus } from "types/instance";
@@ -22,11 +22,10 @@ const InstancesOverviewStatus: FC<Props> = ({ status, count }) => {
         {capitalizeFirstLetter(status)}
       </p>
       <Link
-        className="status-link"
-        href={getStatusFilterHref(
+        className="status-link p-link--soft"
+        to={getStatusFilterHref(
           capitalizeFirstLetter(status) as LxdInstanceStatus,
         )}
-        soft
       >
         <strong className="status-count">{count}</strong>
       </Link>

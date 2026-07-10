@@ -67,12 +67,23 @@ const NavigationProjectSelector: FC<Props> = ({
             onClick={() => {
               navigate(`${ROOT_PATH}/ui/all-projects/instances`);
             }}
+            className="p-contextual-menu__link all-instances"
+            hasIcon
+          >
+            <Icon name="pods" light />
+            <span>All instances</span>
+          </Button>
+          <Button
+            onClick={() => {
+              navigate(`${ROOT_PATH}/ui/projects`);
+            }}
             className="p-contextual-menu__link all-projects"
             hasIcon
           >
             <Icon name="folder" light />
             <span>All projects</span>
           </Button>
+          <hr className="is-dark" />
           <NavigationProjectSelectorList
             projects={projects}
             onMount={onChildMount}

@@ -100,11 +100,11 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
       value: state?.sysinfo.uptime ? formatSeconds(state?.sysinfo.uptime) : "-",
     },
     {
-      title: "Memory Usage",
+      title: "Memory usage",
       value: member ? <ClusterMemberMemoryUsage member={member} /> : "-",
     },
     {
-      title: "Load Average",
+      title: "Load average",
       value: state?.sysinfo.load_averages.join(" "),
     },
   ];
