@@ -13,9 +13,3 @@ nvm install --lts
 # install global npm packages
 npm install --global serve
 npm install --global yarn
-
-# copy nvm and npm to workshop user
-cp -R /root/.nvm /home/workshop/.nvm
-chown -R workshop:workshop /home/workshop/.nvm
-cp -R /root/.npm /home/workshop/.npm
-chown -R workshop:workshop /home/workshop/.npm
