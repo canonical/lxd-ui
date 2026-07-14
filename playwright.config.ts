@@ -40,7 +40,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
-    actionTimeout: 0,
+    actionTimeout: 120_000,
     baseURL: "https://localhost:8407/",
     ignoreHTTPSErrors: true,
     video: "retain-on-failure",

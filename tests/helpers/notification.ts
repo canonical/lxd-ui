@@ -11,8 +11,10 @@ export const checkNotificationHidden = async (page: Page) => {
 };
 
 export const dismissNotification = async (page: Page, caption: string) => {
-  await page.getByText(caption).waitFor();
-  const notification = page.locator(".toast-notification");
+  const notification = page.locator(".toast-notification", {
+    hasText: caption,
+  });
+  await notification.waitFor({ state: "visible" });
   await notification
     .getByRole("button", { name: "Close notification" })
     .click();

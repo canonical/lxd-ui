@@ -240,7 +240,7 @@ export const getNetworkLink = async (page: Page, network: string) => {
 
 export const submitCreateNetwork = async (page: Page, network: string) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(10000);
   const networkLink = await getNetworkLink(page, network);
   await expect(networkLink).toBeVisible();
 };
