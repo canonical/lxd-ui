@@ -111,3 +111,20 @@ export const getFileExplorerFileURL = (
 
   return `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`;
 };
+
+export const validateDirectoryPathSyntax = (
+  path: string,
+): string | undefined => {
+  if (!path.startsWith("/")) {
+    return "Path must start with /";
+  }
+
+  const segments = path.split("/").filter(Boolean);
+  for (const segment of segments) {
+    if (segment === "." || segment === "..") {
+      return "Relative path segments . and .. are not allowed.";
+    }
+  }
+
+  return undefined;
+};
