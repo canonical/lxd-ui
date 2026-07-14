@@ -1,26 +1,37 @@
 import type { FC } from "react";
+import ResourceLabel from "components/ResourceLabel";
+import ResourceLink from "components/ResourceLink";
 import type { LxdIdentity } from "types/permissions";
-import ResourceLabel from "./ResourceLabel";
-import { AUTH_METHOD } from "util/authentication";
+import { getIdentityIconType } from "util/permissionIdentities";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   identity: LxdIdentity;
-  truncate?: boolean;
-  bold?: boolean;
+  variant?: "link" | "label";
 }
 
-const IdentityResource: FC<Props> = ({ identity, truncate, bold }) => {
-  const identityIconType =
-    identity.authentication_method == AUTH_METHOD.TLS
-      ? "certificate"
-      : "oidc-identity";
+const IdentityResource: FC<Props> = ({ identity, variant = "link" }) => {
+  const name = identity.name?.trim();
+  const label = name
+    ? `${name} (${identity.type}, ${identity.id})`
+    : `${identity.id} (${identity.type})`;
+
+  if (variant === "label") {
+    return (
+      <ResourceLabel
+        type={getIdentityIconType(identity.type)}
+        value={label}
+        bold
+        truncate
+      />
+    );
+  }
 
   return (
-    <ResourceLabel
-      type={identityIconType}
-      value={identity.type}
-      truncate={truncate}
-      bold={bold}
+    <ResourceLink
+      type={getIdentityIconType(identity.type)}
+      value={label}
+      to={`${ROOT_PATH}/ui/permissions/identities`}
     />
   );
 };

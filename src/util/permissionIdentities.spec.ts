@@ -11,21 +11,27 @@ describe("Permissions util functions for identities page", () => {
     const groups = [
       {
         name: "group-1",
+        description: "",
         identities: {
+          bearer: [],
           oidc: ["user-1"],
           tls: ["user-2"],
         },
       },
       {
         name: "group-2",
+        description: "",
         identities: {
+          bearer: ["user-4"],
           oidc: ["user-1", "user-3"],
           tls: ["user-2"],
         },
       },
       {
         name: "group-3",
+        description: "",
         identities: {
+          bearer: [],
           oidc: [],
           tls: [],
         },
@@ -53,6 +59,46 @@ describe("Permissions util functions for identities page", () => {
     expect(groupsForAllIdentities).toEqual(["group-2"]);
     expect(groupsForSomeIdentities).toEqual(["group-1"]);
     expect(groupsForNoIdentities).toEqual(["group-3"]);
+  });
+
+  it("getGroupsForIdentities includes bearer identities", () => {
+    const groups = [
+      {
+        name: "admins",
+        description: "",
+        identities: {
+          bearer: ["token-user"],
+          oidc: [],
+          tls: [],
+        },
+      },
+      {
+        name: "viewers",
+        description: "",
+        identities: {
+          bearer: [],
+          oidc: [],
+          tls: [],
+        },
+      },
+    ] as LxdAuthGroup[];
+
+    const identities = [
+      {
+        id: "token-user",
+        authentication_method: "bearer",
+      },
+    ] as LxdIdentity[];
+
+    const {
+      groupsForAllIdentities,
+      groupsForSomeIdentities,
+      groupsForNoIdentities,
+    } = getGroupsForIdentities(groups, identities);
+
+    expect(groupsForAllIdentities).toEqual(["admins"]);
+    expect(groupsForSomeIdentities).toEqual([]);
+    expect(groupsForNoIdentities).toEqual(["viewers"]);
   });
 
   it("generateGroupAllocationsForIdentities", () => {

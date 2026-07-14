@@ -34,11 +34,13 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted, pluralize } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
-import { getIdentityName } from "util/permissionIdentities";
+import {
+  getIdentityIconType,
+  getIdentityName,
+} from "util/permissionIdentities";
 import CreateTLSIdentity from "pages/permissions/CreateTLSIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
-import type { ResourceIconType } from "components/ResourceIcon";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -141,22 +143,6 @@ const PermissionIdentities: FC = () => {
     };
     const name = getIdentityName(identity);
 
-    const getType = (): ResourceIconType => {
-      if (identity.type.startsWith("Client certificate")) {
-        return "certificate";
-      }
-      if (identity.type.startsWith("OIDC client")) {
-        return "oidc-identity";
-      }
-      if (identity.type.startsWith("Server certificate")) {
-        return "cluster-member";
-      }
-      if (identity.type.startsWith("Metrics certificate")) {
-        return "metric";
-      }
-      return "certificate";
-    };
-
     return {
       key: identity.id,
       name: isUnrestricted(identity) ? "" : identity.id,
@@ -165,7 +151,10 @@ const PermissionIdentities: FC = () => {
         {
           content: (
             <>
-              <ResourceLabel type={getType()} value={name} />{" "}
+              <ResourceLabel
+                type={getIdentityIconType(identity.type)}
+                value={name}
+              />{" "}
               <Tag isVisible={isLoggedInIdentity}>You</Tag>
             </>
           ),

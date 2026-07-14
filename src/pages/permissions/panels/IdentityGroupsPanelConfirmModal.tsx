@@ -14,9 +14,8 @@ import GroupsOrIdentityChangesTable from "./GroupOrIdentityChangesTable";
 import { updateIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import IdentityResource from "components/IdentityResource";
 import usePanelParams from "util/usePanelParams";
-import ResourceLink from "components/ResourceLink";
-import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   onConfirm: () => void;
@@ -74,21 +73,27 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
           },
         });
 
-        const modifiedGroupNames = Object.keys(identityGroupsChangeSummary);
-        const successMessage =
-          modifiedGroupNames.length > 1 ? (
-            `Updated groups for ${modifiedGroupNames.length} identities.`
-          ) : (
-            <>
-              Updated groups for{" "}
-              <ResourceLink
-                type="oidc-identity"
-                value={modifiedGroupNames[0]}
-                to={`${ROOT_PATH}/ui/permissions/identities`}
-              />
-              .
-            </>
-          );
+        const modifiedIdentityIds = Object.keys(identityGroupsChangeSummary);
+        const isMultiple = modifiedIdentityIds.length > 1;
+        const [firstId, firstData] =
+          Object.entries(identityGroupsChangeSummary)[0] || [];
+        const firstIdentityDetails = selectedIdentities.find(
+          (id) => id.id === firstId,
+        );
+
+        const successMessage = isMultiple ? (
+          `Updated groups for ${modifiedIdentityIds.length} identities.`
+        ) : (
+          <>
+            Updated groups for{" "}
+            {firstIdentityDetails ? (
+              <IdentityResource identity={firstIdentityDetails} />
+            ) : (
+              firstData?.name?.trim() || firstId
+            )}
+            .
+          </>
+        );
 
         toastNotify.success(successMessage);
         panelParams.clear();

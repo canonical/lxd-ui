@@ -47,7 +47,10 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
     "added",
   );
   await page.getByRole("button", { name: "Confirm changes" }).click();
-  await dismissNotification(page, `Updated groups for ${identityBar}.`);
+  await dismissNotification(
+    page,
+    `Updated groups for bar (OIDC client, ${identityBar}).`,
+  );
   await page
     .getByRole("row", { name: `Select ${identityBar} Name ID` })
     .getByLabel("Manage groups")

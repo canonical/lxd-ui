@@ -1,3 +1,4 @@
+import type { ResourceIconType } from "components/ResourceIcon";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 
 export type ChangeSummary = Record<
@@ -6,9 +7,10 @@ export type ChangeSummary = Record<
 >;
 
 export const getIdentityIdsForGroup = (group?: LxdAuthGroup): string[] => {
+  const bearerIdentityIds = group?.identities?.bearer || [];
   const oidcIdentityIds = group?.identities?.oidc || [];
   const tlsIdentityIds = group?.identities?.tls || [];
-  return [...oidcIdentityIds, ...tlsIdentityIds];
+  return [...bearerIdentityIds, ...oidcIdentityIds, ...tlsIdentityIds];
 };
 
 // Given a set of lxd groups and some identities
@@ -179,4 +181,30 @@ export const getIdentityName = (identity?: LxdIdentity): string => {
     return "";
   }
   return identity.name.length > 0 ? identity.name : identity.id;
+};
+
+export const getIdentityIconType = (
+  identityType: LxdIdentity["type"],
+): ResourceIconType => {
+  if (identityType.startsWith("Server certificate")) {
+    return "cluster-member";
+  }
+
+  if (identityType.startsWith("Cluster link certificate")) {
+    return "cluster-link";
+  }
+
+  if (identityType.startsWith("Metrics certificate")) {
+    return "metric";
+  }
+
+  if (identityType.startsWith("OIDC client")) {
+    return "oidc-identity";
+  }
+
+  if (identityType.toLowerCase().includes("token bearer")) {
+    return "token-bearer";
+  }
+
+  return "certificate";
 };
