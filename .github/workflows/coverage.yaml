@@ -109,6 +109,14 @@ jobs:
           DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
           docker stop $DOTRUN_CONTAINER_ID
 
+      - name: Upload Playwright test artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-test-artifacts
+          path: test-results
+          retention-days: 7
+
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -118,62 +126,66 @@ jobs:
           retention-days: 1
 
   publish-coverage-report:
-      name: publish-coverage-report
-      runs-on: ubuntu-latest
-      needs: e2e-coverage
-      continue-on-error: true
-      permissions:
-        contents: write
-      steps:
-        - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-          with:
-            ref: gh-pages
-            token: ${{ secrets.GITHUB_TOKEN }}
-            persist-credentials: true # zizmor: ignore[artipacked]
-        - name: Cleanup coverage directory
-          run: |
-            rm -rf coverage
-            mkdir coverage
-        - name: Download coverage report artifact
-          uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-          with:
-            name: lxd-coverage
-            path: coverage
-        # user git configs are needed for git commands to work
-        # actual authentication is done using secrets.GITHUB_TOKEN with write permission
-        - name: Set Git User
-          run: |
-            git config --global user.email "github-action@example.com"
-            git config --global user.name "GitHub Action"
-        - name: Push coverage Report
-          timeout-minutes: 3
-          run: |
-            git add .
-            git commit -m "workflow: update coverage report"
+    name: publish-coverage-report
+    runs-on: ubuntu-latest
+    needs: e2e-coverage
+    continue-on-error: true
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true # zizmor: ignore[artipacked]
+      - name: Cleanup coverage directory
+        run: |
+          rm -rf coverage
+          mkdir coverage
+      - name: Download coverage report artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: lxd-coverage
+          path: coverage
+      # user git configs are needed for git commands to work
+      # actual authentication is done using secrets.GITHUB_TOKEN with write permission
+      - name: Set Git User
+        run: |
+          git config --global user.email "github-action@example.com"
+          git config --global user.name "GitHub Action"
+      - name: Push coverage Report
+        timeout-minutes: 3
+        run: |
+          git add .
+          git commit -m "workflow: update coverage report"
 
-            # In case of another action job pushing to gh-pages while we are rebasing for the current job
-            while true; do
-              git pull --rebase
-              if [ $? -ne 0 ]; then
-                echo "Failed to rebase. Please review manually."
-                exit 1
-              fi
+          # In case of another action job pushing to gh-pages while we are rebasing for the current job
+          while true; do
+            git pull --rebase
+            if [ $? -ne 0 ]; then
+              echo "Failed to rebase. Please review manually."
+              exit 1
+            fi
 
-              git push
-              if [ $? -eq 0 ]; then
-                echo "Successfully pushed HTML report to repo."
-                exit 0
-              fi
-            done
-        - name: Output Report URL as Worfklow Annotation
-          run: |
-            FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/coverage
-            echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"
-
+            git push
+            if [ $? -eq 0 ]; then
+              echo "Successfully pushed HTML report to repo."
+              exit 0
+            fi
+          done
+      - name: Output Report URL as Workflow Annotation
+        run: |
+          FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/coverage
+          echo "::notice title=Published Coverage Report::$FULL_HTML_REPORT_URL"
 
   tics-report:
-    runs-on: [self-hosted, linux, amd64, tiobe, jammy]
+    runs-on: [self-hosted, linux, amd64, resolute]
     needs: publish-coverage-report
+    # Self-hosted runners share machine-level resources. Serialize TICS
+    # to avoid qserver collisions for the same project database.
+    concurrency:
+      group: tics-report-${{ github.repository }}
+      cancel-in-progress: false
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -191,12 +203,13 @@ jobs:
           yarn install
 
       - name: Produce TICS report
-        shell: bash
-        run: |
-          set -x
-          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }} # zizmor: ignore[secrets-outside-env]
-          # need to source .profile, or TICSQServer command won't be found
-          source ~/.profile
-          # Update path so eslint is used through yarn dependencies
-          export PATH="$PWD/node_modules/.bin:$PATH"
-          TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
+        uses: tiobe/tics-github-action@a53037a6bb9f71b6a97cdeb0ac41632266804b9e # v3.8.0
+        with:
+          mode: qserver
+          project: lxd-ui
+          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
+          ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
+          installTics: true
+          # Keep qserver temp state isolated per run. This prevents stale lock/state
+          # reuse between different workflow runs on the same self-hosted machine.
+          tmpdir: /tmp/tics-${{ github.run_id }}-${{ github.run_attempt }}
