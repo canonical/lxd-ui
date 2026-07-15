@@ -1,9 +1,9 @@
 import { useMemo, type FC } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   DoughnutChart,
   Icon,
-  Link,
   Spinner,
 } from "@canonical/react-components";
 import ChartLegend from "components/ChartLegend";
@@ -123,7 +123,7 @@ const InstancesCard: FC = () => {
       </div>
 
       <div className="card-footer">
-        <Link href={`${ROOT_PATH}/ui/all-projects/instances`}>See more</Link>
+        <Link to={`${ROOT_PATH}/ui/all-projects/instances`}>See more</Link>
       </div>
     </Card>
   );
