@@ -1,6 +1,5 @@
 import { mergeConfig, defineConfig } from "vitest/config";
 import viteConfig from "./vite.config";
-import path from "path";
 
 export default mergeConfig(
   viteConfig,
@@ -12,13 +11,6 @@ export default mergeConfig(
       environment: "jsdom",
       globals: true,
       include: ["./src/**/*.spec.{ts,tsx}"],
-      css: true,
-      alias: {
-        "#lib": path.resolve(
-          __dirname,
-          "node_modules/@canonical/react-ds-global/dist/esm/lib",
-        ),
-      },
       coverage: {
         provider: "istanbul",
         reportsDirectory: "coverage/unit",
