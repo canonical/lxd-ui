@@ -1,0 +1,10 @@
+#!/bin/bash -ex
+
+sudo /project/tests/scripts/install-common-deps.sh
+
+# copy nvm and npm to workshop user
+sudo cp -R /root/.nvm /home/workshop/.nvm
+sudo chown -R workshop:workshop /home/workshop/.nvm
+sudo cp -R /root/.npm /home/workshop/.npm
+sudo chown -R workshop:workshop /home/workshop/.npm
+
