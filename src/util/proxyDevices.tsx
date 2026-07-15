@@ -23,7 +23,7 @@ export const getProxyAddress = (
 
   customRows.push(
     getConfigurationRowBase({
-      className: "no-border-top inherited-with-form p-heading--6 u-text--muted",
+      className: "no-border-top inherited-with-form p-heading--6",
       configuration: headingTitle,
       inherited: "",
       override: "",
@@ -32,7 +32,7 @@ export const getProxyAddress = (
 
   customRows.push(
     getConfigurationRowBase({
-      className: "no-border-top inherited-with-form u-text--muted",
+      className: "no-border-top inherited-with-form",
       configuration: (
         <Label forId={`devices.${index}.${connectionType}`}>Type</Label>
       ),
@@ -81,7 +81,7 @@ export const getProxyAddress = (
 
   customRows.push(
     getConfigurationRowBase({
-      className: "no-border-top inherited-with-form u-text--muted",
+      className: "no-border-top inherited-with-form",
       configuration:
         deviceType === "unix" ? (
           <Label
@@ -140,7 +140,7 @@ export const getProxyAddress = (
   if (deviceType !== "unix") {
     customRows.push(
       getConfigurationRowBase({
-        className: "no-border-top inherited-with-form u-text--muted",
+        className: "no-border-top inherited-with-form",
         configuration: (
           <Label forId={`devices.${index}.${connectionType}.port`} required>
             Port

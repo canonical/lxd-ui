@@ -24,6 +24,27 @@ export const toConfigFields = (
   return result;
 };
 
+export const getConfigFieldByKey = (
+  configFields: ConfigField[],
+  key: string,
+): ConfigField | undefined => {
+  return configFields.find((field) => field.key === key);
+};
+
+export const getConfigFieldDefault = (
+  configFields: ConfigField[],
+  key: string,
+): string | undefined => {
+  return getConfigFieldByKey(configFields, key)?.default || undefined;
+};
+
+export const getConfigFieldDescription = (
+  configFields: ConfigField[],
+  key: string,
+): string | undefined => {
+  return getConfigFieldByKey(configFields, key)?.shortdesc;
+};
+
 export const configDescriptionToHtml = (
   input: string,
   docBaseLink: string,

@@ -6,15 +6,13 @@ import {
   Spinner,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchConfigOptions } from "api/server";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useConfigOptions } from "context/useConfigOptions";
 import { useClusteredSettings } from "context/useClusteredSettings";
 import SsoNotification from "pages/permissions/SsoNotification";
 import { getSettingRow } from "pages/settings/SettingsRow";
 import { toConfigFields } from "util/config";
-import { queryKeys } from "util/queryKeys";
 import { getConfigFieldClusteredValue } from "util/settings";
 
 interface Props {
@@ -29,10 +27,8 @@ const OidcConfigurationForm: FC<Props> = ({ closeModal }: Props) => {
     isSettingsLoading,
     settingsError,
   } = useSupportedFeatures();
-  const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
-  });
+  const { data: configOptions, isLoading: isConfigOptionsLoading } =
+    useConfigOptions();
   const {
     data: clusteredSettings = [],
     isLoading: isClusteredSettingsLoading,

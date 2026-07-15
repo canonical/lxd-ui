@@ -22,6 +22,10 @@ const deviceYaml =
   "  root:\n" +
   "    path: /\n" +
   "    pool: big-pool\n" +
+  "    readonly: 'true'\n" +
+  "    recursive: 'false'\n" +
+  "    required: 'true'\n" +
+  "    shift: 'false'\n" +
   "    size: 10GiB\n" +
   "    type: disk\n" +
   "    size.state: 3GiB\n" +
@@ -67,6 +71,17 @@ describe("parseDevices", () => {
     expect(matchType("custom-nic").length).toBe(1);
     expect(matchType("proxy").length).toBe(2);
     expect(matchType("gpu").length).toBe(1);
+
+    const disk = matchType("disk")[0] as FormDevice & {
+      readonly?: string;
+      recursive?: string;
+      required?: string;
+      shift?: string;
+    };
+    expect(disk.readonly).toBe("true");
+    expect(disk.recursive).toBe("false");
+    expect(disk.required).toBe("true");
+    expect(disk.shift).toBe("false");
   });
 });
 

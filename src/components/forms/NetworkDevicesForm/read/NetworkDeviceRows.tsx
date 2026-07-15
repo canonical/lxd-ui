@@ -78,7 +78,7 @@ export const getNetworkDeviceRows = ({
     rows.push(
       getConfigurationRowBase({
         className: "no-border-top",
-        configuration: <div className="u-text--muted">From profile</div>,
+        configuration: <div>From profile</div>,
         inherited: sourceProfile,
         override: null,
       }),
@@ -114,7 +114,7 @@ export const getNetworkDeviceRows = ({
     rows.push(
       getConfigurationRowBase({
         className: "no-border-top",
-        configuration: <div className="u-text--muted">Network</div>,
+        configuration: <div>Network</div>,
         inherited: (
           <div>
             <NetworkRichChip
@@ -148,7 +148,7 @@ export const getNetworkDeviceRows = ({
               "device-last-row":
                 acls.length === 0 && index === activeIps.length - 1,
             }),
-            configuration: <div className="u-text--muted">{family}</div>,
+            configuration: <div>{family}</div>,
             inherited: (
               <div>
                 <b
@@ -170,9 +170,7 @@ export const getNetworkDeviceRows = ({
       rows.push(
         getConfigurationRowBase({
           className: "no-border-top",
-          configuration: (
-            <div className="u-text--muted">Access control lists</div>
-          ),
+          configuration: <div>Access control lists</div>,
           inherited: (
             <div>
               <ExpandableList
@@ -214,7 +212,7 @@ export const getNetworkDeviceRows = ({
           className: classnames("no-border-top device-last-row acl-defaults", {
             "u-text--line-through": isDetached,
           }),
-          configuration: <div className="u-text--muted"></div>,
+          configuration: <div></div>,
           inherited: (
             <div>
               <NetworkDefaultACLRead values={getDefaultEgressIngress()} />

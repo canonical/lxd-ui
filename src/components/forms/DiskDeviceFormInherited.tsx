@@ -2,7 +2,10 @@ import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import ConfigurationTable from "components/ConfigurationTable";
-import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
+import type {
+  CreateInstanceFormValues,
+  EditInstanceFormValues,
+} from "types/forms/instanceAndProfile";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { InheritedDiskDevice } from "types/forms/configInheritance";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -18,15 +21,23 @@ import {
 } from "components/forms/InheritedDeviceRow";
 import { isInstanceCreation } from "util/instanceEdit";
 import { ensureEditMode } from "util/editMode";
+import { useConfigOptions } from "context/useConfigOptions";
+import {
+  getConfigFieldDefault,
+  getConfigFieldDescription,
+  toConfigFields,
+} from "util/config";
 import {
   getProfileFromSource,
   isHostDiskDevice,
   isIsoDiskDevice,
+  isVolumeDevice,
 } from "util/devices";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
 import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
 import classnames from "classnames";
+import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -40,6 +51,21 @@ const DiskDeviceFormInherited: FC<Props> = ({
   project,
 }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
+  const { data: configOptions } = useConfigOptions();
+
+  const diskOptions = configOptions?.configs?.["device-disk"];
+  const diskConfigFields = diskOptions ? toConfigFields(diskOptions) : [];
+
+  const labelWithHelpText = (label: string, key: string) => (
+    <div className="configuration-label-with-help">
+      <span>{label}</span>
+      <span className="configuration-help">
+        <ConfigFieldDescription
+          description={getConfigFieldDescription(diskConfigFields, key)}
+        />
+      </span>
+    </div>
+  );
 
   const rows: MainTableRow[] = [];
   inheritedDiskDevices.forEach((item) => {
@@ -100,7 +126,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
     if (isIsoDiskDevice(item)) {
       rows.push(
         getInheritedDeviceRow({
-          label: "Source",
+          label: labelWithHelpText("Source", "source"),
           inheritValue: item.disk.source,
           readOnly: readOnly,
           isDeactivated: isNoneDevice,
@@ -109,7 +135,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
       );
       rows.push(
         getInheritedDeviceRow({
-          label: "Pool",
+          label: labelWithHelpText("Pool", "pool"),
           inheritValue: (
             <StoragePoolRichChip
               poolName={item.disk.pool ?? ""}
@@ -152,16 +178,106 @@ const DiskDeviceFormInherited: FC<Props> = ({
         );
       }
 
-      rows.push(
-        getInheritedDeviceRow({
-          label: "Mount point",
-          inheritValue: item.disk.path,
-          readOnly: readOnly,
-          isDeactivated: isNoneDevice,
-          disabledReason: formik.values.editRestriction,
-          className: "device-last-row",
-        }),
-      );
+      const isContainerOrProfile =
+        formik.values.entityType === "profile" ||
+        (formik.values as CreateInstanceFormValues).instanceType ===
+          "container";
+      const isVolumeBackedDisk = isVolumeDevice(item.disk);
+      const showMountPointField =
+        !isVolumeBackedDisk || item.disk.path !== undefined;
+      const showRecursive = !isVolumeBackedDisk;
+      const showShift = isContainerOrProfile && !isVolumeBackedDisk;
+
+      const readonlyValue =
+        item.disk.readonly ??
+        getConfigFieldDefault(diskConfigFields, "readonly");
+      const recursiveValue = showRecursive
+        ? (item.disk.recursive ??
+          getConfigFieldDefault(diskConfigFields, "recursive"))
+        : undefined;
+      const requiredValue =
+        item.disk.required ??
+        getConfigFieldDefault(diskConfigFields, "required");
+      const shiftValue = showShift
+        ? (item.disk.shift ?? getConfigFieldDefault(diskConfigFields, "shift"))
+        : undefined;
+
+      const hasReadonly = readonlyValue !== undefined;
+      const hasRecursive = recursiveValue !== undefined;
+      const hasRequired = requiredValue !== undefined;
+      const hasShift = shiftValue !== undefined;
+
+      if (showMountPointField) {
+        rows.push(
+          getInheritedDeviceRow({
+            label: "Mount point",
+            inheritValue: item.disk.path,
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+            className:
+              !hasReadonly && !hasRecursive && !hasRequired && !hasShift
+                ? "device-last-row"
+                : undefined,
+          }),
+        );
+      }
+
+      if (hasReadonly) {
+        rows.push(
+          getInheritedDeviceRow({
+            label: labelWithHelpText("Read-only", "readonly"),
+            inheritValue: readonlyValue,
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+            className:
+              !hasRecursive && !hasRequired && !hasShift
+                ? "device-last-row"
+                : undefined,
+          }),
+        );
+      }
+
+      if (hasRecursive) {
+        rows.push(
+          getInheritedDeviceRow({
+            label: labelWithHelpText("Recursive", "recursive"),
+            inheritValue: recursiveValue,
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+            className:
+              !hasRequired && !hasShift ? "device-last-row" : undefined,
+          }),
+        );
+      }
+
+      if (hasRequired) {
+        rows.push(
+          getInheritedDeviceRow({
+            label: labelWithHelpText("Required", "required"),
+            inheritValue: requiredValue,
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+            className: !hasShift ? "device-last-row" : undefined,
+          }),
+        );
+      }
+
+      if (hasShift) {
+        rows.push(
+          getInheritedDeviceRow({
+            label: labelWithHelpText("Shift", "shift"),
+            inheritValue: shiftValue,
+            readOnly: readOnly,
+            isDeactivated: isNoneDevice,
+            disabledReason: formik.values.editRestriction,
+            className: "device-last-row",
+          }),
+        );
+      }
     }
   });
 
