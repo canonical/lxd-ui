@@ -229,6 +229,14 @@ export const getIdentityIconType = (
 
 export const BEARER_EXPIRY_PATTERN = /^(\d+[ymwdHMS])(?:\s+\d+[ymwdHMS])*$/;
 
+export const isBearerIdentityType = (
+  identityType: LxdIdentity["type"],
+): identityType is
+  | typeof IDENTITY_TYPE.BEARER_CLIENT
+  | typeof IDENTITY_TYPE.BEARER_DEVLXD => {
+  return identityType.toLowerCase().includes("token bearer");
+};
+
 export const IDENTITY_TYPE_HELP_TEXT: Record<
   IdentityType,
   { title: string; description: ReactNode }

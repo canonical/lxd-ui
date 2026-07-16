@@ -80,3 +80,16 @@
   display: flex;
   gap: $sph--large;
 }
+
+.edit-identity-panel {
+  padding-top: 0 !important;
+
+  .p-panel__content {
+    margin-left: 0;
+    padding-top: 0;
+  }
+
+  tr:last-child {
+    border: 0;
+  }
+}

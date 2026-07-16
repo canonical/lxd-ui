@@ -22,11 +22,10 @@ import PermissionIdentitiesFilter, {
   type PermissionIdentitiesFilterType,
 } from "./PermissionIdentitiesFilter";
 import { useSettings } from "context/useSettings";
-import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
-import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
+import EditIdentityPanel from "./panels/EditIdentityPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
@@ -118,15 +117,15 @@ const PermissionIdentities: FC = () => {
 
   const rows = filteredIdentities.map((identity) => {
     const isLoggedInIdentity = settings?.auth_user_name === identity.id;
-    const openGroupPanelForIdentity = () => {
-      panelParams.openIdentityGroups(identity.id);
+    const openEditIdentityPanel = () => {
+      panelParams.openEditIdentity(identity.id, identity.authentication_method);
       setSelectedIdentityIds([identity.id]);
     };
 
     const getGroupLink = () => {
       if (canEditIdentity(identity)) {
         return (
-          <Button appearance="link" dense onClick={openGroupPanelForIdentity}>
+          <Button appearance="link" dense onClick={openEditIdentityPanel}>
             {identity.groups?.length || 0}
           </Button>
         );
@@ -196,17 +195,17 @@ const PermissionIdentities: FC = () => {
                 className="u-no-margin--bottom"
                 hasIcon
                 dense
-                onClick={openGroupPanelForIdentity}
+                onClick={openEditIdentityPanel}
                 type="button"
-                aria-label="Manage groups"
+                aria-label="Edit identity"
                 title={
-                  canEditIdentity()
-                    ? "Manage groups"
+                  canEditIdentity(identity)
+                    ? "Edit identity"
                     : "You do not have permission to modify this identity"
                 }
                 disabled={!canEditIdentity(identity)}
               >
-                <Icon name="user-group" />
+                <Icon name="edit" />
               </Button>
               {hasAccessManagementTLS && (
                 <DeleteIdentityBtn identity={identity} />
@@ -287,10 +286,6 @@ const PermissionIdentities: FC = () => {
               )}
               {selectedIdentityIds.length > 0 && (
                 <div>
-                  <EditIdentityGroupsBtn
-                    identities={selectedIdentities}
-                    className="u-no-margin--bottom"
-                  />
                   {hasAccessManagementTLS && (
                     <BulkDeleteIdentitiesBtn identities={selectedIdentities} />
                   )}
@@ -348,14 +343,7 @@ const PermissionIdentities: FC = () => {
       </CustomLayout>
       <CreateIdentity />
 
-      {panelParams.panel === panels.identityGroups && (
-        <EditIdentityGroupsPanel
-          identities={selectedIdentities}
-          onClose={() => {
-            setSelectedIdentityIds([]);
-          }}
-        />
-      )}
+      {panelParams.panel === panels.editIdentity && <EditIdentityPanel />}
     </>
   );
 };

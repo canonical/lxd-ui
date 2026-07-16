@@ -20,6 +20,7 @@ interface Props {
   notification: string;
   howToUseCli?: ReactNode;
   howToUseUi?: ReactNode;
+  titleSuffix?: string;
 }
 
 const CreateIdentityModal: FC<Props> = ({
@@ -30,6 +31,7 @@ const CreateIdentityModal: FC<Props> = ({
   notification,
   howToUseCli,
   howToUseUi,
+  titleSuffix = "created successfully",
 }) => {
   const [isConfirmed, setConfirmed] = useState(false);
   const [howToUseActiveTab, setHowToUseActiveTab] = useState("ui-tab");
@@ -50,7 +52,7 @@ const CreateIdentityModal: FC<Props> = ({
             bold
             truncate
           />{" "}
-          created successfully
+          {titleSuffix}
         </>
       }
       buttonRow={[

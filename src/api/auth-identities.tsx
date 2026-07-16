@@ -130,7 +130,7 @@ const createBearerIdentity = async (
   }).then(handleResponse);
 };
 
-const issueBearerToken = async (
+export const issueBearerToken = async (
   name: string,
   expiry?: string,
 ): Promise<{
@@ -150,6 +150,15 @@ const issueBearerToken = async (
     .then((data: LxdApiResponse<{ token: string }>) => {
       return data.metadata;
     });
+};
+
+export const revokeBearerToken = async (name: string): Promise<void> => {
+  await fetch(
+    `${ROOT_PATH}/1.0/auth/identities/bearer/${encodeURIComponent(name)}/token`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };
 
 export const createAndIssueBearerToken = async (
