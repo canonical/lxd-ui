@@ -1,12 +1,13 @@
 #! /usr/bin/env bash
 set -e
 
-LXC_CMD="sudo lxc"
-LXD_CMD="sudo lxd"
+# GOCOVERDIR is used if the binaries are built with coverage instrumentation.
+LXC_CMD="sudo --preserve-env=GOCOVERDIR lxc"
+LXD_CMD="sudo --preserve-env=GOCOVERDIR lxd"
 if [ "$DEPLOYMENT" = "clustered" ] || [ "$DEPLOYMENT" = "unclustered" ] || [ "$DEPLOYMENT" = "single-node-cluster" ]; then
     echo "Configuring environment via vm1..."
-    LXC_CMD="sudo lxc exec vm1 -- lxc"
-    LXD_CMD="sudo lxc exec vm1 -- lxd"
+    LXC_CMD="sudo --preserve-env=GOCOVERDIR lxc exec vm1 -- lxc"
+    LXD_CMD="sudo --preserve-env=GOCOVERDIR lxc exec vm1 -- lxd"
 fi
 
 # hasNeededAPIExtension: check if LXD supports the needed extension.
