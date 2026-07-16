@@ -562,7 +562,8 @@ export const fetchInstanceDirectory = async (
 ): Promise<LxdFileExplorerItem> => {
   const params = new URLSearchParams();
   params.set("project", project);
-  params.set("path", path);
+  const normalizedPath = path.endsWith("/") ? path : path + "/";
+  params.set("path", normalizedPath);
 
   return fetch(
     `${ROOT_PATH}/1.0/instances/${encodeURIComponent(name)}/files?${params.toString()}`,
@@ -601,6 +602,23 @@ export const fetchInstanceFileHeader = async (
       modified: response.headers.get("x-lxd-modified") ?? "-",
     };
   });
+};
+
+export const fetchSymlinkContent = async (
+  instanceName: string,
+  project: string,
+  path: string,
+): Promise<string> => {
+  const params = new URLSearchParams();
+  params.set("project", project);
+  params.set("path", path);
+
+  return fetch(
+    `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instanceName)}/files?${params.toString()}`,
+    {
+      method: "GET",
+    },
+  ).then(handleTextResponse);
 };
 
 export const deleteInstanceFile = async (

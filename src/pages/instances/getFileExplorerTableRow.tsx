@@ -2,6 +2,7 @@ import { isoTimeToString } from "util/helpers";
 import { fetchInstanceFileHeader } from "api/instances";
 import FileExplorerDirectory from "./FileExplorerDirectory";
 import FileExplorerFile from "./FileExplorerFile";
+import FileExplorerSymlink from "./FileExplorerSymlink";
 import FileExplorerActions from "./actions/FileExplorerActions";
 import type { LxdInstance } from "types/instance";
 import { useQuery } from "@tanstack/react-query";
@@ -28,9 +29,9 @@ const getFileExplorerTableRow = (
       fetchInstanceFileHeader(instance.name, instance.project, fullPath),
   });
 
-  const isDirectory = metadata?.type === "directory";
-  const isFile = metadata?.type === "file";
   const fileType = metadata?.type ?? "-";
+  const isDirectory = fileType === "directory";
+  const isSymlink = fileType === "symlink";
   const fileModified = metadata?.modified
     ? isoTimeToString(metadata.modified)
     : "-";
@@ -45,12 +46,18 @@ const getFileExplorerTableRow = (
             parentPath={parentPath}
             instance={instance}
           />
+        ) : isSymlink ? (
+          <FileExplorerSymlink
+            fileName={fileName}
+            parentPath={parentPath}
+            instance={instance}
+          />
         ) : (
           <FileExplorerFile
             fileName={fileName}
             parentPath={parentPath}
             instance={instance}
-            icon={isFile ? "file-blank" : "pods"}
+            icon="file-blank"
           />
         ),
         role: "rowheader",

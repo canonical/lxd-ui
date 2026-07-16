@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
-import { getFileExplorerFileURL } from "util/instances";
+import { getFileExplorerURL } from "util/instances";
 import type { LxdInstance } from "types/instance";
 
 const FileExplorerFile: FC<{
@@ -11,7 +11,7 @@ const FileExplorerFile: FC<{
 }> = ({ fileName, parentPath, instance, icon }) => {
   return (
     <a
-      href={getFileExplorerFileURL(parentPath, fileName, instance)}
+      href={getFileExplorerURL(parentPath, fileName, instance)}
       download={fileName}
       className="file-explorer-item"
     >

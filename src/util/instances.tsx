@@ -97,18 +97,21 @@ export const getFileExplorerDirectoryURL = (
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/file-explorer?${params.toString()}`;
 };
 
-export const getFileExplorerFileURL = (
+export const getFileExplorerURL = (
   parentPath: string,
-  fileName: string,
+  fileName: string | undefined,
   instance: LxdInstance,
 ) => {
   const params = new URLSearchParams();
   params.set("project", instance.project);
-  params.set(
-    "path",
-    parentPath === "/" ? `/${fileName}` : `${parentPath}/${fileName}`,
-  );
 
+  if (!fileName) {
+    params.set("path", parentPath);
+    return `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`;
+  }
+
+  const path = getFullPath(parentPath, fileName);
+  params.set("path", path);
   return `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/files?${params.toString()}`;
 };
 
@@ -127,4 +130,30 @@ export const validateDirectoryPathSyntax = (
   }
 
   return undefined;
+};
+
+export const getFullPath = (parentPath: string, fileName: string): string => {
+  return parentPath === "/" ? `/${fileName}` : `${parentPath}/${fileName}`;
+};
+
+export const resolveSymlinkTarget = (
+  target: string,
+  currentPath: string,
+): string => {
+  if (target.startsWith("/")) {
+    return target;
+  }
+  const parentDir =
+    currentPath.substring(0, currentPath.lastIndexOf("/")) || "/";
+  const combined = getFullPath(parentDir, target);
+  const parts = combined.split("/");
+  const resolved: string[] = [];
+  for (const part of parts) {
+    if (part === "..") {
+      resolved.pop();
+    } else if (part !== "." && part !== "") {
+      resolved.push(part);
+    }
+  }
+  return "/" + resolved.join("/");
 };

@@ -2,15 +2,14 @@ import { Icon } from "@canonical/react-components";
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import { getFileExplorerDirectoryURL } from "util/instances";
+import { getFileExplorerDirectoryURL, getFullPath } from "util/instances";
 
 const FileExplorerDirectory: FC<{
   dirName: string;
   parentPath: string;
   instance: LxdInstance;
 }> = ({ dirName, parentPath, instance }) => {
-  const fullPath =
-    parentPath === "/" ? `/${dirName}` : `${parentPath}/${dirName}`;
+  const fullPath = getFullPath(parentPath, dirName);
 
   return (
     <Link
