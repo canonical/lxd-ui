@@ -47,3 +47,40 @@ export const selectIdentitiesToModify = async (
       .click();
   }
 };
+
+export const getDisplayedToken = async (page: Page): Promise<string> => {
+  const token = page.locator(".command-wrapper .command").first();
+  await expect(token).toBeVisible();
+  const fullToken = await token.getAttribute("title");
+  expect(fullToken).toBeTruthy();
+  return fullToken ?? "";
+};
+
+export const closeTokenDisplayModal = async (page: Page) => {
+  const tokenModal = page.getByRole("dialog");
+  const copiedConfirmation = tokenModal.getByText("I have copied the token");
+
+  await expect(copiedConfirmation).toBeVisible();
+  await copiedConfirmation.click();
+  await tokenModal.getByRole("button", { name: "Done" }).click();
+};
+
+export const issueTokenFromEditPanel = async (
+  page: Page,
+  expiry?: string,
+): Promise<string> => {
+  await page.getByRole("button", { name: "Issue new token" }).click();
+  const tokenModal = page
+    .locator(".p-modal")
+    .filter({ hasText: "Issue new token" });
+
+  if (expiry) {
+    await tokenModal.getByLabel("Custom").click();
+    await tokenModal.getByLabel("Token expiry value").fill(expiry);
+  }
+
+  await tokenModal.getByRole("button", { name: "Issue new token" }).click();
+  await expect(page.getByText("token issued successfully")).toBeVisible();
+
+  return getDisplayedToken(page);
+};

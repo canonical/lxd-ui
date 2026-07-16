@@ -439,8 +439,8 @@ body.is-dark .lxd-icon {
 }
 
 .host-path-device-modal,
-.create-tls-identity,
-.create-cluster-link {
+.create-cluster-link,
+.identity-token-modal {
   .p-modal__dialog {
     @include large {
       width: 40rem;
@@ -456,6 +456,16 @@ body.is-dark .lxd-icon {
           width: 1rem;
         }
       }
+    }
+  }
+}
+
+.identity-token-modal {
+  .p-modal__dialog {
+    // Keep snippet title glyphs uniform in identity token modals.
+    .p-code-snippet__title {
+      font-variant: normal;
+      font-variant-caps: normal;
     }
   }
 }

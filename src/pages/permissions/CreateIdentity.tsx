@@ -1,14 +1,11 @@
 import { useState, type FC } from "react";
 import { useNotify, usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import CreateIdentityModal from "pages/permissions/CreateIdentityModal";
+import IdentityTokenModal from "pages/permissions/IdentityTokenModal";
 import CreateIdentityPanel from "pages/permissions/panels/CreateIdentityPanel";
 import type { IdentityFormValues } from "types/forms/identity";
 import usePanelParams, { panels } from "util/usePanelParams";
-import {
-  CREATE_IDENTITY_MODAL_TEXT,
-  IDENTITY_TYPE,
-} from "util/permissionIdentities";
+import { IDENTITY_MODAL_TEXT, IDENTITY_TYPE } from "util/permissionIdentities";
 import { queryKeys } from "util/queryKeys";
 
 const CreateIdentity: FC = () => {
@@ -26,14 +23,13 @@ const CreateIdentity: FC = () => {
     expiry: "",
     isCustomExpiry: false,
   });
-  const identityModalCaptions =
-    CREATE_IDENTITY_MODAL_TEXT[identity.identityType];
+  const identityModalCaptions = IDENTITY_MODAL_TEXT[identity.identityType];
 
   return (
     <>
       {isOpen && (
         <Portal>
-          <CreateIdentityModal
+          <IdentityTokenModal
             onClose={closePortal}
             token={token}
             identity={identity}

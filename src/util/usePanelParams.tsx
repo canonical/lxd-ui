@@ -40,6 +40,7 @@ export interface PanelHelper {
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
   openEditStorageBucketKey: (key: string) => void;
   openGroupIdentities: (group?: string) => void;
+  openEditIdentity: (identityId: string) => void;
   openIdentityGroups: (identity?: string) => void;
   openInstanceSummary: (instance: string, project: string) => void;
   openProfileSummary: (profile: string, project: string) => void;
@@ -80,6 +81,7 @@ export const panels = {
   editStorageBucketKey: "edit-bucket-key",
   groupIdentities: "group-identities",
   identityGroups: "identity-groups",
+  editIdentity: "edit-identity",
   instanceSummary: "instance-summary",
   profileSummary: "profile-summary",
   createImageRegistry: "create-image-registry",
@@ -290,6 +292,12 @@ const usePanelParams = (): PanelHelper => {
       const newParams = new URLSearchParams(params);
       newParams.append("identity", identity || "");
       setPanelParams(panels.identityGroups, Object.fromEntries(newParams));
+    },
+
+    openEditIdentity: (identityId) => {
+      const newParams = new URLSearchParams(params);
+      newParams.set("identity", identityId);
+      setPanelParams(panels.editIdentity, Object.fromEntries(newParams));
     },
 
     openInstanceSummary: (instance, project) => {
