@@ -6,6 +6,7 @@ interface Props {
   secondaryPercentage?: number;
   text: string;
   hoverText?: string;
+  color?: string;
 }
 
 const Meter: FC<Props> = ({
@@ -13,12 +14,13 @@ const Meter: FC<Props> = ({
   secondaryPercentage = 0,
   text,
   hoverText,
+  color,
 }: Props) => {
   return (
     <>
       <div className="p-meter u-no-margin--bottom" title={hoverText}>
         <div
-          style={{ width: `max(${percentage}%, 5px)` }}
+          style={{ width: `max(${percentage}%, 5px)`, backgroundColor: color }}
           className={classnames({
             "has-next-sibling": secondaryPercentage > 0,
           })}

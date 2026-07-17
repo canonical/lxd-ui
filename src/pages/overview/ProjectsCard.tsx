@@ -51,7 +51,7 @@ const ProjectsCard: FC = () => {
   }
 
   return (
-    <Card className="overview-card projects" title={cardTitle}>
+    <Card className={cardClassName} title={cardTitle}>
       {!isLoading && !error && (
         <>
           <table className="projects-instances-ranking-table u-no-margin">

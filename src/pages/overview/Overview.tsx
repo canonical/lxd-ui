@@ -6,6 +6,7 @@ import ProjectsCard from "pages/overview/ProjectsCard";
 import MemoryCard from "pages/overview/MemoryCard";
 import StorageCard from "pages/overview/StorageCard";
 import NetworksCard from "pages/overview/NetworksCard";
+import WarningCard from "pages/overview/WarningCard";
 
 const Overview: FC = () => {
   return (
@@ -14,15 +15,14 @@ const Overview: FC = () => {
         <InstancesCard />
         <ClusterCard />
       </Row>
-      <Row>
-        <ProjectsCard />
-      </Row>
       <Row className="overview-row">
+        <ProjectsCard />
         <StorageCard />
-        <MemoryCard />
+        {/* <MemoryCard /> */}
       </Row>
       <Row>
-        <NetworksCard />
+        {/* <NetworksCard /> */}
+        <WarningCard />
       </Row>
     </CustomLayout>
   );

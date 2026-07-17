@@ -31,6 +31,17 @@
       flex: 1;
     }
 
+    &.cluster {
+      .card-content {
+        display: flex;
+        gap: calc($sph--x-large * 2);
+
+        > div {
+          flex: 1;
+        }
+      }
+    }
+
     &.instances {
       max-width: calc(50% - $sph--large / 2);
       min-width: 20rem;
@@ -95,6 +106,32 @@
 
       .plus-n-more {
         margin-left: $sph--small;
+      }
+    }
+
+    &.storage {
+      .p-card__content {
+        .storage-pools-container {
+          display: grid;
+          gap: $sph--x-large;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+
+          @include mobile {
+            grid-template-columns: 1fr;
+          }
+
+          .storage-pool-details {
+            .meter-with-percentage {
+              .p-meter {
+                width: 8rem;
+              }
+
+              .percentage {
+                margin-top: -$spv--x-small;
+              }
+            }
+          }
+        }
       }
     }
   }
