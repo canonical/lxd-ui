@@ -1,48 +1,8 @@
 import { gotoURL } from "./navigate";
 import AxeBuilder from "@axe-core/playwright";
-import type { AxeResults, Result, CrossTreeSelector } from "axe-core";
+import type { AxeResults, Result } from "axe-core";
 import type { Page, TestInfo } from "@playwright/test";
 import { writeFile } from "fs/promises";
-
-interface A11yResult {
-  id: string;
-  slug: string;
-  tags: string[];
-  type: string;
-  description: string;
-  nodes: CrossTreeSelector[];
-}
-
-const generateResult = (
-  results: AxeResults,
-  type: "pass" | "violation",
-  slug: string,
-): A11yResult[] => {
-  let targetAttr: Result[];
-  if (type === "pass") targetAttr = results.passes;
-  else targetAttr = results.violations;
-
-  const result: A11yResult[] = [];
-
-  for (const instance of targetAttr) {
-    const resultObject: A11yResult = {
-      id: instance.id,
-      slug,
-      type,
-      tags: instance.tags,
-      description: instance.description,
-      nodes: [],
-    };
-    for (const node of instance.nodes) {
-      const targets = Array.isArray(node.target) ? node.target : [node.target];
-      for (const target of targets) {
-        resultObject.nodes.push(target);
-      }
-    }
-    result.push(resultObject);
-  }
-  return result;
-};
 
 const printSummary = (
   percent: number,
@@ -134,8 +94,9 @@ export const runA11yAudit = async (
   );
 
   if (results.violations.length > 0) {
-    const result = generateResult(results, "violation", slug);
-    console.log(result);
+    console.log(
+      `\n${results.violations.length} violation(s) found. Full details available in the a11y-report artifact.`,
+    );
   }
 
   try {
