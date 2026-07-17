@@ -9,6 +9,11 @@
   width: 1rem !important;
 }
 
+.explanation-tooltip-wrapper--breadcrumb {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
 .explanation-tooltip {
   display: flex;
   flex-direction: column;

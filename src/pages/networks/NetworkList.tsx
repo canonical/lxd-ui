@@ -16,7 +16,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import NetworkExplanationTooltip from "pages/networks/NetworkExplanationTooltip";
 import NetworkForwardCount from "pages/networks/NetworkForwardCount";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
@@ -285,12 +285,7 @@ const NetworkList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/explanation/networks/"
-                title="Learn more about networking"
-              >
-                Networks
-              </HelpLink>
+              <NetworkExplanationTooltip>Networks</NetworkExplanationTooltip>
             </PageHeader.Title>
             <PageHeader.Search>
               <NetworkSearchFilter key={searchParams.get("search")} />

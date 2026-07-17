@@ -14,7 +14,7 @@ import {
 } from "@canonical/react-components";
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import PlacementGroupExplanationTooltip from "pages/placement-groups/PlacementGroupExplanationTooltip";
 import BaseLayout from "components/BaseLayout";
 import DocLink from "components/DocLink";
 import { useIsClustered } from "context/useIsClustered";
@@ -150,12 +150,9 @@ const PlacementGroupList: FC = () => {
       <BaseLayout
         mainClassName="placement-groups-list"
         title={
-          <HelpLink
-            docPath="/howto/cluster_placement_groups/"
-            title="Learn how to use placement groups"
-          >
+          <PlacementGroupExplanationTooltip>
             Placement groups
-          </HelpLink>
+          </PlacementGroupExplanationTooltip>
         }
         controls={
           isClustered &&

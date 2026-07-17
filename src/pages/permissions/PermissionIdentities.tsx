@@ -25,7 +25,7 @@ import { useSettings } from "context/useSettings";
 import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
-import HelpLink from "components/HelpLink";
+import PermissionIdentityExplanationTooltip from "pages/permissions/PermissionIdentityExplanationTooltip";
 import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
@@ -273,12 +273,9 @@ const PermissionIdentities: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/explanation/authorization"
-                  title="Learn more about permissions"
-                >
+                <PermissionIdentityExplanationTooltip>
                   Identities
-                </HelpLink>
+                </PermissionIdentityExplanationTooltip>
               </PageHeader.Title>
               {!selectedIdentityIds.length && !panelParams.panel && (
                 <PageHeader.Search>
