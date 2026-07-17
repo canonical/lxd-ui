@@ -20,6 +20,7 @@ import { checkDuplicateName } from "util/helpers";
 import ImageRegistryRichChip from "../ImageRegistryRichChip";
 import type { LxdImageRegistry, LxdImageRegistryConfig } from "types/image";
 import { useEscCallback } from "context/useEscCallback";
+import ImageRegistryExplanationTooltip from "pages/images/ImageRegistryExplanationTooltip";
 
 export const CreateImageRegistryPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -112,7 +113,11 @@ export const CreateImageRegistryPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create image registry</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <ImageRegistryExplanationTooltip>
+              Create image registry
+            </ImageRegistryExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

@@ -24,6 +24,7 @@ import ResourceLink from "components/ResourceLink";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
+import PlacementGroupExplanationTooltip from "pages/placement-groups/PlacementGroupExplanationTooltip";
 
 const CreatePlacementGroupPanel: FC = () => {
   const controllerState = useState<AbortController | null>(null);
@@ -109,7 +110,11 @@ const CreatePlacementGroupPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create placement group</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <PlacementGroupExplanationTooltip>
+              Create placement group
+            </PlacementGroupExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

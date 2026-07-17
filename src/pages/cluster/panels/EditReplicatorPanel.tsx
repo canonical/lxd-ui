@@ -20,6 +20,7 @@ import { useReplicator } from "context/useReplicators";
 import { getPayload } from "util/replicator";
 import * as Yup from "yup";
 import { useEscCallback } from "context/useEscCallback";
+import ReplicatorExplanationTooltip from "pages/cluster/ReplicatorExplanationTooltip";
 
 const EditReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -97,7 +98,11 @@ const EditReplicatorPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Edit replicator</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <ReplicatorExplanationTooltip>
+              Edit replicator
+            </ReplicatorExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

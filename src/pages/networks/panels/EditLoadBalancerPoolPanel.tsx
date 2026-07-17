@@ -25,6 +25,7 @@ import LoadBalancerPoolForm, {
 import { useEventQueue } from "context/eventQueue";
 import { getHealthCheckType } from "util/loadBalancers";
 import { useEscCallback } from "context/useEscCallback";
+import LoadBalancerExplanationTooltip from "pages/networks/LoadBalancerExplanationTooltip";
 
 interface Props {
   network: LxdNetwork;
@@ -121,7 +122,11 @@ const EditLoadBalancerPoolPanel: FC<Props> = ({ network }) => {
   return (
     <SidePanel>
       <SidePanel.Header>
-        <SidePanel.HeaderTitle>Edit load balancer pool</SidePanel.HeaderTitle>
+        <SidePanel.HeaderTitle>
+          <LoadBalancerExplanationTooltip>
+            Edit load balancer pool
+          </LoadBalancerExplanationTooltip>
+        </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />
       <LoadBalancerPoolForm formik={formik} network={network} isEdit />

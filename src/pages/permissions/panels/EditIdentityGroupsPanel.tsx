@@ -10,6 +10,7 @@ import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import { useAuthGroups } from "context/useAuthGroups";
 import { useEscCallback } from "context/useEscCallback";
+import PermissionIdentityExplanationTooltip from "pages/permissions/PermissionIdentityExplanationTooltip";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -163,7 +164,9 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
       <SidePanel loading={isLoading} hasError={!groups}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle className="u-truncate">
-            {panelTitle}
+            <PermissionIdentityExplanationTooltip>
+              {panelTitle}
+            </PermissionIdentityExplanationTooltip>
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />

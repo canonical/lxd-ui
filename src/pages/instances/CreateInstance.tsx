@@ -26,6 +26,7 @@ import {
 } from "react-router-dom";
 import type { LxdInstance, InstanceIconType } from "types/instance";
 import InstanceCreateDetailsForm from "pages/instances/forms/InstanceCreateDetailsForm";
+import InstanceExplanationTooltip from "pages/instances/InstanceExplanationTooltip";
 import type { FormDevice } from "types/formDevice";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
@@ -406,7 +407,14 @@ const CreateInstance: FC = () => {
     !formik.isValid || !formik.values.image || diskError || networkError;
 
   return (
-    <BaseLayout title="Create an instance" contentClassName="create-instance">
+    <BaseLayout
+      title={
+        <InstanceExplanationTooltip>
+          Create an instance
+        </InstanceExplanationTooltip>
+      }
+      contentClassName="create-instance"
+    >
       <Form onSubmit={formik.handleSubmit} className="form">
         {section !== YAML_CONFIGURATION && (
           <InstanceFormMenu

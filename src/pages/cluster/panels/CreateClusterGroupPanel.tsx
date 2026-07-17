@@ -16,6 +16,7 @@ import { createClusterGroup } from "api/cluster-groups";
 import ResourceLink from "components/ResourceLink";
 import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
+import ClusterGroupExplanationTooltip from "pages/cluster/ClusterGroupExplanationTooltip";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
 
@@ -78,7 +79,11 @@ const CreateClusterGroupPanel: FC = () => {
   return (
     <SidePanel>
       <SidePanel.Header>
-        <SidePanel.HeaderTitle>Create cluster group</SidePanel.HeaderTitle>
+        <SidePanel.HeaderTitle>
+          <ClusterGroupExplanationTooltip>
+            Create cluster group
+          </ClusterGroupExplanationTooltip>
+        </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />
       <SidePanel.Content className="u-no-padding">

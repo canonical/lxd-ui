@@ -23,6 +23,7 @@ import ResourceLink from "components/ResourceLink";
 import PlacementGroupUsedBy from "pages/placement-groups/PlacementGroupUsedBy";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
+import PlacementGroupExplanationTooltip from "pages/placement-groups/PlacementGroupExplanationTooltip";
 
 const EditPlacementGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -105,7 +106,9 @@ const EditPlacementGroupPanel: FC = () => {
       <SidePanel>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
-            Edit placement group {placementGroup?.name}
+            <PlacementGroupExplanationTooltip>
+              Edit placement group {placementGroup?.name}
+            </PlacementGroupExplanationTooltip>
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />

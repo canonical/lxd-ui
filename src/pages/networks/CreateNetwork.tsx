@@ -30,6 +30,7 @@ import { useSettings } from "context/useSettings";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
 import BaseLayout from "components/BaseLayout";
+import NetworkExplanationTooltip from "pages/networks/NetworkExplanationTooltip";
 import {
   GENERAL,
   YAML_CONFIGURATION,
@@ -198,7 +199,12 @@ const CreateNetwork: FC = () => {
   };
 
   return (
-    <BaseLayout title="Create a network" contentClassName="create-network">
+    <BaseLayout
+      title={
+        <NetworkExplanationTooltip>Create a network</NetworkExplanationTooltip>
+      }
+      contentClassName="create-network"
+    >
       <Row>
         <NotificationRow />
         <NetworkForm
