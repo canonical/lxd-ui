@@ -22,10 +22,7 @@ then
 fi
 
 # Apply OIDC settings
-$LXC_CMD config set oidc.issuer "${LXD_OIDC_ISSUER}"
-$LXC_CMD config set oidc.client.id "${LXD_OIDC_CLIENT_ID}"
-$LXC_CMD config set oidc.audience "${LXD_OIDC_AUDIENCE}"
-$LXC_CMD config set oidc.groups.claim "${LXD_OIDC_GROUPS_CLAIM}"
+$LXC_CMD config set oidc.issuer="${LXD_OIDC_ISSUER}" oidc.client.id="${LXD_OIDC_CLIENT_ID}" oidc.audience="${LXD_OIDC_AUDIENCE}" oidc.groups.claim="${LXD_OIDC_GROUPS_CLAIM}"
 
 # Logic for Secret (Only if the extension exists)
 if hasNeededAPIExtension "oidc_client_secret"; then
