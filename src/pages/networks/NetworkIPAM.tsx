@@ -11,7 +11,7 @@ import {
 } from "@canonical/react-components";
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import NetworkIPAMExplanationTooltip from "pages/networks/NetworkIPAMExplanationTooltip";
 import PageHeader from "components/PageHeader";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -164,12 +164,9 @@ const NetworkIPAM: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/howto/network_ipam/"
-                title="Learn more about IPAM"
-              >
+              <NetworkIPAMExplanationTooltip>
                 IP Address Management
-              </HelpLink>
+              </NetworkIPAMExplanationTooltip>
             </PageHeader.Title>
           </PageHeader.Left>
         </PageHeader>

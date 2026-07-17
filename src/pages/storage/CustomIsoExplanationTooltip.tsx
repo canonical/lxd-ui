@@ -5,13 +5,12 @@ const CustomIsoExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Upload and manage custom ISO images for instance creation and installation."
+      docPath="/howto/instances_create/#instances-create-iso"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Upload and manage custom ISO images for instance creation and installation."
-        docPath="/howto/instances_create/#instances-create-iso"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

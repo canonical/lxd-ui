@@ -1,17 +1,17 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const ProfileExplanationTooltip: FC<{ children?: ReactNode }> = ({
+const ProjectExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Create and manage configuration templates for instances."
-      docPath="/profiles/"
+      explanation="Organise and isolate entities and tenants into separate groups."
+      docPath="/projects/"
     >
       {children}
     </ExplanationTooltip>
   );
 };
 
-export default ProfileExplanationTooltip;
+export default ProjectExplanationTooltip;

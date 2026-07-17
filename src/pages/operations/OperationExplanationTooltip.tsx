@@ -5,13 +5,12 @@ const OperationExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Track background tasks performed by LXD."
+      docPath="/events/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Track background tasks performed by LXD."
-        docPath="/rest-api/#/operations"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

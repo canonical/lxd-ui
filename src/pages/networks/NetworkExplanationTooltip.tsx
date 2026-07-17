@@ -5,13 +5,12 @@ const NetworkExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Configure and manage virtual and physical networks to connect instances."
+      docPath="/explanation/networks/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Configure and manage virtual and physical networks to connect instances."
-        docPath="/explanation/networks/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

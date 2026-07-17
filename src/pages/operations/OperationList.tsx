@@ -12,6 +12,7 @@ import {
   CustomLayout,
 } from "@canonical/react-components";
 import { useOperationsWithChildren } from "context/operationsProvider";
+import OperationExplanationTooltip from "pages/operations/OperationExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
 import ChildOperationTrigger from "pages/operations/ChildOperationTrigger";
@@ -231,7 +232,11 @@ const OperationList: FC = () => {
         header={
           <PageHeader>
             <PageHeader.Left>
-              <PageHeader.Title>Ongoing operations</PageHeader.Title>
+              <PageHeader.Title>
+                <OperationExplanationTooltip>
+                  Ongoing operations
+                </OperationExplanationTooltip>
+              </PageHeader.Title>
               {operations.length > 0 && (
                 <PageHeader.Search>
                   <SearchBox

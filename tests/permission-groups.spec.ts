@@ -8,7 +8,6 @@ import {
   randomGroupName,
   removePermission,
   restorePermission,
-  visitGroups,
   selectGroupsToModify,
   assertGroupPermissionsCount,
   openEditGroupPanel,
@@ -24,7 +23,6 @@ import { dismissNotification } from "./helpers/notification";
 test("create and delete group", async ({ page, lxdVersion }) => {
   skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
-  await visitGroups(page);
   await createGroup(page, group, `${group}-desc`);
   await deleteGroup(page, group);
 });
@@ -162,7 +160,6 @@ test("bulk delete groups", async ({ page, lxdVersion }) => {
 test("create group with permissions", async ({ page, lxdVersion }) => {
   skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   const group = randomGroupName();
-  await visitGroups(page);
   const withPermission = true;
   await createGroup(page, group, `${group}-desc`, withPermission);
   await deleteGroup(page, group);

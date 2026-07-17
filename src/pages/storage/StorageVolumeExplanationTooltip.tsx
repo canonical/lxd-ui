@@ -5,13 +5,12 @@ const StorageVolumeExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Provision and manage storage volumes used by instances."
+      docPath="/explanation/storage/#storage-volumes"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Provision and manage storage volumes for use by instances."
-        docPath="/explanation/storage/#storage-volumes"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

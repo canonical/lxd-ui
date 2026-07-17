@@ -5,13 +5,12 @@ const LocalImageExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="View and manage images stored locally on the LXD server."
+      docPath="/image-handling/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="View and manage images stored locally on the LXD server."
-        docPath="/image-handling/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

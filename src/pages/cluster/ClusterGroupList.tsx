@@ -13,7 +13,7 @@ import EditClusterGroupBtn from "pages/cluster/actions/EditClusterGroupBtn";
 import DeleteClusterGroupBtn from "pages/cluster/actions/DeleteClusterGroupBtn";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
-import HelpLink from "components/HelpLink";
+import ClusterGroupExplanationTooltip from "pages/cluster/ClusterGroupExplanationTooltip";
 import useSortTableData from "util/useSortTableData";
 import CreateClusterGroupBtn from "pages/cluster/actions/CreateClusterGroupBtn";
 import { useClusterGroups } from "context/useClusterGroups";
@@ -136,12 +136,9 @@ const ClusterGroupList: FC = () => {
     <BaseLayout
       mainClassName="cluster-list"
       title={
-        <HelpLink
-          docPath="/explanation/clustering/#cluster-groups"
-          title="Learn more about cluster groups"
-        >
+        <ClusterGroupExplanationTooltip>
           Cluster groups
-        </HelpLink>
+        </ClusterGroupExplanationTooltip>
       }
       controls={isClustered && <CreateClusterGroupBtn />}
     >

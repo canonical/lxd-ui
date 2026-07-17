@@ -5,13 +5,12 @@ const NetworkIPAMExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="View IP address allocation across LXD networks."
+      docPath="/howto/network_ipam/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="View IP address allocation and tracking across LXD networks."
-        docPath="/howto/network_ipam/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

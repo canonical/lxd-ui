@@ -23,7 +23,7 @@ import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import ProfileExplanationTooltip from "pages/profiles/ProfileExplanationTooltip";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import ProfileDetailPanel from "./ProfileDetailPanel";
@@ -180,12 +180,7 @@ const ProfileList: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/profiles/"
-                  title="Learn how to use profiles"
-                >
-                  Profiles
-                </HelpLink>
+                <ProfileExplanationTooltip>Profiles</ProfileExplanationTooltip>
               </PageHeader.Title>
               {profiles.length > 0 && (
                 <PageHeader.Search>

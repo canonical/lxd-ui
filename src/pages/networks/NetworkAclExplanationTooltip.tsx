@@ -5,13 +5,12 @@ const NetworkAclExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Define network access control rules to direct traffic on your networks."
+      docPath="/howto/network_acls/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Define network access control rules to control traffic on your networks."
-        docPath="/howto/network_acls/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

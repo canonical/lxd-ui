@@ -20,7 +20,7 @@ import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
 import { Link, useParams } from "react-router-dom";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
-import HelpLink from "components/HelpLink";
+import CustomIsoExplanationTooltip from "pages/storage/CustomIsoExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import ResourceLabel from "components/ResourceLabel";
 import { useLoadIsoVolumes } from "context/useVolumes";
@@ -208,12 +208,9 @@ const CustomIsoList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/howto/instances_create/#instances-create-iso"
-                title="Learn how to create a VM that boots from an ISO"
-              >
+              <CustomIsoExplanationTooltip>
                 Custom ISOs
-              </HelpLink>
+              </CustomIsoExplanationTooltip>
             </PageHeader.Title>
             {hasImages && (
               <PageHeader.Search>

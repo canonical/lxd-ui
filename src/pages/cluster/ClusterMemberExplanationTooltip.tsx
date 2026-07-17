@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const ServerExplanationTooltip: FC<{ children?: ReactNode }> = ({
+const ClusterMemberExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Monitor server information, status, and resource usage."
+      explanation="View and manage the individual members that make up your LXD cluster."
       docPath="/explanation/clustering/"
     >
       {children}
@@ -14,4 +14,4 @@ const ServerExplanationTooltip: FC<{ children?: ReactNode }> = ({
   );
 };
 
-export default ServerExplanationTooltip;
+export default ClusterMemberExplanationTooltip;

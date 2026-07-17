@@ -5,13 +5,12 @@ const PermissionGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Organise identities into groups to manage permissions."
+      docPath="/explanation/authorization"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Organise identities into groups to facilitate permission management."
-        docPath="/explanation/authorization"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

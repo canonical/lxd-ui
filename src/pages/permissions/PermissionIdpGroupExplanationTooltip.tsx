@@ -5,13 +5,12 @@ const PermissionIdpGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Map identity provider groups to LXD groups."
+      docPath="/explanation/authorization/#use-groups-defined-by-the-identity-provider"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Map identity provider groups to LXD groups."
-        docPath="/explanation/authorization"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

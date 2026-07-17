@@ -5,13 +5,13 @@ const ProjectConfigurationExplanationTooltip: FC<{
   children?: ReactNode;
 }> = ({ children }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      className="explanation-tooltip-wrapper--breadcrumb"
+      explanation="View and manage project-level configuration settings and resources."
+      docPath="/reference/projects/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="View and manage project-level configuration settings and resources."
-        docPath="/reference/projects/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

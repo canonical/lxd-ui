@@ -2,7 +2,7 @@ import { useState, type FC } from "react";
 import { Notification, Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import DocLink from "components/DocLink";
-import HelpLink from "components/HelpLink";
+import ServerExplanationTooltip from "pages/cluster/ServerExplanationTooltip";
 import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
 import ClusterMemberHardware from "pages/cluster/ClusterMemberHardware";
 
@@ -12,14 +12,7 @@ const ClusterServer: FC = () => {
   return (
     <BaseLayout
       mainClassName="cluster-server"
-      title={
-        <HelpLink
-          docPath="/explanation/clustering/"
-          title="Learn more about clustering"
-        >
-          Server
-        </HelpLink>
-      }
+      title={<ServerExplanationTooltip>Server</ServerExplanationTooltip>}
     >
       <Row>
         {showNotification && (

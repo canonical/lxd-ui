@@ -5,13 +5,12 @@ const StoragePoolExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Create and manage storage backends used to host instance and image data."
+      docPath="/explanation/storage/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Create and manage storage backends used to host instance and image data."
-        docPath="/explanation/storage/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

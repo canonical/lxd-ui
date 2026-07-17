@@ -1,4 +1,5 @@
-import { type FC } from "react";
+import { type FC, type ReactNode } from "react";
+import classNames from "classnames";
 import { Icon, Tooltip } from "@canonical/react-components";
 import DocLink from "components/DocLink";
 
@@ -6,12 +7,16 @@ interface Props {
   explanation: string;
   docPath: string;
   docLabel?: string;
+  className?: string;
+  children?: ReactNode;
 }
 
 const ExplanationTooltip: FC<Props> = ({
   explanation,
   docPath,
   docLabel = "Learn more",
+  className,
+  children,
 }) => {
   const tooltip = (
     <Tooltip
@@ -31,7 +36,12 @@ const ExplanationTooltip: FC<Props> = ({
     </Tooltip>
   );
 
-  return tooltip;
+  return (
+    <span className={classNames("explanation-tooltip-wrapper", className)}>
+      {children}
+      {tooltip}
+    </span>
+  );
 };
 
 export default ExplanationTooltip;

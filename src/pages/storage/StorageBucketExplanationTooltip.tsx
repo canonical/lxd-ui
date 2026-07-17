@@ -5,13 +5,12 @@ const StorageBucketExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Manage object storage buckets for storing and accessing unstructured data."
+      docPath="/explanation/storage/#storage-buckets"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Manage object storage buckets for storing and accessing unstructured data."
-        docPath="/explanation/storage/#storage-buckets"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

@@ -5,13 +5,12 @@ const ImageRegistryExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Configure external image sources for importing images."
+      docPath="/image-handling/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Configure external image sources for importing images."
-        docPath="/image-handling/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

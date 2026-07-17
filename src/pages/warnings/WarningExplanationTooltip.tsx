@@ -5,13 +5,12 @@ const WarningExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Review system warnings and issues that may require attention."
+      docPath="/howto/troubleshoot/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Review system warnings and issues that may require attention."
-        docPath="/howto/troubleshoot/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

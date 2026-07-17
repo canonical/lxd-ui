@@ -5,13 +5,12 @@ const SettingsExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="View and manage global LXD configuration settings and resources."
+      docPath="/server/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="View and manage global LXD configuration settings and resources."
-        docPath="/server/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

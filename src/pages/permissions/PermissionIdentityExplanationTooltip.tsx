@@ -5,13 +5,12 @@ const PermissionIdentityExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Manage users, service accounts, and API keys."
+      docPath="/explanation/authorization"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Manage users, service accounts, and authentication identities."
-        docPath="/explanation/authorization"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 
