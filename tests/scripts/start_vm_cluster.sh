@@ -28,16 +28,12 @@ done
 sudo lxc exec vm-standalone -- cloud-init status --wait
 
 sudo lxc exec vm1 -- apt-get update
-sudo lxc exec vm1 -- sudo apt-get install snapd -y
 sudo lxc exec vm1 -- snap install lxd --channel="$1"
 sudo lxc exec vm2 -- apt-get update
-sudo lxc exec vm2 -- sudo apt-get install snapd -y
 sudo lxc exec vm2 -- snap install lxd --channel="$1"
 sudo lxc exec vm3 -- apt-get update
-sudo lxc exec vm3 -- sudo apt-get install snapd -y
 sudo lxc exec vm3 -- snap install lxd --channel="$1"
 sudo lxc exec vm-standalone -- apt-get update
-sudo lxc exec vm-standalone -- sudo apt-get install snapd -y
 sudo lxc exec vm-standalone -- snap install lxd --channel="$1"
 
 VM1_IP=$(sudo lxc list vm1 --format csv -c 4 | cut -d' ' -f1 | cut -d',' -f1)
