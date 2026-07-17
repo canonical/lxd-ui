@@ -4,6 +4,14 @@
   gap: $spv--small;
 }
 
+.explanation-tooltip-wrapper--overview-card {
+  display: inline-flex;
+
+  i {
+    margin-bottom: 0 !important;
+  }
+}
+
 .explanation-tooltip-icon {
   height: 1rem !important;
   width: 1rem !important;

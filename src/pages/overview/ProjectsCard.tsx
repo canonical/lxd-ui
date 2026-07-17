@@ -7,6 +7,7 @@ import type { LxdProject } from "types/project";
 import { pluralize } from "util/helpers";
 import { getInstancesUsedByProject } from "util/projects";
 import { ROOT_PATH } from "util/rootPath";
+import ProjectExplanationTooltip from "pages/projects/ProjectExplanationTooltip";
 
 const ProjectsCard: FC = () => {
   const { data: projects = [], error, isLoading } = useProjects();
