@@ -25,6 +25,7 @@ import {
   downloadFile,
   uploadFile,
   createFile,
+  skipIfFileExplorerNotSupported,
 } from "./helpers/instance-file-explorer";
 import {
   assertCode,
@@ -506,7 +507,10 @@ test("navigate with breadcrumb navigation", async ({ page }) => {
 
 test("upload, download, and delete file from file explorer", async ({
   page,
+  lxdVersion,
 }, testInfo) => {
+  skipIfFileExplorerNotSupported(lxdVersion);
+
   await visitAndStartInstance(page, instance);
   await visitFileExplorer(page, instance);
 

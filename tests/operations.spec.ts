@@ -7,14 +7,12 @@ import {
   visitAndStopInstance,
 } from "./helpers/instances";
 import { validateOperation } from "./helpers/operations";
-import { dismissNotification } from "./helpers/notification";
 
 test("instance operations are recognised on the Operations page", async ({
   page,
 }) => {
   const instance = randomInstanceName();
   await createInstance(page, instance);
-  await dismissNotification(page, `Created instance ${instance}.`);
   await validateOperation(page, `Creating instance${instance}`);
 
   // start instance and wait for the notification instance was started

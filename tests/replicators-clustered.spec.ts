@@ -29,7 +29,13 @@ test("Replicator", async ({ page, lxdVersion }, testInfo) => {
   await createReplicator(page, replicator, clusterLink, project);
 
   const replicatorRow = page.getByRole("row").filter({ hasText: replicator });
-  await replicatorRow.getByRole("link", { name: replicator }).click();
+  const replicatorLink = replicatorRow.getByRole("link", { name: replicator });
+  await expect(replicatorLink).toBeVisible();
+  const replicatorHref = await replicatorLink.getAttribute("href");
+  if (!replicatorHref) {
+    throw new Error("Replicator detail link href is missing");
+  }
+  await page.goto(replicatorHref);
   await expect(page.getByRole("heading", { name: "General" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Target" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sync" })).toBeVisible();

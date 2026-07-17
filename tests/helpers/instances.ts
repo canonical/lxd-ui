@@ -63,7 +63,7 @@ export const createInstance = async (
 
   await page.getByRole("button", { name: "Create" }).first().click();
 
-  await page.getByText(`Created instance ${instance}.`).waitFor();
+  await dismissNotification(page, `Created instance ${instance}.`);
 };
 
 export const visitInstance = async (
