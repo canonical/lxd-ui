@@ -1,0 +1,23 @@
+.explanation-tooltip-wrapper {
+  align-items: center;
+  display: flex;
+  gap: $spv--small;
+}
+
+.explanation-tooltip-icon {
+  height: 1rem !important;
+  width: 1rem !important;
+}
+
+.explanation-tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: $spv--small;
+}
+
+.explanation-tooltip-portal .p-tooltip__message {
+  margin: 0 1rem 0 0;
+  max-width: calc(60vw - 2rem);
+  white-space: normal;
+  width: max-content;
+}
