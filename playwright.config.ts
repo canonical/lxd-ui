@@ -222,6 +222,25 @@ const config: PlaywrightTestConfig<TestOptions> = {
       },
       testMatch: "docs-screenshots-clustered.spec.ts",
     },
+    {
+      name: "a11y-audit",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          /* We launch chromium with the --unsafely-treat-insecure-origin-as-secure
+           * flag to simulate a secure context at least when running headed tests.
+           * In headless mode, it would not work anyway, see following bug:
+           * https://issues.chromium.org/issues/41380386 */
+          args: [
+            `--unsafely-treat-insecure-origin-as-secure=${(
+              process.env.BASE_URL ?? "https://localhost:8407"
+            ).replace(/\/$/, "")}`,
+          ],
+        },
+      },
+      dependencies: ["login-chromium"],
+      testMatch: "accessibility-audit.spec.ts",
+    },
   ],
 };
 

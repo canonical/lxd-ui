@@ -84,6 +84,43 @@ jobs:
             echo "No disallowed Unicode characters found."
           fi
 
+  a11y-check:
+    name: a11y-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Setup LXD
+        uses: ./.github/actions/setup-lxd
+        with:
+          lxd_channel: "latest/edge"
+          deployment: "unclustered"
+          browser: "chromium"
+          lxd_oidc_client_id: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
+          lxd_oidc_client_secret: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
+          lxd_oidc_issuer: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
+          lxd_oidc_audience: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
+          lxd_oidc_user: "lxd-ui-e2e-tests@example.org"
+          lxd_oidc_password: "lxd-ui-e2e-password"
+          lxd_oidc_groups_claim: "lxd-idp-groups"
+
+      - name: Install dependencies
+        shell: bash
+        run: yarn install --immutable
+
+      - name: Run a11y check
+        run: npx playwright test --project a11y-audit
+
+      - name: Upload a11y report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: a11y-report
+          path: test-results
+          retention-days: 14
+
   browser-e2e-test:
     name: e2e-tests
     runs-on: ubuntu-latest
@@ -100,102 +137,24 @@ jobs:
             deployment: "single-node-cluster"
     outputs:
       job_status: ${{job.status}}
-    env:
-      LXD_OIDC_CLIENT_ID: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
-      LXD_OIDC_CLIENT_SECRET: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
-      LXD_OIDC_ISSUER: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
-      LXD_OIDC_AUDIENCE: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
-      LXD_OIDC_USER: "lxd-ui-e2e-tests@example.org"
-      LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
-      LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
 
-      - name: Generate SSL keys for HAProxy
-        run: |
-          mkdir -p keys
-          openssl req -x509 -newkey rsa:4096 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -days 365 -nodes -subj "/CN=localhost"
-          cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
-
-      - name: Install LXD
-        uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
+      - name: Setup LXD
+        uses: ./.github/actions/setup-lxd
         with:
-          bridges: "lxdbr0,workshopbr0"
-          channel: "latest/stable"
-
-      - name: Install Workshop
-        run: |
-          set -x
-          sudo lxd init --auto
-          sudo snap install workshop --classic
-          workshop launch --verbose
-
-      - name: Setup LXD backend (Clustered in VMs)
-        if: ${{ matrix.deployment == 'clustered' }}
-        shell: bash
-        run: |
-          set -x
-          tests/scripts/start_vm_cluster.sh ${{ matrix.lxd_channel }}
-
-      - name: Setup LXD backend (Unclustered in VM)
-        if: ${{ matrix.deployment == 'unclustered' }}
-        shell: bash
-        run: |
-          set -x
-          tests/scripts/start_vm_single_unclustered.sh ${{ matrix.lxd_channel }}
-          # For LXD 5.0/edge, we need to add the certificate to the trust store as that version doesn't support login.
-          if [ "${{ matrix.lxd_channel }}" == '5.0/edge' ]; then
-            cat keys/lxd-ui.crt | sudo lxc exec vm1 -- lxc config trust add - || true
-          fi
-
-      - name: Setup LXD backend (Single-node cluster in VM) 
-        if: ${{ matrix.deployment == 'single-node-cluster' }}
-        shell: bash
-        run: |
-          set -x
-          tests/scripts/start_vm_single_unclustered.sh ${{ matrix.lxd_channel }}
-
-      - name: Install LXD-UI dependencies
-        run: |
-          sudo chmod 0777 ../lxd-ui
-          workshop run dev install
-
-      - name: Setup for tests
-        if: ${{ matrix.lxd_channel != '5.0/edge' }}
-        shell: bash
-        env:
-          DEPLOYMENT: ${{ matrix.deployment }}
-          LXD_OIDC_ISSUER: ${{ env.LXD_OIDC_ISSUER }}
-          LXD_OIDC_CLIENT_ID: ${{ env.LXD_OIDC_CLIENT_ID }}
-          LXD_OIDC_CLIENT_SECRET: ${{ env.LXD_OIDC_CLIENT_SECRET }}
-          LXD_OIDC_AUDIENCE: ${{ env.LXD_OIDC_AUDIENCE }}
-          LXD_OIDC_GROUPS_CLAIM: ${{ env.LXD_OIDC_GROUPS_CLAIM }}
-        run: sudo -E ./tests/scripts/setup_test
-
-      - name: Run LXD-UI
-        env:
-          ENVIRONMENT: devel
-          PORT: 8407
-          VITE_PORT: 3000
-        run: |
-          echo "Backend configuration:"
-          if [ -f .env.local ]; then
-            cat .env.local
-          else
-            echo "Using default backend configuration"
-          fi
-          workshop run dev serve &
-          sleep 10
-          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
-
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: 24
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps ${{ matrix.browser }}
+          lxd_channel: ${{ matrix.lxd_channel }}
+          deployment: ${{ matrix.deployment }}
+          browser: ${{ matrix.browser }}
+          lxd_oidc_client_id: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
+          lxd_oidc_client_secret: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
+          lxd_oidc_issuer: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
+          lxd_oidc_audience: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
+          lxd_oidc_user: "lxd-ui-e2e-tests@example.org"
+          lxd_oidc_password: "lxd-ui-e2e-password"
+          lxd_oidc_groups_claim: "lxd-idp-groups"
 
       - name: Run Playwright tests
         env:
