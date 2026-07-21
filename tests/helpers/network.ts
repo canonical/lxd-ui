@@ -202,7 +202,9 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await expect(page.getByText("Edit a network forward")).toBeVisible();
   await expect(page.getByText("Same as listen port if empty")).toBeVisible(); // ensure the forward ports are loaded before continuing
   await page.waitForLoadState("networkidle"); // ensure network loaded
-  await page.getByLabel("Description").fill("My forward description");
+  await page
+    .getByRole("textbox", { name: "Description" })
+    .fill("My forward description");
   await page.getByRole("button", { name: "Update" }).click();
 
   await page.getByText(`Network forward ${listenAddress} updated.`).click();
