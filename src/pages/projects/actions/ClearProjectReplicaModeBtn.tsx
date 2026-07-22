@@ -8,9 +8,10 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { updateReplicaMode } from "util/projects";
+import type { LxdProject } from "types/project";
 
 interface Props {
-  project: string;
+  project: LxdProject;
   isEdit: boolean;
 }
 
@@ -22,7 +23,7 @@ const ClearProjectReplicaModeBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const { canEditProject } = useProjectEntitlements();
 
   const disabledReason = () => {
-    if (!canEditProject) {
+    if (!canEditProject(project)) {
       return "You do not have permission to edit this project";
     }
 
@@ -37,7 +38,7 @@ const ClearProjectReplicaModeBtn: FC<Props> = ({ project, isEdit }: Props) => {
     toastNotify.success(
       <>
         Replica mode cleared for project{" "}
-        <ProjectRichChip projectName={project} />.
+        <ProjectRichChip projectName={project.name} />.
       </>,
     );
   };
@@ -48,9 +49,11 @@ const ClearProjectReplicaModeBtn: FC<Props> = ({ project, isEdit }: Props) => {
 
   const clearReplicaMode = () => {
     setIsClearing(true);
-    updateReplicaMode(project, "", handleSuccess, handleFailure).finally(() => {
-      setIsClearing(false);
-    });
+    updateReplicaMode(project.name, "", handleSuccess, handleFailure).finally(
+      () => {
+        setIsClearing(false);
+      },
+    );
   };
 
   return (

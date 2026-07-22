@@ -8,9 +8,10 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { updateReplicaMode } from "util/projects";
+import type { LxdProject } from "types/project";
 
 interface Props {
-  project: string;
+  project: LxdProject;
   isEdit: boolean;
 }
 
@@ -22,7 +23,7 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const [isForce, setForce] = useState(false);
 
   const disabledReason = () => {
-    if (!canEditProject) {
+    if (!canEditProject(project)) {
       return "You do not have permission to edit this project";
     }
 
@@ -36,7 +37,8 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const handleSuccess = () => {
     toastNotify.success(
       <>
-        Project <ProjectRichChip projectName={project} /> demoted to standby.
+        Project <ProjectRichChip projectName={project.name} /> demoted to
+        standby.
       </>,
     );
   };
@@ -48,7 +50,7 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const demoteToStandby = () => {
     setIsDemoting(true);
     updateReplicaMode(
-      project,
+      project.name,
       "standby",
       handleSuccess,
       handleFailure,
@@ -75,8 +77,8 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
         title: "Confirm demote",
         children: (
           <p>
-            This will demote project <ProjectRichChip projectName={project} />{" "}
-            to standby.
+            This will demote project{" "}
+            <ProjectRichChip projectName={project.name} /> to standby.
           </p>
         ),
         confirmButtonLabel: "Demote",
