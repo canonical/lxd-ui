@@ -6,6 +6,8 @@ import {
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
+import { type BearerIdentityType } from "util/permissionIdentities";
+import { AUTH_METHOD } from "util/authentication";
 import { ROOT_PATH } from "util/rootPath";
 
 export const identitiesEntitlements = ["can_delete", "can_edit"];
@@ -109,4 +111,70 @@ export const createFineGrainedTlsIdentity = async (
     .then((data: LxdApiResponse<TlsIdentityTokenDetail>) => {
       return data.metadata;
     });
+};
+
+const createBearerIdentity = async (
+  name: string,
+  type: BearerIdentityType,
+  groups: string[],
+): Promise<void> => {
+  await fetch(`${ROOT_PATH}/1.0/auth/identities/bearer`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      type,
+      groups,
+    }),
+  }).then(handleResponse);
+};
+
+const issueBearerToken = async (
+  name: string,
+  expiry?: string,
+): Promise<{
+  token: string;
+}> => {
+  return fetch(
+    `${ROOT_PATH}/1.0/auth/identities/bearer/${encodeURIComponent(name)}/token`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ expiry }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<{ token: string }>) => {
+      return data.metadata;
+    });
+};
+
+export const createAndIssueBearerToken = async (
+  name: string,
+  type: BearerIdentityType,
+  groups: string[],
+  expiry?: string,
+): Promise<{
+  token: string;
+}> => {
+  await createBearerIdentity(name, type, groups);
+  try {
+    return await issueBearerToken(name, expiry);
+  } catch (e) {
+    // Token issuance failed — delete the identity we just created and
+    // rethrow the original error so the caller can display it.
+    const identity = {
+      id: name,
+      name,
+      type,
+      authentication_method: AUTH_METHOD.BEARER,
+      fine_grained: true,
+    };
+    deleteIdentity(identity).catch(() => undefined);
+    throw e;
+  }
 };

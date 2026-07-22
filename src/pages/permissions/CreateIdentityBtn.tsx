@@ -12,7 +12,7 @@ interface Props {
   onClose?: () => void;
 }
 
-const CreateTlsIdentityBtn: FC<Props> = ({ openPanel, className, onClose }) => {
+const CreateIdentityBtn: FC<Props> = ({ openPanel, className, onClose }) => {
   const { canCreateIdentities } = useServerEntitlements();
   const isSmallOrMediumScreen = useIsScreenBelow(largeScreenBreakpoint);
 
@@ -27,24 +27,22 @@ const CreateTlsIdentityBtn: FC<Props> = ({ openPanel, className, onClose }) => {
     : "positive";
 
   return (
-    <>
-      <Button
-        appearance={appearance}
-        className={buttonClassName}
-        onClick={handleClick}
-        hasIcon
-        title={
-          canCreateIdentities()
-            ? ""
-            : "You do not have permission to create identities"
-        }
-        disabled={!canCreateIdentities()}
-      >
-        <Icon name="plus" light={!isSmallOrMediumScreen} />
-        <span>Create TLS Identity</span>
-      </Button>
-    </>
+    <Button
+      appearance={appearance}
+      className={buttonClassName}
+      onClick={handleClick}
+      hasIcon
+      title={
+        canCreateIdentities()
+          ? ""
+          : "You do not have permission to create identities"
+      }
+      disabled={!canCreateIdentities()}
+    >
+      <Icon name="plus" light={!isSmallOrMediumScreen} />
+      <span>Create identity</span>
+    </Button>
   );
 };
 
-export default CreateTlsIdentityBtn;
+export default CreateIdentityBtn;

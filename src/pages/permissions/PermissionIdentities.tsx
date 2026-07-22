@@ -38,7 +38,7 @@ import {
   getIdentityIconType,
   getIdentityName,
 } from "util/permissionIdentities";
-import CreateTLSIdentity from "pages/permissions/CreateTLSIdentity";
+import CreateIdentity from "pages/permissions/CreateIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
 
@@ -299,7 +299,7 @@ const PermissionIdentities: FC = () => {
             </PageHeader.Left>
             <PageHeader.BaseActions>
               <PermissionIdentitiesActions
-                openPanel={panelParams.openCreateTLSIdentity}
+                openPanel={panelParams.openCreateIdentity}
               />
             </PageHeader.BaseActions>
           </PageHeader>
@@ -346,7 +346,7 @@ const PermissionIdentities: FC = () => {
           </ScrollableTable>
         </Row>
       </CustomLayout>
-      <CreateTLSIdentity />
+      <CreateIdentity />
 
       {panelParams.panel === panels.identityGroups && (
         <EditIdentityGroupsPanel
