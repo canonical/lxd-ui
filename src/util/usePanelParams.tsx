@@ -6,6 +6,8 @@ export interface PanelHelper {
   bucket: string | null;
   group: string | null;
   identity: string | null;
+  editIdentityId: string | null;
+  editIdentityAuthMethod: string | null;
   idpGroup: string | null;
   instance: string | null;
   key: string | null;
@@ -29,7 +31,7 @@ export interface PanelHelper {
   openCreateIdpGroup: () => void;
   openCreateStorageBucket: (project: string) => void;
   openCreateStorageBucketKey: (project: string) => void;
-  openCreateTLSIdentity: () => void;
+  openCreateIdentity: () => void;
   openEditClusterGroup: (group: string) => void;
   openEditClusterLink: (link: string) => void;
   openEditGroup: (group: string, subForm?: GroupSubForm) => void;
@@ -40,7 +42,7 @@ export interface PanelHelper {
   openEditStorageBucket: (bucket: string, pool: string, target: string) => void;
   openEditStorageBucketKey: (key: string) => void;
   openGroupIdentities: (group?: string) => void;
-  openIdentityGroups: (identity?: string) => void;
+  openEditIdentity: (identityId: string, authMethod: string) => void;
   openInstanceSummary: (instance: string, project: string) => void;
   openProfileSummary: (profile: string, project: string) => void;
   openEditNetworkDevice: (deviceName: string) => void;
@@ -62,7 +64,7 @@ export const panels = {
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
   createLoadBalancerPool: "create-load-balancer-pool",
-  createTLSIdentity: "create-tls-identity",
+  createIdentity: "create-identity",
   createPlacementGroup: "create-placement-group",
   editPlacementGroup: "edit-placement-group",
   createStorageBucket: "create-bucket",
@@ -79,7 +81,7 @@ export const panels = {
   editStorageBucket: "edit-bucket",
   editStorageBucketKey: "edit-bucket-key",
   groupIdentities: "group-identities",
-  identityGroups: "identity-groups",
+  editIdentity: "edit-identity",
   instanceSummary: "instance-summary",
   profileSummary: "profile-summary",
   createImageRegistry: "create-image-registry",
@@ -118,6 +120,8 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("bucket-key");
     newParams.delete("group");
     newParams.delete("identity");
+    newParams.delete("edit-identity-id");
+    newParams.delete("edit-identity-auth-method");
     newParams.delete("idp-group");
     newParams.delete("instance");
     newParams.delete("member");
@@ -144,6 +148,8 @@ const usePanelParams = (): PanelHelper => {
     bucket: params.get("bucket"),
     group: params.get("group"),
     identity: params.get("identity"),
+    editIdentityId: params.get("edit-identity-id"),
+    editIdentityAuthMethod: params.get("edit-identity-auth-method"),
     idpGroup: params.get("idp-group"),
     instance: params.get("instance"),
     key: params.get("bucket-key"),
@@ -193,8 +199,8 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.createStorageBucketKey);
     },
 
-    openCreateTLSIdentity: () => {
-      setPanelParams(panels.createTLSIdentity);
+    openCreateIdentity: () => {
+      setPanelParams(panels.createIdentity);
     },
 
     openEditClusterGroup: (group) => {
@@ -286,10 +292,11 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.groupIdentities, { group: group || "" });
     },
 
-    openIdentityGroups: (identity) => {
-      const newParams = new URLSearchParams(params);
-      newParams.append("identity", identity || "");
-      setPanelParams(panels.identityGroups, Object.fromEntries(newParams));
+    openEditIdentity: (identityId, authMethod) => {
+      setPanelParams(panels.editIdentity, {
+        "edit-identity-id": identityId,
+        "edit-identity-auth-method": authMethod,
+      });
     },
 
     openInstanceSummary: (instance, project) => {

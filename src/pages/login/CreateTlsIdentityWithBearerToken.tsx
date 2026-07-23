@@ -10,19 +10,20 @@ import {
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import type { TLSIdentityFormValues } from "types/forms/tlsIdentity";
+import { type IdentityFormValues } from "types/forms/identity";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { useAuthGroups } from "context/useAuthGroups";
 import { createFineGrainedTlsIdentity } from "api/auth-identities";
 import NameWithGroupForm from "pages/permissions/forms/NameWithGroupForm";
 import { useIdentities } from "context/useIdentities";
 import { Navigate, useNavigate } from "react-router-dom";
-import { ROOT_PATH } from "util/rootPath";
 import CertificateAddNotifications from "components/CertificateAddNotifications";
 import AuthenticationTlsStepper from "components/AuthenticationTlsStepper";
-import { logoutBearerToken } from "util/helpers";
 import { useAuth } from "context/auth";
 import { AUTH_METHOD, isPermanent } from "util/authentication";
+import { logoutBearerToken } from "util/helpers";
+import { IDENTITY_TYPE } from "util/permissionIdentities";
+import { ROOT_PATH } from "util/rootPath";
 
 const CreateTlsIdentityWithBearerToken: FC = () => {
   const { isAuthenticated, isAuthLoading, authMethod } = useAuth();
@@ -62,7 +63,7 @@ const CreateTlsIdentityWithBearerToken: FC = () => {
     notify.failure("Loading identities failed", identitiesError);
   }
 
-  const handleSubmit = (values: TLSIdentityFormValues) => {
+  const handleSubmit = (values: IdentityFormValues) => {
     createFineGrainedTlsIdentity(values.name, values.groups ?? [], false)
       .then(() => {
         logoutBearerToken();
@@ -89,10 +90,11 @@ const CreateTlsIdentityWithBearerToken: FC = () => {
       ),
   });
 
-  const formik = useFormik<TLSIdentityFormValues>({
+  const formik = useFormik<IdentityFormValues>({
     initialValues: {
       name: findAvailableName("lxd-ui"),
       groups: initialGroups,
+      identityType: IDENTITY_TYPE.TLS,
     },
     validationSchema: groupSchema,
     onSubmit: handleSubmit,

@@ -4,11 +4,13 @@ import { useAuth } from "./auth";
 import type { LxdAuthGroup } from "types/permissions";
 import { fetchGroups } from "api/auth-groups";
 
-export const useAuthGroups = (): UseQueryResult<LxdAuthGroup[]> => {
+export const useAuthGroups = (
+  enabled = true,
+): UseQueryResult<LxdAuthGroup[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.authGroups],
     queryFn: async () => fetchGroups(isFineGrained),
-    enabled: isFineGrained !== null,
+    enabled: enabled && isFineGrained !== null,
   });
 };

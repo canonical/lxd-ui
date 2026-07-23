@@ -1,5 +1,23 @@
+import { type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { List } from "@canonical/react-components";
+import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import type { ResourceIconType } from "components/ResourceIcon";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
+import DocLink from "components/DocLink";
+
+export const IDENTITY_TYPE = {
+  TLS: "tls-certificate",
+  BEARER_CLIENT: "Client token bearer",
+  BEARER_DEVLXD: "DevLXD token bearer",
+} as const;
+
+export type IdentityType = (typeof IDENTITY_TYPE)[keyof typeof IDENTITY_TYPE];
+
+export type BearerIdentityType = Extract<
+  IdentityType,
+  typeof IDENTITY_TYPE.BEARER_CLIENT | typeof IDENTITY_TYPE.BEARER_DEVLXD
+>;
 
 export type ChangeSummary = Record<
   string,
@@ -207,4 +225,165 @@ export const getIdentityIconType = (
   }
 
   return "certificate";
+};
+
+export const BEARER_EXPIRY_PATTERN = /^(\d+[ymwdHMS])(?:\s+\d+[ymwdHMS])*$/;
+
+export const isBearerIdentityType = (
+  identityType: LxdIdentity["type"],
+): identityType is
+  | typeof IDENTITY_TYPE.BEARER_CLIENT
+  | typeof IDENTITY_TYPE.BEARER_DEVLXD => {
+  return identityType.toLowerCase().includes("token bearer");
+};
+
+export const IDENTITY_TYPE_HELP_TEXT: Record<
+  IdentityType,
+  { title: string; description: ReactNode }
+> = {
+  [IDENTITY_TYPE.TLS]: {
+    title: "TLS Certificate",
+    description:
+      "A certificate-based identity for long-lived client authentication to the LXD API.",
+  },
+  [IDENTITY_TYPE.BEARER_CLIENT]: {
+    title: "Bearer token (Main API)",
+    description:
+      "An API key alternative to TLS certificates. Best for external automation tools, integrations, or remote scripts interacting with LXD over the network.",
+  },
+  [IDENTITY_TYPE.BEARER_DEVLXD]: {
+    title: "Bearer token (DevLXD)",
+    description: (
+      <>
+        Strictly for applications or storage drivers running directly inside a
+        guest instance that need to communicate back to the host via the
+        internal <code>/dev/lxd</code> socket.
+      </>
+    ),
+  },
+};
+
+export const CREATE_IDENTITY_MODAL_TEXT: Record<
+  IdentityType,
+  {
+    codeSnippetTitle: string;
+    notificationTitle: string;
+    notificationBody: string;
+    howToUseCli?: (token: string) => ReactNode;
+    howToUseUi?: ReactNode;
+  }
+> = {
+  [IDENTITY_TYPE.TLS]: {
+    codeSnippetTitle: "Your identity trust token",
+    notificationTitle: "Copy the identity trust token",
+    notificationBody: "to authenticate your client.",
+    howToUseCli: (token: string) => (
+      <>
+        For use with the LXC command-line tool, run:
+        <CodeSnippetWithCopyButton
+          code={`lxc remote add ${location.hostname} ${token}`}
+          tooltipMessage="Copy command"
+          className="u-no-margin--bottom"
+        />
+        <span className="u-text--muted p-text--small u-sv3">
+          You can replace <code>{location.hostname}</code> with a nickname for
+          this server.
+        </span>
+      </>
+    ),
+    howToUseUi: (
+      <List
+        className="u-no-margin--bottom"
+        items={[
+          <>
+            Open an unauthenticated browser on{" "}
+            <Link to={location.origin}>{location.origin}</Link>.
+          </>,
+          <>
+            Select <b>Setup TLS login</b> and follow the instructions to
+            configure the browser certificate.
+          </>,
+          <>
+            Use this identity trust token to add the new browser certificate to
+            this server&apos;s trust store.
+          </>,
+        ]}
+      />
+    ),
+  },
+  [IDENTITY_TYPE.BEARER_CLIENT]: {
+    codeSnippetTitle: "Your API bearer token",
+    notificationTitle: "Copy the API bearer token",
+    notificationBody: "to authenticate your clients and automated tools.",
+    howToUseCli: (token: string) => (
+      <List
+        className="u-no-margin--bottom"
+        items={[
+          <>
+            Set the bearer token in the <code>Authorization</code> header.
+          </>,
+          <>
+            You can verify trust by checking the <code>auth</code> field in the
+            response metadata of <code>GET /1.0</code>:
+          </>,
+          <CodeSnippetWithCopyButton
+            code={`curl -k -H "Authorization: Bearer ${token}" ${location.origin}/1.0`}
+            tooltipMessage="Copy command"
+            className="u-no-margin--bottom"
+            key="code-snippet"
+          />,
+          <DocLink
+            docPath="/howto/auth_bearer/"
+            key="learn-more-link"
+            hasExternalIcon
+          >
+            How to authenticate to the LXD API using bearer tokens
+          </DocLink>,
+        ]}
+      />
+    ),
+  },
+  [IDENTITY_TYPE.BEARER_DEVLXD]: {
+    codeSnippetTitle: "Your DevLXD bearer token",
+    notificationTitle: "Copy the DevLXD bearer token",
+    notificationBody: "to authenticate internal workloads.",
+    howToUseCli: (token: string) => (
+      <List
+        className="u-no-margin--bottom"
+        items={[
+          <>
+            The token can be used to authenticate with LXD over the DevLXD
+            socket at <code>/dev/lxd/sock</code>.{" "}
+          </>,
+          <>
+            It must be set as a bearer token in the <code>Authorization</code>{" "}
+            header.
+          </>,
+          <>
+            You can verify trust by checking the <code>auth</code> field in the
+            response of <code>GET /1.0</code>:
+          </>,
+          <CodeSnippetWithCopyButton
+            code={`curl -H "Authorization: Bearer ${token}" -s --unix-socket /dev/lxd/sock http://custom.socket/1.0`}
+            tooltipMessage="Copy command"
+            className="u-no-margin--bottom"
+            key="code-snippet"
+          />,
+          <span
+            className="u-text--muted p-text--small u-sv3"
+            key="code-snippet-help-text"
+          >
+            Run this command inside your instance.
+          </span>,
+          <DocLink
+            docPath="/howto/devlxd_authenticate/"
+            key="learn-more-link"
+            hasExternalIcon
+          >
+            How to authenticate to the DevLXD API
+          </DocLink>,
+        ]}
+      />
+    ),
+  },
 };
