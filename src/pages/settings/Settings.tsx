@@ -11,7 +11,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import SettingsExplanationTooltip from "pages/settings/SettingsExplanationTooltip";
 import { updateSettings } from "api/server";
 import { toConfigFields } from "util/config";
 import PageHeader from "components/PageHeader";
@@ -178,12 +178,9 @@ const Settings: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/server/"
-                  title="Learn more about server configuration"
-                >
+                <SettingsExplanationTooltip>
                   Settings
-                </HelpLink>
+                </SettingsExplanationTooltip>
               </PageHeader.Title>
               <PageHeader.Search>
                 <SearchBox

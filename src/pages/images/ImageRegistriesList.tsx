@@ -10,7 +10,7 @@ import {
 } from "@canonical/react-components";
 import useSortTableData from "util/useSortTableData";
 import { useImageRegistries } from "context/useImageRegistries";
-import HelpLink from "components/HelpLink";
+import ImageRegistryExplanationTooltip from "pages/images/ImageRegistryExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
 import ImageRegistriesSearchFilter, {
@@ -192,12 +192,9 @@ const ImageRegistriesList: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/image-handling/"
-                  title="Learn more about image registries"
-                >
+                <ImageRegistryExplanationTooltip>
                   Image registries
-                </HelpLink>
+                </ImageRegistryExplanationTooltip>
               </PageHeader.Title>
               {imageRegistries.length > 0 && (
                 <PageHeader.Search>

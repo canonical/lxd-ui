@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
-import HelpLink from "components/HelpLink";
+import StoragePoolExplanationTooltip from "pages/storage/StoragePoolExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
 import { useStoragePools } from "context/useStoragePools";
@@ -176,12 +176,9 @@ const StoragePools: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/explanation/storage/"
-                title="Learn more about storage pools, volumes and buckets"
-              >
+              <StoragePoolExplanationTooltip>
                 Pools
-              </HelpLink>
+              </StoragePoolExplanationTooltip>
             </PageHeader.Title>
           </PageHeader.Left>
           <PageHeader.BaseActions>

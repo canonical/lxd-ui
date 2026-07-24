@@ -11,7 +11,7 @@ import {
   Row,
 } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
-import HelpLink from "components/HelpLink";
+import ReplicatorExplanationTooltip from "pages/cluster/ReplicatorExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import { useClusterLinks } from "context/useClusterLinks";
 import { useIsClustered } from "context/useIsClustered";
@@ -253,12 +253,9 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
     return (
       <BaseLayout
         title={
-          <HelpLink
-            docPath="/explanation/replicators/"
-            title="Learn more about replicators"
-          >
+          <ReplicatorExplanationTooltip>
             Replicators
-          </HelpLink>
+          </ReplicatorExplanationTooltip>
         }
         controls={
           !isEmptyState && (

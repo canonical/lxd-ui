@@ -11,7 +11,7 @@ import { isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import PageHeader from "components/PageHeader";
@@ -176,12 +176,7 @@ const WarningList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/howto/troubleshoot/"
-                title="Learn more about troubleshooting"
-              >
-                Warnings
-              </HelpLink>
+              <WarningExplanationTooltip>Warnings</WarningExplanationTooltip>
             </PageHeader.Title>
             {hasWarnings && selectedNames.length === 0 && (
               <PageHeader.Search>

@@ -13,7 +13,7 @@ import {
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
-import HelpLink from "components/HelpLink";
+import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import CreateClusterLinkBtn from "pages/cluster/actions/CreateClusterLinkBtn";
@@ -151,12 +151,9 @@ const ClusterLinkList: FC = () => {
     <>
       <BaseLayout
         title={
-          <HelpLink
-            docPath="/explanation/clustering/"
-            title="Learn more about clustering"
-          >
+          <ClusterLinkExplanationTooltip>
             Cluster links
-          </HelpLink>
+          </ClusterLinkExplanationTooltip>
         }
         controls={!isEmptyState && <CreateClusterLinkBtn />}
       >

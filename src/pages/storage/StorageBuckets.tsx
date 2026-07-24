@@ -26,7 +26,7 @@ import {
 } from "util/storageBucketTable";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
-import HelpLink from "components/HelpLink";
+import StorageBucketExplanationTooltip from "pages/storage/StorageBucketExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import { useBuckets } from "context/useBuckets";
 import type { StorageBucketsFilterType } from "./StorageBucketsFilter";
@@ -310,12 +310,9 @@ const StorageBuckets: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/explanation/storage/#storage-buckets"
-                  title="Learn more about storage buckets"
-                >
+                <StorageBucketExplanationTooltip>
                   Buckets
-                </HelpLink>
+                </StorageBucketExplanationTooltip>
               </PageHeader.Title>
               {!selectedNames.length && !panelParams.panel && hasBuckets && (
                 <PageHeader.Search>

@@ -11,7 +11,7 @@ import {
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
-import HelpLink from "components/HelpLink";
+import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 import { useMemberLoading } from "context/memberLoading";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
@@ -163,12 +163,9 @@ const ClusterMemberList: FC = () => {
     <BaseLayout
       mainClassName="cluster-list"
       title={
-        <HelpLink
-          docPath="/explanation/clustering/"
-          title="Learn more about clustering"
-        >
+        <ClusterMemberExplanationTooltip>
           Cluster members
-        </HelpLink>
+        </ClusterMemberExplanationTooltip>
       }
     >
       <NotificationRow />

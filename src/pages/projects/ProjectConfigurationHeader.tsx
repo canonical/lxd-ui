@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
-import HelpLink from "components/HelpLink";
+import ProjectConfigurationExplanationTooltip from "pages/projects/ProjectConfigurationExplanationTooltip";
 import { useEventQueue } from "context/eventQueue";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
@@ -124,13 +124,9 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     <RenameHeader
       name={project.name}
       parentItems={[
-        <HelpLink
-          key="project-configuration"
-          docPath="/reference/projects/"
-          title="Learn more about project configuration"
-        >
+        <ProjectConfigurationExplanationTooltip key="project-configuration">
           Project configuration
-        </HelpLink>,
+        </ProjectConfigurationExplanationTooltip>,
       ]}
       renameDisabledReason={getRenameDisabledReason()}
       controls={<DeleteProjectBtn project={project} />}

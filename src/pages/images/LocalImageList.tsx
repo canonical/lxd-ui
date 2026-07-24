@@ -25,7 +25,7 @@ import useSortTableData from "util/useSortTableData";
 import SelectableMainTable from "components/SelectableMainTable";
 import BulkDeleteImageBtn from "pages/images/actions/BulkDeleteImageBtn";
 import ExpandableList from "components/ExpandableList";
-import HelpLink from "components/HelpLink";
+import LocalImageExplanationTooltip from "pages/images/LocalImageExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import PageHeader from "components/PageHeader";
 import SelectedTableNotification from "components/SelectedTableNotification";
@@ -225,12 +225,9 @@ const LocalImageList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/image-handling/"
-                title="Learn more about local images"
-              >
+              <LocalImageExplanationTooltip>
                 Local images
-              </HelpLink>
+              </LocalImageExplanationTooltip>
             </PageHeader.Title>
             {selectedNames.length === 0 && images.length > 0 && (
               <PageHeader.Search>

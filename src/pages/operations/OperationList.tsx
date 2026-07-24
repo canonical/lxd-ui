@@ -12,6 +12,7 @@ import {
   CustomLayout,
 } from "@canonical/react-components";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
+import OperationExplanationTooltip from "pages/operations/OperationExplanationTooltip";
 import { isoTimeToString, nonBreakingSpaces } from "util/helpers";
 import type { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
@@ -152,7 +153,11 @@ const OperationList: FC = () => {
         header={
           <PageHeader>
             <PageHeader.Left>
-              <PageHeader.Title>Ongoing operations</PageHeader.Title>
+              <PageHeader.Title>
+                <OperationExplanationTooltip>
+                  Ongoing operations
+                </OperationExplanationTooltip>
+              </PageHeader.Title>
               {operations.length > 0 && (
                 <PageHeader.Search>
                   <SearchBox

@@ -11,7 +11,7 @@ import {
 } from "@canonical/react-components";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import NetworkAclExplanationTooltip from "pages/networks/NetworkAclExplanationTooltip";
 import PageHeader from "components/PageHeader";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -131,12 +131,9 @@ const NetworkAclList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/howto/network_acls/"
-                title="Learn more about network access control lists"
-              >
+              <NetworkAclExplanationTooltip>
                 Network Access Control Lists
-              </HelpLink>
+              </NetworkAclExplanationTooltip>
             </PageHeader.Title>
           </PageHeader.Left>
           <PageHeader.BaseActions>

@@ -17,7 +17,7 @@ import { getIdentityIdsForGroup } from "util/permissionIdentities";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
 import GroupActions from "./actions/GroupActions";
 import CreateGroupPanel from "./panels/CreateGroupPanel";
 import EditGroupPanel from "./panels/EditGroupPanel";
@@ -262,12 +262,9 @@ const PermissionGroups: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/explanation/authorization"
-                  title="Learn more about permissions"
-                >
+                <PermissionGroupExplanationTooltip>
                   Auth groups
-                </HelpLink>
+                </PermissionGroupExplanationTooltip>
               </PageHeader.Title>
               {!selectedGroupNames.length && hasGroups && (
                 <PageHeader.Search>
