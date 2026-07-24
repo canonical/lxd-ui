@@ -69,7 +69,11 @@ const ProjectForm: FC<Props> = ({
               <ProjectResourceLimitsForm formik={formik} />
             )}
             {section === slugify(REPLICATION) && (
-              <ProjectReplicaForm formik={formik} isEdit={isEdit} />
+              <ProjectReplicaForm
+                formik={formik}
+                project={project}
+                isEdit={isEdit}
+              />
             )}
             {section === slugify(CLUSTERS) && (
               <ClusterRestrictionForm formik={formik} />

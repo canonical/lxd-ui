@@ -8,9 +8,10 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { updateReplicaMode } from "util/projects";
+import type { LxdProject } from "types/project";
 
 interface Props {
-  project: string;
+  project: LxdProject;
   isEdit: boolean;
 }
 
@@ -22,7 +23,7 @@ const PromoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const [isForce, setForce] = useState(false);
 
   const disabledReason = () => {
-    if (!canEditProject) {
+    if (!canEditProject(project)) {
       return "You do not have permission to edit this project";
     }
 
@@ -36,7 +37,8 @@ const PromoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const handleSuccess = () => {
     toastNotify.success(
       <>
-        Project <ProjectRichChip projectName={project} /> promoted to leader.
+        Project <ProjectRichChip projectName={project.name} /> promoted to
+        leader.
       </>,
     );
   };
@@ -48,7 +50,7 @@ const PromoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const promoteToLeader = () => {
     setIsPromoting(true);
     updateReplicaMode(
-      project,
+      project.name,
       "leader",
       handleSuccess,
       handleFailure,
@@ -74,8 +76,8 @@ const PromoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
         title: "Confirm promote",
         children: (
           <p>
-            This will promote project <ProjectRichChip projectName={project} />{" "}
-            to leader.
+            This will promote project{" "}
+            <ProjectRichChip projectName={project.name} /> to leader.
           </p>
         ),
         confirmButtonLabel: "Promote",

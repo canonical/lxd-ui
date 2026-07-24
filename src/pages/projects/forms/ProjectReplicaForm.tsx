@@ -17,6 +17,7 @@ import type {
   ProjectFormValues,
   ProjectReplicaFormValues,
 } from "types/forms/project";
+import type { LxdProject } from "types/project";
 import { ensureEditMode } from "util/editMode";
 
 export const replicaPayload = (
@@ -32,10 +33,11 @@ export const replicaPayload = (
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
+  project?: LxdProject;
   isEdit: boolean;
 }
 
-const ProjectReplicaForm: FC<Props> = ({ formik, isEdit }) => {
+const ProjectReplicaForm: FC<Props> = ({ formik, project, isEdit }) => {
   const getClusterHelpText = (mode?: string) => {
     if (!mode) {
       return null;
@@ -73,11 +75,15 @@ const ProjectReplicaForm: FC<Props> = ({ formik, isEdit }) => {
   };
 
   const getModeActionButtons = (mode?: string) => {
+    if (!project) {
+      return [];
+    }
+
     const buttons = [];
     if (mode !== "leader") {
       buttons.push(
         <PromoteProjectBtn
-          project={formik.values.name}
+          project={project}
           isEdit={isEdit}
           key="promote-btn"
         />,
@@ -86,18 +92,14 @@ const ProjectReplicaForm: FC<Props> = ({ formik, isEdit }) => {
 
     if (mode !== "standby") {
       buttons.push(
-        <DemoteProjectBtn
-          project={formik.values.name}
-          isEdit={isEdit}
-          key="demote-btn"
-        />,
+        <DemoteProjectBtn project={project} isEdit={isEdit} key="demote-btn" />,
       );
     }
 
     if (mode) {
       buttons.push(
         <ClearProjectReplicaModeBtn
-          project={formik.values.name}
+          project={project}
           isEdit={isEdit}
           key="clear-btn"
         />,
