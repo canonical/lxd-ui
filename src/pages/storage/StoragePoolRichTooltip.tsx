@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { Spinner } from "@canonical/react-components";
-import { type TooltipRow } from "components/RichTooltipRow";
+import type { TooltipRow } from "components/RichTooltipRow";
 import { RichTooltipTable } from "components/RichTooltipTable";
 import ResourceLabel from "components/ResourceLabel";
 import { Link } from "react-router-dom";

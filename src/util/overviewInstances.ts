@@ -1,4 +1,4 @@
-import { type LxdInstanceStatus, type LxdInstance } from "types/instance";
+import type { LxdInstanceStatus, LxdInstance } from "types/instance";
 
 export interface InstanceDistribution {
   runningCount: number;

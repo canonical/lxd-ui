@@ -11,10 +11,10 @@ import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import {
-  type PermissionGroupFormValues,
-  type FormPermission,
-  type GroupSubForm,
+import type {
+  PermissionGroupFormValues,
+  FormPermission,
+  GroupSubForm,
 } from "types/forms/permissionGroup";
 import GroupForm from "../forms/GroupForm";
 import { createGroup } from "api/auth-groups";

@@ -2,7 +2,7 @@ import { type FC } from "react";
 import { Link } from "react-router-dom";
 import { capitalizeFirstLetter } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
-import { type LxdInstanceStatus } from "types/instance";
+import type { LxdInstanceStatus } from "types/instance";
 
 interface Props {
   status: "running" | "stopped" | "frozen" | "error";
