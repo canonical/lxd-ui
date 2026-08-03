@@ -2,7 +2,7 @@ import { type FC } from "react";
 import ProfileLink from "pages/profiles/ProfileLink";
 import { useProfile } from "context/useProfiles";
 import { Spinner } from "@canonical/react-components";
-import { type TooltipRow } from "components/RichTooltipRow";
+import type { TooltipRow } from "components/RichTooltipRow";
 import { RichTooltipTable } from "components/RichTooltipTable";
 import ResourceLabel from "components/ResourceLabel";
 import { isProjectWithProfiles } from "util/projects";

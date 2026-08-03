@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { Tooltip } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
-import ResourceLink from "../../components/ResourceLink";
-import { InstanceRichTooltip } from "./InstanceRichTooltip";
+import ResourceLink from "components/ResourceLink";
+import { InstanceRichTooltip } from "pages/instances/InstanceRichTooltip";
 import { SMALL_TOOLTIP_BREAKPOINT } from "components/RichTooltipTable";
 import { ROOT_PATH } from "util/rootPath";
 

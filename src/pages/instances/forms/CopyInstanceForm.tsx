@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { type LxdInstance, type InstanceIconType } from "types/instance";
+import type { LxdInstance, InstanceIconType } from "types/instance";
 import { useFormik } from "formik";
 import {
   ActionButton,

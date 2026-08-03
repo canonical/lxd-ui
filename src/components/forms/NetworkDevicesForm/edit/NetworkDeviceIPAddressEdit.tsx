@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { type LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 import type { NetworkDeviceFormValues } from "types/forms/networkDevice";
 import type { FormikProps } from "formik";
 import { Input, PrefixedIpInput } from "@canonical/react-components";

@@ -8,8 +8,8 @@ import type { IpFamily, LxdInstance } from "types/instance";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
 import { isoTimeToString } from "util/helpers";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
-import { type TooltipRow } from "../../components/RichTooltipRow";
-import { RichTooltipTable } from "../../components/RichTooltipTable";
+import type { TooltipRow } from "components/RichTooltipRow";
+import { RichTooltipTable } from "components/RichTooltipTable";
 import TruncatedList from "components/TruncatedList";
 
 interface Props {
