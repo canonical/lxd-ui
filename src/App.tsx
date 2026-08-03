@@ -1,4 +1,4 @@
-import { Suspense, useEffect, type FC } from "react";
+import { Suspense, useEffect, type FC, useRef } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
@@ -158,6 +158,24 @@ const App: FC = () => {
   const hasCertificate = settings?.client_certificate;
   setFavicon();
   setTitle();
+
+  const serverVersion = settings?.environment?.server_version;
+  const initialVersion = useRef<string | null>(null);
+  useEffect(() => {
+    if (!serverVersion) {
+      return;
+    }
+
+    if (!initialVersion.current) {
+      initialVersion.current = serverVersion;
+      return;
+    }
+
+    if (serverVersion !== initialVersion.current) {
+      // server was updated or downgraded and the UI is out of sync
+      window.location.reload();
+    }
+  }, [serverVersion]);
 
   useEffect(() => {
     const theme = loadTheme();
