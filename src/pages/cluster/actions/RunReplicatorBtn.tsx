@@ -126,7 +126,7 @@ const RunReplicatorBtn: FC<Props> = ({
     replicatorLoading.setLastRunError(replicator, msg);
     invalidateCache();
     toastNotify.failure(
-      `Replicator${replicator.name} failed while running`,
+      `Replicator ${replicator.name} failed while running`,
       new Error(msg),
     );
   };
