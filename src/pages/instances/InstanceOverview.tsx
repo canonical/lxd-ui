@@ -1,7 +1,13 @@
 import { useEffect, type FC } from "react";
 import { isoTimeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
-import { Col, Row, useListener, useNotify } from "@canonical/react-components";
+import {
+  Col,
+  NotificationSeverity,
+  Row,
+  useListener,
+  useNotify,
+} from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
@@ -27,7 +33,9 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   const isClustered = useIsClustered();
 
   const onFailure = (title: string, e: unknown) => {
-    notify.failure(title, e);
+    if (notify.notification?.type !== NotificationSeverity.NEGATIVE) {
+      notify.failure(title, e);
+    }
   };
 
   const updateContentHeight = () => {
