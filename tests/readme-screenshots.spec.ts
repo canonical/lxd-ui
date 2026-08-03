@@ -155,7 +155,7 @@ test("operations screen", async ({ page }) => {
   await gotoURL(page, "/ui/");
   await createInstance(page, "comic-glider");
   await page.getByRole("button", { name: "Close notification" }).click();
-  await page.getByText("Operations").click();
+  await page.getByRole("link", { name: "Operations", exact: true }).click();
   await page.getByText("Creating instance").first().click();
   await page.waitForTimeout(3000); // ensure reload button is in loaded state
 
