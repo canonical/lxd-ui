@@ -1,5 +1,19 @@
+.resource-label {
+  // truncate resource label text
+  display: inline-block;
+  max-width: 50%;
+  vertical-align: bottom;
+
+  i,
+  .ds.icon {
+    background-size: contain !important;
+    margin-right: $sph--x-small;
+  }
+}
+
 .resource-link {
-  i {
+  i,
+  .ds.icon {
     background-size: contain !important;
     margin-left: 0 !important;
     margin-right: $sph--x-small;
@@ -10,6 +24,11 @@
     background-color: $colors--theme--background-neutral-default;
     border: none;
     width: fit-content;
+
+    > .ds.icon {
+      align-self: center;
+      flex: 0 0 auto;
+    }
   }
 
   .p-chip__value {
@@ -28,16 +47,4 @@
 
 .l-main .resource-link:not(.force-truncate) .p-chip__value {
   max-width: inherit;
-}
-
-.resource-label {
-  // truncate resource label text
-  display: inline-block;
-  max-width: 50%;
-  vertical-align: bottom;
-
-  i {
-    background-size: contain !important;
-    margin-right: $sph--x-small;
-  }
 }
