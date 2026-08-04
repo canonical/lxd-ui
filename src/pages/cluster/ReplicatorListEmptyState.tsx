@@ -3,13 +3,12 @@ import { Link } from "react-router-dom";
 import { EmptyState, Icon } from "@canonical/react-components";
 import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
 import CreateClusterLinkBtn from "pages/cluster/actions/CreateClusterLinkBtn";
-import { getClusterLinkListUrl } from "util/clusterLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   isProjectConfiguration: boolean;
   projectConfigurationInfoNotification: React.ReactNode;
   hasClusterLinks: boolean;
-  isClustered: boolean;
   docBaseLink: string;
   project?: string;
   cluster?: string;
@@ -19,7 +18,6 @@ const ReplicatorListEmptyState: FC<Props> = ({
   isProjectConfiguration,
   projectConfigurationInfoNotification,
   hasClusterLinks,
-  isClustered,
   docBaseLink,
   project,
   cluster,
@@ -37,7 +35,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
           {!hasClusterLinks && (
             <p>
               To create a replicator, first create a{" "}
-              <Link to={getClusterLinkListUrl(isClustered)}>cluster link</Link>.
+              <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster link</Link>.
             </p>
           )}
           <p>
@@ -77,7 +75,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
       {!hasClusterLinks && (
         <p>
           To create a replicator, first create a{" "}
-          <Link to={getClusterLinkListUrl(isClustered)}>cluster link</Link>.
+          <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster link</Link>.
         </p>
       )}
       <p>

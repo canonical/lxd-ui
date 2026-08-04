@@ -4,8 +4,7 @@ import { useClusterLinks } from "context/useClusterLinks";
 import type { FormikProps } from "formik";
 import type { ImageRegistryFormValues } from "types/forms/image";
 import { Link } from "react-router-dom";
-import { useIsClustered } from "context/useIsClustered";
-import { getClusterLinkListUrl } from "util/clusterLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   formik: FormikProps<ImageRegistryFormValues>;
@@ -18,7 +17,6 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
 }) => {
   const { data: links = [], error } = useClusterLinks();
   const notify = useNotify();
-  const isClustered = useIsClustered();
   const hasNoLinks = links.length === 0;
 
   if (error) {
@@ -43,7 +41,7 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
   }));
 
   const helpLink = (
-    <Link to={getClusterLinkListUrl(isClustered)}>cluster links</Link>
+    <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster links</Link>
   );
 
   const helpText = hasNoLinks ? (

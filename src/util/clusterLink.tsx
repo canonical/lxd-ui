@@ -1,6 +1,5 @@
 import type { LxdClusterLinkState, StatusCaption } from "types/cluster";
 import type { LxdIdentity } from "types/permissions";
-import { ROOT_PATH } from "util/rootPath";
 
 export const getClusterLinksStatus = (
   identity?: LxdIdentity,
@@ -28,10 +27,4 @@ export const getLinkIdentity = (
       identity.name === linkName &&
       identity.type.startsWith("Cluster link certificate"),
   );
-};
-
-export const getClusterLinkListUrl = (isClustered = false): string => {
-  return isClustered
-    ? `${ROOT_PATH}/ui/cluster/links`
-    : `${ROOT_PATH}/ui/server/cluster-links`;
 };

@@ -14,7 +14,6 @@ import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import { useClusterLinks } from "context/useClusterLinks";
-import { useIsClustered } from "context/useIsClustered";
 import { useReplicators } from "context/useReplicators";
 import useSortTableData from "util/useSortTableData";
 import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
@@ -45,7 +44,6 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
   const panelParams = usePanelParams();
   const { data: replicators = [], error, isLoading } = useReplicators(project);
   const { data: links = [], isLoading: linksLoading } = useClusterLinks();
-  const isClustered = useIsClustered();
 
   const isProjectConfiguration = variant === "project-configuration";
   const isEmptyState = replicators.length === 0 && !isLoading;
@@ -222,7 +220,6 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
             projectConfigurationInfoNotification
           }
           hasClusterLinks={hasClusterLinks}
-          isClustered={isClustered}
           docBaseLink={docBaseLink}
           project={project}
           cluster={cluster}

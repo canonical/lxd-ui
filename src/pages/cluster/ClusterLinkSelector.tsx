@@ -6,9 +6,8 @@ import {
   type CustomSelectProps,
 } from "@canonical/react-components";
 import { useClusterLinks } from "context/useClusterLinks";
-import { useIsClustered } from "context/useIsClustered";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
-import { getClusterLinkListUrl } from "util/clusterLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface ClusterLinkSelectorProps extends Omit<
   CustomSelectProps,
@@ -37,7 +36,6 @@ const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
 }) => {
   const { data: links = [], error: apiError, isLoading } = useClusterLinks();
   const notify = useNotify();
-  const isClustered = useIsClustered();
   const linkNames = links.map((link) => link.name);
 
   const hasNoLinks = links.length === 0 && !isLoading;
@@ -93,12 +91,12 @@ const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
       {hasNoLinks ? (
         <>
           Create your first{" "}
-          <Link to={getClusterLinkListUrl(isClustered)}>cluster link</Link>.
+          <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster link</Link>.
         </>
       ) : (
         <>
           Manage your{" "}
-          <Link to={getClusterLinkListUrl(isClustered)}>cluster links</Link>.
+          <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster links</Link>.
         </>
       )}
     </>
