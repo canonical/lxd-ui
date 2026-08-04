@@ -1,4 +1,9 @@
-import { useState, type FC, type OptionHTMLAttributes } from "react";
+import {
+  useState,
+  type FC,
+  type OptionHTMLAttributes,
+  type MouseEvent,
+} from "react";
 import {
   Button,
   CheckboxInput,
@@ -169,11 +174,10 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
       const itemType = figureType();
 
-      const selectImage = () => {
+      const selectImage = (e: MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
         onSelect(item, item.type ?? type);
       };
-
-      const onCellClick = isCardView ? undefined : selectImage;
 
       const displayRelease =
         item.os === "Ubuntu" &&
@@ -233,44 +237,44 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             content: item.os,
             role: "rowheader",
             "aria-label": "Distribution",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: displayRelease,
             role: "cell",
             "aria-label": "Release",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: displayVariant,
             role: "cell",
             "aria-label": "Variant",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: itemType,
             role: "cell",
             "aria-label": "Type",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: item.aliases.split(",").pop(),
             title: item.aliases.split(",").pop(),
             role: "cell",
             "aria-label": "Alias",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: getSource(),
             role: "cell",
             "aria-label": "Source",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: item.cached ? "Cached" : "Remote",
             role: "cell",
             "aria-label": "Cached",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
           {
             content: (
@@ -290,7 +294,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             ),
             role: "cell",
             "aria-label": "Action",
-            onClick: onCellClick,
+            onClick: selectImage,
           },
         ],
         sortData: {
