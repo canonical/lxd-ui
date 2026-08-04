@@ -7,3 +7,25 @@
     }
   }
 }
+
+.delete-cluster-link-dialog {
+  .p-modal__dialog {
+    @include large {
+      width: 40rem;
+    }
+
+    .delete-cluster-link-table {
+      tbody {
+        tr {
+          th:first-child {
+            width: 14rem;
+
+            @include mobile-and-tablet {
+              width: 9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

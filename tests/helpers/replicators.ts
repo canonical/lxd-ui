@@ -22,6 +22,7 @@ import {
   deleteProject,
 } from "./projects";
 import { createInstance } from "./instances";
+import { gotoURL } from "./navigate";
 
 export const skipIfReplicatorsNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -330,4 +331,13 @@ export const deleteAllAfterReplicatorTest = async (
   await visitClusterLinks(page);
   await deleteClusterLink(page, clusterLink);
   await deleteProject(page, project);
+};
+
+export const visitReplicators = async (page: Page) => {
+  await gotoURL(page, "/ui/");
+  await page.getByRole("button", { name: "Clustering" }).click();
+  await page.getByRole("link", { name: "Replicators" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Replicators" }),
+  ).toBeVisible();
 };

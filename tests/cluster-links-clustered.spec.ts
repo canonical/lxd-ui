@@ -10,6 +10,17 @@ import {
   visitClusterLinks,
 } from "./helpers/cluster-links";
 import { skipIfNotClustered } from "./helpers/cluster";
+import { randomInstanceName } from "./helpers/instances";
+import { randomProjectName } from "./helpers/projects";
+import {
+  createReplicator,
+  deleteAllAfterReplicatorTest,
+  deleteReplicatorFromDetailPage,
+  randomReplicatorName,
+  setupProjectsForReplicator,
+  skipIfReplicatorsNotSupported,
+  visitReplicators,
+} from "./helpers/replicators";
 
 test("cluster link create edit delete", async ({
   page,
@@ -83,4 +94,48 @@ test("consume token to create cluster link", async ({
 
   deleteClusterLinkOnRemoteCluster(link);
   await deleteClusterLink(page, link);
+});
+
+test("cluster link deletion is blocked while in use by a replicator", async ({
+  page,
+  lxdVersion,
+}, testInfo) => {
+  skipIfClusterLinksNotSupported(lxdVersion);
+  skipIfReplicatorsNotSupported(lxdVersion);
+  skipIfNotClustered(testInfo.project.name);
+
+  const project = randomProjectName();
+  const instance = randomInstanceName();
+  const clusterLink = randomLinkName();
+  const replicator = randomReplicatorName();
+
+  await setupProjectsForReplicator(page, project, instance, clusterLink);
+  await createReplicator(page, replicator, clusterLink, project);
+
+  await visitClusterLinks(page);
+  const linkRow = page.getByRole("row").filter({ hasText: clusterLink });
+  await linkRow.getByRole("button", { name: "Delete cluster link" }).click();
+
+  const dialog = page.getByRole("dialog", {
+    name: "Cannot delete cluster link",
+  });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText("This cluster link is used by:")).toBeVisible();
+  await expect(dialog.getByText("Replicator (1)")).toBeVisible();
+  await expect(
+    dialog.getByRole("button", { name: "Delete cluster link" }),
+  ).toBeDisabled();
+
+  await dialog.getByRole("button", { name: "Cancel" }).click();
+
+  // Remove the replicator so the cluster link is no longer in use
+  await visitReplicators(page);
+  const replicatorRow = page.getByRole("row").filter({ hasText: replicator });
+  await replicatorRow.getByRole("link", { name: replicator }).click();
+  await expect(page.getByRole("heading", { name: "General" })).toBeVisible();
+  await deleteReplicatorFromDetailPage(page, replicator);
+
+  // deleteAllAfterReplicatorTest navigates to cluster links and deletes via the
+  // normal "Confirm delete" dialog, implicitly verifying the link is unblocked.
+  await deleteAllAfterReplicatorTest(page, project, clusterLink);
 });
