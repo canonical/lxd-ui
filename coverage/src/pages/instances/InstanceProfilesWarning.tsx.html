@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/28</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/28</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,22 +101,22 @@
 <span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-yes">53x</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-yes">424x</span>
-<span class="cline-any cline-yes">424x</span>
+<span class="cline-any cline-yes">423x</span>
+<span class="cline-any cline-yes">423x</span>
+<span class="cline-any cline-yes">423x</span>
+<span class="cline-any cline-yes">423x</span>
+<span class="cline-any cline-yes">423x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
+<span class="cline-any cline-yes">420x</span>
 <span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Notification } from "@canonical/react-components";
@@ -133,15 +133,15 @@ const InstanceProfilesWarning: FC&lt;Props&gt; = ({ instanceProfiles, profiles }
     (profile) =&gt; !profiles?.find((p) =&gt; p.name === profile),
   );
 &nbsp;
-  if (isMissingSomeProfiles) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Notification severity="caution" title="Restricted permissions"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        You do not have permission to view all profiles applied to this</span>
-<span class="cstat-no" title="statement not covered" >        instance. This may cause inherited configuration values to be displayed</span>
-<span class="cstat-no" title="statement not covered" >        incorrectly.</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Notification&gt;</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  if (isMissingSomeProfiles) {
+    return (
+      &lt;Notification severity="caution" title="Restricted permissions"&gt;
+        You do not have permission to view all profiles applied to this
+        instance. This may cause inherited configuration values to be displayed
+        incorrectly.
+      &lt;/Notification&gt;
+    );
+  }
 &nbsp;
   return null;
 };
@@ -154,7 +154,7 @@ export default InstanceProfilesWarning;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-16T14:13:27.866Z
+                at 2026-08-04T15:26:02.506Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
