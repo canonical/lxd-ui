@@ -1,9 +1,7 @@
 import { useState, type Dispatch, type FC, type SetStateAction } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { LxdProject } from "types/project";
-import { getProjectSwitchTarget } from "util/projects";
-import { filterUsedByType } from "util/usedBy";
-import { pluralize } from "util/helpers";
+import { getInstanceCount, getProjectSwitchTarget } from "util/projects";
 
 interface Props {
   projects: LxdProject[];
@@ -18,11 +16,6 @@ const NavigationProjectSelectorList: FC<Props> = ({
   const [query, setQuery] = useState("");
 
   onMount(setQuery);
-
-  const getInstanceCount = (project: LxdProject) => {
-    const count = filterUsedByType("instance", project.used_by).length;
-    return `${count} ${pluralize("instance", count)}`;
-  };
 
   return (
     <div className="projects">
