@@ -10,7 +10,6 @@ import ChartLegend from "components/ChartLegend";
 import { useInstances } from "context/useInstances";
 import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import InstancesOverviewStatus from "pages/overview/InstancesOverviewStatus";
-import type { LxdInstance } from "types/instance";
 import { pluralize } from "util/helpers";
 import {
   getInstanceDistribution,
@@ -19,8 +18,7 @@ import {
 import { ROOT_PATH } from "util/rootPath";
 
 const InstancesCard: FC = () => {
-  const { data, error, isLoading } = useInstances(null);
-  const instances: LxdInstance[] = data ?? [];
+  const { data: instances = [], error, isLoading } = useInstances(null);
 
   const {
     runningCount,
@@ -70,7 +68,7 @@ const InstancesCard: FC = () => {
   if (instances.length === 0) {
     return (
       <Card className={cardClassName} title={cardTitle}>
-        <InstanceEmptyState className="u-no-margin" />
+        <InstanceEmptyState className="u-no-margin" isAllProjects />
       </Card>
     );
   }

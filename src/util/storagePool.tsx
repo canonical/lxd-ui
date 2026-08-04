@@ -16,6 +16,7 @@ import {
   pureStorage,
   zfsDriver,
 } from "util/storageOptions";
+import { LxdStoragePool } from "types/storage";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
@@ -236,4 +237,14 @@ export const hasSource = (
   }
 
   return driversWithSource.includes(driver);
+};
+
+export const getVolumesUsedByPool = (pool: LxdStoragePool) => {
+  if (!pool.used_by) {
+    return [];
+  }
+
+  return pool.used_by.filter((item) =>
+    item.startsWith(`/1.0/storage-pools/${pool.name}/volumes/`),
+  );
 };

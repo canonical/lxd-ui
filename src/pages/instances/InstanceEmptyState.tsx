@@ -10,13 +10,14 @@ import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   className?: string;
+  isAllProjects?: boolean;
 }
 
-const InstanceEmptyState: FC<Props> = ({ className }) => {
+const InstanceEmptyState: FC<Props> = ({ className, isAllProjects }) => {
   const navigate = useNavigate();
   const { canCreateInstances } = useProjectEntitlements();
-  const { project, isAllProjects } = useCurrentProject();
-  const { data: defaultProject } = useProject("default", isAllProjects);
+  const { project, isAllProjects: currentIsAllProjects } = useCurrentProject();
+  const { data: defaultProject } = useProject("default", currentIsAllProjects);
 
   const projectForCreation = isAllProjects ? defaultProject : project;
   const projectForCreationName = projectForCreation?.name ?? "default";
@@ -31,7 +32,8 @@ const InstanceEmptyState: FC<Props> = ({ className }) => {
       title="No instances found"
     >
       <p>
-        There are no instances in {isAllProjects ? "any" : "this"} project.
+        There are no instances in{" "}
+        {isAllProjects || currentIsAllProjects ? "any" : "this"} project.
         {canCreateInstances(projectForCreation)
           ? " Spin up your first instance!"
           : ""}
