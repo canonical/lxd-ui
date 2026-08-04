@@ -9,8 +9,8 @@ import ClusterLinkStatus from "./ClusterLinkStatus";
 import ResourceLabel from "components/ResourceLabel";
 import ClusterLinkAddresses from "./ClusterLinkAddresses";
 import { useIdentities } from "context/useIdentities";
-import { getClusterLinkListUrl, getLinkIdentity } from "util/clusterLink";
-import { useIsClustered } from "context/useIsClustered";
+import { getLinkIdentity } from "util/clusterLink";
+import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
   clusterLink: string;
@@ -19,7 +19,6 @@ interface Props {
 const ClusterLinkRichTooltip: FC<Props> = ({ clusterLink }) => {
   const { data: link, isLoading: isLinkLoading } = useClusterLink(clusterLink);
   const { data: identities = [] } = useIdentities();
-  const isClustered = useIsClustered();
 
   if (!link && !isLinkLoading) {
     return (
@@ -38,7 +37,7 @@ const ClusterLinkRichTooltip: FC<Props> = ({ clusterLink }) => {
       title: "Cluster link",
       value: link ? (
         <Link
-          to={getClusterLinkListUrl(isClustered)}
+          to={`${ROOT_PATH}/ui/cluster/links`}
           onClick={(e) => {
             e.stopPropagation();
           }}

@@ -11,8 +11,6 @@ import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import * as Yup from "yup";
 import ReplicatorRichChip from "./ReplicatorRichChip";
-import { useIsClustered } from "context/useIsClustered";
-import { getReplicatorListUrl } from "util/replicator";
 
 interface Props {
   replicator: LxdReplicator;
@@ -24,7 +22,6 @@ const ReplicatorDetailHeader: FC<Props> = ({ replicator }) => {
   const toastNotify = useToastNotification();
   const { canEditReplicator } = useReplicatorEntitlements();
   const controllerState = useState<AbortController | null>(null);
-  const isClustered = useIsClustered();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -97,7 +94,7 @@ const ReplicatorDetailHeader: FC<Props> = ({ replicator }) => {
     <RenameHeader
       name={replicator.name}
       parentItems={[
-        <Link to={getReplicatorListUrl(isClustered)} key={1}>
+        <Link to={`${ROOT_PATH}/ui/cluster/replicators`} key={1}>
           Replicators
         </Link>,
       ]}
