@@ -1,4 +1,6 @@
 import { Icon } from "@canonical/react-components";
+import { Icon as DsIcon } from "@canonical/react-ds-global";
+import type { IconName } from "@canonical/ds-assets";
 import type { FC } from "react";
 
 export type ResourceIconType =
@@ -35,19 +37,26 @@ export type ResourceIconType =
   | "replicator"
   | "token-bearer";
 
-const resourceIcons: Record<ResourceIconType, string> = {
+// Icons available in @canonical/ds-assets — rendered via DsIcon (<svg><use>).
+// Move entries here from legacyResourceIcons as ds-assets gains coverage.
+const dsResourceIcons: Partial<Record<ResourceIconType, IconName>> = {
+  "image-registry": "image-registries",
+  network: "exposed",
+  project: "folder",
+};
+
+// Icons not yet in @canonical/ds-assets — rendered via vanilla-framework CSS.
+const legacyResourceIcons: Record<string, string> = {
   container: "pods",
   "virtual-machine": "pods",
   instance: "pods",
   snapshot: "snapshot",
   profile: "repository",
-  project: "folder",
   "cluster-group": "cluster-host",
   "cluster-member": "single-host",
   "cluster-link": "applications",
   "load-balancer": "exposed",
   "load-balancer-pool": "exposed",
-  network: "exposed",
   peering: "exposed",
   "network-acl": "security-tick",
   "network-forward": "exposed",
@@ -55,7 +64,6 @@ const resourceIcons: Record<ResourceIconType, string> = {
   volume: "storage-volume",
   "iso-volume": "iso",
   image: "image",
-  "image-registry": "image",
   "oidc-identity": "user",
   certificate: "certificate",
   "auth-group": "user-group",
@@ -76,7 +84,11 @@ interface Props {
 }
 
 const ResourceIcon: FC<Props> = ({ type, className }) => {
-  return <Icon name={resourceIcons[type]} className={className} />;
+  const dsIcon = dsResourceIcons[type];
+  if (dsIcon) {
+    return <DsIcon icon={dsIcon} className={className} />;
+  }
+  return <Icon name={legacyResourceIcons[type]} className={className} />;
 };
 
 export default ResourceIcon;
