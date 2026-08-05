@@ -24,6 +24,7 @@ export type ResourceType =
   | "network"
   | "network-forward"
   | "bucket"
+  | "replicator"
   | "volume";
 
 // refer to api spec to see how the names can be extracted from resource url

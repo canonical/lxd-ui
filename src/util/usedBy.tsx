@@ -60,6 +60,10 @@ export const filterUsedByType = (
           return path.includes("/forwards/");
         }
 
+        if (type === "replicator") {
+          return path.includes("/1.0/replicators/");
+        }
+
         return path.startsWith(`/1.0/${type}`);
       })
       .map((path) => {

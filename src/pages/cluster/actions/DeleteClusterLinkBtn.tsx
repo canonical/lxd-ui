@@ -12,6 +12,7 @@ import type { LxdClusterLink } from "types/cluster";
 import ResourceLabel from "components/ResourceLabel";
 import { useClusterLinkEntitlements } from "util/entitlements/cluster-links";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
+import ClusterLinkUsedBy from "pages/cluster/ClusterLinkUsedBy";
 
 interface Props {
   clusterLink: LxdClusterLink;
@@ -25,6 +26,7 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
   const queryClient = useQueryClient();
 
   const canDelete = canDeleteClusterLink(clusterLink);
+  const isInUse = Boolean(clusterLink.used_by?.length);
 
   const handleDelete = () => {
     setLoading(true);
@@ -49,36 +51,41 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
       });
   };
 
-  const disabledReason = () => {
-    if (clusterLink.used_by?.length) {
-      return `Cannot delete this cluster link as it is currently in use.`;
-    }
-    if (!canDelete) {
-      return "You do not have permission to delete this cluster link";
-    }
-    return undefined;
-  };
+  const disabledReason = !canDelete
+    ? "You do not have permission to delete this cluster link"
+    : undefined;
 
   return (
     <ConfirmationButton
       appearance="base"
       className="has-icon"
-      onHoverText={disabledReason()}
-      disabled={Boolean(disabledReason())}
+      onHoverText={disabledReason}
+      disabled={!canDelete || isLoading}
       loading={isLoading}
       confirmationModalProps={{
-        title: "Confirm delete",
+        title: isInUse ? "Cannot delete cluster link" : "Confirm delete",
         children: (
-          <p>
-            This will permanently delete cluster link{" "}
-            <ClusterLinkRichChip clusterLink={clusterLink.name} />.
-          </p>
+          <>
+            {isInUse ? (
+              <>
+                <p>This cluster link is used by:</p>
+                <ClusterLinkUsedBy clusterLink={clusterLink} />
+              </>
+            ) : (
+              <p>
+                This will permanently delete cluster link{" "}
+                <ClusterLinkRichChip clusterLink={clusterLink.name} />.
+              </p>
+            )}
+          </>
         ),
         confirmButtonLabel: "Delete cluster link",
+        confirmButtonDisabled: isInUse,
         onConfirm: handleDelete,
+        className: "delete-cluster-link-dialog",
       }}
-      shiftClickEnabled
-      showShiftClickHint
+      shiftClickEnabled={!isInUse}
+      showShiftClickHint={!isInUse}
     >
       <Icon name="delete" />
     </ConfirmationButton>

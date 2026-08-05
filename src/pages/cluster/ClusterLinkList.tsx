@@ -58,11 +58,17 @@ const ClusterLinkList: FC = () => {
       sortKey: "description",
     },
     {
+      content: "Used by",
+      sortKey: "usedBy",
+      className: "u-align--right",
+    },
+    {
       content: "Addresses",
     },
     {
       content: "Auth groups",
       sortKey: "groups",
+      className: "u-align--right",
     },
     { "aria-label": "Actions", className: "actions" },
   ];
@@ -101,6 +107,12 @@ const ClusterLinkList: FC = () => {
           "aria-label": "Description",
         },
         {
+          content: clusterLink.used_by?.length ?? 0,
+          role: "cell",
+          "aria-label": "Used by",
+          className: "u-align--right",
+        },
+        {
           content: <ClusterLinkAddresses clusterLink={clusterLink} />,
           role: "cell",
           "aria-label": "Addresses",
@@ -113,6 +125,7 @@ const ClusterLinkList: FC = () => {
           ),
           role: "cell",
           "aria-label": "Auth groups",
+          className: "u-align--right",
         },
         {
           content: (
