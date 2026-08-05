@@ -168,7 +168,7 @@ test("retain custom project selection on browsing pages for all projects", async
 }) => {
   const project = randomProjectName();
   await createProject(page, project);
-  await page.getByRole("link", { name: "Operations" }).click();
+  await page.getByRole("link", { name: "Operations", exact: true }).click();
   await page.getByRole("button", { name: "Refresh" }).click();
   await page.waitForLoadState("networkidle");
 
