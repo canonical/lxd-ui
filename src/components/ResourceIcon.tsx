@@ -1,4 +1,4 @@
-import { Icon } from "@canonical/react-components";
+import { Icon as VanillaIcon } from "@canonical/react-components";
 import { Icon as DsIcon } from "@canonical/react-ds-global";
 import type { IconName } from "@canonical/ds-assets";
 import type { FC } from "react";
@@ -37,16 +37,19 @@ export type ResourceIconType =
   | "replicator"
   | "token-bearer";
 
+type DsResourceIconType = "image-registry" | "network" | "project";
+type VanillaResourceIconType = Exclude<ResourceIconType, DsResourceIconType>;
+
 // Icons available in @canonical/ds-assets — rendered via DsIcon (<svg><use>).
-// Move entries here from legacyResourceIcons as ds-assets gains coverage.
-const dsResourceIcons: Partial<Record<ResourceIconType, IconName>> = {
+// Move entries here from vanillaResourceIcons as ds-assets gains coverage.
+const dsResourceIcons: Record<DsResourceIconType, IconName> = {
   "image-registry": "image-registries",
   network: "exposed",
   project: "folder",
 };
 
 // Icons not yet in @canonical/ds-assets — rendered via vanilla-framework CSS.
-const legacyResourceIcons: Record<string, string> = {
+const vanillaResourceIcons: Record<VanillaResourceIconType, string> = {
   container: "pods",
   "virtual-machine": "pods",
   instance: "pods",
@@ -83,12 +86,16 @@ interface Props {
   className?: string;
 }
 
+const isDsResourceIcon = (type: ResourceIconType): type is DsResourceIconType =>
+  type in dsResourceIcons;
+
 const ResourceIcon: FC<Props> = ({ type, className }) => {
-  const dsIcon = dsResourceIcons[type];
-  if (dsIcon) {
-    return <DsIcon icon={dsIcon} className={className} />;
+  if (isDsResourceIcon(type)) {
+    return <DsIcon icon={dsResourceIcons[type]} className={className} />;
   }
-  return <Icon name={legacyResourceIcons[type]} className={className} />;
+  return (
+    <VanillaIcon name={vanillaResourceIcons[type]} className={className} />
+  );
 };
 
 export default ResourceIcon;
