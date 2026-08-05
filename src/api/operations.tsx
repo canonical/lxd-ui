@@ -16,9 +16,10 @@ const sortOperationList = (operations: LxdOperationList) => {
 
 export const fetchOperations = async (
   project: string | null,
+  recursion: "1" | "2" = "1",
 ): Promise<LxdOperationList> => {
   const params = new URLSearchParams();
-  params.set("recursion", "1");
+  params.set("recursion", recursion);
   if (project) {
     params.append("project", project);
   } else {

@@ -1,9 +1,11 @@
 .operation-list {
+  $tree-connector-offset: $spv--large + $spv--x-small;
+
   .status-header {
     padding-left: 1.8rem;
   }
 
-  @media screen and (min-width: $breakpoint-large) {
+  @include large {
     .time {
       width: 320px;
     }
@@ -17,18 +19,139 @@
     width: 120px;
   }
 
-  .action,
-  .info {
+  .description,
+  .details {
     white-space: break-spaces;
+  }
+
+  .time-cell-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spv--x-small;
+  }
+
+  .child-operations-trigger {
+    margin-top: $spv--x-small;
+
+    .bulk-toggle-btn {
+      align-items: center;
+      border: none;
+      display: inline-flex;
+      gap: $sph--small;
+      padding: $spv--x-small $spv--x-small;
+
+      &[aria-expanded="true"] {
+        background-color: unset;
+      }
+
+      .p-chip {
+        height: auto;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        white-space: normal;
+
+        .p-icon--chevron-up,
+        .p-icon--chevron-down {
+          align-self: flex-start;
+          flex-shrink: 0;
+          margin-left: 0;
+          margin-top: $spv--x-small;
+          min-width: 1rem; /* Reserve explicit width so it cannot be squished */
+        }
+
+        .p-inline-list--middot .p-inline-list__item:not(:first-child) {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  @include large {
+    .child-operation-row {
+      background-color: $colors--theme--background-active;
+
+      td {
+        border-top: none;
+        padding-bottom: $spv--small;
+        padding-top: $spv--small;
+
+        &.time {
+          padding-left: 0;
+          position: relative;
+
+          .time-cell-content {
+            padding-left: $spv--medium + $sph--x-large + $sph--small;
+          }
+        }
+      }
+
+      .child-tree-rail {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+
+        .tree-connector {
+          bottom: 0;
+          left: $spv--medium;
+          position: absolute;
+          top: 0;
+          width: $sph--x-large;
+
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+          }
+
+          &::before {
+            border-left: 2px solid var(--color-border);
+            bottom: 0;
+            left: 0;
+            top: 0;
+          }
+
+          &::after {
+            border-top: 2px solid var(--color-border);
+            left: 0;
+            top: $tree-connector-offset;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    tr.child-operation-row:is(:has(+ tr:not(.child-operation-row)), :last-child)
+      .tree-connector::before {
+      bottom: auto;
+      height: $tree-connector-offset;
+    }
+  }
+
+  @include mobile-and-tablet {
+    .page-header__search {
+      display: none;
+    }
+
+    .p-table--mobile-card tbody td:last-child::after {
+      display: none;
+    }
+
+    .child-operation-row {
+      border-left: 3px solid var(--color-border);
+
+      .child-tree-rail {
+        display: none;
+      }
+
+      td.time .time-cell-content {
+        padding-left: 0;
+      }
+    }
   }
 
   .cancel {
     width: 110px;
-  }
-
-  @media screen and (width < $breakpoint-large) {
-    .page-header__search {
-      display: none;
-    }
   }
 }
