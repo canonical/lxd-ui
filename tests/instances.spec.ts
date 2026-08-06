@@ -17,6 +17,8 @@ import {
 import {
   visitFileExplorer,
   randomFileName,
+  randomDirectoryName,
+  randomSymlinkName,
   openDirectory,
   assertFileExists,
   assertFileNotExists,
@@ -25,6 +27,9 @@ import {
   downloadFile,
   uploadFile,
   createFile,
+  createDirectory,
+  createSymlink,
+  openSymlink,
   skipIfFileExplorerNotSupported,
 } from "./helpers/instance-file-explorer";
 import {
@@ -521,7 +526,7 @@ test("upload, download, and delete file from file explorer", async ({
   const stagedDownloadPath = testInfo.outputPath(targetFileName);
 
   // Create the source file inside the instance so the explorer has something to download.
-  await createFile(page, sourceFileName);
+  await createFile(page, instance, sourceFileName);
   await assertFileExists(page, sourceFileName);
 
   try {
@@ -551,6 +556,67 @@ test("upload, download, and delete file from file explorer", async ({
     // Keep the test-results artifact directory clean for the post-test steps.
     rmSync(stagedDownloadPath, { force: true });
   }
+});
+
+test("create directory from file explorer", async ({ page, lxdVersion }) => {
+  skipIfFileExplorerNotSupported(lxdVersion);
+
+  await visitAndStartInstance(page, instance);
+  await visitFileExplorer(page, instance);
+  await openDirectory(page, "tmp");
+
+  const directory = randomDirectoryName();
+  const directory2 = randomDirectoryName();
+
+  // Create a directory in tmp, then put another directory inside it.
+  await createDirectory(page, directory);
+  await assertDirectoryExists(page, directory);
+  await createDirectory(page, directory2, `/tmp/${directory}`);
+
+  // After creation the UI navigates to the parent path used for creation.
+  await expect(page).toHaveURL(new RegExp(`path=%2Ftmp%2F${directory}`));
+  await assertDirectoryExists(page, directory2);
+});
+
+test("file explorer follows symlinks to directories", async ({
+  page,
+  lxdVersion,
+}) => {
+  skipIfFileExplorerNotSupported(lxdVersion);
+
+  // Create a directory and add a file that should still be visible after resolving the symlink.
+  await visitAndStartInstance(page, instance);
+  await visitFileExplorer(page, instance);
+  await openDirectory(page, "tmp");
+  const targetDirectoryName = randomDirectoryName();
+  const targetFileName = randomFileName();
+  const symlinkName = randomSymlinkName();
+  await createDirectory(page, targetDirectoryName);
+  await assertDirectoryExists(page, targetDirectoryName);
+  await openDirectory(page, targetDirectoryName);
+  await createFile(page, instance, targetFileName);
+  await assertFileExists(page, targetFileName);
+
+  // Go back to tmp and create the symlink that points at the new directory.
+  await page
+    .getByRole("navigation", { name: "File Explorer Path" })
+    .getByRole("link", { name: "tmp", exact: true })
+    .click();
+  await createSymlink(page, instance, symlinkName, targetDirectoryName);
+
+  // Open the symlink and let the file explorer resolve it to the target directory.
+  await openSymlink(page, symlinkName);
+
+  // The browser stays on the symlink path, but the target file should be visible.
+  await expect(page).toHaveURL(new RegExp(`path=%2Ftmp%2F${symlinkName}`));
+  await assertFileExists(page, targetFileName);
+
+  const breadcrumb = page.getByRole("navigation", {
+    name: "File Explorer Path",
+  });
+  await expect(
+    breadcrumb.getByText(symlinkName, { exact: true }),
+  ).toBeVisible();
 });
 
 test("file explorer shows empty state for a stopped virtual machine", async ({

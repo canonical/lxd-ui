@@ -1,9 +1,10 @@
 import type { Page } from "@playwright/test";
 import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
+import { getLxcCmd } from "./auth";
 import { dismissNotification } from "./notification";
-import { assertTextVisible } from "./permissions";
 import { visitInstance } from "./instances";
 import { randomNameSuffix } from "./name";
+import { runCommand } from "./shell";
 
 export const skipIfFileExplorerNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
@@ -13,12 +14,23 @@ export const skipIfFileExplorerNotSupported = (lxdVersion: LxdVersions) => {
 };
 
 export const randomFileName = (): string => {
-  return `playwright-file-${randomNameSuffix()}`;
+  return `playwright-entry-${randomNameSuffix()}`;
 };
+
+export const randomDirectoryName = (): string => {
+  return `playwright-dir-${randomNameSuffix()}`;
+};
+
+export const randomSymlinkName = (): string => {
+  return `playwright-link-${randomNameSuffix()}`;
+};
+
+type FileExplorerEntryType = "file" | "directory" | "symlink";
+
 const getFileExplorerRow = (
   page: Page,
   name: string,
-  type: "file" | "directory",
+  type: FileExplorerEntryType,
 ) => {
   const table = page.getByRole("grid").first();
   return table
@@ -79,6 +91,30 @@ export const assertDirectoryExists = async (
   await expect(dirLink).toHaveCount(1);
 };
 
+export const createDirectory = async (
+  page: Page,
+  directoryName: string,
+  parentPath?: string,
+) => {
+  await page.getByRole("button", { name: "Create directory" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Create directory" });
+  await dialog.getByLabel("Directory name").fill(directoryName);
+  if (parentPath) {
+    await dialog.getByLabel("Parent path").fill(parentPath);
+  }
+  await dialog.getByRole("button", { name: "Create" }).click();
+
+  await dismissNotification(
+    page,
+    `Directory ${directoryName} created successfully.`,
+  );
+};
+
+const runCommandForInstance = (instance: string, command: string) => {
+  runCommand(`${getLxcCmd()} exec ${instance} -- ${command}`);
+};
+
 export const deleteFile = async (
   page: Page,
   fileName: string,
@@ -116,28 +152,41 @@ export const uploadFile = async (page: Page, filePath: string) => {
   await dismissNotification(page, " uploaded successfully");
 };
 
-export const createFile = async (page: Page, fileName: string) => {
-  // Use terminal to create files for now. Later we might add a file creation feature in the file explorer.
+export const createFile = async (
+  page: Page,
+  instance: string,
+  fileName: string,
+) => {
   const url = new URL(page.url());
   const currentPath = url.searchParams.get("path") ?? "/";
   const targetPath =
     currentPath === "/" ? `/${fileName}` : `${currentPath}/${fileName}`;
 
-  await page.getByTestId("tab-link-Terminal").click();
-  await assertTextVisible(page, "~#");
-  await page.waitForTimeout(1000); // ensure the terminal is ready
-  await page.locator(".xterm-rows").evaluate((e) => {
-    (e as HTMLElement).click();
-  });
-  await page.keyboard.type(`touch "${targetPath}"`, {
-    delay: 100,
-  });
-  await page.keyboard.press("Enter");
-
-  page.once("dialog", async (dialog) => {
-    await dialog.accept();
-  });
-  await page.getByRole("link", { name: "File Explorer" }).click();
-  await openDirectory(page, "tmp"); //hardcoded for now until file creation is implemented in the UI
+  runCommandForInstance(instance, `touch "${targetPath}"`);
+  await page.reload();
   await assertFileExists(page, fileName);
+};
+
+export const createSymlink = async (
+  page: Page,
+  instance: string,
+  symlinkName: string,
+  targetPath: string,
+) => {
+  const url = new URL(page.url());
+  const currentPath = url.searchParams.get("path") ?? "/";
+  const linkPath =
+    currentPath === "/" ? `/${symlinkName}` : `${currentPath}/${symlinkName}`;
+
+  runCommandForInstance(instance, `ln -s "${targetPath}" "${linkPath}"`);
+  await page.reload();
+  const symlinkRow = getFileExplorerRow(page, symlinkName, "symlink");
+  await expect(symlinkRow).toHaveCount(1);
+};
+
+export const openSymlink = async (page: Page, symlinkName: string) => {
+  const symlinkRow = getFileExplorerRow(page, symlinkName, "symlink");
+  await symlinkRow
+    .getByRole("button", { name: symlinkName, exact: true })
+    .click();
 };
