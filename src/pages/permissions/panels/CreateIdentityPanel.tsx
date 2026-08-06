@@ -27,10 +27,12 @@ import {
   BEARER_EXPIRY_PATTERN,
   IDENTITY_TYPE,
   IDENTITY_TYPE_HELP_TEXT,
+  IDENTITY_TYPES_WITH_EXPIRY,
   type BearerIdentityType,
   type IdentityType,
 } from "util/permissionIdentities";
 import type { IdentityFormValues } from "types/forms/identity";
+import { createClusterLink } from "api/cluster-links";
 
 interface Props {
   onSuccess: (identity: IdentityFormValues, token: string) => void;
@@ -96,6 +98,25 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
         .catch((e) => {
           onError(e);
         });
+    } else if (values.identityType === IDENTITY_TYPE.CLUSTER_LINK) {
+      const payload = {
+        name: values.name,
+        auth_groups: values.groups,
+        type: "unidirectional",
+      };
+
+      createClusterLink(JSON.stringify(payload))
+        .then((response) => {
+          if (!response) {
+            onError("Failed to create cluster link identity");
+            return;
+          }
+          const encodedToken = base64EncodeObject(response);
+          onSuccess(values, encodedToken);
+        })
+        .catch((e) => {
+          onError(e);
+        });
     } else {
       createAndIssueBearerToken(
         values.name,
@@ -128,8 +149,7 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
       ),
     expiry: Yup.string().when("identityType", {
       is: (identityType: IdentityType) =>
-        identityType === IDENTITY_TYPE.BEARER_CLIENT ||
-        identityType === IDENTITY_TYPE.BEARER_DEVLXD,
+        IDENTITY_TYPES_WITH_EXPIRY.includes(identityType),
       then: (schema) =>
         schema.test(
           "valid-expiry-format",
@@ -222,12 +242,28 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
                   selectType(IDENTITY_TYPE.BEARER_DEVLXD);
                 }}
               />
+              <FormLink
+                icon="applications"
+                title={
+                  IDENTITY_TYPE_HELP_TEXT[IDENTITY_TYPE.CLUSTER_LINK].title
+                }
+                subText={
+                  IDENTITY_TYPE_HELP_TEXT[IDENTITY_TYPE.CLUSTER_LINK]
+                    .description
+                }
+                subTextBelowTitle
+                onClick={() => {
+                  selectType(IDENTITY_TYPE.CLUSTER_LINK);
+                }}
+              />
             </div>
           </ScrollableContainer>
         ) : (
           <>
             <NameWithGroupForm formik={formik} />
-            {formik.values.identityType !== IDENTITY_TYPE.TLS && (
+            {IDENTITY_TYPES_WITH_EXPIRY.includes(
+              formik.values.identityType,
+            ) && (
               <div className="create-identity-panel-token-expiry u-sv1">
                 <label id="token-expiry-label" htmlFor="expiry">
                   Token expiry
