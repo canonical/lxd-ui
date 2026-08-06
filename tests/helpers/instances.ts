@@ -169,7 +169,23 @@ export const createAndStartInstance = async (
 
 export const visitAndStartInstance = async (page: Page, instance: string) => {
   await visitInstance(page, instance);
-  await page.getByRole("button", { name: "Start", exact: true }).click();
+
+  const startButton = page.getByRole("button", { name: "Start", exact: true });
+  const stopButton = page.getByRole("button", { name: "Stop", exact: true });
+
+  // Wait for action buttons to settle: either instance can be started, or it is already running.
+  await expect(async () => {
+    const startEnabled = await startButton.isEnabled();
+    const stopEnabled = await stopButton.isEnabled();
+    expect(startEnabled || stopEnabled).toBe(true);
+  }).toPass();
+
+  // If Stop is enabled, the instance is already running and no start action is needed.
+  if (await stopButton.isEnabled()) {
+    return;
+  }
+
+  await startButton.click();
   await dismissNotification(page, `Instance ${instance} started.`);
 };
 
