@@ -223,7 +223,7 @@ Use existing [react-components](https://github.com/canonical/react-components) a
 # Supporting multiple lxd versions
 When making a contribution to this project, please take note that the UI should degrade gracefully for all lxd LTS versions later than v5.0. To achieve this, there are two processes that should be followed:
 
-1. When adding a new feature that introduces lxd api endpoints that are not currently used in the project, make sure you check against `api_extensions` returned by the `GET /1.0/` endpoint if the new endpoints used exists for older lxd versions. If the new endpoints are not supported in an older lxd version, then you should either hide or disable a portion of the new feature for the relevant lxd version. A useful `useSupportedFeatures` hook can be used for this purpose. You can also find a comprehensive list of `api_extensions` refrences in the [lxd documentation](https://documentation.ubuntu.com/lxd/en/latest/api-extensions/).
+1. When adding a new feature that introduces lxd api endpoints that are not currently used in the project, make sure you check against `api_extensions` returned by the `GET /1.0/` endpoint if the new endpoints used exists for older lxd versions. If the new endpoints are not supported in an older lxd version, then you should either hide or disable a portion of the new feature for the relevant lxd version. A useful `useSupportedFeatures` hook can be used for this purpose. You can also find a comprehensive list of `api_extensions` refrences in the [lxd documentation](https://canonical.com/lxd/docs/latest/api-extensions/).
 2. You should write e2e tests that covers the new feature for all supported lxd versions. For example, if your feature is hidden for an older lxd server version, you should test that it is not displayed in the browser for that lxd version.
 
 # End-to-end tests
@@ -329,5 +329,5 @@ From the PR page, copy the `user:branch` reference, such as `edlerd:feature-bran
 
 Learn how to 
 - [Setup local LXD cluster](https://github.com/canonical/lxd-ui/wiki/Setup-local-LXD-cluster) inside LXD to enable clustering features
-- [Setup oidc login](https://documentation.ubuntu.com/lxd/latest/howto/oidc_auth0/) to enable SSO authentication
+- [Setup oidc login](https://canonical.com/lxd/docs/latest/howto/oidc_auth0/) to enable SSO authentication
 - See [Architecture](ARCHITECTURE.MD) for details on the dev setup. 

@@ -17,7 +17,7 @@ Targets small and large scale private clouds.
 
        lxc config set core.https_address :8443
 
-3. Done. Access the UI in your browser by entering the server address (for example on localhost, https://127.0.0.1:8443). You can find more information on the UI in the [LXD documentation](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/).
+3. Done. Access the UI in your browser by entering the server address (for example on localhost, https://127.0.0.1:8443). You can find more information on the UI in the [LXD documentation](https://canonical.com/lxd/docs/latest/howto/access_ui/).
 
 # Contributing
 

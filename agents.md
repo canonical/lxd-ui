@@ -686,8 +686,8 @@ yarn clean                    # Clean build artifacts
 
 ## Additional Resources
 
-- [LXD Documentation](https://documentation.ubuntu.com/lxd/en/latest/) — Comprehensive LXD user and administrator guide
-- [LXD API Specification](https://documentation.ubuntu.com/lxd/en/latest/api/) — Complete LXD REST API documentation
+- [LXD Documentation](https://canonical.com/lxd/docs/latest/) — Comprehensive LXD user and administrator guide
+- [LXD API Specification](https://canonical.com/lxd/docs/latest/api/) — Complete LXD REST API documentation
 - [Architecture Deep Dive](ARCHITECTURE.MD)
 - [Contributing Guide](CONTRIBUTING.md)
 - [GitHub Repository](https://github.com/canonical/lxd-ui)
