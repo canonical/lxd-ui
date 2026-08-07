@@ -41,6 +41,7 @@ import {
 import CreateIdentity from "pages/permissions/CreateIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
+import IdentityExpiration from "pages/permissions/IdentityExpiration";
 import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 
 const PermissionIdentities: FC = () => {
@@ -74,6 +75,7 @@ const PermissionIdentities: FC = () => {
     { content: "ID", sortKey: "id", className: "identity-id" },
     { content: "Auth method", sortKey: "authmethod", className: "auth-method" },
     { content: "Type", sortKey: "type", className: "identity-type" },
+    { content: "Expires", sortKey: "expires", className: "expires" },
     {
       content: "Groups",
       sortKey: "groups",
@@ -184,6 +186,11 @@ const PermissionIdentities: FC = () => {
           className: "u-truncate identity-type",
         },
         {
+          content: <IdentityExpiration identity={identity} />,
+          role: "cell",
+          "aria-label": "Expires",
+        },
+        {
           content: getGroupLink(),
           role: "cell",
           className: "u-align--right group-count",
@@ -224,6 +231,7 @@ const PermissionIdentities: FC = () => {
         name: name.toLowerCase(),
         authentication_method: identity.authentication_method,
         type: identity.type,
+        expires: identity.expires_at ?? "",
         groups: identity.groups?.length || 0,
       },
     };

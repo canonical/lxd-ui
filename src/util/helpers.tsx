@@ -34,6 +34,14 @@ export const isoTimeToString = (isoTime: string): string => {
   });
 };
 
+export const isBeforeNow = (time: string): boolean => {
+  if (!time || time === UNDEFINED_DATE) {
+    return false;
+  }
+  const parsed = Date.parse(time);
+  return !Number.isNaN(parsed) && parsed < Date.now();
+};
+
 export const stringToIsoTime = (dateTime: string): string => {
   const date = new Date(dateTime);
   return date.toISOString();
