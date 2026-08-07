@@ -40,14 +40,17 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
     ),
   }));
 
-  const helpLink = (
-    <Link to={`${ROOT_PATH}/ui/cluster/links`}>cluster links</Link>
-  );
-
+  const clusterLinkURL = `${ROOT_PATH}/ui/cluster/links`;
   const helpText = hasNoLinks ? (
-    <>Cluster containing the images. Create your first {helpLink}.</>
+    <>
+      Cluster containing the images. Create your first{" "}
+      <Link to={clusterLinkURL}>cluster link</Link>.
+    </>
   ) : (
-    <>Cluster containing the images. Manage your {helpLink}.</>
+    <>
+      Cluster containing the images. Manage your{" "}
+      <Link to={clusterLinkURL}>cluster links</Link>.
+    </>
   );
 
   return (
