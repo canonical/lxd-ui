@@ -183,7 +183,7 @@ const NetworkForm: FC<Props> = ({
 
   const isManaged = formik.values.bareNetwork?.managed ?? true;
 
-  // see https://documentation.ubuntu.com/lxd/en/latest/reference/networks/
+  // see https://canonical.com/lxd/docs/latest/reference/networks/
   // for details on available sections per type
   const availableSections = [GENERAL];
 

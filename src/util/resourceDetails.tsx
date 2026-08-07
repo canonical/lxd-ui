@@ -28,7 +28,7 @@ export type ResourceType =
   | "volume";
 
 // refer to api spec to see how the names can be extracted from resource url
-// https://documentation.ubuntu.com/lxd/en/latest/api/
+// https://canonical.com/lxd/docs/latest/api/
 export const extractResourceDetailsFromUrl = (
   resourceType: string,
   path: string,

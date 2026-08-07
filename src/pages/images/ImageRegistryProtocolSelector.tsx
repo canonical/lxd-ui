@@ -13,7 +13,7 @@ export const ImageRegistryProtocolSelector: FC<Props> = ({ formik }) => {
       <div>
         <label htmlFor="protocol">Protocol</label>
         <Link
-          to="https://documentation.ubuntu.com/lxd/v5/reference/remote_image_servers/#remote-server-types"
+          to="https://canonical.com/lxd/docs/v5/reference/remote_image_servers/#remote-server-types"
           target="_blank"
           rel="noopener noreferrer"
           className="help-text help-link"
