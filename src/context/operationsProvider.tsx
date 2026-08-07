@@ -143,3 +143,30 @@ export default OperationsProvider;
 export const useOperations = () => {
   return useContext(OperationsContext);
 };
+
+export const useOperationsWithChildren = () => {
+  const { isAuthenticated } = useAuth();
+
+  const {
+    data: operationList,
+    error,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: [queryKeys.operations, "with-children"],
+    queryFn: async () => fetchOperations(null, "2"),
+    enabled: isAuthenticated,
+  });
+
+  const failure = operationList?.failure ?? [];
+  const running = operationList?.running ?? [];
+  const success = operationList?.success ?? [];
+  const operations = [...failure, ...running, ...success];
+
+  return {
+    operations,
+    error,
+    isLoading,
+    isFetching,
+  };
+};

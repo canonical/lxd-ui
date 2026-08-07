@@ -5,6 +5,8 @@ export type LxdOperationStatus =
   | "Success";
 
 export interface LxdOperation {
+  child_count?: number;
+  children?: LxdOperation[];
   class: string;
   created_at: string;
   description: string;

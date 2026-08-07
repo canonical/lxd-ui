@@ -1,4 +1,4 @@
-import { useState, type FC } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import {
   EmptyState,
   Icon,
@@ -11,42 +11,161 @@ import {
   Spinner,
   CustomLayout,
 } from "@canonical/react-components";
-import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
-import { isoTimeToString, nonBreakingSpaces } from "util/helpers";
-import type { LxdOperationStatus } from "types/operation";
-import OperationInstanceName from "pages/operations/OperationInstanceName";
+import { useOperationsWithChildren } from "context/operationsProvider";
 import NotificationRow from "components/NotificationRow";
-import { getInstanceName, getProjectName } from "util/operations";
-import { useOperations } from "context/operationsProvider";
-import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn";
-import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
+import ChildOperationTrigger from "pages/operations/ChildOperationTrigger";
+import OperationDescription from "pages/operations/OperationDescription";
+import OperationTimeDates from "pages/operations/OperationTimeDates";
+import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
+import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn";
+import type { LxdOperation } from "types/operation";
+import {
+  getIconNameForStatus,
+  getInstanceName,
+  getProjectName,
+} from "util/operations";
+import useSortTableData from "util/useSortTableData";
+
+const renderParentFirstColumnContent = ({
+  operation,
+  isExpanded,
+  onToggleExpansion,
+}: {
+  operation: LxdOperation;
+  isExpanded: boolean;
+  onToggleExpansion: (id: string) => void;
+}) => {
+  return (
+    <div className="time-cell-content">
+      <OperationTimeDates operation={operation} />
+      <ChildOperationTrigger
+        operation={operation}
+        isExpanded={isExpanded}
+        onToggleExpansion={onToggleExpansion}
+      />
+    </div>
+  );
+};
+
+const renderChildFirstColumnContent = (operation: LxdOperation) => {
+  return (
+    <>
+      <div className="child-tree-rail">
+        <span className="tree-connector" />
+      </div>
+      <div className="time-cell-content">
+        <OperationTimeDates operation={operation} />
+      </div>
+    </>
+  );
+};
+
+const buildOperationRow = ({
+  operation,
+  className,
+  timeContent,
+  sortData,
+}: {
+  operation: LxdOperation;
+  className: string;
+  timeContent: ReactNode;
+  sortData: Record<string, unknown>;
+}) => {
+  return {
+    key: operation.id,
+    className,
+    columns: [
+      {
+        content: timeContent,
+        role: "cell",
+        "aria-label": "Time",
+        className: "time",
+      },
+      {
+        content: <OperationDescription operation={operation} />,
+        role: "rowheader",
+        "aria-label": "Description",
+        className: "description",
+      },
+      {
+        content: (
+          <>
+            {operation.err && <div>{operation.err}</div>}
+            {Object.entries(operation.metadata ?? {}).map(
+              ([metaKey, value]) => (
+                <div key={metaKey}>
+                  <span title={JSON.stringify(value)}>
+                    {metaKey}: {JSON.stringify(value)}
+                  </span>
+                </div>
+              ),
+            )}
+          </>
+        ),
+        role: "cell",
+        "aria-label": "Details",
+        className: "details",
+      },
+      {
+        content: (
+          <>
+            <Icon
+              name={getIconNameForStatus(operation.status)}
+              className="status-icon"
+            />
+            {operation.status}
+          </>
+        ),
+        role: "cell",
+        "aria-label": "Status",
+        className: "status",
+      },
+      {
+        content: <CancelOperationBtn operation={operation} />,
+        role: "cell",
+        className: "u-align--right cancel",
+        "aria-label": "Actions",
+      },
+    ],
+    sortData,
+  };
+};
 
 const OperationList: FC = () => {
   const notify = useNotify();
-  const { operations, isLoading, error } = useOperations();
+  const { operations, isLoading, error } = useOperationsWithChildren();
+
   const [query, setQuery] = useState<string>("");
+  const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(new Set());
 
   if (error) {
     notify.failure("Loading operations failed", error);
   }
 
+  const toggleRowExpansion = (id: string) => {
+    setExpandedRowIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
   const headers = [
     { content: "Time", className: "time", sortKey: "created_at" },
-    { content: "Action", className: "action", sortKey: "action" },
-    { content: "Info", className: "info" },
+    {
+      content: "Description",
+      className: "description",
+      sortKey: "description",
+    },
+    { content: "Details", className: "details" },
     { content: "Status", className: "status status-header", sortKey: "status" },
     { "aria-label": "Actions", className: "cancel u-align--right" },
   ];
-
-  const getIconNameForStatus = (status: LxdOperationStatus) => {
-    return {
-      Cancelled: "status-failed-small",
-      Failure: "status-failed-small",
-      Running: "status-in-progress-small",
-      Success: "status-succeeded-small",
-    }[status];
-  };
 
   const filteredOperations = operations.filter((operation) => {
     const lowerCaseQuery = query.toLowerCase();
@@ -59,90 +178,50 @@ const OperationList: FC = () => {
     );
   });
 
-  const rows = filteredOperations.map((operation) => {
-    const projectName = getProjectName(operation);
-    return {
-      key: operation.id,
-      className: "u-row",
-      columns: [
-        {
-          content: (
-            <>
-              <div className="date-pair">
-                Initiated:{" "}
-                {nonBreakingSpaces(isoTimeToString(operation.created_at))}
-              </div>
-              <div className="date-pair u-text--muted">
-                Last update:{" "}
-                {nonBreakingSpaces(isoTimeToString(operation.updated_at))}
-              </div>
-            </>
-          ),
-          role: "cell",
-          "aria-label": "Time",
-          className: "time",
-        },
-        {
-          content: (
-            <>
-              <div>{operation.description}</div>
-              <OperationInstanceName operation={operation} />
-              <div className="u-text--muted u-truncate" title={projectName}>
-                Project: {projectName}
-              </div>
-            </>
-          ),
-          role: "rowheader",
-          "aria-label": "Action",
-          className: "action",
-        },
-        {
-          content: (
-            <>
-              {operation.err && <div>{operation.err}</div>}
-              {Object.entries(operation.metadata ?? {}).map(
-                ([key, value], index) => (
-                  <span key={index} title={JSON.stringify(value)}>
-                    {key}: {JSON.stringify(value)}
-                  </span>
-                ),
-              )}
-            </>
-          ),
-          role: "cell",
-          "aria-label": "Info",
-          className: "info",
-        },
-        {
-          content: (
-            <>
-              <Icon
-                name={getIconNameForStatus(operation.status)}
-                className="status-icon"
-              />
-              {operation.status}
-            </>
-          ),
-          role: "cell",
-          "aria-label": "Status",
-          className: "status",
-        },
-        {
-          content: <CancelOperationBtn operation={operation} />,
-          role: "cell",
-          className: "u-align--right cancel",
-          "aria-label": "Actions",
-        },
-      ],
-      sortData: {
-        created_at: operation.created_at,
-        action: operation.description,
-        status: operation.status,
-      },
+  const rows = filteredOperations.flatMap((operation) => {
+    const childOperations = operation.children ?? [];
+    const childCount = childOperations.length || operation.child_count || 0;
+    const hasChildOperations = childCount > 0;
+    const isExpanded = expandedRowIds.has(operation.id);
+
+    const parentRowSortData = {
+      created_at: operation.created_at,
+      description: operation.description,
+      status: operation.status,
     };
+
+    const parentRow = buildOperationRow({
+      operation,
+      className: "u-row",
+      timeContent: renderParentFirstColumnContent({
+        operation,
+        isExpanded,
+        onToggleExpansion: toggleRowExpansion,
+      }),
+      sortData: parentRowSortData,
+    });
+
+    if (!isExpanded || !hasChildOperations) {
+      return [parentRow];
+    }
+
+    const childRows = childOperations.map((child) => {
+      return buildOperationRow({
+        operation: child,
+        className: "u-row child-operation-row",
+        timeContent: renderChildFirstColumnContent(child),
+        sortData: parentRowSortData,
+      });
+    });
+
+    return [parentRow, ...childRows];
   });
 
-  const { rows: sortedRows, updateSort } = useSortTableData({ rows });
+  const { rows: sortedRows, updateSort } = useSortTableData({
+    rows,
+    defaultSort: "created_at",
+    defaultSortDirection: "descending",
+  });
 
   return (
     <>

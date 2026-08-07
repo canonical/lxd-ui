@@ -1,18 +1,20 @@
 import { useEffect, type FC } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { ActionButton, Icon } from "@canonical/react-components";
-import { useOperations } from "context/operationsProvider";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import { useOperationsWithChildren } from "context/operationsProvider";
+import { queryKeys } from "util/queryKeys";
 
 const RefreshOperationsBtn: FC = () => {
-  const { isFetching } = useOperations();
+  const { isFetching } = useOperationsWithChildren();
   const queryClient = useQueryClient();
   const isSmallScreen = useIsScreenBelow();
 
   const handleRefresh = () => {
-    queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
+    queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey[0] === queryKeys.operations,
+    });
   };
 
   // force a refresh on first render

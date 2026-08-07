@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
-import type { LxdOperation, LxdOperationResponse } from "types/operation";
+import type {
+  LxdOperation,
+  LxdOperationResponse,
+  LxdOperationStatus,
+} from "types/operation";
 import type { LxdEvent } from "types/event";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
@@ -138,4 +142,26 @@ export const instanceLinkFromOperation = (args: {
       projectName={project || "default"}
     />
   );
+};
+
+export const countByStatus = (
+  children: LxdOperation[],
+): Partial<Record<LxdOperationStatus, number>> => {
+  return children.reduce<Partial<Record<LxdOperationStatus, number>>>(
+    (statusCount, childOperation) => {
+      statusCount[childOperation.status] =
+        (statusCount[childOperation.status] ?? 0) + 1;
+      return statusCount;
+    },
+    {},
+  );
+};
+
+export const getIconNameForStatus = (status: LxdOperationStatus) => {
+  return {
+    Cancelled: "status-failed-small",
+    Failure: "status-failed-small",
+    Running: "status-in-progress-small",
+    Success: "status-succeeded-small",
+  }[status];
 };
