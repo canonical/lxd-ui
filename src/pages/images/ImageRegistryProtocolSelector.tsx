@@ -1,8 +1,8 @@
 import { type FC } from "react";
-import { RadioInput, Icon } from "@canonical/react-components";
+import { RadioInput } from "@canonical/react-components";
+import HelpLink from "components/HelpLink";
 import type { FormikProps } from "formik";
 import type { ImageRegistryFormValues } from "types/forms/image";
-import { Link } from "react-router-dom";
 
 interface Props {
   formik: FormikProps<ImageRegistryFormValues>;
@@ -10,18 +10,14 @@ interface Props {
 export const ImageRegistryProtocolSelector: FC<Props> = ({ formik }) => {
   return (
     <div className="image-registry-protocol-selector">
-      <div>
-        <label htmlFor="protocol">Protocol</label>
-        <Link
-          to="https://canonical.com/lxd/docs/v5/reference/remote_image_servers/#remote-server-types"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="help-text help-link"
-          title="Learn more about remote server types."
-        >
-          <Icon name="help" className="help-link-icon" />
-        </Link>
-      </div>
+      <HelpLink
+        docPath="/reference/remote_image_servers/#remote-server-types"
+        title="Learn more about remote server types."
+      >
+        <label htmlFor="protocol" className="u-no-margin--bottom">
+          Protocol
+        </label>
+      </HelpLink>
       <div id="protocol">
         <RadioInput
           inline
