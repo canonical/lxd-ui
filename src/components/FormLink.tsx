@@ -26,7 +26,7 @@ const FormLink: FC<Props> = ({
   return (
     <Button
       appearance="base"
-      className={classnames("form-link", {
+      className={classnames("form-link u-no-margin--bottom", {
         "form-link--subtext-below": subTextBelowTitle,
       })}
       onClick={onClick}
@@ -39,7 +39,7 @@ const FormLink: FC<Props> = ({
         <span className="form-link__title-wrapper">
           <span className="form-link__title">{title}</span>
           {subTextBelowTitle && subText && (
-            <span className="form-link__subtext u-text--muted p-text--small">
+            <span className="form-link__subtext u-text--muted p-text--small u-no-margin--bottom">
               {subText}
             </span>
           )}

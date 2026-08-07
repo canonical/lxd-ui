@@ -3,6 +3,8 @@
 button.form-link {
   align-items: center;
   display: flex;
+  padding-bottom: $spv--large;
+  padding-top: $spv--large;
   width: 100%;
 
   .form-link__column {
