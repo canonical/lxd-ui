@@ -10,7 +10,8 @@ import {
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import type { IdentityFormValues } from "types/forms/identity";
-import { IDENTITY_TYPE } from "util/permissionIdentities";
+import { getIdentityIconType } from "util/permissionIdentities";
+import type { LxdIdentity } from "types/permissions";
 
 interface Props {
   onClose: () => void;
@@ -41,11 +42,9 @@ const CreateIdentityModal: FC<Props> = ({
         <>
           Identity{" "}
           <ResourceLabel
-            type={
-              identity.identityType === IDENTITY_TYPE.TLS
-                ? "certificate"
-                : "token-bearer"
-            }
+            type={getIdentityIconType(
+              identity.identityType as LxdIdentity["type"],
+            )}
             value={identity.name}
             bold
             truncate

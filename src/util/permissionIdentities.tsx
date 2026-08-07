@@ -10,9 +10,15 @@ export const IDENTITY_TYPE = {
   TLS: "tls-certificate",
   BEARER_CLIENT: "Client token bearer",
   BEARER_DEVLXD: "DevLXD token bearer",
+  CLUSTER_LINK: "Cluster link certificate",
 } as const;
 
 export type IdentityType = (typeof IDENTITY_TYPE)[keyof typeof IDENTITY_TYPE];
+
+export const IDENTITY_TYPES_WITH_EXPIRY: IdentityType[] = [
+  IDENTITY_TYPE.BEARER_CLIENT,
+  IDENTITY_TYPE.BEARER_DEVLXD,
+];
 
 export type BearerIdentityType = Extract<
   IdentityType,
@@ -253,22 +259,29 @@ export const IDENTITY_TYPE_HELP_TEXT: Record<
       </>
     ),
   },
+  [IDENTITY_TYPE.CLUSTER_LINK]: {
+    title: "Cluster link certificate",
+    description: (
+      <>
+        Allows another LXD cluster to establish a unidirectional cluster link to
+        this cluster.
+      </>
+    ),
+  },
 };
 
 export const CREATE_IDENTITY_MODAL_TEXT: Record<
   IdentityType,
   {
     codeSnippetTitle: string;
-    notificationTitle: string;
-    notificationBody: string;
+    notification: string;
     howToUseCli?: (token: string) => ReactNode;
     howToUseUi?: ReactNode;
   }
 > = {
   [IDENTITY_TYPE.TLS]: {
     codeSnippetTitle: "Your identity trust token",
-    notificationTitle: "Copy the identity trust token",
-    notificationBody: "to authenticate your client.",
+    notification: "Copy the identity trust token to authenticate your client.",
     howToUseCli: (token: string) => (
       <>
         For use with the LXC command-line tool, run:
@@ -305,8 +318,8 @@ export const CREATE_IDENTITY_MODAL_TEXT: Record<
   },
   [IDENTITY_TYPE.BEARER_CLIENT]: {
     codeSnippetTitle: "Your API bearer token",
-    notificationTitle: "Copy the API bearer token",
-    notificationBody: "to authenticate your clients and automated tools.",
+    notification:
+      "Copy the API bearer token to authenticate your clients and automated tools.",
     howToUseCli: (token: string) => (
       <List
         className="u-no-margin--bottom"
@@ -337,8 +350,8 @@ export const CREATE_IDENTITY_MODAL_TEXT: Record<
   },
   [IDENTITY_TYPE.BEARER_DEVLXD]: {
     codeSnippetTitle: "Your DevLXD bearer token",
-    notificationTitle: "Copy the DevLXD bearer token",
-    notificationBody: "to authenticate internal workloads.",
+    notification:
+      "Copy the DevLXD bearer token to authenticate internal workloads.",
     howToUseCli: (token: string) => (
       <List
         className="u-no-margin--bottom"
@@ -374,6 +387,55 @@ export const CREATE_IDENTITY_MODAL_TEXT: Record<
           >
             How to authenticate to the DevLXD API
           </DocLink>,
+        ]}
+      />
+    ),
+  },
+
+  [IDENTITY_TYPE.CLUSTER_LINK]: {
+    codeSnippetTitle: "Your cluster link token",
+    notification:
+      "Copy the token to continue the cluster link creation on the source cluster.",
+    howToUseCli: (token: string) => (
+      <List
+        className="u-no-margin--bottom"
+        items={[
+          <>Create the cluster link on the source LXD cluster.</>,
+          <CodeSnippetWithCopyButton
+            code={`lxc cluster link create ${location.hostname} --unidirectional --token ${token}`}
+            tooltipMessage="Copy command"
+            className="u-no-margin--bottom"
+            key="code-snippet"
+          />,
+          <span className="u-text--muted p-text--small u-sv3" key="hint">
+            You can replace <code>{location.hostname}</code> with a nickname for
+            the cluster link.
+          </span>,
+          <DocLink
+            docPath="/howto/cluster_links_create/"
+            key="learn-more-link"
+            hasExternalIcon
+          >
+            How to create cluster links
+          </DocLink>,
+        ]}
+      />
+    ),
+    howToUseUi: (
+      <List
+        className="u-no-margin--bottom"
+        items={[
+          <>
+            Open the UI of the <b>source</b> LXD cluster.
+          </>,
+          <>
+            Go to <b>Clustering</b>, <b>Links</b> and select{" "}
+            <b>Create cluster link</b>.
+          </>,
+          <>
+            Select <b>unidirectional</b>.
+          </>,
+          <>Paste the token from this cluster to create the link.</>,
         ]}
       />
     ),

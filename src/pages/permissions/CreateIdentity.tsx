@@ -38,7 +38,7 @@ const CreateIdentity: FC = () => {
             token={token}
             identity={identity}
             title={identityModalCaptions.codeSnippetTitle}
-            notification={`${identityModalCaptions.notificationTitle} ${identityModalCaptions.notificationBody}`}
+            notification={identityModalCaptions.notification}
             howToUseCli={identityModalCaptions.howToUseCli?.(token)}
             howToUseUi={identityModalCaptions.howToUseUi}
           />
