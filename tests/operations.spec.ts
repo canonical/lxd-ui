@@ -3,6 +3,7 @@ import { getLxcCmd } from "./helpers/auth";
 import {
   createInstance,
   deleteInstance,
+  getInstanceCount,
   randomInstanceName,
   visitAndStartInstance,
   visitAndStopInstance,
@@ -50,28 +51,30 @@ test("bulk stop operation renders and expands child operations", async ({
   await visitAndStartInstance(page, secondInstance);
 
   const lxc = getLxcCmd();
+  const instanceCount = getInstanceCount("default");
   runCommand(`${lxc} stop --all --project default`);
 
   await visitOperations(page);
 
-  const childOperationsChip = page
-    .getByRole("button", { name: /2 child operations/i })
-    .first();
+  const childOperationsChip = page.getByRole("button", {
+    name: `${instanceCount} child operations`,
+  });
   await expect(childOperationsChip).toBeVisible();
-
   await childOperationsChip.click();
 
   const childRows = page.locator(
     "#operation-table tbody tr.child-operation-row",
   );
-  await expect(childRows).toHaveCount(2);
+  await expect(childRows).toHaveCount(instanceCount);
 
   const firstChildRow = childRows.filter({ hasText: firstInstance });
+  await expect(firstChildRow).toBeVisible();
   await expect(firstChildRow).toContainText("Stopping instance");
   await expect(firstChildRow).toContainText("Project: default");
   await expect(firstChildRow).toContainText("Success");
 
   const secondChildRow = childRows.filter({ hasText: secondInstance });
+  await expect(secondChildRow).toBeVisible();
   await expect(secondChildRow).toContainText("Stopping instance");
   await expect(secondChildRow).toContainText("Project: default");
   await expect(secondChildRow).toContainText("Success");
