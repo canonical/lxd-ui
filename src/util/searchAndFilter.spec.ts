@@ -1,3 +1,4 @@
+import type { SearchAndFilterChip } from "@canonical/react-components/dist/components/SearchAndFilter/types";
 import {
   paramsFromSearchData,
   searchChipBaseUrl,
@@ -66,6 +67,34 @@ describe("paramsFromSearchData, searchParamsToChips and searchChipBaseUrl", () =
     expect(results[1].value).toBe("simpson");
     expect(results[2].lead).toBe("foo");
     expect(results[2].value).toBe("foo1");
+  });
+
+  it("applies mapChip when translating url params to search chips", () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append("query", "homer");
+    searchParams.append("foo", "foo1");
+    const queryParams = ["query", "foo"];
+
+    const mapChip = (chip: SearchAndFilterChip): SearchAndFilterChip => {
+      if (chip.lead === "foo") {
+        return { ...chip, appearance: "information" };
+      }
+      return { ...chip, value: `${chip.value}-mapped` };
+    };
+
+    const results = searchParamsToChips(searchParams, queryParams, mapChip);
+
+    expect(results.length).toBe(2);
+
+    // Query chips keep query semantics and still pass through mapChip.
+    expect(results[0].quoteValue).toBe(true);
+    expect(results[0].value).toBe("homer-mapped");
+    expect(results[0].lead).toBeUndefined();
+
+    // Non-query chips can be enriched by mapChip.
+    expect(results[1].lead).toBe("foo");
+    expect(results[1].value).toBe("foo1");
+    expect(results[1].appearance).toBe("information");
   });
 
   it("searchChipBaseUrl preserves query params listed and drops those not listed", () => {

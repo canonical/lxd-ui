@@ -1,10 +1,12 @@
 import { useState, useEffect, type FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Row,
   ScrollableTable,
   useNotify,
   Spinner,
   CustomLayout,
+  Chip,
 } from "@canonical/react-components";
 import { fetchWarnings } from "api/warnings";
 import { isoTimeToString } from "util/helpers";
@@ -12,13 +14,18 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
 import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
-import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import PageHeader from "components/PageHeader";
-import WarningSearchFilter from "./WarningSearchFilter";
-import { useSearchParams } from "react-router-dom";
+import WarningSearchFilter from "pages/warnings/WarningSearchFilter";
+import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
 import type { LxdWarningSeverity, LxdWarningStatus } from "types/warning";
-import type { WarningFilters } from "util/warningFilter";
+import {
+  getSeverityChipAppearance,
+  QUERY,
+  SEVERITY,
+  STATUS,
+  type WarningFilters,
+} from "util/warningFilter";
 
 const WarningList: FC = () => {
   const notify = useNotify();
@@ -43,9 +50,9 @@ const WarningList: FC = () => {
   const hasWarnings = isLoading || warnings.length > 0;
 
   const filters: WarningFilters = {
-    queries: searchParams.getAll("query").map((value) => value.toLowerCase()),
-    statuses: searchParams.getAll("status") as LxdWarningStatus[],
-    severities: searchParams.getAll("severity") as LxdWarningSeverity[],
+    queries: searchParams.getAll(QUERY).map((value) => value.toLowerCase()),
+    statuses: searchParams.getAll(STATUS) as LxdWarningStatus[],
+    severities: searchParams.getAll(SEVERITY) as LxdWarningSeverity[],
   };
 
   const filteredWarnings = warnings.filter((item) => {
@@ -125,7 +132,12 @@ const WarningList: FC = () => {
           className: "status",
         },
         {
-          content: warning.severity,
+          content: (
+            <Chip
+              value={warning.severity}
+              appearance={getSeverityChipAppearance(warning.severity)}
+            />
+          ),
           role: "cell",
           "aria-label": "Severity",
           className: "severity",

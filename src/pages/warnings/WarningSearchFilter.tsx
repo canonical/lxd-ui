@@ -9,13 +9,15 @@ import {
   paramsFromSearchData,
   searchParamsToChips,
 } from "util/searchAndFilter";
-import { warningSeverities, warningStatuses } from "util/warningFilter";
-
-export const QUERY = "query";
-export const STATUS = "status";
-export const SEVERITY = "severity";
-
-const QUERY_PARAMS = [QUERY, STATUS, SEVERITY];
+import {
+  enhanceSeverityChipWithAppearance,
+  getSeverityChipAppearance,
+  warningSeverities,
+  SEVERITY,
+  STATUS,
+  WARNING_QUERY_PARAMS,
+  warningStatuses,
+} from "util/warningFilter";
 
 const WarningSearchFilter: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,7 +34,11 @@ const WarningSearchFilter: FC = () => {
       id: 2,
       heading: "Severity",
       chips: warningSeverities.map((severity) => {
-        return { lead: SEVERITY, value: severity };
+        return {
+          lead: SEVERITY,
+          value: severity,
+          appearance: getSeverityChipAppearance(severity),
+        };
       }),
     },
   ];
@@ -41,7 +47,7 @@ const WarningSearchFilter: FC = () => {
     const newParams = paramsFromSearchData(
       searchData,
       searchParams,
-      QUERY_PARAMS,
+      WARNING_QUERY_PARAMS,
     );
 
     if (newParams.toString() !== searchParams.toString()) {
@@ -53,7 +59,11 @@ const WarningSearchFilter: FC = () => {
     <>
       <h2 className="u-off-screen">Search and filter</h2>
       <SearchAndFilter
-        existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}
+        existingSearchData={searchParamsToChips(
+          searchParams,
+          WARNING_QUERY_PARAMS,
+          enhanceSeverityChipWithAppearance,
+        )}
         filterPanelData={searchAndFilterData}
         returnSearchData={onSearchDataChange}
         onExpandChange={() => {
