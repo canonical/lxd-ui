@@ -29,22 +29,29 @@ export const visitClusterLinks = async (page: Page) => {
   ).toBeVisible();
 };
 
-export const createClusterLink = async (
+export const createClusterLinkBidirectional = async (
   page: Page,
   link: string,
   token?: string,
 ) => {
   await page.getByRole("button", { name: "Create cluster link" }).click();
   await expect(
-    page.getByRole("heading", { name: "Create cluster link" }),
+    page.getByRole("heading", { name: "Choose cluster link type" }),
   ).toBeVisible();
+  await page.getByRole("button", { name: "Bidirectional" }).click();
+
+  if (token) {
+    await page.getByLabel("Token setup").selectOption("consume");
+    await page.getByPlaceholder("Enter token").fill(token);
+  } else {
+    await page.getByLabel("Token setup").selectOption("generate");
+  }
+
   await page.getByPlaceholder("Enter name").fill(link);
   const panel = page.getByLabel("Side panel");
-  if (token) {
-    await page.getByText("I have a token").click();
-    await page.getByPlaceholder("Enter token").fill(token);
-  }
+
   panel.getByRole("rowheader").filter({ hasText: "admins" }).click();
+
   await panel.getByRole("button", { name: "Create link" }).click();
 
   await expect(page.getByText(`Cluster link ${link} created`)).toBeVisible();
@@ -55,6 +62,26 @@ export const createClusterLink = async (
   } else {
     await dismissNotification(page, `Cluster link ${link} created.`);
   }
+};
+
+export const createClusterLinkUnidirectional = async (
+  page: Page,
+  link: string,
+  token: string,
+) => {
+  await page.getByRole("button", { name: "Create cluster link" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Choose cluster link type" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Unidirectional" }).click();
+
+  await page.getByPlaceholder("Enter token").fill(token);
+  await page.getByPlaceholder("Enter name").fill(link);
+  const panel = page.getByLabel("Side panel");
+  await panel.getByRole("button", { name: "Create link" }).click();
+
+  await dismissNotification(page, `Cluster link ${link} created.`);
 };
 
 export const editClusterLink = async (page: Page, link: string) => {
@@ -97,4 +124,24 @@ export const createClusterLinkOnRemoteCluster = (link: string) => {
 export const deleteClusterLinkOnRemoteCluster = (link: string) => {
   const remoteVm = getRemoteClusterVm();
   runCommand(`lxc exec ${remoteVm} -- sh -c 'lxc cluster link delete ${link}'`);
+};
+
+export const createIdentityOnRemoteCluster = (link: string) => {
+  const remoteVm = getRemoteClusterVm();
+  const generateIdentityCmd = `lxc auth identity create cluster-link/${link} --group admins`;
+  const output = runCommand(
+    `lxc exec ${remoteVm} -- sh -c '${generateIdentityCmd}'`,
+  )
+    .toString()
+    .trim();
+
+  // Extract token from the output (it's on the last line)
+  return output.split("\n").pop() || "";
+};
+
+export const deleteIdentityOnRemoteCluster = (link: string) => {
+  const remoteVm = getRemoteClusterVm();
+  runCommand(
+    `lxc exec ${remoteVm} -- sh -c 'lxc auth identity delete tls/${link}'`,
+  );
 };

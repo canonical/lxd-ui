@@ -44,11 +44,13 @@ export interface LxdClusterGroup {
 
 export type ClusterSpecificValues = Record<string, string>;
 
+export type LxdClusterLinkType = "bidirectional" | "unidirectional";
+
 export interface LxdClusterLink {
   config: Record<string, string>;
   description: string;
   name: string;
-  type: string;
+  type: LxdClusterLinkType;
   access_entitlements?: string[];
   used_by?: string[];
 }

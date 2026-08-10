@@ -7,20 +7,24 @@ import {
   Row,
   ScrollableContainer,
   SidePanel,
+  useListener,
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, type FC } from "react";
+import { useState, type FC, type MouseEvent } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { createClusterLink } from "api/cluster-links";
 import { base64EncodeObject, checkDuplicateName } from "util/helpers";
-import ClusterLinkForm, {
-  type ClusterLinkFormValues,
-} from "pages/cluster/ClusterLinkForm";
+import ClusterLinkForm from "pages/cluster/ClusterLinkForm";
 import ClusterLinkRichChip from "../ClusterLinkRichChip";
+import ClusterLinkDirectionSelection from "pages/cluster/ClusterLinkDirectionSelection";
+import BackLink from "components/BackLink";
+import type { ClusterLinkFormValues } from "types/forms/clusterLink";
+
+type CreateLinkFlowStep = "direction-selection" | "details";
 
 interface Props {
   onSuccess: (identityName: string, token: string) => void;
@@ -29,9 +33,28 @@ interface Props {
 const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
   const panelParams = usePanelParams();
   const [error, setError] = useState<NotificationType | null>(null);
+  const [currentStep, setCurrentStep] = useState<CreateLinkFlowStep>(
+    "direction-selection",
+  );
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+
+  const handleEscKey = (e: KeyboardEvent) => {
+    if (e.key !== "Escape") {
+      return;
+    }
+    switch (currentStep) {
+      case "direction-selection":
+        closePanel();
+        break;
+      case "details":
+        goToDirectionSelection();
+        break;
+    }
+  };
+
+  useListener(window, handleEscKey, "keydown", true);
 
   const closePanel = () => {
     panelParams.clear();
@@ -47,10 +70,10 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
           checkDuplicateName(value, "", controllerState, "cluster/links"),
       )
       .required("Link name is required"),
-    token: Yup.string().when("tokenType", {
-      is: "consume",
-      then: (schema) =>
-        schema.required("Token is required when consuming a token"),
+    token: Yup.string().when(["tokenType", "type"], {
+      is: (tokenType: string, type: string) =>
+        tokenType === "consume" || type === "unidirectional",
+      then: (schema) => schema.required("Token is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
   });
@@ -60,23 +83,31 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
       name: "",
       description: "",
       token: "",
-      tokenType: "generate",
+      tokenType: undefined,
       authGroups: [],
       isCreating: true,
+      type: "bidirectional",
     },
     validationSchema: clusterLinkSchema,
     onSubmit: (values) => {
+      const isBidirectional = values.type === "bidirectional";
+      const hasToken = values.tokenType === "consume" || !isBidirectional;
+
       const payload = {
         name: values.name,
         description: values.description,
-        trust_token: values.tokenType === "consume" ? values.token : undefined,
-        auth_groups: values.authGroups,
-        type: "bidirectional",
+        trust_token: hasToken ? values.token : undefined,
+        auth_groups: isBidirectional ? values.authGroups : undefined,
+        type: values.type,
       };
 
       createClusterLink(JSON.stringify(payload))
         .then((response) => {
-          if (formik.values.tokenType === "generate" && response) {
+          if (
+            formik.values.type === "bidirectional" &&
+            formik.values.tokenType === "generate" &&
+            response
+          ) {
             const encodedToken = base64EncodeObject(response);
             onSuccess(values.name, encodedToken);
           } else {
@@ -104,10 +135,30 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
     },
   });
 
+  const goToDirectionSelection = () => {
+    setCurrentStep("direction-selection");
+  };
+
+  const goToDetailsStep = () => {
+    setCurrentStep("details");
+  };
+
   return (
-    <SidePanel className="cluster-link-panel">
+    <SidePanel>
       <SidePanel.Header>
-        <SidePanel.HeaderTitle>Create cluster link</SidePanel.HeaderTitle>
+        <SidePanel.HeaderTitle>
+          {currentStep === "direction-selection" && "Choose cluster link type"}
+          {currentStep === "details" && (
+            <BackLink
+              linkText="Choose type"
+              title="Create cluster link"
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => {
+                e.preventDefault();
+              }}
+              onClick={goToDirectionSelection}
+            />
+          )}
+        </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <Row className="u-no-padding">
         {error && (
@@ -123,35 +174,59 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
         )}
       </Row>
       <SidePanel.Content className="u-no-padding">
-        <ScrollableContainer dependencies={[error]} belowIds={["panel-footer"]}>
-          <ClusterLinkForm formik={formik} />
+        <ScrollableContainer
+          dependencies={[currentStep, error]}
+          belowIds={["panel-footer"]}
+        >
+          {currentStep === "direction-selection" && (
+            <ClusterLinkDirectionSelection
+              onSelect={(type) => {
+                formik.setFieldValue("type", type);
+                goToDetailsStep();
+              }}
+            />
+          )}
+          {currentStep === "details" && <ClusterLinkForm formik={formik} />}
         </ScrollableContainer>
       </SidePanel.Content>
       <SidePanel.Footer className="u-align--right">
-        <Button
-          appearance="base"
-          onClick={closePanel}
-          className="u-no-margin--bottom"
-          disabled={formik.isSubmitting}
-        >
-          Cancel
-        </Button>
-        <ActionButton
-          appearance="positive"
-          loading={formik.isSubmitting}
-          onClick={() => void formik.submitForm()}
-          className="u-no-margin--bottom"
-          disabled={
-            !formik.isValid || formik.isSubmitting || !formik.values.name
-          }
-          title={
-            formik.values.name
-              ? undefined
-              : "Please enter a name before submitting the form"
-          }
-        >
-          Create link
-        </ActionButton>
+        {currentStep === "direction-selection" && (
+          <Button
+            appearance="base"
+            onClick={closePanel}
+            className="u-no-margin--bottom"
+          >
+            Cancel
+          </Button>
+        )}
+        {currentStep === "details" && (
+          <>
+            <Button
+              appearance="base"
+              onClick={goToDirectionSelection}
+              className="u-no-margin--bottom"
+              disabled={formik.isSubmitting}
+            >
+              Back
+            </Button>
+            <ActionButton
+              appearance="positive"
+              loading={formik.isSubmitting}
+              onClick={() => void formik.submitForm()}
+              className="u-no-margin--bottom"
+              disabled={
+                !formik.isValid || formik.isSubmitting || !formik.values.name
+              }
+              title={
+                formik.values.name
+                  ? undefined
+                  : "Please enter a name before submitting the form"
+              }
+            >
+              Create link
+            </ActionButton>
+          </>
+        )}
       </SidePanel.Footer>
     </SidePanel>
   );

@@ -11,6 +11,7 @@ interface Props {
   subTextBelowTitle?: boolean;
   disabled?: boolean;
   onHoverText?: string;
+  className?: string;
 }
 
 const FormLink: FC<Props> = ({
@@ -22,13 +23,18 @@ const FormLink: FC<Props> = ({
   isModified,
   disabled,
   onHoverText,
+  className,
 }) => {
   return (
     <Button
       appearance="base"
-      className={classnames("form-link u-no-margin--bottom", {
-        "form-link--subtext-below": subTextBelowTitle,
-      })}
+      className={classnames(
+        "form-link u-no-margin--bottom",
+        {
+          "form-link--subtext-below": subTextBelowTitle,
+        },
+        className,
+      )}
       onClick={onClick}
       type="button"
       disabled={disabled}

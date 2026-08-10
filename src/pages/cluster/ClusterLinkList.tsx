@@ -154,7 +154,10 @@ const ClusterLinkList: FC = () => {
 
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
   const isEmptyState = clusterLinks.length === 0 && !isLoading;
-  const panelIdentity = getLinkIdentity(identities, panelParams.identity);
+  const panelIdentity = getLinkIdentity(identities, panelParams.clusterLink);
+  const panelLink = clusterLinks.find(
+    (link) => link.name === panelParams.clusterLink,
+  );
 
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading cluster links..." />;
@@ -223,8 +226,11 @@ const ClusterLinkList: FC = () => {
         </Row>
       </BaseLayout>
       <CreateClusterLink />
-      {panelParams.panel === panels.editClusterLink && panelIdentity && (
-        <EditClusterLinkPanel identity={panelIdentity} />
+      {panelParams.panel === panels.editClusterLink && panelLink && (
+        <EditClusterLinkPanel
+          identity={panelIdentity}
+          clusterLink={panelLink}
+        />
       )}
     </>
   );

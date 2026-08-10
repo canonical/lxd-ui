@@ -31,7 +31,7 @@ export interface PanelHelper {
   openCreateStorageBucketKey: (project: string) => void;
   openCreateIdentity: () => void;
   openEditClusterGroup: (group: string) => void;
-  openEditClusterLink: (link: string) => void;
+  openEditClusterLink: (clusterLink: string) => void;
   openEditGroup: (group: string, subForm?: GroupSubForm) => void;
   openEditIdpGroup: (group: string) => void;
   openCreatePlacementGroup: () => void;
@@ -203,8 +203,8 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.editClusterGroups, { group });
     },
 
-    openEditClusterLink: (identity) => {
-      setPanelParams(panels.editClusterLink, { identity });
+    openEditClusterLink: (clusterLink) => {
+      setPanelParams(panels.editClusterLink, { "cluster-link": clusterLink });
     },
 
     openEditGroup: (group, subForm) => {
