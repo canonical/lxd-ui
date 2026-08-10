@@ -9,6 +9,7 @@ import {
   CustomLayout,
   NotificationConsumer,
 } from "@canonical/react-components";
+import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { useEffect, useState, type FC } from "react";
@@ -22,11 +23,10 @@ import PermissionIdentitiesFilter, {
   type PermissionIdentitiesFilterType,
 } from "./PermissionIdentitiesFilter";
 import { useSettings } from "context/useSettings";
-import EditIdentityGroupsBtn from "./actions/EditIdentityGroupsBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
-import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
+import EditIdentityPanel from "./panels/EditIdentityPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
@@ -41,6 +41,7 @@ import {
 import CreateIdentity from "pages/permissions/CreateIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
+import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -118,15 +119,15 @@ const PermissionIdentities: FC = () => {
 
   const rows = filteredIdentities.map((identity) => {
     const isLoggedInIdentity = settings?.auth_user_name === identity.id;
-    const openGroupPanelForIdentity = () => {
-      panelParams.openIdentityGroups(identity.id);
+    const openEditIdentityPanel = () => {
+      panelParams.openEditIdentity(identity.id);
       setSelectedIdentityIds([identity.id]);
     };
 
     const getGroupLink = () => {
       if (canEditIdentity(identity)) {
         return (
-          <Button appearance="link" dense onClick={openGroupPanelForIdentity}>
+          <Button appearance="link" dense onClick={openEditIdentityPanel}>
             {identity.groups?.length || 0}
           </Button>
         );
@@ -196,17 +197,17 @@ const PermissionIdentities: FC = () => {
                 className="u-no-margin--bottom"
                 hasIcon
                 dense
-                onClick={openGroupPanelForIdentity}
+                onClick={openEditIdentityPanel}
                 type="button"
-                aria-label="Manage groups"
+                aria-label="Edit identity"
                 title={
-                  canEditIdentity()
-                    ? "Manage groups"
+                  canEditIdentity(identity)
+                    ? "Edit identity"
                     : "You do not have permission to modify this identity"
                 }
                 disabled={!canEditIdentity(identity)}
               >
-                <Icon name="user-group" />
+                <Icon name="edit" />
               </Button>
               {hasAccessManagementTLS && (
                 <DeleteIdentityBtn identity={identity} />
@@ -240,6 +241,10 @@ const PermissionIdentities: FC = () => {
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
+
+  const editedIdentity = identities.find(
+    (identity) => identity.id === panelParams.identity,
+  );
 
   const getTablePaginationDescription = () => {
     // This is needed because TablePagination does not cater for plural identity
@@ -351,6 +356,14 @@ const PermissionIdentities: FC = () => {
       {panelParams.panel === panels.identityGroups && (
         <EditIdentityGroupsPanel
           identities={selectedIdentities}
+          onClose={() => {
+            setSelectedIdentityIds([]);
+          }}
+        />
+      )}
+      {panelParams.panel === panels.editIdentity && editedIdentity && (
+        <EditIdentityPanel
+          identity={editedIdentity}
           onClose={() => {
             setSelectedIdentityIds([]);
           }}

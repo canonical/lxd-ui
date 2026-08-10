@@ -21,9 +21,10 @@ interface Props {
   notification: string;
   howToUseCli?: ReactNode;
   howToUseUi?: ReactNode;
+  titleSuffix?: string;
 }
 
-const CreateIdentityModal: FC<Props> = ({
+const IdentityTokenModal: FC<Props> = ({
   onClose,
   token,
   identity,
@@ -31,13 +32,14 @@ const CreateIdentityModal: FC<Props> = ({
   notification,
   howToUseCli,
   howToUseUi,
+  titleSuffix = "created successfully",
 }) => {
   const [isConfirmed, setConfirmed] = useState(false);
   const [howToUseActiveTab, setHowToUseActiveTab] = useState("ui-tab");
 
   return (
     <Modal
-      className="create-tls-identity"
+      className="identity-token-modal"
       title={
         <>
           Identity{" "}
@@ -49,7 +51,7 @@ const CreateIdentityModal: FC<Props> = ({
             bold
             truncate
           />{" "}
-          created successfully
+          {titleSuffix}
         </>
       }
       buttonRow={[
@@ -124,4 +126,4 @@ const CreateIdentityModal: FC<Props> = ({
   );
 };
 
-export default CreateIdentityModal;
+export default IdentityTokenModal;

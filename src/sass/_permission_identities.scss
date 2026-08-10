@@ -1,3 +1,9 @@
+.issue-token-button-wrapper {
+  align-self: flex-end;
+  margin-bottom: 0.7rem;
+  margin-left: 0.8rem;
+}
+
 .permission-identities-list {
   .permission-identities-table {
     .auth-method {
@@ -71,12 +77,25 @@
   margin-top: $spv--large;
 }
 
-.create-identity-panel-token-expiry {
+.token-expiry-selector {
   padding-left: $spv--x-small;
 }
 
-.create-identity-panel-token-expiry-custom-container {
+.token-expiry-custom {
   align-items: flex-start;
   display: flex;
   gap: $sph--large;
+}
+
+.edit-identity-panel {
+  padding-top: 0 !important;
+
+  .p-panel__content {
+    margin-left: 0;
+    padding-top: 0;
+  }
+
+  tr:last-child {
+    border: 0;
+  }
 }

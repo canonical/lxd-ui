@@ -6,8 +6,8 @@ import {
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
 import { addEntitlements } from "util/entitlements/api";
-import type { BearerIdentityType } from "util/permissionIdentities";
 import { AUTH_METHOD } from "util/authentication";
+import type { BearerIdentityType } from "util/permissionIdentities";
 import { ROOT_PATH } from "util/rootPath";
 
 export const identitiesEntitlements = ["can_delete", "can_edit"];
@@ -131,7 +131,7 @@ const createBearerIdentity = async (
   }).then(handleResponse);
 };
 
-const issueBearerToken = async (
+export const issueBearerToken = async (
   name: string,
   expiry: string,
 ): Promise<{

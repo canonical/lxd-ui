@@ -5,9 +5,9 @@ import { pluralize } from "util/helpers";
 
 interface Props {
   modifiedGroups: Set<string>;
-  undoChange: () => void;
   closePanel: () => void;
   onSubmit: () => void;
+  undoChange?: () => void;
   loading?: boolean;
   disabled?: boolean;
   actionText?: string;
@@ -30,7 +30,7 @@ const GroupSelectionActions: FC<Props> = ({
 
   return (
     <>
-      {isEdit && modifiedGroups.size ? (
+      {isEdit && modifiedGroups.size && undoChange ? (
         <ModifiedStatusAction
           modifiedCount={modifiedGroups.size}
           onUndoChange={undoChange}

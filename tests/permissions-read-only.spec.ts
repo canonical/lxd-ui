@@ -449,7 +449,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await page.getByPlaceholder("Filter").fill(identityName);
     await page.keyboard.press("Enter");
     await page.waitForTimeout(200); // wait for filter to apply
-    await expect(page.getByLabel("Manage groups")).toBeDisabled();
+    await expect(page.getByLabel("Edit identity")).toBeDisabled();
     await expect(page.getByLabel("Delete identity")).toBeDisabled();
   });
 

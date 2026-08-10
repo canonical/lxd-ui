@@ -1,8 +1,6 @@
 import {
   ActionButton,
   Button,
-  Input,
-  RadioInput,
   ScrollableContainer,
   SidePanel,
   useNotify,
@@ -21,10 +19,12 @@ import {
   createFineGrainedTlsIdentity,
 } from "api/auth-identities";
 import NameWithGroupForm from "pages/permissions/forms/NameWithGroupForm";
+import TokenExpirySelector from "pages/permissions/panels/TokenExpirySelector";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { base64EncodeObject } from "util/helpers";
 import {
   BEARER_EXPIRY_PATTERN,
+  BEARER_EXPIRY_VALIDATION_TEXT,
   IDENTITY_TYPE,
   IDENTITY_TYPE_HELP_TEXT,
   IDENTITY_TYPES_WITH_EXPIRY,
@@ -153,7 +153,7 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
       then: (schema) =>
         schema.test(
           "valid-expiry-format",
-          "Use format like 1d 3H 5M with units y, m, w, d, H, M, or S",
+          BEARER_EXPIRY_VALIDATION_TEXT,
           (value) => !value || BEARER_EXPIRY_PATTERN.test(value.trim()),
         ),
       otherwise: (schema) => schema.notRequired(),
@@ -264,54 +264,30 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
             {IDENTITY_TYPES_WITH_EXPIRY.includes(
               formik.values.identityType,
             ) && (
-              <div className="create-identity-panel-token-expiry u-sv1">
-                <label id="token-expiry-label" htmlFor="expiry">
-                  Token expiry
-                </label>
-                <RadioInput
-                  label="Default (10 years)"
-                  checked={!formik.values.isCustomExpiry}
-                  disabled={isNameInvalid}
-                  onChange={() => {
-                    formik.setFieldValue("isCustomExpiry", false);
+              <TokenExpirySelector
+                isCustomExpiry={!!formik.values.isCustomExpiry}
+                expiry={formik.values.expiry}
+                disabled={isNameInvalid}
+                error={
+                  formik.values.isCustomExpiry &&
+                  formik.touched.expiry &&
+                  formik.errors.expiry
+                    ? formik.errors.expiry
+                    : undefined
+                }
+                onIsCustomExpiryChange={(isCustom) => {
+                  formik.setFieldValue("isCustomExpiry", isCustom);
+                  if (!isCustom) {
                     formik.setFieldValue("expiry", "");
-                  }}
-                />
-                <div className="create-identity-panel-token-expiry-custom-container">
-                  <RadioInput
-                    label="Custom"
-                    checked={formik.values.isCustomExpiry}
-                    disabled={isNameInvalid}
-                    onChange={() => {
-                      formik.setFieldValue("isCustomExpiry", true);
-                    }}
-                  />
-                  <Input
-                    type="text"
-                    id="expiry"
-                    name="expiry"
-                    onChange={formik.handleChange}
-                    value={
-                      formik.values.isCustomExpiry ? formik.values.expiry : ""
-                    }
-                    error={
-                      formik.values.isCustomExpiry &&
-                      formik.touched.expiry &&
-                      formik.errors.expiry
-                        ? formik.errors.expiry
-                        : undefined
-                    }
-                    placeholder="e.g. 1d 3H 5M"
-                    disabled={isNameInvalid || !formik.values.isCustomExpiry}
-                    help={
-                      <>
-                        Space-separated durations: {"<number><unit>"} <br />
-                        Units are case-sensitive: y, m, w, d, H, M, S
-                      </>
-                    }
-                  />
-                </div>
-              </div>
+                  }
+                }}
+                onExpiryChange={(value) => {
+                  formik.setFieldValue("expiry", value);
+                }}
+                onExpiryBlur={() => {
+                  formik.setFieldTouched("expiry", true);
+                }}
+              />
             )}
             <label htmlFor="group-selection-table">Auth groups</label>
             <GroupSelection
@@ -364,9 +340,17 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
                 onClick={() => void formik.submitForm()}
                 className="u-no-margin--bottom"
                 disabled={
-                  !formik.isValid || formik.isSubmitting || !formik.values.name
+                  !formik.isValid ||
+                  formik.isSubmitting ||
+                  !formik.values.name ||
+                  (formik.values.isCustomExpiry && !formik.values.expiry)
                 }
                 loading={formik.isSubmitting}
+                title={
+                  formik.values.isCustomExpiry && !formik.values.expiry
+                    ? "Please provide a valid expiry date"
+                    : undefined
+                }
               >
                 Create identity
               </ActionButton>

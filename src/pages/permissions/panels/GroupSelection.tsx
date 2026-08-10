@@ -1,6 +1,4 @@
 import { useState, type DependencyList, type FC } from "react";
-import PermissionGroupsFilter from "../PermissionGroupsFilter";
-import type { LxdAuthGroup } from "types/permissions";
 import {
   EmptyState,
   Icon,
@@ -8,11 +6,13 @@ import {
   ScrollableTable,
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
+import PermissionGroupsFilter from "../PermissionGroupsFilter";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/helpers";
 import useSortTableData from "util/useSortTableData";
 import { ROOT_PATH } from "util/rootPath";
 import classnames from "classnames";
+import type { LxdAuthGroup } from "types/permissions";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -27,6 +27,7 @@ interface Props {
   preselectedGroups?: Set<string>;
   belowIds?: string[];
   disabled?: boolean;
+  hasScrollableTable?: boolean;
 }
 
 const GroupSelection: FC<Props> = ({
@@ -42,6 +43,7 @@ const GroupSelection: FC<Props> = ({
   preselectedGroups,
   belowIds = [],
   disabled = false,
+  hasScrollableTable = true,
 }) => {
   const [search, setSearch] = useState("");
 
@@ -138,40 +140,49 @@ const GroupSelection: FC<Props> = ({
     defaultSortDirection: preselectedGroups ? "descending" : "ascending",
   });
 
+  const table = (
+    <SelectableMainTable
+      id="group-selection-table"
+      className="group-selection-table"
+      headers={headers}
+      rows={sortedRows}
+      sortable
+      emptyStateMsg="No groups found"
+      itemName="group"
+      parentName=""
+      selectedNames={Array.from(selectedGroups)}
+      setSelectedNames={setSelectedGroups}
+      disabledNames={[]}
+      filteredNames={groups.map((group) => group.name)}
+      indeterminateNames={Array.from(indeterminateGroups ?? new Set())}
+      onToggleRow={toggleGroup}
+      hideContextualMenu
+      disableSelect={disabled}
+    />
+  );
+
   return (
-    <ScrollableContainer
-      dependencies={scrollDependencies}
-      belowIds={["panel-footer", ...belowIds]}
-      className="group-selection"
-    >
+    <div className="group-selection">
       {groups.length > 5 && (
         <PermissionGroupsFilter onChange={setSearch} value={search} />
       )}
       {groups.length ? (
-        <ScrollableTable
-          dependencies={[...scrollDependencies, search]}
-          tableId="group-selection-table"
-          belowIds={["panel-footer", ...belowIds]}
-        >
-          <SelectableMainTable
-            id="group-selection-table"
-            className="group-selection-table"
-            headers={headers}
-            rows={sortedRows}
-            sortable
-            emptyStateMsg="No groups found"
-            itemName="group"
-            parentName=""
-            selectedNames={Array.from(selectedGroups)}
-            setSelectedNames={setSelectedGroups}
-            disabledNames={[]}
-            filteredNames={groups.map((group) => group.name)}
-            indeterminateNames={Array.from(indeterminateGroups ?? new Set())}
-            onToggleRow={toggleGroup}
-            hideContextualMenu
-            disableSelect={disabled}
-          />
-        </ScrollableTable>
+        hasScrollableTable ? (
+          <ScrollableContainer
+            dependencies={scrollDependencies}
+            belowIds={["panel-footer", ...belowIds]}
+          >
+            <ScrollableTable
+              dependencies={[...scrollDependencies, search]}
+              tableId="group-selection-table"
+              belowIds={["panel-footer", ...belowIds]}
+            >
+              {table}
+            </ScrollableTable>
+          </ScrollableContainer>
+        ) : (
+          table
+        )
       ) : (
         <EmptyState
           className="empty-state empty-state__full-width"
@@ -188,7 +199,7 @@ const GroupSelection: FC<Props> = ({
           </Link>
         </EmptyState>
       )}
-    </ScrollableContainer>
+    </div>
   );
 };
 

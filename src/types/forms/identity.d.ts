@@ -5,5 +5,5 @@ export interface IdentityFormValues {
   groups?: string[];
   identityType: IdentityType;
   expiry: string;
-  isCustomExpiry: boolean;
+  isCustomExpiry?: boolean;
 }
