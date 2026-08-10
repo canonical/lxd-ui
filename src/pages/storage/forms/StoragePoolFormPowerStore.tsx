@@ -6,12 +6,15 @@ import { Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/options";
 import { optionPowerStoreMode } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
 }
 
 const StoragePoolFormPowerStore: FC<Props> = ({ formik }) => {
+  const { hasStorageDriverPowerstoreNvme } = useSupportedFeatures();
+
   return (
     <ScrollableConfigurationTable
       rows={[
@@ -20,7 +23,11 @@ const StoragePoolFormPowerStore: FC<Props> = ({ formik }) => {
           label: "Mode",
           name: "powerstore_mode",
           defaultValue: "",
-          children: <Select options={optionPowerStoreMode} />,
+          children: (
+            <Select
+              options={optionPowerStoreMode(hasStorageDriverPowerstoreNvme)}
+            />
+          ),
         }),
         getConfigurationRow({
           formik,

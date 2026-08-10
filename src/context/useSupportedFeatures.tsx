@@ -65,5 +65,8 @@ export const useSupportedFeatures = () => {
     hasLoadBalancerHealthChecks: apiExtensions.has(
       "network_load_balancer_pool_health_checks",
     ),
+    hasStorageDriverPowerstoreNvme: apiExtensions.has(
+      "storage_driver_powerstore_nvme",
+    ),
   };
 };
