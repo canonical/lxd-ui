@@ -2,6 +2,8 @@ import type { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 import { gotoURL } from "./navigate";
 import { randomNameSuffix } from "./name";
+import { dismissNotification } from "./notification";
+import type { IdentityType } from "util/identityTypes";
 
 // These identities are created by the setup_test script in tests/scripts
 export const identityBar = "bar@bar.com";
@@ -83,4 +85,59 @@ export const issueTokenFromEditPanel = async (
   await expect(page.getByText("token issued successfully")).toBeVisible();
 
   return getDisplayedToken(page);
+};
+
+export const createIdentity = async (
+  page: Page,
+  name: string,
+  identityType: IdentityType,
+  expiry?: string,
+) => {
+  await visitIdentities(page);
+  await page.getByRole("button", { name: "Create identity" }).click();
+  await page.getByRole("button", { name: identityType }).click();
+
+  const sidePanel = page.getByLabel("Side panel");
+  await sidePanel.getByRole("textbox", { name: "Name" }).fill(name);
+  if (expiry) {
+    await sidePanel.getByLabel("Custom").click({ force: true });
+    await sidePanel.getByLabel("Token expiry value").fill(expiry);
+  }
+  await sidePanel.getByRole("button", { name: "Create identity" }).click();
+
+  const modal = page.getByRole("dialog");
+  await expect(modal).toContainText(`Identity ${name} created successfully`);
+
+  await modal
+    .getByRole("checkbox", { name: "I have copied the token" })
+    .check({ force: true });
+  await modal.getByRole("button", { name: "Done" }).click();
+
+  const identityRow = page.getByRole("row").filter({ hasText: name });
+  await expect(identityRow).toBeVisible();
+  await expect(identityRow).toContainText(identityType);
+};
+
+export const deleteIdentity = async (page: Page, name: string) => {
+  await visitIdentities(page);
+  const row = page.getByRole("row").filter({ hasText: name });
+
+  const identityType = (
+    await row.getByRole("cell", { name: "Type", exact: true }).textContent()
+  )?.trim();
+  const identityId = (
+    await row.getByRole("cell", { name: "ID", exact: true }).textContent()
+  )?.trim();
+
+  expect(identityType).toBeTruthy();
+  expect(identityId).toBeTruthy();
+
+  await row.getByRole("button", { name: "Delete identity" }).click();
+  await page.getByRole("button", { name: "Delete", exact: true }).click();
+
+  await dismissNotification(
+    page,
+    `Identity ${name} (${identityType}, ${identityId}) deleted.`,
+  );
+  await expect(row).not.toBeVisible();
 };

@@ -5,25 +5,17 @@ import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import type { ResourceIconType } from "components/ResourceIcon";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import DocLink from "components/DocLink";
-
-export const IDENTITY_TYPE = {
-  TLS: "tls-certificate",
-  BEARER_CLIENT: "Client token bearer",
-  BEARER_DEVLXD: "DevLXD token bearer",
-  CLUSTER_LINK: "Cluster link certificate",
-} as const;
-
-export type IdentityType = (typeof IDENTITY_TYPE)[keyof typeof IDENTITY_TYPE];
+import {
+  IDENTITY_TYPE,
+  type IdentityType,
+  type BearerIdentityType,
+} from "util/identityTypes";
+export { IDENTITY_TYPE, type IdentityType, type BearerIdentityType };
 
 export const IDENTITY_TYPES_WITH_EXPIRY: IdentityType[] = [
   IDENTITY_TYPE.BEARER_CLIENT,
   IDENTITY_TYPE.BEARER_DEVLXD,
 ];
-
-export type BearerIdentityType = Extract<
-  IdentityType,
-  typeof IDENTITY_TYPE.BEARER_CLIENT | typeof IDENTITY_TYPE.BEARER_DEVLXD
->;
 
 export type ChangeSummary = Record<
   string,
@@ -251,17 +243,17 @@ export const IDENTITY_TYPE_HELP_TEXT: Record<
   { title: string; description: ReactNode }
 > = {
   [IDENTITY_TYPE.TLS]: {
-    title: "TLS Certificate",
+    title: "Client certificate",
     description:
       "A certificate-based identity for long-lived client authentication.",
   },
   [IDENTITY_TYPE.BEARER_CLIENT]: {
-    title: "Bearer token (Main API)",
+    title: "Client token bearer",
     description:
       "An API key for external automation tools, integrations, or remote scripts interacting with LXD over the network.",
   },
   [IDENTITY_TYPE.BEARER_DEVLXD]: {
-    title: "Bearer token (DevLXD)",
+    title: "DevLXD token bearer",
     description: (
       <>
         Strictly for applications or storage drivers running directly inside a

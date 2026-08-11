@@ -5,6 +5,8 @@ import {
   randomGroupName,
 } from "./helpers/permission-groups";
 import {
+  createIdentity,
+  deleteIdentity,
   identityBar,
   identityFoo,
   randomIdentityName,
@@ -24,6 +26,7 @@ import {
   skipIfBearerIdentitiesNotSupported,
 } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
+import { IDENTITY_TYPE } from "util/identityTypes";
 
 test("manage groups for single identity", async ({ page, lxdVersion }) => {
   skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
@@ -136,7 +139,7 @@ test("reissue a new token for bearer identity", async ({
   // Create a bearer identity and capture its first token.
   await visitIdentities(page);
   await page.getByRole("button", { name: "Create identity" }).click();
-  await page.getByRole("button", { name: "Bearer token (Main API)" }).click();
+  await page.getByRole("button", { name: "Client token bearer" }).click();
   const sidePanel = page.getByLabel("Side panel");
   await sidePanel.getByPlaceholder("Enter name").fill(identity);
   await sidePanel.getByRole("button", { name: "Create identity" }).click();
@@ -146,16 +149,6 @@ test("reissue a new token for bearer identity", async ({
 
   const identityRow = page.getByRole("row").filter({ hasText: identity });
   await expect(identityRow).toBeVisible();
-  const identityType = (
-    await identityRow
-      .getByRole("cell", { name: "Type", exact: true })
-      .textContent()
-  )?.trim();
-  const identityId = (
-    await identityRow
-      .getByRole("cell", { name: "ID", exact: true })
-      .textContent()
-  )?.trim();
   await identityRow.getByLabel("Edit identity").click();
 
   // Reissue and verify token rotation.
@@ -164,14 +157,43 @@ test("reissue a new token for bearer identity", async ({
   expect(reissuedToken).not.toEqual(initialToken);
 
   await page.getByRole("button", { name: "Cancel" }).click();
-  await identityRow.getByLabel("Delete identity").click();
-  await page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: "Delete" })
-    .click();
-  await dismissNotification(
+  await deleteIdentity(page, identity);
+});
+
+test("create and delete TLS identity", async ({ page, lxdVersion }) => {
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+
+  const tlsName = randomIdentityName();
+  await createIdentity(page, tlsName, IDENTITY_TYPE.TLS);
+  await deleteIdentity(page, tlsName);
+});
+
+test("create and delete token bearer identities", async ({
+  page,
+  lxdVersion,
+}) => {
+  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+  skipIfBearerIdentitiesNotSupported(lxdVersion);
+
+  const bearerClientName = randomIdentityName();
+  const bearerDevlxdName = randomIdentityName();
+  const clusterLinkName = randomIdentityName();
+
+  await createIdentity(
     page,
-    `Identity ${identity} (${identityType}, ${identityId}) deleted.`,
+    bearerClientName,
+    IDENTITY_TYPE.BEARER_CLIENT,
+    "1d",
   );
-  await expect(identityRow).not.toBeVisible();
+  await createIdentity(
+    page,
+    bearerDevlxdName,
+    IDENTITY_TYPE.BEARER_DEVLXD,
+    "2H",
+  );
+  await createIdentity(page, clusterLinkName, IDENTITY_TYPE.CLUSTER_LINK);
+
+  await deleteIdentity(page, bearerClientName);
+  await deleteIdentity(page, bearerDevlxdName);
+  await deleteIdentity(page, clusterLinkName);
 });

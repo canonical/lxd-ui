@@ -5,6 +5,10 @@ export const supportsFineGrainedAuthorisation = (lxdVersion: LxdVersions) => {
   return lxdVersion !== "5.0-edge";
 };
 
+const supportsBearerIdentities = (lxdVersion: LxdVersions) => {
+  return lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge";
+};
+
 export const skipIfFineGrainedAuthorisationNotSupported = (
   lxdVersion: LxdVersions,
 ) => {
@@ -16,7 +20,7 @@ export const skipIfFineGrainedAuthorisationNotSupported = (
 
 export const skipIfBearerIdentitiesNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
-    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
+    !supportsBearerIdentities(lxdVersion),
     "Bearer identities tests not supported for lxd 5.0 and 5.21",
   );
 };
