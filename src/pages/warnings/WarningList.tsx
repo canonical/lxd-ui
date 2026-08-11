@@ -4,44 +4,32 @@ import {
   Row,
   ScrollableTable,
   useNotify,
-  Spinner,
   CustomLayout,
-  Chip,
+  Spinner,
 } from "@canonical/react-components";
-import { fetchWarnings } from "api/warnings";
-import { isoTimeToString } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
-import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
 import SelectableMainTable from "components/SelectableMainTable";
+import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
 import PageHeader from "components/PageHeader";
 import WarningSearchFilter from "pages/warnings/WarningSearchFilter";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
+import { useWarnings } from "context/useWarnings";
 import type { LxdWarningSeverity, LxdWarningStatus } from "types/warning";
 import {
-  getSeverityChipAppearance,
+  getWarningHeaders,
+  getWarningRows,
   QUERY,
   SEVERITY,
   STATUS,
   type WarningFilters,
-} from "util/warningFilter";
+} from "util/warnings";
 
 const WarningList: FC = () => {
   const notify = useNotify();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [searchParams] = useSearchParams();
-
-  const {
-    data: warnings = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.warnings],
-    queryFn: async () => fetchWarnings(),
-    retry: false, // the api returns a 403 for users with limited permissions, surface the error right away
-  });
+  const { data: warnings = [], error, isLoading } = useWarnings();
 
   if (error) {
     notify.failure("Loading warnings failed", error);
@@ -92,93 +80,7 @@ const WarningList: FC = () => {
     }
   }, [filteredWarnings]);
 
-  const headers = [
-    { content: "Type", sortKey: "type", className: "type" },
-    {
-      content: "Last message",
-      sortKey: "lastMessage",
-      className: "last_message",
-    },
-    { content: "Status", sortKey: "status", className: "status" },
-    { content: "Severity", sortKey: "severity", className: "severity" },
-    { content: "Count", sortKey: "count", className: "count u-align--right" },
-    { content: "Project", sortKey: "project", className: "project" },
-    { content: "First seen", sortKey: "firstSeen", className: "first_seen_at" },
-    { content: "Last seen", sortKey: "lastSeen", className: "last_seen_at" },
-  ];
-
-  const rows = filteredWarnings.map((warning) => {
-    return {
-      key: warning.uuid,
-      name: warning.uuid,
-      className: "u-row",
-      columns: [
-        {
-          content: warning.type,
-          role: "rowheader",
-          "aria-label": "Type",
-          className: "type",
-        },
-        {
-          content: warning.last_message,
-          role: "cell",
-          "aria-label": "Last message",
-          className: "last_message",
-        },
-        {
-          content: warning.status,
-          role: "cell",
-          "aria-label": "Status",
-          className: "status",
-        },
-        {
-          content: (
-            <Chip
-              value={warning.severity}
-              appearance={getSeverityChipAppearance(warning.severity)}
-            />
-          ),
-          role: "cell",
-          "aria-label": "Severity",
-          className: "severity",
-        },
-        {
-          content: warning.count,
-          role: "cell",
-          className: "count u-align--right",
-          "aria-label": "Count",
-        },
-        {
-          content: warning.project,
-          role: "cell",
-          className: "project u-align--center",
-          "aria-label": "Project",
-        },
-        {
-          content: isoTimeToString(warning.first_seen_at),
-          role: "cell",
-          "aria-label": "First seen",
-          className: "first_seen_at",
-        },
-        {
-          content: isoTimeToString(warning.last_seen_at),
-          role: "cell",
-          "aria-label": "Last seen",
-          className: "last_seen_at",
-        },
-      ],
-      sortData: {
-        type: warning.type,
-        lastMessage: warning.last_message.toLowerCase(),
-        status: warning.status,
-        severity: warning.severity,
-        count: warning.count,
-        project: warning.project.toLowerCase(),
-        firstSeen: warning.first_seen_at,
-        lastSeen: warning.last_seen_at,
-      },
-    };
-  });
+  const rows = getWarningRows(filteredWarnings);
 
   return (
     <CustomLayout
@@ -221,7 +123,7 @@ const WarningList: FC = () => {
         >
           <SelectableMainTable
             id="warning-table"
-            headers={headers}
+            headers={getWarningHeaders()}
             rows={rows}
             paginate={30}
             sortable
@@ -230,15 +132,16 @@ const WarningList: FC = () => {
               isLoading ? (
                 <Spinner className="u-loader" text="Loading warnings..." />
               ) : (
-                "No data to display"
+                "No warnings found matching this search"
               )
             }
             itemName="warning"
             parentName="server"
             selectedNames={selectedNames}
             setSelectedNames={setSelectedNames}
-            filteredNames={rows.map((item) => item.name)}
+            filteredNames={filteredWarnings.map((warning) => warning.uuid)}
             disabledNames={processingNames}
+            responsive
           />
         </ScrollableTable>
       </Row>
