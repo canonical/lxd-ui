@@ -77,7 +77,9 @@ export const optionIscsiNvme = (hasStorageNvmeTcp: boolean) => [
   },
 ];
 
-export const optionPowerStoreMode = [
+export const optionPowerStoreMode = (
+  hasStorageDriverPowerstoreNvme: boolean,
+) => [
   {
     label: "Select option",
     value: "",
@@ -91,6 +93,9 @@ export const optionPowerStoreMode = [
     label: "SCSI over FC",
     value: "scsi/fc",
   },
+  ...(hasStorageDriverPowerstoreNvme
+    ? [{ label: "NVMe over TCP", value: "nvme/tcp" }]
+    : []),
 ];
 
 export const optionNvmeSdc = (hasStorageNvmeTcp: boolean) => [
