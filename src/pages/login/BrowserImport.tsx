@@ -80,16 +80,16 @@ const BrowserImport: FC<Props> = ({ isBearerToken = false }) => {
             <li className="p-list__item">
               Go to Firefox&rsquo;s privacy settings:
               <pre className="p-code-snippet__block u-no-margin--bottom">
-                <code>about:preferences#privacy</code>
+                <code>about:preferences#connectionSecurity</code>
               </pre>
             </li>
             <li className="p-list__item">
               Scroll down to the certificates section and click{" "}
-              <b>View Certificates</b>
+              <b>Manage Certificates</b>
             </li>
             <li className="p-list__item">
               In the modal that appears, go to <b>Your certificates</b> and
-              click Import
+              click <b>Import</b>
             </li>
             <li className="p-list__item">
               Select the .pfx file you just downloaded. If you created a
