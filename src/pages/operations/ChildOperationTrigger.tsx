@@ -49,7 +49,7 @@ const ChildOperationTrigger: FC<Props> = ({
           <List
             middot
             items={[
-              `${childCount} ${pluralize("child operation", childCount)}`,
+              `${childCount} child ${pluralize("operation", childCount)}`,
               ...childStatusItems,
             ]}
             className="u-no-margin--bottom"

@@ -5,6 +5,8 @@ import { expect } from "../fixtures/lxd-test";
 import { visitLocalImages } from "./images";
 import { searchEntityListPage } from "./search";
 import { dismissNotification } from "./notification";
+import { runCommand } from "./shell";
+import { getLxcCmd } from "./auth";
 
 const DEFAULT_IMAGE = "alpine/3.23/cloud";
 
@@ -253,4 +255,13 @@ export const migrateInstanceRootStorage = async (
     page,
     `Instance ${instance} root storage successfully moved to pool ${pool}.`,
   );
+};
+
+export const getInstanceCount = (project: string): number => {
+  const lxc = getLxcCmd();
+  const instances = JSON.parse(
+    runCommand(`${lxc} list --project ${project} --format json`),
+  ) as Array<{ status: string }>;
+
+  return instances.length;
 };
