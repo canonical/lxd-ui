@@ -3,6 +3,7 @@ import type { LxdInstance } from "types/instance";
 import type { SshKey } from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import type { MemoryLimit } from "types/limits";
 
 export const parseSshKeys = (item: LxdProfile | LxdInstance): SshKey[] => {
   const sshConfigKeys = Object.keys(item.config).filter((item) =>
@@ -27,6 +28,11 @@ export const InstanceEditSchema: Yup.ObjectSchema<{
 }> = Yup.object().shape({
   name: Yup.string().required("Instance name is required"),
   instanceType: Yup.string().required("Instance type is required"),
+  limits_memory: Yup.mixed<MemoryLimit>().test(
+    "non-zero",
+    "Limit must be greater than 0",
+    (memory) => memory?.value !== 0,
+  ),
 });
 
 export const isInstanceCreation = (

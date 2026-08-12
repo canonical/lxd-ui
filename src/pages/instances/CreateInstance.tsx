@@ -89,6 +89,7 @@ import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import { ISO_VOLUME_TYPE } from "util/devices";
+import type { MemoryLimit } from "types/limits";
 
 interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
@@ -117,6 +118,11 @@ const CreateInstance: FC = () => {
   const InstanceSchema = Yup.object().shape({
     name: instanceNameValidation(project, controllerState).optional(),
     instanceType: Yup.string().required("Instance type is required"),
+    limits_memory: Yup.mixed<MemoryLimit>().test(
+      "non-zero",
+      "Limit must be greater than 0",
+      (memory) => memory?.value !== 0,
+    ),
   });
 
   const updateFormHeight = () => {

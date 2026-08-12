@@ -3,6 +3,7 @@ import { RadioInput } from "@canonical/react-components";
 import { CPU_LIMIT_TYPE, type CpuLimit } from "types/limits";
 import CpuLimitInput from "components/forms/CpuLimitInput";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import { valueAsNumber } from "util/valueAsNumber";
 
 interface Props {
   cpuLimit?: CpuLimit;
@@ -48,7 +49,10 @@ const CpuLimitSelector: FC<Props> = ({
           step="1"
           placeholder="Number of exposed cores"
           onChange={(e) => {
-            setCpuLimit({ ...cpuLimit, dynamicValue: +e.target.value });
+            setCpuLimit({
+              ...cpuLimit,
+              dynamicValue: valueAsNumber(e.target.value),
+            });
           }}
           value={cpuLimit.dynamicValue ?? ""}
           help={help}
