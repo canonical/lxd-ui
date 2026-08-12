@@ -43,6 +43,7 @@ import CreateIdentity from "pages/permissions/CreateIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
 import IdentityExpiration from "pages/permissions/IdentityExpiration";
+import IdentityAdditionalIdpGroups from "pages/permissions/IdentityAdditionalIdpGroups";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -129,9 +130,12 @@ const PermissionIdentities: FC = () => {
     const getGroupLink = () => {
       if (canEditIdentity(identity)) {
         return (
-          <Button appearance="link" dense onClick={openEditIdentityPanel}>
-            {identity.groups?.length || 0}
-          </Button>
+          <>
+            <Button appearance="link" dense onClick={openEditIdentityPanel}>
+              {identity.groups?.length || 0}
+            </Button>
+            <IdentityAdditionalIdpGroups identity={identity} />
+          </>
         );
       }
 
@@ -141,6 +145,7 @@ const PermissionIdentities: FC = () => {
       return (
         <div title={identity.groups?.length ? groupsTitle : ""}>
           {identity.groups?.length || 0}
+          <IdentityAdditionalIdpGroups identity={identity} />
         </div>
       );
     };
