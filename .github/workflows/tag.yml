@@ -1,0 +1,31 @@
+name: Tag creation for release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag-from-version-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+      - name: Create tag
+        run: |
+          # First we get the target tag name from the version file
+          tag_name="$(cat src/util/version.tsx | grep UI_VERSION | cut -d '"' -f2)"
+          
+          # If tag already exists, fail
+          if git rev-parse -q --verify "refs/tags/$tag_name" >/dev/null; then
+            echo "Tag $tag_name already exists, exiting"
+            exit 1
+          fi
+          
+          # Now we create the tag and push it to the remote
+          git tag "$tag_name"
+          git push origin "$tag_name"
