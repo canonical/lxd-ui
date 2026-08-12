@@ -11,6 +11,7 @@ import {
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import ClusterLinkRichChip from "../ClusterLinkRichChip";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   onClose: () => void;
@@ -28,7 +29,8 @@ const CreateClusterLinkModal: FC<Props> = ({ onClose, token, linkName }) => {
       className="create-cluster-link"
       title={
         <>
-          Cluster link <ClusterLinkRichChip clusterLink={linkName} /> created
+          Cluster link <ResourceLabel type="cluster-link" value={linkName} />{" "}
+          created
         </>
       }
       buttonRow={[

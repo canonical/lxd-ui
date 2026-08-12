@@ -1,10 +1,13 @@
-.cluster-link-panel {
-  .p-panel__content {
-    overflow: visible;
+.cluster-link-form {
+  .token-output {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+  }
 
-    .content-details {
-      overflow: visible;
-    }
+  .modified-status,
+  .select {
+    max-width: 50px;
   }
 }
 

@@ -11,6 +11,10 @@
     .p-checkbox__label {
       display: contents;
     }
+
+    &:has(input:disabled) {
+      opacity: 0.33;
+    }
   }
 
   &.no-menu {

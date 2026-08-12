@@ -1,6 +1,5 @@
 import { test, expect } from "./fixtures/lxd-test";
 import {
-  createClusterLink,
   deleteClusterLink,
   editClusterLink,
   randomLinkName,
@@ -8,6 +7,10 @@ import {
   createClusterLinkOnRemoteCluster,
   deleteClusterLinkOnRemoteCluster,
   visitClusterLinks,
+  createIdentityOnRemoteCluster,
+  deleteIdentityOnRemoteCluster,
+  createClusterLinkUnidirectional,
+  createClusterLinkBidirectional,
 } from "./helpers/cluster-links";
 import { skipIfNotClustered } from "./helpers/cluster";
 import { randomInstanceName } from "./helpers/instances";
@@ -31,7 +34,7 @@ test("cluster link create edit delete", async ({
 
   const link = randomLinkName();
   await visitClusterLinks(page);
-  await createClusterLink(page, link);
+  await createClusterLinkBidirectional(page, link);
   const row = page.getByRole("row").filter({ hasText: link });
   await expect(row).toBeVisible();
   await expect(row.getByRole("cell", { name: "Type" })).toHaveText(
@@ -60,8 +63,8 @@ test("cluster link table displays all links", async ({
   const link1 = randomLinkName();
   const link2 = randomLinkName();
   await visitClusterLinks(page);
-  await createClusterLink(page, link1);
-  await createClusterLink(page, link2);
+  await createClusterLinkBidirectional(page, link1);
+  await createClusterLinkBidirectional(page, link2);
 
   const row1 = page.getByRole("row").filter({ hasText: link1 });
   const row2 = page.getByRole("row").filter({ hasText: link2 });
@@ -84,7 +87,7 @@ test("consume token to create cluster link", async ({
   await visitClusterLinks(page);
 
   const token = createClusterLinkOnRemoteCluster(link);
-  await createClusterLink(page, link, token);
+  await createClusterLinkBidirectional(page, link, token);
 
   const row = page.getByRole("row").filter({ hasText: link });
   await expect(row.getByRole("cell", { name: "Status" })).toHaveText(
@@ -138,4 +141,27 @@ test("cluster link deletion is blocked while in use by a replicator", async ({
   // deleteAllAfterReplicatorTest navigates to cluster links and deletes via the
   // normal "Confirm delete" dialog, implicitly verifying the link is unblocked.
   await deleteAllAfterReplicatorTest(page, project, clusterLink);
+});
+
+test("create unidirectional cluster link", async ({
+  page,
+  lxdVersion,
+}, testInfo) => {
+  skipIfClusterLinksNotSupported(lxdVersion);
+  skipIfNotClustered(testInfo.project.name);
+
+  const link = randomLinkName();
+  await visitClusterLinks(page);
+
+  const token = createIdentityOnRemoteCluster(link);
+  await createClusterLinkUnidirectional(page, link, token);
+
+  const row = page.getByRole("row").filter({ hasText: link });
+  await expect(row.getByRole("cell", { name: "Status" })).toHaveText(
+    "Reachable",
+  );
+  await expect(row.getByRole("cell", { name: "Auth groups" })).toHaveText("0");
+
+  deleteIdentityOnRemoteCluster(link);
+  await deleteClusterLink(page, link);
 });

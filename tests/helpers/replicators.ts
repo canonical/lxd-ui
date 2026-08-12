@@ -4,7 +4,7 @@ import { dismissNotification } from "./notification";
 import { randomNameSuffix } from "./name";
 import { runCommand } from "./shell";
 import {
-  createClusterLink,
+  createClusterLinkBidirectional,
   createClusterLinkOnRemoteCluster,
   DELETE_ALL_CLUSTER_LINKS_COMMAND,
   deleteClusterLink,
@@ -61,7 +61,7 @@ export const setupProjectsForReplicator = async (
 
   // Cluster link & replica cluster setup
   const token = createClusterLinkOnRemoteCluster(clusterLink);
-  await createClusterLink(page, clusterLink, token);
+  await createClusterLinkBidirectional(page, clusterLink, token);
   await setClusterForProject(page, clusterLink, project);
 
   // Create standby project & promote to leader

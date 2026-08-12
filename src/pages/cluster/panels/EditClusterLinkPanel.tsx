@@ -15,24 +15,23 @@ import usePanelParams from "util/usePanelParams";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { updateClusterLink } from "api/cluster-links";
-import { useClusterLink } from "context/useClusterLinks";
 import type { LxdIdentity } from "types/permissions";
 import { updateIdentity } from "api/auth-identities";
-import ClusterLinkForm, {
-  type ClusterLinkFormValues,
-} from "pages/cluster/ClusterLinkForm";
+import ClusterLinkForm from "pages/cluster/ClusterLinkForm";
 import ClusterLinkRichChip from "../ClusterLinkRichChip";
+import type { LxdClusterLink } from "types/cluster";
+import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 
 interface Props {
-  identity: LxdIdentity;
+  identity?: LxdIdentity;
+  clusterLink: LxdClusterLink;
 }
 
-const EditClusterLinkPanel: FC<Props> = ({ identity }) => {
+const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
   const panelParams = usePanelParams();
   const [error, setError] = useState<NotificationType | null>(null);
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const { data: clusterLink } = useClusterLink(panelParams.identity ?? "");
 
   const closePanel = () => {
     panelParams.clear();
@@ -41,11 +40,12 @@ const EditClusterLinkPanel: FC<Props> = ({ identity }) => {
 
   const formik = useFormik<ClusterLinkFormValues>({
     initialValues: {
-      name: clusterLink?.name ?? "",
-      description: clusterLink?.description ?? "",
+      name: clusterLink.name,
+      description: clusterLink.description,
       authGroups: identity?.groups ?? [],
       isCreating: false,
       initialAuthGroups: identity?.groups ?? [],
+      type: clusterLink.type,
     },
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -54,18 +54,31 @@ const EditClusterLinkPanel: FC<Props> = ({ identity }) => {
         description: values.description,
       };
 
-      updateClusterLink(clusterLink?.name ?? "", JSON.stringify(payload))
+      if (clusterLink.type === "bidirectional" && !identity) {
+        setError(
+          failure(
+            "Cluster link update failed",
+            new Error("Identity not found"),
+          ),
+        );
+        formik.setSubmitting(false);
+        return;
+      }
+
+      updateClusterLink(clusterLink.name ?? "", JSON.stringify(payload))
         .then(async () => {
-          const payloadIdentity = {
-            ...identity,
-            groups: values.authGroups,
-          };
-          await updateIdentity(payloadIdentity);
+          if (clusterLink.type === "bidirectional" && identity) {
+            const payloadIdentity = {
+              ...identity,
+              groups: values.authGroups,
+            };
+            await updateIdentity(payloadIdentity);
+          }
           closePanel();
           toastNotify.success(
             <>
               Cluster link{" "}
-              <ClusterLinkRichChip clusterLink={clusterLink?.name ?? ""} />{" "}
+              <ClusterLinkRichChip clusterLink={clusterLink.name ?? ""} />{" "}
               saved.
             </>,
           );
@@ -89,8 +102,8 @@ const EditClusterLinkPanel: FC<Props> = ({ identity }) => {
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle className="u-truncate">
-          <span title={`Edit cluster link ${clusterLink?.name}`}>
-            Edit cluster link {clusterLink?.name}
+          <span title={`Edit cluster link ${clusterLink.name}`}>
+            Edit cluster link {clusterLink.name}
           </span>
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
