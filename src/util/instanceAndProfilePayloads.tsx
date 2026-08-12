@@ -150,7 +150,7 @@ export const memoryLimitToPayload = (
   if (typeof memoryLimit === "string") {
     return memoryLimit;
   }
-  if (!memoryLimit?.value) {
+  if (!memoryLimit?.value && memoryLimit?.value !== 0) {
     return undefined;
   }
   return `${memoryLimit.value}${memoryLimit.unit}`;

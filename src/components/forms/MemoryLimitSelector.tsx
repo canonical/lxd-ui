@@ -3,6 +3,7 @@ import { Input, RadioInput, Select } from "@canonical/react-components";
 import { BYTES_UNITS, MEM_LIMIT_TYPE, type MemoryLimit } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import { valueAsNumber } from "util/valueAsNumber";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -57,10 +58,14 @@ const MemoryLimitSelector: FC<Props> = ({
           step="Any"
           placeholder="Enter percentage"
           onChange={(e) => {
-            setMemoryLimit({ ...memoryLimit, value: +e.target.value });
+            setMemoryLimit({
+              ...memoryLimit,
+              value: valueAsNumber(e.target.value),
+            });
           }}
-          value={`${memoryLimit.value ? memoryLimit.value : ""}`}
+          value={memoryLimit.value ?? ""}
           help={<MemoryLimitAvailable formik={formik} />}
+          error={formik.errors.limits_memory}
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
@@ -73,10 +78,14 @@ const MemoryLimitSelector: FC<Props> = ({
             step="Any"
             placeholder="Enter value"
             onChange={(e) => {
-              setMemoryLimit({ ...memoryLimit, value: +e.target.value });
+              setMemoryLimit({
+                ...memoryLimit,
+                value: valueAsNumber(e.target.value),
+              });
             }}
-            value={`${memoryLimit.value ? memoryLimit.value : ""}`}
+            value={memoryLimit.value ?? ""}
             help={<MemoryLimitAvailable formik={formik} />}
+            error={formik.errors.limits_memory}
           />
           <Select
             id="memUnitSelect"
