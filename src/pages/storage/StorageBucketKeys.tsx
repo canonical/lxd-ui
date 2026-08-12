@@ -8,18 +8,19 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import ItemName from "components/ItemName";
+import PasswordOutputToggle from "components/PasswordOutputToggle";
 import SelectableMainTable from "components/SelectableMainTable";
 import { useCurrentProject } from "context/useCurrentProject";
+import DocLink from "components/DocLink";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
-import CreateStorageBucketKeyBtn from "./actions/CreateStorageBucketKeyBtn";
-import type { LxdStorageBucket } from "types/storage";
 import { useBucketKeys } from "context/useBuckets";
-import StorageBucketKeyActions from "./actions/StorageBucketKeyActions";
-import StorageBucketKeyBulkDelete from "./actions/StorageBucketKeyBulkDelete";
+import CreateStorageBucketKeyBtn from "pages/storage/actions/CreateStorageBucketKeyBtn";
+import StorageBucketKeyActions from "pages/storage/actions/StorageBucketKeyActions";
+import StorageBucketKeyBulkDelete from "pages/storage/actions/StorageBucketKeyBulkDelete";
+import type { LxdStorageBucket } from "types/storage";
 import { capitalizeFirstLetter } from "util/helpers";
-import DocLink from "components/DocLink";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -77,8 +78,8 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
       sortKey: "description",
       className: "description",
     },
-    { content: "Access key", className: "key-field", sortKey: "access-key" },
-    { content: "Secret key", className: "key-field", sortKey: "secret-key" },
+    { content: "Access key", className: "access-key", sortKey: "access-key" },
+    { content: "Secret key", className: "secret-key", sortKey: "secret-key" },
     { "aria-label": "Actions", className: "actions" },
   ];
 
@@ -115,13 +116,13 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
           content: key["access-key"],
           role: "cell",
           "aria-label": "Access key",
-          className: "key-field",
+          className: "access-key",
         },
         {
-          content: key["secret-key"],
+          content: <PasswordOutputToggle password={key["secret-key"]} />,
           role: "cell",
           "aria-label": "Secret key",
-          className: "key-field",
+          className: "secret-key",
         },
         {
           content: <StorageBucketKeyActions bucketKey={key} bucket={bucket} />,

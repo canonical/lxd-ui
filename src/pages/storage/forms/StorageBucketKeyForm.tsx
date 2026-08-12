@@ -1,5 +1,10 @@
-import type { FC, ReactNode } from "react";
-import { Form, Input, Select } from "@canonical/react-components";
+import { type FC, type ReactNode } from "react";
+import {
+  Form,
+  Input,
+  PasswordToggle,
+  Select,
+} from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
@@ -78,9 +83,8 @@ const StorageBucketKeyForm: FC<Props> = ({ formik, bucket }) => {
         disabled={!!bucketEditRestriction}
         title={bucketEditRestriction}
       />
-      <Input
+      <PasswordToggle
         {...getFormProps("secret-key")}
-        type="text"
         label="Secret Key"
         disabled={!!bucketEditRestriction}
         title={bucketEditRestriction}

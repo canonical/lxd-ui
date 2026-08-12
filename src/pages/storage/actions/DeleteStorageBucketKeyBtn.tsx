@@ -123,7 +123,7 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
       disabled={!canEditBucket(bucket)}
       onHoverText={
         canEditBucket(bucket)
-          ? "Delete key"
+          ? "Delete bucket key"
           : "You do not have permission to delete this key."
       }
     >
