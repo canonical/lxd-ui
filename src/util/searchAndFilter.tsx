@@ -30,17 +30,19 @@ const searchValuesByLead = (
 export const searchParamsToChips = (
   searchParams: URLSearchParams,
   queryParams: string[],
+  mapChip?: (chip: SearchAndFilterChip) => SearchAndFilterChip,
 ): SearchAndFilterChip[] => {
   const searchData: SearchAndFilterChip[] = [];
   queryParams.forEach((param) =>
     searchData.push(
-      ...searchParams
-        .getAll(param)
-        .map((value) =>
+      ...searchParams.getAll(param).map((value) => {
+        const chip: SearchAndFilterChip =
           param === "query"
             ? { quoteValue: true, value }
-            : { lead: param, value },
-        ),
+            : { lead: param, value };
+
+        return mapChip ? mapChip(chip) : chip;
+      }),
     ),
   );
   return searchData;
