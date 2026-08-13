@@ -3,6 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { AxeResults, Result } from "axe-core";
 import type { Page, TestInfo } from "@playwright/test";
 import { writeFile } from "fs/promises";
+import { test } from "../fixtures/lxd-test";
 
 const printSummary = (
   percent: number,
@@ -129,4 +130,12 @@ export const runA11yAudit = async (
   }
 
   return percent;
+};
+
+export const skipIfA11yProject = (projectName: string) => {
+  test.skip(!isA11yProject(projectName));
+};
+
+const isA11yProject = (projectName: string) => {
+  return projectName === "a11y-audit";
 };
