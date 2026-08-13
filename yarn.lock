@@ -368,10 +368,10 @@
   resolved "https://registry.yarnpkg.com/@canonical/ds-types/-/ds-types-0.33.0.tgz#98d74fa2189a3048addfde7ad30be9a2a28bc03e"
   integrity sha512-ccgtoTpF4eOYmKDoFOQjE4lhQybdDh1lN+xNeUlAfJJI+JHOQ8LAmtINAsYfiUuMIa15CdmVd5MGuP+9Kpp5Jg==
 
-"@canonical/react-components@4.9.0":
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.9.0.tgz#dfd5266a09b62f6a9cf222542b8014c5af8e7892"
-  integrity sha512-vPvodIKney4C2tWPw73eCAZYVC/Xitx4DgB5CVv9tWOlDleOiCkn7kiy22+TFKhu/M1VDrzjv47jwkkx8VFDOA==
+"@canonical/react-components@4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.10.0.tgz#40ec375fb97c87cfe014ea3d16f00dac9789685a"
+  integrity sha512-+1/z7K3X2aW5ZCoFthHHVldxmH2UUUbQYP7IOraUNChfdxbJtdwro1R/rGgS3STD83YKZjyDoeW1OlSk3n9ekQ==
   dependencies:
     "@types/jest" "30.0.0"
     "@types/node" "20.19.30"
