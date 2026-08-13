@@ -18,7 +18,7 @@ import useSortTableData from "util/useSortTableData";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import PermissionIdpGroupExplanationTooltip from "pages/permissions/PermissionIdpGroupExplanationTooltip";
 import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import CreateIdpGroupPanel from "./panels/CreateIdpGroupPanel";
 import BulkDeleteIdpGroupsBtn from "./actions/BulkDeleteIdpGroupsBtn";
@@ -298,12 +298,9 @@ const PermissionIdpGroups: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/explanation/authorization"
-                  title="Learn more about permissions"
-                >
+                <PermissionIdpGroupExplanationTooltip>
                   IDP&nbsp;groups
-                </HelpLink>
+                </PermissionIdpGroupExplanationTooltip>
               </PageHeader.Title>
               {!selectedGroupNames.length && hasGroups ? (
                 <PageHeader.Search>

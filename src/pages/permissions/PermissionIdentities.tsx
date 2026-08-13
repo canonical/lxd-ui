@@ -25,8 +25,9 @@ import PermissionIdentitiesFilter, {
 import { useSettings } from "context/useSettings";
 import usePanelParams, { panels } from "util/usePanelParams";
 import PageHeader from "components/PageHeader";
-import HelpLink from "components/HelpLink";
 import EditIdentityPanel from "./panels/EditIdentityPanel";
+import PermissionIdentityExplanationTooltip from "pages/permissions/PermissionIdentityExplanationTooltip";
+import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
@@ -42,7 +43,6 @@ import CreateIdentity from "pages/permissions/CreateIdentity";
 import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesActions";
 import ResourceLabel from "components/ResourceLabel";
 import IdentityExpiration from "pages/permissions/IdentityExpiration";
-import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -286,12 +286,9 @@ const PermissionIdentities: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/explanation/authorization"
-                  title="Learn more about permissions"
-                >
+                <PermissionIdentityExplanationTooltip>
                   Identities
-                </HelpLink>
+                </PermissionIdentityExplanationTooltip>
               </PageHeader.Title>
               {!selectedIdentityIds.length && !panelParams.panel && (
                 <PageHeader.Search>

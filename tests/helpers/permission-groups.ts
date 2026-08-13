@@ -12,9 +12,7 @@ export const visitGroups = async (page: Page) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Groups", exact: true }).click();
-  await expect(
-    page.getByRole("heading", { name: "Groups" }).locator("div"),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Groups" })).toBeVisible();
 };
 
 export const renameGroup = async (

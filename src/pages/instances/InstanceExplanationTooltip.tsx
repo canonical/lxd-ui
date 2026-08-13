@@ -5,13 +5,12 @@ const InstanceExplanationTooltip: FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <span className="explanation-tooltip-wrapper">
+    <ExplanationTooltip
+      explanation="Manage and monitor virtual machines and containers."
+      docPath="/explanation/instances/"
+    >
       {children}
-      <ExplanationTooltip
-        explanation="Manage and monitor virtual machines and containers running on the LXD server."
-        docPath="/explanation/instances/"
-      />
-    </span>
+    </ExplanationTooltip>
   );
 };
 

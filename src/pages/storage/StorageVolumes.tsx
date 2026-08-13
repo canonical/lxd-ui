@@ -47,7 +47,7 @@ import StorageVolumeNameLink from "./StorageVolumeNameLink";
 import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
-import HelpLink from "components/HelpLink";
+import StorageVolumeExplanationTooltip from "pages/storage/StorageVolumeExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import { useLoadVolumes } from "context/useVolumes";
 import { useIsClustered } from "context/useIsClustered";
@@ -490,12 +490,9 @@ const StorageVolumes: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/explanation/storage/#storage-volumes"
-                title="Learn more about storage volumes"
-              >
+              <StorageVolumeExplanationTooltip>
                 Volumes
-              </HelpLink>
+              </StorageVolumeExplanationTooltip>
             </PageHeader.Title>
             {!selectedNames.length && hasVolumes && (
               <PageHeader.Search>

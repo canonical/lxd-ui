@@ -17,9 +17,7 @@ export const visitIdentities = async (page: Page) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Identities" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Identities" }).locator("div"),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Identities" })).toBeVisible();
 };
 
 export const toggleGroupsForIdentities = async (
