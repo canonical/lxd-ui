@@ -19,6 +19,7 @@ interface ContextProps {
   serverEntitlements: string[];
   authMethod: LXDAuthMethod | null;
   authExpiresAt: string | null;
+  effectiveGroups: string[] | null;
 }
 
 const initialState: ContextProps = {
@@ -32,6 +33,7 @@ const initialState: ContextProps = {
   serverEntitlements: [],
   authMethod: null,
   authExpiresAt: null,
+  effectiveGroups: null,
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -122,6 +124,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         serverEntitlements,
         authMethod,
         authExpiresAt: currentIdentity?.expires_at ?? null,
+        effectiveGroups: currentIdentity?.effective_groups ?? null,
       }}
     >
       {children}
