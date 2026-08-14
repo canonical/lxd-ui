@@ -5,6 +5,10 @@ import type { Page, TestInfo } from "@playwright/test";
 import { writeFile } from "fs/promises";
 import { test } from "../fixtures/lxd-test";
 
+const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
+
+const PANEL_SELECTOR = '[aria-label="Side panel"]';
+
 const printSummary = (
   percent: number,
   passed: number,
@@ -48,6 +52,69 @@ const countSeverities = (results: AxeResults): Record<string, number> => {
   return counts;
 };
 
+export const processA11yResults = async (
+  slug: string,
+  results: AxeResults,
+  testInfo: TestInfo,
+  filenamePrefix: string,
+): Promise<number> => {
+  const passed = results.passes?.length ?? 0;
+  const violations = results.violations?.length ?? 0;
+  const incomplete = results.incomplete?.length ?? 0;
+  const total = passed + violations + incomplete;
+  const percent = total === 0 ? 100 : (passed / total) * 100;
+
+  const severities = countSeverities(results);
+  const testName = testInfo.title;
+
+  printSummary(
+    percent,
+    passed,
+    violations,
+    incomplete,
+    slug,
+    testName,
+    severities,
+  );
+
+  if (results.violations.length > 0) {
+    console.log(
+      `\n${results.violations.length} violation(s) found. Full details available in the a11y-report artifact.`,
+    );
+  }
+
+  try {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "_");
+
+    const report = {
+      meta: {
+        slug,
+        testName,
+        percent,
+        passed,
+        violations,
+        incomplete,
+        severities,
+        timestamp,
+      },
+      results,
+    };
+
+    const filename = `${filenamePrefix}-${slug.toLowerCase()}-${timestamp}.json`;
+    const outPath = testInfo.outputPath(filename);
+    await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
+
+    await testInfo.attach(filename, {
+      path: outPath,
+      contentType: "application/json",
+    });
+  } catch (err) {
+    console.error("Failed to write/attach a11y report:", err);
+  }
+
+  return percent;
+};
+
 export const clickSideNavItem = async (
   page: Page,
   slug: string,
@@ -68,71 +135,19 @@ export const runA11yAudit = async (
   page: Page,
   testInfo: TestInfo,
   parentSlug?: string,
+  actionButtonName?: string,
 ): Promise<number> => {
   await clickSideNavItem(page, slug, parentSlug);
 
-  const results = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"])
-    .analyze();
-
-  const passed = results.passes?.length ?? 0;
-  const violations = results.violations?.length ?? 0;
-  const incomplete = results.incomplete?.length ?? 0;
-  const total = passed + violations + incomplete;
-  const percent = total === 0 ? 100 : (passed / total) * 100;
-
-  const severities = countSeverities(results);
-  const testName = testInfo.title;
-
-  printSummary(
-    percent,
-    passed,
-    violations,
-    incomplete,
-    slug,
-    testName,
-    severities,
-  );
-
-  if (results.violations.length > 0) {
-    console.log(
-      `\n${results.violations.length} violation(s) found. Full details available in the a11y-report artifact.`,
-    );
+  if (actionButtonName) {
+    await page.getByRole("button", { name: actionButtonName }).click();
+    await page.waitForLoadState("networkidle");
   }
 
-  try {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "_");
+  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
 
-    const report = {
-      meta: {
-        slug,
-        testName,
-        percent,
-        passed,
-        violations,
-        incomplete,
-        severities,
-        timestamp,
-      },
-      results,
-    };
-
-    const filename = `a11y-${slug.toLowerCase()}-${timestamp}.json`;
-    const outPath = testInfo.outputPath(filename);
-    await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
-
-    await testInfo.attach(filename, {
-      path: outPath,
-      contentType: "application/json",
-    });
-  } catch (err) {
-    console.error("Failed to write/attach a11y report:", err);
-  }
-
-  return percent;
+  return processA11yResults(slug, results, testInfo, "a11y");
 };
-
-const PANEL_SELECTOR = '[aria-label="Side panel"]';
 
 export const runA11yAuditForPanel = async (
   slug: string,
@@ -143,64 +158,10 @@ export const runA11yAuditForPanel = async (
 
   const results = await new AxeBuilder({ page })
     .include(PANEL_SELECTOR)
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"])
+    .withTags(WCAG_TAGS)
     .analyze();
 
-  const passed = results.passes?.length ?? 0;
-  const violations = results.violations?.length ?? 0;
-  const incomplete = results.incomplete?.length ?? 0;
-  const total = passed + violations + incomplete;
-  const percent = total === 0 ? 100 : (passed / total) * 100;
-
-  const severities = countSeverities(results);
-  const testName = testInfo.title;
-
-  printSummary(
-    percent,
-    passed,
-    violations,
-    incomplete,
-    slug,
-    testName,
-    severities,
-  );
-
-  if (results.violations.length > 0) {
-    console.log(
-      `\n${results.violations.length} violation(s) found. Full details available in the a11y-report artifact.`,
-    );
-  }
-
-  try {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "_");
-
-    const report = {
-      meta: {
-        slug,
-        testName,
-        percent,
-        passed,
-        violations,
-        incomplete,
-        severities,
-        timestamp,
-      },
-      results,
-    };
-
-    const filename = `a11y-panel-${slug.toLowerCase()}-${timestamp}.json`;
-    const outPath = testInfo.outputPath(filename);
-    await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
-
-    await testInfo.attach(filename, {
-      path: outPath,
-      contentType: "application/json",
-    });
-  } catch (err) {
-    console.error("Failed to write/attach a11y report:", err);
-  }
-
-  return percent;
+  return processA11yResults(slug, results, testInfo, "a11y-panel");
 };
 
 export const closePanel = async (page: Page): Promise<void> => {
