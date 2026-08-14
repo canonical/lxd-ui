@@ -13,12 +13,12 @@
   }
 
   .description {
-    width: 15rem;
+    width: 10rem;
   }
 
   .name,
   .role {
-    width: 10rem;
+    width: 8rem;
   }
 
   .p-panel__controls {
@@ -29,8 +29,12 @@
     margin-top: 0;
   }
 
-  .key-field {
+  .access-key {
     min-width: 15rem;
+  }
+
+  .secret-key {
+    width: 18rem;
   }
 
   @media screen and (width > 1090px) and (width < 1400px) {

@@ -74,7 +74,9 @@ export const deleteBucketKey = async (
   bucketKey: string,
 ) => {
   const row = page.getByRole("row").filter({ hasText: bucketKey });
-  await row.getByRole("button", { name: "Delete key", exact: true }).click();
+  await row
+    .getByRole("button", { name: "Delete bucket key", exact: true })
+    .click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
