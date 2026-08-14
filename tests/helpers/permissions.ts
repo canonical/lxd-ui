@@ -1,29 +1,5 @@
-import { test, expect, type LxdVersions } from "../fixtures/lxd-test";
+import { expect } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
-
-export const supportsFineGrainedAuthorisation = (lxdVersion: LxdVersions) => {
-  return lxdVersion !== "5.0-edge";
-};
-
-const supportsBearerIdentities = (lxdVersion: LxdVersions) => {
-  return lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge";
-};
-
-export const skipIfFineGrainedAuthorisationNotSupported = (
-  lxdVersion: LxdVersions,
-) => {
-  test.skip(
-    !supportsFineGrainedAuthorisation(lxdVersion),
-    "Fine grained authorisation is not available for lxd 5.0",
-  );
-};
-
-export const skipIfBearerIdentitiesNotSupported = (lxdVersion: LxdVersions) => {
-  test.skip(
-    !supportsBearerIdentities(lxdVersion),
-    "Bearer identities tests not supported for lxd 5.0 and 5.21",
-  );
-};
 
 export const assertTextVisible = async (
   page: Page,

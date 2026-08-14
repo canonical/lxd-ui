@@ -1,17 +1,10 @@
 import type { Page } from "@playwright/test";
-import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
+import { expect } from "../fixtures/lxd-test";
 import { getLxcCmd } from "./auth";
 import { dismissNotification } from "./notification";
 import { visitInstance } from "./instances";
 import { randomNameSuffix } from "./name";
 import { runCommand } from "./shell";
-
-export const skipIfFileExplorerNotSupported = (lxdVersion: LxdVersions) => {
-  test.skip(
-    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
-    "File Explorer not supported for lxd 5.0 and 5.21",
-  );
-};
 
 export const randomFileName = (): string => {
   return `playwright-entry-${randomNameSuffix()}`;

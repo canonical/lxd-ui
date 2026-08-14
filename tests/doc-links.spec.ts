@@ -14,7 +14,6 @@ import {
 import {
   collectAllDocPaths,
   checkDocumentationExists,
-  skipIfEmbeddedDocumentationNotSupported,
   validateLink,
 } from "./helpers/doc-links";
 import { openServerSetting, visitServerSettings } from "./helpers/server";
@@ -22,12 +21,7 @@ import { activateOverride } from "./helpers/configuration";
 
 test("Ensure the documentation link text and link targets are present: Server Settings > Override", async ({
   page,
-  lxdVersion,
 }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Generated documentation only started shipping with newer versions of LXD",
-  );
   await visitServerSettings(page);
 
   await openServerSetting(page, "cluster.https_address");
@@ -64,12 +58,7 @@ test("Ensure the documentation link text and link targets are present: Server Se
 
 test("Ensure the documentation link text and link targets are present: Instance Detail > Configuration", async ({
   page,
-  lxdVersion,
 }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Unavailable API Extensions: metadata_configuration",
-  );
   const instance = randomInstanceName();
   await createInstance(page, instance);
   await editInstance(page, instance);
@@ -115,12 +104,7 @@ test("Ensure the documentation link text and link targets are present: Instance 
 
 test("Ensure the documentation link text and link targets are present: Project > Configuration", async ({
   page,
-  lxdVersion,
 }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Unavailable API Extensions: metadata_configuration",
-  );
   const project = randomProjectName();
   await createProject(page, project);
   await openProjectConfiguration(page);
@@ -224,10 +208,7 @@ test("Ensure the documentation link text and link targets are present: Project >
 
 test("DocLink validation: collect all doc paths and verify they exist", async ({
   page,
-  lxdVersion,
 }) => {
-  skipIfEmbeddedDocumentationNotSupported(lxdVersion);
-
   const allDocPaths = collectAllDocPaths();
   console.log(`\nTotal unique doc paths found: ${allDocPaths.size}`);
   allDocPaths.forEach((path) => {

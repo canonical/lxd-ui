@@ -14,12 +14,7 @@ import {
   randomProjectName,
   renameProject,
 } from "./helpers/projects";
-import {
-  createInstance,
-  deleteInstance,
-  randomInstanceName,
-} from "./helpers/instances";
-import { deleteAllImages } from "./helpers/images";
+import { createInstance, randomInstanceName } from "./helpers/instances";
 import { dismissNotification } from "./helpers/notification";
 
 test("project create and remove", async ({ page }) => {
@@ -38,20 +33,14 @@ test("project rename", async ({ page }) => {
   await deleteProject(page, newName);
 });
 
-test("project edit configuration", async ({ page, lxdVersion }) => {
+test("project edit configuration", async ({ page }) => {
   const project = randomProjectName();
   await createProject(page, project);
   await openProjectConfiguration(page);
 
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await page.locator("span").filter({ hasText: "Networks" }).click();
-  if (lxdVersion === "5.0-edge") {
-    await expect(
-      page.locator("label").filter({ hasText: "Network zones" }),
-    ).toBeHidden();
-  } else {
-    await page.locator("label").filter({ hasText: "Network zones" }).click();
-  }
+  await page.locator("label").filter({ hasText: "Network zones" }).click();
   await page.getByText("Allow custom restrictions on a project level").click();
 
   await page.getByText("Resource limits").click();
@@ -97,23 +86,14 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setTextarea(page, "Network uplinks", "lxdbr0");
   await setTextarea(page, "Network zones", "foo,bar");
 
-  if (lxdVersion === "5.0-edge") {
-    // network zones option is not available in 5.0-edge, so total changes are one less
-    await page.getByRole("button", { name: "Save 32 changes" }).click();
-  } else {
-    await page.getByRole("button", { name: "Save 33 changes" }).click();
-  }
+  await page.getByRole("button", { name: "Save 33 changes" }).click();
   await dismissNotification(page, `Project ${project} updated.`);
 
   await page.getByText("Project details").click();
 
   await assertTextVisible(page, "DescriptionA-new-description");
   await expect(page.locator("input#features_networks")).toHaveValue("on");
-  if (lxdVersion !== "5.0-edge") {
-    await expect(page.locator("input#features_networks_zones")).toHaveValue(
-      "on",
-    );
-  }
+  await expect(page.locator("input#features_networks_zones")).toHaveValue("on");
 
   await page.getByText("Resource limits").click();
   await assertReadMode(page, "Max number of instances", "1");
@@ -175,13 +155,7 @@ test("retain custom project selection on browsing pages for all projects", async
 
 test("project deletion with instances - force delete supported", async ({
   page,
-  lxdVersion,
 }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "The necessary projects_force_delete API extension is not backported to LXD 5.0",
-  );
-
   const project = randomProjectName();
   const instance = randomInstanceName();
 
@@ -209,58 +183,6 @@ test("project deletion with instances - force delete supported", async ({
   await expect(
     page.getByRole("row", { name: /Instance \(1\)/ }).getByText(instance),
   ).toBeVisible();
-
-  await confirmDelete(page, project);
-});
-
-test("project deletion with instances - force delete not supported", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion !== "5.0-edge",
-    "This test is specifically for LXD versions that don't support projects_force_delete",
-  );
-
-  const project = randomProjectName();
-  const instance = randomInstanceName();
-
-  await createProject(page, project);
-  await createInstance(page, instance, "container", project);
-  await page.getByRole("link", { name: "Configuration" }).click();
-  await page.getByText("Project configuration").waitFor();
-
-  const deleteButton = page.getByRole("button", { name: "Delete" });
-  await expect(deleteButton).toBeDisabled();
-
-  // Check the tooltip shows detailed explanation with upgrade instructions
-  await deleteButton.hover();
-  await expect(
-    page.getByText("Cannot delete non-empty project."),
-  ).toBeVisible();
-  await expect(page.getByText("Project is used by:")).toBeVisible();
-  await expect(page.getByText("Instances (1)")).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Instances" }).first(),
-  ).toBeVisible();
-  await expect(
-    page.getByText(
-      "Remove all resources first, or upgrade to LXD 6.6 or newer to use force deletion.",
-    ),
-  ).toBeVisible();
-
-  await deleteInstance(page, instance, project);
-  await deleteAllImages(page, project);
-
-  await page.getByRole("link", { name: "Configuration" }).click();
-  await page.waitForLoadState("networkidle");
-  await page.getByText("Project configuration").waitFor();
-
-  // Now the delete button should be enabled because the project is empty
-  await expect(deleteButton).toBeEnabled();
-
-  await deleteButton.click();
-  await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
 
   await confirmDelete(page, project);
 });

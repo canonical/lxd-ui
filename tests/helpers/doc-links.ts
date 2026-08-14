@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { expect, test } from "../fixtures/lxd-test";
+import { expect } from "../fixtures/lxd-test";
 import { execSync } from "child_process";
 
 export const validateLink = async (
@@ -50,11 +50,4 @@ export async function checkDocumentationExists(
     const errorMessage = error instanceof Error ? error.message : String(error);
     return { exists: false, error: errorMessage };
   }
-}
-
-export function skipIfEmbeddedDocumentationNotSupported(lxdVersion: string) {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Embedded documentation is not supported in LXD 5.0 and older; skipping link validation.",
-  );
 }

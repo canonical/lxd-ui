@@ -127,14 +127,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lxd_channel: ["5.0/edge", "5.21/edge", "latest/edge"]
+        lxd_channel: ["latest/edge"]
         browser: ["chromium", "firefox"]
         deployment: ["unclustered", "clustered", "single-node-cluster"]
-        exclude:
-          - lxd_channel: "5.0/edge"
-            deployment: "clustered"
-          - lxd_channel: "5.0/edge"
-            deployment: "single-node-cluster"
     outputs:
       job_status: ${{job.status}}
     steps:

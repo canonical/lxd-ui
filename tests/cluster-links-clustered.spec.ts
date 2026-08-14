@@ -3,7 +3,6 @@ import {
   deleteClusterLink,
   editClusterLink,
   randomLinkName,
-  skipIfClusterLinksNotSupported,
   createClusterLinkOnRemoteCluster,
   deleteClusterLinkOnRemoteCluster,
   visitClusterLinks,
@@ -21,15 +20,10 @@ import {
   deleteReplicatorFromDetailPage,
   randomReplicatorName,
   setupProjectsForReplicator,
-  skipIfReplicatorsNotSupported,
   visitReplicators,
 } from "./helpers/replicators";
 
-test("cluster link create edit delete", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfClusterLinksNotSupported(lxdVersion);
+test("cluster link create edit delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();
@@ -53,11 +47,7 @@ test("cluster link create edit delete", async ({
   await expect(row).toHaveCount(0);
 });
 
-test("cluster link table displays all links", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfClusterLinksNotSupported(lxdVersion);
+test("cluster link table displays all links", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const link1 = randomLinkName();
@@ -76,11 +66,7 @@ test("cluster link table displays all links", async ({
   await deleteClusterLink(page, link2);
 });
 
-test("consume token to create cluster link", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfClusterLinksNotSupported(lxdVersion);
+test("consume token to create cluster link", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();
@@ -101,10 +87,7 @@ test("consume token to create cluster link", async ({
 
 test("cluster link deletion is blocked while in use by a replicator", async ({
   page,
-  lxdVersion,
 }, testInfo) => {
-  skipIfClusterLinksNotSupported(lxdVersion);
-  skipIfReplicatorsNotSupported(lxdVersion);
   skipIfNotClustered(testInfo.project.name);
 
   const project = randomProjectName();
@@ -143,11 +126,7 @@ test("cluster link deletion is blocked while in use by a replicator", async ({
   await deleteAllAfterReplicatorTest(page, project, clusterLink);
 });
 
-test("create unidirectional cluster link", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfClusterLinksNotSupported(lxdVersion);
+test("create unidirectional cluster link", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const link = randomLinkName();

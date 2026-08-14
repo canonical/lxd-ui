@@ -230,11 +230,7 @@ test("add, edit and remove a proxy device", async ({ page }) => {
   await expect(page.getByLabel("Address").first()).not.toBeVisible();
 });
 
-test("add, edit and remove an other device", async ({ page, lxdVersion }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Other device configuration not supported in lxd v5.0/edge",
-  );
+test("add, edit and remove an other device", async ({ page }) => {
   const profile = randomProfileName();
 
   // Add Other Device

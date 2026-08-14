@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { expect, type LxdVersions } from "../fixtures/lxd-test";
+import { expect } from "../fixtures/lxd-test";
 
 export const setOption = async (page: Page, field: string, value: string) => {
   await activateOverride(page, field);
@@ -105,15 +105,9 @@ export const setMemLimit = async (
   await page.getByPlaceholder(text).fill(limit);
 };
 
-export const setSchedule = async (
-  page: Page,
-  value: string,
-  lxdVersion: LxdVersions,
-) => {
+export const setSchedule = async (page: Page, value: string) => {
   const scheduleFieldText =
-    lxdVersion === "5.0-edge"
-      ? "Schedule"
-      : "Schedule Schedule for automatic instance snapshots - From: LXD";
+    "Schedule Schedule for automatic instance snapshots - From: LXD";
 
   await activateOverride(page, scheduleFieldText);
   await page

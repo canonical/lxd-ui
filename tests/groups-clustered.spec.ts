@@ -3,27 +3,18 @@ import {
   createClusterGroup,
   deleteClusterGroup,
   randomGroupName,
-  skipIfClusteringNotSupported,
   toggleClusterGroupMember,
 } from "./helpers/cluster-groups";
 import { getFirstClusterMember, skipIfNotClustered } from "./helpers/cluster";
 
-test("cluster group create and delete", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfClusteringNotSupported(lxdVersion);
+test("cluster group create and delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
   const group = randomGroupName();
   await createClusterGroup(page, group);
   await deleteClusterGroup(page, group);
 });
 
-test("cluster group add and remove members", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfClusteringNotSupported(lxdVersion);
+test("cluster group add and remove members", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
   const group = randomGroupName();
   const member = await getFirstClusterMember(page);

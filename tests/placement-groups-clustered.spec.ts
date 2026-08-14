@@ -4,7 +4,6 @@ import {
   deletePlacementGroup,
   editPlacementGroup,
   randomPlacementGroupName,
-  skipIfPlacementGroupsNotSupported,
 } from "./helpers/placement-groups";
 import {
   createProfile,
@@ -24,11 +23,7 @@ import {
 } from "./helpers/instances";
 import { skipIfNotClustered } from "./helpers/cluster";
 
-test("placement group create, edit, delete", async ({
-  lxdVersion,
-  page,
-}, testInfo) => {
-  skipIfPlacementGroupsNotSupported(lxdVersion);
+test("placement group create, edit, delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
   const placementGroup = randomPlacementGroupName();
 
@@ -37,11 +32,7 @@ test("placement group create, edit, delete", async ({
   await deletePlacementGroup(page, placementGroup);
 });
 
-test("apply placement group to profile", async ({
-  lxdVersion,
-  page,
-}, testInfo) => {
-  skipIfPlacementGroupsNotSupported(lxdVersion);
+test("apply placement group to profile", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
   const placementGroup = randomPlacementGroupName();
   const profile = randomProfileName();
@@ -63,11 +54,7 @@ test("apply placement group to profile", async ({
   await deletePlacementGroup(page, placementGroup);
 });
 
-test("apply placement group to instance", async ({
-  lxdVersion,
-  page,
-}, testInfo) => {
-  skipIfPlacementGroupsNotSupported(lxdVersion);
+test("apply placement group to instance", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
   const placementGroup = randomPlacementGroupName();
   const instance = randomInstanceName();

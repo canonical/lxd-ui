@@ -22,14 +22,11 @@ import {
   confirmGroupsModifiedForIdentity,
   redoChange,
   undoChange,
-  skipIfFineGrainedAuthorisationNotSupported,
-  skipIfBearerIdentitiesNotSupported,
 } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
 import { IDENTITY_TYPE } from "util/identityTypes";
 
-test("manage groups for single identity", async ({ page, lxdVersion }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+test("manage groups for single identity", async ({ page }) => {
   // first create some groups
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
@@ -71,8 +68,7 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
   await deleteGroup(page, groupTwo);
 });
 
-test("manage groups for many identities", async ({ page, lxdVersion }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+test("manage groups for many identities", async ({ page }) => {
   // first create some groups
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
@@ -127,13 +123,7 @@ test("manage groups for many identities", async ({ page, lxdVersion }) => {
   await deleteGroup(page, groupTwo);
 });
 
-test("reissue a new token for bearer identity", async ({
-  page,
-  lxdVersion,
-}) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-  skipIfBearerIdentitiesNotSupported(lxdVersion);
-
+test("reissue a new token for bearer identity", async ({ page }) => {
   const identity = randomIdentityName();
 
   // Create a bearer identity and capture its first token.
@@ -160,21 +150,13 @@ test("reissue a new token for bearer identity", async ({
   await deleteIdentity(page, identity);
 });
 
-test("create and delete TLS identity", async ({ page, lxdVersion }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+test("create and delete TLS identity", async ({ page }) => {
   const tlsName = randomIdentityName();
   await createIdentity(page, tlsName, IDENTITY_TYPE.TLS);
   await deleteIdentity(page, tlsName);
 });
 
-test("create and delete token bearer identities", async ({
-  page,
-  lxdVersion,
-}) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-  skipIfBearerIdentitiesNotSupported(lxdVersion);
-
+test("create and delete token bearer identities", async ({ page }) => {
   const bearerClientName = randomIdentityName();
   const bearerDevlxdName = randomIdentityName();
   const clusterLinkName = randomIdentityName();
