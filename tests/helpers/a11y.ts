@@ -48,7 +48,7 @@ const countSeverities = (results: AxeResults): Record<string, number> => {
   return counts;
 };
 
-const clickSideNavItem = async (
+export const clickSideNavItem = async (
   page: Page,
   slug: string,
   parentSlug?: string,
@@ -132,7 +132,97 @@ export const runA11yAudit = async (
   return percent;
 };
 
-export const skipIfA11yProject = (projectName: string) => {
+const PANEL_SELECTOR = '[aria-label="Side panel"]';
+
+export const runA11yAuditForPanel = async (
+  slug: string,
+  page: Page,
+  testInfo: TestInfo,
+): Promise<number> => {
+  await page.locator(PANEL_SELECTOR).waitFor({ state: "visible" });
+
+  const results = await new AxeBuilder({ page })
+    .include(PANEL_SELECTOR)
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"])
+    .analyze();
+
+  const passed = results.passes?.length ?? 0;
+  const violations = results.violations?.length ?? 0;
+  const incomplete = results.incomplete?.length ?? 0;
+  const total = passed + violations + incomplete;
+  const percent = total === 0 ? 100 : (passed / total) * 100;
+
+  const severities = countSeverities(results);
+  const testName = testInfo.title;
+
+  printSummary(
+    percent,
+    passed,
+    violations,
+    incomplete,
+    slug,
+    testName,
+    severities,
+  );
+
+  if (results.violations.length > 0) {
+    console.log(
+      `\n${results.violations.length} violation(s) found. Full details available in the a11y-report artifact.`,
+    );
+  }
+
+  try {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "_");
+
+    const report = {
+      meta: {
+        slug,
+        testName,
+        percent,
+        passed,
+        violations,
+        incomplete,
+        severities,
+        timestamp,
+      },
+      results,
+    };
+
+    const filename = `a11y-panel-${slug.toLowerCase()}-${timestamp}.json`;
+    const outPath = testInfo.outputPath(filename);
+    await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
+
+    await testInfo.attach(filename, {
+      path: outPath,
+      contentType: "application/json",
+    });
+  } catch (err) {
+    console.error("Failed to write/attach a11y report:", err);
+  }
+
+  return percent;
+};
+
+export const closePanel = async (page: Page): Promise<void> => {
+  const panel = page.locator(PANEL_SELECTOR);
+  const cancelButton = panel.getByRole("button", { name: "Cancel" });
+  const closeButton = panel.locator("button[aria-label=Close]");
+
+  if (await cancelButton.isVisible()) {
+    await cancelButton.click();
+  } else {
+    await closeButton.click();
+  }
+
+  await panel.waitFor({ state: "hidden" });
+};
+
+export const hasTableRows = async (page: Page): Promise<boolean> => {
+  const rows = page.getByRole("row");
+  return (await rows.count()) > 1;
+};
+
+export const skipIfNotA11yProject = (projectName: string) => {
   test.skip(!isA11yProject(projectName));
 };
 
