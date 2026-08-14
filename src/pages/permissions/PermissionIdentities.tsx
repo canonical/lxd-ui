@@ -31,7 +31,6 @@ import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted, pluralize } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
@@ -52,7 +51,6 @@ const PermissionIdentities: FC = () => {
   const panelParams = usePanelParams();
   const [searchParams] = useSearchParams();
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
-  const { hasAccessManagementTLS } = useSupportedFeatures();
   const { canEditIdentity } = useIdentityEntitlements();
 
   useEffect(() => {
@@ -221,9 +219,7 @@ const PermissionIdentities: FC = () => {
               >
                 <Icon name="edit" />
               </Button>
-              {hasAccessManagementTLS && (
-                <DeleteIdentityBtn identity={identity} />
-              )}
+              <DeleteIdentityBtn identity={identity} />
             </>
           ),
           className: "actions u-align--right",
@@ -306,9 +302,7 @@ const PermissionIdentities: FC = () => {
                     identities={selectedIdentities}
                     className="u-no-margin--bottom"
                   />
-                  {hasAccessManagementTLS && (
-                    <BulkDeleteIdentitiesBtn identities={selectedIdentities} />
-                  )}
+                  <BulkDeleteIdentitiesBtn identities={selectedIdentities} />
                 </div>
               )}
             </PageHeader.Left>

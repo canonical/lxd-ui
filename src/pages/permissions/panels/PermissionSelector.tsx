@@ -2,7 +2,6 @@ import { Button, CustomSelect, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { useConfigOptions } from "context/useConfigOptions";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEffect, useRef, useState, type FC } from "react";
 import {
   generateEntitlementOptions,
@@ -33,7 +32,6 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
   const [entitlement, setEntitlement] = useState("");
-  const { hasEntityTypeMetadata } = useSupportedFeatures();
   const permissionSelectorRef = useRef<HTMLDivElement>(null);
 
   // Refs for select components, these contain methods to open/close the dropdown programmatically
@@ -162,12 +160,10 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
     identityNamesLookup,
   );
 
-  // if we have metadata api extension, but no entity type metadata, we can't show entitlement descriptions
-  const validMetadata = hasEntityTypeMetadata ? metadata : null;
   const entitlementOptions = generateEntitlementOptions(
     resourceType,
     permissions,
-    validMetadata,
+    metadata,
   );
 
   const isServerResourceType = resourceType === "server";

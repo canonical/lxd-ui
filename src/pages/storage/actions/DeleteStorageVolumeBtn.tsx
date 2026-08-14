@@ -12,7 +12,6 @@ import { deleteStorageVolume } from "api/storage-volumes";
 import classNames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import { useEventQueue } from "context/eventQueue";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -40,7 +39,6 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   const queryClient = useQueryClient();
   const { canDeleteVolume } = useStorageVolumeEntitlements();
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const getDisabledReason = () => {
     if (volume.name.includes("/")) {
@@ -97,18 +95,14 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
 
     deleteStorageVolume(volume.name, volume.pool, project, volume.location)
       .then((operation) => {
-        if (hasStorageAndProfileOperations) {
-          eventQueue.set(
-            operation.metadata.id,
-            onFinish,
-            (msg) => {
-              handleFailure(new Error(msg));
-            },
-            handleFinish,
-          );
-        } else {
-          onFinish();
-        }
+        eventQueue.set(
+          operation.metadata.id,
+          onFinish,
+          (msg) => {
+            handleFailure(new Error(msg));
+          },
+          handleFinish,
+        );
       })
       .catch(handleFailure);
   };

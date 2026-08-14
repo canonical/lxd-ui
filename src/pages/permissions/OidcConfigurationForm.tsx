@@ -1,11 +1,6 @@
 import type { FC } from "react";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import {
-  MainTable,
-  Notification,
-  Spinner,
-  useNotify,
-} from "@canonical/react-components";
+import { MainTable, Spinner, useNotify } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useConfigOptions } from "context/useConfigOptions";
@@ -21,12 +16,7 @@ interface Props {
 
 const OidcConfigurationForm: FC<Props> = ({ closeModal }: Props) => {
   const notify = useNotify();
-  const {
-    hasMetadataConfiguration,
-    settings,
-    isSettingsLoading,
-    settingsError,
-  } = useSupportedFeatures();
+  const { settings, isSettingsLoading, settingsError } = useSupportedFeatures();
   const { data: configOptions, isLoading: isConfigOptionsLoading } =
     useConfigOptions();
   const {
@@ -82,15 +72,6 @@ const OidcConfigurationForm: FC<Props> = ({ closeModal }: Props) => {
 
   return (
     <>
-      {!hasMetadataConfiguration && (
-        <Notification
-          severity="caution"
-          title="Get access to SSO configuration settings"
-          titleElement="h2"
-        >
-          Update to LXD v5.19.0 or later to access these settings
-        </Notification>
-      )}
       <SsoNotification />
       <NotificationRow className="u-no-padding" />
       <MainTable

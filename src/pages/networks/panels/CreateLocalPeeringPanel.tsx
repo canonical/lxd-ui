@@ -22,7 +22,6 @@ import type { LocalPeeringFormValues } from "types/forms/localPeering";
 import { testDuplicateLocalPeeringName } from "util/networks";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
 import ResourceLabel from "components/ResourceLabel";
 
@@ -37,7 +36,6 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
   const closePanel = () => {
     panelParams.clear();
@@ -129,19 +127,15 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
   ) => {
     createNetworkPeer(network, peerProject, JSON.stringify(payload))
       .then((mutualOperation) => {
-        if (hasStorageAndNetworkOperations) {
-          eventQueue.set(
-            mutualOperation.metadata.id,
-            () => {
-              onSuccess(localPeeringName);
-            },
-            (msg) => {
-              onFailure(false, localPeeringName, new Error(msg));
-            },
-          );
-        } else {
-          onSuccess(localPeeringName);
-        }
+        eventQueue.set(
+          mutualOperation.metadata.id,
+          () => {
+            onSuccess(localPeeringName);
+          },
+          (msg) => {
+            onFailure(false, localPeeringName, new Error(msg));
+          },
+        );
       })
       .catch((e) => {
         onFailure(false, localPeeringName, e);
@@ -194,57 +188,44 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
               target_network: network.name,
             };
 
-            if (hasStorageAndNetworkOperations) {
-              toastNotify.info(
-                <>
-                  Creation of mutual peering{" "}
-                  <ResourceLabel bold type="peering" value={values.name} /> has
-                  started.
-                </>,
-              );
-              eventQueue.set(
-                operation.metadata.id,
-                () => {
-                  createMutualPeering(
-                    targetNetwork,
-                    targetProject,
-                    mutualPeeringPayload,
-                    values.name,
-                  );
-                },
-                (msg) => {
-                  onFailure(true, values.name, new Error(msg));
-                },
-              );
-            } else {
-              createMutualPeering(
-                targetNetwork,
-                targetProject,
-                mutualPeeringPayload,
-                values.name,
-              );
-            }
+            toastNotify.info(
+              <>
+                Creation of mutual peering{" "}
+                <ResourceLabel bold type="peering" value={values.name} /> has
+                started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                createMutualPeering(
+                  targetNetwork,
+                  targetProject,
+                  mutualPeeringPayload,
+                  values.name,
+                );
+              },
+              (msg) => {
+                onFailure(true, values.name, new Error(msg));
+              },
+            );
           } else {
-            if (hasStorageAndNetworkOperations) {
-              toastNotify.info(
-                <>
-                  Creation of local peering{" "}
-                  <ResourceLabel bold type="peering" value={values.name} /> has
-                  started.
-                </>,
-              );
-              eventQueue.set(
-                operation.metadata.id,
-                () => {
-                  onSuccess(values.name);
-                },
-                (msg) => {
-                  onFailure(true, values.name, new Error(msg));
-                },
-              );
-            } else {
-              onSuccess(values.name);
-            }
+            toastNotify.info(
+              <>
+                Creation of local peering{" "}
+                <ResourceLabel bold type="peering" value={values.name} /> has
+                started.
+              </>,
+            );
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                onSuccess(values.name);
+              },
+              (msg) => {
+                onFailure(true, values.name, new Error(msg));
+              },
+            );
           }
         })
         .catch((e) => {

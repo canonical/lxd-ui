@@ -10,7 +10,6 @@ import { useFormik } from "formik";
 import { renameStoragePool } from "api/storage-pools";
 import { ROOT_PATH } from "util/rootPath";
 import StoragePoolRichChip from "./StoragePoolRichChip";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
 
 interface Props {
@@ -24,7 +23,6 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const RenameSchema = Yup.object().shape({
@@ -62,29 +60,25 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       }
       renameStoragePool(name, values.name)
         .then((operation) => {
-          if (hasStorageAndNetworkOperations) {
-            toastNotify.info(
-              <>
-                Renaming of storage pool{" "}
-                <StoragePoolRichChip
-                  poolName={values.name}
-                  projectName={project}
-                />{" "}
-                has started.
-              </>,
-            );
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                onSuccess(values.name);
-              },
-              (msg) => {
-                onFailure(values.name, new Error(msg));
-              },
-            );
-          } else {
-            onSuccess(values.name);
-          }
+          toastNotify.info(
+            <>
+              Renaming of storage pool{" "}
+              <StoragePoolRichChip
+                poolName={values.name}
+                projectName={project}
+              />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess(values.name);
+            },
+            (msg) => {
+              onFailure(values.name, new Error(msg));
+            },
+          );
 
           formik.setFieldValue("isRenaming", false);
         })

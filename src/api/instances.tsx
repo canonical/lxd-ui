@@ -40,12 +40,11 @@ export const instanceFields = ["state.disk", "state.network"];
 
 export const addRecursion = (
   params: URLSearchParams,
-  hasSelectiveRecursion: boolean,
   isFineGrained: boolean | null,
 ): void => {
   // Server doesn't support selective recursion with entitlements,
   // so only use selective recursion when not requesting entitlements
-  if (hasSelectiveRecursion && isFineGrained !== true) {
+  if (isFineGrained !== true) {
     params.set("recursion", `2;fields=${instanceFields.join(",")}`);
   } else {
     params.set("recursion", "2");
@@ -56,11 +55,10 @@ export const fetchInstance = async (
   name: string,
   project: string,
   isFineGrained: boolean | null,
-  hasSelectiveRecursion: boolean,
 ): Promise<LxdInstance> => {
   const params = new URLSearchParams();
   params.set("project", project);
-  addRecursion(params, hasSelectiveRecursion, isFineGrained);
+  addRecursion(params, isFineGrained);
   addEntitlements(params, isFineGrained, instanceEntitlements);
 
   return fetch(
@@ -75,10 +73,9 @@ export const fetchInstance = async (
 export const fetchInstances = async (
   project: string | null,
   isFineGrained: boolean | null,
-  hasSelectiveRecursion: boolean,
 ): Promise<LxdInstance[]> => {
   const params = new URLSearchParams();
-  addRecursion(params, hasSelectiveRecursion, isFineGrained);
+  addRecursion(params, isFineGrained);
   if (project) {
     params.set("project", project);
   } else {

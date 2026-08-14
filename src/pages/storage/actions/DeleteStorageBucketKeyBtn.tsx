@@ -12,7 +12,6 @@ import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets"
 import { deleteStorageBucketKey } from "api/storage-buckets";
 import { useEventQueue } from "context/eventQueue";
 import { useCurrentProject } from "context/useCurrentProject";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
@@ -28,7 +27,6 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
   const { project } = useCurrentProject();
   const projectName = project?.name || "";
   const toastNotify = useToastNotification();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const invalidateCache = () => {
@@ -74,28 +72,24 @@ const DeleteStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
       projectName,
     )
       .then((operation) => {
-        if (hasStorageAndNetworkOperations) {
-          toastNotify.info(
-            <>
-              Deletion of key{" "}
-              <ResourceLabel bold type="bucket-key" value={bucketKey.name} />{" "}
-              for storage bucket{" "}
-              <ResourceLabel bold type="bucket" value={bucket.name} />
-              has started.
-            </>,
-          );
-          eventQueue.set(
-            operation.metadata.id,
-            () => {
-              onSuccess();
-            },
-            (msg) => {
-              onFailure(new Error(msg));
-            },
-          );
-        } else {
-          onSuccess();
-        }
+        toastNotify.info(
+          <>
+            Deletion of key{" "}
+            <ResourceLabel bold type="bucket-key" value={bucketKey.name} /> for{" "}
+            storage bucket{" "}
+            <ResourceLabel bold type="bucket" value={bucket.name} /> has
+            started.
+          </>,
+        );
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            onSuccess();
+          },
+          (msg) => {
+            onFailure(new Error(msg));
+          },
+        );
       })
       .catch(onFailure);
   };

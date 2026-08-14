@@ -12,7 +12,7 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createInstance, startInstance } from "api/instances";
+import { createInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdImageType, RemoteImage } from "types/image";
@@ -108,7 +108,7 @@ const CreateInstance: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(MAIN_CONFIGURATION);
-  const { hasInstanceCreateStart, hasImageRegistries } = useSupportedFeatures();
+  const { hasImageRegistries } = useSupportedFeatures();
   const panelParams = usePanelParams();
 
   if (!project) {
@@ -155,22 +155,8 @@ const CreateInstance: FC = () => {
     );
   };
 
-  const notifyCreatedNowStarting = (instanceLink: ReactNode) => {
-    toastNotify.info(<>Created instance {instanceLink}, now starting it.</>);
-    clearCache();
-  };
-
   const notifyCreatedAndStarted = (instanceLink: ReactNode) => {
     toastNotify.success(<>Created and started instance {instanceLink}.</>);
-    clearCache();
-  };
-
-  const notifyCreatedButStartFailed = (instanceLink: ReactNode, e: Error) => {
-    toastNotify.failure(
-      "The instance was created, but could not be started.",
-      e,
-      instanceLink,
-    );
     clearCache();
   };
 
@@ -225,31 +211,6 @@ const CreateInstance: FC = () => {
       <InstanceRichChip instanceName={instanceName} projectName={project} />
     );
 
-    // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
-    if (shouldStart && !hasInstanceCreateStart) {
-      notifyCreatedNowStarting(instanceLink);
-      startInstance({
-        name: instanceName,
-        project: project,
-      } as LxdInstance)
-        .then((operation) => {
-          eventQueue.set(
-            operation.metadata.id,
-            () => {
-              notifyCreatedAndStarted(instanceLink);
-            },
-            (msg) => {
-              notifyCreatedButStartFailed(instanceLink, new Error(msg));
-            },
-          );
-        })
-        .catch((e: Error) => {
-          notifyCreatedButStartFailed(instanceLink, e);
-        });
-
-      return;
-    }
-
     const consoleUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instanceName)}/console`;
     const message = isIsoImage && (
       <>
@@ -291,7 +252,7 @@ const CreateInstance: FC = () => {
     // we still need to keep the old way of create and start instances since users may be using an older version of lxd
     const instancePayload = {
       ...instance,
-      start: hasInstanceCreateStart ? shouldStart : undefined,
+      start: shouldStart,
     };
 
     createInstance(JSON.stringify(instancePayload), project, values.target)
@@ -301,7 +262,7 @@ const CreateInstance: FC = () => {
           return;
         }
 
-        if (shouldStart && hasInstanceCreateStart) {
+        if (shouldStart) {
           notifyCreationAndStarting(instanceName, values.instanceType);
         } else {
           notifyCreationStarted(instanceName, values.instanceType);

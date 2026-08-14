@@ -26,7 +26,6 @@ import { updateNetworkAcl } from "api/network-acls";
 import { objectToYaml, yamlToObject } from "util/yaml";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { ROOT_PATH } from "util/rootPath";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
 
 interface Props {
@@ -40,7 +39,6 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
   const toastNotify = useToastNotification();
   const [section, updateSection] = useState<string>(slugify(GENERAL));
   const { canEditNetworkAcl } = useNetworkAclEntitlements();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const queryClient = useQueryClient();
@@ -98,30 +96,26 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
 
       updateNetworkAcl(saveObject, project)
         .then((operation) => {
-          if (hasStorageAndNetworkOperations) {
-            toastNotify.info(
-              <>
-                Update of Network ACL{" "}
-                <ResourceLink
-                  type="network-acl"
-                  value={networkAcl.name}
-                  to={baseUrl}
-                />{" "}
-                has started.
-              </>,
-            );
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                onSuccess();
-              },
-              (msg) => {
-                onFailure(new Error(msg));
-              },
-            );
-          } else {
-            onSuccess();
-          }
+          toastNotify.info(
+            <>
+              Update of Network ACL{" "}
+              <ResourceLink
+                type="network-acl"
+                value={networkAcl.name}
+                to={baseUrl}
+              />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess();
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
         })
         .catch((e) => {
           onFailure(e);

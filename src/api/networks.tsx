@@ -160,7 +160,6 @@ export const createClusterNetwork = async (
   network: Partial<LxdNetwork>,
   project: string,
   clusterMembers: LxdClusterMember[],
-  hasStorageAndNetworkOperations: boolean,
   parentsPerClusterMember?: ClusterSpecificValues,
   bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
 ): Promise<LxdOperationResponse> => {
@@ -192,13 +191,11 @@ export const createClusterNetwork = async (
     return res.value;
   });
 
-  if (hasStorageAndNetworkOperations) {
-    await Promise.all(
-      pendingOperations.map(async ({ operation, member }) => {
-        await waitForOperation(operation.metadata.id, member);
-      }),
-    );
-  }
+  await Promise.all(
+    pendingOperations.map(async ({ operation, member }) => {
+      await waitForOperation(operation.metadata.id, member);
+    }),
+  );
 
   // The network parent is cluster member specific, so we omit it on the cluster wide network configuration.
   delete network.config?.parent;
@@ -333,7 +330,6 @@ export const updateClusterNetwork = async (
   project: string,
   clusterMembers: LxdClusterMember[],
   parentsPerClusterMember: ClusterSpecificValues,
-  hasStorageAndNetworkOperations: boolean,
   bridgeExternalInterfacesPerClusterMember?: ClusterSpecificValues,
   oldConfig?: LxdNetworkConfig,
 ): Promise<LxdOperationResponse> => {
@@ -369,13 +365,11 @@ export const updateClusterNetwork = async (
     return res.value;
   });
 
-  if (hasStorageAndNetworkOperations) {
-    await Promise.all(
-      pendingOperations.map(async ({ operation, member }) => {
-        await waitForOperation(operation.metadata.id, member);
-      }),
-    );
-  }
+  await Promise.all(
+    pendingOperations.map(async ({ operation, member }) => {
+      await waitForOperation(operation.metadata.id, member);
+    }),
+  );
 
   return updateNetwork({ ...network, etag: "" }, project);
 };

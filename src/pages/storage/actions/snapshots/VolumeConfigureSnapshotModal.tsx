@@ -17,7 +17,6 @@ import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSna
 import { updateStorageVolume } from "api/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import { useEventQueue } from "context/eventQueue";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -29,7 +28,6 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const handleSuccess = () => {
     toastNotify.success(
@@ -69,19 +67,14 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
         volume.location,
       )
         .then((operation) => {
-          if (hasStorageAndProfileOperations) {
-            eventQueue.set(
-              operation.metadata.id,
-              handleSuccess,
-              (msg) => {
-                handleFailure(new Error(msg));
-              },
-              handleFinish,
-            );
-          } else {
-            handleSuccess();
-            handleFinish();
-          }
+          eventQueue.set(
+            operation.metadata.id,
+            handleSuccess,
+            (msg) => {
+              handleFailure(new Error(msg));
+            },
+            handleFinish,
+          );
         })
         .catch(handleFailure);
     },

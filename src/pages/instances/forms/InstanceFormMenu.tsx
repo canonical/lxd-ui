@@ -12,7 +12,6 @@ import {
   mediumScreenBreakpoint,
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { hasPrefixValue } from "util/formFields";
 import {
@@ -56,7 +55,6 @@ const InstanceFormMenu: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const [isDeviceExpanded, setDeviceExpanded] = useState(true);
-  const { hasMetadataConfiguration } = useSupportedFeatures();
   const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
   const [isMenuExpanded, setMenuExpanded] = useState(!isMediumScreen);
 
@@ -154,13 +152,11 @@ const InstanceFormMenu: FC<Props> = ({
                   {...menuItemProps}
                   isBold={formik.values.devices.some(isProxyDevice)}
                 />
-                {hasMetadataConfiguration && (
-                  <MenuItem
-                    label={OTHER_DEVICES}
-                    {...menuItemProps}
-                    isBold={formik.values.devices.some(isOtherDevice)}
-                  />
-                )}
+                <MenuItem
+                  label={OTHER_DEVICES}
+                  {...menuItemProps}
+                  isBold={formik.values.devices.some(isOtherDevice)}
+                />
               </ul>
             </li>
             <MenuItem

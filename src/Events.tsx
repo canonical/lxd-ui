@@ -9,7 +9,6 @@ import { useListener, useNotify } from "@canonical/react-components";
 import { useMemberLoading } from "context/memberLoading";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdOperation } from "types/operation";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const EVENT_HANDLER_DELAY = 250;
 const WS_RETRY_DELAY_MULTIPLIER = 250;
@@ -32,7 +31,6 @@ const Events: FC = () => {
     clearOperationProgress,
   } = useOperations();
   const memberLoading = useMemberLoading();
-  const { hasBulkOperations } = useSupportedFeatures();
 
   const getCurrentTime = () => {
     return new Date().getTime();
@@ -195,7 +193,6 @@ const Events: FC = () => {
         const event = JSON.parse(message.data) as LxdEvent;
         if (event.type === "operation") {
           const isInstanceCreationUpdate =
-            hasBulkOperations &&
             event.metadata.status === "Running" &&
             event.metadata.description === "Creating instance" &&
             Object.keys(event.metadata.metadata ?? {}).length > 1;

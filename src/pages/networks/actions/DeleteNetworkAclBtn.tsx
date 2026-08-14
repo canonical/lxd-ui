@@ -15,7 +15,6 @@ import classnames from "classnames";
 import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { deleteNetworkAcl } from "api/network-acls";
 import { ROOT_PATH } from "util/rootPath";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
 
 interface Props {
@@ -32,7 +31,6 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
   const location = useLocation();
   const isSmallScreen = useIsScreenBelow();
   const { canDeleteNetworkAcl } = useNetworkAclEntitlements();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const invalidateCache = () => {
@@ -74,26 +72,22 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
     setLoading(true);
     deleteNetworkAcl(networkAcl.name, project)
       .then((operation) => {
-        if (hasStorageAndNetworkOperations) {
-          toastNotify.info(
-            <>
-              Deletion of Network ACL{" "}
-              <ResourceLabel bold type="network-acl" value={networkAcl.name} />{" "}
-              has started.
-            </>,
-          );
-          eventQueue.set(
-            operation.metadata.id,
-            () => {
-              onSuccess();
-            },
-            (msg) => {
-              onFailure(new Error(msg));
-            },
-          );
-        } else {
-          onSuccess();
-        }
+        toastNotify.info(
+          <>
+            Deletion of Network ACL{" "}
+            <ResourceLabel bold type="network-acl" value={networkAcl.name} />{" "}
+            has started.
+          </>,
+        );
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            onSuccess();
+          },
+          (msg) => {
+            onFailure(new Error(msg));
+          },
+        );
       })
       .catch((e) => {
         onFailure(e);

@@ -3,7 +3,6 @@ import { useDocs } from "context/useDocs";
 import { configDescriptionToHtml } from "util/config";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDocObjects } from "api/server";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   description?: string;
@@ -12,10 +11,9 @@ interface Props {
 
 const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
   const docBaseLink = useDocs();
-  const { hasDocumentationObject } = useSupportedFeatures();
   const objectsInvTxt = useQuery({
     queryKey: ["documentation/objects.inv.txt"],
-    queryFn: async () => fetchDocObjects(hasDocumentationObject),
+    queryFn: async () => fetchDocObjects(),
     staleTime: 60_000, // consider cache fresh for 1 minutes to avoid excessive API calls
   });
 

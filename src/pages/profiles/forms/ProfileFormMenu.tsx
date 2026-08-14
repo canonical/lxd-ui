@@ -4,7 +4,6 @@ import { Button, useListener, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { hasPrefixValue } from "util/formFields";
 import {
   isDiskDevice,
@@ -43,7 +42,6 @@ const ProfileFormMenu: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const [isDeviceExpanded, setDeviceExpanded] = useState(true);
-  const { hasMetadataConfiguration } = useSupportedFeatures();
 
   const disableReason = isDisabled
     ? "Please enter a name before adding custom configuration"
@@ -111,13 +109,11 @@ const ProfileFormMenu: FC<Props> = ({
                 {...menuItemProps}
                 isBold={formik.values.devices.some(isProxyDevice)}
               />
-              {hasMetadataConfiguration && (
-                <MenuItem
-                  label={OTHER_DEVICES}
-                  {...menuItemProps}
-                  isBold={formik.values.devices.some(isOtherDevice)}
-                />
-              )}
+              <MenuItem
+                label={OTHER_DEVICES}
+                {...menuItemProps}
+                isBold={formik.values.devices.some(isOtherDevice)}
+              />
             </ul>
           </li>
           <MenuItem

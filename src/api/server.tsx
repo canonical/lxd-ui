@@ -128,13 +128,7 @@ export const fetchClusterMembersResources = async (
   return data;
 };
 
-export const fetchConfigOptions = async (
-  hasMetadataConfiguration: boolean,
-): Promise<LxdMetadata | null> => {
-  if (!hasMetadataConfiguration) {
-    return null;
-  }
-
+export const fetchConfigOptions = async (): Promise<LxdMetadata | null> => {
   return fetch(`${ROOT_PATH}/1.0/metadata/configuration`)
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdMetadata>) => {
@@ -142,13 +136,7 @@ export const fetchConfigOptions = async (
     });
 };
 
-export const fetchDocObjects = async (
-  hasDocumentationObject: boolean,
-): Promise<string[]> => {
-  if (!hasDocumentationObject) {
-    return [];
-  }
-
+export const fetchDocObjects = async (): Promise<string[]> => {
   return fetch(`${ROOT_PATH}/documentation/objects.inv.txt`)
     .then(handleTextResponse)
     .then((data) => {
