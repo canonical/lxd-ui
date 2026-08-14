@@ -2,10 +2,9 @@ import type { FC } from "react";
 import { CustomLayout, Row } from "@canonical/react-components";
 import ClusterCard from "pages/overview/ClusterCard";
 import InstancesCard from "pages/overview/InstancesCard";
-import ProjectsCard from "pages/overview/ProjectsCard";
-import MemoryCard from "pages/overview/MemoryCard";
-import StorageCard from "pages/overview/StorageCard";
 import NetworksCard from "pages/overview/NetworksCard";
+import ProjectsCard from "pages/overview/ProjectsCard";
+import StorageCard from "pages/overview/StorageCard";
 import WarningsCard from "pages/overview/WarningsCard";
 
 const Overview: FC = () => {
@@ -15,12 +14,9 @@ const Overview: FC = () => {
         <InstancesCard />
         <ClusterCard />
       </Row>
-      <Row>
-        <ProjectsCard />
-      </Row>
       <Row className="overview-row">
+        <ProjectsCard />
         <StorageCard />
-        <MemoryCard />
       </Row>
       <Row>
         <WarningsCard />

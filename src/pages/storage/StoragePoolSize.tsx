@@ -12,6 +12,7 @@ interface Props {
   hasMeterBar?: boolean;
   member?: LxdClusterMember;
   forceSingleLine?: boolean;
+  hasPercentage?: boolean;
 }
 
 const StoragePoolSize: FC<Props> = ({
@@ -19,6 +20,7 @@ const StoragePoolSize: FC<Props> = ({
   hasMeterBar,
   member,
   forceSingleLine,
+  hasPercentage,
 }) => {
   // When a single member is provided, the resource usage is shown for that member only
 
@@ -27,6 +29,7 @@ const StoragePoolSize: FC<Props> = ({
     isClusterLocalDriver(pool.driver) && isClustered;
   const { data: resources } = useStoragePoolResources(pool, member);
   const resourceList = ensureArray(resources);
+
   if (
     hasMemberSpecificSize &&
     forceSingleLine &&
@@ -47,10 +50,12 @@ const StoragePoolSize: FC<Props> = ({
         const used = poolResource.space.used || 0;
         const resourceKey = poolResource.memberName || `resource-${index}`;
 
+        const usedPercentage = total > 0 ? (used * 100) / total : 0;
+
         if (!hasMeterBar) {
           return (
             <div key={resourceKey}>
-              {`${humanFileSize(used)} of ${humanFileSize(total)} used`}
+              {`${humanFileSize(used, 0)} of ${humanFileSize(total, 0)} used`}
             </div>
           );
         }
@@ -58,8 +63,11 @@ const StoragePoolSize: FC<Props> = ({
         return (
           <Meter
             key={resourceKey}
-            percentage={(100 / total) * used || 0}
-            text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
+            percentage={usedPercentage}
+            text={
+              `${humanFileSize(used, 0)} of ${humanFileSize(total, 0)} used` +
+              (hasPercentage ? ` (${Math.round(usedPercentage)}%)` : "")
+            }
           />
         );
       })}

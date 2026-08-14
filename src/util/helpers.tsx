@@ -165,7 +165,7 @@ export const handleRawResponse = async (
   return response;
 };
 
-export const humanFileSize = (bytes: number): string => {
+export const humanFileSize = (bytes: number, precision = 1): string => {
   if (Math.abs(bytes) < 1000) {
     return `${bytes} B`;
   }
@@ -181,7 +181,7 @@ export const humanFileSize = (bytes: number): string => {
     u < units.length - 1
   );
 
-  return `${bytes.toFixed(1)} ${units[u]}`;
+  return `${bytes.toFixed(precision)} ${units[u]}`;
 };
 
 export const getWsErrorMsg = (code: number): string => {
