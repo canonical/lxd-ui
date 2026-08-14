@@ -3,6 +3,7 @@ import type { AnyObject, TestFunction } from "yup";
 import type { LxdConfigOptionsKeys } from "types/config";
 import type { FormikProps } from "formik";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
+import type { LxdStoragePool } from "types/storage";
 import {
   alletraDriver,
   btrfsDriver,
@@ -235,4 +236,16 @@ export const hasSource = (driver: string): boolean => {
   ];
 
   return driversWithSource.includes(driver);
+};
+
+export const getVolumesUsedByPool = (pool: LxdStoragePool): string[] => {
+  if (!pool.used_by) {
+    return [];
+  }
+
+  return pool.used_by.filter((item) =>
+    item.startsWith(
+      `/1.0/storage-pools/${encodeURIComponent(pool.name)}/volumes/`,
+    ),
+  );
 };
