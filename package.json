@@ -53,7 +53,9 @@
     "react-dom": "19.2.8",
     "react-router-dom": "7.18.2",
     "vanilla-framework": "4.56.0",
-    "yup": "1.7.1"
+    "yup": "1.7.1",
+    "asn1js": "3.0.5",
+    "pkijs": "3.2.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
