@@ -102,10 +102,12 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
           title: `Replicator ${replicator.name}`,
         },
         {
-          content: (
+          content: replicator.description ? (
             <div className="u-truncate" title={replicator.description}>
-              {replicator.description || "-"}
+              {replicator.description}
             </div>
+          ) : (
+            "-"
           ),
           role: "cell",
           "aria-label": "Description",

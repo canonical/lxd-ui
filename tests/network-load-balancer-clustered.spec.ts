@@ -1,4 +1,4 @@
-import { test } from "./fixtures/lxd-test";
+import { type LxdVersions, test } from "./fixtures/lxd-test";
 import {
   createNetwork,
   createOvnUplink,
@@ -9,6 +9,15 @@ import {
 } from "./helpers/network";
 import { isClusteredTestProject, skipIfNotClustered } from "./helpers/cluster";
 import { dismissNotification } from "./helpers/notification";
+
+export const skipIfLoadBalancerHealthChecksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Load balancer health checks are currently not available",
+  );
+};
 
 test.describe("Network Load Balancer", () => {
   const UPLINK_NAME = randomNetworkName();
@@ -33,8 +42,12 @@ test.describe("Network Load Balancer", () => {
     await page.close();
   });
 
-  test("Create, update, delete load balancer", async ({ page }, testInfo) => {
+  test("Create, update, delete load balancer", async ({
+    page,
+    lxdVersion,
+  }, testInfo) => {
     skipIfNotClustered(testInfo.project.name);
+    skipIfLoadBalancerHealthChecksNotSupported(lxdVersion);
 
     const network = randomNetworkName();
 

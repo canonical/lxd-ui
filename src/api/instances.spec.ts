@@ -1,7 +1,7 @@
 import { addRecursion, instanceFields } from "./instances";
 
 describe("addRecursion", () => {
-  it("uses selective recursion when supported and not fine-grained", () => {
+  it("uses selective recursion when not fine-grained", () => {
     const params = new URLSearchParams();
     addRecursion(params, false);
     expect(params.get("recursion")).toBe(

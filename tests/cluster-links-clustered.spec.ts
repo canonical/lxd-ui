@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures/lxd-test";
+import { test, expect, type LxdVersions } from "./fixtures/lxd-test";
 import {
   deleteClusterLink,
   editClusterLink,
@@ -22,6 +22,15 @@ import {
   setupProjectsForReplicator,
   visitReplicators,
 } from "./helpers/replicators";
+
+export const skipIfUnidirectionalClusterLinksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Unidirectional cluster links are not available",
+  );
+};
 
 test("cluster link create edit delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
@@ -126,8 +135,12 @@ test("cluster link deletion is blocked while in use by a replicator", async ({
   await deleteAllAfterReplicatorTest(page, project, clusterLink);
 });
 
-test("create unidirectional cluster link", async ({ page }, testInfo) => {
+test("create unidirectional cluster link", async ({
+  page,
+  lxdVersion,
+}, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
+  skipIfUnidirectionalClusterLinksNotSupported(lxdVersion);
 
   const link = randomLinkName();
   await visitClusterLinks(page);

@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures/lxd-test";
+import { test, expect, type LxdVersions } from "./fixtures/lxd-test";
 import {
   createGroup,
   deleteGroup,
@@ -25,6 +25,15 @@ import {
 } from "./helpers/permissions";
 import { dismissNotification } from "./helpers/notification";
 import { IDENTITY_TYPE } from "util/identityTypes";
+
+export const skipIfTokenBearerIdentitiesNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion === "latest-stable",
+    "Token bearer identities are not available",
+  );
+};
 
 test("manage groups for single identity", async ({ page }) => {
   // first create some groups
@@ -156,7 +165,11 @@ test("create and delete TLS identity", async ({ page }) => {
   await deleteIdentity(page, tlsName);
 });
 
-test("create and delete token bearer identities", async ({ page }) => {
+test("create and delete token bearer identities", async ({
+  page,
+  lxdVersion,
+}) => {
+  skipIfTokenBearerIdentitiesNotSupported(lxdVersion);
   const bearerClientName = randomIdentityName();
   const bearerDevlxdName = randomIdentityName();
   const clusterLinkName = randomIdentityName();

@@ -127,7 +127,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lxd_channel: ["latest/edge"]
+        lxd_channel: ["latest/edge", "latest/stable"]
         browser: ["chromium", "firefox"]
         deployment: ["unclustered", "clustered", "single-node-cluster"]
     outputs:

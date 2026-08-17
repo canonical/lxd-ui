@@ -49,13 +49,7 @@ test("accessibility audit for clustering pages", async ({ page }) => {
 
 test("accessibility audit for replicator and cluster link pages", async ({
   page,
-  lxdVersion,
 }) => {
-  test.skip(
-    lxdVersion === "5.21-edge" || lxdVersion === "5.0-edge",
-    "Cluster Links & Replicators are not supported in older LXD versions",
-  );
-
   const slug = "Clustering";
   await runA11yAudit("Links", page, test.info(), slug);
   await runA11yAudit("Replicators", page, test.info(), slug);

@@ -220,11 +220,12 @@ Simplify string props when they are static.
 ## Custom styling
 Use existing [react-components](https://github.com/canonical/react-components) as much as possible. If you need to customize, use existing vanilla classes over writing new CSS. Use vanilla [utility classes](https://vanillaframework.io/docs/utilities/align) where possible. For custom CSS, use vanilla CSS variables for [spacing](https://vanillaframework.io/docs/settings/spacing-settings#vertical-spacing) and colors. Use the themed colors instead of hardcoding colors to avoid problems with switching from light to dark theme.
 
-# Supporting multiple lxd versions
-When making a contribution to this project, please take note that the UI should degrade gracefully for all lxd LTS versions later than v5.0. To achieve this, there are two processes that should be followed:
+# Supporting stable LXD versions
+When making a contribution to this project, please ensure the UI works correctly against the latest stable LXD release. 
 
-1. When adding a new feature that introduces lxd api endpoints that are not currently used in the project, make sure you check against `api_extensions` returned by the `GET /1.0/` endpoint if the new endpoints used exists for older lxd versions. If the new endpoints are not supported in an older lxd version, then you should either hide or disable a portion of the new feature for the relevant lxd version. A useful `useSupportedFeatures` hook can be used for this purpose. You can also find a comprehensive list of `api_extensions` references in the [lxd documentation](https://canonical.com/lxd/docs/latest/api-extensions/).
-2. You should write e2e tests that covers the new feature for all supported lxd versions. For example, if your feature is hidden for an older lxd server version, you should test that it is not displayed in the browser for that lxd version.
+For new features that use LXD API endpoints not yet available in the current stable release, check against `api_extensions` returned by the `GET /1.0/` endpoint and guard the feature appropriately using the `useSupportedFeatures` hook. Features should be hidden or disabled when using stable LXD versions that do not yet support them. You can find a comprehensive list of `api_extensions` in the [LXD documentation](https://canonical.com/lxd/docs/latest/api-extensions/).
+
+Write e2e tests for new features to verify they work correctly on both latest/stable and latest/edge LXD versions.
 
 # End-to-end tests
 
@@ -232,9 +233,9 @@ Install playwright and its browsers
 
     npx playwright install
 
-The e2e tests can be run against LXD 5.0, or the edge version of LXD. If you want to run the tests against the edge version, first make sure your lxd is up to date with
+E2E tests run against both latest/stable and latest/edge LXD releases to ensure the UI works correctly with both versions. For development testing, use the latest stable version:
 
-    snap refresh lxd --channel latest/edge
+    sudo snap refresh --channel=latest/stable lxd
 
 The login e2e tests will require oidc setup for your lxd server. You may refer to the [Setup oidc login wiki page](https://github.com/canonical/lxd-ui/wiki/Setup-oidc-login) for setup instructions. Once you have completed the oidc setup, create a `.env.local` file at the root level of the project and ensure the environment variables shown below are set against the relevant lxd server oidc config values:
     # Configs that enables OIDC authentication for the lxd server
@@ -248,14 +249,7 @@ The login e2e tests will require oidc setup for your lxd server. You may refer t
     LXD_OIDC_USER=[login-user-email]
     LXD_OIDC_PASSWORD=[login-user-password]
 
-The tests expect the environment on localhost to be accessible. Execute `workshop run dev serve` first then run the tests against the latest LXD version with
-
-    yarn test-e2e-edge
-
-or against the LTS LXD versions with
-    
-    yarn test-e2e-5.21-edge
-    yarn test-e2e-5.0-edge
+The tests expect the environment on localhost to be accessible. Execute `workshop run dev serve` first then run the tests. See the available test commands in `package.json` and run the appropriate command for the LXD version you are testing against.
 
 ### Nice utilities from Playwright
 

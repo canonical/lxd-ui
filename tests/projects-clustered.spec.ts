@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures/lxd-test";
+import { test, expect, type LxdVersions } from "./fixtures/lxd-test";
 import {
   assertReadMode,
   setMultiselectOption,
@@ -29,6 +29,15 @@ import {
 import { randomLinkName } from "./helpers/cluster-links";
 import { randomInstanceName } from "./helpers/instances";
 
+export const skipIfProjectReplicationNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion === "latest-stable",
+    "Project replication is not available",
+  );
+};
+
 test("project edit configuration", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
@@ -57,8 +66,12 @@ test("project edit configuration", async ({ page }, testInfo) => {
 });
 
 // Project replication
-test("project replication configuration", async ({ page }, testInfo) => {
+test("project replication configuration", async ({
+  page,
+  lxdVersion,
+}, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
+  skipIfProjectReplicationNotSupported(lxdVersion);
 
   const project = randomProjectName();
   const instance = randomInstanceName();

@@ -11,8 +11,8 @@ export const randomImageRegistryName = () => {
 
 export const skipIfImageRegistriesNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
-    lxdVersion === "latest-edge",
-    "Image registries page are currently not available",
+    lxdVersion === "latest-edge" || lxdVersion === "latest-stable",
+    "Image registries are not available",
   );
 };
 
