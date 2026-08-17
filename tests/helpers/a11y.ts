@@ -1,4 +1,3 @@
-import { gotoURL } from "./navigate";
 import AxeBuilder from "@axe-core/playwright";
 import type { AxeResults, Result } from "axe-core";
 import type { Page, TestInfo } from "@playwright/test";
@@ -7,20 +6,20 @@ import { test } from "../fixtures/lxd-test";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
 
-const PANEL_SELECTOR = '[aria-label="Side panel"]';
+export const PANEL_SELECTOR = '[aria-label="Side panel"]';
+
+const MODAL_SELECTOR = ".p-modal";
 
 const printSummary = (
   percent: number,
   passed: number,
   failed: number,
   incomplete: number,
-  slug: string,
   testName: string,
   severities: Record<string, number>,
 ): void => {
   console.log("-----------------------------------------");
   console.log("A11Y Report");
-  console.log(`Page: ${slug}`);
   console.log(`Test: ${testName}`);
   console.log("-----------------------------------------");
 
@@ -52,11 +51,9 @@ const countSeverities = (results: AxeResults): Record<string, number> => {
   return counts;
 };
 
-export const processA11yResults = async (
-  slug: string,
+const processA11yResults = async (
   results: AxeResults,
   testInfo: TestInfo,
-  filenamePrefix: string,
 ): Promise<number> => {
   const passed = results.passes?.length ?? 0;
   const violations = results.violations?.length ?? 0;
@@ -67,15 +64,7 @@ export const processA11yResults = async (
   const severities = countSeverities(results);
   const testName = testInfo.title;
 
-  printSummary(
-    percent,
-    passed,
-    violations,
-    incomplete,
-    slug,
-    testName,
-    severities,
-  );
+  printSummary(percent, passed, violations, incomplete, testName, severities);
 
   if (results.violations.length > 0) {
     console.log(
@@ -88,7 +77,6 @@ export const processA11yResults = async (
 
     const report = {
       meta: {
-        slug,
         testName,
         percent,
         passed,
@@ -100,7 +88,7 @@ export const processA11yResults = async (
       results,
     };
 
-    const filename = `${filenamePrefix}-${slug.toLowerCase()}-${timestamp}.json`;
+    const filename = `${testInfo.title}-${timestamp}.json`;
     const outPath = testInfo.outputPath(filename);
     await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
 
@@ -115,38 +103,13 @@ export const processA11yResults = async (
   return percent;
 };
 
-export const clickSideNavItem = async (
-  page: Page,
-  slug: string,
-  parentSlug?: string,
-): Promise<void> => {
-  await gotoURL(page, `/ui/project/default`);
-  await page.waitForLoadState("networkidle");
-
-  if (parentSlug) {
-    await page.getByRole("button", { name: parentSlug }).click();
-  }
-  await page.getByRole("link", { name: slug, exact: true }).first().click();
-  await page.waitForLoadState("networkidle");
-};
-
 export const runA11yAudit = async (
-  slug: string,
   page: Page,
   testInfo: TestInfo,
-  parentSlug?: string,
-  actionButtonName?: string,
 ): Promise<number> => {
-  await clickSideNavItem(page, slug, parentSlug);
-
-  if (actionButtonName) {
-    await page.getByRole("button", { name: actionButtonName }).click();
-    await page.waitForLoadState("networkidle");
-  }
-
   const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
 
-  return processA11yResults(slug, results, testInfo, "a11y");
+  return processA11yResults(results, testInfo);
 };
 
 export const runA11yAuditForPanel = async (
@@ -161,26 +124,22 @@ export const runA11yAuditForPanel = async (
     .withTags(WCAG_TAGS)
     .analyze();
 
-  return processA11yResults(slug, results, testInfo, "a11y-panel");
+  return processA11yResults(results, testInfo);
 };
 
-export const closePanel = async (page: Page): Promise<void> => {
-  const panel = page.locator(PANEL_SELECTOR);
-  const cancelButton = panel.getByRole("button", { name: "Cancel" });
-  const closeButton = panel.locator("button[aria-label=Close]");
+export const runA11yAuditForModal = async (
+  slug: string,
+  page: Page,
+  testInfo: TestInfo,
+): Promise<number> => {
+  await page.locator(MODAL_SELECTOR).waitFor({ state: "visible" });
 
-  if (await cancelButton.isVisible()) {
-    await cancelButton.click();
-  } else {
-    await closeButton.click();
-  }
+  const results = await new AxeBuilder({ page })
+    .include(MODAL_SELECTOR)
+    .withTags(WCAG_TAGS)
+    .analyze();
 
-  await panel.waitFor({ state: "hidden" });
-};
-
-export const hasTableRows = async (page: Page): Promise<boolean> => {
-  const rows = page.getByRole("row");
-  return (await rows.count()) > 1;
+  return processA11yResults(results, testInfo);
 };
 
 export const skipIfNotA11yProject = (projectName: string) => {
