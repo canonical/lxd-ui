@@ -229,29 +229,6 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await assertCode(page, "Vendor data", "baz:");
 });
 
-test("instance create vm with security.secureboot", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    Boolean(process.env.DISABLE_VM_TESTS),
-    "deactivated due to DISABLE_VM_TESTS environment variable",
-  );
-  test.skip(
-    lxdVersion === "latest-edge",
-    "security.secureboot is not supported in newer LXD versions",
-  );
-
-  await editInstance(page, vmInstance);
-
-  await page.getByText("Security policies").click();
-  await setOption(page, "Enable secureboot (VMs only)", "true");
-
-  await saveInstance(page, vmInstance, 1);
-
-  await assertReadMode(page, "Enable secureboot (VMs only)", "true");
-});
-
 test("instance create vm with boot.mode", async ({ page }) => {
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),

@@ -106,8 +106,8 @@ test("profile security policies", async ({ page }) => {
   await setOption(page, "Unique idmap", "true");
   await setOption(page, "Allow /dev/lxd in the instance", "true");
   await setOption(page, "Make /1.0/images API available", "true");
-  await setOption(page, "Enable secureboot", "true");
-  const changeCount = 9;
+
+  const changeCount = 8;
   await saveProfile(page, profile, changeCount);
 
   await assertReadMode(page, "Protect deletion", "Yes");
@@ -126,7 +126,6 @@ test("profile security policies", async ({ page }) => {
     "Make /1.0/images API available over /dev/lxd (Containers only)",
     "Yes",
   );
-  await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 });
 
 test("profile snapshots", async ({ page }) => {
@@ -144,6 +143,27 @@ test("profile snapshots", async ({ page }) => {
   await assertReadMode(page, "Expire after", "3m");
   await assertReadMode(page, "Snapshot stopped instances", "Yes");
   await assertReadMode(page, "Schedule", "@daily");
+});
+
+test("profile boot", async ({ page }) => {
+  await editProfile(page, profile);
+
+  await page.getByText("Boot").click();
+  await setOption(page, "Autostart", "true");
+  await setInput(page, "Autostart delay", "Enter number", "1");
+  await setInput(page, "Autostart priority", "Enter number", "2");
+  await setInput(page, "Host shutdown timeout", "Enter number", "3");
+  await setOption(page, "Boot mode (VMs only)", "uefi-nosecureboot");
+  await setInput(page, "Stop priority", "Enter number", "4");
+
+  await saveProfile(page, profile, 6);
+
+  await assertReadMode(page, "Autostart", "Yes");
+  await assertReadMode(page, "Autostart delay", "1");
+  await assertReadMode(page, "Autostart priority", "2");
+  await assertReadMode(page, "Host shutdown timeout", "3");
+  await assertReadMode(page, "Boot mode (VMs only)", "uefi-nosecureboot");
+  await assertReadMode(page, "Stop priority", "4");
 });
 
 test("profile cloud init", async ({ page }) => {
