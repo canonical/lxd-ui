@@ -1,4 +1,5 @@
 import type { LxdImage } from "types/image";
+import { humanFileSize } from "util/helpers";
 
 export interface ResourceDetail {
   project?: string;
@@ -93,4 +94,19 @@ export const extractResourceDetailsFromUrl = (
   }
 
   return resourceDetail;
+};
+
+export const getCpuText = (percentage: number, isShort?: boolean): string => {
+  if (isShort) {
+    return `Load average (${percentage.toFixed(0)}%)`;
+  }
+  return `Load average in the last minute (${percentage.toFixed(0)}%)`;
+};
+
+export const getMemoryText = (
+  used: number,
+  total: number,
+  percentage: number,
+): string => {
+  return `${humanFileSize(used)} of ${humanFileSize(total)} (${percentage.toFixed(0)}%)`;
 };

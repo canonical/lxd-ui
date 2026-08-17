@@ -6,6 +6,7 @@ interface Props {
   secondaryPercentage?: number;
   text: string;
   hoverText?: string;
+  ariaLabelledby?: string;
 }
 
 const Meter: FC<Props> = ({
@@ -13,22 +14,32 @@ const Meter: FC<Props> = ({
   secondaryPercentage = 0,
   text,
   hoverText,
-}: Props) => {
+  ariaLabelledby,
+}) => {
   return (
     <>
-      <div className="p-meter u-no-margin--bottom" title={hoverText}>
+      <div
+        className="p-meter u-no-margin--bottom"
+        title={hoverText}
+        role="meter"
+        aria-labelledby={ariaLabelledby}
+        aria-label={ariaLabelledby ? undefined : text}
+        aria-valuenow={percentage}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         <div
           style={{ width: `max(${percentage}%, 5px)` }}
           className={classnames({
             "has-next-sibling": secondaryPercentage > 0,
           })}
         />
-        {secondaryPercentage ? (
+        {secondaryPercentage > 0 && (
           <div
             className="has-previous-sibling"
             style={{ width: `${secondaryPercentage}%` }}
           />
-        ) : null}
+        )}
       </div>
       <div className="p-text--small u-no-margin--bottom u-text--muted">
         {text}

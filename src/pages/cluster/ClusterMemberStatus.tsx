@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
-import type { LxdClusterMember } from "types/cluster";
 import { useMemberLoading } from "context/memberLoading";
+import { getClusterMemberStatusIconName } from "util/clusterMember";
+import type { LxdClusterMember } from "types/cluster";
 
 interface Props {
   member: LxdClusterMember;
@@ -20,20 +21,12 @@ const ClusterMemberStatus: FC<Props> = ({ member }) => {
     );
   }
 
-  const getIconName = () => {
-    return (
-      {
-        Evacuated: "status-queued-small",
-        Online: "status-succeeded-small",
-        Offline: "status-failed-small",
-        Blocked: "status-waiting-small",
-      }[member.status] ?? ""
-    );
-  };
-
   return (
     <>
-      <Icon name={getIconName()} className="status-icon" />
+      <Icon
+        name={getClusterMemberStatusIconName(member.status)}
+        className="status-icon"
+      />
       {member.status}
     </>
   );

@@ -1,5 +1,22 @@
 import type { LxdImage } from "types/image";
-import { extractResourceDetailsFromUrl } from "./resourceDetails";
+import {
+  extractResourceDetailsFromUrl,
+  getCpuText,
+  getMemoryText,
+} from "./resourceDetails";
+
+describe("getMemoryText", () => {
+  it("includes the rounded usage percentage", () => {
+    expect(getMemoryText(1_500, 4_000, 37.5)).toBe("1.5 KiB of 3.9 KiB (38%)");
+  });
+});
+
+describe("getCpuText", () => {
+  it("returns short and long variants", () => {
+    expect(getCpuText(12.3, true)).toBe("Load average (12%)");
+    expect(getCpuText(12.3)).toBe("Load average in the last minute (12%)");
+  });
+});
 
 describe("extractResourceDetailsFromUrl", () => {
   it("extracts resource details from server url", () => {
