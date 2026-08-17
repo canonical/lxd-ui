@@ -6,9 +6,8 @@ import {
   ScrollableContainer,
   Spinner,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchResources } from "api/server";
+import { useClusterMemberResources } from "context/useClusterMemberResources";
+import { useClusterMemberState } from "context/useClusterMemberState";
 import { debounce } from "util/debounce";
 import ClusterMemberDetailSystem from "pages/cluster/ClusterMemberDetailSystem";
 import ClusterMemberDetailCPU from "pages/cluster/ClusterMemberDetailCPU";
@@ -20,7 +19,6 @@ import ClusterMemberDetailStorage from "pages/cluster/ClusterMemberDetailStorage
 import ClusterMemberDetailUSB from "pages/cluster/ClusterMemberDetailUSB";
 import type { LxdClusterMember } from "types/cluster";
 import { getFirstVisibleSection } from "util/scroll";
-import { fetchClusterMemberState } from "api/cluster-members";
 
 interface Props {
   member?: LxdClusterMember;
@@ -29,26 +27,13 @@ interface Props {
 const ClusterMemberHardware: FC<Props> = ({ member }) => {
   const [section, setSection] = useState("system");
 
-  const { data: resources, isLoading } = useQuery({
-    queryKey: [
-      queryKeys.cluster,
-      queryKeys.members,
-      member?.server_name ?? undefined,
-      queryKeys.resources,
-    ],
-    queryFn: async () => fetchResources(member?.server_name),
-  });
+  const { data: resources, isLoading } = useClusterMemberResources(
+    member?.server_name,
+  );
 
-  const { data: state, isLoading: isStateLoading } = useQuery({
-    queryKey: [
-      queryKeys.cluster,
-      queryKeys.members,
-      member?.server_name ?? undefined,
-      queryKeys.state,
-    ],
-    queryFn: async () => fetchClusterMemberState(member?.server_name ?? ""),
-    enabled: !!member,
-  });
+  const { data: state, isLoading: isStateLoading } = useClusterMemberState(
+    member?.server_name,
+  );
 
   const sections = [
     "System",

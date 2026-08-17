@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { CustomLayout, Row } from "@canonical/react-components";
-import ClusterCard from "pages/overview/ClusterCard";
+import ClusteringCard from "pages/overview/ClusteringCard";
 import InstancesCard from "pages/overview/InstancesCard";
 import ProjectsCard from "pages/overview/ProjectsCard";
 import MemoryCard from "pages/overview/MemoryCard";
@@ -12,7 +12,7 @@ const Overview: FC = () => {
     <CustomLayout mainClassName="overview" contentClassName="overview-content">
       <Row className="overview-row">
         <InstancesCard />
-        <ClusterCard />
+        <ClusteringCard />
       </Row>
       <Row>
         <ProjectsCard />

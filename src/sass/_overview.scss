@@ -25,10 +25,40 @@
       margin-top: $spv--small;
     }
 
-    &.cluster,
+    &.clustering,
     &.storage,
     &.memory {
       flex: 1;
+    }
+
+    &.clustering {
+      display: flex;
+      flex-direction: column;
+
+      .p-card__content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+
+        .total-resources {
+          display: flex;
+          gap: $sph--large;
+
+          .total-memory,
+          .total-cpu,
+          .total-storage {
+            flex: 1;
+          }
+        }
+
+        .cluster-members-table {
+          margin-top: $spv--large;
+        }
+
+        .card-footer {
+          margin-top: auto;
+        }
+      }
     }
 
     &.instances {

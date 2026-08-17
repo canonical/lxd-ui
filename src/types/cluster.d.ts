@@ -19,6 +19,21 @@ export interface LxdClusterMember {
   url: string;
 }
 
+export interface StoragePoolSpace {
+  total: number;
+  used: number;
+}
+
+export interface StoragePoolInodes {
+  total: number;
+  used: number;
+}
+
+export interface LxdStoragePoolState {
+  space: StoragePoolSpace;
+  inodes: StoragePoolInodes;
+}
+
 export interface LxdClusterMemberState {
   sysinfo: {
     uptime: number;
@@ -32,7 +47,7 @@ export interface LxdClusterMemberState {
     processes: number;
     logical_cpus: number;
   };
-  storage_pools: string[];
+  storage_pools: Record<string, LxdStoragePoolState>;
 }
 
 export interface LxdClusterGroup {
