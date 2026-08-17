@@ -1,11 +1,7 @@
-import AxeBuilder from "@axe-core/playwright";
 import { test } from "./fixtures/lxd-test";
 import {
-  clickSideNavItem,
-  closePanel,
-  hasTableRows,
-  processA11yResults,
   runA11yAudit,
+  runA11yAuditForModal,
   runA11yAuditForPanel,
   skipIfNotA11yProject,
 } from "./helpers/a11y";
@@ -13,262 +9,579 @@ import {
   createInstance,
   deleteInstance,
   randomInstanceName,
+  visitInstance,
 } from "./helpers/instances";
 import { openInstancePanel } from "./helpers/instancePanel";
-import { gotoURL } from "./helpers/navigate";
+import { clickSideNavItem, closePanel, gotoURL } from "./helpers/navigate";
+import {
+  createVolume,
+  deleteVolume,
+  randomVolumeName,
+  visitVolume,
+} from "./helpers/storageVolume";
+import {
+  createProject,
+  deleteProject,
+  openProjectConfiguration,
+  randomProjectName,
+} from "./helpers/projects";
+import {
+  createIdentity,
+  deleteIdentity,
+  randomIdentityName,
+} from "./helpers/permission-identities";
+import {
+  createGroup,
+  deleteGroup,
+  randomGroupName,
+} from "./helpers/permission-groups";
+import {
+  createIdpGroup,
+  deleteIdpGroup,
+  randomIdpGroupName,
+  visitIdpGroups,
+} from "./helpers/permission-idp-groups";
 
-const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wca21aa", "best-practice"];
+test.describe("instances", () => {
+  const instance = randomInstanceName();
 
-const instance = randomInstanceName();
-
-test.describe("a11y: main pages", () => {
-  test.beforeEach((_fixtures, testInfo) => {
+  test.beforeAll(async ({ browser }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-  });
-
-  test("instance page", async ({ page }) => {
-    await runA11yAudit("Instances", page, test.info());
-  });
-
-  test("profile page", async ({ page }) => {
-    await runA11yAudit("Profiles", page, test.info());
-  });
-
-  test("network pages", async ({ page }) => {
-    const slug = "Networking";
-    await runA11yAudit("Networks", page, test.info(), slug);
-    await runA11yAudit("ACLs", page, test.info(), slug);
-    await runA11yAudit("IPAM", page, test.info(), slug);
-  });
-
-  test("storage pages", async ({ page }) => {
-    const slug = "Storage";
-    await runA11yAudit("Pools", page, test.info(), slug);
-    await runA11yAudit("Volumes", page, test.info(), slug);
-    await runA11yAudit("Buckets", page, test.info(), slug);
-    await runA11yAudit("Custom ISOs", page, test.info(), slug);
-  });
-
-  test("image page", async ({ page }) => {
-    await runA11yAudit("Local images", page, test.info(), "Images");
-  });
-
-  test("project page", async ({ page }) => {
-    await runA11yAudit("Configuration", page, test.info());
-  });
-
-  test("clustering pages", async ({ page }) => {
-    // Test passes on a non-clustered environment.
-    const slug = "Clustering";
-    await runA11yAudit("Server", page, test.info(), slug);
-    await runA11yAudit("Groups", page, test.info(), slug);
-    await runA11yAudit("Placement", page, test.info(), slug);
-    await runA11yAudit("Links", page, test.info(), slug);
-    await runA11yAudit("Replicators", page, test.info(), slug);
-  });
-
-  test("operations page", async ({ page }) => {
-    await runA11yAudit("Operations", page, test.info());
-  });
-
-  test("warning page", async ({ page }) => {
-    await runA11yAudit("Warnings", page, test.info());
-  });
-
-  test("permissions pages", async ({ page }) => {
-    const slug = "Permissions";
-    await runA11yAudit("Identities", page, test.info(), slug);
-    await runA11yAudit("Groups", page, test.info(), slug);
-    await runA11yAudit("IDP groups", page, test.info(), slug);
-  });
-
-  test("settings page", async ({ page }) => {
-    await runA11yAudit("Settings", page, test.info());
-  });
-});
-
-test.describe("a11y: side panels", () => {
-  test.beforeEach((_fixtures, testInfo) => {
-    skipIfNotA11yProject(testInfo.project.name);
-  });
-
-  test("instance summary panel", async ({ page }) => {
+    const page = await browser.newPage();
     await createInstance(page, instance);
-    await openInstancePanel(page, instance);
+    await page.close();
+  });
 
-    await runA11yAuditForPanel("instance-summary-panel", page, test.info());
+  test.afterAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
     await deleteInstance(page, instance);
+    await page.close();
   });
 
-  test("storage bucket panels", async ({ page }) => {
-    await clickSideNavItem(page, "Buckets", "Storage");
-
-    await page.getByRole("button", { name: "Create bucket" }).click();
-    await runA11yAuditForPanel(
-      "create-storage-bucket-panel",
-      page,
-      test.info(),
-    );
-    await closePanel(page);
-  });
-
-  test("clustering link panels", async ({ page }) => {
-    await clickSideNavItem(page, "Links", "Clustering");
-
-    await page.getByRole("button", { name: "Create cluster link" }).click();
-    await runA11yAuditForPanel(
-      "create-cluster-link-direction-panel",
-      page,
-      test.info(),
-    );
-
-    await page.getByRole("button", { name: "Bidirectional" }).click();
-    await runA11yAuditForPanel(
-      "create-cluster-link-details-panel",
-      page,
-      test.info(),
-    );
-
-    await page.getByRole("button", { name: "Back" }).click();
-    await closePanel(page);
-  });
-
-  test("clustering replicator panels", async ({ page }) => {
-    await clickSideNavItem(page, "Replicators", "Clustering");
-
-    await page.getByRole("button", { name: "Create replicator" }).click();
-    await runA11yAuditForPanel("create-replicator-panel", page, test.info());
-    await closePanel(page);
-  });
-
-  test("permissions identity panels", async ({ page }) => {
-    await clickSideNavItem(page, "Identities", "Permissions");
-
-    await page.getByRole("button", { name: "Create identity" }).click();
-    await runA11yAuditForPanel(
-      "create-identity-type-selection-panel",
-      page,
-      test.info(),
-    );
-
-    await page.getByRole("button", { name: "Client certificate" }).click();
-    await runA11yAuditForPanel(
-      "create-identity-details-panel",
-      page,
-      test.info(),
-    );
-
-    await page.getByRole("button", { name: "Back" }).click();
-    await closePanel(page);
-
-    const hasData = await hasTableRows(page);
-    if (hasData) {
-      await page.getByRole("button", { name: "Edit identity" }).first().click();
-      await runA11yAuditForPanel("edit-identity-panel", page, test.info());
-      await closePanel(page);
-    }
-  });
-
-  test("permissions group panels", async ({ page }) => {
-    await clickSideNavItem(page, "Groups", "Permissions");
-
-    await page.getByRole("button", { name: "Create group" }).click();
-    await runA11yAuditForPanel("create-group-panel", page, test.info());
-    await closePanel(page);
-
-    const hasData = await hasTableRows(page);
-    if (hasData) {
-      await page.getByRole("button", { name: "Edit group" }).first().click();
-      await runA11yAuditForPanel("edit-group-panel", page, test.info());
-      await closePanel(page);
-    }
-  });
-
-  test("permissions IDP group panels", async ({ page }) => {
-    await clickSideNavItem(page, "IDP groups", "Permissions");
-
-    await page.getByRole("button", { name: "Create IDP group" }).click();
-    await runA11yAuditForPanel("create-idp-group-panel", page, test.info());
-    await closePanel(page);
-
-    const hasData = await hasTableRows(page);
-    if (hasData) {
-      await page
-        .getByRole("button", { name: "Edit IDP group details" })
-        .first()
-        .click();
-      await runA11yAuditForPanel("edit-idp-group-panel", page, test.info());
-      await closePanel(page);
-    }
-  });
-});
-
-test.describe("a11y: create pages", () => {
-  test.beforeEach((_fixtures, testInfo) => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
-  test("create instance page", async ({ page }) => {
-    await runA11yAudit(
-      "Instances",
-      page,
-      test.info(),
-      undefined,
-      "Create instance",
-    );
+  test("list page", async ({ page }) => {
+    await clickSideNavItem(page, "Instances");
+    await runA11yAudit(page, test.info());
   });
 
-  test("create profile page", async ({ page }) => {
-    await runA11yAudit(
-      "Profiles",
-      page,
-      test.info(),
-      undefined,
-      "Create profile",
+  test("summary panel", async ({ page }) => {
+    await openInstancePanel(page, instance);
+    await runA11yAuditForPanel("summary", page, test.info());
+  });
+
+  test("create page", async ({ page }) => {
+    await clickSideNavItem(page, "Instances");
+    await page.getByRole("button", { name: "Create instance" }).click();
+    await runA11yAudit(page, test.info());
+  });
+
+  test("migrate modal", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+    await runA11yAuditForModal("method", page, test.info());
+  });
+
+  test("migrate instance - root storage pool", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+
+    await page
+      .getByRole("button", { name: "Move instance root storage" })
+      .click();
+    await runA11yAuditForModal("select", page, test.info());
+
+    await page
+      .getByRole("row")
+      .getByRole("button", { name: "Select" })
+      .and(page.locator(":not([aria-disabled='true'])"))
+      .first()
+      .click();
+    await runA11yAuditForModal("confirm", page, test.info());
+  });
+
+  test("migrate instance - project", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+
+    await page
+      .getByRole("button", { name: "Move instance to a different project" })
+      .click();
+    await runA11yAuditForModal("select", page, test.info());
+
+    await page
+      .getByRole("row")
+      .getByRole("button", { name: "Select" })
+      .and(page.locator(":not([aria-disabled='true'])"))
+      .first()
+      .click();
+    await runA11yAuditForModal("confirm", page, test.info());
+  });
+
+  test("migrate instance - cluster member", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+
+    const clusterButton = page.getByRole("button", {
+      name: "Migrate instance to a different cluster member",
+    });
+    test.skip(
+      !(await clusterButton.isVisible()),
+      "Not a clustered environment",
     );
+
+    await clusterButton.click();
+    await runA11yAuditForModal("select", page, test.info());
+
+    await page
+      .getByRole("row")
+      .getByRole("button", { name: "Select" })
+      .and(page.locator(":not([aria-disabled='true'])"))
+      .first()
+      .click();
+    await runA11yAuditForModal("confirm", page, test.info());
+  });
+
+  test("export modal", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Export" }).click();
+    await runA11yAuditForModal("export", page, test.info());
+  });
+
+  test("configure snapshot modal", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByTestId("tab-link-Snapshots").click();
+    await page.getByRole("button", { name: "See configuration" }).click();
+    await runA11yAuditForModal("configure-snapshot", page, test.info());
+  });
+});
+
+test.describe("profiles", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("list page", async ({ page }) => {
+    await clickSideNavItem(page, "Profiles");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("create page", async ({ page }) => {
+    await clickSideNavItem(page, "Profiles");
+    await page.getByRole("button", { name: "Create profile" }).click();
+    await runA11yAudit(page, test.info());
+  });
+});
+
+test.describe("networks", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("networks page", async ({ page }) => {
+    await clickSideNavItem(page, "Networks", "Networking");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("ACLs page", async ({ page }) => {
+    await clickSideNavItem(page, "ACLs", "Networking");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("IPAM page", async ({ page }) => {
+    await clickSideNavItem(page, "IPAM", "Networking");
+    await runA11yAudit(page, test.info());
   });
 
   test("create network page", async ({ page }) => {
-    await runA11yAudit(
-      "Networks",
-      page,
-      test.info(),
-      "Networking",
-      "Create network",
-    );
+    await clickSideNavItem(page, "Networks", "Networking");
+    await page.getByRole("button", { name: "Create network" }).click();
+    await runA11yAudit(page, test.info());
   });
 
   test("create network ACL page", async ({ page }) => {
-    await runA11yAudit("ACLs", page, test.info(), "Networking", "Create ACL");
-  });
-
-  test("create storage pool page", async ({ page }) => {
-    await runA11yAudit("Pools", page, test.info(), "Storage", "Create pool");
-  });
-
-  test("create storage volume page", async ({ page }) => {
-    await runA11yAudit(
-      "Volumes",
-      page,
-      test.info(),
-      "Storage",
-      "Create volume",
-    );
-  });
-
-  test("create project page", async ({ page }) => {
-    await gotoURL(page, "/ui/project/default");
-    await page.waitForLoadState("networkidle");
-    await page.getByRole("button", { name: "default" }).click();
-    await page.getByRole("button", { name: "Create project" }).click();
-    await page.waitForLoadState("networkidle");
-
-    const results = await new AxeBuilder({ page })
-      .withTags(WCAG_TAGS)
-      .analyze();
-
-    await processA11yResults("create-project", results, test.info(), "a11y");
+    await clickSideNavItem(page, "ACLs", "Networking");
+    await page.getByRole("button", { name: "Create ACL" }).click();
+    await runA11yAudit(page, test.info());
   });
 });
 
-// A11y tests for modal components
+test.describe("storage", () => {
+  const volume = randomVolumeName();
+
+  test.beforeAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await createVolume(page, volume);
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await deleteVolume(page, volume);
+    await page.close();
+  });
+
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("pools page", async ({ page }) => {
+    await clickSideNavItem(page, "Pools", "Storage");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("volumes page", async ({ page }) => {
+    await clickSideNavItem(page, "Volumes", "Storage");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("buckets page", async ({ page }) => {
+    await clickSideNavItem(page, "Buckets", "Storage");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("custom ISOs page", async ({ page }) => {
+    await clickSideNavItem(page, "Custom ISOs", "Storage");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("create storage bucket panel", async ({ page }) => {
+    await clickSideNavItem(page, "Buckets", "Storage");
+    await page.getByRole("button", { name: "Create bucket" }).click();
+    await runA11yAuditForPanel("create-bucket", page, test.info());
+    await closePanel(page);
+  });
+
+  test("create storage pool page", async ({ page }) => {
+    await clickSideNavItem(page, "Pools", "Storage");
+    await page.getByRole("button", { name: "Create pool" }).click();
+    await runA11yAudit(page, test.info());
+  });
+
+  test("create storage volume page", async ({ page }) => {
+    await clickSideNavItem(page, "Volumes", "Storage");
+    await page.getByRole("button", { name: "Create volume" }).click();
+    await runA11yAudit(page, test.info());
+  });
+
+  test("custom ISO upload modal", async ({ page }) => {
+    await clickSideNavItem(page, "Custom ISOs", "Storage");
+    await page.getByRole("button", { name: "Upload custom ISO" }).click();
+    await runA11yAuditForModal("upload", page, test.info());
+  });
+
+  test("migrate volume modal", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+    await runA11yAuditForModal("method", page, test.info());
+  });
+
+  test("migrate volume - storage pool", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+
+    await page
+      .getByRole("button", { name: "Move volume to a different storage pool" })
+      .click();
+    await runA11yAuditForModal("select", page, test.info());
+
+    await page
+      .getByRole("row")
+      .getByRole("button", { name: "Select" })
+      .and(page.locator(":not([aria-disabled='true'])"))
+      .first()
+      .click();
+    await runA11yAuditForModal("confirm", page, test.info());
+  });
+
+  test("migrate volume - project", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+
+    await page
+      .getByRole("button", { name: "Move volume to a different project" })
+      .click();
+    await runA11yAuditForModal("select", page, test.info());
+
+    await page
+      .getByRole("row")
+      .getByRole("button", { name: "Select" })
+      .and(page.locator(":not([aria-disabled='true'])"))
+      .first()
+      .click();
+    await runA11yAuditForModal("confirm", page, test.info());
+  });
+
+  test("migrate volume - cluster member", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+
+    const clusterButton = page.getByRole("button", {
+      name: "Migrate volume to a different cluster member",
+    });
+    test.skip(
+      !(await clusterButton.isVisible()),
+      "Not a clustered environment",
+    );
+
+    await clusterButton.click();
+    await runA11yAuditForModal("select", page, test.info());
+
+    await page
+      .getByRole("row")
+      .getByRole("button", { name: "Select" })
+      .and(page.locator(":not([aria-disabled='true'])"))
+      .first()
+      .click();
+    await runA11yAuditForModal("confirm", page, test.info());
+  });
+});
+
+test.describe("images", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("list page", async ({ page }) => {
+    await clickSideNavItem(page, "Local images", "Images");
+    await runA11yAudit(page, test.info());
+  });
+});
+
+test.describe("projects", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("configuration page", async ({ page }) => {
+    await clickSideNavItem(page, "Configuration");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("create page", async ({ page }) => {
+    await gotoURL(page, "/ui/");
+    await page.getByRole("button", { name: "default" }).waitFor();
+    await page.getByRole("button", { name: "default" }).click();
+    await page.getByRole("button", { name: "Create project" }).click();
+    await page.getByRole("heading", { name: "Create a project" }).waitFor();
+    await runA11yAudit(page, test.info());
+  });
+
+  test("delete modal", async ({ page }) => {
+    const project = randomProjectName();
+    await createProject(page, project);
+
+    await gotoURL(page, "/ui/");
+    await page.getByRole("button", { name: "default" }).waitFor();
+    await page.getByRole("button", { name: "default" }).click();
+    await page.getByRole("link", { name: project }).click();
+    await page.getByRole("button", { name: project }).waitFor();
+    await openProjectConfiguration(page);
+    await page.getByRole("button", { name: "Delete" }).click();
+    await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
+
+    await runA11yAuditForModal("delete", page, test.info());
+    await deleteProject(page, project);
+  });
+});
+
+test.describe("clustering", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("server page", async ({ page }) => {
+    await clickSideNavItem(page, "Server", "Clustering");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("cluster groups page", async ({ page }) => {
+    await clickSideNavItem(page, "Groups", "Clustering");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("placement groups page", async ({ page }) => {
+    await clickSideNavItem(page, "Placement", "Clustering");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("cluster links page", async ({ page }) => {
+    await clickSideNavItem(page, "Links", "Clustering");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("replicators page", async ({ page }) => {
+    await clickSideNavItem(page, "Replicators", "Clustering");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("create cluster link direction panel", async ({ page }) => {
+    await clickSideNavItem(page, "Links", "Clustering");
+    await page.getByRole("button", { name: "Create cluster link" }).click();
+    await runA11yAuditForPanel("direction", page, test.info());
+    await closePanel(page);
+  });
+
+  test("create cluster link details panel", async ({ page }) => {
+    await clickSideNavItem(page, "Links", "Clustering");
+    await page.getByRole("button", { name: "Create cluster link" }).click();
+    await page.getByRole("button", { name: "Bidirectional" }).click();
+    await runA11yAuditForPanel("details", page, test.info());
+    await page.getByRole("button", { name: "Back" }).click();
+    await closePanel(page);
+  });
+
+  test("create replicator panel", async ({ page }) => {
+    await clickSideNavItem(page, "Replicators", "Clustering");
+    await page.getByRole("button", { name: "Create replicator" }).click();
+    await runA11yAuditForPanel("create", page, test.info());
+    await closePanel(page);
+  });
+});
+
+test.describe("operations", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("list page", async ({ page }) => {
+    await clickSideNavItem(page, "Operations");
+    await runA11yAudit(page, test.info());
+  });
+});
+
+test.describe("warnings", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("list page", async ({ page }) => {
+    await clickSideNavItem(page, "Warnings");
+    await runA11yAudit(page, test.info());
+  });
+});
+
+test.describe("permissions", () => {
+  const identity = randomIdentityName();
+  const group = randomGroupName();
+  const idpGroup = randomIdpGroupName();
+
+  test.beforeAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await createGroup(page, group, "a11y test group");
+    await createIdentity(page, identity, "Client certificate");
+    await createIdpGroup(page, idpGroup, [group]);
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await visitIdpGroups(page);
+    await deleteIdpGroup(page, idpGroup);
+    await deleteIdentity(page, identity);
+    await deleteGroup(page, group);
+    await page.close();
+  });
+
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("identities page", async ({ page }) => {
+    await clickSideNavItem(page, "Identities", "Permissions");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("groups page", async ({ page }) => {
+    await clickSideNavItem(page, "Groups", "Permissions");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("IDP groups page", async ({ page }) => {
+    await clickSideNavItem(page, "IDP groups", "Permissions");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("create identity type selection panel", async ({ page }) => {
+    await clickSideNavItem(page, "Identities", "Permissions");
+    await page.getByRole("button", { name: "Create identity" }).click();
+    await runA11yAuditForPanel("type-selection", page, test.info());
+    await closePanel(page);
+  });
+
+  test("create identity details panel", async ({ page }) => {
+    await clickSideNavItem(page, "Identities", "Permissions");
+    await page.getByRole("button", { name: "Create identity" }).click();
+    await page.getByRole("button", { name: "Client certificate" }).click();
+    await runA11yAuditForPanel("details", page, test.info());
+    await page.getByRole("button", { name: "Back" }).click();
+    await closePanel(page);
+  });
+
+  test("edit identity panel", async ({ page }) => {
+    await clickSideNavItem(page, "Identities", "Permissions");
+    await page.getByRole("button", { name: "Edit identity" }).first().click();
+    await runA11yAuditForPanel("edit", page, test.info());
+    await closePanel(page);
+  });
+
+  test("create group panel", async ({ page }) => {
+    await clickSideNavItem(page, "Groups", "Permissions");
+    await page.getByRole("button", { name: "Create group" }).click();
+    await runA11yAuditForPanel("create", page, test.info());
+    await closePanel(page);
+  });
+
+  test("edit group panel", async ({ page }) => {
+    await clickSideNavItem(page, "Groups", "Permissions");
+    await page.getByRole("button", { name: "Edit group" }).first().click();
+    await runA11yAuditForPanel("edit", page, test.info());
+    await closePanel(page);
+  });
+
+  test("create IDP group panel", async ({ page }) => {
+    await clickSideNavItem(page, "IDP groups", "Permissions");
+    await page.getByRole("button", { name: "Create IDP group" }).click();
+    await runA11yAuditForPanel("create", page, test.info());
+    await closePanel(page);
+  });
+
+  test("edit IDP group panel", async ({ page }) => {
+    await clickSideNavItem(page, "IDP groups", "Permissions");
+    await page
+      .getByRole("button", { name: "Edit IDP group details" })
+      .first()
+      .click();
+    await runA11yAuditForPanel("edit", page, test.info());
+    await closePanel(page);
+  });
+});
+
+test.describe("settings", () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeEach(({}, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+  });
+
+  test("list page", async ({ page }) => {
+    await clickSideNavItem(page, "Settings");
+    await runA11yAudit(page, test.info());
+  });
+});
