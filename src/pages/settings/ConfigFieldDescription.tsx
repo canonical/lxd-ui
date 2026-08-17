@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { useDocs } from "context/useDocs";
 import { configDescriptionToHtml } from "util/config";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDocObjects } from "api/server";
@@ -10,7 +9,6 @@ interface Props {
 }
 
 const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
-  const docBaseLink = useDocs();
   const objectsInvTxt = useQuery({
     queryKey: ["documentation/objects.inv.txt"],
     queryFn: async () => fetchDocObjects(),
@@ -21,11 +19,7 @@ const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
     <span
       className={className}
       dangerouslySetInnerHTML={{
-        __html: configDescriptionToHtml(
-          description,
-          docBaseLink,
-          objectsInvTxt.data,
-        ),
+        __html: configDescriptionToHtml(description, objectsInvTxt.data),
       }}
     />
   ) : null;

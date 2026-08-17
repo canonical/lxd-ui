@@ -14,7 +14,7 @@ import {
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
-import { useDocs } from "context/useDocs";
+import { DOC_BASE_PATH } from "context/DOC_BASE_PATH";
 import useSortTableData from "util/useSortTableData";
 import CreateClusterLinkBtn from "pages/cluster/actions/CreateClusterLinkBtn";
 import DeleteClusterLinkBtn from "pages/cluster/actions/DeleteClusterLinkBtn";
@@ -30,7 +30,6 @@ import CreateClusterLink from "pages/cluster/CreateClusterLink";
 import { getLinkIdentity } from "util/clusterLink";
 
 const ClusterLinkList: FC = () => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: identities = [] } = useIdentities();
@@ -209,7 +208,7 @@ const ClusterLinkList: FC = () => {
               <p>There are no cluster links on this server.</p>
               <p>
                 <a
-                  href={`${docBaseLink}/explanation/clustering/`}
+                  href={`${DOC_BASE_PATH}/explanation/clustering/`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

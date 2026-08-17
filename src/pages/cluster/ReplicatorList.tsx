@@ -19,7 +19,6 @@ import useSortTableData from "util/useSortTableData";
 import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
 import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
-import { useDocs } from "context/useDocs";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
 import DeleteReplicatorBtn from "pages/cluster/actions/DeleteReplicatorBtn";
@@ -39,7 +38,6 @@ interface Props {
 }
 
 const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
-  const docBaseLink = useDocs();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { data: replicators = [], error, isLoading } = useReplicators(project);
@@ -220,7 +218,6 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
             projectConfigurationInfoNotification
           }
           hasClusterLinks={hasClusterLinks}
-          docBaseLink={docBaseLink}
           project={project}
           cluster={cluster}
         />

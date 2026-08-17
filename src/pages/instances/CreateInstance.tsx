@@ -247,9 +247,6 @@ const CreateInstance: FC = () => {
       `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`,
     );
 
-    // NOTE: for lxd version that has the instance_create_start api extension
-    // we can create and start the instance in one go by setting the 'start' property to true
-    // we still need to keep the old way of create and start instances since users may be using an older version of lxd
     const instancePayload = {
       ...instance,
       start: shouldStart,
