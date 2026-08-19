@@ -7,6 +7,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/editMode";
 import SshKeyForm from "components/forms/SshKeyForm";
+import UserKeysForm from "components/forms/UserKeysForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 
@@ -77,6 +78,10 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         initialProfiles={formik.initialValues.profiles}
       />
       <SshKeyForm
+        formik={formik}
+        disabledReason={formik.values.editRestriction}
+      />
+      <UserKeysForm
         formik={formik}
         disabledReason={formik.values.editRestriction}
       />

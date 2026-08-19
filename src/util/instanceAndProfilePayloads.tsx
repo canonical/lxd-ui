@@ -15,6 +15,7 @@ import type {
   SecurityPoliciesFormValues,
   SnapshotFormValues,
   SshKeyFormValues,
+  UserKeysFormValues,
   InstanceDetailsFormValues,
 } from "types/forms/instanceAndProfile";
 import type { LxdProfile } from "types/profile";
@@ -28,6 +29,12 @@ import { ISO_VOLUME_TYPE } from "util/devices";
 import { type CpuLimit, type MemoryLimit, CPU_LIMIT_TYPE } from "types/limits";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { parseSshKeys } from "util/instanceEdit";
+import { parseUserKeys, toFullUserKey, USER_KEY_PREFIX } from "util/userKeys";
+
+const INSTANCE_AND_PROFILE_SKIP_PREFIXES = [
+  "cloud-init.ssh-keys.",
+  USER_KEY_PREFIX,
+];
 
 export const getInstancePayload = (
   instance: LxdInstance,
@@ -55,7 +62,12 @@ export const getInstancePayload = (
       ...bootPayload(values),
       ...cloudInitPayload(values),
       ...sshKeyPayload(values),
-      ...getUnhandledKeyValues(instance.config, handledConfigKeys),
+      ...userKeysPayload(values),
+      ...getUnhandledKeyValues(
+        instance.config,
+        handledConfigKeys,
+        INSTANCE_AND_PROFILE_SKIP_PREFIXES,
+      ),
     },
     ...getUnhandledKeyValues(instance, handledKeys),
   };
@@ -228,6 +240,16 @@ export const sshKeyPayload = (values: SshKeyFormValues) => {
   return result;
 };
 
+export const userKeysPayload = (values: UserKeysFormValues) => {
+  const result: Record<string, string | undefined> = {};
+
+  values.user_keys?.forEach((record) => {
+    result[toFullUserKey(record.key)] = record.value;
+  });
+
+  return result;
+};
+
 export const getUnhandledKeyValues = (
   item:
     | LxdConfigPair
@@ -236,11 +258,13 @@ export const getUnhandledKeyValues = (
     | LxdProject
     | LxdStorageVolume,
   handledKeys: Set<string>,
+  skipPrefixes: string[] = ["cloud-init.ssh-keys."],
 ) => {
   return Object.fromEntries(
     Object.entries(item).filter(
       ([key]) =>
-        !handledKeys.has(key) && !key.startsWith("cloud-init.ssh-keys."),
+        !handledKeys.has(key) &&
+        !skipPrefixes.some((prefix) => key.startsWith(prefix)),
     ),
   );
 };
@@ -264,7 +288,12 @@ export const getProfilePayload = (
       ...bootPayload(values),
       ...cloudInitPayload(values),
       ...sshKeyPayload(values),
-      ...getUnhandledKeyValues(profile.config, handledConfigKeys),
+      ...userKeysPayload(values),
+      ...getUnhandledKeyValues(
+        profile.config,
+        handledConfigKeys,
+        INSTANCE_AND_PROFILE_SKIP_PREFIXES,
+      ),
     },
     ...getUnhandledKeyValues(profile, handledKeys),
   };
@@ -420,5 +449,7 @@ const getEditValues = (
     cloud_init_user_data: item.config["cloud-init.user-data"],
     cloud_init_vendor_data: item.config["cloud-init.vendor-data"],
     cloud_init_ssh_keys: parseSshKeys(item),
+
+    user_keys: parseUserKeys(item),
   };
 };

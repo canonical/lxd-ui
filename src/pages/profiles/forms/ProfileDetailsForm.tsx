@@ -6,6 +6,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/editMode";
 import SshKeyForm from "components/forms/SshKeyForm";
+import UserKeysForm from "components/forms/UserKeysForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 
@@ -75,6 +76,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit, project }) => {
             />
           )}
           <SshKeyForm formik={formik} />
+          <UserKeysForm formik={formik} />
         </Col>
       </Row>
     </ScrollableForm>

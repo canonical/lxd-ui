@@ -21,6 +21,7 @@ import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
 import SshKeyForm from "components/forms/SshKeyForm";
+import UserKeysForm from "components/forms/UserKeysForm";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -144,6 +145,14 @@ const InstanceCreateDetailsForm: FC<Props> = ({
         disabledReason={
           !formik.values.image
             ? "Please select an image before adding SSH Keys"
+            : ""
+        }
+      />
+      <UserKeysForm
+        formik={formik}
+        disabledReason={
+          !formik.values.image
+            ? "Please select an image before adding user keys"
             : ""
         }
       />

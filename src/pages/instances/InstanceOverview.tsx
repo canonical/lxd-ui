@@ -23,6 +23,8 @@ import { getIpAddresses } from "util/networks";
 import { getInstanceType } from "util/instances";
 import { ImageLink } from "pages/instances/ImageLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import UserKeyChips from "components/UserKeyChips";
+import { getEffectiveUserKeys } from "util/userKeys";
 
 interface Props {
   instance: LxdInstance;
@@ -70,6 +72,12 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               <tr>
                 <th className="u-text--muted">Type</th>
                 <td>{getInstanceType(instance)}</td>
+              </tr>
+              <tr>
+                <th className="u-text--muted">User keys</th>
+                <td>
+                  <UserKeyChips userKeys={getEffectiveUserKeys(instance)} />
+                </td>
               </tr>
               <tr>
                 <th className="u-text--muted">IPv4</th>

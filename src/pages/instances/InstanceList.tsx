@@ -50,6 +50,7 @@ import {
   SIZE_HIDEABLE_COLUMNS,
   SNAPSHOTS,
   STATUS,
+  USER_KEYS,
   TYPE,
   USER_HIDEABLE_COLUMNS,
 } from "util/instanceTable";
@@ -83,6 +84,8 @@ import TruncatedList from "components/TruncatedList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import UserKeyChip from "components/UserKeyChip";
+import { getEffectiveUserKeys } from "util/userKeys";
 import { ROOT_PATH } from "util/rootPath";
 
 const loadHidden = () => {
@@ -90,7 +93,7 @@ const loadHidden = () => {
   const validColumns = new Set(USER_HIDEABLE_COLUMNS);
   return saved
     ? (JSON.parse(saved) as string[]).filter((item) => validColumns.has(item))
-    : [MEMORY, FILESYSTEM];
+    : [MEMORY, FILESYSTEM, USER_KEYS];
 };
 
 const saveHidden = (columns: string[]) => {
@@ -335,6 +338,10 @@ const InstanceList: FC = () => {
       style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
     },
     {
+      content: USER_KEYS,
+      style: { width: `${COLUMN_WIDTHS[USER_KEYS]}px` },
+    },
+    {
       content: STATUS,
       sortKey: "status",
       className: "status-header status",
@@ -435,6 +442,7 @@ const InstanceList: FC = () => {
 
       const ipv4 = getIpAddresses(instance, "inet");
       const ipv6 = sortIpv6Addresses(getIpAddresses(instance, "inet6"));
+      const userKeys = getEffectiveUserKeys(instance);
 
       const loadingType = instanceLoading.getType(instance);
 
@@ -544,6 +552,21 @@ const InstanceList: FC = () => {
             "aria-label": SNAPSHOTS,
             onClick: openSummary,
             style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
+          },
+          {
+            key: `user-keys-${userKeys.length}`,
+            content: (
+              <TruncatedList
+                items={userKeys.map((userKey) => (
+                  <UserKeyChip key={userKey.key} userKey={userKey} />
+                ))}
+              />
+            ),
+            role: "cell",
+            className: "clickable-cell",
+            "aria-label": USER_KEYS,
+            onClick: openSummary,
+            style: { width: `${COLUMN_WIDTHS[USER_KEYS]}px` },
           },
           {
             key: instance.status + loadingType,

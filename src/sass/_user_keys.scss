@@ -1,0 +1,149 @@
+.user-key-chip {
+  &.p-chip {
+    background-color: $colors--theme--background-neutral-default;
+    border: none;
+    margin-bottom: $spv--x-small;
+    max-width: 100%;
+    width: fit-content;
+  }
+
+  i {
+    background-size: contain !important;
+    margin-left: 0 !important;
+    margin-right: $sph--x-small;
+  }
+
+  .p-chip__lead,
+  .p-chip__value {
+    display: inline-block;
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+
+  .p-chip__lead {
+    font-variant-caps: normal;
+    letter-spacing: 0;
+  }
+
+  &.is-toggleable {
+    cursor: pointer;
+  }
+
+  &.is-expanded {
+    cursor: zoom-out;
+    max-height: 10rem;
+    overflow-y: auto;
+
+    .p-chip__lead,
+    .p-chip__value {
+      max-width: none;
+      overflow: visible;
+      user-select: text;
+    }
+
+    .p-chip__value {
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+  }
+}
+
+.selected-row .user-key-chip.p-chip,
+.u-row-selected .user-key-chip.p-chip,
+.u-row:hover .user-key-chip.p-chip {
+  background-color: $colors--theme--background-default;
+}
+
+.user-key-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 $sph--small;
+}
+
+.user-keys-form {
+  .user-keys-table {
+    .key {
+      width: 25%;
+
+      @include mobile {
+        width: auto;
+      }
+    }
+
+    .profile {
+      width: 8rem;
+
+      @include mobile {
+        width: 5rem;
+      }
+
+      @include large {
+        width: 12rem;
+      }
+    }
+
+    .actions {
+      white-space: nowrap;
+      width: 2.5rem;
+
+      .p-button--base {
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+      }
+    }
+
+    input,
+    .p-form-validation__message,
+    .p-form__control,
+    .p-form__group {
+      margin-bottom: 0;
+    }
+  }
+
+  .user-key-draft {
+    // on wide screens the actions sit next to the inputs, and fall back below
+    // them when the inputs would get too narrow
+    @include large {
+      align-items: baseline;
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spv--small $sph--small;
+    }
+  }
+
+  .user-key-draft-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spv--small $sph--small;
+
+    @include large {
+      flex: 1 1 24rem;
+    }
+
+    .user-key-draft-field {
+      flex: 1 1 12rem;
+    }
+  }
+
+  .user-key-draft-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spv--small $sph--small;
+    margin-top: $spv--small;
+
+    @include large {
+      flex: 0 0 auto;
+      flex-wrap: nowrap;
+      margin-top: 0;
+    }
+
+    .p-button {
+      margin: 0;
+    }
+  }
+}

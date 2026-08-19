@@ -22,6 +22,8 @@ import NetworkRichChip from "pages/networks/NetworkRichChip";
 import ExpandableList from "components/ExpandableList";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
+import UserKeyChips from "components/UserKeyChips";
+import { getEffectiveUserKeys } from "util/userKeys";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -100,6 +102,15 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         <tr>
           <th className="u-text--muted">Architecture</th>
           <td>{instance.architecture}</td>
+        </tr>
+        <tr className="list-wrapper">
+          <th className="u-text--muted">User keys</th>
+          <td>
+            <UserKeyChips
+              userKeys={getEffectiveUserKeys(instance)}
+              displayCount={3}
+            />
+          </td>
         </tr>
         {isClustered && (
           <tr>
