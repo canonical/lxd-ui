@@ -23,6 +23,8 @@ import { getIpAddresses } from "util/networks";
 import { getInstanceType } from "util/instances";
 import { ImageLink } from "pages/instances/ImageLink";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
+import UserKeyListTable from "components/UserKeyListTable";
+import { getEffectiveUserKeys } from "util/userKeys";
 
 interface Props {
   instance: LxdInstance;
@@ -171,6 +173,14 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
         </Col>
         <Col size={7}>
           <InstanceOverviewProfiles instance={instance} onFailure={onFailure} />
+        </Col>
+      </Row>
+      <Row className="user-keys">
+        <Col size={3}>
+          <h2 className="p-heading--5">User keys</h2>
+        </Col>
+        <Col size={7}>
+          <UserKeyListTable userKeys={getEffectiveUserKeys(instance)} />
         </Col>
       </Row>
     </div>

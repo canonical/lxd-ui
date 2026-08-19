@@ -12,6 +12,8 @@ import { getProfileInstances } from "util/usedBy";
 import NetworkListTable from "components/NetworkListTable";
 import DeviceListTable from "components/DeviceListTable";
 import ResourceLink from "components/ResourceLink";
+import UserKeyListTable from "components/UserKeyListTable";
+import { parseUserKeys } from "util/userKeys";
 import { useIsClustered } from "context/useIsClustered";
 import { hasCloudInit } from "util/profiles";
 import { ROOT_PATH } from "util/rootPath";
@@ -138,6 +140,14 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
           >
             View configuration
           </Link>
+        </Col>
+      </Row>
+      <Row className="user-keys">
+        <Col size={3}>
+          <h2 className="p-heading--5">User keys</h2>
+        </Col>
+        <Col size={7}>
+          <UserKeyListTable userKeys={parseUserKeys(profile)} />
         </Col>
       </Row>
       <Row className="usage list-wrapper">

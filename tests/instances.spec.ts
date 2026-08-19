@@ -1,5 +1,6 @@
 import { test, expect } from "./fixtures/lxd-test";
 import {
+  addUserKey,
   createAndStartInstance,
   createInstance,
   deleteInstance,
@@ -10,6 +11,7 @@ import {
   renameInstance,
   saveInstance,
   selectAllInstances,
+  userKeyRow,
   visitAndStartInstance,
   visitAndStopInstance,
   visitInstance,
@@ -227,6 +229,57 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await assertCode(page, "Network config", "foo:");
   await assertCode(page, "User data", "bar:");
   await assertCode(page, "Vendor data", "baz:");
+});
+
+test("instance edit user keys", async ({ page }) => {
+  const table = page.locator("#user-keys-table");
+
+  await editInstance(page, instance);
+  await addUserKey(page, 1, "owner", "alice");
+
+  await saveInstance(page, instance, 1);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await expect(userKeyRow(page, "owner", "alice")).toBeVisible();
+
+  await editInstance(page, instance);
+  await table.getByRole("button", { name: "Edit owner" }).click();
+  // editing a row focuses its value input
+  await expect(page.getByLabel("User key value 1")).toBeFocused();
+  await page.getByLabel("User key 1", { exact: true }).fill("maintainer");
+  // a row without a key neither blocks the save nor is persisted
+  await page.getByRole("button", { name: "Add user key" }).click();
+  await page.getByLabel("User key value 2").fill("orphan");
+  await expect(
+    table.getByText("Key is required, this entry will not be saved"),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Add user key" }).click();
+  await page.getByLabel("User key 3", { exact: true }).fill("pending");
+  await expect(
+    table.getByText("Value is required, this entry will not be saved"),
+  ).toBeVisible();
+
+  await saveInstance(page, instance, 2);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await expect(userKeyRow(page, "maintainer", "alice")).toBeVisible();
+  await expect(userKeyRow(page, "owner", "alice")).toBeHidden();
+
+  const listTable = page.locator(".user-key-list-table");
+  await expect(listTable).not.toContainText("orphan");
+  await expect(listTable).not.toContainText("pending");
+
+  await editInstance(page, instance);
+  // editing any field puts the whole form, including the user keys, in edit mode
+  await page.getByPlaceholder("Enter description").fill("an unrelated edit");
+  await expect(page.getByLabel("User key 1", { exact: true })).toBeVisible();
+
+  await table.getByRole("button", { name: "Remove user key 1" }).click();
+
+  await saveInstance(page, instance, 2);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await expect(userKeyRow(page, "maintainer", "alice")).toBeHidden();
 });
 
 test("instance create vm with boot.mode", async ({ page }) => {

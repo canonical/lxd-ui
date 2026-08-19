@@ -8,9 +8,11 @@ import type {
   FormDeviceValues,
   ResourceLimitsFormValues,
   InstanceEditDetailsFormValues,
+  UserKeysFormValues,
 } from "types/forms/instanceAndProfile";
 import { isRootDisk } from "util/devices";
 import isEqual from "lodash.isequal";
+import { isIncompleteUserKey } from "util/userKeys";
 
 const getPrimitiveFieldChanges = (
   formik: ConfigurationRowFormikProps,
@@ -23,6 +25,7 @@ const getPrimitiveFieldChanges = (
     "limits_cpu",
     "limits_memory",
     "devices",
+    "user_keys",
     "barePool",
     "editRestriction",
   ]);
@@ -195,11 +198,42 @@ const getDeviceChanges = (formik: ConfigurationRowFormikProps): number => {
   return addCount + removeCount + changeCount;
 };
 
+const getUserKeyChanges = (formik: ConfigurationRowFormikProps): number => {
+  if (!Object.hasOwn(formik.values, "user_keys")) {
+    return 0;
+  }
+
+  const initKeys = (formik.initialValues as UserKeysFormValues).user_keys ?? [];
+  const keys = (formik.values as UserKeysFormValues).user_keys ?? [];
+
+  const initValues = new Map(initKeys.map((item) => [item.key, item.value]));
+  const values = new Map(
+    keys
+      .filter((item) => !isIncompleteUserKey(item))
+      .map((item) => [item.key, item.value]),
+  );
+
+  let changeCount = 0;
+  initValues.forEach((value, key) => {
+    if (!values.has(key) || values.get(key) !== value) {
+      changeCount++;
+    }
+  });
+  values.forEach((_value, key) => {
+    if (!initValues.has(key)) {
+      changeCount++;
+    }
+  });
+
+  return changeCount;
+};
+
 export const getFormChangeCount = (formik: ConfigurationRowFormikProps) => {
   return (
     getPrimitiveFieldChanges(formik) +
     getProfileChanges(formik) +
     getLimitChanges(formik) +
-    getDeviceChanges(formik)
+    getDeviceChanges(formik) +
+    getUserKeyChanges(formik)
   );
 };

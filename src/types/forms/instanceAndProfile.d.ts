@@ -117,6 +117,16 @@ export interface SshKeyFormValues {
   cloud_init_ssh_keys: SshKey[];
 }
 
+export interface UserKey {
+  key: string; // the config key without the `user.` prefix
+  value: string;
+  sortKey?: string;
+}
+
+export interface UserKeysFormValues {
+  user_keys: UserKey[];
+}
+
 export interface YamlFormValues {
   yaml?: string;
 }
@@ -130,6 +140,7 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
+  UserKeysFormValues &
   YamlFormValues;
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
@@ -141,6 +152,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
+  UserKeysFormValues &
   YamlFormValues;
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
@@ -152,6 +164,7 @@ export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
+  UserKeysFormValues &
   YamlFormValues;
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
@@ -163,6 +176,7 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
+  UserKeysFormValues &
   YamlFormValues;
 
 export type InstanceAndProfileFormValues =

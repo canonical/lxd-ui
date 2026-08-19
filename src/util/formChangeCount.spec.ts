@@ -432,4 +432,37 @@ describe("formChangeCount", () => {
 
     expect(result).toBe(0);
   });
+
+  it("ignores a new user key that has no value yet", () => {
+    const formik = {
+      initialValues: {
+        user_keys: [{ key: "owner", value: "alice" }],
+      },
+      values: {
+        user_keys: [
+          { key: "owner", value: "alice" },
+          { key: "pending", value: "" },
+        ],
+      },
+    } as unknown as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(0);
+  });
+
+  it("counts clearing the value of a user key as a removal", () => {
+    const formik = {
+      initialValues: {
+        user_keys: [{ key: "owner", value: "alice" }],
+      },
+      values: {
+        user_keys: [{ key: "owner", value: "" }],
+      },
+    } as unknown as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(1);
+  });
 });
