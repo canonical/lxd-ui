@@ -13,6 +13,7 @@ const NetworkExplanationTooltip: FC<{
           : "Configure and manage virtual and physical networks to connect instances."
       }
       docPath="/explanation/networks/"
+      docLabel="Learn more about networks"
     >
       {children}
     </ExplanationTooltip>

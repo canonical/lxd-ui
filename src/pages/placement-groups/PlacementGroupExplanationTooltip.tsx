@@ -8,6 +8,7 @@ const PlacementGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Placement groups assist with instance placement."
       docPath="/howto/cluster_placement_groups/"
+      docLabel="Learn more about placement groups"
     >
       {children}
     </ExplanationTooltip>

@@ -8,6 +8,7 @@ const NetworkIPAMExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="View IP address allocation across LXD networks."
       docPath="/howto/network_ipam/"
+      docLabel="Learn more about network IPAM"
     >
       {children}
     </ExplanationTooltip>

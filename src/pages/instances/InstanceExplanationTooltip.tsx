@@ -17,6 +17,11 @@ const InstanceExplanationTooltip: FC<{
           ? "/explanation/instance_config/"
           : "/explanation/instances/"
       }
+      docLabel={
+        isConfigVariant
+          ? "Learn more about instance configuration"
+          : "Learn more about instances"
+      }
     >
       {children}
     </ExplanationTooltip>

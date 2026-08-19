@@ -8,6 +8,7 @@ const LoadBalancerExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Publish and distribute services running on instances across networks."
       docPath="/howto/network_load_balancers/"
+      docLabel="Learn more about load balancers"
     >
       {children}
     </ExplanationTooltip>

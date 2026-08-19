@@ -6,8 +6,9 @@ const LocalPeeringExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Route traffic directly between two networks on the same server without external gateways."
+      explanation="Route traffic directly between two networks on the same cluster without external gateways."
       docPath="/howto/network_peers/"
+      docLabel="Learn more about network peers"
     >
       {children}
     </ExplanationTooltip>

@@ -17,6 +17,11 @@ const StoragePoolExplanationTooltip: FC<{
           ? "/reference/storage_drivers/"
           : "/explanation/storage/"
       }
+      docLabel={
+        isConfigVariant
+          ? "Learn more about storage drivers"
+          : "Learn more about storage"
+      }
     >
       {children}
     </ExplanationTooltip>

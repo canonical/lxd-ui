@@ -8,6 +8,7 @@ const NetworkAclExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Define network access control rules to direct traffic on your networks."
       docPath="/howto/network_acls/"
+      docLabel="Learn more about network ACLs"
     >
       {children}
     </ExplanationTooltip>

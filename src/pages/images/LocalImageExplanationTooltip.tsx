@@ -8,6 +8,7 @@ const LocalImageExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="View and manage images stored locally on the LXD server."
       docPath="/image-handling/"
+      docLabel="Learn more about images"
     >
       {children}
     </ExplanationTooltip>

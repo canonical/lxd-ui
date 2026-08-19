@@ -8,6 +8,7 @@ const CustomIsoExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Custom ISOs can be used to boot VMs."
       docPath="/howto/instances_create/#instances-create-iso"
+      docLabel="Learn more about custom ISOs"
     >
       {children}
     </ExplanationTooltip>

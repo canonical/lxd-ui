@@ -13,6 +13,7 @@ const PermissionIdentityExplanationTooltip: FC<{
           : "Manage users, service accounts, and API keys."
       }
       docPath="/explanation/authorization"
+      docLabel="Learn more about authorization"
     >
       {children}
     </ExplanationTooltip>

@@ -6,8 +6,9 @@ const ImageRegistryExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Configure external image sources for importing images."
+      explanation="Image registries connect to other LXD clusters to use custom images."
       docPath="/image-handling/"
+      docLabel="Learn more about image registries"
     >
       {children}
     </ExplanationTooltip>

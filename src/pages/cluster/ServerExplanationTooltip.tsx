@@ -8,6 +8,7 @@ const ServerExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Monitor server information, status, and resource usage."
       docPath="/explanation/clustering/"
+      docLabel="Learn more about clustering"
     >
       {children}
     </ExplanationTooltip>

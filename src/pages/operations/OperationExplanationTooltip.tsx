@@ -8,6 +8,7 @@ const OperationExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Track background tasks performed by LXD."
       docPath="/events/"
+      docLabel="Learn more about events"
     >
       {children}
     </ExplanationTooltip>

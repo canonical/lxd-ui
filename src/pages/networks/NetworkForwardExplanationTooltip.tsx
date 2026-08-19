@@ -8,6 +8,7 @@ const NetworkForwardExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Publish services running on instances across networks."
       docPath="/howto/network_forwards/"
+      docLabel="Learn more about network forwards"
     >
       {children}
     </ExplanationTooltip>

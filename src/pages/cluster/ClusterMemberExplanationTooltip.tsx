@@ -8,6 +8,7 @@ const ClusterMemberExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Cluster members make up your LXD cluster."
       docPath="/explanation/clustering/"
+      docLabel="Learn more about clustering"
     >
       {children}
     </ExplanationTooltip>

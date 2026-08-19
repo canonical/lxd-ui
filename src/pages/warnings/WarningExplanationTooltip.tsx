@@ -8,6 +8,7 @@ const WarningExplanationTooltip: FC<{ children?: ReactNode }> = ({
     <ExplanationTooltip
       explanation="Review system warnings and issues that may require attention."
       docPath="/howto/troubleshoot/"
+      docLabel="Learn more about troubleshooting"
     >
       {children}
     </ExplanationTooltip>

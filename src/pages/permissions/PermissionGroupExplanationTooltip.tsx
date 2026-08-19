@@ -13,6 +13,7 @@ const PermissionGroupExplanationTooltip: FC<{
           : "Organise identities into groups to manage permissions."
       }
       docPath="/explanation/authorization"
+      docLabel="Learn more about authorization"
     >
       {children}
     </ExplanationTooltip>

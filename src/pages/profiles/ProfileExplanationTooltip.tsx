@@ -3,16 +3,12 @@ import ExplanationTooltip from "components/ExplanationTooltip";
 
 const ProfileExplanationTooltip: FC<{
   children?: ReactNode;
-  isConfigVariant?: boolean;
-}> = ({ children, isConfigVariant }) => {
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation={
-        isConfigVariant
-          ? "Profiles are configuration templates for instances."
-          : "Create and manage configuration templates for instances."
-      }
+      explanation="Profiles are configuration templates for instances."
       docPath="/profiles/"
+      docLabel="Learn more about profiles"
     >
       {children}
     </ExplanationTooltip>

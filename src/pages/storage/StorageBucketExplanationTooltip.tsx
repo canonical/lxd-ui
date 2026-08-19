@@ -6,8 +6,9 @@ const StorageBucketExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Storage buckets store and access unstructured data."
+      explanation="Storage buckets store and provide access to unstructured data."
       docPath="/explanation/storage/#storage-buckets"
+      docLabel="Learn more about storage buckets"
     >
       {children}
     </ExplanationTooltip>
