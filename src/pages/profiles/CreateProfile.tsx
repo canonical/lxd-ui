@@ -179,7 +179,9 @@ const CreateProfile: FC = () => {
   return (
     <BaseLayout
       title={
-        <ProfileExplanationTooltip>Create a profile</ProfileExplanationTooltip>
+        <ProfileExplanationTooltip isConfigVariant>
+          Create a profile
+        </ProfileExplanationTooltip>
       }
       contentClassName="create-profile"
     >

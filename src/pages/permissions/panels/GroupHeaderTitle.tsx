@@ -14,7 +14,7 @@ interface Props {
 const GroupHeaderTitle: FC<Props> = ({ subForm, setSubForm, group }) => {
   if (subForm === null) {
     return (
-      <PermissionGroupExplanationTooltip>
+      <PermissionGroupExplanationTooltip isConfigVariant>
         {group ? `Edit auth group ${group?.name}` : "Create auth group"}
       </PermissionGroupExplanationTooltip>
     );

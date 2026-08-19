@@ -164,7 +164,7 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
       <SidePanel loading={isLoading} hasError={!groups}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle className="u-truncate">
-            <PermissionIdentityExplanationTooltip>
+            <PermissionIdentityExplanationTooltip isConfigVariant>
               {panelTitle}
             </PermissionIdentityExplanationTooltip>
           </SidePanel.HeaderTitle>

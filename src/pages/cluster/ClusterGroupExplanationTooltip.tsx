@@ -6,7 +6,7 @@ const ClusterGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Group cluster members together to assist with instance placement."
+      explanation="Cluster groups assist with instance placement."
       docPath="/explanation/clustering/#cluster-groups"
     >
       {children}

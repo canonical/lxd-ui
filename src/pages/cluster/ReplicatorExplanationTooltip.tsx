@@ -6,7 +6,7 @@ const ReplicatorExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Configure and manage replication of instances across cluster links."
+      explanation="Cluster replicators copy instances from one cluster to another across cluster links."
       docPath="/explanation/replicators/"
     >
       {children}

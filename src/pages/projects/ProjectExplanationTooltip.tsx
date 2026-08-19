@@ -6,7 +6,7 @@ const ProjectExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Organise and isolate entities and tenants into separate groups."
+      explanation="Projects organise and isolate entities and tenants into separate groups within your deployment."
       docPath="/projects/"
     >
       {children}

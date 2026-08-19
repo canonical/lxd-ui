@@ -1,7 +1,6 @@
 .explanation-tooltip-wrapper {
   align-items: center;
   display: flex;
-  gap: $spv--small;
 }
 
 .explanation-tooltip-wrapper--overview-card {
@@ -14,12 +13,12 @@
 
 .explanation-tooltip-icon {
   height: 1rem !important;
+  margin-left: $spv--small;
   width: 1rem !important;
 }
 
 .explanation-tooltip-wrapper--breadcrumb {
   display: inline-flex;
-  gap: 0.25rem;
 }
 
 .explanation-tooltip {

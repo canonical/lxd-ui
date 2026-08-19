@@ -196,7 +196,7 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
       <SidePanel.Header>
         <SidePanel.HeaderTitle key={currentStep}>
           {currentStep === "typeSelection" ? (
-            <PermissionIdentityExplanationTooltip>
+            <PermissionIdentityExplanationTooltip isConfigVariant>
               Choose an identity type
             </PermissionIdentityExplanationTooltip>
           ) : (

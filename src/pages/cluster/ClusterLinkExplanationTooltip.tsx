@@ -6,7 +6,7 @@ const ClusterLinkExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Connect and manage links between clusters to share entities."
+      explanation="Cluster links connect clusters to share entities."
       docPath="/explanation/clustering/"
     >
       {children}

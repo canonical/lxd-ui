@@ -6,7 +6,7 @@ const PlacementGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Define rules to spread or compact instances across cluster members."
+      explanation="Placement groups assist with instance placement."
       docPath="/howto/cluster_placement_groups/"
     >
       {children}

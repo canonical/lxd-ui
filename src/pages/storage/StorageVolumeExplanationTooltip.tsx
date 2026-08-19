@@ -6,7 +6,7 @@ const StorageVolumeExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Provision and manage storage volumes used by instances."
+      explanation="Storage volumes are used by instances."
       docPath="/explanation/storage/#storage-volumes"
     >
       {children}

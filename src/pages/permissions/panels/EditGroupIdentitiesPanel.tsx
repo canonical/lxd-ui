@@ -317,7 +317,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
       <SidePanel loading={isLoading} hasError={!identities}>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
-            <PermissionGroupExplanationTooltip>
+            <PermissionGroupExplanationTooltip isConfigVariant>
               {panelTitle}
             </PermissionGroupExplanationTooltip>
           </SidePanel.HeaderTitle>
