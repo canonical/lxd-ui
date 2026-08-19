@@ -230,6 +230,44 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await assertCode(page, "Vendor data", "baz:");
 });
 
+test("instance edit user keys", async ({ page }) => {
+  const table = page.locator("#user-keys-table");
+  const addUserKey = async (key: string, value: string) => {
+    await page.getByRole("button", { name: "Add user key" }).click();
+    await page.getByLabel("User key", { exact: true }).fill(key);
+    await page.getByLabel("User key value").fill(value);
+    await table.getByRole("button", { name: "Save" }).click();
+  };
+
+  await editInstance(page, instance);
+  await addUserKey("owner", "alice");
+
+  await saveInstance(page, instance, 1);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await expect(page.getByLabel("user.owner=alice")).toBeVisible();
+
+  await editInstance(page, instance);
+  await table.getByRole("button", { name: "Edit owner" }).click();
+  await page.getByLabel("User key", { exact: true }).fill("maintainer");
+  await table.getByRole("button", { name: "Save" }).click();
+
+  await saveInstance(page, instance, 2);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await expect(page.getByLabel("user.maintainer=alice")).toBeVisible();
+  await expect(page.getByLabel("user.owner=alice")).toBeHidden();
+
+  await editInstance(page, instance);
+  await table.getByRole("button", { name: "Edit maintainer" }).click();
+  await table.getByRole("button", { name: "Delete maintainer" }).click();
+
+  await saveInstance(page, instance, 1);
+
+  await page.getByTestId("tab-link-Overview").click();
+  await expect(page.getByLabel("user.maintainer=alice")).toBeHidden();
+});
+
 test("instance create vm with security.secureboot", async ({
   page,
   lxdVersion,

@@ -62,6 +62,7 @@ import {
   cloudInitPayload,
   migrationPayload,
   sshKeyPayload,
+  userKeysPayload,
   formDeviceToPayload,
   profileDetailPayload,
   profileDetailConfigPayload,
@@ -106,6 +107,7 @@ const CreateProfile: FC = () => {
       name: "",
       devices: [],
       cloud_init_ssh_keys: [],
+      user_keys: [],
       readOnly: false,
       entityType: "profile",
     },
@@ -159,6 +161,7 @@ const CreateProfile: FC = () => {
         ...bootPayload(values),
         ...cloudInitPayload(values),
         ...sshKeyPayload(values),
+        ...userKeysPayload(values),
       },
     };
   };

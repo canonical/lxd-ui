@@ -12,6 +12,8 @@ import { getProfileInstances } from "util/usedBy";
 import NetworkListTable from "components/NetworkListTable";
 import DeviceListTable from "components/DeviceListTable";
 import ResourceLink from "components/ResourceLink";
+import UserKeyChips from "components/UserKeyChips";
+import { parseUserKeys, visibleUserKeys } from "util/userKeys";
 import { useIsClustered } from "context/useIsClustered";
 import { hasCloudInit } from "util/profiles";
 import { ROOT_PATH } from "util/rootPath";
@@ -64,6 +66,14 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
               <tr>
                 <th className="u-text--muted">Description</th>
                 <td>{profile.description ? profile.description : "-"}</td>
+              </tr>
+              <tr>
+                <th className="u-text--muted">User keys</th>
+                <td>
+                  <UserKeyChips
+                    userKeys={visibleUserKeys(parseUserKeys(profile))}
+                  />
+                </td>
               </tr>
               {isClustered && (
                 <tr>

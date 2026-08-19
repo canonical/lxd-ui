@@ -79,6 +79,7 @@ import {
   cloudInitPayload,
   migrationPayload,
   sshKeyPayload,
+  userKeysPayload,
   instanceDetailPayload,
   formDeviceToPayload,
 } from "util/instanceAndProfilePayloads";
@@ -338,6 +339,7 @@ const CreateInstance: FC = () => {
       profiles: ["default"],
       devices: [],
       cloud_init_ssh_keys: [],
+      user_keys: [],
       readOnly: false,
       entityType: "instance",
       isCreating: true,
@@ -417,6 +419,7 @@ const CreateInstance: FC = () => {
         ...bootPayload(values),
         ...cloudInitPayload(values),
         ...sshKeyPayload(values),
+        ...userKeysPayload(values),
         ...(values.placementGroup && {
           "placement.group": values.placementGroup,
         }),
