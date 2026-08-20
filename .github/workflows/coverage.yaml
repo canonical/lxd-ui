@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Dotrun
         run: |
-          sudo pip3 install dotrun
+          sudo pip3 install dotrun --break-system-packages
 
       - name: Install LXD-UI dependencies
         run: |
