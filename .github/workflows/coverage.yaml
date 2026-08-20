@@ -11,7 +11,7 @@ permissions:
 jobs:
   e2e-coverage:
     name: e2e-test-coverage
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-linux-amd64-noble-large-tiobe
     env:
       LXD_OIDC_CLIENT_ID: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
       LXD_OIDC_CLIENT_SECRET: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
