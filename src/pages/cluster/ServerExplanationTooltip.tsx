@@ -6,7 +6,7 @@ const ServerExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Monitor server information, status, and resource usage."
+      explanation="The server provides and manages LXD resources and services."
       docPath="/explanation/clustering/"
       docLabel="Learn more about clustering"
     >

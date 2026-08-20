@@ -139,7 +139,7 @@ const EditIdentityPanel: FC<Props> = ({ identity, onClose }) => {
       <SidePanel className="edit-identity-panel">
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
-            <PermissionIdentityExplanationTooltip isConfigVariant>
+            <PermissionIdentityExplanationTooltip>
               Edit identity
             </PermissionIdentityExplanationTooltip>
           </SidePanel.HeaderTitle>

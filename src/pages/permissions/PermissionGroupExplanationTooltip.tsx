@@ -3,15 +3,10 @@ import ExplanationTooltip from "components/ExplanationTooltip";
 
 const PermissionGroupExplanationTooltip: FC<{
   children?: ReactNode;
-  isConfigVariant?: boolean;
-}> = ({ children, isConfigVariant }) => {
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation={
-        isConfigVariant
-          ? "Auth groups facilitate identity permissions."
-          : "Organise identities into groups to manage permissions."
-      }
+      explanation="Auth groups organise identities for permission management."
       docPath="/explanation/authorization"
       docLabel="Learn more about authorization"
     >

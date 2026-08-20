@@ -6,7 +6,7 @@ const OperationExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="Track background tasks performed by LXD."
+      explanation="Operations are background tasks performed by LXD."
       docPath="/events/"
       docLabel="Learn more about events"
     >

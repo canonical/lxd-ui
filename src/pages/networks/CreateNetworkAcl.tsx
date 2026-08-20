@@ -151,7 +151,7 @@ const CreateNetworkAcl: FC = () => {
     <BaseLayout
       title={
         <NetworkAclExplanationTooltip>
-          Create a network ACL
+          Create a network <abbr title="Access Control List">ACL</abbr>
         </NetworkAclExplanationTooltip>
       }
       contentClassName="create-network-acl"

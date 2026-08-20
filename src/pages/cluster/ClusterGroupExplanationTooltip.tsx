@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const ClusterGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
-  children,
-}) => {
+const ClusterGroupExplanationTooltip: FC<{
+  children?: ReactNode;
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation="Cluster groups assist with instance placement."
+      explanation="Cluster groups organise cluster members for instance placement."
       docPath="/explanation/clustering/#cluster-groups"
       docLabel="Learn more about cluster groups"
     >

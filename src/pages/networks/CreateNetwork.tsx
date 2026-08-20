@@ -201,9 +201,7 @@ const CreateNetwork: FC = () => {
   return (
     <BaseLayout
       title={
-        <NetworkExplanationTooltip isConfigVariant>
-          Create a network
-        </NetworkExplanationTooltip>
+        <NetworkExplanationTooltip>Create a network</NetworkExplanationTooltip>
       }
       contentClassName="create-network"
     >

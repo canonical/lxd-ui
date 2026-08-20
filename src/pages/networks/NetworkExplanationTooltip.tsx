@@ -3,15 +3,10 @@ import ExplanationTooltip from "components/ExplanationTooltip";
 
 const NetworkExplanationTooltip: FC<{
   children?: ReactNode;
-  isConfigVariant?: boolean;
-}> = ({ children, isConfigVariant }) => {
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation={
-        isConfigVariant
-          ? "Networks can be virtual or physical, and connect instances."
-          : "Configure and manage virtual and physical networks to connect instances."
-      }
+      explanation="Networks can be virtual or physical, and connect instances."
       docPath="/explanation/networks/"
       docLabel="Learn more about networks"
     >

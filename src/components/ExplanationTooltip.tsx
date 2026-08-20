@@ -32,7 +32,7 @@ const ExplanationTooltip: FC<Props> = ({
         </span>
       }
     >
-      <Icon name="information" className="explanation-tooltip-icon" />
+      <Icon name="help" className="explanation-tooltip-icon" />
     </Tooltip>
   );
 

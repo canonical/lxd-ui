@@ -124,7 +124,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     <RenameHeader
       name={project.name}
       parentItems={[
-        <ProjectExplanationTooltip key="project-configuration" isConfigVariant>
+        <ProjectExplanationTooltip key="project-configuration">
           Project configuration
         </ProjectExplanationTooltip>,
       ]}

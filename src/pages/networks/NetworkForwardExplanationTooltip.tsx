@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const NetworkForwardExplanationTooltip: FC<{ children?: ReactNode }> = ({
-  children,
-}) => {
+const NetworkForwardExplanationTooltip: FC<{
+  children?: ReactNode;
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation="Publish services running on instances across networks."
+      explanation="Network forwards publish services running on instances across networks."
       docPath="/howto/network_forwards/"
       docLabel="Learn more about network forwards"
     >

@@ -6,7 +6,7 @@ const LocalImageExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="View and manage images stored locally on the LXD server."
+      explanation="Local images are images stored on the LXD server."
       docPath="/image-handling/"
       docLabel="Learn more about images"
     >

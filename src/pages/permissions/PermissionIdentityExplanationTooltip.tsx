@@ -3,15 +3,10 @@ import ExplanationTooltip from "components/ExplanationTooltip";
 
 const PermissionIdentityExplanationTooltip: FC<{
   children?: ReactNode;
-  isConfigVariant?: boolean;
-}> = ({ children, isConfigVariant }) => {
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation={
-        isConfigVariant
-          ? "Identities define access to the LXD server."
-          : "Manage users, service accounts, and API keys."
-      }
+      explanation="Identities represent users, service accounts, and API keys."
       docPath="/explanation/authorization"
       docLabel="Learn more about authorization"
     >
