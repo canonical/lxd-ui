@@ -100,6 +100,7 @@ jobs:
 
           # combine coverage reports
           yarn test-report-coverage
+          sudo apt update && sudo apt install -y zip
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
           DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
           docker stop $DOTRUN_CONTAINER_ID
