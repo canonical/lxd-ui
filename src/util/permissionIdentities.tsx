@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
+import { InlineCode } from "@canonical/react-ds-global";
 import CodeSnippetWithCopyButton from "components/CodeSnippetWithCopyButton";
 import type { ResourceIconType } from "components/ResourceIcon";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
@@ -328,11 +329,12 @@ export const IDENTITY_MODAL_TEXT: Record<
         className="u-no-margin--bottom"
         items={[
           <>
-            Set the bearer token in the <code>Authorization</code> header.
+            Set the bearer token in the <InlineCode>Authorization</InlineCode>{" "}
+            header.
           </>,
           <>
-            You can verify trust by checking the <code>auth</code> field in the
-            response metadata of <code>GET /1.0</code>:
+            You can verify trust by checking the <InlineCode>auth</InlineCode>{" "}
+            field in the response metadata of <InlineCode>GET /1.0</InlineCode>:
           </>,
           <CodeSnippetWithCopyButton
             code={`curl -k -H "Authorization: Bearer ${token}" ${location.origin}/1.0`}
@@ -361,15 +363,15 @@ export const IDENTITY_MODAL_TEXT: Record<
         items={[
           <>
             The token can be used to authenticate with LXD over the DevLXD
-            socket at <code>/dev/lxd/sock</code>.{" "}
+            socket at <InlineCode>/dev/lxd/sock</InlineCode>.{" "}
           </>,
           <>
-            It must be set as a bearer token in the <code>Authorization</code>{" "}
-            header.
+            It must be set as a bearer token in the{" "}
+            <InlineCode>Authorization</InlineCode> header.
           </>,
           <>
-            You can verify trust by checking the <code>auth</code> field in the
-            response of <code>GET /1.0</code>:
+            You can verify trust by checking the <InlineCode>auth</InlineCode>{" "}
+            field in the response of <InlineCode>GET /1.0</InlineCode>:
           </>,
           <CodeSnippetWithCopyButton
             code={`curl -H "Authorization: Bearer ${token}" -s --unix-socket /dev/lxd/sock http://custom.socket/1.0`}
