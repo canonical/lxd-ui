@@ -113,7 +113,6 @@ export const runA11yAudit = async (
 };
 
 export const runA11yAuditForPanel = async (
-  slug: string,
   page: Page,
   testInfo: TestInfo,
 ): Promise<number> => {
@@ -128,7 +127,6 @@ export const runA11yAuditForPanel = async (
 };
 
 export const runA11yAuditForModal = async (
-  slug: string,
   page: Page,
   testInfo: TestInfo,
 ): Promise<number> => {

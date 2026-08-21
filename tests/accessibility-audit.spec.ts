@@ -5,6 +5,13 @@ import {
   runA11yAuditForPanel,
   skipIfNotA11yProject,
 } from "./helpers/a11y";
+import { getFirstClusterMember } from "./helpers/cluster";
+import {
+  createImageRegistry,
+  deleteImageRegistry,
+  randomImageRegistryName,
+  visitImageRegistry,
+} from "./helpers/image-registries";
 import {
   createInstance,
   deleteInstance,
@@ -14,11 +21,19 @@ import {
 import { openInstancePanel } from "./helpers/instancePanel";
 import { clickSideNavItem, closePanel, gotoURL } from "./helpers/navigate";
 import {
+  createNetwork,
+  deleteNetwork,
+  randomNetworkName,
+  visitNetwork,
+} from "./helpers/network";
+import {
   createVolume,
   deleteVolume,
   randomVolumeName,
   visitVolume,
 } from "./helpers/storageVolume";
+import { visitPool } from "./helpers/storagePool";
+import { visitProfile } from "./helpers/profile";
 import {
   createProject,
   deleteProject,
@@ -69,9 +84,14 @@ test.describe("instances", () => {
     await runA11yAudit(page, test.info());
   });
 
+  test("detail page", async ({ page }) => {
+    await visitInstance(page, instance);
+    await runA11yAudit(page, test.info());
+  });
+
   test("summary panel", async ({ page }) => {
     await openInstancePanel(page, instance);
-    await runA11yAuditForPanel("summary", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
   });
 
   test("create page", async ({ page }) => {
@@ -83,17 +103,26 @@ test.describe("instances", () => {
   test("migrate modal", async ({ page }) => {
     await visitInstance(page, instance);
     await page.getByRole("button", { name: "Migrate" }).click();
-    await runA11yAuditForModal("method", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
-  test("migrate instance - root storage pool", async ({ page }) => {
+  test("migrate instance - root storage pool select", async ({ page }) => {
     await visitInstance(page, instance);
     await page.getByRole("button", { name: "Migrate" }).click();
 
     await page
       .getByRole("button", { name: "Move instance root storage" })
       .click();
-    await runA11yAuditForModal("select", page, test.info());
+    await runA11yAuditForModal(page, test.info());
+  });
+
+  test("migrate instance - root storage pool confirm", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+
+    await page
+      .getByRole("button", { name: "Move instance root storage" })
+      .click();
 
     await page
       .getByRole("row")
@@ -101,17 +130,26 @@ test.describe("instances", () => {
       .and(page.locator(":not([aria-disabled='true'])"))
       .first()
       .click();
-    await runA11yAuditForModal("confirm", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
-  test("migrate instance - project", async ({ page }) => {
+  test("migrate instance - project select", async ({ page }) => {
     await visitInstance(page, instance);
     await page.getByRole("button", { name: "Migrate" }).click();
 
     await page
       .getByRole("button", { name: "Move instance to a different project" })
       .click();
-    await runA11yAuditForModal("select", page, test.info());
+    await runA11yAuditForModal(page, test.info());
+  });
+
+  test("migrate instance - project confirm", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+
+    await page
+      .getByRole("button", { name: "Move instance to a different project" })
+      .click();
 
     await page
       .getByRole("row")
@@ -119,10 +157,10 @@ test.describe("instances", () => {
       .and(page.locator(":not([aria-disabled='true'])"))
       .first()
       .click();
-    await runA11yAuditForModal("confirm", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
-  test("migrate instance - cluster member", async ({ page }) => {
+  test("migrate instance - cluster member select", async ({ page }) => {
     await visitInstance(page, instance);
     await page.getByRole("button", { name: "Migrate" }).click();
 
@@ -135,7 +173,22 @@ test.describe("instances", () => {
     );
 
     await clusterButton.click();
-    await runA11yAuditForModal("select", page, test.info());
+    await runA11yAuditForModal(page, test.info());
+  });
+
+  test("migrate instance - cluster member confirm", async ({ page }) => {
+    await visitInstance(page, instance);
+    await page.getByRole("button", { name: "Migrate" }).click();
+
+    const clusterButton = page.getByRole("button", {
+      name: "Migrate instance to a different cluster member",
+    });
+    test.skip(
+      !(await clusterButton.isVisible()),
+      "Not a clustered environment",
+    );
+
+    await clusterButton.click();
 
     await page
       .getByRole("row")
@@ -143,20 +196,20 @@ test.describe("instances", () => {
       .and(page.locator(":not([aria-disabled='true'])"))
       .first()
       .click();
-    await runA11yAuditForModal("confirm", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
   test("export modal", async ({ page }) => {
     await visitInstance(page, instance);
     await page.getByRole("button", { name: "Export" }).click();
-    await runA11yAuditForModal("export", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
   test("configure snapshot modal", async ({ page }) => {
     await visitInstance(page, instance);
     await page.getByTestId("tab-link-Snapshots").click();
     await page.getByRole("button", { name: "See configuration" }).click();
-    await runA11yAuditForModal("configure-snapshot", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 });
 
@@ -171,6 +224,11 @@ test.describe("profiles", () => {
     await runA11yAudit(page, test.info());
   });
 
+  test("detail page", async ({ page }) => {
+    await visitProfile(page, "default");
+    await runA11yAudit(page, test.info());
+  });
+
   test("create page", async ({ page }) => {
     await clickSideNavItem(page, "Profiles");
     await page.getByRole("button", { name: "Create profile" }).click();
@@ -179,6 +237,22 @@ test.describe("profiles", () => {
 });
 
 test.describe("networks", () => {
+  const network = randomNetworkName();
+
+  test.beforeAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await createNetwork(page, network);
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await deleteNetwork(page, network);
+    await page.close();
+  });
+
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
@@ -186,6 +260,11 @@ test.describe("networks", () => {
 
   test("networks page", async ({ page }) => {
     await clickSideNavItem(page, "Networks", "Networking");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("detail page", async ({ page }) => {
+    await visitNetwork(page, network);
     await runA11yAudit(page, test.info());
   });
 
@@ -239,8 +318,18 @@ test.describe("storage", () => {
     await runA11yAudit(page, test.info());
   });
 
+  test("pool detail page", async ({ page }) => {
+    await visitPool(page, "default");
+    await runA11yAudit(page, test.info());
+  });
+
   test("volumes page", async ({ page }) => {
     await clickSideNavItem(page, "Volumes", "Storage");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("volume detail page", async ({ page }) => {
+    await visitVolume(page, volume);
     await runA11yAudit(page, test.info());
   });
 
@@ -257,7 +346,7 @@ test.describe("storage", () => {
   test("create storage bucket panel", async ({ page }) => {
     await clickSideNavItem(page, "Buckets", "Storage");
     await page.getByRole("button", { name: "Create bucket" }).click();
-    await runA11yAuditForPanel("create-bucket", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
@@ -276,23 +365,32 @@ test.describe("storage", () => {
   test("custom ISO upload modal", async ({ page }) => {
     await clickSideNavItem(page, "Custom ISOs", "Storage");
     await page.getByRole("button", { name: "Upload custom ISO" }).click();
-    await runA11yAuditForModal("upload", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
   test("migrate volume modal", async ({ page }) => {
     await visitVolume(page, volume);
     await page.getByRole("button", { name: "Migrate", exact: true }).click();
-    await runA11yAuditForModal("method", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
-  test("migrate volume - storage pool", async ({ page }) => {
+  test("migrate volume - storage pool select", async ({ page }) => {
     await visitVolume(page, volume);
     await page.getByRole("button", { name: "Migrate", exact: true }).click();
 
     await page
       .getByRole("button", { name: "Move volume to a different storage pool" })
       .click();
-    await runA11yAuditForModal("select", page, test.info());
+    await runA11yAuditForModal(page, test.info());
+  });
+
+  test("migrate volume - storage pool confirm", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+
+    await page
+      .getByRole("button", { name: "Move volume to a different storage pool" })
+      .click();
 
     await page
       .getByRole("row")
@@ -300,17 +398,26 @@ test.describe("storage", () => {
       .and(page.locator(":not([aria-disabled='true'])"))
       .first()
       .click();
-    await runA11yAuditForModal("confirm", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
-  test("migrate volume - project", async ({ page }) => {
+  test("migrate volume - project select", async ({ page }) => {
     await visitVolume(page, volume);
     await page.getByRole("button", { name: "Migrate", exact: true }).click();
 
     await page
       .getByRole("button", { name: "Move volume to a different project" })
       .click();
-    await runA11yAuditForModal("select", page, test.info());
+    await runA11yAuditForModal(page, test.info());
+  });
+
+  test("migrate volume - project confirm", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+
+    await page
+      .getByRole("button", { name: "Move volume to a different project" })
+      .click();
 
     await page
       .getByRole("row")
@@ -318,10 +425,10 @@ test.describe("storage", () => {
       .and(page.locator(":not([aria-disabled='true'])"))
       .first()
       .click();
-    await runA11yAuditForModal("confirm", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 
-  test("migrate volume - cluster member", async ({ page }) => {
+  test("migrate volume - cluster member select", async ({ page }) => {
     await visitVolume(page, volume);
     await page.getByRole("button", { name: "Migrate", exact: true }).click();
 
@@ -334,7 +441,22 @@ test.describe("storage", () => {
     );
 
     await clusterButton.click();
-    await runA11yAuditForModal("select", page, test.info());
+    await runA11yAuditForModal(page, test.info());
+  });
+
+  test("migrate volume - cluster member confirm", async ({ page }) => {
+    await visitVolume(page, volume);
+    await page.getByRole("button", { name: "Migrate", exact: true }).click();
+
+    const clusterButton = page.getByRole("button", {
+      name: "Migrate volume to a different cluster member",
+    });
+    test.skip(
+      !(await clusterButton.isVisible()),
+      "Not a clustered environment",
+    );
+
+    await clusterButton.click();
 
     await page
       .getByRole("row")
@@ -342,11 +464,29 @@ test.describe("storage", () => {
       .and(page.locator(":not([aria-disabled='true'])"))
       .first()
       .click();
-    await runA11yAuditForModal("confirm", page, test.info());
+    await runA11yAuditForModal(page, test.info());
   });
 });
 
 test.describe("images", () => {
+  const imageRegistry = randomImageRegistryName();
+
+  test.beforeAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await createImageRegistry(page, imageRegistry, "SimpleStreams", {
+      url: "https://images.linuxcontainers.org",
+    });
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    const page = await browser.newPage();
+    await deleteImageRegistry(page, imageRegistry);
+    await page.close();
+  });
+
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
@@ -354,6 +494,11 @@ test.describe("images", () => {
 
   test("list page", async ({ page }) => {
     await clickSideNavItem(page, "Local images", "Images");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("image registry detail page", async ({ page }) => {
+    await visitImageRegistry(page, imageRegistry);
     await runA11yAudit(page, test.info());
   });
 });
@@ -391,7 +536,7 @@ test.describe("projects", () => {
     await page.getByRole("button", { name: "Delete" }).click();
     await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
 
-    await runA11yAuditForModal("delete", page, test.info());
+    await runA11yAuditForModal(page, test.info());
     await deleteProject(page, project);
   });
 });
@@ -404,6 +549,18 @@ test.describe("clustering", () => {
 
   test("server page", async ({ page }) => {
     await clickSideNavItem(page, "Server", "Clustering");
+    await runA11yAudit(page, test.info());
+  });
+
+  test("cluster member detail page", async ({ page }) => {
+    const membersLink = page.getByRole("link", { name: "Members" });
+    await clickSideNavItem(page, "Server", "Clustering");
+    const hasMembersLink = await membersLink.isVisible();
+    test.skip(!hasMembersLink, "Not a clustered environment");
+
+    const member = await getFirstClusterMember(page);
+    await gotoURL(page, `/ui/cluster/member/${member}`);
+    await page.waitForLoadState("networkidle");
     await runA11yAudit(page, test.info());
   });
 
@@ -430,7 +587,7 @@ test.describe("clustering", () => {
   test("create cluster link direction panel", async ({ page }) => {
     await clickSideNavItem(page, "Links", "Clustering");
     await page.getByRole("button", { name: "Create cluster link" }).click();
-    await runA11yAuditForPanel("direction", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
@@ -438,7 +595,7 @@ test.describe("clustering", () => {
     await clickSideNavItem(page, "Links", "Clustering");
     await page.getByRole("button", { name: "Create cluster link" }).click();
     await page.getByRole("button", { name: "Bidirectional" }).click();
-    await runA11yAuditForPanel("details", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await page.getByRole("button", { name: "Back" }).click();
     await closePanel(page);
   });
@@ -446,7 +603,7 @@ test.describe("clustering", () => {
   test("create replicator panel", async ({ page }) => {
     await clickSideNavItem(page, "Replicators", "Clustering");
     await page.getByRole("button", { name: "Create replicator" }).click();
-    await runA11yAuditForPanel("create", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 });
@@ -522,7 +679,7 @@ test.describe("permissions", () => {
   test("create identity type selection panel", async ({ page }) => {
     await clickSideNavItem(page, "Identities", "Permissions");
     await page.getByRole("button", { name: "Create identity" }).click();
-    await runA11yAuditForPanel("type-selection", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
@@ -530,7 +687,7 @@ test.describe("permissions", () => {
     await clickSideNavItem(page, "Identities", "Permissions");
     await page.getByRole("button", { name: "Create identity" }).click();
     await page.getByRole("button", { name: "Client certificate" }).click();
-    await runA11yAuditForPanel("details", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await page.getByRole("button", { name: "Back" }).click();
     await closePanel(page);
   });
@@ -538,28 +695,28 @@ test.describe("permissions", () => {
   test("edit identity panel", async ({ page }) => {
     await clickSideNavItem(page, "Identities", "Permissions");
     await page.getByRole("button", { name: "Edit identity" }).first().click();
-    await runA11yAuditForPanel("edit", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
   test("create group panel", async ({ page }) => {
     await clickSideNavItem(page, "Groups", "Permissions");
     await page.getByRole("button", { name: "Create group" }).click();
-    await runA11yAuditForPanel("create", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
   test("edit group panel", async ({ page }) => {
     await clickSideNavItem(page, "Groups", "Permissions");
     await page.getByRole("button", { name: "Edit group" }).first().click();
-    await runA11yAuditForPanel("edit", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
   test("create IDP group panel", async ({ page }) => {
     await clickSideNavItem(page, "IDP groups", "Permissions");
     await page.getByRole("button", { name: "Create IDP group" }).click();
-    await runA11yAuditForPanel("create", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 
@@ -569,7 +726,7 @@ test.describe("permissions", () => {
       .getByRole("button", { name: "Edit IDP group details" })
       .first()
       .click();
-    await runA11yAuditForPanel("edit", page, test.info());
+    await runA11yAuditForPanel(page, test.info());
     await closePanel(page);
   });
 });
