@@ -76,6 +76,9 @@ dist/
 *.csr
 *.pfx
 
+# generated icons from @canonical/ds-assets
+/public/icons/
+
 # tests
 /test-results/
 /playwright-report/

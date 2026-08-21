@@ -1,4 +1,6 @@
-import { Icon } from "@canonical/react-components";
+import { Icon as VanillaIcon } from "@canonical/react-components";
+import { Icon as DsIcon } from "@canonical/react-ds-global";
+import type { IconName } from "@canonical/ds-assets";
 import type { FC } from "react";
 
 export type ResourceIconType =
@@ -35,19 +37,29 @@ export type ResourceIconType =
   | "replicator"
   | "token-bearer";
 
-const resourceIcons: Record<ResourceIconType, string> = {
+type DsResourceIconType = "image-registry" | "network" | "project";
+type VanillaResourceIconType = Exclude<ResourceIconType, DsResourceIconType>;
+
+// Icons available in @canonical/ds-assets — rendered via DsIcon (<svg><use>).
+// Move entries here from vanillaResourceIcons as ds-assets gains coverage.
+const dsResourceIcons: Record<DsResourceIconType, IconName> = {
+  "image-registry": "image-registries",
+  network: "exposed",
+  project: "folder",
+};
+
+// Icons not yet in @canonical/ds-assets — rendered via vanilla-framework CSS.
+const vanillaResourceIcons: Record<VanillaResourceIconType, string> = {
   container: "pods",
   "virtual-machine": "pods",
   instance: "pods",
   snapshot: "snapshot",
   profile: "repository",
-  project: "folder",
   "cluster-group": "cluster-host",
   "cluster-member": "single-host",
   "cluster-link": "applications",
   "load-balancer": "exposed",
   "load-balancer-pool": "exposed",
-  network: "exposed",
   peering: "exposed",
   "network-acl": "security-tick",
   "network-forward": "exposed",
@@ -55,7 +67,6 @@ const resourceIcons: Record<ResourceIconType, string> = {
   volume: "storage-volume",
   "iso-volume": "iso",
   image: "image",
-  "image-registry": "image",
   "oidc-identity": "user",
   certificate: "certificate",
   "auth-group": "user-group",
@@ -75,8 +86,16 @@ interface Props {
   className?: string;
 }
 
+const isDsResourceIcon = (type: ResourceIconType): type is DsResourceIconType =>
+  type in dsResourceIcons;
+
 const ResourceIcon: FC<Props> = ({ type, className }) => {
-  return <Icon name={resourceIcons[type]} className={className} />;
+  if (isDsResourceIcon(type)) {
+    return <DsIcon icon={dsResourceIcons[type]} className={className} />;
+  }
+  return (
+    <VanillaIcon name={vanillaResourceIcons[type]} className={className} />
+  );
 };
 
 export default ResourceIcon;
