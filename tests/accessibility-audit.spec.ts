@@ -75,7 +75,7 @@ test.describe("instances", () => {
   });
 
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -215,7 +215,7 @@ test.describe("instances", () => {
 
 test.describe("profiles", () => {
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -251,11 +251,6 @@ test.describe("networks", () => {
     const page = await browser.newPage();
     await deleteNetwork(page, network);
     await page.close();
-  });
-
-  // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
-    skipIfNotA11yProject(testInfo.project.name);
   });
 
   test("networks page", async ({ page }) => {
@@ -306,11 +301,6 @@ test.describe("storage", () => {
     const page = await browser.newPage();
     await deleteVolume(page, volume);
     await page.close();
-  });
-
-  // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
-    skipIfNotA11yProject(testInfo.project.name);
   });
 
   test("pools page", async ({ page }) => {
@@ -487,11 +477,6 @@ test.describe("images", () => {
     await page.close();
   });
 
-  // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
-    skipIfNotA11yProject(testInfo.project.name);
-  });
-
   test("list page", async ({ page }) => {
     await clickSideNavItem(page, "Local images", "Images");
     await runA11yAudit(page, test.info());
@@ -505,7 +490,7 @@ test.describe("images", () => {
 
 test.describe("projects", () => {
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -543,7 +528,7 @@ test.describe("projects", () => {
 
 test.describe("clustering", () => {
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -610,7 +595,7 @@ test.describe("clustering", () => {
 
 test.describe("operations", () => {
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -622,7 +607,7 @@ test.describe("operations", () => {
 
 test.describe("warnings", () => {
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -657,7 +642,7 @@ test.describe("permissions", () => {
   });
 
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
@@ -733,7 +718,7 @@ test.describe("permissions", () => {
 
 test.describe("settings", () => {
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(({}, testInfo) => {
+  test.beforeAll(({}, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
   });
 
