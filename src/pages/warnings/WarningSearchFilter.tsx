@@ -17,7 +17,7 @@ import {
   STATUS,
   WARNING_QUERY_PARAMS,
   warningStatuses,
-} from "util/warningFilter";
+} from "util/warnings";
 
 const WarningSearchFilter: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

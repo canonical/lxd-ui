@@ -34,10 +34,10 @@ const InstancesCard: FC = () => {
 
   const cardClassName = "overview-card instances";
   const cardTitle = (
-    <>
+    <span className="overview-card-title">
       <Icon name="pods" /> Instances
       {!isLoading && !error && instances.length > 0 && ` (${instances.length})`}
-    </>
+    </span>
   );
   const vmColor = "#C5C5C5";
   const containerColor = "#636363";

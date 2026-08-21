@@ -25,10 +25,10 @@ const ProjectsCard: FC = () => {
 
   const cardClassName = "overview-card projects";
   const cardTitle = (
-    <>
+    <span className="overview-card-title">
       <Icon name="folder" /> Projects
       {!isLoading && !error && projects.length > 0 && ` (${projects.length})`}
-    </>
+    </span>
   );
 
   if (isLoading) {

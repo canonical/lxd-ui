@@ -1,10 +1,17 @@
+@import "./breakpoints";
+@import "./helpers";
+
 .warnings-table {
   .type {
     width: 12rem;
   }
 
   .last_message {
-    width: 24rem;
+    @include u-line-clamp-truncate(5);
+
+    /* Explicitly cap the height so overflow lines can't bleed through */
+    max-height: calc(1.5rem * 5 + 0.5rem); // line-height * lines + padding
+    width: 100%;
   }
 
   .status {
@@ -16,7 +23,7 @@
   }
 
   .count {
-    width: 4rem;
+    width: 5rem;
   }
 
   .project {
@@ -44,24 +51,15 @@
     }
   }
 
-  @media screen and (width < 1470px) {
+  @media screen and (width < 1470px) and (width > $breakpoint-large) {
     .first_seen_at {
       display: none !important;
     }
   }
 
-  @media screen and (width < 1360px) {
-    .project {
-      display: none !important;
-    }
-
-    .type,
-    .status,
-    .severity,
-    .count,
-    .last_seen_at,
-    .last_message {
-      width: inherit;
+  @include mobile-and-tablet {
+    .type {
+      width: 7rem;
     }
   }
 }
