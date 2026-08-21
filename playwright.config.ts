@@ -71,6 +71,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "latest-edge",
       },
       dependencies: ["login-chromium"],
+      testIgnore: "a11y-audit.spec.ts",
     },
     {
       name: "firefox:lxd-latest-edge:unclustered",
@@ -79,6 +80,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "latest-edge",
       },
       dependencies: ["login-firefox"],
+      testIgnore: "a11y-audit.spec.ts",
     },
     {
       name: "chromium:lxd-latest-stable:unclustered",
@@ -87,6 +89,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "latest-stable",
       },
       dependencies: ["login-chromium"],
+      testIgnore: "a11y-audit.spec.ts",
     },
     {
       name: "firefox:lxd-latest-stable:unclustered",
@@ -95,6 +98,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "latest-stable",
       },
       dependencies: ["login-firefox"],
+      testIgnore: "a11y-audit.spec.ts",
     },
     {
       name: "chromium:lxd-latest-edge:single-node-cluster",
@@ -225,7 +229,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         },
       },
       dependencies: ["login-chromium"],
-      testMatch: "accessibility-audit.spec.ts",
+      testMatch: "a11y-audit.spec.ts",
     },
   ],
 };

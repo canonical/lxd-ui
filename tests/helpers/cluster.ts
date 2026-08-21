@@ -26,6 +26,19 @@ export const isClusteredTestProject = (projectName: string) => {
   return projectName.includes(":clustered");
 };
 
+export const isClusteredEnvironment = async (page: Page): Promise<boolean> => {
+  const response = await page.request.get("/1.0");
+  const data = (await response.json()) as {
+    metadata?: { environment?: { server_clustered?: boolean } };
+  };
+  return data?.metadata?.environment?.server_clustered ?? false;
+};
+
+export const skipIfNotClusteredEnvironment = async (page: Page) => {
+  const clustered = await isClusteredEnvironment(page);
+  test.skip(!clustered, "Skipping: LXD server is not clustered");
+};
+
 export const getFirstClusterMember = async (page: Page): Promise<string> => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();

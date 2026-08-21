@@ -6,9 +6,17 @@ import { test } from "../fixtures/lxd-test";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
 
+const MODAL_SELECTOR = ".p-modal";
 export const PANEL_SELECTOR = '[aria-label="Side panel"]';
 
-const MODAL_SELECTOR = ".p-modal";
+const sanitizeForFilename = (
+  value: string | undefined,
+  fallback = "unknown",
+): string => {
+  const raw = value?.trim() || fallback;
+  const sanitized = raw.replace(/[^a-zA-Z0-9.-]/g, "_");
+  return sanitized.slice(0, 80);
+};
 
 const printSummary = (
   percent: number,
@@ -88,7 +96,10 @@ const processA11yResults = async (
       results,
     };
 
-    const filename = `${testInfo.title}-${timestamp}.json`;
+    const testSuite = testInfo.titlePath.at(-2);
+    const filename = sanitizeForFilename(
+      `${testSuite}-${testName}-${timestamp}.json`,
+    );
     const outPath = testInfo.outputPath(filename);
     await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
 
@@ -141,9 +152,12 @@ export const runA11yAuditForModal = async (
 };
 
 export const skipIfNotA11yProject = (projectName: string) => {
-  test.skip(!isA11yProject(projectName));
+  test.skip(
+    !isA11yProject(projectName),
+    "This test should only be run for the a11y-audit project",
+  );
 };
 
-const isA11yProject = (projectName: string) => {
+export const isA11yProject = (projectName: string) => {
   return projectName === "a11y-audit";
 };
