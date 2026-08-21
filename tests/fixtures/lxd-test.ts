@@ -1,7 +1,7 @@
 import { test as base, type Page } from "@playwright/test";
 import { finishCoverage, startCoverage } from "./coverage";
 
-export type LxdVersions = "5.0-edge" | "5.21-edge" | "latest-edge";
+export type LxdVersions = "latest-stable" | "latest-edge";
 export interface TestOptions {
   lxdVersion: LxdVersions;
   hasCoverage: boolean;

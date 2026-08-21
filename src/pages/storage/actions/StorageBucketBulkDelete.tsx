@@ -10,7 +10,6 @@ import { deleteStorageBucketBulk } from "api/storage-buckets";
 import { getPromiseSettledCounts } from "util/promises";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useBulkDetails } from "context/useBulkDetails";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   buckets: LxdStorageBucket[];
@@ -25,7 +24,6 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
   const { canDeleteBucket } = useStorageBucketEntitlements();
   const viewBulkDetails = useBulkDetails();
   const { project } = useCurrentProject();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const projectName = project?.name || "";
 
   const deleteableBuckets = buckets.filter((bucket) => canDeleteBucket(bucket));
@@ -39,11 +37,7 @@ const StorageBucketBulkDelete: FC<Props> = ({ buckets, onStart, onFinish }) => {
     onStart();
     const successMessage = `${deleteableBuckets.length} ${pluralize("bucket", deleteableBuckets.length)} successfully deleted`;
 
-    deleteStorageBucketBulk(
-      deleteableBuckets,
-      projectName,
-      hasStorageAndNetworkOperations,
-    )
+    deleteStorageBucketBulk(deleteableBuckets, projectName)
       .then((results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);

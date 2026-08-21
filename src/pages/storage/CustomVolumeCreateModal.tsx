@@ -20,7 +20,6 @@ import { useStoragePools } from "context/useStoragePools";
 import { createStorageVolume } from "api/storage-volumes";
 import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
 import { useEventQueue } from "context/eventQueue";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { LxdClusterMember } from "types/cluster";
 
 interface Props {
@@ -40,7 +39,6 @@ const CustomVolumeCreateModal: FC<Props> = ({
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const { data: settings } = useSettings();
   const { data: pools = [] } = useStoragePools();
@@ -95,21 +93,16 @@ const CustomVolumeCreateModal: FC<Props> = ({
 
       createStorageVolume(values.pool, project, volume, target)
         .then((operation) => {
-          if (hasStorageAndProfileOperations) {
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                handleSuccess(volume);
-              },
-              (msg) => {
-                handleFailure(new Error(msg));
-              },
-              handleFinish,
-            );
-          } else {
-            handleSuccess(volume);
-            handleFinish();
-          }
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              handleSuccess(volume);
+            },
+            (msg) => {
+              handleFailure(new Error(msg));
+            },
+            handleFinish,
+          );
         })
         .catch(handleFailure);
     },

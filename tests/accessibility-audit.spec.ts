@@ -25,15 +25,7 @@ test("accessibility audit for storage pages", async ({ page }) => {
   await runA11yAudit("Buckets", page, test.info(), slug);
 });
 
-test("accessibility audit for custom ISOs page", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Custom ISOs are not supported in lxd 5.0",
-  );
-
+test("accessibility audit for custom ISOs page", async ({ page }) => {
   const slug = "Storage";
   await runA11yAudit("Custom ISOs", page, test.info(), slug);
 });
@@ -57,13 +49,7 @@ test("accessibility audit for clustering pages", async ({ page }) => {
 
 test("accessibility audit for replicator and cluster link pages", async ({
   page,
-  lxdVersion,
 }) => {
-  test.skip(
-    lxdVersion === "5.21-edge" || lxdVersion === "5.0-edge",
-    "Cluster Links & Replicators are not supported in older LXD versions",
-  );
-
   const slug = "Clustering";
   await runA11yAudit("Links", page, test.info(), slug);
   await runA11yAudit("Replicators", page, test.info(), slug);
@@ -79,15 +65,7 @@ test("accessibility audit for warning page", async ({ page }) => {
   await runA11yAudit(slug, page, test.info());
 });
 
-test("accessibility audit for permissions pages", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "Fine grained authorisation is supported in lxd 5.21 LTS and latest/edge",
-  );
-
+test("accessibility audit for permissions pages", async ({ page }) => {
   const slug = "Permissions";
   await runA11yAudit("Identities", page, test.info(), slug);
   await runA11yAudit("Groups", page, test.info(), slug);

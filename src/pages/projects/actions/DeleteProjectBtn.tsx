@@ -1,5 +1,5 @@
 import { useState, type FC, type ReactNode } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
@@ -16,19 +16,14 @@ import {
 } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
 import { useProjectEntitlements } from "util/entitlements/projects";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import DeleteProjectModal from "./DeleteProjectModal";
-import { filterUsedByType } from "util/usedBy";
-import type { ResourceType } from "util/resourceDetails";
 import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
 
 const generateTooltipMessage = (
-  project: LxdProject,
   canDelete: boolean,
   isDefault: boolean,
   isEmpty: boolean,
-  hasForceDelete: boolean,
 ): ReactNode => {
   if (!canDelete) {
     return "You do not have permission to delete this project";
@@ -40,69 +35,6 @@ const generateTooltipMessage = (
 
   if (isEmpty) {
     return "Delete project";
-  }
-
-  if (!hasForceDelete) {
-    // Non-empty project without force delete support - show detailed tooltip
-    const resourceLabelAndLink: Record<
-      string,
-      { label: string; link: string }
-    > = {
-      instance: {
-        label: "Instances",
-        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/instances`,
-      },
-      profile: {
-        label: "Profiles",
-        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/profiles`,
-      },
-      image: {
-        label: "Images",
-        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/local-images`,
-      },
-      volume: {
-        label: "Custom volumes",
-        link: `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/storage/volumes`,
-      },
-    };
-
-    const resourceTypes = Object.keys(resourceLabelAndLink);
-    const usedByItems: ReactNode[] = [];
-
-    for (const resourceType of resourceTypes) {
-      const usedBy = filterUsedByType(
-        resourceType as ResourceType,
-        project.used_by?.filter(
-          (item) => !item.includes("/1.0/profiles/default"),
-        ),
-      );
-
-      if (usedBy.length > 0) {
-        const label = resourceLabelAndLink[resourceType].label;
-        const link = resourceLabelAndLink[resourceType].link;
-        usedByItems.push(
-          <li
-            key={resourceType}
-            className="p-list__item is-dark u-no-margin--bottom"
-          >
-            <Link to={link}>{label}</Link> ({usedBy.length})
-          </li>,
-        );
-      }
-    }
-
-    return (
-      <>
-        Cannot delete non-empty project.
-        <br />
-        <br />
-        Project is used by:
-        <ul className="p-list u-no-margin--bottom">{usedByItems}</ul>
-        <br />
-        Remove all resources first, or upgrade to LXD 6.6 or newer to use force
-        deletion.
-      </>
-    );
   }
 
   return "Delete project and all its resources";
@@ -122,8 +54,6 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const navigate = useNavigate();
   const { canDeleteProject } = useProjectEntitlements();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { hasProjectForceDelete, hasProjectDeleteOperation } =
-    useSupportedFeatures();
 
   const isDefaultProject = project.name === "default";
   const isEmpty = isProjectEmpty(project);
@@ -144,32 +74,28 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    const force = !isEmpty && hasProjectForceDelete;
-    deleteProject(project, force)
+    const isForce = !isEmpty;
+    deleteProject(project, isForce)
       .then((operation) => {
         navigate(`${ROOT_PATH}/ui/project/default/instances`);
-        if (hasProjectDeleteOperation) {
-          toastNotify.info(
-            <>
-              Deletion of project{" "}
-              <ResourceLabel bold type="project" value={project.name} /> has
-              started.
-            </>,
-          );
-          eventQueue.set(
-            operation.metadata.id,
-            () => {
-              notifySuccess();
-            },
-            (msg) =>
-              toastNotify.failure(
-                `Deleting project ${project.name} failed`,
-                new Error(msg),
-              ),
-          );
-        } else {
-          notifySuccess();
-        }
+        toastNotify.info(
+          <>
+            Deletion of project{" "}
+            <ResourceLabel bold type="project" value={project.name} /> has
+            started.
+          </>,
+        );
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            notifySuccess();
+          },
+          (msg) =>
+            toastNotify.failure(
+              `Deleting project ${project.name} failed`,
+              new Error(msg),
+            ),
+        );
 
         handleClosePortal();
       })
@@ -200,21 +126,14 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       <Button
         onClick={openPortal}
         hasIcon={!isSmallScreen}
-        disabled={
-          !canDeleteProject(project) ||
-          isDefaultProject ||
-          isLoading ||
-          (!isEmpty && !hasProjectForceDelete)
-        }
+        disabled={!canDeleteProject(project) || isDefaultProject || isLoading}
         className="u-no-margin--bottom"
       >
         <Tooltip
           message={generateTooltipMessage(
-            project,
             canDeleteProject(project),
             isDefaultProject,
             isEmpty,
-            hasProjectForceDelete,
           )}
         >
           {!isSmallScreen && <Icon name="delete" />}

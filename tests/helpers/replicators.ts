@@ -1,4 +1,4 @@
-import { type LxdVersions, test, expect } from "../fixtures/lxd-test";
+import { expect } from "../fixtures/lxd-test";
 import type { Page } from "@playwright/test";
 import { dismissNotification } from "./notification";
 import { randomNameSuffix } from "./name";
@@ -23,13 +23,6 @@ import {
 } from "./projects";
 import { createInstance } from "./instances";
 import { gotoURL } from "./navigate";
-
-export const skipIfReplicatorsNotSupported = (lxdVersion: LxdVersions) => {
-  test.skip(
-    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
-    "Replicators not supported for lxd 5.0 and 5.21",
-  );
-};
 
 export const randomReplicatorName = (): string => {
   return `playwright-replicator-${randomNameSuffix()}`;

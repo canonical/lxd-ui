@@ -14,7 +14,6 @@ import { renameStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import StorageVolumeDetailActions from "./StorageVolumeDetailActions";
 import { useEventQueue } from "context/eventQueue";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
@@ -29,7 +28,6 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const controllerState = useState<AbortController | null>(null);
   const { canEditVolume } = useStorageVolumeEntitlements();
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   const getDisabledReason = (volume: LxdStorageVolume) => {
     if ((volume.used_by?.length ?? 0) > 0) {
@@ -91,21 +89,16 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       }
       renameStorageVolume(project, volume, values.name, volume.location)
         .then((operation) => {
-          if (hasStorageAndProfileOperations) {
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                handleSuccess(values);
-              },
-              (msg) => {
-                handleFailure(new Error(msg));
-              },
-              handleFinish,
-            );
-          } else {
-            handleSuccess(values);
-            handleFinish();
-          }
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              handleSuccess(values);
+            },
+            (msg) => {
+              handleFailure(new Error(msg));
+            },
+            handleFinish,
+          );
         })
         .catch(handleFailure);
     },

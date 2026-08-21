@@ -1,5 +1,4 @@
 import { test } from "./fixtures/lxd-test";
-import { skipIfClusteringNotSupported } from "./helpers/cluster-groups";
 import {
   createNetwork,
   createNetworkForward,
@@ -9,13 +8,8 @@ import {
 import { skipIfNotClustered } from "./helpers/cluster";
 
 test.describe("Network operations in a clustered environment with a single node", () => {
-  test("create network forward", async ({
-    page,
-    lxdVersion,
-    browserName,
-  }, testInfo) => {
+  test("create network forward", async ({ page, browserName }, testInfo) => {
     const network = `${browserName.substring(0, 2)}-${randomNetworkName()}`;
-    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     await createNetwork(page, network);
@@ -25,11 +19,9 @@ test.describe("Network operations in a clustered environment with a single node"
 
   test("create a member-specific physical network ", async ({
     page,
-    lxdVersion,
     browserName,
   }, testInfo) => {
     const network = `${browserName.substring(0, 2)}-${randomNetworkName()}`;
-    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     await createNetwork(page, network, "physical", {
@@ -40,11 +32,9 @@ test.describe("Network operations in a clustered environment with a single node"
 
   test("create a member-specific macvlan network", async ({
     page,
-    lxdVersion,
     browserName,
   }, testInfo) => {
     const network = `${browserName.substring(0, 2)}-${randomNetworkName()}`;
-    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     await createNetwork(page, network, "macvlan", {

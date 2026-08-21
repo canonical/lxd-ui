@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Button, Input, Select } from "@canonical/react-components";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import classnames from "classnames";
-import { optionAllowDeny, optionTrueFalse, optionYesNo } from "util/options";
+import { optionAllowDeny, optionYesNo } from "util/options";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 
 import {
@@ -11,7 +11,6 @@ import {
 } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { optionRenderer } from "util/formFields";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { BOOT } from "pages/instances/forms/InstanceFormMenu";
 
 interface Props {
@@ -20,15 +19,10 @@ interface Props {
 }
 
 const SecurityPoliciesForm: FC<Props> = ({ formik, setSection }) => {
-  const { hasInstanceBootMode } = useSupportedFeatures();
   const isInstance = formik.values.entityType === "instance";
   const isContainerOnlyDisabled =
     isInstance &&
     (formik.values as CreateInstanceFormValues).instanceType !== "container";
-  const isVmOnlyDisabled =
-    isInstance &&
-    (formik.values as CreateInstanceFormValues).instanceType !==
-      "virtual-machine";
 
   return (
     <ScrollableConfigurationTable
@@ -182,67 +176,27 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, setSection }) => {
           ),
         }),
 
-        ...(hasInstanceBootMode
-          ? [
-              getConfigurationRowBase({
-                className: "u-text--muted",
-                configuration: (
-                  <>
-                    <b>Enable secureboot (VMs only)</b> and{" "}
-                    <b>Enable CSM (VMs only)</b>
-                  </>
-                ),
-                inherited: "",
-                override: (
-                  <Button
-                    appearance="link"
-                    type="button"
-                    onClick={() => {
-                      setSection(BOOT);
-                    }}
-                  >
-                    See boot mode
-                  </Button>
-                ),
-              }),
-            ]
-          : [
-              getConfigurationRow({
-                formik,
-                label: "Enable secureboot (VMs only)",
-                name: "security_secureboot",
-                defaultValue: "",
-                disabled: isVmOnlyDisabled,
-                disabledReason: isVmOnlyDisabled
-                  ? "Only available for virtual machines"
-                  : undefined,
-                readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
-                children: (
-                  <Select
-                    options={optionTrueFalse}
-                    disabled={isVmOnlyDisabled}
-                  />
-                ),
-              }),
-
-              getConfigurationRow({
-                formik,
-                label: "Enable CSM (VMs only)",
-                name: "security_csm",
-                defaultValue: "",
-                disabled: isVmOnlyDisabled,
-                disabledReason: isVmOnlyDisabled
-                  ? "Only available for virtual machines"
-                  : undefined,
-                readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
-                children: (
-                  <Select
-                    options={optionTrueFalse}
-                    disabled={isVmOnlyDisabled}
-                  />
-                ),
-              }),
-            ]),
+        getConfigurationRowBase({
+          className: "u-text--muted",
+          configuration: (
+            <>
+              <b>Enable secureboot (VMs only)</b> and{" "}
+              <b>Enable CSM (VMs only)</b>
+            </>
+          ),
+          inherited: "",
+          override: (
+            <Button
+              appearance="link"
+              type="button"
+              onClick={() => {
+                setSection(BOOT);
+              }}
+            >
+              See boot mode
+            </Button>
+          ),
+        }),
       ]}
     />
   );

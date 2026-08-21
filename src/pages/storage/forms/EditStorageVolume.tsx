@@ -24,7 +24,6 @@ import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes"
 import { getVolumeDetailUrl } from "util/storageVolume";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import { useEventQueue } from "context/eventQueue";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -39,7 +38,6 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
   const { project } = useParams<{ project: string }>();
   const { canEditVolume } = useStorageVolumeEntitlements();
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -98,21 +96,16 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
         volume.location,
       )
         .then((operation) => {
-          if (hasStorageAndProfileOperations) {
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                handleSuccess(saveVolume);
-              },
-              (msg) => {
-                handleFailure(new Error(msg));
-              },
-              handleFinish,
-            );
-          } else {
-            handleSuccess(saveVolume);
-            handleFinish();
-          }
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              handleSuccess(saveVolume);
+            },
+            (msg) => {
+              handleFailure(new Error(msg));
+            },
+            handleFinish,
+          );
         })
         .catch(handleFailure);
     },

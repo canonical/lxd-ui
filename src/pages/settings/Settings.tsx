@@ -42,12 +42,7 @@ const Settings: FC = () => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
 
-  const {
-    hasMetadataConfiguration,
-    settings,
-    isSettingsLoading,
-    settingsError,
-  } = useSupportedFeatures();
+  const { settings, isSettingsLoading, settingsError } = useSupportedFeatures();
 
   const { data: projects = [] } = useProjects();
 
@@ -208,15 +203,6 @@ const Settings: FC = () => {
               titleElement="h2"
             >
               You do not have permission to view or edit server settings
-            </Notification>
-          )}
-          {!hasMetadataConfiguration && canEditServerConfiguration() && (
-            <Notification
-              severity="information"
-              title="Get more server settings"
-              titleElement="h2"
-            >
-              Update to LXD v5.19.0 or later to access more server settings
             </Notification>
           )}
           {canEditServerConfiguration() && (

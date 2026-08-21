@@ -30,7 +30,6 @@ import {
   createDirectory,
   createSymlink,
   openSymlink,
-  skipIfFileExplorerNotSupported,
 } from "./helpers/instance-file-explorer";
 import {
   assertCode,
@@ -195,7 +194,7 @@ test("instance edit security policies", async ({ page }) => {
   );
 });
 
-test("instance edit snapshot configuration", async ({ page, lxdVersion }) => {
+test("instance edit snapshot configuration", async ({ page }) => {
   await editInstance(page, instance);
 
   await page
@@ -205,7 +204,7 @@ test("instance edit snapshot configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Snapshot name", "Enter name pattern", "snap123");
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
   await setOption(page, "Snapshot stopped instances", "true");
-  await setSchedule(page, "@daily", lxdVersion);
+  await setSchedule(page, "@daily");
 
   await saveInstance(page, instance, 4);
 
@@ -230,37 +229,10 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await assertCode(page, "Vendor data", "baz:");
 });
 
-test("instance create vm with security.secureboot", async ({
-  page,
-  lxdVersion,
-}) => {
+test("instance create vm with boot.mode", async ({ page }) => {
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
-  );
-  test.skip(
-    lxdVersion === "latest-edge",
-    "security.secureboot is not supported in newer LXD versions",
-  );
-
-  await editInstance(page, vmInstance);
-
-  await page.getByText("Security policies").click();
-  await setOption(page, "Enable secureboot (VMs only)", "true");
-
-  await saveInstance(page, vmInstance, 1);
-
-  await assertReadMode(page, "Enable secureboot (VMs only)", "true");
-});
-
-test("instance create vm with boot.mode", async ({ page, lxdVersion }) => {
-  test.skip(
-    Boolean(process.env.DISABLE_VM_TESTS),
-    "deactivated due to DISABLE_VM_TESTS environment variable",
-  );
-  test.skip(
-    lxdVersion === "5.21-edge" || lxdVersion === "5.0-edge",
-    "Boot mode configuration is not supported in older LXD versions",
   );
 
   await editInstance(page, vmInstance);
@@ -273,7 +245,7 @@ test("instance create vm with boot.mode", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Boot mode", "uefi-nosecureboot");
 });
 
-test("instance yaml edit", async ({ page, lxdVersion }) => {
+test("instance yaml edit", async ({ page }) => {
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
@@ -284,8 +256,7 @@ test("instance yaml edit", async ({ page, lxdVersion }) => {
   await page.getByRole("button", { name: "Close notification" }).click();
 
   await page.locator(".cm-editor").click();
-  const editorLine = lxdVersion === "5.0-edge" ? "architecture" : "description";
-  await page.getByText(editorLine, { exact: true }).click();
+  await page.getByText("description", { exact: true }).click();
   await page.keyboard.press("ControlOrMeta+f");
   await page.getByPlaceholder("Find").fill("description: ''");
   await page.getByPlaceholder("Find").press("Escape");
@@ -433,18 +404,6 @@ test("Move instance root storage volume to a different pool", async ({
   await deletePool(page, targetPool);
 });
 
-test("'Other' tab is removed when config/creating Instances, on LXD Version 5.0", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion != "5.0-edge",
-    "Newer LXD versions has the metadata_configuration API extension.",
-  );
-  await editInstance(page, instance);
-  await expect(page.getByText("Other", { exact: true })).not.toBeVisible();
-});
-
 test("instance deletion (with and without force delete support)", async ({
   page,
 }) => {
@@ -512,10 +471,7 @@ test("navigate with breadcrumb navigation", async ({ page }) => {
 
 test("upload, download, and delete file from file explorer", async ({
   page,
-  lxdVersion,
 }, testInfo) => {
-  skipIfFileExplorerNotSupported(lxdVersion);
-
   await visitAndStartInstance(page, instance);
   await visitFileExplorer(page, instance);
 
@@ -558,9 +514,7 @@ test("upload, download, and delete file from file explorer", async ({
   }
 });
 
-test("create directory from file explorer", async ({ page, lxdVersion }) => {
-  skipIfFileExplorerNotSupported(lxdVersion);
-
+test("create directory from file explorer", async ({ page }) => {
   await visitAndStartInstance(page, instance);
   await visitFileExplorer(page, instance);
   await openDirectory(page, "tmp");
@@ -578,12 +532,7 @@ test("create directory from file explorer", async ({ page, lxdVersion }) => {
   await assertDirectoryExists(page, directory2);
 });
 
-test("file explorer follows symlinks to directories", async ({
-  page,
-  lxdVersion,
-}) => {
-  skipIfFileExplorerNotSupported(lxdVersion);
-
+test("file explorer follows symlinks to directories", async ({ page }) => {
   // Create a directory and add a file that should still be visible after resolving the symlink.
   await visitAndStartInstance(page, instance);
   await visitFileExplorer(page, instance);

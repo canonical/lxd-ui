@@ -14,7 +14,6 @@ import { isProjectEmpty } from "util/projects";
 import type { LxdProject } from "types/project";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { LxdConfigPair } from "types/config";
 import { ensureEditMode } from "util/editMode";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
@@ -70,9 +69,6 @@ interface Props {
 }
 
 const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
-  const { hasProjectsNetworksZones, hasStorageBuckets } =
-    useSupportedFeatures();
-
   const { data: networks = [] } = useNetworks(project?.name || "default");
   const managedNetworks = networks.filter((network) => network.managed);
   const isDefaultProject = formik.values.name === "default";
@@ -263,46 +259,42 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 isNonEmpty
               }
             />
-            {hasProjectsNetworksZones && (
-              <CheckboxInput
-                id="features_networks_zones"
-                name="features_networks_zones"
-                label="Network zones"
-                onChange={() => {
-                  ensureEditMode(formik);
-                  formik.setFieldValue(
-                    "features_networks_zones",
-                    !formik.values.features_networks_zones,
-                  );
-                }}
-                checked={formik.values.features_networks_zones}
-                disabled={
-                  !!formik.values.editRestriction ||
-                  isDefaultProject ||
-                  (isNonEmpty && hadFeaturesNetworkZones)
-                }
-              />
-            )}
-            {hasStorageBuckets && (
-              <CheckboxInput
-                id="features_storage_buckets"
-                name="features_storage_buckets"
-                label="Storage buckets"
-                onChange={() => {
-                  ensureEditMode(formik);
-                  formik.setFieldValue(
-                    "features_storage_buckets",
-                    !formik.values.features_storage_buckets,
-                  );
-                }}
-                checked={formik.values.features_storage_buckets}
-                disabled={
-                  !!formik.values.editRestriction ||
-                  isDefaultProject ||
-                  isNonEmpty
-                }
-              />
-            )}
+            <CheckboxInput
+              id="features_networks_zones"
+              name="features_networks_zones"
+              label="Network zones"
+              onChange={() => {
+                ensureEditMode(formik);
+                formik.setFieldValue(
+                  "features_networks_zones",
+                  !formik.values.features_networks_zones,
+                );
+              }}
+              checked={formik.values.features_networks_zones}
+              disabled={
+                !!formik.values.editRestriction ||
+                isDefaultProject ||
+                (isNonEmpty && hadFeaturesNetworkZones)
+              }
+            />
+            <CheckboxInput
+              id="features_storage_buckets"
+              name="features_storage_buckets"
+              label="Storage buckets"
+              onChange={() => {
+                ensureEditMode(formik);
+                formik.setFieldValue(
+                  "features_storage_buckets",
+                  !formik.values.features_storage_buckets,
+                );
+              }}
+              checked={formik.values.features_storage_buckets}
+              disabled={
+                !!formik.values.editRestriction ||
+                isDefaultProject ||
+                isNonEmpty
+              }
+            />
             <CheckboxInput
               id="features_storage_volumes"
               name="features_storage_volumes"

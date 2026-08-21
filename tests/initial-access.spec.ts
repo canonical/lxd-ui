@@ -1,4 +1,4 @@
-import { test, expect, type LxdVersions } from "./fixtures/lxd-test";
+import { test, expect } from "./fixtures/lxd-test";
 import {
   removeCertificateTrust,
   restoreCertificateTrust,
@@ -6,41 +6,19 @@ import {
 } from "./helpers/auth";
 import { randomIdentityName } from "./helpers/permission-identities";
 
-const supportsInitialAccess = (lxdVersion: LxdVersions) => {
-  return lxdVersion !== "5.0-edge" && lxdVersion !== "5.21-edge";
-};
-
-const skipIfInitialAccessNotSupported = (lxdVersion: LxdVersions) => {
-  test.skip(
-    !supportsInitialAccess(lxdVersion),
-    "Initial access link is not available for LXD prior to 6.7",
-  );
-};
-
 test.describe("Initial access with bearer token", () => {
-  test.beforeAll(({ lxdVersion }) => {
-    if (!supportsInitialAccess(lxdVersion)) {
-      return;
-    }
-
+  test.beforeAll(() => {
     removeCertificateTrust();
   });
 
-  test.afterAll(({ lxdVersion }) => {
-    if (!supportsInitialAccess(lxdVersion)) {
-      return;
-    }
-
+  test.afterAll(() => {
     restoreCertificateTrust();
   });
 
   test("Should authenticate with bearer token and setup TLS", async ({
     page,
     baseURL,
-    lxdVersion,
   }) => {
-    skipIfInitialAccessNotSupported(lxdVersion);
-
     if (!baseURL) {
       test.fail(true, "Missing baseUrl from configuration");
       return;

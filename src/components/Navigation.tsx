@@ -86,13 +86,7 @@ const Navigation: FC = () => {
 
   const isSmallScreen = useIsScreenBelow();
   const isAllProjects = projectName === ALL_PROJECTS;
-  const {
-    hasCustomVolumeIso,
-    hasAccessManagement,
-    hasImageRegistries,
-    hasClusterLinks,
-    hasReplicators,
-  } = useSupportedFeatures();
+  const { hasImageRegistries } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
@@ -450,22 +444,18 @@ const Navigation: FC = () => {
                                 Buckets
                               </NavLink>
                             </SideNavigationItem>,
-                            ...(hasCustomVolumeIso
-                              ? [
-                                  <SideNavigationItem
-                                    key={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
-                                  >
-                                    <NavLink
-                                      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
-                                      title="Custom ISOs"
-                                      onClick={softToggleMenu}
-                                      className="accordion-nav-secondary"
-                                    >
-                                      Custom ISOs
-                                    </NavLink>
-                                  </SideNavigationItem>,
-                                ]
-                              : []),
+                            <SideNavigationItem
+                              key={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
+                            >
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
+                                title="Custom ISOs"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Custom ISOs
+                              </NavLink>
+                            </SideNavigationItem>,
                           ]}
                         </NavAccordion>
                       </SideNavigationItem>
@@ -580,20 +570,16 @@ const Navigation: FC = () => {
                                 Groups
                               </NavLink>
                             </SideNavigationItem>,
-                            ...(hasClusterLinks
-                              ? [
-                                  <SideNavigationItem key="links">
-                                    <NavLink
-                                      to={`${ROOT_PATH}/ui/cluster/links`}
-                                      title="Links"
-                                      onClick={softToggleMenu}
-                                      className="accordion-nav-secondary"
-                                    >
-                                      Links
-                                    </NavLink>
-                                  </SideNavigationItem>,
-                                ]
-                              : []),
+                            <SideNavigationItem key="links">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/cluster/links`}
+                                title="Links"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Links
+                              </NavLink>
+                            </SideNavigationItem>,
                             <SideNavigationItem key="placement">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
@@ -604,21 +590,17 @@ const Navigation: FC = () => {
                                 Placement
                               </NavLink>
                             </SideNavigationItem>,
-                            ...(hasReplicators
-                              ? [
-                                  <SideNavigationItem key="replicators">
-                                    <NavLink
-                                      to={`${ROOT_PATH}/ui/cluster/replicators`}
-                                      title="Replicators"
-                                      onClick={softToggleMenu}
-                                      activeUrlMatches={["/replicator/"]}
-                                      className="accordion-nav-secondary"
-                                    >
-                                      Replicators
-                                    </NavLink>
-                                  </SideNavigationItem>,
-                                ]
-                              : []),
+                            <SideNavigationItem key="replicators">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/cluster/replicators`}
+                                title="Replicators"
+                                onClick={softToggleMenu}
+                                activeUrlMatches={["/replicator/"]}
+                                className="accordion-nav-secondary"
+                              >
+                                Replicators
+                              </NavLink>
+                            </SideNavigationItem>,
                           ]}
                         </NavAccordion>
                       </SideNavigationItem>
@@ -650,59 +632,57 @@ const Navigation: FC = () => {
                           </NavLink>
                         </SideNavigationItem>
                       )}
-                      {hasAccessManagement && (
-                        <SideNavigationItem>
-                          <NavAccordion
-                            baseUrls={[`${ROOT_PATH}/ui/permissions`]}
-                            title={`Permissions`}
-                            iconName="user"
-                            label="Permissions"
-                            onOpen={() => {
-                              toggleAccordionNav("permissions");
-                            }}
-                            open={
-                              openNavMenus.includes("permissions") &&
-                              !menuCollapsed
-                            }
-                          >
-                            {[
-                              <SideNavigationItem key="/ui/permissions/identities">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/permissions/identities?system-identities=hide`}
-                                  title="Identities"
-                                  onClick={softToggleMenu}
-                                  activeUrlMatches={[
-                                    `${ROOT_PATH}/ui/permissions/identities`,
-                                  ]}
-                                  className="accordion-nav-secondary"
-                                >
-                                  Identities
-                                </NavLink>
-                              </SideNavigationItem>,
-                              <SideNavigationItem key="/ui/permissions/groups">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/permissions/groups`}
-                                  title="Groups"
-                                  onClick={softToggleMenu}
-                                  className="accordion-nav-secondary"
-                                >
-                                  Groups
-                                </NavLink>
-                              </SideNavigationItem>,
-                              <SideNavigationItem key="/ui/permissions/idp-groups">
-                                <NavLink
-                                  to={`${ROOT_PATH}/ui/permissions/idp-groups`}
-                                  title="Identity provider groups"
-                                  onClick={softToggleMenu}
-                                  className="accordion-nav-secondary"
-                                >
-                                  IDP groups
-                                </NavLink>
-                              </SideNavigationItem>,
-                            ]}
-                          </NavAccordion>
-                        </SideNavigationItem>
-                      )}
+                      <SideNavigationItem>
+                        <NavAccordion
+                          baseUrls={[`${ROOT_PATH}/ui/permissions`]}
+                          title={`Permissions`}
+                          iconName="user"
+                          label="Permissions"
+                          onOpen={() => {
+                            toggleAccordionNav("permissions");
+                          }}
+                          open={
+                            openNavMenus.includes("permissions") &&
+                            !menuCollapsed
+                          }
+                        >
+                          {[
+                            <SideNavigationItem key="/ui/permissions/identities">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/permissions/identities?system-identities=hide`}
+                                title="Identities"
+                                onClick={softToggleMenu}
+                                activeUrlMatches={[
+                                  `${ROOT_PATH}/ui/permissions/identities`,
+                                ]}
+                                className="accordion-nav-secondary"
+                              >
+                                Identities
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem key="/ui/permissions/groups">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/permissions/groups`}
+                                title="Groups"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Groups
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem key="/ui/permissions/idp-groups">
+                              <NavLink
+                                to={`${ROOT_PATH}/ui/permissions/idp-groups`}
+                                title="Identity provider groups"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                IDP groups
+                              </NavLink>
+                            </SideNavigationItem>,
+                          ]}
+                        </NavAccordion>
+                      </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
                           to={`${ROOT_PATH}/ui/settings`}

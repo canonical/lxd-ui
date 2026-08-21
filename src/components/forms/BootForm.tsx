@@ -6,7 +6,6 @@ import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfi
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { optionRenderer } from "util/formFields";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 
 interface Props {
@@ -14,7 +13,6 @@ interface Props {
 }
 
 const BootForm: FC<Props> = ({ formik }) => {
-  const { hasInstanceBootMode } = useSupportedFeatures();
   const isInstance = formik.values.entityType === "instance";
   const isVmOnlyDisabled =
     isInstance &&
@@ -58,26 +56,19 @@ const BootForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" type="number" />,
         }),
 
-        ...(hasInstanceBootMode
-          ? [
-              getConfigurationRow({
-                formik,
-                label: "Boot mode (VMs only)",
-                name: "boot_mode",
-                defaultValue: "",
-                disabled: isVmOnlyDisabled,
-                disabledReason: isVmOnlyDisabled
-                  ? "Only available for virtual machines"
-                  : undefined,
-                children: (
-                  <Select
-                    options={bootModeOptions}
-                    disabled={isVmOnlyDisabled}
-                  />
-                ),
-              }),
-            ]
-          : []),
+        getConfigurationRow({
+          formik,
+          label: "Boot mode (VMs only)",
+          name: "boot_mode",
+          defaultValue: "",
+          disabled: isVmOnlyDisabled,
+          disabledReason: isVmOnlyDisabled
+            ? "Only available for virtual machines"
+            : undefined,
+          children: (
+            <Select options={bootModeOptions} disabled={isVmOnlyDisabled} />
+          ),
+        }),
 
         getConfigurationRow({
           formik,

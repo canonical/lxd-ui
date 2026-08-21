@@ -3,15 +3,11 @@ import { deleteInstance, randomInstanceName } from "./helpers/instances";
 import { assertTextVisible } from "./helpers/permissions";
 import { activateOverride } from "./helpers/configuration";
 import { gotoURL } from "./helpers/navigate";
-import {
-  randomIsoName,
-  skipIfCustomStorageVolumeNotSupported,
-} from "./helpers/storageVolume";
+import { randomIsoName } from "./helpers/storageVolume";
 import { dismissNotification } from "./helpers/notification";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
-test("upload and delete custom iso", async ({ page, lxdVersion }) => {
-  skipIfCustomStorageVolumeNotSupported(lxdVersion);
+test("upload and delete custom iso", async ({ page }) => {
   const isoName = randomIsoName();
 
   await gotoURL(page, "/ui/");
@@ -43,8 +39,7 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   await assertTextVisible(page, `Custom iso ${isoName} deleted.`);
 });
 
-test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
-  skipIfCustomStorageVolumeNotSupported(lxdVersion);
+test("use custom iso for instance launch", async ({ page }) => {
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
@@ -85,41 +80,4 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByText("Delete", { exact: true }).click();
   await assertTextVisible(page, `Custom iso ${isoName} deleted.`);
-});
-
-test("not allowed to upload custom iso for lxd v5.0/edge", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion !== "5.0-edge",
-    `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
-  );
-  await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Storage", exact: true }).click();
-  await expect(page.getByRole("link", { name: "Custom ISOs" })).toBeHidden();
-});
-
-test("not allowed to launch instance with custom iso for lxd v5.0/edge", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    Boolean(process.env.DISABLE_VM_TESTS),
-    "deactivated due to DISABLE_VM_TESTS environment variable",
-  );
-
-  test.skip(
-    lxdVersion !== "5.0-edge",
-    `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
-  );
-
-  const instance = randomInstanceName();
-  await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Instances", exact: true }).click();
-  await page.getByRole("button", { name: "Create instance" }).click();
-  await page.getByLabel("Instance name").fill(instance);
-  await expect(
-    page.getByRole("button", { name: "Use custom ISO" }),
-  ).toBeHidden();
 });

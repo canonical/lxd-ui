@@ -150,7 +150,6 @@ const getClusterAndMemberPoolPayload = (pool: LxdStoragePool) => {
 export const createClusteredPool = async (
   pool: LxdStoragePool,
   clusterMembers: LxdClusterMember[],
-  hasStorageAndNetworkOperations: boolean,
   sourcePerClusterMember?: ClusterSpecificValues,
   zfsPoolNamePerClusterMember?: ClusterSpecificValues,
   sizePerClusterMember?: ClusterSpecificValues,
@@ -181,13 +180,11 @@ export const createClusteredPool = async (
     return res.value;
   });
 
-  if (hasStorageAndNetworkOperations) {
-    await Promise.all(
-      pendingOperations.map(async ({ operation, member }) => {
-        await waitForOperation(operation.metadata.id, member);
-      }),
-    );
-  }
+  await Promise.all(
+    pendingOperations.map(async ({ operation, member }) => {
+      await waitForOperation(operation.metadata.id, member);
+    }),
+  );
 
   return createPool(clusterPoolPayload);
 };
@@ -218,7 +215,6 @@ export const updatePool = async (
 export const updateClusteredPool = async (
   pool: LxdStoragePool,
   clusterMembers: LxdClusterMember[],
-  hasStorageAndNetworkOperations: boolean,
   sourcePerClusterMember?: ClusterSpecificValues,
   zfsPoolNamePerClusterMember?: ClusterSpecificValues,
   sizePerClusterMember?: ClusterSpecificValues,
@@ -258,13 +254,11 @@ export const updateClusteredPool = async (
     return res.value;
   });
 
-  if (hasStorageAndNetworkOperations) {
-    await Promise.all(
-      pendingOperations.map(async ({ operation, member }) => {
-        await waitForOperation(operation.metadata.id, member);
-      }),
-    );
-  }
+  await Promise.all(
+    pendingOperations.map(async ({ operation, member }) => {
+      await waitForOperation(operation.metadata.id, member);
+    }),
+  );
 
   return updatePool(clusterPoolPayload);
 };

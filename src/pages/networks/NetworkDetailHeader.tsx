@@ -10,7 +10,6 @@ import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify, useToastNotification } from "@canonical/react-components";
 import { useNetworkEntitlements } from "util/entitlements/networks";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
 import NetworkRichChip from "./NetworkRichChip";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
@@ -28,7 +27,6 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const { canEditNetwork } = useNetworkEntitlements();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const RenameSchema = Yup.object().shape({
@@ -65,29 +63,25 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       }
       renameNetwork(name, values.name, project)
         .then((operation) => {
-          if (hasStorageAndNetworkOperations) {
-            toastNotify.info(
-              <>
-                Renaming of network{" "}
-                <NetworkRichChip
-                  networkName={values.name}
-                  projectName={project}
-                />{" "}
-                has started.
-              </>,
-            );
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                onSuccess(values.name);
-              },
-              (msg) => {
-                onFailure(values.name, new Error(msg));
-              },
-            );
-          } else {
-            onSuccess(values.name);
-          }
+          toastNotify.info(
+            <>
+              Renaming of network{" "}
+              <NetworkRichChip
+                networkName={values.name}
+                projectName={project}
+              />{" "}
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess(values.name);
+            },
+            (msg) => {
+              onFailure(values.name, new Error(msg));
+            },
+          );
         })
         .catch((e) => {
           onFailure(values.name, e);

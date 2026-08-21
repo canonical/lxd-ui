@@ -33,7 +33,6 @@ import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { fetchProfile, updateProfile } from "api/profiles";
 import { useProfile } from "context/useProfiles";
 import { useAuth } from "context/auth";
@@ -49,8 +48,6 @@ const CreateProject: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(slugify(PROJECT_DETAILS));
-  const { hasProjectsNetworksZones, hasStorageBuckets, hasReplicators } =
-    useSupportedFeatures();
   const { isFineGrained } = useAuth();
 
   const { data: defaultProjectDefaultProfile } = useProfile(
@@ -122,14 +119,6 @@ const CreateProject: FC = () => {
           }
         : {};
 
-      if (!hasProjectsNetworksZones) {
-        values.features_networks_zones = undefined;
-      }
-
-      if (!hasStorageBuckets) {
-        values.features_storage_buckets = undefined;
-      }
-
       const hasNetwork = values.default_project_network !== "none";
 
       createProject(
@@ -139,7 +128,7 @@ const CreateProject: FC = () => {
             ...projectDetailRestrictionPayload(values),
             ...resourceLimitsPayload(values),
             ...restrictions,
-            ...(hasReplicators ? replicaPayload(values) : {}),
+            ...replicaPayload(values),
           },
         }),
       )

@@ -11,12 +11,10 @@ import {
   randomReplicatorName,
   runReplicatorFromDetailPage,
   setupProjectsForReplicator,
-  skipIfReplicatorsNotSupported,
 } from "./helpers/replicators";
 import { runCommand } from "./helpers/shell";
 
-test("Replicator", async ({ page, lxdVersion }, testInfo) => {
-  skipIfReplicatorsNotSupported(lxdVersion);
+test("Replicator", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const project = randomProjectName();

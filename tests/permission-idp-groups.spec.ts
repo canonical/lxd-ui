@@ -11,7 +11,6 @@ import {
   randomIdpGroupName,
   visitIdpGroups,
 } from "./helpers/permission-idp-groups";
-import { skipIfFineGrainedAuthorisationNotSupported } from "./helpers/permissions";
 import {
   getServerSettingValue,
   resetSetting,
@@ -20,8 +19,7 @@ import {
 } from "./helpers/server";
 import { dismissNotification } from "./helpers/notification";
 
-test("create and delete idp group", async ({ page, lxdVersion }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+test("create and delete idp group", async ({ page }) => {
   // first create some groups
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
@@ -35,8 +33,7 @@ test("create and delete idp group", async ({ page, lxdVersion }) => {
   await deleteGroup(page, groupTwo);
 });
 
-test("edit idp group", async ({ page, lxdVersion }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+test("edit idp group", async ({ page }) => {
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
   const groupThree = randomGroupName();
@@ -60,8 +57,7 @@ test("edit idp group", async ({ page, lxdVersion }) => {
   await deleteGroup(page, groupFour);
 });
 
-test("bulk delete idp groups", async ({ page, lxdVersion }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
+test("bulk delete idp groups", async ({ page }) => {
   const groupOne = randomGroupName();
   const groupTwo = randomGroupName();
   await createGroup(page, groupOne, groupOne);
@@ -88,9 +84,7 @@ test("bulk delete idp groups", async ({ page, lxdVersion }) => {
 
 test("show different idp groups notification if oidc.groups.claim is set", async ({
   page,
-  lxdVersion,
 }) => {
-  skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
   await visitServerSettings(page);
   const settingName = "oidc.groups.claim";
   const initialSettingValue = await getServerSettingValue(page, settingName);

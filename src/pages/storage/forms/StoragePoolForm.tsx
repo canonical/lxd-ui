@@ -55,7 +55,6 @@ import StoragePoolFormCephObject from "./StoragePoolFormCephObject";
 import { objectToYaml } from "util/yaml";
 import StoragePoolFormAlletra from "./StoragePoolFormAlletra";
 import type { StoragePoolFormValues } from "types/forms/storagePool";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -66,7 +65,6 @@ interface Props {
 
 export const toStoragePool = (
   values: StoragePoolFormValues,
-  hasRemoteDropSource: boolean,
 ): LxdStoragePool => {
   const isPowerFlexDriver = values.driver === powerFlex;
   const isPowerStoreDriver = values.driver === powerStore;
@@ -85,10 +83,7 @@ export const toStoragePool = (
         [getPoolKey("ceph_rbd_du")]: values.ceph_rbd_du,
         [getPoolKey("ceph_user_name")]: values.ceph_user_name,
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
-        source: hasRemoteDropSource ? undefined : values.source,
-        [getPoolKey("ceph_osd_pool_name")]: hasRemoteDropSource
-          ? values.ceph_osd_pool_name
-          : undefined,
+        [getPoolKey("ceph_osd_pool_name")]: values.ceph_osd_pool_name,
       };
     }
     if (isCephFSDriver(values)) {
@@ -97,10 +92,7 @@ export const toStoragePool = (
         [getPoolKey("cephfs_create_missing")]: values.cephfs_create_missing,
         [getPoolKey("cephfs_fscache")]: values.cephfs_fscache,
         [getPoolKey("cephfs_osd_pg_num")]: values.cephfs_osd_pg_num?.toString(),
-        source: hasRemoteDropSource ? undefined : values.source,
-        [getPoolKey("cephfs_path")]: hasRemoteDropSource
-          ? values.cephfs_path
-          : undefined,
+        [getPoolKey("cephfs_path")]: values.cephfs_path,
       };
     }
     if (isCephObjectDriver) {
@@ -204,9 +196,7 @@ export const toStoragePool = (
     config: {
       ...missingConfigFields,
       ...getConfig(),
-      source: hasSource(values.driver, hasRemoteDropSource)
-        ? values.source
-        : undefined,
+      source: hasSource(values.driver) ? values.source : undefined,
     },
   };
 };
@@ -219,7 +209,6 @@ const StoragePoolForm: FC<Props> = ({
 }) => {
   const { data: settings } = useSettings();
   const notify = useNotify();
-  const { hasRemoteDropSource } = useSupportedFeatures();
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -228,7 +217,7 @@ const StoragePoolForm: FC<Props> = ({
   useListener(window, updateFormHeight, "resize", true);
 
   const getYaml = () => {
-    const payload = toStoragePool(formik.values, hasRemoteDropSource);
+    const payload = toStoragePool(formik.values);
     return objectToYaml(payload);
   };
 

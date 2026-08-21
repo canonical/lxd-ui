@@ -1,17 +1,10 @@
-import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
+import { expect } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
 import { getRemoteClusterVm } from "./cluster";
-
-export const skipIfClusterLinksNotSupported = (lxdVersion: LxdVersions) => {
-  test.skip(
-    lxdVersion === "5.0-edge" || lxdVersion === "5.21-edge",
-    "Cluster link tests not supported for lxd 5.0 and 5.21",
-  );
-};
 
 export const DELETE_ALL_CLUSTER_LINKS_COMMAND =
   "lxc cluster link list --format csv | cut -d, -f1 | xargs -r -n1 lxc cluster link delete";

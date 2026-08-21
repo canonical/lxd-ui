@@ -1,25 +1,29 @@
-import { test } from "./fixtures/lxd-test";
+import { type LxdVersions, test } from "./fixtures/lxd-test";
 import {
   createNetwork,
   createOvnUplink,
   deleteNetwork,
   randomLoadBalancerPoolName,
   randomNetworkName,
-  skipIfLoadBalancersNotSupported,
-  supportsLoadBalancers,
   visitNetwork,
 } from "./helpers/network";
 import { isClusteredTestProject, skipIfNotClustered } from "./helpers/cluster";
 import { dismissNotification } from "./helpers/notification";
 
+export const skipIfLoadBalancerHealthChecksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Load balancer health checks are currently not available",
+  );
+};
+
 test.describe("Network Load Balancer", () => {
   const UPLINK_NAME = randomNetworkName();
 
-  test.beforeAll(async ({ browser, lxdVersion }, testInfo) => {
-    if (
-      !supportsLoadBalancers(lxdVersion) ||
-      !isClusteredTestProject(testInfo.project.name)
-    ) {
+  test.beforeAll(async ({ browser }, testInfo) => {
+    if (!isClusteredTestProject(testInfo.project.name)) {
       console.log("Skipping uplink creation");
       return;
     }
@@ -28,11 +32,8 @@ test.describe("Network Load Balancer", () => {
     await page.close();
   });
 
-  test.afterAll(async ({ browser, lxdVersion }, testInfo) => {
-    if (
-      !supportsLoadBalancers(lxdVersion) ||
-      !isClusteredTestProject(testInfo.project.name)
-    ) {
+  test.afterAll(async ({ browser }, testInfo) => {
+    if (!isClusteredTestProject(testInfo.project.name)) {
       console.log("Skipping uplink deletion");
       return;
     }
@@ -45,8 +46,8 @@ test.describe("Network Load Balancer", () => {
     page,
     lxdVersion,
   }, testInfo) => {
-    skipIfLoadBalancersNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
+    skipIfLoadBalancerHealthChecksNotSupported(lxdVersion);
 
     const network = randomNetworkName();
 

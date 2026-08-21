@@ -9,7 +9,7 @@ Targets small and large scale private clouds.
 
        sudo snap install lxd
 
-   Or refresh to ensure at least version 5.21 LTS is installed. Be aware, that downgrading to a previous channel will not be possible. 
+   Or refresh to the latest stable LTS release:
 
        sudo snap refresh --channel=latest/stable lxd
 

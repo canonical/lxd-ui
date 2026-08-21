@@ -83,10 +83,7 @@ test("storage volume migrate pool", async ({ page }) => {
   await deletePool(page, pool2);
 });
 
-test("storage volume edit snapshot configuration", async ({
-  page,
-  lxdVersion,
-}) => {
+test("storage volume edit snapshot configuration", async ({ page }) => {
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByText("See configuration").click();
@@ -99,11 +96,10 @@ test("storage volume edit snapshot configuration", async ({
     "snap123",
   );
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
-  const scheduleFieldText =
-    lxdVersion === "5.0-edge"
-      ? "Schedule"
-      : "Schedule Schedule for automatic volume snapshots";
-  await activateOverride(page, scheduleFieldText);
+  await activateOverride(
+    page,
+    "Schedule Schedule for automatic volume snapshots",
+  );
   await page.getByPlaceholder("Enter cron expression").last().fill("@daily");
   await page.getByRole("button", { name: "Save" }).click();
   await page
@@ -142,12 +138,7 @@ test("navigate to custom volume via pool used by list", async ({ page }) => {
   await expect(page).toHaveURL(/volumes\/custom\//);
 });
 
-test("storage pool with driver zfs", async ({ page, lxdVersion }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "ZFS driver in 5.0 is not compatible in github runners or any environment with zfs > 2.2",
-  );
-
+test("storage pool with driver zfs", async ({ page }) => {
   const pool = randomPoolName();
   await createPool(page, pool, storageDriverLabels[zfsDriver]);
 

@@ -23,7 +23,6 @@ import { useAuth } from "context/auth";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import { useProfile } from "context/useProfiles";
 import { useProjectEntitlements } from "util/entitlements/projects";
@@ -41,8 +40,6 @@ const EditProject: FC<Props> = ({ project }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { section } = useParams<{ section?: string }>();
-  const { hasProjectsNetworksZones, hasStorageBuckets } =
-    useSupportedFeatures();
   const { canEditProject } = useProjectEntitlements();
 
   const { data: profile } = useProfile("default", project.name);
@@ -68,14 +65,6 @@ const EditProject: FC<Props> = ({ project }) => {
     validationSchema: ProjectSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      if (!hasProjectsNetworksZones) {
-        values.features_networks_zones = undefined;
-      }
-
-      if (!hasStorageBuckets) {
-        values.features_storage_buckets = undefined;
-      }
-
       const projectPayload = getProjectPayload(project, values) as LxdProject;
 
       projectPayload.etag = project.etag;

@@ -26,7 +26,6 @@ import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 import UploadVolumeFileBtn from "../actions/UploadVolumeFileBtn";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { ROOT_PATH } from "util/rootPath";
 
 const CreateStorageVolume: FC = () => {
@@ -39,7 +38,6 @@ const CreateStorageVolume: FC = () => {
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -103,19 +101,15 @@ const CreateStorageVolume: FC = () => {
 
       createStorageVolume(values.pool, project, volume, values.clusterMember)
         .then((operation) => {
-          if (hasStorageAndProfileOperations) {
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                handleSuccess(volume, values.clusterMember);
-              },
-              (msg) => {
-                handleFailure(new Error(msg));
-              },
-            );
-          } else {
-            handleSuccess(volume, values.clusterMember);
-          }
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              handleSuccess(volume, values.clusterMember);
+            },
+            (msg) => {
+              handleFailure(new Error(msg));
+            },
+          );
         })
         .catch(handleFailure);
     },

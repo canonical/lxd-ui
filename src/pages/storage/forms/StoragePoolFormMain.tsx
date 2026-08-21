@@ -21,7 +21,6 @@ import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelecto
 import { isStoragePoolWithSize, getFormProps } from "util/storagePoolForm";
 import StoragePoolSource from "./StoragePoolSource";
 import StorageDriverSelect from "./StorageDriverSelect";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -29,7 +28,6 @@ interface Props {
 
 const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const { data: settings } = useSettings();
-  const { hasRemoteDropSource } = useSupportedFeatures();
   const isCreating = formik.values.isCreating;
   const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
@@ -104,7 +102,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           <StoragePoolSource
             formik={formik}
             settings={settings}
-            hasSource={hasSource(formik.values.driver, hasRemoteDropSource)}
+            hasSource={hasSource(formik.values.driver)}
           />
           {isCephObjectDriver && (
             <>

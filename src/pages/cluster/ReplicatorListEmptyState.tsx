@@ -4,12 +4,12 @@ import { EmptyState, Icon } from "@canonical/react-components";
 import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
 import CreateClusterLinkBtn from "pages/cluster/actions/CreateClusterLinkBtn";
 import { ROOT_PATH } from "util/rootPath";
+import { DOC_BASE_PATH } from "context/DOC_BASE_PATH";
 
 interface Props {
   isProjectConfiguration: boolean;
   projectConfigurationInfoNotification: React.ReactNode;
   hasClusterLinks: boolean;
-  docBaseLink: string;
   project?: string;
   cluster?: string;
 }
@@ -18,7 +18,6 @@ const ReplicatorListEmptyState: FC<Props> = ({
   isProjectConfiguration,
   projectConfigurationInfoNotification,
   hasClusterLinks,
-  docBaseLink,
   project,
   cluster,
 }) => {
@@ -40,7 +39,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
           )}
           <p>
             <a
-              href={`${docBaseLink}/explanation/replicators/`}
+              href={`${DOC_BASE_PATH}/explanation/replicators/`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -80,7 +79,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
       )}
       <p>
         <a
-          href={`${docBaseLink}/explanation/replicators/`}
+          href={`${DOC_BASE_PATH}/explanation/replicators/`}
           target="_blank"
           rel="noopener noreferrer"
         >

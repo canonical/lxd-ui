@@ -11,8 +11,6 @@ import {
   deleteNetwork,
   prepareNetworkTabEdit,
   randomNetworkName,
-  skipIfOvnNotSupported,
-  supportsOvn,
   visitNetwork,
 } from "./helpers/network";
 import {
@@ -191,11 +189,7 @@ test.describe("physical type", () => {
 });
 
 test.describe("OVN type", () => {
-  test.beforeAll(async ({ browser, lxdVersion }) => {
-    if (!supportsOvn(lxdVersion)) {
-      return;
-    }
-
+  test.beforeAll(async ({ browser }) => {
     const page = await browser.newPage();
 
     await visitServerSettings(page);
@@ -214,11 +208,7 @@ test.describe("OVN type", () => {
     await page.close();
   });
 
-  test.afterAll(async ({ browser, lxdVersion }) => {
-    if (!supportsOvn(lxdVersion)) {
-      return;
-    }
-
+  test.afterAll(async ({ browser }) => {
     const page = await browser.newPage();
 
     await visitServerSettings(page);
@@ -232,9 +222,7 @@ test.describe("OVN type", () => {
     await page.close();
   });
 
-  test.beforeEach(async ({ page, lxdVersion }) => {
-    skipIfOvnNotSupported(lxdVersion);
-
+  test.beforeEach(async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByRole("button", { name: "Networking" }).click();
     await page.getByRole("link", { name: "Networks", exact: true }).click();

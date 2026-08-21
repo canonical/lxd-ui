@@ -14,7 +14,6 @@ import InstanceTextConsole from "./InstanceTextConsole";
 import { useInstanceStart } from "util/instanceStart";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import InstanceConsoleShortcuts from "pages/instances/InstanceConsoleShortcuts";
@@ -27,7 +26,6 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const notify = useNotify();
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
-  const { hasCustomVolumeIso } = useSupportedFeatures();
   const { canUpdateInstanceState, canAccessInstanceConsole } =
     useInstanceEntitlements();
 
@@ -105,7 +103,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           </div>
           {isGraphic && (
             <div>
-              {hasCustomVolumeIso && <AttachIsoBtn instance={instance} />}
+              <AttachIsoBtn instance={instance} />
               <Button
                 className="u-no-margin--bottom"
                 disabled={!isRunning}
