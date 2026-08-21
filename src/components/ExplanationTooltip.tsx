@@ -4,7 +4,7 @@ import { Icon, Tooltip } from "@canonical/react-components";
 import DocLink from "components/DocLink";
 
 interface Props {
-  explanation: string;
+  explanation: ReactNode;
   docPath: string;
   docLabel?: string;
   className?: string;
