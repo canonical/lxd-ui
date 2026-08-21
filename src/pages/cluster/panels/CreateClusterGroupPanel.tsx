@@ -17,6 +17,7 @@ import ResourceLink from "components/ResourceLink";
 import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 const CreateClusterGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -28,6 +29,8 @@ const CreateClusterGroupPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const formik = useFormik<ClusterGroupFormValues>({
     initialValues: {

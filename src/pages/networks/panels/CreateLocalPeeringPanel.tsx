@@ -24,6 +24,7 @@ import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
 import ResourceLabel from "components/ResourceLabel";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   network: LxdNetwork;
@@ -37,10 +38,14 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const eventQueue = useEventQueue();
+
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
+
   const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
   const projectOtherLabel = "Manually enter project";
   const networkOtherLabel = "Manually enter network";

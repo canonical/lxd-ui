@@ -9,10 +9,13 @@ import {
 } from "@canonical/react-components";
 import ProfileDetailPanelContent from "./ProfileDetailPanelContent";
 import { useProfile } from "context/useProfiles";
+import { useEscCallback } from "context/useEscCallback";
 
 const ProfileDetailPanel: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
+
+  useEscCallback(panelParams.clear);
 
   const profileName = panelParams.profile;
   const projectName = panelParams.project;

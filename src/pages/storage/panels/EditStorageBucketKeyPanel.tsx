@@ -22,6 +22,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useBucketKey } from "context/useBuckets";
 import StorageBucketKeyForm from "../forms/StorageBucketKeyForm";
 import { getStorageBucketURL } from "util/storageBucket";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -38,6 +39,8 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const bucketURL = getStorageBucketURL(bucket.name, bucket.pool, project);
 

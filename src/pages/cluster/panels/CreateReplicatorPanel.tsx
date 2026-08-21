@@ -20,6 +20,7 @@ import { checkDuplicateName } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { getPayload } from "util/replicator";
 import ReplicatorRichChip from "../ReplicatorRichChip";
+import { useEscCallback } from "context/useEscCallback";
 
 const CreateReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -35,6 +36,8 @@ const CreateReplicatorPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const schema = Yup.object().shape({
     name: Yup.string()

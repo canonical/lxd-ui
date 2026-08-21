@@ -24,6 +24,7 @@ import LoadBalancerPoolForm, {
 } from "pages/networks/forms/LoadBalancerPoolForm";
 import { useEventQueue } from "context/eventQueue";
 import { getHealthCheckType } from "util/loadBalancers";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   network: LxdNetwork;
@@ -51,6 +52,8 @@ const EditLoadBalancerPoolPanel: FC<Props> = ({ network }) => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const invalidateCache = () => {
     queryClient.invalidateQueries({

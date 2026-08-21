@@ -21,6 +21,7 @@ import { pluralize } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { useCurrentProject } from "context/useCurrentProject";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -31,11 +32,14 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
   const toastNotify = useToastNotification();
   const { project } = useCurrentProject();
   const queryClient = useQueryClient();
+  const eventQueue = useEventQueue();
+
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
-  const eventQueue = useEventQueue();
+
+  useEscCallback(closePanel);
 
   const invalidateCache = () => {
     queryClient.invalidateQueries({

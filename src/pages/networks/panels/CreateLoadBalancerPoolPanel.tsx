@@ -20,6 +20,7 @@ import LoadBalancerPoolForm, {
   toLoadBalancerPool,
 } from "pages/networks/forms/LoadBalancerPoolForm";
 import { createLoadBalancerPool } from "api/load-balancer-pools";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   network: LxdNetwork;
@@ -47,6 +48,8 @@ const CreateLoadBalancerPoolPanel: FC<Props> = ({
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const handleSubmit = (values: LoadBalancerPoolFormValues) => {
     const pool = toLoadBalancerPool(values);

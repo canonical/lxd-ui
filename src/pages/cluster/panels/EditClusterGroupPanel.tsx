@@ -18,19 +18,21 @@ import { useClusterGroup } from "context/useClusterGroups";
 import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 const EditClusterGroupPanel: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-
   const { data: group } = useClusterGroup(panelParams.group ?? "");
 
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const formik = useFormik<ClusterGroupFormValues>({
     initialValues: {

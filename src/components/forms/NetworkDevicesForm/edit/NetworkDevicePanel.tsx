@@ -45,6 +45,7 @@ import { useNetworkAcls } from "context/useNetworkAcls";
 import type { LxdNetwork } from "types/network";
 import { Link } from "react-router";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   project: string;
@@ -319,6 +320,8 @@ const NetworkDevicePanel: FC<Props> = ({
     notify.clear();
     panelParams.clear();
   };
+
+  useEscCallback(handleCancel);
 
   if (!isLoading && !isCreatingLocal && !device && !inheritedDevice) {
     return (

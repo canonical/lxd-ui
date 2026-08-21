@@ -1,4 +1,4 @@
-import type { FC, KeyboardEvent } from "react";
+import type { FC } from "react";
 import {
   ActionButton,
   Button,
@@ -21,11 +21,6 @@ interface Props {
 
 const SnapshotForm: FC<Props> = (props) => {
   const { isEdit, formik, close, additionalFormInput } = props;
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
 
   return (
     <Modal
@@ -47,7 +42,6 @@ const SnapshotForm: FC<Props> = (props) => {
           </ActionButton>
         </>
       }
-      onKeyDown={handleEscKey}
     >
       <Form onSubmit={formik.handleSubmit} className="snapshot-creation-form">
         <Input

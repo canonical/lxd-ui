@@ -7,7 +7,6 @@ import {
   Row,
   ScrollableContainer,
   SidePanel,
-  useListener,
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,6 +22,7 @@ import ClusterLinkRichChip from "../ClusterLinkRichChip";
 import ClusterLinkDirectionSelection from "pages/cluster/ClusterLinkDirectionSelection";
 import BackLink from "components/BackLink";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
+import { useEscCallback } from "context/useEscCallback";
 
 type CreateLinkFlowStep = "direction-selection" | "details";
 
@@ -40,10 +40,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const handleEscKey = (e: KeyboardEvent) => {
-    if (e.key !== "Escape") {
-      return;
-    }
+  const handleEscKey = () => {
     switch (currentStep) {
       case "direction-selection":
         closePanel();
@@ -54,7 +51,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess }) => {
     }
   };
 
-  useListener(window, handleEscKey, "keydown", true);
+  useEscCallback(handleEscKey);
 
   const closePanel = () => {
     panelParams.clear();

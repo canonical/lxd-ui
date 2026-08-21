@@ -19,6 +19,7 @@ import ReplicatorRichChip from "pages/cluster/ReplicatorRichChip";
 import { useReplicator } from "context/useReplicators";
 import { getPayload } from "util/replicator";
 import * as Yup from "yup";
+import { useEscCallback } from "context/useEscCallback";
 
 const EditReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -40,6 +41,8 @@ const EditReplicatorPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const formik = useFormik<ReplicatorFormValues>({
     initialValues: {

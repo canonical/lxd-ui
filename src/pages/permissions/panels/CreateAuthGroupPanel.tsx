@@ -30,8 +30,9 @@ import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissi
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
-const CreateGroupPanel: FC = () => {
+const CreateAuthGroupPanel: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -49,6 +50,16 @@ const CreateGroupPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  const handleEscKey = () => {
+    if (subForm) {
+      setSubForm(null);
+    } else {
+      closePanel();
+    }
+  };
+
+  useEscCallback(handleEscKey);
 
   const groupSchema = Yup.object().shape({
     name: Yup.string()
@@ -197,4 +208,4 @@ const CreateGroupPanel: FC = () => {
   );
 };
 
-export default CreateGroupPanel;
+export default CreateAuthGroupPanel;
