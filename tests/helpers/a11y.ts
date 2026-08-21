@@ -10,6 +10,9 @@ export const PANEL_SELECTOR = '[aria-label="Side panel"]';
 
 const MODAL_SELECTOR = ".p-modal";
 
+const MINIMUM_PASSING_RATE = 90;
+const MAX_CRITICAL_VIOLATIONS = 2;
+
 const printSummary = (
   percent: number,
   passed: number,
@@ -32,6 +35,24 @@ const printSummary = (
   console.log("- Failed:", failed);
   console.log("- Incomplete:", incomplete);
   console.log("- Severities:", severities);
+};
+
+const formatViolations = (violations: Result[]): string => {
+  return violations
+    .map((v, i) => {
+      const selectors = v.nodes
+        .map((n) => n.target.join(" "))
+        .slice(0, 5)
+        .join("\n      ");
+      const extra =
+        v.nodes.length > 5 ? `\n      ... and ${v.nodes.length - 5} more` : "";
+      return [
+        `  ${i + 1}. [${v.impact}] ${v.id}: ${v.description}`,
+        `     Help: ${v.helpUrl}`,
+        `     Affected elements:\n      ${selectors}${extra}`,
+      ].join("\n");
+    })
+    .join("\n\n");
 };
 
 const countSeverities = (results: AxeResults): Record<string, number> => {
@@ -98,6 +119,24 @@ const processA11yResults = async (
     });
   } catch (err) {
     console.error("Failed to write/attach a11y report:", err);
+  }
+
+  const criticalViolations = results.violations.filter(
+    (v) => v.impact === "critical",
+  );
+
+  if (criticalViolations.length >= MAX_CRITICAL_VIOLATIONS) {
+    throw new Error(
+      `A11y audit failed: ${criticalViolations.length} critical violation(s) found (threshold: ${MAX_CRITICAL_VIOLATIONS}).\n\n` +
+        formatViolations(criticalViolations),
+    );
+  }
+
+  if (percent < MINIMUM_PASSING_RATE) {
+    throw new Error(
+      `A11y audit failed: passing rate ${percent.toFixed(2)}% is below the ${MINIMUM_PASSING_RATE}% threshold.\n\n` +
+        `Violations:\n${formatViolations(results.violations)}`,
+    );
   }
 
   return percent;
