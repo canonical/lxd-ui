@@ -31,6 +31,7 @@ import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageR
 import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
+import ProjectExplanationTooltip from "pages/projects/ProjectExplanationTooltip";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { fetchProfile, updateProfile } from "api/profiles";
@@ -187,7 +188,12 @@ const CreateProject: FC = () => {
   });
 
   return (
-    <BaseLayout title="Create a project" contentClassName="create-project">
+    <BaseLayout
+      title={
+        <ProjectExplanationTooltip>Create a project</ProjectExplanationTooltip>
+      }
+      contentClassName="create-project"
+    >
       <ProjectForm
         formik={formik}
         section={section}

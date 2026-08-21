@@ -33,6 +33,7 @@ import {
   getIdentityName,
 } from "util/permissionIdentities";
 import { useEscCallback } from "context/useEscCallback";
+import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
 
 interface IdentityEditHistory {
   identitiesAdded: Set<string>;
@@ -315,7 +316,11 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     <>
       <SidePanel loading={isLoading} hasError={!identities}>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>{panelTitle}</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <PermissionGroupExplanationTooltip>
+              {panelTitle}
+            </PermissionGroupExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <PermissionIdentitiesFilter />

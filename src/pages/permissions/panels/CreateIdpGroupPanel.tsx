@@ -22,6 +22,7 @@ import { useAuthGroups } from "context/useAuthGroups";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
+import PermissionIdpGroupExplanationTooltip from "pages/permissions/PermissionIdpGroupExplanationTooltip";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -116,7 +117,11 @@ const CreateIdpGroupPanel: FC = () => {
   return (
     <SidePanel loading={isLoading} hasError={!groups}>
       <SidePanel.Header>
-        <SidePanel.HeaderTitle>Create IDP group</SidePanel.HeaderTitle>
+        <SidePanel.HeaderTitle>
+          <PermissionIdpGroupExplanationTooltip>
+            Create IDP group
+          </PermissionIdpGroupExplanationTooltip>
+        </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />
       <NameWithGroupForm formik={formik} />

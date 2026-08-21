@@ -23,6 +23,7 @@ import CloudInitForm from "components/forms/CloudInitForm";
 import ResourceLimitsForm from "components/forms/ResourceLimitsForm";
 import YamlForm from "components/forms/YamlForm";
 import { createProfile } from "api/profiles";
+import ProfileExplanationTooltip from "pages/profiles/ProfileExplanationTooltip";
 import ProfileFormMenu, {
   BOOT,
   CLOUD_INIT,
@@ -176,7 +177,12 @@ const CreateProfile: FC = () => {
   }
 
   return (
-    <BaseLayout title="Create a profile" contentClassName="create-profile">
+    <BaseLayout
+      title={
+        <ProfileExplanationTooltip>Create a profile</ProfileExplanationTooltip>
+      }
+      contentClassName="create-profile"
+    >
       <Form onSubmit={formik.handleSubmit} className="form">
         {section !== YAML_CONFIGURATION && (
           <ProfileFormMenu

@@ -11,7 +11,6 @@
 
 .explanation-tooltip-wrapper--breadcrumb {
   display: inline-flex;
-  gap: 0.25rem;
 }
 
 .explanation-tooltip {
@@ -21,7 +20,6 @@
 }
 
 .explanation-tooltip-portal .p-tooltip__message {
-  margin: 0 1rem 0 0;
   max-width: calc(60vw - 2rem);
   white-space: normal;
   width: max-content;

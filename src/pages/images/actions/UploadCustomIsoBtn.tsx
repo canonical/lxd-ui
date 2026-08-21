@@ -14,6 +14,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
+import CustomIsoExplanationTooltip from "pages/storage/CustomIsoExplanationTooltip";
 
 interface Props {
   className?: string;
@@ -67,7 +68,14 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
       </Button>
       {isOpen && (
         <Portal>
-          <Modal close={closePortal} title="Upload custom ISO">
+          <Modal
+            close={closePortal}
+            title={
+              <CustomIsoExplanationTooltip>
+                Upload custom ISO
+              </CustomIsoExplanationTooltip>
+            }
+          >
             <UploadCustomIso onCancel={handleCancel} onFinish={handleFinish} />
           </Modal>
         </Portal>

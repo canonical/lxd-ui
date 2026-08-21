@@ -3,6 +3,7 @@ import type { LxdAuthGroup } from "types/permissions";
 import type { GroupSubForm } from "types/forms/permissionGroup";
 import { pluralize } from "util/helpers";
 import BackLink from "components/BackLink";
+import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
 
 interface Props {
   subForm: GroupSubForm;
@@ -12,7 +13,11 @@ interface Props {
 
 const GroupHeaderTitle: FC<Props> = ({ subForm, setSubForm, group }) => {
   if (subForm === null) {
-    return group ? `Edit auth group ${group?.name}` : "Create auth group";
+    return (
+      <PermissionGroupExplanationTooltip>
+        {group ? `Edit auth group ${group?.name}` : "Create auth group"}
+      </PermissionGroupExplanationTooltip>
+    );
   }
 
   const verb = group ? "Edit" : "Add";

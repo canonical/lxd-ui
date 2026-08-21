@@ -13,6 +13,7 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
+import StorageVolumeExplanationTooltip from "pages/storage/StorageVolumeExplanationTooltip";
 import type { StorageVolumeFormValues } from "types/forms/storageVolume";
 import StorageVolumeForm, {
   volumeFormToPayload,
@@ -116,7 +117,14 @@ const CreateStorageVolume: FC = () => {
   });
 
   return (
-    <BaseLayout title="Create volume" contentClassName="storage-volume-form">
+    <BaseLayout
+      title={
+        <StorageVolumeExplanationTooltip>
+          Create volume
+        </StorageVolumeExplanationTooltip>
+      }
+      contentClassName="storage-volume-form"
+    >
       <NotificationRow />
       <StorageVolumeForm
         formik={formik}

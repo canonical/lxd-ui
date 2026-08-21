@@ -8,6 +8,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { createClusteredPool, createPool } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
+import StoragePoolExplanationTooltip from "pages/storage/StoragePoolExplanationTooltip";
 import NotificationRow from "components/NotificationRow";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -145,7 +146,11 @@ const CreateStoragePool: FC = () => {
 
   return (
     <BaseLayout
-      title="Create a storage pool"
+      title={
+        <StoragePoolExplanationTooltip isConfigVariant>
+          Create a storage pool
+        </StoragePoolExplanationTooltip>
+      }
       contentClassName="create-storage-pool"
     >
       <NotificationRow />

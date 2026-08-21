@@ -1,13 +1,14 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const PermissionGroupExplanationTooltip: FC<{ children?: ReactNode }> = ({
-  children,
-}) => {
+const PermissionGroupExplanationTooltip: FC<{
+  children?: ReactNode;
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation="Organise identities into groups to manage permissions."
+      explanation="Auth groups organise identities for permission management."
       docPath="/explanation/authorization"
+      docLabel="Learn more about authorization"
     >
       {children}
     </ExplanationTooltip>

@@ -22,6 +22,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useCurrentProject } from "context/useCurrentProject";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
+import StorageBucketExplanationTooltip from "pages/storage/StorageBucketExplanationTooltip";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -138,7 +139,9 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
       <SidePanel>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
-            Edit storage bucket {bucket.name}
+            <StorageBucketExplanationTooltip>
+              Edit storage bucket {bucket.name}
+            </StorageBucketExplanationTooltip>
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />

@@ -22,6 +22,7 @@ import ClusterLinkRichChip from "../ClusterLinkRichChip";
 import type { LxdClusterLink } from "types/cluster";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { useEscCallback } from "context/useEscCallback";
+import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
 
 interface Props {
   identity?: LxdIdentity;
@@ -105,9 +106,11 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle className="u-truncate">
-          <span title={`Edit cluster link ${clusterLink.name}`}>
-            Edit cluster link {clusterLink.name}
-          </span>
+          <ClusterLinkExplanationTooltip>
+            <span title={`Edit cluster link ${clusterLink.name}`}>
+              Edit cluster link {clusterLink.name}
+            </span>
+          </ClusterLinkExplanationTooltip>
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <Row className="u-no-padding">

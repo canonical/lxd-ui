@@ -23,6 +23,7 @@ import { updateNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
+import LocalPeeringExplanationTooltip from "pages/networks/LocalPeeringExplanationTooltip";
 
 interface Props {
   network: LxdNetwork;
@@ -164,7 +165,9 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
       <SidePanel>
         <SidePanel.Header>
           <SidePanel.HeaderTitle className="u-truncate">
-            Edit local peering {localPeering}
+            <LocalPeeringExplanationTooltip>
+              Edit local peering {localPeering}
+            </LocalPeeringExplanationTooltip>
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />

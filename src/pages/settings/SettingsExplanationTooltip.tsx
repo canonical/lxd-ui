@@ -6,8 +6,9 @@ const SettingsExplanationTooltip: FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <ExplanationTooltip
-      explanation="View and manage global LXD configuration settings and resources."
+      explanation="Settings control global LXD configuration."
       docPath="/server/"
+      docLabel="Learn more about server configuration"
     >
       {children}
     </ExplanationTooltip>

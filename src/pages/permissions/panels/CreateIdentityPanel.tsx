@@ -34,6 +34,7 @@ import {
 import type { IdentityFormValues } from "types/forms/identity";
 import { createClusterLink } from "api/cluster-links";
 import { useEscCallback } from "context/useEscCallback";
+import PermissionIdentityExplanationTooltip from "pages/permissions/PermissionIdentityExplanationTooltip";
 
 interface Props {
   onSuccess: (identity: IdentityFormValues, token: string) => void;
@@ -195,7 +196,9 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
       <SidePanel.Header>
         <SidePanel.HeaderTitle key={currentStep}>
           {currentStep === "typeSelection" ? (
-            "Choose an identity type"
+            <PermissionIdentityExplanationTooltip>
+              Choose an identity type
+            </PermissionIdentityExplanationTooltip>
           ) : (
             <BackLink
               linkText="Choose type"

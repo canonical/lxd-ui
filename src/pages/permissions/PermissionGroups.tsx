@@ -277,7 +277,7 @@ const PermissionGroups: FC = () => {
                 </PageHeader.Search>
               )}
               {selectedGroupNames.length > 0 && !panelParams.panel && (
-                <>
+                <div>
                   <EditGroupIdentitiesBtn
                     groups={selectedGroups}
                     className="u-no-margin--bottom"
@@ -289,7 +289,7 @@ const PermissionGroups: FC = () => {
                       setSelectedGroupNames([]);
                     }}
                   />
-                </>
+                </div>
               )}
             </PageHeader.Left>
             {hasGroups && (
