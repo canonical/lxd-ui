@@ -74,14 +74,10 @@ describe("toConfigFields and replaceDocLinks", () => {
     const input =
       "Specify a Pongo2 template string that represents the snapshot name.\nThis template is used for scheduled snapshots and for unnamed snapshots.\n\nSee {ref}`instance-options-snapshots-names` for more information.";
 
-    const result = configDescriptionToHtml(
-      input,
-      "https://docs.example.org",
-      objectsInvTxt.split("\n"),
-    );
+    const result = configDescriptionToHtml(input, objectsInvTxt.split("\n"));
 
     expect(result).toBe(
-      'Specify a Pongo2 template string that represents the snapshot name.<br>This template is used for scheduled snapshots and for unnamed snapshots.<br><br>See <a href="https://docs.example.org/reference/instance_options/#instance-options-snapshots-names" target="_blank" rel="noopener noreferrer">Automatic snapshot names</a> for more information.',
+      'Specify a Pongo2 template string that represents the snapshot name.<br>This template is used for scheduled snapshots and for unnamed snapshots.<br><br>See <a href="/documentation/reference/instance_options/#instance-options-snapshots-names" target="_blank" rel="noopener noreferrer">Automatic snapshot names</a> for more information.',
     );
   });
 
@@ -89,25 +85,17 @@ describe("toConfigFields and replaceDocLinks", () => {
     const input =
       "the value of {config:option}`storage-zfs-volume-conf:zfs.block_mode`,\nthe specified";
 
-    const result = configDescriptionToHtml(
-      input,
-      "https://docs.example.org",
-      objectsInvTxt.split("\n"),
-    );
+    const result = configDescriptionToHtml(input, objectsInvTxt.split("\n"));
 
     expect(result).toBe(
-      'the value of <a href="https://docs.example.org/reference/storage_zfs/#storage-zfs-volume-conf:zfs.block_mode" target="_blank" rel="noopener noreferrer">zfs.block_mode</a>,<br>the specified',
+      'the value of <a href="/documentation/reference/storage_zfs/#storage-zfs-volume-conf:zfs.block_mode" target="_blank" rel="noopener noreferrer">zfs.block_mode</a>,<br>the specified',
     );
   });
 
   it("converts admonition markup to html bold tag", () => {
     const input = "Foo bar baz.  ```{important}  Some important addition.```";
 
-    const result = configDescriptionToHtml(
-      input,
-      "https://docs.example.org",
-      objectsInvTxt.split("\n"),
-    );
+    const result = configDescriptionToHtml(input, objectsInvTxt.split("\n"));
 
     expect(result).toBe(
       "Foo bar baz.  <b>Important</b>  Some important addition.",

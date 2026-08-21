@@ -8,11 +8,7 @@ import {
   visitAndStartInstance,
   visitAndStopInstance,
 } from "./helpers/instances";
-import {
-  skipIfChildOperationsNotSupported,
-  validateOperation,
-  visitOperations,
-} from "./helpers/operations";
+import { validateOperation, visitOperations } from "./helpers/operations";
 import { runCommand } from "./helpers/shell";
 
 test("instance operations are recognised on the Operations page", async ({
@@ -37,10 +33,7 @@ test("instance operations are recognised on the Operations page", async ({
 
 test("bulk stop operation renders and expands child operations", async ({
   page,
-  lxdVersion,
 }) => {
-  skipIfChildOperationsNotSupported(lxdVersion);
-
   const firstInstance = randomInstanceName();
   const secondInstance = randomInstanceName();
 

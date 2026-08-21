@@ -1,4 +1,4 @@
-import { expect, test } from "./fixtures/lxd-test";
+import { test } from "./fixtures/lxd-test";
 import {
   assertCode,
   assertReadMode,
@@ -94,10 +94,7 @@ test("profile resource limits", async ({ page }) => {
   await assertReadMode(page, "Max number of processes (Containers only)", "2");
 });
 
-test("profile security policies", async ({ page, lxdVersion }) => {
-  const hasSecuritySecureBoot =
-    lxdVersion === "5.21-edge" || lxdVersion === "5.0-edge";
-
+test("profile security policies", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("Security policies").click();
 
@@ -109,10 +106,8 @@ test("profile security policies", async ({ page, lxdVersion }) => {
   await setOption(page, "Unique idmap", "true");
   await setOption(page, "Allow /dev/lxd in the instance", "true");
   await setOption(page, "Make /1.0/images API available", "true");
-  if (hasSecuritySecureBoot) {
-    await setOption(page, "Enable secureboot", "true");
-  }
-  const changeCount = hasSecuritySecureBoot ? 9 : 8;
+
+  const changeCount = 8;
   await saveProfile(page, profile, changeCount);
 
   await assertReadMode(page, "Protect deletion", "Yes");
@@ -131,19 +126,16 @@ test("profile security policies", async ({ page, lxdVersion }) => {
     "Make /1.0/images API available over /dev/lxd (Containers only)",
     "Yes",
   );
-  if (hasSecuritySecureBoot) {
-    await assertReadMode(page, "Enable secureboot (VMs only)", "true");
-  }
 });
 
-test("profile snapshots", async ({ page, lxdVersion }) => {
+test("profile snapshots", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("Snapshots").click();
 
   await setInput(page, "Snapshot name", "Enter name pattern", "snap123");
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
   await setOption(page, "Snapshot stopped instances", "true");
-  await setSchedule(page, "@daily", lxdVersion);
+  await setSchedule(page, "@daily");
 
   await saveProfile(page, profile, 4);
 
@@ -151,6 +143,27 @@ test("profile snapshots", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Expire after", "3m");
   await assertReadMode(page, "Snapshot stopped instances", "Yes");
   await assertReadMode(page, "Schedule", "@daily");
+});
+
+test("profile boot", async ({ page }) => {
+  await editProfile(page, profile);
+
+  await page.getByText("Boot").click();
+  await setOption(page, "Autostart", "true");
+  await setInput(page, "Autostart delay", "Enter number", "1");
+  await setInput(page, "Autostart priority", "Enter number", "2");
+  await setInput(page, "Host shutdown timeout", "Enter number", "3");
+  await setOption(page, "Boot mode (VMs only)", "uefi-nosecureboot");
+  await setInput(page, "Stop priority", "Enter number", "4");
+
+  await saveProfile(page, profile, 6);
+
+  await assertReadMode(page, "Autostart", "Yes");
+  await assertReadMode(page, "Autostart delay", "1");
+  await assertReadMode(page, "Autostart priority", "2");
+  await assertReadMode(page, "Host shutdown timeout", "3");
+  await assertReadMode(page, "Boot mode (VMs only)", "uefi-nosecureboot");
+  await assertReadMode(page, "Stop priority", "4");
 });
 
 test("profile cloud init", async ({ page }) => {
@@ -183,18 +196,6 @@ name: ${profile}`);
 
   await page.locator("#form-footer").getByText("YAML Configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
-});
-
-test("'Other' tab is removed when config/creating Profiles, on LXD Version 5.0", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion != "5.0-edge",
-    "Newer LXD versions has the metadata_configuration API extension.",
-  );
-  await editProfile(page, profile);
-  await expect(page.getByText("Other", { exact: true })).not.toBeVisible();
 });
 
 test("Profile copy", async ({ page }) => {

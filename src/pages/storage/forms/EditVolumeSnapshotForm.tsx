@@ -15,7 +15,6 @@ import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
 import { useToastNotification } from "@canonical/react-components";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -25,7 +24,6 @@ interface Props {
 
 const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const eventQueue = useEventQueue();
-  const { hasStorageAndProfileOperations } = useSupportedFeatures();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -104,19 +102,15 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
       if (expiresAt !== snapshot.expires_at) {
         await updateVolumeSnapshot(volume, snapshot, expiresAt)
           .then((operation) => {
-            if (hasStorageAndProfileOperations) {
-              eventQueue.set(
-                operation.metadata.id,
-                () => {
-                  continueUpdate(values);
-                },
-                (msg) => {
-                  toastNotify.failure("Snapshot update failed", new Error(msg));
-                },
-              );
-            } else {
-              continueUpdate(values);
-            }
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                continueUpdate(values);
+              },
+              (msg) => {
+                toastNotify.failure("Snapshot update failed", new Error(msg));
+              },
+            );
           })
           .catch((error: Error) => {
             toastNotify.failure("Snapshot update failed", error);

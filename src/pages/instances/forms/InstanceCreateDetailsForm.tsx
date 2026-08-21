@@ -18,7 +18,6 @@ import InstanceTargetSelect from "pages/instances/forms/InstanceTargetSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
 import SshKeyForm from "components/forms/SshKeyForm";
 
@@ -33,8 +32,6 @@ const InstanceCreateDetailsForm: FC<Props> = ({
   onSelectImage,
   project,
 }) => {
-  const { hasCustomVolumeIso } = useSupportedFeatures();
-
   const figureBaseImageName = () => {
     const image = formik.values.image;
 
@@ -99,9 +96,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             ) : (
               <>
                 <SelectImageBtn onSelect={onSelectImage} />
-                {hasCustomVolumeIso && (
-                  <UseCustomIsoBtn onSelect={onSelectImage} />
-                )}
+                <UseCustomIsoBtn onSelect={onSelectImage} />
                 <UploadInstanceFileBtn name={formik.values.name} />
               </>
             )}

@@ -1,6 +1,5 @@
 import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { classifyClusterMemberRoles } from "util/clusterMember";
 
 interface Props {
@@ -18,12 +17,7 @@ const ClusterMemberRolesSelector: FC<Props> = ({
   help,
   label = "Custom roles",
 }) => {
-  const { hasClusteringControlPlane } = useSupportedFeatures();
-
-  const ROLES = [
-    hasClusteringControlPlane ? "control-plane" : "event-hub",
-    "ovn-chassis",
-  ];
+  const ROLES = ["control-plane", "ovn-chassis"];
 
   const {
     automaticRoles: selectedAutomaticRoles,

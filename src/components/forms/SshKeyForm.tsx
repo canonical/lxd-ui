@@ -18,7 +18,6 @@ import { useProfiles } from "context/useProfiles";
 import type { LxdProfile } from "types/profile";
 import SshKeyAddModal from "components/forms/SshKeyAddModal";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
@@ -52,13 +51,8 @@ interface Props {
 
 const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
   const { project } = useParams<{ project: string }>();
-  const { hasCloudInitSshKeys } = useSupportedFeatures();
   const { data: profiles = [] } = useProfiles(project ?? "");
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-
-  if (!hasCloudInitSshKeys) {
-    return null;
-  }
 
   const formKeys = formik.values.cloud_init_ssh_keys ?? [];
   const inheritedSshKeys = getInheritedSshKeys(formik.values, profiles);

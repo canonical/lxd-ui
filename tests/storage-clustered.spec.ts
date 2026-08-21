@@ -6,18 +6,13 @@ import {
   deleteBucket,
   deleteBucketKey,
   randomBucketName,
-  skipIfCephNotSupported,
   visitBucket,
 } from "./helpers/storageBucket";
 import { cephObject, storageDriverLabels } from "util/storageOptions";
 import { dismissNotification } from "./helpers/notification";
 import { skipIfNotClustered } from "./helpers/cluster";
 
-test("storage bucket create, edit, delete", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfCephNotSupported(lxdVersion);
+test("storage bucket create, edit, delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const bucket = randomBucketName();
@@ -43,11 +38,7 @@ test("storage bucket create, edit, delete", async ({
   await deletePool(page, pool);
 });
 
-test("storage bucket keys create, edit, delete", async ({
-  page,
-  lxdVersion,
-}, testInfo) => {
-  skipIfCephNotSupported(lxdVersion);
+test("storage bucket keys create, edit, delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
   const bucket = randomBucketName();

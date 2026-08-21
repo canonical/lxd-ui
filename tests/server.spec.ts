@@ -37,33 +37,12 @@ const settings: {
   },
 ];
 
-test("test all non-critical server settings", async ({ page, lxdVersion }) => {
-  test.skip(
-    lxdVersion === "5.0-edge",
-    "/1.0/metadata/configuration endpoint not available in lxd v5.0/edge",
-  );
+test("test all non-critical server settings", async ({ page }) => {
   await visitServerSettings(page);
   for (const setting of settings) {
     await updateSetting(page, setting.name, setting.type, setting.content);
     await resetSetting(page, setting.name, setting.type, setting.default);
   }
-});
-
-test("only user server setting available for lxd v5.0/edge", async ({
-  page,
-  lxdVersion,
-}) => {
-  test.skip(
-    lxdVersion !== "5.0-edge",
-    `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
-  );
-
-  await visitServerSettings(page);
-  await page.waitForSelector(`text=Get more server settings`);
-  const allSettingRows = await page.locator("#settings-table tbody tr").all();
-
-  // only 4 user settings available (user.ui_title, user.ui_grafana_base_url, user.ui_theme, user.ui_current_project) + 1 "Add key" button.
-  expect(allSettingRows.length).toEqual(5);
 });
 
 test("add and delete user defined setting", async ({ page }) => {

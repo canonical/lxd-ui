@@ -1,4 +1,5 @@
 import type { LxcConfigOptionCategories, ConfigField } from "types/config";
+import { DOC_BASE_PATH } from "context/DOC_BASE_PATH";
 
 export const toConfigFields = (
   categories: LxcConfigOptionCategories,
@@ -47,7 +48,6 @@ export const getConfigFieldDescription = (
 
 export const configDescriptionToHtml = (
   input: string,
-  docBaseLink: string,
   objectsInvTxt?: string[],
 ): string => {
   // special characters
@@ -86,7 +86,7 @@ export const configDescriptionToHtml = (
       const linkText = linkTextCandidate.includes(" ") // some lines in the object.inv.txt file have a description before the : and a link after
         ? linkTextCandidate.substring(linkTextCandidate.indexOf(" ") + 1)
         : token.replaceAll("-", " ");
-      const link = `<a href="${docBaseLink}/${docPath}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+      const link = `<a href="${DOC_BASE_PATH}/${docPath}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
 
       result = result.replaceAll(tag, link);
     });

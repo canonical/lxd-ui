@@ -1,5 +1,4 @@
 import { test, expect } from "./fixtures/lxd-test";
-import { skipIfClusteringNotSupported } from "./helpers/cluster-groups";
 import {
   createNetwork,
   deleteNetwork,
@@ -148,9 +147,7 @@ test.describe("apply ACLs", () => {
 
   test("attach network to a profile then add ACLs to the nic device", async ({
     page,
-    lxdVersion,
   }, testInfo) => {
-    skipIfClusteringNotSupported(lxdVersion);
     skipIfNotClustered(testInfo.project.name);
 
     const bridge = randomNetworkName();

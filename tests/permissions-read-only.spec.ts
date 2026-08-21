@@ -17,10 +17,6 @@ import { randomNetworkAclName, visitNetworkAcl } from "./helpers/network-acls";
 import { randomGroupName } from "./helpers/permission-groups";
 import { randomIdentityName } from "./helpers/permission-identities";
 import { openInstancePanel } from "./helpers/instancePanel";
-import {
-  skipIfFineGrainedAuthorisationNotSupported,
-  supportsFineGrainedAuthorisation,
-} from "./helpers/permissions";
 import { runCommand } from "./helpers/shell";
 import {
   getExecPrefix,
@@ -43,12 +39,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
   const groupName = randomGroupName();
   const idpGroupName = "idp-" + randomGroupName();
 
-  test.beforeAll(({ lxdVersion }) => {
-    if (!supportsFineGrainedAuthorisation(lxdVersion)) {
-      console.log("Fine-grained permissions not supported on LXD 5.0-edge");
-      return;
-    }
-
+  test.beforeAll(() => {
     const lxc = getLxcCmd();
     const execPrefix = getExecPrefix();
 
@@ -92,11 +83,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
   });
 
-  test.afterAll(({ lxdVersion }) => {
-    if (!supportsFineGrainedAuthorisation(lxdVersion)) {
-      return;
-    }
-
+  test.afterAll(() => {
     const lxc = getLxcCmd();
 
     try {
@@ -124,9 +111,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
   });
 
-  test("Cannot interact with Instances", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Instances", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByRole("link", { name: "Instances", exact: true }).click();
 
@@ -261,9 +246,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     ).toBeDisabled();
   });
 
-  test("Cannot interact with Profiles", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Profiles", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByText("Profiles", { exact: true }).click();
     await expect(
@@ -276,9 +259,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await expect(page.getByLabel("Description")).toBeDisabled();
   });
 
-  test("Cannot interact with Networks", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Networks", async ({ page }) => {
     await gotoURL(page, "/ui/");
 
     // Networks
@@ -317,9 +298,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     ).toBeDisabled();
   });
 
-  test("Cannot interact with Storage", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Storage", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByText("Storage", { exact: true }).click();
 
@@ -383,9 +362,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     ).toBeDisabled();
   });
 
-  test("Cannot interact with Images", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Images", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByRole("button", { name: "Images", exact: true }).click();
     await page.getByRole("link", { name: "Local images", exact: true }).click();
@@ -394,9 +371,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     ).toBeDisabled();
   });
 
-  test("Cannot interact with the Project", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with the Project", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByRole("button", { name: "default" }).click();
     await expect(
@@ -411,9 +386,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await expect(descriptionInput).toBeDisabled();
   });
 
-  test("Cannot interact with Server settings", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Server settings", async ({ page }) => {
     await gotoURL(page, "/ui/");
     const clusteringToggle = page.getByRole("button", {
       name: "Clustering",
@@ -435,9 +408,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     }
   });
 
-  test("Cannot interact with Identities", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Identities", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByText("Permissions", { exact: true }).click();
     await page.getByText("Identities", { exact: true }).click();
@@ -453,9 +424,7 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await expect(page.getByLabel("Delete identity")).toBeDisabled();
   });
 
-  test("Cannot interact with Groups", async ({ page, lxdVersion }) => {
-    skipIfFineGrainedAuthorisationNotSupported(lxdVersion);
-
+  test("Cannot interact with Groups", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByText("Permissions", { exact: true }).click();
     await page.getByRole("link", { name: "Groups", exact: true }).click();

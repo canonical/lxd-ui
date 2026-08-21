@@ -48,28 +48,15 @@ The [update_demo.yml](.github/workflows/update_demo.yml) workflow updates a bran
 
 A secret is needed to enable HaProxy to forward requests to the LXD API backend. Ask one of the collaborators for the secret.
 
-## E2E test setup for multiple lxd versions
+## E2E test setup
 
-The e2e test suite is run whenever a pull request is created and updated. This is done in the `browser-e2e-test` job from the `PR checks` github [workflow](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/.github/workflows/pr.yaml#L1). The job is run using the github actions matrix strategy so that the same tests can be carried out against different lxd versions and browser types in isolated github runner environments simultaneously. Currently e2e tests are run against the following parameter combinations:
+The e2e test suite is run whenever a pull request is created and updated. This is done in the `browser-e2e-test` job from the `PR checks` github [workflow](https://github.com/canonical/lxd-ui/blob/main/.github/workflows/pr.yaml). Tests are run against both latest/stable and latest/edge LXD releases using the github actions matrix strategy to test different browser types and deployments in isolated github runner environments. Currently e2e tests are run against the following configurations:
 
-| lxd version  | browser  |
-| -----------  | -------- |
-| 5.0/edge     | chromium |
-| 5.0/edge     | firefox  |
-| 5.21/edge    | chromium |
-| 5.21/edge    | firefox  |
-| latest/edge  | chromium |
-| latest/edge  | firefox  |
+| lxd version  | browser  | deployment |
+| ------------ | -------- | ---------- |
+| latest/edge  | chromium | unclustered, clustered, single-node-cluster |
+| latest/edge  | firefox  | unclustered, clustered, single-node-cluster |
+| latest/stable| chromium | unclustered, clustered, single-node-cluster |
+| latest/stable| firefox  | unclustered, clustered, single-node-cluster |
 
-For each parameter combination, a playwright project defined in [playwright.config.ts](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/playwright.config.ts#L1) is selected by name with reference syntax `browser:lxd-version` and executed. The execution flow is depicted in the diagram below:
-
-```mermaid
-    flowchart TD
-    A(pull request created) -->|other workflow jobs| B(browser-e2e-test)
-    B --> C{Github Matrix Runner}
-    C -->|5.0/edge chromium| D[Run chromium:lxd-5.0-edge]
-    C --> E[...]
-    C -->|latest/edge firefox| F[Run firefox:lxd-latest-edge]
-```
-
-To add additional lxd versions for e2e testing, add two new projects to [playwright.config.ts](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/playwright.config.ts#L1) for chromium and firefox. Set the `lxdVersion` parameter accordingly. In [pr.yaml](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/.github/workflows/pr.yaml#L1) include the new lxd versions for the `browser-e2e-test` job. Now you can write tests for the new lxd versions specifically.
+For each combination, a playwright project defined in [playwright.config.ts](https://github.com/canonical/lxd-ui/blob/main/playwright.config.ts) is selected and executed. This ensures compatibility with both the latest edge and stable releases of LXD.

@@ -13,7 +13,6 @@ import {
 } from "util/projects";
 import { getDefaultStoragePool, getDefaultNetwork } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
@@ -25,8 +24,6 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
     useProject(projectName);
   const { data: defaultProfile, isLoading: isDefaultProfileLoading } =
     useProfile("default", projectName);
-  const { hasProjectsNetworksZones, hasStorageBuckets } =
-    useSupportedFeatures();
 
   const isLoading = isProjectLoading || isDefaultProfileLoading;
 
@@ -68,10 +65,10 @@ const ProjectRichTooltip: FC<Props> = ({ projectName }) => {
   if (featuresNetworks) {
     isolatedFeatures.push("Networks");
   }
-  if (hasProjectsNetworksZones && featuresNetworksZones) {
+  if (featuresNetworksZones) {
     isolatedFeatures.push("Network zones");
   }
-  if (hasStorageBuckets && featuresStorageBuckets) {
+  if (featuresStorageBuckets) {
     isolatedFeatures.push("Storage buckets");
   }
   if (featuresStorageVolumes) {

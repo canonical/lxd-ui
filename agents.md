@@ -238,8 +238,7 @@ yarn test-js-coverage        # Generate coverage report
 
 ```bash
 yarn test-e2e-edge           # Test against latest LXD
-yarn test-e2e-5.21-edge      # Test against LXD 5.21
-yarn test-e2e-5.0-edge       # Test against LXD 5.0
+yarn test-e2e-stable           # Test against stable LXD
 
 yarn test-e2e-coverage       # Collect E2E coverage
 yarn test-e2e-cluster-coverage # Clustered setup coverage
@@ -262,7 +261,7 @@ Project names are defined in `playwright.config.ts` and generally follow this pa
 Examples:
 
 - `chromium:lxd-latest-edge:unclustered`
-- `firefox:lxd-5.21-edge:clustered`
+- `firefox:lxd-latest-stable:clustered`
 - `chromium:lxd-latest-edge:single-node-cluster`
 
 Run a specific project:
@@ -274,7 +273,7 @@ npx playwright test --project "chromium:lxd-latest-edge:unclustered"
 Run one test file against a specific project:
 
 ```bash
-npx playwright test tests/instances.spec.ts --project "firefox:lxd-5.21-edge:unclustered"
+npx playwright test tests/instances.spec.ts --project "firefox:lxd-latest-edge:unclustered"
 ```
 
 Special projects used in this repo:

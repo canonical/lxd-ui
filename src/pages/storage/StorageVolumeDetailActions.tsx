@@ -4,7 +4,6 @@ import ExportVolumeBtn from "./ExportVolumeBtn";
 import DeleteStorageVolumeBtn from "./actions/DeleteStorageVolumeBtn";
 import type { LxdStorageVolume } from "types/storage";
 import CopyVolumeBtn from "./actions/CopyVolumeBtn";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLabel from "components/ResourceLabel";
 import {
   ContextualMenu,
@@ -24,7 +23,6 @@ interface Props {
 
 const StorageVolumeDetailActions: FC<Props> = ({ volume, project }) => {
   const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
-  const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
 
@@ -34,9 +32,7 @@ const StorageVolumeDetailActions: FC<Props> = ({ volume, project }) => {
 
   const menuElements = [
     <MigrateVolumeBtn key="migrate" volume={volume} classname={classname} />,
-    ...(hasClusterInternalCustomVolumeCopy
-      ? [<CopyVolumeBtn key="copy" volume={volume} classname={classname} />]
-      : []),
+    <CopyVolumeBtn key="copy" volume={volume} classname={classname} />,
     <ExportVolumeBtn key="export" volume={volume} classname={classname} />,
     <DeleteStorageVolumeBtn
       key="delete"

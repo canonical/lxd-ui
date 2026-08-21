@@ -1,5 +1,5 @@
 import { Icon } from "@canonical/react-components";
-import { useDocs } from "context/useDocs";
+import { DOC_BASE_PATH } from "context/DOC_BASE_PATH";
 import type { FC, ReactNode } from "react";
 
 interface Props {
@@ -17,12 +17,10 @@ const DocLink: FC<Props> = ({
   className,
   title,
 }) => {
-  const docBaseLink = useDocs();
-
   return (
     <a
       className={className}
-      href={`${docBaseLink}${docPath}`}
+      href={`${DOC_BASE_PATH}${docPath}`}
       target="_blank"
       rel="noopener noreferrer"
       title={title}

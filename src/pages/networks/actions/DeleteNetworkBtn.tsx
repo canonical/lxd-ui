@@ -16,7 +16,6 @@ import classnames from "classnames";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useEventQueue } from "context/eventQueue";
 
 interface Props {
@@ -33,7 +32,6 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
   const location = useLocation();
   const isSmallScreen = useIsScreenBelow();
   const { canDeleteNetwork } = useNetworkEntitlements();
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const invalidateCache = () => {
@@ -75,30 +73,23 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
     setLoading(true);
     deleteNetwork(network.name, project)
       .then((operation) => {
-        if (hasStorageAndNetworkOperations) {
-          toastNotify.info(
-            <>
-              Deletion of network{" "}
-              <NetworkRichChip
-                networkName={network.name}
-                projectName={project}
-              />{" "}
-              has started.
-            </>,
-          );
+        toastNotify.info(
+          <>
+            Deletion of network{" "}
+            <NetworkRichChip networkName={network.name} projectName={project} />{" "}
+            has started.
+          </>,
+        );
 
-          eventQueue.set(
-            operation.metadata.id,
-            () => {
-              onSuccess();
-            },
-            (msg) => {
-              onFailure(new Error(msg));
-            },
-          );
-        } else {
-          onSuccess();
-        }
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            onSuccess();
+          },
+          (msg) => {
+            onFailure(new Error(msg));
+          },
+        );
       })
       .catch((e) => {
         onFailure(e);

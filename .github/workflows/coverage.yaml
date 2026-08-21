@@ -11,7 +11,7 @@ permissions:
 jobs:
   e2e-coverage:
     name: e2e-test-coverage
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-linux-amd64-noble-large-tiobe
     env:
       LXD_OIDC_CLIENT_ID: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
       LXD_OIDC_CLIENT_SECRET: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
@@ -27,18 +27,13 @@ jobs:
 
       - name: Install Dotrun
         run: |
-          sudo pip3 install dotrun
+          sudo pip3 install dotrun --break-system-packages
 
       - name: Install LXD-UI dependencies
         run: |
           set -x
           sudo chmod 0777 ../lxd-ui
           dotrun install
-
-      - name: OVN dependencies
-        run: |
-          sudo snap refresh snapd --channel latest/beta || sudo snap install snapd --channel latest/beta
-          sudo snap refresh core26 --channel latest/edge || sudo snap install core26 --channel latest/edge
 
       - name: Run LXD-UI
         env:
@@ -105,6 +100,7 @@ jobs:
 
           # combine coverage reports
           yarn test-report-coverage
+          sudo apt update && sudo apt install -y zip
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
           DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
           docker stop $DOTRUN_CONTAINER_ID

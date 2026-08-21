@@ -43,13 +43,7 @@ interface ProviderProps {
 }
 
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
-  const {
-    hasEntitiesWithEntitlements,
-    hasReplicators,
-    isSettingsLoading,
-    settings,
-    settingsError,
-  } = useSupportedFeatures();
+  const { isSettingsLoading, settings, settingsError } = useSupportedFeatures();
 
   const authMethod = settings?.auth_user_method ?? null;
 
@@ -77,15 +71,12 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     if (authMethod === AUTH_METHOD.UNIX) {
       return false;
     }
-    if (hasEntitiesWithEntitlements) {
-      return currentIdentity?.fine_grained ?? null;
-    }
-    return false;
+    return currentIdentity?.fine_grained ?? null;
   };
 
   const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: async () => fetchProjects(isFineGrained(), hasReplicators),
+    queryFn: async () => fetchProjects(isFineGrained()),
     enabled: settings?.auth === "trusted" && isFineGrained() !== null,
   });
 

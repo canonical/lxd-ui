@@ -19,7 +19,6 @@ import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useEventQueue } from "context/eventQueue";
 import { useNetwork } from "context/useNetworks";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isTypeOvn } from "util/networks";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -36,7 +35,6 @@ const CreateNetworkForward: FC = () => {
     networkName ?? "",
     project ?? "",
   );
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   useEffect(() => {
@@ -100,25 +98,21 @@ const CreateNetworkForward: FC = () => {
             `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
           );
 
-          if (hasStorageAndNetworkOperations && operation?.metadata.id) {
-            toastNotify.info(
-              <>
-                Creation of network forward with listen address{" "}
-                {formik.values.listenAddress} has started.
-              </>,
-            );
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                onSuccess(formik.values.listenAddress);
-              },
-              (msg) => {
-                onFailure(new Error(msg), formik.values.listenAddress);
-              },
-            );
-          } else {
-            onSuccess(formik.values.listenAddress);
-          }
+          toastNotify.info(
+            <>
+              Creation of network forward with listen address{" "}
+              {formik.values.listenAddress} has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess(formik.values.listenAddress);
+            },
+            (msg) => {
+              onFailure(new Error(msg), formik.values.listenAddress);
+            },
+          );
         })
         .catch((e) => {
           onFailure(e, formik.values.listenAddress);

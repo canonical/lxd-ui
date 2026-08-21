@@ -35,7 +35,6 @@ import { useNetworkEntitlements } from "util/entitlements/networks";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useEventQueue } from "context/eventQueue";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
 import {
   clusteredTypes,
@@ -71,7 +70,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     project,
     shouldLoadMemberSpecificSettings,
   );
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   useEffect(() => {
@@ -161,7 +159,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             project,
             clusterMembers,
             values.parentPerClusterMember,
-            hasStorageAndNetworkOperations,
             values.bridge_external_interfaces_per_member,
             network.config,
           );
@@ -172,30 +169,26 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
 
       mutation(values)
         .then((operation) => {
-          if (hasStorageAndNetworkOperations && operation.metadata.id) {
-            toastNotify.info(
-              <>
-                Update of network{" "}
-                <NetworkRichChip
-                  networkName={network.name}
-                  projectName={project}
-                />{" "}
-                has started.
-              </>,
-            );
+          toastNotify.info(
+            <>
+              Update of network{" "}
+              <NetworkRichChip
+                networkName={network.name}
+                projectName={project}
+              />{" "}
+              has started.
+            </>,
+          );
 
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                onSuccess(yamlNetwork);
-              },
-              (msg) => {
-                onFailure(new Error(msg));
-              },
-            );
-          } else {
-            onSuccess(yamlNetwork);
-          }
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess(yamlNetwork);
+            },
+            (msg) => {
+              onFailure(new Error(msg));
+            },
+          );
         })
         .catch((e) => {
           onFailure(e);

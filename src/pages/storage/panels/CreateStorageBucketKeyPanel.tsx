@@ -9,7 +9,6 @@ import {
 import { useState, type FC } from "react";
 import { useEventQueue } from "context/eventQueue";
 import usePanelParams from "util/usePanelParams";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import NotificationRow from "components/NotificationRow";
@@ -38,7 +37,6 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const { hasStorageAndNetworkOperations } = useSupportedFeatures();
   const eventQueue = useEventQueue();
 
   const closePanel = () => {
@@ -116,32 +114,24 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
         bucket.name,
       )
         .then((operation) => {
-          if (hasStorageAndNetworkOperations) {
-            toastNotify.info(
-              <>
-                Creation of key{" "}
-                <ResourceLabel bold type="bucket-key" value={values.name} /> for
-                storage bucket{" "}
-                <ResourceLink
-                  type="bucket"
-                  value={bucket.name}
-                  to={bucketURL}
-                />
-                has started.
-              </>,
-            );
-            eventQueue.set(
-              operation.metadata.id,
-              () => {
-                onSuccess(values.name);
-              },
-              (msg) => {
-                onFailure(values.name, new Error(msg));
-              },
-            );
-          } else {
-            onSuccess(values.name);
-          }
+          toastNotify.info(
+            <>
+              Creation of key{" "}
+              <ResourceLabel bold type="bucket-key" value={values.name} /> for
+              storage bucket{" "}
+              <ResourceLink type="bucket" value={bucket.name} to={bucketURL} />
+              has started.
+            </>,
+          );
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              onSuccess(values.name);
+            },
+            (msg) => {
+              onFailure(values.name, new Error(msg));
+            },
+          );
         })
         .catch((e) => {
           onFailure(values.name, e);

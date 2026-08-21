@@ -1,9 +1,7 @@
 import { test, expect } from "./fixtures/lxd-test";
-import { skipIfClusteringNotSupported } from "./helpers/cluster-groups";
 import { gotoURL } from "./helpers/navigate";
 
-test("check enabling clustering", async ({ page, lxdVersion }, testInfo) => {
-  skipIfClusteringNotSupported(lxdVersion);
+test("check enabling clustering", async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes("enable-clustering"));
 
   await gotoURL(page, "/ui/");
