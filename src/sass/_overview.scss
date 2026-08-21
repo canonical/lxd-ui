@@ -103,6 +103,12 @@
       }
     }
 
+    &.permissions {
+      .effective-groups-list {
+        display: inline-block;
+      }
+    }
+
     &.projects {
       max-width: calc(50% - $sph--large / 2);
       min-width: 20rem;
