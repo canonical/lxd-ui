@@ -1,4 +1,5 @@
 import type { LxdImage } from "types/image";
+import { pluralize } from "./helpers";
 
 export interface ResourceDetail {
   project?: string;
@@ -93,4 +94,22 @@ export const extractResourceDetailsFromUrl = (
   }
 
   return resourceDetail;
+};
+
+export const formatCoreCount = (cores: number): string => {
+  if (cores === 0) return "0";
+  // If it's a whole number, don't show decimals (e.g. 2 instead of 2.0)
+  if (cores % 1 === 0) return cores.toString();
+  // Otherwise format to 1 decimal place
+  return cores.toFixed(1);
+};
+
+export const getCpuText = ({
+  total,
+  percentage,
+}: {
+  total: number;
+  percentage: number;
+}): string => {
+  return `${percentage.toFixed(1)}% of ${formatCoreCount(total)} ${pluralize("core", total)}`;
 };

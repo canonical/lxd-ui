@@ -1,4 +1,7 @@
 .p-meter {
+  $background-color: $colors--theme--background-alt;
+  $active-color: #06c;
+
   background-color: $colors--theme--background-alt;
   border: $border-thin;
   display: flex;
@@ -6,20 +9,28 @@
   margin-bottom: 0.375rem;
 
   div {
-    background-color: #06c;
-    border-right: $border-thin;
+    background-color: $active-color;
     height: 100%;
   }
 
-  .has-next-sibling {
-    border-bottom-right-radius: 0;
-    border-right: 0;
-    border-top-right-radius: 0;
-  }
+  &--segmented {
+    background-color: transparent;
+    border: none;
+    column-gap: 2px;
+    display: grid;
+    grid-template-columns: repeat(var(--total-segments, 1), 1fr);
 
-  .has-previous-sibling {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    opacity: 0.3;
+    .p-meter__segment {
+      background-color: $background-color;
+      border-radius: 1px;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+
+      &-fill {
+        background-color: $active-color;
+        height: 100%;
+      }
+    }
   }
 }
