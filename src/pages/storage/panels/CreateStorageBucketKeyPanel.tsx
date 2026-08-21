@@ -25,6 +25,7 @@ import {
 } from "util/storageBucket";
 import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -43,6 +44,9 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
+
   const bucketURL = getStorageBucketURL(
     bucket.name,
     bucket.pool,

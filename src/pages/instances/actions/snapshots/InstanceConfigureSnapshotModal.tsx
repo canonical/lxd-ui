@@ -1,4 +1,4 @@
-import type { FC, KeyboardEvent, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { ActionButton, Button, Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
@@ -65,12 +65,6 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
     },
   });
 
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
-
   return (
     <Modal
       close={close}
@@ -106,7 +100,6 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
           </>
         )
       }
-      onKeyDown={handleEscKey}
     >
       <InstanceSnapshotsForm formik={formik} />
     </Modal>

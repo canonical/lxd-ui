@@ -1,4 +1,4 @@
-import { useState, type FC, type KeyboardEvent, type ReactNode } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
 import FormLink from "components/FormLink";
@@ -30,12 +30,6 @@ const MigrateVolumeModal: FC<Props> = ({ close, volume }) => {
     type,
     target,
   });
-
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
 
   const handleGoBack = () => {
     // if target is set, we are on the confirmation stage
@@ -77,11 +71,7 @@ const MigrateVolumeModal: FC<Props> = ({ close, volume }) => {
   };
 
   return (
-    <Modal
-      close={close}
-      className="migrate-instance-modal"
-      onKeyDown={handleEscKey}
-    >
+    <Modal close={close} className="migrate-instance-modal">
       <header className="p-modal__header">
         <h2
           className="p-modal__title"

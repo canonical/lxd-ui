@@ -1,4 +1,4 @@
-import { useState, type FC, type KeyboardEvent } from "react";
+import { useState, type FC } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import FormLink from "components/FormLink";
@@ -27,12 +27,6 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
     type,
     target,
   });
-
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
 
   const handleGoBack = () => {
     // if target is set, we are on the confirmation stage
@@ -68,7 +62,6 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
     <Modal
       close={close}
       className="migrate-instance-modal"
-      onKeyDown={handleEscKey}
       aria-labelledby="migrate-title"
     >
       <header className="p-modal__header">

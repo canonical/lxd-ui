@@ -23,6 +23,7 @@ import { type IdentityGroupChanges } from "./EditIdentityGroupsSection";
 import EditIdentityPanelContent from "./EditIdentityPanelContent";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import type { LxdIdentity } from "types/permissions";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   identity: LxdIdentity;
@@ -64,6 +65,8 @@ const EditIdentityPanel: FC<Props> = ({ identity, onClose }) => {
     setModifiedGroups(new Set());
     onClose();
   };
+
+  useEscCallback(closePanel);
 
   const canEdit = canEditIdentity(identity);
   const addedGroups = pendingGroupChanges?.addedGroups ?? new Set<string>();

@@ -22,6 +22,7 @@ import { useClusterGroups } from "context/useClusterGroups";
 import ClusterMemberRichChip from "../ClusterMemberRichChip";
 import ClusterMemberRolesSelector from "./ClusterMemberRolesSelector";
 import DocLink from "components/DocLink";
+import { useEscCallback } from "context/useEscCallback";
 
 export interface EditClusterMemberForm {
   name: string;
@@ -48,6 +49,8 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
     notify.clear();
     onClose?.();
   };
+
+  useEscCallback(closePanel);
 
   const formik = useFormik<EditClusterMemberForm>({
     initialValues: {

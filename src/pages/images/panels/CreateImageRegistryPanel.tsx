@@ -19,6 +19,7 @@ import { ImageRegistryForm } from "../ImageRegistryForm";
 import { checkDuplicateName } from "util/helpers";
 import ImageRegistryRichChip from "../ImageRegistryRichChip";
 import type { LxdImageRegistry, LxdImageRegistryConfig } from "types/image";
+import { useEscCallback } from "context/useEscCallback";
 
 export const CreateImageRegistryPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -31,6 +32,8 @@ export const CreateImageRegistryPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const schema = Yup.object().shape({
     name: Yup.string()

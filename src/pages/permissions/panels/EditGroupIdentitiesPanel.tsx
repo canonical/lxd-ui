@@ -32,6 +32,7 @@ import {
   getIdentityIdsForGroup,
   getIdentityName,
 } from "util/permissionIdentities";
+import { useEscCallback } from "context/useEscCallback";
 
 interface IdentityEditHistory {
   identitiesAdded: Set<string>;
@@ -178,6 +179,8 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     notify.clear();
     setConfirming(false);
   };
+
+  useEscCallback(closePanel);
 
   const closeModal = () => {
     notify.clear();

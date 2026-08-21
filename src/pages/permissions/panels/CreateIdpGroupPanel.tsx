@@ -21,6 +21,7 @@ import ResourceLink from "components/ResourceLink";
 import { useAuthGroups } from "context/useAuthGroups";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -62,6 +63,8 @@ const CreateIdpGroupPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const saveIdpGroup = (values: IdpGroupFormValues) => {
     const newGroup = {

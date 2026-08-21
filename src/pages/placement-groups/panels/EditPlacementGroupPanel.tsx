@@ -22,6 +22,7 @@ import type { LxdPlacementGroup } from "types/placementGroup";
 import ResourceLink from "components/ResourceLink";
 import PlacementGroupUsedBy from "pages/placement-groups/PlacementGroupUsedBy";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 const EditPlacementGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -39,6 +40,8 @@ const EditPlacementGroupPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const schema = Yup.object().shape({
     name: Yup.string().required("Placement group name is required"),

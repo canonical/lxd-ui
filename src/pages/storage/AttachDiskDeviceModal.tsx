@@ -1,4 +1,4 @@
-import { useState, type FC, type KeyboardEvent } from "react";
+import { useState, type FC } from "react";
 import { Modal } from "@canonical/react-components";
 import FormLink from "components/FormLink";
 import BackLink from "components/BackLink";
@@ -29,12 +29,6 @@ const AttachDiskDeviceModal: FC<Props> = ({
   onFinish,
 }) => {
   const [type, setType] = useState<DiskDeviceType>("choose type");
-
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
 
   const handleGoBack = () => {
     setType("choose type");
@@ -96,7 +90,6 @@ const AttachDiskDeviceModal: FC<Props> = ({
           close={close}
           className="migrate-instance-modal"
           title={modalTitle}
-          onKeyDown={handleEscKey}
         >
           <div className="choose-migration-type">
             <FormLink

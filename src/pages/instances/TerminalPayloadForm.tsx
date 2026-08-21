@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  type FC,
-  type KeyboardEvent,
-} from "react";
+import { useState, useEffect, useRef, type FC } from "react";
 import {
   ActionButton,
   Button,
@@ -118,12 +112,6 @@ const TerminalPayloadForm: FC<Props> = ({
       });
   };
 
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
-
   const updateContentHeight = () => {
     updateMaxHeight("content-wrapper", "p-modal__footer", 64, "max-height");
   };
@@ -172,7 +160,6 @@ const TerminalPayloadForm: FC<Props> = ({
           </ActionButton>
         </>
       }
-      onKeyDown={handleEscKey}
     >
       {notification && (
         <Notification

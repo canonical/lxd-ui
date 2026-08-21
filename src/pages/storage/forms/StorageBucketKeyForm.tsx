@@ -82,12 +82,22 @@ const StorageBucketKeyForm: FC<Props> = ({ formik, bucket }) => {
         label="Access Key"
         disabled={!!bucketEditRestriction}
         title={bucketEditRestriction}
+        help={
+          isEditing
+            ? undefined
+            : "Leave empty to generate an access key automatically."
+        }
       />
       <PasswordToggle
         {...getFormProps("secret-key")}
         label="Secret Key"
         disabled={!!bucketEditRestriction}
         title={bucketEditRestriction}
+        help={
+          isEditing
+            ? undefined
+            : "Leave empty to generate a secret key automatically."
+        }
       />
     </Form>
   );

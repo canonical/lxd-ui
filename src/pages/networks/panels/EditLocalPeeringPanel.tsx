@@ -22,6 +22,7 @@ import { useLocalPeering } from "context/useLocalPeerings";
 import { updateNetworkPeer } from "api/network-local-peering";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   network: LxdNetwork;
@@ -38,6 +39,9 @@ const EditLocalPeeringPanel: FC<Props> = ({ network }) => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
+
   const networkURL = `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(network.name)}`;
 
   const {

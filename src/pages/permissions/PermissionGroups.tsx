@@ -19,8 +19,8 @@ import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
 import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
 import GroupActions from "./actions/GroupActions";
-import CreateGroupPanel from "./panels/CreateGroupPanel";
-import EditGroupPanel from "./panels/EditGroupPanel";
+import CreateAuthGroupPanel from "./panels/CreateAuthGroupPanel";
+import EditAuthGroupPanel from "./panels/EditAuthGroupPanel";
 import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import EditGroupIdentitiesBtn from "./actions/EditGroupIdentitiesBtn";
 import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
@@ -322,10 +322,10 @@ const PermissionGroups: FC = () => {
         <Row className="permission-groups">{content}</Row>
       </CustomLayout>
 
-      {panelParams.panel === panels.createGroup && <CreateGroupPanel />}
+      {panelParams.panel === panels.createGroup && <CreateAuthGroupPanel />}
 
       {panelParams.panel === panels.editGroup && panelGroup && (
-        <EditGroupPanel
+        <EditAuthGroupPanel
           group={panelGroup}
           onClose={() => {
             setSelectedGroupNames([]);

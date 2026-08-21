@@ -23,6 +23,7 @@ import {
   getStorageBucketURL,
   testDuplicateStorageBucketName,
 } from "util/storageBucket";
+import { useEscCallback } from "context/useEscCallback";
 
 const CreateStorageBucketPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -30,11 +31,14 @@ const CreateStorageBucketPanel: FC = () => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
+  const eventQueue = useEventQueue();
+
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
   };
-  const eventQueue = useEventQueue();
+
+  useEscCallback(closePanel);
 
   const bucketSchema = Yup.object().shape({
     name: Yup.string()

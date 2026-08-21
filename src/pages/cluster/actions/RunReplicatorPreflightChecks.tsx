@@ -41,6 +41,11 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
   const projectMode = project?.replica_mode;
   const projectModeValid =
     projectMode === "leader" || projectMode === "standby";
+  const projectConfigurationUrl = `/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`;
+  const isOnProjectPage = window.location.pathname.includes(
+    projectConfigurationUrl,
+  );
+
   checks.push({
     id: "project-mode",
     label: projectMode ? (
@@ -73,14 +78,15 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
             </>
           ) : null}{" "}
           It must be either <strong>leader</strong> or <strong>standby</strong>{" "}
-          to run replicator.{" "}
-          <Link
-            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            See project configuration
-          </Link>
+          to run replicator.
+          {!isOnProjectPage && (
+            <>
+              {" "}
+              <Link to={projectConfigurationUrl}>
+                See project configuration
+              </Link>
+            </>
+          )}
         </>
       ) : undefined,
   });
@@ -110,14 +116,15 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
         <>
           Project replica cluster <strong>{projectCluster || "none"}</strong>{" "}
           does not equal replicator cluster{" "}
-          <strong>{replicatorCluster || "none"}</strong>.{" "}
-          <Link
-            to={`/ui/project/${encodeURIComponent(replicator.project)}/configuration/replication`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            See project configuration
-          </Link>
+          <strong>{replicatorCluster || "none"}</strong>.
+          {!isOnProjectPage && (
+            <>
+              {" "}
+              <Link to={projectConfigurationUrl}>
+                See project configuration
+              </Link>
+            </>
+          )}
         </>
       ) : undefined,
     });

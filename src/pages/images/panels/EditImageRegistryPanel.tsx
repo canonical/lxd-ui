@@ -19,6 +19,7 @@ import { ImageRegistryForm } from "../ImageRegistryForm";
 import ImageRegistryRichChip from "../ImageRegistryRichChip";
 import type { LxdImageRegistry, LxdImageRegistryConfig } from "types/image";
 import { useImageRegistry } from "context/useImageRegistries";
+import { useEscCallback } from "context/useEscCallback";
 
 export const EditImageRegistryPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -35,6 +36,8 @@ export const EditImageRegistryPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const getPayload = () => {
     const isSimpleStreams = formik.values.protocol === "simplestreams";

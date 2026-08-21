@@ -23,6 +23,7 @@ import PlacementGroupForm, {
 import ResourceLink from "components/ResourceLink";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 const CreatePlacementGroupPanel: FC = () => {
   const controllerState = useState<AbortController | null>(null);
@@ -36,6 +37,8 @@ const CreatePlacementGroupPanel: FC = () => {
     panelParams.clear();
     notify.clear();
   };
+
+  useEscCallback(closePanel);
 
   const schema = Yup.object().shape({
     name: Yup.string()

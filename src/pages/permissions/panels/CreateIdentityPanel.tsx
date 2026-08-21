@@ -33,6 +33,7 @@ import {
 } from "util/permissionIdentities";
 import type { IdentityFormValues } from "types/forms/identity";
 import { createClusterLink } from "api/cluster-links";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   onSuccess: (identity: IdentityFormValues, token: string) => void;
@@ -64,6 +65,16 @@ const CreateIdentityPanel: FC<Props> = ({ onSuccess }) => {
     panelParams.clear();
     notify.clear();
   };
+
+  const handleEscKey = () => {
+    if (currentStep === "typeSelection") {
+      closePanel();
+    } else {
+      setCurrentStep("typeSelection");
+    }
+  };
+
+  useEscCallback(handleEscKey);
 
   const onError = (e: unknown) => {
     formik.setSubmitting(false);

@@ -21,6 +21,7 @@ import ClusterLinkForm from "pages/cluster/ClusterLinkForm";
 import ClusterLinkRichChip from "../ClusterLinkRichChip";
 import type { LxdClusterLink } from "types/cluster";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   identity?: LxdIdentity;
@@ -37,6 +38,8 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
     panelParams.clear();
     setError(null);
   };
+
+  useEscCallback(closePanel);
 
   const formik = useFormik<ClusterLinkFormValues>({
     initialValues: {

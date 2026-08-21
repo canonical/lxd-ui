@@ -9,6 +9,7 @@ import NotificationRow from "components/NotificationRow";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import { useAuthGroups } from "context/useAuthGroups";
+import { useEscCallback } from "context/useEscCallback";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
@@ -142,6 +143,8 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
     setConfirming(false);
     onClose();
   };
+
+  useEscCallback(closePanel);
 
   const closeModal = () => {
     notify.clear();

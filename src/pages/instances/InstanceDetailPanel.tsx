@@ -13,10 +13,13 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import InstanceDetailPanelContent from "./InstanceDetailPanelContent";
 import { useInstance } from "context/useInstances";
 import DeleteInstanceBtn from "pages/instances/actions/DeleteInstanceBtn";
+import { useEscCallback } from "context/useEscCallback";
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
+
+  useEscCallback(panelParams.clear);
 
   const enable = panelParams.instance !== null;
   const {

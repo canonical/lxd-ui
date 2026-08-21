@@ -1,4 +1,4 @@
-import type { FC, KeyboardEvent } from "react";
+import type { FC } from "react";
 import {
   ActionButton,
   Button,
@@ -80,12 +80,6 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
     },
   });
 
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
-
   return (
     <Modal
       close={close}
@@ -121,7 +115,6 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
           </>
         )
       }
-      onKeyDown={handleEscKey}
     >
       <StorageVolumeFormSnapshots formik={formik} />
     </Modal>

@@ -45,13 +45,14 @@ import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import { ROOT_PATH } from "util/rootPath";
+import { useEscCallback } from "context/useEscCallback";
 
 interface Props {
   group: LxdAuthGroup;
   onClose?: () => void;
 }
 
-const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
+const EditAuthGroupPanel: FC<Props> = ({ group, onClose }) => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -245,6 +246,16 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     onClose?.();
   };
 
+  const handleEscKey = () => {
+    if (subForm) {
+      setSubForm(null);
+    } else {
+      closePanel();
+    }
+  };
+
+  useEscCallback(handleEscKey);
+
   const changeCount =
     identities.filter((i) => i.isAdded || i.isRemoved).length +
     permissions.filter((p) => p.isAdded || p.isRemoved).length +
@@ -355,4 +366,4 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
   );
 };
 
-export default EditGroupPanel;
+export default EditAuthGroupPanel;
