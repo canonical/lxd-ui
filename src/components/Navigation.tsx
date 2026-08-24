@@ -623,6 +623,7 @@ const Navigation: FC = () => {
                             to={`${ROOT_PATH}/ui/warnings?status=new`}
                             title="Warnings"
                             onClick={softToggleMenu}
+                            activeUrlMatches={[`${ROOT_PATH}/ui/warnings`]}
                           >
                             <Icon
                               className="is-light p-side-navigation__icon"
