@@ -15,9 +15,9 @@
     padding-top: 0;
   }
 
-  .base-image,
-  .ip {
-    max-width: 10rem;
+  .resource-label,
+  .resource-link .p-chip__value {
+    max-width: 100%;
   }
 
   tr:last-child {
