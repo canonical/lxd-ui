@@ -25,7 +25,7 @@ import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
-import { getIpAddresses, sortIpv6Addresses } from "util/networks";
+import { getIpAddresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
 import { enrichStatuses, type InstanceFilters } from "util/instanceFilter";
@@ -434,7 +434,7 @@ const InstanceList: FC = () => {
       };
 
       const ipv4 = getIpAddresses(instance, "inet");
-      const ipv6 = sortIpv6Addresses(getIpAddresses(instance, "inet6"));
+      const ipv6 = getIpAddresses(instance, "inet6");
 
       const loadingType = instanceLoading.getType(instance);
 

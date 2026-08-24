@@ -3,7 +3,7 @@ import InstanceLink from "pages/instances/InstanceLink";
 import InstanceStatusIcon from "pages/instances/InstanceStatusIcon";
 import { useInstance } from "context/useInstances";
 import { Spinner } from "@canonical/react-components";
-import { getIpAddresses, sortIpv6Addresses } from "util/networks";
+import { getIpAddresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
 import { isoTimeToString } from "util/helpers";
@@ -22,10 +22,7 @@ export const InstanceRichTooltip: FC<Props> = ({
   projectName,
 }) => {
   const getAddresses = (instance: LxdInstance, family: IpFamily) => {
-    const addresses = getIpAddresses(instance, family);
-    const sortedAddresses =
-      family === "inet6" ? sortIpv6Addresses(addresses) : addresses;
-    return sortedAddresses.map((item) => item.address);
+    return getIpAddresses(instance, family).map((item) => item.address);
   };
 
   const { data: instance, isLoading } = useInstance(instanceName, projectName);
