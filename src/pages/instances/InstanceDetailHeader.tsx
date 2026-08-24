@@ -7,7 +7,7 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEventQueue } from "context/eventQueue";
-import { instanceNameValidation } from "util/instances";
+import { ALL_INSTANCES_LIST_URL, instanceNameValidation } from "util/instances";
 import { instanceLinkFromOperation } from "util/operations";
 import InstanceDetailActions from "./InstanceDetailActions";
 import { useInstanceEntitlements } from "util/entitlements/instances";
@@ -15,6 +15,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useToastNotification } from "@canonical/react-components";
 import { useInstanceLoading } from "context/instanceLoading";
 import { InstanceRichChip } from "./InstanceRichChip";
+import { getInstancesUrl } from "util/projects";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
@@ -133,9 +134,7 @@ const InstanceDetailHeader: FC<Props> = ({
         parentItems={[
           <Link
             to={
-              canViewProject
-                ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`
-                : `${ROOT_PATH}/ui/all-projects/instances`
+              canViewProject ? getInstancesUrl(project) : ALL_INSTANCES_LIST_URL
             }
             key={1}
           >

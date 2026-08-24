@@ -85,7 +85,7 @@ const WarningsCard: FC = () => {
         warningsTable
       )}
       <div className="card-footer">
-        <Link to={`${ROOT_PATH}/ui/warnings?status=new`}>See more</Link>
+        <Link to={`${ROOT_PATH}/ui/warnings?status=new`}>Warnings list</Link>
       </div>
     </Card>
   );

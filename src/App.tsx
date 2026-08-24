@@ -21,7 +21,7 @@ import {
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
 import { unmanagedNetworkDetailRoute } from "util/networks";
-import { ALL_PROJECTS } from "util/projects";
+import { ALL_PROJECTS, getHomeUrl } from "util/projects";
 import { AUTH_METHOD } from "util/authentication";
 
 const AuthenticationSetup = lazy(
@@ -95,7 +95,6 @@ const ProfileList = lazy(async () => import("pages/profiles/ProfileList"));
 const ProjectConfig = lazy(
   async () => import("pages/projects/ProjectConfiguration"),
 );
-const ProjectList = lazy(async () => import("pages/projects/ProjectList"));
 const ProtectedRoute = lazy(async () => import("components/ProtectedRoute"));
 const ReplicatorDetail = lazy(
   async () => import("pages/cluster/ReplicatorDetail"),
@@ -183,15 +182,11 @@ const App: FC = () => {
   }, []);
 
   const getHomeRedirectPath = () => {
-    if (isOverviewEnabled()) {
-      return `${ROOT_PATH}/ui/overview`;
-    }
-
-    if (hasNoProjects || defaultProject === ALL_PROJECTS) {
-      return `${ROOT_PATH}/ui/all-projects/instances`;
-    }
-
-    return `${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/instances`;
+    const homeProject =
+      hasNoProjects || defaultProject === ALL_PROJECTS
+        ? ALL_PROJECTS
+        : defaultProject;
+    return getHomeUrl(homeProject, isOverviewEnabled());
   };
 
   if (isAuthLoading) {
@@ -473,10 +468,6 @@ const App: FC = () => {
           }
         />
         <Route
-          path={`${ROOT_PATH}/ui/projects`}
-          element={<ProtectedRoute outlet={<ProjectList />} />}
-        />
-        <Route
           path={`${ROOT_PATH}/ui/projects/create`}
           element={<ProtectedRoute outlet={<CreateProject />} />}
         />
@@ -650,10 +641,20 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<Settings />} />}
         />
         {isOverviewEnabled() && (
-          <Route
-            path={`${ROOT_PATH}/ui/overview`}
-            element={<ProtectedRoute outlet={<Overview />} />}
-          />
+          <>
+            <Route
+              path={`${ROOT_PATH}/ui/all-projects/overview`}
+              element={<ProtectedRoute outlet={<Overview />} />}
+            />
+            <Route
+              path={`${ROOT_PATH}/ui/project/:project/overview`}
+              element={
+                <ProtectedRoute
+                  outlet={<ProjectLoader outlet={<Overview />} />}
+                />
+              }
+            />
+          </>
         )}
         <Route path={`${ROOT_PATH}/ui/login`} element={<Login />} />
         <Route

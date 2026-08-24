@@ -90,6 +90,7 @@ import { InstanceRichChip } from "./InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import { ISO_VOLUME_TYPE } from "util/devices";
+import { getInstancesUrl } from "util/projects";
 import type { MemoryLimit } from "types/limits";
 
 interface PresetFormState {
@@ -244,9 +245,7 @@ const CreateInstance: FC = () => {
     }
 
     const formUrl = location.pathname + location.search;
-    navigate(
-      `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`,
-    );
+    navigate(getInstancesUrl(project));
 
     const instancePayload = {
       ...instance,
@@ -505,10 +504,7 @@ const CreateInstance: FC = () => {
         <Button
           appearance="base"
           onClick={async () =>
-            navigate(
-              location.state?.cancelLocation ??
-                `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances`,
-            )
+            navigate(location.state?.cancelLocation ?? getInstancesUrl(project))
           }
         >
           Cancel

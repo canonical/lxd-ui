@@ -43,7 +43,6 @@ const StoragePoolDetails: FC<Props> = ({ pool }) => {
               className="u-no-margin"
               appearance="negative"
               value="Errored"
-              lead="status"
               isReadOnly
             />
           </>

@@ -75,7 +75,7 @@ const StorageCard: FC = () => {
         <Link
           to={`${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/storage/pools`}
         >
-          See all storage pools
+          Storage pools list
         </Link>
       </div>
     </Card>

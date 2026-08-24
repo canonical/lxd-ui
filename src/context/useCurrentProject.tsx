@@ -45,11 +45,9 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const url = pathname.replace(`${ROOT_PATH}/ui/`, "");
 
   const parts = url.split("/");
-  const project = parts[0] === "project" ? parts[1] : "";
-  const isAllProjects =
-    parts[0] === "all-projects" ||
-    parts[0] === "projects" ||
-    parts[0] === "overview";
+  const project =
+    parts[0] === "project" ? decodeURIComponent(parts[1] ?? "") : "";
+  const isAllProjects = parts[0] === "all-projects" || parts[0] === "projects";
 
   const initializeProjectName = (
     isAllProjectsFromUrl: boolean,

@@ -7,6 +7,7 @@ import {
   Spinner,
 } from "@canonical/react-components";
 import ChartLegend from "components/ChartLegend";
+import { useCurrentProject } from "context/useCurrentProject";
 import { useInstances } from "context/useInstances";
 import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import InstancesOverviewStatus from "pages/overview/InstancesOverviewStatus";
@@ -15,10 +16,16 @@ import {
   getInstanceDistribution,
   type InstanceDistribution,
 } from "util/overviewInstances";
-import { ROOT_PATH } from "util/rootPath";
+import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
 
 const InstancesCard: FC = () => {
-  const { data: instances = [], error, isLoading } = useInstances(null);
+  const { projectName } = useCurrentProject();
+  const isAllProjects = projectName === ALL_PROJECTS;
+  const {
+    data: instances = [],
+    error,
+    isLoading,
+  } = useInstances(isAllProjects ? null : projectName);
 
   const {
     runningCount,
@@ -41,11 +48,12 @@ const InstancesCard: FC = () => {
   );
   const vmColor = "#C5C5C5";
   const containerColor = "#636363";
+  const instancesUrl = getInstancesUrl(projectName);
 
   const getTypeFilterHref = (type: "VM" | "Container") => {
     const params = new URLSearchParams();
     params.append("type", type);
-    return `${ROOT_PATH}/ui/all-projects/instances?${params.toString()}`;
+    return `${instancesUrl}?${params.toString()}`;
   };
 
   if (isLoading) {
@@ -77,10 +85,26 @@ const InstancesCard: FC = () => {
     <Card className={cardClassName} title={cardTitle}>
       <div className="card-content">
         <div className="group-by-status-container">
-          <InstancesOverviewStatus status="running" count={runningCount} />
-          <InstancesOverviewStatus status="stopped" count={stoppedCount} />
-          <InstancesOverviewStatus status="frozen" count={frozenCount} />
-          <InstancesOverviewStatus status="error" count={errorCount} />
+          <InstancesOverviewStatus
+            status="running"
+            count={runningCount}
+            instancesUrl={instancesUrl}
+          />
+          <InstancesOverviewStatus
+            status="stopped"
+            count={stoppedCount}
+            instancesUrl={instancesUrl}
+          />
+          <InstancesOverviewStatus
+            status="frozen"
+            count={frozenCount}
+            instancesUrl={instancesUrl}
+          />
+          <InstancesOverviewStatus
+            status="error"
+            count={errorCount}
+            instancesUrl={instancesUrl}
+          />
         </div>
 
         <div className="group-by-type-container">
@@ -121,7 +145,7 @@ const InstancesCard: FC = () => {
       </div>
 
       <div className="card-footer">
-        <Link to={`${ROOT_PATH}/ui/all-projects/instances`}>See more</Link>
+        <Link to={instancesUrl}>Instances list</Link>
       </div>
     </Card>
   );

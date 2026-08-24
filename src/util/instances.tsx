@@ -8,6 +8,8 @@ import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfi
 
 export const CLUSTER_GROUP_PREFIX = "@";
 
+export const ALL_INSTANCES_LIST_URL = `${ROOT_PATH}/ui/all-projects/instances`;
+
 export const getInstanceDetailUrl = (name: string, project?: string) => {
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(project ?? "default")}/instance/${encodeURIComponent(name)}`;
 };

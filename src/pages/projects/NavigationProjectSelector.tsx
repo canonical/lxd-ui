@@ -5,12 +5,14 @@ import {
   Icon,
   SearchBox,
 } from "@canonical/react-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
 import { defaultFirst } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
+import { useFeatureFlags } from "context/useFeatureFlags";
 import { useProjects } from "context/useProjects";
 import { useServerEntitlements } from "util/entitlements/server";
+import { getAllProjectsSwitchTarget } from "util/projects";
 
 interface Props {
   activeProject: string;
@@ -20,8 +22,10 @@ const NavigationProjectSelector: FC<Props> = ({
   activeProject,
 }): React.JSX.Element => {
   const navigate = useNavigate();
+  const location = useLocation();
   const searchRef = useRef<HTMLInputElement>(null);
   const { canCreateProjects } = useServerEntitlements();
+  const { isOverviewEnabled } = useFeatureFlags();
 
   const { data: projects = [] } = useProjects();
 
@@ -65,17 +69,12 @@ const NavigationProjectSelector: FC<Props> = ({
           )}
           <Button
             onClick={() => {
-              navigate(`${ROOT_PATH}/ui/all-projects/instances`);
-            }}
-            className="p-contextual-menu__link all-instances"
-            hasIcon
-          >
-            <Icon name="pods" light />
-            <span>All instances</span>
-          </Button>
-          <Button
-            onClick={() => {
-              navigate(`${ROOT_PATH}/ui/projects`);
+              navigate(
+                getAllProjectsSwitchTarget(
+                  location.pathname,
+                  isOverviewEnabled(),
+                ),
+              );
             }}
             className="p-contextual-menu__link all-projects"
             hasIcon
