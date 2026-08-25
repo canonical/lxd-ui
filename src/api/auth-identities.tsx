@@ -35,24 +35,6 @@ export const fetchCurrentIdentity = async (): Promise<LxdIdentity> => {
     });
 };
 
-export const fetchIdentity = async (
-  id: string,
-  authMethod: string,
-  isFineGrained: boolean | null,
-): Promise<LxdIdentity> => {
-  const params = new URLSearchParams();
-  params.set("recursion", "1");
-  addEntitlements(params, isFineGrained, identitiesEntitlements);
-
-  return fetch(
-    `${ROOT_PATH}/1.0/auth/identities/${encodeURIComponent(authMethod)}/${encodeURIComponent(id)}?${params.toString()}`,
-  )
-    .then(handleResponse)
-    .then((data: LxdApiResponse<LxdIdentity>) => {
-      return data.metadata;
-    });
-};
-
 export const updateIdentity = async (identity: LxdIdentity): Promise<void> => {
   await fetch(
     `${ROOT_PATH}/1.0/auth/identities/${encodeURIComponent(identity.authentication_method)}/${encodeURIComponent(identity.id)}`,
