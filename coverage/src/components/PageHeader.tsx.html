@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/context/useLoadBalancers.tsx</title>
+    <title>Code coverage report for src/components/PageHeader.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/context</a> useLoadBalancers.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/components</a> PageHeader.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.1% </span>
+                <span class="strong">35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/38</span>
+                <span class='fraction'>14/40</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.1% </span>
+                <span class="strong">35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/38</span>
+                <span class='fraction'>14/40</span>
             </div>
         
             
@@ -101,7 +101,9 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -109,21 +111,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -135,48 +122,67 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import type { LxdLoadBalancer } from "types/loadBalancers";
-import { fetchLoadBalancer, fetchLoadBalancers } from "api/load-balancers";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, PropsWithChildren } from "react";
 &nbsp;
-export const useLoadBalancers = (
-  network: string,
-<span class="fstat-no" title="function not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdLoadBalancer[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
-<span class="cstat-no" title="statement not covered" >      project,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.networks,</span>
-<span class="cstat-no" title="statement not covered" >      network,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.loadBalancers,</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-    queryFn: async () =&gt; fetchLoadBalancers(network, project),
-  });
+const Left: FC&lt;PropsWithChildren&gt; = ({ children }) =&gt; {
+  return &lt;div className="page-header__left"&gt;{children}&lt;/div&gt;;
 };
 &nbsp;
-export const useLoadBalancer = (
-<span class="cstat-no" title="statement not covered" >  network: string,</span>
-  project: string,
-  listenAddress: string,
-):<span class="fstat-no" title="function not covered" > UseQueryResult&lt;LxdLoadBalancer&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
-<span class="cstat-no" title="statement not covered" >      project,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.networks,</span>
-<span class="cstat-no" title="statement not covered" >      network,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.loadBalancers,</span>
-<span class="cstat-no" title="statement not covered" >      listenAddress,</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchLoadBalancer(network, project, listenAddress),</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+const Title: FC&lt;PropsWithChildren&gt; = ({ children }) =&gt; {
+  return &lt;h1 className="p-heading--4 u-no-margin--bottom"&gt;{children}&lt;/h1&gt;;
+};
+&nbsp;
+const Search: FC&lt;PropsWithChildren&gt; <span class="fstat-no" title="function not covered" >= ({ children }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="page-header__search margin-right--large u-no-margin--bottom"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {children}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >const BaseActions: FC&lt;PropsWithChildren&gt; = ({ children }) =&gt; {</span>
+  return &lt;div className="page-header__base-actions"&gt;{c<span class="fstat-no" title="function not covered" >hildren}&lt;/div&gt;;</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >const Header: FC&lt;PropsWithChildren&gt; = ({ children }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return &lt;div className="p-panel__header page-header"&gt;{children}&lt;/div&gt;;</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >type PageHeaderComponents = FC&lt;PropsWithChildren&gt; &amp; {</span>
+<span class="cstat-no" title="statement not covered" >  Left: FC&lt;PropsWithChildren&gt;;</span>
+  Title: FC&lt;PropsWithChildren&gt;;
+  Search: FC&lt;Pr<span class="fstat-no" title="function not covered" >opsWithChildren&gt;;</span>
+<span class="cstat-no" title="statement not covered" >  BaseActions: FC&lt;PropsWithChildren&gt;;</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >const PageHeader = Header as PageHeaderComponents;</span>
+<span class="cstat-no" title="statement not covered" >PageHeader.Left = Left;</span>
+<span class="cstat-no" title="statement not covered" >PageHeader.Title = Title;</span>
+<span class="cstat-no" title="statement not covered" >PageHeader.Search = Search;</span>
+<span class="cstat-no" title="statement not covered" >PageHeader.BaseActions = BaseActions;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >export default PageHeader;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -184,7 +190,7 @@ export const useLoadBalancer = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-25T10:16:06.936Z
+                at 2026-08-25T14:25:10.289Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/pages/networks/NetworkSearchFilter.tsx</title>
+    <title>Code coverage report for src/pages/profiles/ProfileRichTooltip.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/networks</a> NetworkSearchFilter.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/profiles</a> ProfileRichTooltip.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.85% </span>
+                <span class="strong">34.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/107</span>
+                <span class='fraction'>43/124</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.85% </span>
+                <span class="strong">34.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>48/107</span>
+                <span class='fraction'>43/124</span>
             </div>
         
             
@@ -170,7 +170,24 @@
 <a name='L105'></a><a href='#L105'>105</a>
 <a name='L106'></a><a href='#L106'>106</a>
 <a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -213,11 +230,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -277,113 +289,152 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { memo, type FC } from "react";
-import { SearchAndFilter } from "@canonical/react-components";
-import type {
-  SearchAndFilterChip,
-  SearchAndFilterData,
-} from "@canonical/react-components/dist/components/SearchAndFilter/types";
-import { useSearchParams } from "react-router-dom";
-import {
-  paramsFromSearchData,
-  searchParamsToChips,
-} from "util/searchAndFilter";
-import { useClusterMembers } from "context/useClusterMembers";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC } from "react";
+import ProfileLink from "pages/profiles/ProfileLink";
+import { useProfile } from "context/useProfiles";
+import { Spinner } from "@canonical/react-components";
+import type { TooltipRow } from "components/RichTooltipRow";
+import { RichTooltipTable } from "components/RichTooltipTable";
+import ResourceLabel from "components/ResourceLabel";
+import { isProjectWithProfiles } from "util/projects";
+import { useCurrentProject } from "context/useCurrentProject";
+import DevicesSummaryList from "components/DevicesSummaryList";
+import { getProfileInstances } from "util/usedBy";
+import ProfileTruncatedNetworkList from "pages/profiles/ProfileTruncatedNetworkList";
+import ResourceLink from "components/ResourceLink";
+import { getDefaultStoragePool } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
+import ProfileConfigurationSections from "pages/profiles/ProfileConfigurationSections";
+import ProfileResourceLimits from "pages/profiles/ProfileResourceLimits";
 &nbsp;
-export const QUERY = "query";
-export const TYPE = "type";
-export const MANAGED = "managed";
-export const MEMBER = "member";
-export const STATE = "state";
-&nbsp;
-const QUERY_PARAMS = [QUERY, TYPE, MANAGED, MEMBER, STATE];
-&nbsp;
-export interface NetworkFilters {
-  queries: string[];
-  type: string[];
-  managed: string[];
-  member: string[];
-  state: string[];
+interface Props {
+  profileName: string;
+  projectName: string;
 }
 &nbsp;
-const NetworkSearchFilter: FC = () =&gt; {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { data: clusterMembers = [] } = useClusterMembers();
+const ProfileRichTooltip: FC&lt;Props&gt; = ({ profileName, projectName }) =&gt; {
+  const { data: profile, isLoading: isProfileLoading } = useProfile(
+    profileName,
+    projectName,
+  );
+  const { project, isLoading: isProjectLoading } = useCurrentProject();
+  const featuresProfiles = isProjectWithProfiles(project);
+  const isLoading = isProfileLoading || isProjectLoading;
 &nbsp;
-  const memberSet = [
-    ...new Set(clusterMembers.map((member) =&gt; member.server_name)),
-  ];
+  if (!profile &amp;&amp; !isLoading) {
+    return (
+      &lt;&gt;
+        Profile &lt;ResourceLabel type="profile" value={profileName} bold /&gt; not
+        found
+      &lt;/&gt;
+    );
+  }
 &nbsp;
-  const searchAndFilterData: SearchAndFilterData[] = [
-    {
-      id: 1,
-      heading: "Type",
-      chips: ["OVN", "Bridge", "Physical"].map((type) =&gt; {
-        return { lead: TYPE, value: type };
-      }),
-    },
-    {
-      id: 2,
-<span class="fstat-no" title="function not covered" >      heading: "Managed",</span>
-<span class="cstat-no" title="statement not covered" >      chips: ["Yes", "No"].map((managed) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        return { lead: MANAGED, value: managed };</span>
-<span class="cstat-no" title="statement not covered" >      }),</span>
+  const profileDescription = profile?.description || "-";
+  const usageCount = getProfileIns<span class="fstat-no" title="function not covered" >tances(</span>
+<span class="cstat-no" title="statement not covered" >    projectName,</span>
+<span class="cstat-no" title="statement not covered" >    projectName === "default",</span>
+<span class="cstat-no" title="statement not covered" >    profile ? profile.used_by : [],</span>
+<span class="cstat-no" title="statement not covered" >  ).length;</span>
+<span class="cstat-no" title="statement not covered" >  const defaultStoragePool = profile ? getDefaultStoragePool(profile) : "";</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const rows: TooltipRow[] = [</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Profile",</span>
+<span class="cstat-no" title="statement not covered" >      value: profile ? &lt;ProfileLink profile={profile} /&gt; : &lt;Spinner /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >      valueTitle: profileName,</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
-<span class="cstat-no" title="statement not covered" >      id: 3,</span>
-<span class="cstat-no" title="statement not covered" >      heading: "State",</span>
-<span class="cstat-no" title="statement not covered" >      chips: ["Created", "Pending", "Unknown", "Unavailable", "Errored"].map(</span>
-<span class="cstat-no" title="statement not covered" >        (state) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          return { lead: STATE, value: state };</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >      ),</span>
+<span class="cstat-no" title="statement not covered" >      title: "Description",</span>
+<span class="cstat-no" title="statement not covered" >      value: profileDescription,</span>
+<span class="cstat-no" title="statement not covered" >      valueTitle: profileDescription,</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    ...(clusterMembers.length &gt; 0</span>
-<span class="cstat-no" title="statement not covered" >      ? [</span>
-<span class="cstat-no" title="statement not covered" >          {</span>
-<span class="cstat-no" title="statement not covered" >            id: 4,</span>
-<span class="cstat-no" title="statement not covered" >            heading: "Cluster member",</span>
-<span class="cstat-no" title="statement not covered" >            chips: ["Cluster-wide"].concat(memberSet).map((location) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              return { lead: MEMBER, value: location };</span>
-<span class="cstat-no" title="statement not covered" >            }),</span>
-<span class="cstat-no" title="statement not covered" >          },</span>
-<span class="cstat-no" title="statement not covered" >        ]</span>
-<span class="cstat-no" title="statement not covered" >      : []),</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Defined in",</span>
+<span class="cstat-no" title="statement not covered" >      value: `${featuresProfiles ? "Current" : "Default"} project`,</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Root storage",</span>
+<span class="cstat-no" title="statement not covered" >      value: defaultStoragePool ? (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
+<span class="cstat-no" title="statement not covered" >          type="pool"</span>
+<span class="cstat-no" title="statement not covered" >          value={defaultStoragePool}</span>
+<span class="cstat-no" title="statement not covered" >          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pool/${encodeURIComponent(defaultStoragePool)}`}</span>
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
+<span class="cstat-no" title="statement not covered" >        "-"</span>
+<span class="cstat-no" title="statement not covered" >      ),</span>
+<span class="cstat-no" title="statement not covered" >      truncate: false,</span>
+<span class="cstat-no" title="statement not covered" >      className: "storage-list",</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Networks",</span>
+<span class="cstat-no" title="statement not covered" >      value: profile ? (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;ProfileTruncatedNetworkList profile={profile} project={projectName} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
+<span class="cstat-no" title="statement not covered" >        "-"</span>
+<span class="cstat-no" title="statement not covered" >      ),</span>
+<span class="cstat-no" title="statement not covered" >      truncate: false,</span>
+<span class="cstat-no" title="statement not covered" >      className: "networks-list",</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Devices",</span>
+<span class="cstat-no" title="statement not covered" >      value: profile ? (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;DevicesSummaryList</span>
+<span class="cstat-no" title="statement not covered" >          devices={Object.values(profile.devices)}</span>
+<span class="cstat-no" title="statement not covered" >          className="truncated"</span>
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
+<span class="cstat-no" title="statement not covered" >        "-"</span>
+<span class="cstat-no" title="statement not covered" >      ),</span>
+<span class="cstat-no" title="statement not covered" >      truncate: false,</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Limits",</span>
+<span class="cstat-no" title="statement not covered" >      value: profile ? &lt;ProfileResourceLimits profile={profile} /&gt; : "-",</span>
+<span class="cstat-no" title="statement not covered" >      truncate: false,</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Configuration",</span>
+<span class="cstat-no" title="statement not covered" >      value: (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;ProfileConfigurationSections profile={profile} className="truncated" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ),</span>
+<span class="cstat-no" title="statement not covered" >      truncate: false,</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      title: "Used by",</span>
+<span class="cstat-no" title="statement not covered" >      value: usageCount,</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const onSearchDataChange = (searchData: SearchAndFilterChip[]) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const newParams = paramsFromSearchData(</span>
-<span class="cstat-no" title="statement not covered" >      searchData,</span>
-<span class="cstat-no" title="statement not covered" >      searchParams,</span>
-<span class="cstat-no" title="statement not covered" >      QUERY_PARAMS,</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (newParams.toString() !== searchParams.toString()) {</span>
-<span class="cstat-no" title="statement not covered" >      setSearchParams(newParams);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;h2 className="u-off-screen"&gt;Search and filter&lt;/h2&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;SearchAndFilter</span>
-<span class="cstat-no" title="statement not covered" >        existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}</span>
-<span class="cstat-no" title="statement not covered" >        filterPanelData={searchAndFilterData}</span>
-<span class="cstat-no" title="statement not covered" >        returnSearchData={onSearchDataChange}</span>
-<span class="cstat-no" title="statement not covered" >        onExpandChange={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          window.dispatchEvent(</span>
-<span class="cstat-no" title="statement not covered" >            new CustomEvent("resize", { detail: "search-and-filter" }),</span>
-<span class="cstat-no" title="statement not covered" >          );</span>
-<span class="cstat-no" title="statement not covered" >        }}</span>
-<span class="cstat-no" title="statement not covered" >        onPanelToggle={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          window.dispatchEvent(new CustomEvent("sfp-toggle"));</span>
-<span class="cstat-no" title="statement not covered" >        }}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;RichTooltipTable rows={rows} className="profile-rich-tooltip-table" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default memo(NetworkSearchFilter);</span>
+<span class="cstat-no" title="statement not covered" >export default ProfileRichTooltip;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -391,7 +442,7 @@ const NetworkSearchFilter: FC = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-25T10:16:06.936Z
+                at 2026-08-25T14:25:10.289Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
