@@ -274,13 +274,13 @@ test.describe("Given a user with Viewer Server permissions...", () => {
       page.getByRole("button", { name: "Delete network" }),
     ).toBeDisabled();
 
-    await page.getByRole("link", { name: "Forwards" }).click();
+    await page.getByRole("tab", { name: "Forwards" }).click();
     await expect(
       page.getByRole("button", { name: "Create forward" }),
     ).toBeDisabled();
 
     // Network ACLs
-    await page.getByRole("link", { name: "ACLs" }).click();
+    await page.getByRole("tab", { name: "ACLs" }).click();
     await expect(
       page.getByRole("button", { name: "Create ACL" }),
     ).toBeDisabled();
