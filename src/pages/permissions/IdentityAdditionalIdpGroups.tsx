@@ -1,7 +1,5 @@
 import { List, Tooltip } from "@canonical/react-components";
 import { type FC } from "react";
-import { useSettings } from "context/useSettings";
-import { useAuth } from "context/auth";
 import type { LxdIdentity } from "types/permissions";
 import { pluralize } from "util/helpers";
 
@@ -10,16 +8,12 @@ interface Props {
 }
 
 const IdentityAdditionalIdpGroups: FC<Props> = ({ identity }) => {
-  const { effectiveGroups: loggedInIdentityEffectiveGroups } = useAuth();
-  const { data: settings } = useSettings();
-  const isLoggedInIdentity = settings?.auth_user_name === identity.id;
-
-  if (!isLoggedInIdentity || !loggedInIdentityEffectiveGroups) {
+  if (!identity.effective_groups) {
     return null;
   }
 
   const existingGroups = new Set(identity.groups ?? []);
-  const additionalIdpGroups = loggedInIdentityEffectiveGroups.filter(
+  const additionalIdpGroups = identity.effective_groups.filter(
     (g) => !existingGroups.has(g),
   );
 
