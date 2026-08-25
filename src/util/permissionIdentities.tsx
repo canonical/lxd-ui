@@ -238,10 +238,14 @@ export const isBearerIdentityType = (
   return identityType.toLowerCase().includes("token bearer");
 };
 
-export const IDENTITY_TYPE_HELP_TEXT: Record<
-  IdentityType,
-  { title: string; description: ReactNode }
-> = {
+// Identity-type strings that can carry help text but are not part of IdentityType
+type AdditionalIdentityType =
+  | "Initial UI token bearer"
+  | "OIDC client"
+  | "Server certificate"
+  | "Metrics certificate";
+
+export const IDENTITY_TYPE_HELP_TEXT = {
   [IDENTITY_TYPE.TLS]: {
     title: "Client certificate",
     description:
@@ -251,6 +255,11 @@ export const IDENTITY_TYPE_HELP_TEXT: Record<
     title: "Client token bearer",
     description:
       "An API key for external automation tools, integrations, or remote scripts interacting with LXD over the network.",
+  },
+  "Initial UI token bearer": {
+    title: "Initial UI token bearer",
+    description:
+      "A short-lived bearer token that provides initial access to the LXD web UI.",
   },
   [IDENTITY_TYPE.BEARER_DEVLXD]: {
     title: "DevLXD token bearer",
@@ -271,7 +280,25 @@ export const IDENTITY_TYPE_HELP_TEXT: Record<
       </>
     ),
   },
-};
+  "OIDC client": {
+    title: "OIDC client",
+    description:
+      "An identity authenticated through the configured OpenID Connect identity provider.",
+  },
+  "Server certificate": {
+    title: "Server certificate",
+    description:
+      "A TLS certificate used to encrypt network traffic and verify a server's identity.",
+  },
+  "Metrics certificate": {
+    title: "Metrics certificate",
+    description:
+      "A certificate used by a monitoring system to access LXD metrics.",
+  },
+} satisfies Record<
+  IdentityType | AdditionalIdentityType,
+  { title: string; description: ReactNode }
+>;
 
 export const IDENTITY_MODAL_TEXT: Record<
   IdentityType,

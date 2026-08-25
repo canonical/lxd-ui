@@ -37,11 +37,7 @@ const EditIdentityPanelContent: FC<Props> = ({
         value={getIdentityName(identity)}
       />
       <OutputField id="identity-id" label="ID" value={identity.id} />
-      <OutputField
-        id="identity-auth-method-type"
-        label="Auth method"
-        value={`${identity.authentication_method.toUpperCase()} - ${identity.type}`}
-      />
+      <OutputField id="identity-type" label="Type" value={identity.type} />
       {isBearer && (
         <div className="u-flex u-gap--small">
           <OutputField

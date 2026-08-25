@@ -4,24 +4,29 @@
   margin-left: 0.8rem;
 }
 
+.identity-type-chip-tooltip .p-tooltip__message {
+  white-space: normal;
+  width: 18rem;
+}
+
+.identity-type-chip-tooltip-title {
+  border-bottom: $border-thin;
+  margin-bottom: $spv--small;
+  padding-bottom: $spv--small;
+}
+
+.identity-type-chip-tooltip-wrapper {
+  width: 100%;
+}
+
 .permission-identities-list {
   .permission-identities-table {
-    .auth-method {
-      width: 8rem;
-    }
-
     .group-count {
       width: 6rem;
     }
 
     .actions {
       width: 8.5rem;
-    }
-
-    @media screen and (width < 1300px) {
-      .auth-method {
-        display: none;
-      }
     }
 
     @media screen and (width < 1000px) {
@@ -31,8 +36,7 @@
     }
 
     @media screen and (width < 900px) {
-      .select,
-      .identity-type {
+      .select {
         display: none;
       }
     }
