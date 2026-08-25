@@ -7,6 +7,7 @@ import { fetchCurrentIdentity } from "api/auth-identities";
 import { useSupportedFeatures } from "./useSupportedFeatures";
 import { getLoginProject } from "util/loginProject";
 import { AUTH_METHOD, type LXDAuthMethod } from "util/authentication";
+import type { LxdIdentity } from "types/permissions";
 
 interface ContextProps {
   isAuthenticated: boolean;
@@ -20,6 +21,7 @@ interface ContextProps {
   authMethod: LXDAuthMethod | null;
   authExpiresAt: string | null;
   effectiveGroups: string[] | null;
+  currentIdentity: LxdIdentity | null;
 }
 
 const initialState: ContextProps = {
@@ -34,6 +36,7 @@ const initialState: ContextProps = {
   authMethod: null,
   authExpiresAt: null,
   effectiveGroups: null,
+  currentIdentity: null,
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -116,6 +119,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         authMethod,
         authExpiresAt: currentIdentity?.expires_at ?? null,
         effectiveGroups: currentIdentity?.effective_groups ?? null,
+        currentIdentity: currentIdentity ?? null,
       }}
     >
       {children}
