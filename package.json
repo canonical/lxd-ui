@@ -8,8 +8,9 @@
     "check-circular-deps": "npx depcruise src --max-depth 7",
     "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle playwright-report test-results haproxy-local.cfg coverage",
     "build-html": "cp build/ui/index.html build/index.html",
+    "build-icons": "rm -rf build/ui/assets/icons && cp -r node_modules/@canonical/ds-assets/icons build/ui/assets/icons",
     "fix-asset-paths": "node fix-asset-paths.js",
-    "build": "npx vite build && yarn fix-asset-paths && yarn build-html",
+    "build": "npx vite build && yarn build-icons && yarn fix-asset-paths && yarn build-html",
     "format-js-eslint": "eslint 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --fix",
     "format-js-prettier": "prettier 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --write",
     "format-js": "yarn format-js-eslint && yarn format-js-prettier",
@@ -32,6 +33,7 @@
     "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
   },
   "dependencies": {
+    "@canonical/ds-assets": "0.34.0",
     "@canonical/react-components": "4.10.0",
     "@canonical/react-ds-global": "0.34.0",
     "@canonical/react-ds-global-form": "0.34.0",

@@ -358,7 +358,7 @@
   dependencies:
     "@canonical/terrazzo-lsp" "^0.8.1"
 
-"@canonical/ds-assets@^0.34.0":
+"@canonical/ds-assets@0.34.0", "@canonical/ds-assets@^0.34.0":
   version "0.34.0"
   resolved "https://registry.yarnpkg.com/@canonical/ds-assets/-/ds-assets-0.34.0.tgz#1eeaf2be4a9997db6903366bd55b0a318ea8b1e4"
   integrity sha512-aZ+pxiWs87xCsPllgcpznXaVCBQjXv2zyJqdkkznmp2E8FaRy9+XE/AflQ3aTJGe4zLqufnR1oBBcUN4pImSjg==

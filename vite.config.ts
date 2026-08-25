@@ -42,6 +42,16 @@ export default defineConfig({
     strictPort: true,
     hmr: process.env.CI ? false : undefined,
     proxy: {
+      "^/ui/assets/icons/": {
+        target: `http://localhost:${process.env.VITE_PORT || 3000}`,
+        rewrite: (path) =>
+          path.replace(
+            /^\/ui\/assets\/icons/,
+            "/node_modules/@canonical/ds-assets/icons",
+          ),
+        secure: false,
+        changeOrigin: true,
+      },
       "^/ui/(assets|manifest.json)": {
         target: `http://localhost:${process.env.VITE_PORT || 3000}`,
         rewrite: (path) => path.replace(/^\/ui/, ""),
