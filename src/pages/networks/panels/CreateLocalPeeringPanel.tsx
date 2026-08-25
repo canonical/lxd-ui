@@ -25,6 +25,7 @@ import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
 import ResourceLabel from "components/ResourceLabel";
 import { useEscCallback } from "context/useEscCallback";
+import LocalPeeringExplanationTooltip from "pages/networks/LocalPeeringExplanationTooltip";
 
 interface Props {
   network: LxdNetwork;
@@ -243,7 +244,11 @@ const CreateLocalPeeringPanel: FC<Props> = ({ network }) => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create local peering</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <LocalPeeringExplanationTooltip>
+              Create local peering
+            </LocalPeeringExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

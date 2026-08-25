@@ -24,6 +24,7 @@ import EditIdentityPanelContent from "./EditIdentityPanelContent";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import type { LxdIdentity } from "types/permissions";
 import { useEscCallback } from "context/useEscCallback";
+import PermissionIdentityExplanationTooltip from "pages/permissions/PermissionIdentityExplanationTooltip";
 
 interface Props {
   identity: LxdIdentity;
@@ -137,7 +138,11 @@ const EditIdentityPanel: FC<Props> = ({ identity, onClose }) => {
     <>
       <SidePanel className="edit-identity-panel">
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Edit identity</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <PermissionIdentityExplanationTooltip>
+              Edit identity
+            </PermissionIdentityExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

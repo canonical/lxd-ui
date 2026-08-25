@@ -21,6 +21,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { getPayload } from "util/replicator";
 import ReplicatorRichChip from "../ReplicatorRichChip";
 import { useEscCallback } from "context/useEscCallback";
+import ReplicatorExplanationTooltip from "pages/cluster/ReplicatorExplanationTooltip";
 
 const CreateReplicatorPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -121,7 +122,11 @@ const CreateReplicatorPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create replicator</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <ReplicatorExplanationTooltip>
+              Create replicator
+            </ReplicatorExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

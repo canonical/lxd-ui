@@ -6,11 +6,7 @@
     display: flex;
     flex: 2;
     flex-wrap: wrap;
-    row-gap: 1rem;
-
-    h1 {
-      margin-right: 2rem;
-    }
+    gap: 1rem 2rem;
 
     .page-header__search {
       margin-bottom: 3.5px !important; // to align with the selected item state

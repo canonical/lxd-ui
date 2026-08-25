@@ -24,6 +24,7 @@ import {
   testDuplicateStorageBucketName,
 } from "util/storageBucket";
 import { useEscCallback } from "context/useEscCallback";
+import StorageBucketExplanationTooltip from "pages/storage/StorageBucketExplanationTooltip";
 
 const CreateStorageBucketPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -130,7 +131,11 @@ const CreateStorageBucketPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create storage bucket</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <StorageBucketExplanationTooltip>
+              Create storage bucket
+            </StorageBucketExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

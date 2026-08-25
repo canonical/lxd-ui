@@ -14,7 +14,7 @@ import {
 } from "@canonical/react-components";
 import classnames from "classnames";
 import NotificationRow from "components/NotificationRow";
-import HelpLink from "components/HelpLink";
+import ProjectExplanationTooltip from "pages/projects/ProjectExplanationTooltip";
 import PageHeader from "components/PageHeader";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjects } from "context/useProjects";
@@ -155,9 +155,7 @@ const ProjectList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink docPath="/projects/" title="Learn more about projects">
-                Projects
-              </HelpLink>
+              <ProjectExplanationTooltip>Projects</ProjectExplanationTooltip>
             </PageHeader.Title>
             <PageHeader.Search>
               <SearchBox

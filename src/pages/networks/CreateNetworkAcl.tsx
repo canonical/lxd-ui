@@ -32,6 +32,7 @@ import { createNetworkAcl } from "api/network-acls";
 import type { LxdNetworkAcl } from "types/network";
 import { useEventQueue } from "context/eventQueue";
 import ResourceLabel from "components/ResourceLabel";
+import NetworkAclExplanationTooltip from "pages/networks/NetworkAclExplanationTooltip";
 
 const CreateNetworkAcl: FC = () => {
   const navigate = useNavigate();
@@ -149,9 +150,9 @@ const CreateNetworkAcl: FC = () => {
   return (
     <BaseLayout
       title={
-        <>
+        <NetworkAclExplanationTooltip>
           Create a network <abbr title="Access Control List">ACL</abbr>
-        </>
+        </NetworkAclExplanationTooltip>
       }
       contentClassName="create-network-acl"
     >

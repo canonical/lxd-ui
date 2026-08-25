@@ -23,6 +23,7 @@ import ClusterMemberRichChip from "../ClusterMemberRichChip";
 import ClusterMemberRolesSelector from "./ClusterMemberRolesSelector";
 import DocLink from "components/DocLink";
 import { useEscCallback } from "context/useEscCallback";
+import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 
 export interface EditClusterMemberForm {
   name: string;
@@ -107,7 +108,9 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle>
-          Edit cluster member {panelParams.member}
+          <ClusterMemberExplanationTooltip>
+            Edit cluster member {panelParams.member}
+          </ClusterMemberExplanationTooltip>
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />

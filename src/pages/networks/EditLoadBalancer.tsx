@@ -10,7 +10,7 @@ import {
 import { useFormik } from "formik";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "components/BaseLayout";
-import HelpLink from "components/HelpLink";
+import LoadBalancerExplanationTooltip from "pages/networks/LoadBalancerExplanationTooltip";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useEventQueue } from "context/eventQueue";
 import { useNetwork } from "context/useNetworks";
@@ -148,12 +148,9 @@ const EditLoadBalancer: FC = () => {
   return (
     <BaseLayout
       title={
-        <HelpLink
-          docPath="/howto/network_load_balancers/"
-          title="Learn more about load balancers"
-        >
+        <LoadBalancerExplanationTooltip>
           Edit a load balancer
-        </HelpLink>
+        </LoadBalancerExplanationTooltip>
       }
       contentClassName="edit-load-balancer"
     >

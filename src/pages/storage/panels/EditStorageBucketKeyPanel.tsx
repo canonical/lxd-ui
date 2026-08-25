@@ -23,6 +23,7 @@ import { useBucketKey } from "context/useBuckets";
 import StorageBucketKeyForm from "../forms/StorageBucketKeyForm";
 import { getStorageBucketURL } from "util/storageBucket";
 import { useEscCallback } from "context/useEscCallback";
+import StorageBucketExplanationTooltip from "pages/storage/StorageBucketExplanationTooltip";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -186,7 +187,9 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
       <SidePanel>
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
-            Edit key {bucketKey.name}
+            <StorageBucketExplanationTooltip>
+              Edit key {bucketKey.name}
+            </StorageBucketExplanationTooltip>
           </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />

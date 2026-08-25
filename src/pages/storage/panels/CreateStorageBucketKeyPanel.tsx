@@ -26,6 +26,7 @@ import {
 import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";
 import { useEscCallback } from "context/useEscCallback";
+import StorageBucketExplanationTooltip from "pages/storage/StorageBucketExplanationTooltip";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -147,7 +148,11 @@ const CreateStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create key</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <StorageBucketExplanationTooltip>
+              Create key
+            </StorageBucketExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">

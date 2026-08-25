@@ -8,11 +8,11 @@ import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
-import ProjectConfigurationExplanationTooltip from "pages/projects/ProjectConfigurationExplanationTooltip";
 import { useEventQueue } from "context/eventQueue";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useToastNotification } from "@canonical/react-components";
+import ProjectExplanationTooltip from "./ProjectExplanationTooltip";
 
 interface Props {
   project: LxdProject;
@@ -124,9 +124,9 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     <RenameHeader
       name={project.name}
       parentItems={[
-        <ProjectConfigurationExplanationTooltip key="project-configuration">
+        <ProjectExplanationTooltip key="project-configuration">
           Project configuration
-        </ProjectConfigurationExplanationTooltip>,
+        </ProjectExplanationTooltip>,
       ]}
       renameDisabledReason={getRenameDisabledReason()}
       controls={<DeleteProjectBtn project={project} />}

@@ -5,6 +5,7 @@ import UploadCustomIso from "pages/storage/UploadCustomIso";
 import CustomIsoSelector from "pages/images/CustomIsoSelector";
 import type { IsoImage } from "types/iso";
 import BackLink from "components/BackLink";
+import CustomIsoExplanationTooltip from "pages/storage/CustomIsoExplanationTooltip";
 
 interface Props {
   onClose: () => void;
@@ -38,7 +39,9 @@ const CustomIsoModal: FC<Props> = ({
             linkText={backLinkText}
           />
         ) : (
-          SELECT_CUSTOM_ISO_TITLE
+          <CustomIsoExplanationTooltip>
+            {SELECT_CUSTOM_ISO_TITLE}
+          </CustomIsoExplanationTooltip>
         );
       case UPLOAD_ISO:
         return (

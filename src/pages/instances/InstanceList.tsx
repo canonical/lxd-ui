@@ -675,7 +675,7 @@ const InstanceList: FC = () => {
                 </PageHeader.Search>
               )}
               {selectedNames.length > 0 && (
-                <>
+                <div>
                   <InstanceBulkActions
                     instances={selectedInstances}
                     onStart={() => {
@@ -692,7 +692,7 @@ const InstanceList: FC = () => {
                       setProcessingNames([]);
                     }}
                   />
-                </>
+                </div>
               )}
             </PageHeader.Left>
             {hasInstances && selectedNames.length === 0 && (

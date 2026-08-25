@@ -17,6 +17,7 @@ import ResourceLink from "components/ResourceLink";
 import { useClusterGroup } from "context/useClusterGroups";
 import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
+import ClusterGroupExplanationTooltip from "pages/cluster/ClusterGroupExplanationTooltip";
 import { ROOT_PATH } from "util/rootPath";
 import { useEscCallback } from "context/useEscCallback";
 
@@ -83,7 +84,9 @@ const EditClusterGroupPanel: FC = () => {
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle>
-          Edit cluster group {panelParams.group}
+          <ClusterGroupExplanationTooltip>
+            Edit cluster group {panelParams.group}
+          </ClusterGroupExplanationTooltip>
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />

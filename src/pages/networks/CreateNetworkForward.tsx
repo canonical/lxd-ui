@@ -15,7 +15,7 @@ import NetworkForwardForm, {
 import { createNetworkForward } from "api/network-forwards";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "components/BaseLayout";
-import HelpLink from "components/HelpLink";
+import NetworkForwardExplanationTooltip from "pages/networks/NetworkForwardExplanationTooltip";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useEventQueue } from "context/eventQueue";
 import { useNetwork } from "context/useNetworks";
@@ -123,12 +123,9 @@ const CreateNetworkForward: FC = () => {
   return (
     <BaseLayout
       title={
-        <HelpLink
-          docPath="/howto/network_forwards/"
-          title="Learn more about network forwards"
-        >
+        <NetworkForwardExplanationTooltip>
           Create a network forward
-        </HelpLink>
+        </NetworkForwardExplanationTooltip>
       }
       contentClassName="create-network"
     >

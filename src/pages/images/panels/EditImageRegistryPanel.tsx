@@ -20,6 +20,7 @@ import ImageRegistryRichChip from "../ImageRegistryRichChip";
 import type { LxdImageRegistry, LxdImageRegistryConfig } from "types/image";
 import { useImageRegistry } from "context/useImageRegistries";
 import { useEscCallback } from "context/useEscCallback";
+import ImageRegistryExplanationTooltip from "pages/images/ImageRegistryExplanationTooltip";
 
 export const EditImageRegistryPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -110,7 +111,11 @@ export const EditImageRegistryPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Edit image registry</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <ImageRegistryExplanationTooltip>
+              Edit image registry
+            </ImageRegistryExplanationTooltip>
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">
