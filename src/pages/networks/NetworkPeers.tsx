@@ -132,6 +132,14 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
     <>
       <LocalPeeringWarning network={network} />
       {hasNetworkPeers && (
+        <p className="p-text--small u-text--muted u-no-margin--bottom">
+          Local peering connects two networks on the same LXD cluster.{" "}
+          <DocLink docPath="/howto/network_ovn_peers" hasExternalIcon>
+            Learn more about local peering
+          </DocLink>
+        </p>
+      )}
+      {hasNetworkPeers && (
         <CreateNetworkPeeringBtn network={network} className=" u-float-right" />
       )}
       <Row>

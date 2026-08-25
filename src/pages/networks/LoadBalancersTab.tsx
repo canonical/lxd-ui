@@ -75,16 +75,24 @@ const LoadBalancersTab: FC<Props> = ({ network }) => {
   }
 
   return (
-    <Row className="content">
-      <LoadBalancerTableHeading title="Load balancers">
-        <CreateLoadBalancerBtn network={network} className="u-float-right" />
-      </LoadBalancerTableHeading>
-      <LoadBalancersTable
-        loadBalancers={loadBalancers}
-        network={network}
-        project={project}
-      />
-    </Row>
+    <>
+      <p className="p-text--small u-text--muted u-no-margin--bottom">
+        Load balancers distribute services running on instances across networks.{" "}
+        <DocLink docPath="/howto/network_load_balancers/" hasExternalIcon>
+          Learn more about load balancers
+        </DocLink>
+      </p>
+      <Row className="content">
+        <LoadBalancerTableHeading title="Load balancers">
+          <CreateLoadBalancerBtn network={network} className="u-float-right" />
+        </LoadBalancerTableHeading>
+        <LoadBalancersTable
+          loadBalancers={loadBalancers}
+          network={network}
+          project={project}
+        />
+      </Row>
+    </>
   );
 };
 

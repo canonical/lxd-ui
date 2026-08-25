@@ -144,6 +144,18 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   return (
     <Row>
       {hasNetworkLeases && (
+        <p className="p-text--small u-text--muted u-no-margin--bottom">
+          Leases represent IP addresses allocated to instances by a
+          network&apos;s DHCP server.{" "}
+          <DocLink
+            docPath="/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks"
+            hasExternalIcon
+          >
+            Learn more about network leases
+          </DocLink>
+        </p>
+      )}
+      {hasNetworkLeases && (
         <ScrollableTable
           dependencies={leases}
           tableId="network-lease-table"

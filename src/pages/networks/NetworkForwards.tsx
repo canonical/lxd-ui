@@ -183,6 +183,15 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
       {hasNetworkForwards && (
         <CreateNetworkForwardBtn network={network} className="u-float-right" />
       )}
+      {hasNetworkForwards && (
+        <p className="p-text--small u-text--muted u-no-margin--bottom">
+          Network forwards publish services running on instances across
+          networks.{" "}
+          <DocLink docPath="/howto/network_forwards/" hasExternalIcon>
+            Learn more about network forwards
+          </DocLink>
+        </p>
+      )}
       <Row>
         {hasNetworkForwards && (
           <ScrollableTable
