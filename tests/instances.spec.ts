@@ -576,7 +576,7 @@ test("file explorer shows empty state for a stopped virtual machine", async ({
     "deactivated due to DISABLE_VM_TESTS environment variable",
   );
   await visitAndStopInstance(page, vmInstance);
-  await page.getByRole("link", { name: "File Explorer" }).click();
+  await page.getByRole("tab", { name: "File Explorer" }).click();
   await expect(page.getByText("Instance is not running")).toBeVisible();
   await expect(
     page.getByText("Virtual machines must be running to browse files."),

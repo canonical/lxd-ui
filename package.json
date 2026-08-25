@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@canonical/ds-assets": "0.34.0",
-    "@canonical/react-components": "4.10.0",
+    "@canonical/react-components": "4.10.2",
     "@canonical/react-ds-global": "0.34.0",
     "@canonical/react-ds-global-form": "0.34.0",
     "@canonical/styles": "0.34.0",

@@ -38,7 +38,7 @@ export const visitFileExplorer = async (
   project = "default",
 ) => {
   await visitInstance(page, instance, project);
-  await page.getByRole("link", { name: "File Explorer" }).click();
+  await page.getByRole("tab", { name: "File Explorer" }).click();
   await expect(page.getByText("Directory: root")).toBeVisible();
 };
 

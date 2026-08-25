@@ -61,7 +61,7 @@ test.describe("Network Load Balancer", () => {
     const networkSubnet = await page.inputValue("input#ipv4_address");
     const balancerListenAddress = networkSubnet.replace("1/24", "3");
 
-    await page.getByRole("link", { name: "Load balancers" }).click();
+    await page.getByRole("tab", { name: "Load balancers" }).click();
     await page
       .getByRole("button", { name: "Create load balancer pool" })
       .click();

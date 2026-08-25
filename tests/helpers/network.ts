@@ -143,7 +143,7 @@ export const createNetworkForward = async (page: Page, network: string) => {
   const targetAddressHostId = "3";
   const targetAddress = networkSubnet.replace("1/24", targetAddressHostId);
 
-  await page.getByRole("link", { name: "Forwards" }).click();
+  await page.getByRole("tab", { name: "Forwards" }).click();
   await page.getByRole("button", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
 
@@ -186,14 +186,14 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page.getByText(`Network forward ${listenAddress} updated.`).click();
   await expect(page.getByText("My forward description")).toBeVisible();
 
-  await page.getByRole("link", { name: "Leases" }).click();
+  await page.getByRole("tab", { name: "Leases" }).click();
   await expect(page.getByText(`${network}.gw`).first()).toBeVisible();
 
   await page.getByRole("link", { name: "IPAM", exact: true }).click();
   await expect(page.getByText("network-forward").first()).toBeVisible();
 
   await visitNetwork(page, network);
-  await page.getByRole("link", { name: "Forwards" }).click();
+  await page.getByRole("tab", { name: "Forwards" }).click();
   await page.getByRole("button", { name: "Delete network forward" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
@@ -231,7 +231,7 @@ export const createNetworkLocalPeering = async (
   toggleMutualPeering?: boolean,
 ) => {
   await visitNetwork(page, network);
-  await page.getByRole("link", { name: "Local peerings" }).click();
+  await page.getByRole("tab", { name: "Local peerings" }).click();
   await page.getByRole("button", { name: "Create local peering" }).click();
   await page.getByRole("textbox", { name: "* Name" }).fill(localPeeringName);
   await page.getByRole("button", { name: "* Target network" }).click();
@@ -264,7 +264,7 @@ export const deleteLocalPeerings = async (
   localPeeringName: string,
 ) => {
   await visitNetwork(page, network);
-  await page.getByRole("link", { name: "Local peerings" }).click();
+  await page.getByRole("tab", { name: "Local peerings" }).click();
   await page
     .locator("tr")
     .filter({ hasText: localPeeringName })

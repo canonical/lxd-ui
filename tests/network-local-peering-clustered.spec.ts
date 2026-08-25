@@ -56,7 +56,7 @@ test.describe("Network Local Peering", () => {
     ).toBeVisible();
 
     await visitNetwork(page, networkB);
-    await page.getByRole("link", { name: "Local peerings" }).click();
+    await page.getByRole("tab", { name: "Local peerings" }).click();
     await expect(
       page.getByRole("row").filter({ hasText: peering }).getByText("Created"),
     ).toBeVisible();
@@ -91,7 +91,7 @@ test.describe("Network Local Peering", () => {
     ).toBeVisible();
 
     await visitNetwork(page, networkB);
-    await page.getByRole("link", { name: "Local peerings" }).click();
+    await page.getByRole("tab", { name: "Local peerings" }).click();
     await expect(
       page.getByRole("row").filter({ hasText: peering }),
     ).not.toBeVisible();
@@ -102,7 +102,7 @@ test.describe("Network Local Peering", () => {
     ).toBeVisible();
 
     await visitNetwork(page, networkA);
-    await page.getByRole("link", { name: "Local peerings" }).click();
+    await page.getByRole("tab", { name: "Local peerings" }).click();
     await expect(
       page.getByRole("row").filter({ hasText: peering }).getByText("Created"),
     ).toBeVisible();
@@ -128,7 +128,7 @@ test.describe("Network Local Peering", () => {
       uplink: UPLINK_NAME,
     });
     await visitNetwork(page, networkA);
-    await page.getByRole("link", { name: "Local peerings" }).click();
+    await page.getByRole("tab", { name: "Local peerings" }).click();
     await page.getByRole("button", { name: "Create local peering" }).click();
     await page.getByRole("textbox", { name: "* Name" }).fill(peering);
 
