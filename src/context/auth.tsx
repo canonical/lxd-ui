@@ -77,7 +77,11 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     return currentIdentity?.fine_grained ?? null;
   };
 
-  const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
+  const {
+    data: projects = [],
+    isLoading: isProjectsLoading,
+    error: projectError,
+  } = useQuery({
     queryKey: [queryKeys.projects],
     queryFn: async () => fetchProjects(isFineGrained()),
     enabled: settings?.auth === "trusted" && isFineGrained() !== null,
@@ -86,7 +90,11 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const defaultProject = getLoginProject(projects);
   const isTls = authMethod === AUTH_METHOD.TLS;
 
-  const { data: certificates = [] } = useQuery({
+  const {
+    data: certificates = [],
+    isLoading: isCertificatesLoading,
+    error: certificateError,
+  } = useQuery({
     queryKey: [queryKeys.certificates, 1],
     queryFn: fetchCertificates,
     enabled: isTls,
@@ -109,8 +117,12 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
       value={{
         isAuthenticated: (settings && settings.auth !== "untrusted") ?? false,
         isAuthLoading:
-          isSettingsLoading || isIdentityLoading || isProjectsLoading,
-        authError: settingsError ?? identityError,
+          isSettingsLoading ||
+          isIdentityLoading ||
+          isProjectsLoading ||
+          isCertificatesLoading,
+        authError:
+          settingsError ?? identityError ?? projectError ?? certificateError,
         isRestricted,
         defaultProject,
         hasNoProjects: projects.length === 0 && !isProjectsLoading,

@@ -23,8 +23,13 @@ const queryClient = new QueryClient({
     queries: {
       retry: (failureCount, error: unknown) => {
         if (error instanceof LxdApiError) {
-          // Do not retry for 404 errors
-          if (error.status === 404) {
+          // Do not retry for most 4xx client errors (auth/validation), but allow retries for timeouts/rate limiting.
+          if (
+            error.status >= 400 &&
+            error.status < 500 &&
+            error.status !== 408 &&
+            error.status !== 429
+          ) {
             return false;
           }
         }
