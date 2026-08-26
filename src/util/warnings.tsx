@@ -131,6 +131,7 @@ export const getWarningRows = (
           <Chip
             value={warning.severity}
             appearance={getSeverityChipAppearance(warning.severity)}
+            isReadOnly
           />
         ),
         role: "cell",
