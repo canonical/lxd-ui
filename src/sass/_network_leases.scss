@@ -1,3 +1,9 @@
+.network-leases-explanation {
+  @include large {
+    white-space: nowrap;
+  }
+}
+
 .network-leases-table {
   .type,
   .hostname,

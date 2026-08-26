@@ -6,9 +6,9 @@ const LocalPeeringExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation="Local peering connects two networks on the same LXD cluster."
-      docPath="/howto/network_peers/"
-      docLabel="Learn more about network peers"
+      explanation="Local peering connects two OVN networks on the same LXD cluster."
+      docPath="/howto/network_ovn_peers/"
+      docLabel="Learn more about local peering"
     >
       {children}
     </ExplanationTooltip>

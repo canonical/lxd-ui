@@ -1,31 +1,35 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
+import {
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import usePanelParams from "util/usePanelParams";
 import type { LxdNetwork } from "types/network";
+import classnames from "classnames";
 
 interface Props {
   network: LxdNetwork;
   className?: string;
   appearance?: string;
+  isEmptyState?: boolean;
 }
 
 const CreateLoadBalancerPoolBtn: FC<Props> = ({
   network,
   className,
   appearance = "positive",
+  isEmptyState = false,
 }) => {
-  const isSmallScreen = useIsScreenBelow();
+  const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
   const { canEditNetwork } = useNetworkEntitlements();
   const panelParams = usePanelParams();
-  const showIcon = !isSmallScreen;
-
   return (
     <Button
       appearance={appearance}
-      className={className}
-      hasIcon={showIcon}
+      className={classnames("network-create-action-btn", className)}
+      hasIcon
       onClick={panelParams.openCreateLoadBalancerPool}
       disabled={!canEditNetwork(network)}
       title={
@@ -34,8 +38,12 @@ const CreateLoadBalancerPoolBtn: FC<Props> = ({
           : "You do not have permission to create load balancer pools for this network"
       }
     >
-      {showIcon && <Icon name="plus" light={appearance === "positive"} />}
-      <span>Create load balancer pool</span>
+      <Icon name="plus" light={appearance === "positive"} />
+      <span>
+        {isEmptyState || !isMediumScreen
+          ? "Create load balancer pool"
+          : "Create"}
+      </span>
     </Button>
   );
 };

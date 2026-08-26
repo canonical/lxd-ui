@@ -27,6 +27,10 @@
   .left {
     flex-grow: 1;
   }
+
+  .network-create-action-btn {
+    margin-left: $sph--large;
+  }
 }
 
 .load-balancers-table {

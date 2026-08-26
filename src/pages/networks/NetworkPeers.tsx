@@ -21,6 +21,7 @@ import LocalPeeringWarning from "./LocalPeeringWarning";
 import NetworkRichChip from "./NetworkRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import LocalPeeringTargetWarning from "pages/networks/LocalPeeringTargetWarning";
+import InlineExplanation from "components/InlineExplanation";
 
 interface Props {
   network: LxdNetwork;
@@ -132,15 +133,16 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
     <>
       <LocalPeeringWarning network={network} />
       {hasNetworkPeers && (
-        <p className="p-text--small u-text--muted u-no-margin--bottom">
-          Local peering connects two networks on the same LXD cluster.{" "}
-          <DocLink docPath="/howto/network_ovn_peers" hasExternalIcon>
-            Learn more about local peering
-          </DocLink>
-        </p>
-      )}
-      {hasNetworkPeers && (
-        <CreateNetworkPeeringBtn network={network} className=" u-float-right" />
+        <div className="inline-explanation-bar">
+          <div>
+            <InlineExplanation
+              explanation="Local peering connects two OVN networks on the same LXD cluster."
+              docPath="/howto/network_ovn_peers/"
+              docLabel="Learn more about local peering"
+            />
+          </div>
+          <CreateNetworkPeeringBtn network={network} />
+        </div>
       )}
       <Row>
         {hasNetworkPeers && (
@@ -167,8 +169,11 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
             title="No local peerings found"
           >
             <p>There are no local peerings in this network and project.</p>
+            <p className="u-no-margin--bottom">
+              Local peering connects two OVN networks on the same LXD cluster.
+            </p>
             <p>
-              <DocLink docPath={`/howto/network_ovn_peers`}>
+              <DocLink docPath={`/howto/network_ovn_peers/`} hasExternalIcon>
                 Learn more about local peering
               </DocLink>
             </p>

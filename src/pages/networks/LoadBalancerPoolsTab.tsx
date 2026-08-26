@@ -7,6 +7,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import LoadBalancerPoolsTable from "pages/networks/LoadBalancerPoolsTable";
 import CreateLoadBalancerPoolBtn from "pages/networks/actions/CreateLoadBalancerPoolBtn";
 import LoadBalancerTableHeading from "pages/networks/LoadBalancerTableHeading";
+import LoadBalancerPoolExplanationTooltip from "pages/networks/LoadBalancerPoolExplanationTooltip";
 
 interface Props {
   network: LxdNetwork;
@@ -35,6 +36,10 @@ const LoadBalancerPoolsTab: FC<Props> = ({ network }) => {
         title="No load balancer pools found"
       >
         <p>There are no load balancer pools in this network.</p>
+        <p className="u-no-margin--bottom">
+          Load balancer pools group instances to process incoming traffic
+          distributed by load balancers.
+        </p>
         <p>
           <DocLink docPath="/howto/network_load_balancers/" hasExternalIcon>
             Learn more about load balancer pools
@@ -43,6 +48,7 @@ const LoadBalancerPoolsTab: FC<Props> = ({ network }) => {
         <CreateLoadBalancerPoolBtn
           network={network}
           className="empty-state-button"
+          isEmptyState
         />
       </EmptyState>
     );
@@ -50,7 +56,13 @@ const LoadBalancerPoolsTab: FC<Props> = ({ network }) => {
 
   return (
     <Row className="content">
-      <LoadBalancerTableHeading title="Load balancer pools">
+      <LoadBalancerTableHeading
+        title={
+          <LoadBalancerPoolExplanationTooltip>
+            Load balancer pools
+          </LoadBalancerPoolExplanationTooltip>
+        }
+      >
         <CreateLoadBalancerPoolBtn
           network={network}
           className="u-float-right"
