@@ -1,6 +1,7 @@
 .not-found {
   margin: min(5dvh, $spv--strip-regular) auto;
 
+  .ds.not-found-icon,
   .not-found-icon {
     height: 2.5rem;
     opacity: 0.25;
