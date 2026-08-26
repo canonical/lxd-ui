@@ -25,25 +25,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install Dotrun
+      - name: Generate SSL keys for HAProxy
         run: |
-          sudo pip3 install dotrun --break-system-packages
-
-      - name: Install LXD-UI dependencies
-        run: |
-          set -x
-          sudo chmod 0777 ../lxd-ui
-          dotrun install
-
-      - name: Run LXD-UI
-        env:
-          ENVIRONMENT: devel
-          PORT: 8407
-          LXD_UI_BACKEND_IP: 172.17.0.1
-          VITE_PORT: 3000
-        run: |
-          dotrun &
-          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
+          mkdir -p keys
+          openssl req -x509 -newkey rsa:4096 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -days 365 -nodes -subj "/CN=localhost"
+          cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
 
       - name: Setup Ceph
         uses: canonical/lxd/.github/actions/setup-microceph@eae9c8d094bb542e4be01893f76e42b5132bc702
@@ -56,6 +42,19 @@ jobs:
         with:
           bridges: "lxdbr0,workshopbr0"
           channel: "latest/edge"
+
+      - name: Install Workshop
+        run: |
+          set -x
+          sudo lxd init --auto
+          sudo snap install workshop --classic
+          workshop launch --verbose
+
+      - name: Install LXD-UI dependencies
+        run: |
+          set -x
+          sudo chmod 0777 ../lxd-ui
+          workshop run dev install
 
       - name: Setup LXD
         shell: bash
@@ -76,8 +75,22 @@ jobs:
         shell: bash
         run: ./tests/scripts/setup_test
 
+      - name: Run LXD-UI
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          VITE_PORT: 3000
+        run: |
+          workshop run dev serve &
+          sleep 10
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
+
       - name: Run tests with coverage
         shell: bash
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          VITE_PORT: 3000
         run: |
           set -x
           sudo chmod -R 0777 ../lxd-ui
@@ -85,15 +98,17 @@ jobs:
           yarn test-e2e-cleanup
           yarn test-e2e-coverage
 
-          # stop dotrun
-          DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
-          docker stop $DOTRUN_CONTAINER_ID
+          # stop the workshop before changing the backend configuration
+          workshop stop
 
           # configure two node cluster as cluster test backend
           tests/scripts/start_vm_cluster.sh latest/edge
 
-          # start dotrun with VM1 lxd backend
-          dotrun &
+          workshop start
+
+          # start the UI with VM1 as the LXD backend
+          workshop run dev serve &
+          sleep 10
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
           yarn test-e2e-cluster-coverage
@@ -102,8 +117,7 @@ jobs:
           yarn test-report-coverage
           sudo apt update && sudo apt install -y zip
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
-          DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
-          docker stop $DOTRUN_CONTAINER_ID
+          workshop stop
 
       - name: Upload Playwright test artifacts
         if: always()
