@@ -34,6 +34,8 @@ const StoragePools: FC = () => {
 
   const { data: pools = [], error, isLoading } = useStoragePools();
 
+  const hasPools = pools.length !== 0;
+
   if (error) {
     notify.failure("Loading storage pools failed", error);
   }
@@ -181,12 +183,14 @@ const StoragePools: FC = () => {
               </StoragePoolExplanationTooltip>
             </PageHeader.Title>
           </PageHeader.Left>
-          <PageHeader.BaseActions>
-            <CreateStoragePoolBtn
-              project={project}
-              className="u-float-right u-no-margin--bottom"
-            />
-          </PageHeader.BaseActions>
+          {hasPools && (
+            <PageHeader.BaseActions>
+              <CreateStoragePoolBtn
+                project={project}
+                className="u-float-right u-no-margin--bottom"
+              />
+            </PageHeader.BaseActions>
+          )}
         </PageHeader>
       }
     >
