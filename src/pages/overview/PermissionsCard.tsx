@@ -1,0 +1,52 @@
+import type { FC } from "react";
+import { Link } from "react-router-dom";
+import { Card, Icon, List } from "@canonical/react-components";
+import { useAuth } from "context/auth";
+import { pluralize } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
+
+const PermissionsCard: FC = () => {
+  const { effectiveGroups, isAuthLoading } = useAuth();
+  const isAdmin = effectiveGroups?.includes("admins") ?? false;
+
+  if (isAuthLoading || isAdmin) {
+    return null;
+  }
+
+  const cardClassName = "overview-card permissions";
+  const cardTitle = (
+    <span className="overview-card-title">
+      <Icon name="user" /> Permissions
+    </span>
+  );
+
+  return (
+    <Card className={cardClassName} title={cardTitle}>
+      <p className="u-no-margin--bottom">
+        Overview information is filtered by your permission groups.
+      </p>
+      <div>
+        <span>Your {pluralize("group", effectiveGroups?.length ?? 0)}: </span>
+        {effectiveGroups?.length ? (
+          <List
+            inline
+            middot
+            items={effectiveGroups}
+            className="effective-groups-list u-no-margin--bottom"
+          />
+        ) : (
+          <span className="u-text--muted">-</span>
+        )}
+      </div>
+      <div className="card-footer">
+        <Link
+          to={`${ROOT_PATH}/ui/permissions/identities?system-identities=hide`}
+        >
+          See identities
+        </Link>
+      </div>
+    </Card>
+  );
+};
+
+export default PermissionsCard;
