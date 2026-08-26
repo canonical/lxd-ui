@@ -650,10 +650,16 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<Settings />} />}
         />
         {isOverviewEnabled() && (
-          <Route
-            path={`${ROOT_PATH}/ui/overview`}
-            element={<ProtectedRoute outlet={<Overview />} />}
-          />
+          <>
+            <Route
+              path={`${ROOT_PATH}/ui/all-projects/overview`}
+              element={<ProtectedRoute outlet={<Overview />} />}
+            />
+            <Route
+              path={`${ROOT_PATH}/ui/project/:project/overview`}
+              element={<ProtectedRoute outlet={<Overview />} />}
+            />
+          </>
         )}
         <Route path={`${ROOT_PATH}/ui/login`} element={<Login />} />
         <Route

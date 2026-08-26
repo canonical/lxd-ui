@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { CustomLayout, Row } from "@canonical/react-components";
 import ClusterCard from "pages/overview/ClusterCard";
 import InstancesCard from "pages/overview/InstancesCard";
-import NetworksCard from "pages/overview/NetworksCard";
+import NetworkingCard from "pages/overview/NetworkingCard";
 import ProjectsCard from "pages/overview/ProjectsCard";
 import StorageCard from "pages/overview/StorageCard";
 import PermissionsCard from "pages/overview/PermissionsCard";
@@ -22,7 +22,7 @@ const Overview: FC = () => {
       </Row>
       <Row>
         <WarningsCard />
-        <NetworksCard />
+        <NetworkingCard />
       </Row>
     </CustomLayout>
   );

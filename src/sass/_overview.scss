@@ -40,8 +40,7 @@
     }
 
     &.cluster,
-    &.storage,
-    &.memory {
+    &.storage {
       flex: 1;
     }
 
@@ -100,6 +99,12 @@
 
       @include mobile {
         min-width: 100%;
+      }
+    }
+
+    &.networking {
+      .empty-state .empty-state-icon {
+        margin-top: $spv--x-small;
       }
     }
 
