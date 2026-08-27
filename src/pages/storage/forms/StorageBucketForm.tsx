@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { Form, Input, OutputField } from "@canonical/react-components";
+import { Form, Input, Label, OutputField } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import StoragePoolSelector from "../StoragePoolSelector";
@@ -8,6 +8,7 @@ import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets"
 import type { LxdStorageBucket } from "types/storage";
 import { cephObject, storageDriverLabels } from "util/storageOptions";
 import type { StorageBucketFormValues } from "types/forms/storageBucket";
+import StoragePoolExplanationTooltip from "pages/storage/StoragePoolExplanationTooltip";
 
 interface Props {
   formik: FormikProps<StorageBucketFormValues>;
@@ -41,12 +42,19 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
       <Input type="submit" hidden value="Hidden input" />
 
       {isEditing ? (
-        <OutputField
-          id="storage_bucket_pool"
-          label="Storage pool"
-          value={formik.values.pool}
-          help="Storage bucket pool can't be changed"
-        />
+        <>
+          <Label forId="storage_bucket_pool">
+            <StoragePoolExplanationTooltip>
+              Storage pool
+            </StoragePoolExplanationTooltip>
+          </Label>
+          <OutputField
+            id="storage_bucket_pool"
+            label=""
+            value={formik.values.pool}
+            help="Storage bucket pool can't be changed"
+          />
+        </>
       ) : (
         <StoragePoolSelector
           value={formik.values.pool}
@@ -56,7 +64,11 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
           })}
           selectProps={{
             id: "bucket-create-pool",
-            label: "Storage pool",
+            label: (
+              <StoragePoolExplanationTooltip>
+                Storage pool
+              </StoragePoolExplanationTooltip>
+            ),
             disabled: !!bucketEditRestriction,
             help: !formik.errors.pool && "Pool must have a Ceph Object driver",
             error: formik.errors.pool,

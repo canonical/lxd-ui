@@ -3,18 +3,19 @@ import ExplanationTooltip from "components/ExplanationTooltip";
 
 const InstanceExplanationTooltip: FC<{
   children?: ReactNode;
-  isConfigVariant?: boolean;
-}> = ({ children, isConfigVariant }) => {
+  hasAdditionalInformation?: boolean;
+}> = ({ children, hasAdditionalInformation }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Instances are VMs or containers."
       docPath={
-        isConfigVariant
+        hasAdditionalInformation
           ? "/explanation/instance_config/"
           : "/explanation/instances/"
       }
       docLabel={
-        isConfigVariant
+        hasAdditionalInformation
           ? "Learn more about instance configuration"
           : "Learn more about instances"
       }

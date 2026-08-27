@@ -4,6 +4,7 @@ import {
   Col,
   Icon,
   Input,
+  Label,
   Row,
   Tooltip,
   OutputField,
@@ -21,6 +22,8 @@ import NetworkSelector from "./NetworkSelector";
 import { useNetworks } from "context/useNetworks";
 import type { ProjectDetailsFormValues } from "types/forms/project";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import StoragePoolExplanationTooltip from "pages/storage/StoragePoolExplanationTooltip";
+import NetworkExplanationTooltip from "pages/networks/NetworkExplanationTooltip";
 
 export const projectDetailPayload = (
   values: ProjectDetailsFormValues,
@@ -123,21 +126,28 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             title={formik.values.editRestriction}
           />
           {isEdit ? (
-            <OutputField
-              id="default_instance_storage_pool"
-              label="Default instance storage pool"
-              value={formik.values.default_instance_storage_pool}
-              help={
-                <>
-                  Edit the storage pool in the{" "}
-                  <ProfileRichChip
-                    profileName="default"
-                    projectName={project?.name ?? ""}
-                  />{" "}
-                  {" profile"}
-                </>
-              }
-            />
+            <>
+              <Label forId="default_instance_storage_pool">
+                <StoragePoolExplanationTooltip>
+                  Default instance storage pool
+                </StoragePoolExplanationTooltip>
+              </Label>
+              <OutputField
+                id="default_instance_storage_pool"
+                label=""
+                value={formik.values.default_instance_storage_pool}
+                help={
+                  <>
+                    Edit the storage pool in the{" "}
+                    <ProfileRichChip
+                      profileName="default"
+                      projectName={project?.name ?? ""}
+                    />{" "}
+                    {" profile"}
+                  </>
+                }
+              />
+            </>
           ) : (
             <StoragePoolSelector
               value={formik.values.default_instance_storage_pool}
@@ -148,28 +158,39 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 )
               }
               selectProps={{
-                label: "Default instance storage pool",
+                label: (
+                  <StoragePoolExplanationTooltip>
+                    Default instance storage pool
+                  </StoragePoolExplanationTooltip>
+                ),
                 disabled: !formik.values.features_profiles,
               }}
             />
           )}
 
           {isEdit ? (
-            <OutputField
-              id="default_instance_network"
-              label="Default instance network"
-              value={formik.values.default_project_network}
-              help={
-                <>
-                  Configure networks in the{" "}
-                  <ProfileRichChip
-                    profileName="default"
-                    projectName={project?.name ?? ""}
-                  />{" "}
-                  profile
-                </>
-              }
-            />
+            <>
+              <Label forId="default_instance_network">
+                <NetworkExplanationTooltip>
+                  Default instance network
+                </NetworkExplanationTooltip>
+              </Label>
+              <OutputField
+                id="default_instance_network"
+                label=""
+                value={formik.values.default_project_network}
+                help={
+                  <>
+                    Configure networks in the{" "}
+                    <ProfileRichChip
+                      profileName="default"
+                      projectName={project?.name ?? ""}
+                    />{" "}
+                    profile
+                  </>
+                }
+              />
+            </>
           ) : (
             <NetworkSelector
               value={formik.values.default_project_network}
@@ -177,7 +198,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 void formik.setFieldValue("default_project_network", value)
               }
               hasNoneOption
-              label="Default instance network"
+              label={
+                <NetworkExplanationTooltip>
+                  Default instance network
+                </NetworkExplanationTooltip>
+              }
               disabled={hasNoProfiles || hasIsolatedNetworks}
               networkList={managedNetworks}
             />

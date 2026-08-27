@@ -6,11 +6,11 @@ import {
   Select,
   useNotify,
   Spinner,
-  Tooltip,
 } from "@canonical/react-components";
 import { defaultFirst } from "util/helpers";
 import { focusField } from "util/formFields";
 import { useProfiles } from "context/useProfiles";
+import ProfileExplanationTooltip from "pages/profiles/ProfileExplanationTooltip";
 
 interface Props {
   project: string;
@@ -67,20 +67,9 @@ const ProfileSelector: FC<Props> = ({
   return (
     <>
       <Label forId="profile-0">
-        Profiles{" "}
-        <Tooltip
-          message={
-            <>
-              A profile stores a set of configuration, such as instance and
-              device options.
-              <br />
-              Profiles lower in this list take precedence and override values
-              from profiles above.
-            </>
-          }
-        >
-          <Icon name="information" />
-        </Tooltip>
+        <ProfileExplanationTooltip hasAdditionalInformation>
+          Profiles
+        </ProfileExplanationTooltip>
       </Label>
       {selected.map((value, index) => (
         <div className="profile-select" key={value}>

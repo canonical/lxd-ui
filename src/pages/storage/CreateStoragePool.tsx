@@ -147,7 +147,7 @@ const CreateStoragePool: FC = () => {
   return (
     <BaseLayout
       title={
-        <StoragePoolExplanationTooltip isConfigVariant>
+        <StoragePoolExplanationTooltip hasAdditionalInformation>
           Create a storage pool
         </StoragePoolExplanationTooltip>
       }

@@ -6,6 +6,7 @@ const ClusterMemberExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Cluster members are individual servers that make up an LXD cluster."
       docPath="/explanation/clustering/"
       docLabel="Learn more about clustering"

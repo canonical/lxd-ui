@@ -1,11 +1,12 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const ImageRegistryExplanationTooltip: FC<{ children?: ReactNode }> = ({
-  children,
-}) => {
+const ImageRegistryExplanationTooltip: FC<{
+  children?: ReactNode;
+}> = ({ children }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Image registries connect to other LXD clusters to use custom images."
       docPath="/image-handling/"
       docLabel="Learn more about image registries"

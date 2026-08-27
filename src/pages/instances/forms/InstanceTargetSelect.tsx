@@ -1,11 +1,9 @@
 import { useRef, type FC } from "react";
 import {
   CustomSelect,
-  Icon,
   Input,
   Select,
   Spinner,
-  Tooltip,
 } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
@@ -176,134 +174,133 @@ const InstanceTargetSelect: FC<Props> = ({ formik }) => {
     : "Please select an image before adding a placement group";
 
   return (
-    <div className="instance-target-selector">
-      <Select
-        id="target"
-        label={
-          <>
-            Target{" "}
-            <Tooltip
-              message={`LXD automatically selects a cluster member for the instance.\nPlacement groups allow you to control how instances are distributed across cluster members.`}
-            >
-              <Icon name="information" />
-            </Tooltip>
-          </>
-        }
-        wrapperClassName="select-input"
-        value={type}
-        options={[
-          {
-            label: "Auto",
-            value: TARGET.AUTO,
-          },
-          {
-            label: "Cluster group",
-            value: TARGET.CLUSTER_GROUP,
-            disabled: clusterGroupOptions.length === 0,
-          },
-          {
-            label: "Cluster member",
-            value: TARGET.CLUSTER_MEMBER,
-            disabled:
-              clusterMemberOptions.length === 0 ||
-              isProjectBlockingClusterMemberTargeting,
-          },
-          {
-            label: "Placement group",
-            value: TARGET.PLACEMENT_GROUP,
-          },
-        ]}
-        onChange={(e) => {
-          const type = e.target.value;
-          if (type === TARGET.AUTO) {
-            setAuto();
-          }
-          if (type === TARGET.CLUSTER_GROUP) {
-            setClusterGroup(clusterGroupOptions[0].value);
-            setTimeout(() => clusterGroupRef.current?.open(), 100);
-          }
-          if (type === TARGET.CLUSTER_MEMBER) {
-            setClusterMember(clusterMemberOptions[0].value);
-            setTimeout(() => clusterMemberRef.current?.open(), 100);
-          }
-          if (type === TARGET.PLACEMENT_GROUP) {
-            setPlacementGroup(placementGroups[0]?.name ?? "-");
-            if (placementGroups.length > 0) {
-              setTimeout(() => placementGroupRef.current?.open(), 100);
+    <>
+      <div className="instance-target-selector">
+        <Select
+          id="target"
+          label="Target"
+          wrapperClassName="select-input"
+          value={type}
+          options={[
+            {
+              label: "Auto",
+              value: TARGET.AUTO,
+            },
+            {
+              label: "Cluster group",
+              value: TARGET.CLUSTER_GROUP,
+              disabled: clusterGroupOptions.length === 0,
+            },
+            {
+              label: "Cluster member",
+              value: TARGET.CLUSTER_MEMBER,
+              disabled:
+                clusterMemberOptions.length === 0 ||
+                isProjectBlockingClusterMemberTargeting,
+            },
+            {
+              label: "Placement group",
+              value: TARGET.PLACEMENT_GROUP,
+            },
+          ]}
+          onChange={(e) => {
+            const type = e.target.value;
+            if (type === TARGET.AUTO) {
+              setAuto();
             }
-          }
-        }}
-        disabled={!formik.values.image}
-        error={
-          type === TARGET.PLACEMENT_GROUP && placementGroups.length === 0
-            ? "No placement groups found for this project."
-            : ""
-        }
-        title={missingImageTitle}
-      />
-      {type === TARGET.CLUSTER_GROUP && (
-        <CustomSelect
-          id="clusterGroup"
-          label="Cluster group"
-          wrapperClassName="select-input"
-          dropdownClassName="instance-target-dropdown"
-          selectRef={clusterGroupRef as SelectRef}
-          onChange={setClusterGroup}
-          value={selectedClusterGroup(formik.values.target)}
-          options={clusterGroupOptions}
-          header={
-            <div className="header">
-              <span className="name">Name</span>
-              <span className="members">Members</span>
-            </div>
-          }
-          disabled={!formik.values.image}
-        />
-      )}
-      {type === TARGET.CLUSTER_MEMBER && (
-        <CustomSelect
-          id="clusterMember"
-          label="Cluster member"
-          wrapperClassName="select-input"
-          dropdownClassName="instance-target-dropdown"
-          selectRef={clusterMemberRef as SelectRef}
-          onChange={setClusterMember}
-          value={selectedClusterMember(formik.values.target)}
-          options={clusterMemberOptions}
-          disabled={!formik.values.image}
-        />
-      )}
-      {type === TARGET.PLACEMENT_GROUP && (
-        <PlacementGroupSelect
-          value={formik.values.placementGroup}
-          setValue={setPlacementGroup}
-          project={project?.name ?? "default"}
-          ref={placementGroupRef as SelectRef}
-          disabled={!formik.values.image}
-          profileNames={formik.values.profiles}
-          isCreateInstance
-        />
-      )}
-      {canAnchorPlacementGroup && (
-        <CustomSelect
-          id="clusterMember"
-          label="Anchor"
-          wrapperClassName="select-input"
-          dropdownClassName="instance-target-dropdown"
-          selectRef={clusterMemberRef as SelectRef}
-          onChange={(value) => {
-            const target = value ?? undefined;
-            formik.setFieldValue("target", target);
+            if (type === TARGET.CLUSTER_GROUP) {
+              setClusterGroup(clusterGroupOptions[0].value);
+              setTimeout(() => clusterGroupRef.current?.open(), 100);
+            }
+            if (type === TARGET.CLUSTER_MEMBER) {
+              setClusterMember(clusterMemberOptions[0].value);
+              setTimeout(() => clusterMemberRef.current?.open(), 100);
+            }
+            if (type === TARGET.PLACEMENT_GROUP) {
+              setPlacementGroup(placementGroups[0]?.name ?? "-");
+              if (placementGroups.length > 0) {
+                setTimeout(() => placementGroupRef.current?.open(), 100);
+              }
+            }
           }}
-          value={selectedClusterMember(formik.values.target)}
-          options={[{ label: "Auto", value: "" }].concat(
-            ...clusterMemberOptions,
-          )}
           disabled={!formik.values.image}
-          help="Cluster member to anchor the placement group"
+          error={
+            type === TARGET.PLACEMENT_GROUP && placementGroups.length === 0
+              ? "No placement groups found for this project."
+              : ""
+          }
+          title={missingImageTitle}
         />
+        {type === TARGET.CLUSTER_GROUP && (
+          <CustomSelect
+            id="clusterGroup"
+            label="Cluster group"
+            wrapperClassName="select-input"
+            dropdownClassName="instance-target-dropdown"
+            selectRef={clusterGroupRef as SelectRef}
+            onChange={setClusterGroup}
+            value={selectedClusterGroup(formik.values.target)}
+            options={clusterGroupOptions}
+            header={
+              <div className="header">
+                <span className="name">Name</span>
+                <span className="members">Members</span>
+              </div>
+            }
+            disabled={!formik.values.image}
+          />
+        )}
+        {type === TARGET.CLUSTER_MEMBER && (
+          <CustomSelect
+            id="clusterMember"
+            label="Cluster member"
+            wrapperClassName="select-input"
+            dropdownClassName="instance-target-dropdown"
+            selectRef={clusterMemberRef as SelectRef}
+            onChange={setClusterMember}
+            value={selectedClusterMember(formik.values.target)}
+            options={clusterMemberOptions}
+            disabled={!formik.values.image}
+          />
+        )}
+        {type === TARGET.PLACEMENT_GROUP && (
+          <PlacementGroupSelect
+            value={formik.values.placementGroup}
+            setValue={setPlacementGroup}
+            project={project?.name ?? "default"}
+            ref={placementGroupRef as SelectRef}
+            disabled={!formik.values.image}
+            profileNames={formik.values.profiles}
+            isCreateInstance
+          />
+        )}
+        {canAnchorPlacementGroup && (
+          <CustomSelect
+            id="clusterMember"
+            label="Anchor"
+            wrapperClassName="select-input"
+            dropdownClassName="instance-target-dropdown"
+            selectRef={clusterMemberRef as SelectRef}
+            onChange={(value) => {
+              const target = value ?? undefined;
+              formik.setFieldValue("target", target);
+            }}
+            value={selectedClusterMember(formik.values.target)}
+            options={[{ label: "Auto", value: "" }].concat(
+              ...clusterMemberOptions,
+            )}
+            disabled={!formik.values.image}
+            help="Cluster member to anchor the placement group"
+          />
+        )}
+      </div>
+      {type === TARGET.AUTO && (
+        <p className="p-form-help-text">
+          LXD automatically selects a cluster member for the instance, unless a
+          target is specified.
+        </p>
       )}
-    </div>
+    </>
   );
 };
 

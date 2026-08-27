@@ -3,10 +3,16 @@ import ExplanationTooltip from "components/ExplanationTooltip";
 
 const ProfileExplanationTooltip: FC<{
   children?: ReactNode;
-}> = ({ children }) => {
+  hasAdditionalInformation?: boolean;
+}> = ({ children, hasAdditionalInformation }) => {
   return (
     <ExplanationTooltip
-      explanation="Profiles are configuration templates for instances."
+      className="explanation-tooltip-wrapper--inline"
+      explanation={
+        hasAdditionalInformation
+          ? "Profiles are configuration templates for instances. Profiles lower in this list take precedence and override values from profiles above."
+          : "Profiles are configuration templates for instances."
+      }
       docPath="/profiles/"
       docLabel="Learn more about profiles"
     >

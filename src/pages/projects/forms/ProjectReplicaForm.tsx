@@ -19,6 +19,7 @@ import type {
 } from "types/forms/project";
 import type { LxdProject } from "types/project";
 import { ensureEditMode } from "util/editMode";
+import ReplicatorExplanationTooltip from "pages/cluster/ReplicatorExplanationTooltip";
 
 export const replicaPayload = (
   values: ProjectReplicaFormValues,
@@ -148,7 +149,11 @@ const ProjectReplicaForm: FC<Props> = ({ formik, project, isEdit }) => {
       </Row>
       <Row>
         <Col size={12}>
-          <h2 className="p-heading--4">Replicators for this project</h2>
+          <h2 className="p-heading--4">
+            <ReplicatorExplanationTooltip>
+              Replicators for this project
+            </ReplicatorExplanationTooltip>
+          </h2>
           {isEdit ? (
             <ReplicatorList
               variant="project-configuration"

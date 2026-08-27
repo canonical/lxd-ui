@@ -409,7 +409,7 @@ const CreateInstance: FC = () => {
   return (
     <BaseLayout
       title={
-        <InstanceExplanationTooltip isConfigVariant>
+        <InstanceExplanationTooltip hasAdditionalInformation>
           Create an instance
         </InstanceExplanationTooltip>
       }

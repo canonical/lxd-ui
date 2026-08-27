@@ -23,6 +23,7 @@ import type { LxdClusterMember } from "types/cluster";
 import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
 import StoragePoolSizeAvailable from "components/forms/StoragePoolSizeAvailable";
 import { getStorageVolumeFormProps } from "util/storageVolume";
+import StoragePoolExplanationTooltip from "pages/storage/StoragePoolExplanationTooltip";
 import StorageVolumeClusterMember from "./StorageVolumeClusterMember";
 
 interface Props {
@@ -51,7 +52,9 @@ const StorageVolumeFormMain: FC<Props> = ({
           {isCreating ? (
             <>
               <Label forId="storage-pool-selector-volume" required={isCreating}>
-                Storage pool
+                <StoragePoolExplanationTooltip>
+                  Storage pool
+                </StoragePoolExplanationTooltip>
               </Label>
               <StoragePoolSelector
                 value={formik.values.pool}
@@ -76,12 +79,19 @@ const StorageVolumeFormMain: FC<Props> = ({
               />
             </>
           ) : (
-            <OutputField
-              id="storage-pool-selector-volume"
-              label="Storage pool"
-              value={formik.values.pool}
-              help="Use the migrate button in the header to move the volume to a different storage pool."
-            />
+            <>
+              <Label forId="storage-pool-selector-volume">
+                <StoragePoolExplanationTooltip>
+                  Storage pool
+                </StoragePoolExplanationTooltip>
+              </Label>
+              <OutputField
+                id="storage-pool-selector-volume"
+                label=""
+                value={formik.values.pool}
+                help="Use the migrate button in the header to move the volume to a different storage pool."
+              />
+            </>
           )}
           <StorageVolumeClusterMember
             formik={formik}
