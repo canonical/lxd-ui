@@ -22,7 +22,7 @@ const ExplanationTooltip: FC<Props> = ({
     <Tooltip
       zIndex={1000}
       tooltipClassName="explanation-tooltip-portal"
-      position="btm-center"
+      position="top-center"
       message={
         <span className="explanation-tooltip">
           <span>{explanation}</span>

@@ -1,19 +1,19 @@
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
-const StorageBucketExplanationTooltip: FC<{
+const StorageDriverExplanationTooltip: FC<{
   children?: ReactNode;
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
       className="explanation-tooltip-wrapper--inline"
-      explanation="Storage buckets provide storage for unstructured data."
-      docPath="/explanation/storage/#storage-buckets"
-      docLabel="Learn more about storage buckets"
+      explanation="LXD supports several storage drivers for storing images, instances, and custom volumes."
+      docPath="/reference/storage_drivers/"
+      docLabel="Learn more about storage drivers"
     >
       {children}
     </ExplanationTooltip>
   );
 };
 
-export default StorageBucketExplanationTooltip;
+export default StorageDriverExplanationTooltip;

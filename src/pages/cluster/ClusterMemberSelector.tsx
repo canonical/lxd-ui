@@ -2,6 +2,7 @@ import { Select, type SelectProps } from "@canonical/react-components";
 import type { FC } from "react";
 import { useIsClustered } from "context/useIsClustered";
 import { useClusterMembers } from "context/useClusterMembers";
+import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 
 interface Props {
   disableReason?: string;
@@ -19,7 +20,11 @@ const ClusterMemberSelector: FC<SelectProps & Props> = ({
   return isClustered ? (
     <Select
       {...props}
-      label={label ?? "Cluster member"}
+      label={
+        <ClusterMemberExplanationTooltip>
+          {label ?? "Cluster member"}
+        </ClusterMemberExplanationTooltip>
+      }
       options={clusterMembers.map((clusterMember) => {
         return {
           label: clusterMember.server_name,

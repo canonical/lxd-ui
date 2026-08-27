@@ -2,7 +2,8 @@ import type { FC } from "react";
 import type { FormikProps } from "formik";
 import type { LxdClusterMember } from "types/cluster";
 import type { StorageVolumeFormValues } from "types/forms/storageVolume";
-import { OutputField, Select } from "@canonical/react-components";
+import { Label, OutputField, Select } from "@canonical/react-components";
+import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -19,19 +20,30 @@ const StorageVolumeClusterMember: FC<Props> = ({ formik, clusterMembers }) => {
 
   if (!formik.values.isCreating) {
     return (
-      <OutputField
-        id="clusterMember"
-        label="Cluster member"
-        value={formik.values.clusterMember}
-        help="Use the migrate button in the header to move the storage volume to a another cluster member."
-      />
+      <>
+        <Label forId="clusterMember">
+          <ClusterMemberExplanationTooltip>
+            Cluster member
+          </ClusterMemberExplanationTooltip>
+        </Label>
+        <OutputField
+          id="clusterMember"
+          label=""
+          value={formik.values.clusterMember}
+          help="Use the migrate button in the header to move the storage volume to another cluster member."
+        />
+      </>
     );
   }
 
   return (
     <Select
       id="clusterMember"
-      label="Cluster member"
+      label={
+        <ClusterMemberExplanationTooltip>
+          Cluster member
+        </ClusterMemberExplanationTooltip>
+      }
       onChange={(e) => {
         formik.setFieldValue("clusterMember", e.target.value);
       }}

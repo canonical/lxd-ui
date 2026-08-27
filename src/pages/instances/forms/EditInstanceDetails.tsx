@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Col, Row, OutputField } from "@canonical/react-components";
+import { Col, Label, Row, OutputField } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
 import type { FormikProps } from "formik/dist/types";
 import type { EditInstanceFormValues } from "types/forms/instanceAndProfile";
@@ -9,6 +9,7 @@ import { ensureEditMode } from "util/editMode";
 import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
+import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;
@@ -47,9 +48,14 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
       {isClustered && (
         <Row>
           <Col size={12}>
+            <Label forId="target">
+              <ClusterMemberExplanationTooltip>
+                Cluster member
+              </ClusterMemberExplanationTooltip>
+            </Label>
             <OutputField
               id="target"
-              label="Cluster member"
+              label=""
               value={formik.values.location}
               help="Use the migrate button in the header to move the instance to another cluster member."
             />

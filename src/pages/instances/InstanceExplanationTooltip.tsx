@@ -7,6 +7,7 @@ const InstanceExplanationTooltip: FC<{
 }> = ({ children, isConfigVariant }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Instances are VMs or containers."
       docPath={
         isConfigVariant

@@ -7,6 +7,7 @@ import { pluralize } from "util/helpers";
 import type { CustomSelectOption } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown/CustomSelectDropdown";
 import { useProfiles } from "context/useProfiles";
 import { ROOT_PATH } from "util/rootPath";
+import PlacementGroupExplanationTooltip from "pages/placement-groups/PlacementGroupExplanationTooltip";
 
 interface Props {
   value?: string;
@@ -120,7 +121,11 @@ const PlacementGroupSelect: FC<Props> = ({
   return (
     <CustomSelect
       id="placementGroup"
-      label="Placement group"
+      label={
+        <PlacementGroupExplanationTooltip>
+          Placement group
+        </PlacementGroupExplanationTooltip>
+      }
       wrapperClassName="select-input"
       dropdownClassName="placement-group-dropdown"
       selectRef={ref}
