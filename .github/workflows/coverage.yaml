@@ -9,9 +9,42 @@ permissions:
   contents: read
 
 jobs:
+  js-coverage:
+    name: js-test-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      - name: Install LXD-UI dependencies
+        run: yarn install
+
+      - name: Run JS tests with coverage
+        run: yarn test-js-coverage
+
+      - name: Upload JS coverage report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: js-coverage
+          path: coverage/unit
+          retention-days: 7
+          overwrite: true
+
   e2e-coverage:
-    name: e2e-test-coverage
+    name: e2e-test-coverage (${{ matrix.deployment }})
     runs-on: self-hosted-linux-amd64-noble-large-tiobe
+    strategy:
+      # Run the unclustered and clustered suites as independent parallel jobs
+      # so that a failure in one does not cancel or block the other.
+      fail-fast: false
+      matrix:
+        deployment: [unclustered, clustered]
     env:
       LXD_OIDC_CLIENT_ID: "RYDnMpkygLAMfeo17lU7LYwWGxisRuRR"
       LXD_OIDC_CLIENT_SECRET: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
@@ -20,72 +53,28 @@ jobs:
       LXD_OIDC_USER: "lxd-ui-e2e-tests@example.org"
       LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
       LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
+      DEPLOYMENT: ${{ matrix.deployment }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - name: Generate SSL keys for HAProxy
-        run: |
-          mkdir -p keys
-          openssl req -x509 -newkey rsa:4096 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -days 365 -nodes -subj "/CN=localhost"
-          cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
-
-      - name: Setup Ceph
-        uses: canonical/lxd/.github/actions/setup-microceph@eae9c8d094bb542e4be01893f76e42b5132bc702
-
-      - name: Setup OVN
-        uses: canonical/lxd/.github/actions/setup-microovn@eae9c8d094bb542e4be01893f76e42b5132bc702
-
-      - name: Install LXD
-        uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
-        with:
-          bridges: "lxdbr0,workshopbr0"
-          channel: "latest/edge"
-
-      - name: Install Workshop
-        run: |
-          set -x
-          sudo lxd init --auto
-          sudo snap install workshop --classic
-          workshop launch --verbose
-
-      - name: Install LXD-UI dependencies
-        run: |
-          set -x
-          sudo chmod 0777 ../lxd-ui
-          workshop run dev install
-
       - name: Setup LXD
-        shell: bash
-        run: |
-          set -x
-          sudo lxc config set core.https_address "[::]:8443"
-          sudo lxc config trust add keys/lxd-ui.crt
-          sudo lxc config set cluster.https_address "127.0.0.1"
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: ./.github/actions/setup-lxd
         with:
-          node-version: 24
+          lxd_channel: "latest/edge"
+          deployment: ${{ matrix.deployment }}
+          browser: "chromium"
+          lxd_oidc_client_id: ${{ env.LXD_OIDC_CLIENT_ID }}
+          lxd_oidc_client_secret: ${{ env.LXD_OIDC_CLIENT_SECRET }}
+          lxd_oidc_issuer: ${{ env.LXD_OIDC_ISSUER }}
+          lxd_oidc_audience: ${{ env.LXD_OIDC_AUDIENCE }}
+          lxd_oidc_user: ${{ env.LXD_OIDC_USER }}
+          lxd_oidc_password: ${{ env.LXD_OIDC_PASSWORD }}
+          lxd_oidc_groups_claim: ${{ env.LXD_OIDC_GROUPS_CLAIM }}
 
-      - name: Install Playwright Browser
-        run: npx playwright install --with-deps chromium
-
-      - name: Setup for tests
-        shell: bash
-        run: ./tests/scripts/setup_test
-
-      - name: Run LXD-UI
-        env:
-          ENVIRONMENT: devel
-          PORT: 8407
-          VITE_PORT: 3000
-        run: |
-          workshop run dev serve &
-          sleep 10
-          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
-
-      - name: Run tests with coverage
+      - name: Run unclustered tests with coverage
+        if: matrix.deployment == 'unclustered'
         shell: bash
         env:
           ENVIRONMENT: devel
@@ -94,52 +83,102 @@ jobs:
         run: |
           set -x
           sudo chmod -R 0777 ../lxd-ui
-          yarn test-js-coverage
           yarn test-e2e-cleanup
           yarn test-e2e-coverage
 
-          # stop the workshop before changing the backend configuration
-          workshop stop
-
-          # configure two node cluster as cluster test backend
-          tests/scripts/start_vm_cluster.sh latest/edge
-
-          workshop start
-
-          # start the UI with VM1 as the LXD backend
-          workshop run dev serve &
-          sleep 10
-          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
-
+      - name: Run clustered tests with coverage
+        if: matrix.deployment == 'clustered'
+        shell: bash
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          VITE_PORT: 3000
+        run: |
+          set -x
+          sudo chmod -R 0777 ../lxd-ui
+          yarn test-e2e-cleanup
           yarn test-e2e-cluster-coverage
 
-          # combine coverage reports
+      - name: Upload Playwright test artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-test-artifacts-${{ matrix.deployment }}
+          path: test-results
+          retention-days: 7
+          overwrite: true
+
+      - name: Upload coverage report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lxd-coverage-${{ matrix.deployment }}
+          path: coverage
+          retention-days: 7
+          overwrite: true
+
+  merge-coverage:
+    name: merge-coverage
+    runs-on: ubuntu-latest
+    needs: [js-coverage, e2e-coverage]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      - name: Install LXD-UI dependencies
+        run: yarn install
+
+      - name: Download JS coverage
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: js-coverage
+          path: coverage/unit
+
+      - name: Download unclustered coverage
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: lxd-coverage-unclustered
+          path: coverage
+
+      - name: Download clustered coverage
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: lxd-coverage-clustered
+          path: coverage-clustered
+
+      - name: Combine coverage reports
+        shell: bash
+        run: |
+          set -x
+          # merge clustered playwright coverage with the unclustered set
+          # (per-test files use unique uuid names, so there are no collisions)
+          mkdir -p coverage/playwright
+          cp coverage-clustered/playwright/*.json coverage/playwright/
           yarn test-report-coverage
           sudo apt update && sudo apt install -y zip
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
-          workshop stop
-
-      - name: Upload Playwright test artifacts
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: playwright-test-artifacts
-          path: test-results
-          retention-days: 7
 
       - name: Upload coverage report
-        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: lxd-coverage
           path: coverage/playwright-report
           retention-days: 1
+          overwrite: true
 
   publish-coverage-report:
     name: publish-coverage-report
     runs-on: ubuntu-latest
-    needs: e2e-coverage
-    continue-on-error: true
+    # Only update the live site when the e2e tests actually passed; partial
+    # coverage from a failed run would misrepresent the real numbers.
+    needs: merge-coverage
+    # Publishing is only configured for the canonical repository's gh-pages.
+    if: github.repository == 'canonical/lxd-ui'
     permissions:
       contents: write
     steps:
@@ -167,6 +206,10 @@ jobs:
         timeout-minutes: 3
         run: |
           git add .
+          if git diff --cached --quiet; then
+            echo "Coverage report is unchanged."
+            exit 0
+          fi
           git commit -m "workflow: update coverage report"
 
           # In case of another action job pushing to gh-pages while we are rebasing for the current job
@@ -190,7 +233,10 @@ jobs:
 
   tics-report:
     runs-on: [self-hosted, linux, amd64, resolute]
+    # Gate TICS on a successful coverage report publish.
     needs: publish-coverage-report
+    # TICS is only available from the canonical repository runners/secrets.
+    if: github.repository == 'canonical/lxd-ui'
     # Self-hosted runners share machine-level resources. Serialize TICS
     # to avoid qserver collisions for the same project database.
     concurrency:
