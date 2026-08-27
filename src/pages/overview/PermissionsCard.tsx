@@ -2,14 +2,16 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Card, Icon, List } from "@canonical/react-components";
 import { useAuth } from "context/auth";
-import { pluralize } from "util/helpers";
+import { isUnrestricted, pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 
 const PermissionsCard: FC = () => {
-  const { effectiveGroups, isAuthLoading } = useAuth();
+  const { currentIdentity, effectiveGroups, isAuthLoading } = useAuth();
   const isAdmin = effectiveGroups?.includes("admins") ?? false;
+  const isUnrestrictedCert = currentIdentity && isUnrestricted(currentIdentity);
+  const hasFullPermissions = isAdmin || isUnrestrictedCert;
 
-  if (isAuthLoading || isAdmin) {
+  if (isAuthLoading || hasFullPermissions) {
     return null;
   }
 
@@ -23,7 +25,7 @@ const PermissionsCard: FC = () => {
   return (
     <Card className={cardClassName} title={cardTitle}>
       <p className="u-no-margin--bottom">
-        Overview information is filtered by your permission groups.
+        Overview information is filtered by your auth groups.
       </p>
       <div>
         <span>Your {pluralize("group", effectiveGroups?.length ?? 0)}: </span>
