@@ -1,21 +1,33 @@
-import { gotoURL } from "./navigate";
 import AxeBuilder from "@axe-core/playwright";
 import type { AxeResults, Result } from "axe-core";
 import type { Page, TestInfo } from "@playwright/test";
 import { writeFile } from "fs/promises";
+import { test } from "../fixtures/lxd-test";
+
+const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
+
+const MODAL_SELECTOR = ".p-modal";
+export const PANEL_SELECTOR = '[aria-label="Side panel"]';
+
+const sanitizeForFilename = (
+  value: string | undefined,
+  fallback = "unknown",
+): string => {
+  const raw = value?.trim() || fallback;
+  const sanitized = raw.replace(/[^a-zA-Z0-9.-]/g, "_");
+  return sanitized.slice(0, 80);
+};
 
 const printSummary = (
   percent: number,
   passed: number,
   failed: number,
   incomplete: number,
-  slug: string,
   testName: string,
   severities: Record<string, number>,
 ): void => {
   console.log("-----------------------------------------");
   console.log("A11Y Report");
-  console.log(`Page: ${slug}`);
   console.log(`Test: ${testName}`);
   console.log("-----------------------------------------");
 
@@ -47,33 +59,10 @@ const countSeverities = (results: AxeResults): Record<string, number> => {
   return counts;
 };
 
-const clickSideNavItem = async (
-  page: Page,
-  slug: string,
-  parentSlug?: string,
-): Promise<void> => {
-  await gotoURL(page, `/ui/project/default`);
-  await page.waitForLoadState("networkidle");
-
-  if (parentSlug) {
-    await page.getByRole("button", { name: parentSlug }).click();
-  }
-  await page.getByRole("link", { name: slug, exact: true }).first().click();
-  await page.waitForLoadState("networkidle");
-};
-
-export const runA11yAudit = async (
-  slug: string,
-  page: Page,
+const processA11yResults = async (
+  results: AxeResults,
   testInfo: TestInfo,
-  parentSlug?: string,
 ): Promise<number> => {
-  await clickSideNavItem(page, slug, parentSlug);
-
-  const results = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"])
-    .analyze();
-
   const passed = results.passes?.length ?? 0;
   const violations = results.violations?.length ?? 0;
   const incomplete = results.incomplete?.length ?? 0;
@@ -83,15 +72,7 @@ export const runA11yAudit = async (
   const severities = countSeverities(results);
   const testName = testInfo.title;
 
-  printSummary(
-    percent,
-    passed,
-    violations,
-    incomplete,
-    slug,
-    testName,
-    severities,
-  );
+  printSummary(percent, passed, violations, incomplete, testName, severities);
 
   if (results.violations.length > 0) {
     console.log(
@@ -104,7 +85,6 @@ export const runA11yAudit = async (
 
     const report = {
       meta: {
-        slug,
         testName,
         percent,
         passed,
@@ -116,7 +96,10 @@ export const runA11yAudit = async (
       results,
     };
 
-    const filename = `a11y-${slug.toLowerCase()}-${timestamp}.json`;
+    const testSuite = testInfo.titlePath.at(-2);
+    const filename = sanitizeForFilename(
+      `${testSuite}-${testName}-${timestamp}.json`,
+    );
     const outPath = testInfo.outputPath(filename);
     await writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
 
@@ -129,4 +112,52 @@ export const runA11yAudit = async (
   }
 
   return percent;
+};
+
+export const runA11yAudit = async (
+  page: Page,
+  testInfo: TestInfo,
+): Promise<number> => {
+  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+
+  return processA11yResults(results, testInfo);
+};
+
+export const runA11yAuditForPanel = async (
+  page: Page,
+  testInfo: TestInfo,
+): Promise<number> => {
+  await page.locator(PANEL_SELECTOR).waitFor({ state: "visible" });
+
+  const results = await new AxeBuilder({ page })
+    .include(PANEL_SELECTOR)
+    .withTags(WCAG_TAGS)
+    .analyze();
+
+  return processA11yResults(results, testInfo);
+};
+
+export const runA11yAuditForModal = async (
+  page: Page,
+  testInfo: TestInfo,
+): Promise<number> => {
+  await page.locator(MODAL_SELECTOR).waitFor({ state: "visible" });
+
+  const results = await new AxeBuilder({ page })
+    .include(MODAL_SELECTOR)
+    .withTags(WCAG_TAGS)
+    .analyze();
+
+  return processA11yResults(results, testInfo);
+};
+
+export const skipIfNotA11yProject = (projectName: string) => {
+  test.skip(
+    !isA11yProject(projectName),
+    "This test should only be run for the a11y-audit project",
+  );
+};
+
+export const isA11yProject = (projectName: string) => {
+  return projectName === "a11y-audit";
 };
