@@ -15,6 +15,7 @@ import {
   constructMemberError,
   type AbortControllerState,
 } from "util/helpers";
+import { getInstanceMacAddresses } from "util/instances";
 import { ROOT_PATH } from "util/rootPath";
 import type { AnyObject, TestFunction } from "yup";
 
@@ -45,19 +46,8 @@ export const typesWithNicDeviceAcls = [ovnType];
 export const typesWithNicStaticIPSupport = [bridgeType, ovnType];
 export const typesWithLocalPeerings = [ovnType];
 
-export const getIpAddresses = (
-  instance: LxdInstance,
-  family: IpFamily,
-): IpAddress[] => {
-  if (!instance.state?.network) return [];
-  return Object.entries(instance.state.network)
-    .filter(([key, _value]) => key !== "lo")
-    .flatMap(([key, value]) =>
-      value.addresses.map((item) => {
-        return { ...item, iface: key };
-      }),
-    )
-    .filter((item) => item.family === family);
+export const isLocalIPv4 = (ipv4Address: string): boolean => {
+  return ipv4Address.startsWith("127.") || ipv4Address.startsWith("169.254.");
 };
 
 export const isLocalIPv6 = (ipv6Address: string): boolean => {
@@ -75,15 +65,65 @@ export const isLocalIPv6 = (ipv6Address: string): boolean => {
   return false;
 };
 
-export const sortIpv6Addresses = (ipv6Addresses: IpAddress[]): IpAddress[] => {
-  if (ipv6Addresses.length === 0) return [];
+export const isLocalIp = (address: IpAddress): boolean => {
+  return address.family === "inet6"
+    ? isLocalIPv6(address.address)
+    : isLocalIPv4(address.address);
+};
 
-  // Set local addresses at the end
-  return ipv6Addresses.sort((a, b) => {
-    const isA_local = isLocalIPv6(a.address);
-    const isB_local = isLocalIPv6(b.address);
-    return isA_local === isB_local ? 0 : isA_local ? 1 : -1;
-  });
+const getIpRank = (
+  address: IpAddress,
+  managedInterfaces: Set<string>,
+): number => {
+  const localityRank = isLocalIp(address) ? 2 : 0;
+  const interfaceRank = managedInterfaces.has(address.iface) ? 0 : 1;
+  return localityRank + interfaceRank;
+};
+
+export const sortIpAddresses = (
+  addresses: IpAddress[],
+  managedInterfaces: Set<string>,
+): IpAddress[] => {
+  return [...addresses].sort(
+    (a, b) => getIpRank(a, managedInterfaces) - getIpRank(b, managedInterfaces),
+  );
+};
+
+// Match reported hwaddr to instance's volatile.<device>.hwaddr
+export const getManagedInterfaces = (instance: LxdInstance): Set<string> => {
+  const network = instance.state?.network;
+  if (!network) return new Set();
+
+  const deviceMacs = new Set(
+    getInstanceMacAddresses(instance).map((mac) => mac.toLowerCase()),
+  );
+  if (deviceMacs.size === 0) return new Set();
+
+  return new Set(
+    Object.entries(network)
+      .filter(([_key, value]) =>
+        deviceMacs.has((value.hwaddr ?? "").toLowerCase()),
+      )
+      .map(([key, _value]) => key),
+  );
+};
+
+export const getIpAddresses = (
+  instance: LxdInstance,
+  family: IpFamily,
+): IpAddress[] => {
+  if (!instance.state?.network) return [];
+
+  const addresses = Object.entries(instance.state.network)
+    .filter(([key, value]) => key !== "lo" && value.type !== "loopback")
+    .flatMap(([key, value]) =>
+      value.addresses.map((item) => {
+        return { ...item, iface: key };
+      }),
+    )
+    .filter((item) => item.family === family);
+
+  return sortIpAddresses(addresses, getManagedInterfaces(instance));
 };
 
 export const networkFormFieldToPayloadName: Record<

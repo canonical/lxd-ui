@@ -1,11 +1,14 @@
-import type { IpAddress, IpFamily } from "types/instance";
+import type { IpAddress, IpFamily, LxdInstance } from "types/instance";
 import {
   areNetworksEqual,
+  getIpAddresses,
+  getManagedInterfaces,
   getNetworkAcls,
+  isLocalIPv4,
   isLocalIPv6,
   isTypeOvn,
   ovnType,
-  sortIpv6Addresses,
+  sortIpAddresses,
   supportsNicDeviceAcls,
   testValidIp,
   testValidPort,
@@ -125,6 +128,26 @@ describe("testValidPort", () => {
   });
 });
 
+describe("isLocalIPv4", () => {
+  it("accepts loopback ipv4", () => {
+    expect(isLocalIPv4("127.0.0.1")).toBe(true);
+  });
+
+  it("accepts link local ipv4", () => {
+    expect(isLocalIPv4("169.254.10.20")).toBe(true);
+  });
+
+  it("rejects private ipv4", () => {
+    expect(isLocalIPv4("172.22.0.5")).toBe(false);
+    expect(isLocalIPv4("10.0.1.127")).toBe(false);
+    expect(isLocalIPv4("192.168.1.1")).toBe(false);
+  });
+
+  it("rejects public ipv4", () => {
+    expect(isLocalIPv4("8.8.8.8")).toBe(false);
+  });
+});
+
 describe("isLocalIPv6", () => {
   it("accepts link local ipv6", () => {
     const result = isLocalIPv6("fe80::1234:5678:90ab:cdef");
@@ -147,10 +170,16 @@ describe("isLocalIPv6", () => {
   });
 });
 
-describe("sortIpv6Addresses", () => {
+describe("sortIpAddresses", () => {
   const defaultFieldsV6 = {
-    iface: "",
+    iface: "veth0",
     family: "inet6" as IpFamily,
+    netmask: "",
+    scope: "",
+  };
+  const defaultFieldsV4 = {
+    iface: "veth0",
+    family: "inet" as IpFamily,
     netmask: "",
     scope: "",
   };
@@ -238,7 +267,7 @@ describe("sortIpv6Addresses", () => {
   ];
 
   it("should set IPv6 local addresses at the end", () => {
-    const result = sortIpv6Addresses(ipv6Addresses);
+    const result = sortIpAddresses(ipv6Addresses, new Set());
 
     for (let i = 0; i < 17; i++) {
       expect(isLocalIPv6(result[i].address)).toBe(false);
@@ -246,6 +275,160 @@ describe("sortIpv6Addresses", () => {
     for (let i = 17; i < result.length; i++) {
       expect(isLocalIPv6(result[i].address)).toBe(true);
     }
+  });
+
+  it("should not mutate the input", () => {
+    const input = [...ipv6Addresses];
+    sortIpAddresses(input, new Set());
+
+    expect(input).toEqual(ipv6Addresses);
+  });
+
+  it("should set main interface addresses first within each locality group", () => {
+    const addresses: IpAddress[] = [
+      { ...defaultFieldsV6, iface: "docker0", address: "fe80::1" },
+      { ...defaultFieldsV6, iface: "docker0", address: "2001:db8::1" },
+      { ...defaultFieldsV6, iface: "eth0", address: "fe80::2" },
+      { ...defaultFieldsV6, iface: "eth0", address: "2001:db8::2" },
+    ];
+
+    const result = sortIpAddresses(addresses, new Set(["eth0"]));
+
+    expect(result.map((item) => item.address)).toEqual([
+      "2001:db8::2",
+      "2001:db8::1",
+      "fe80::2",
+      "fe80::1",
+    ]);
+  });
+
+  it("should keep the original order of equally ranked addresses", () => {
+    const addresses: IpAddress[] = [
+      { ...defaultFieldsV4, iface: "eth0", address: "172.22.0.201" },
+      { ...defaultFieldsV4, iface: "eth0", address: "172.22.0.5" },
+    ];
+
+    const result = sortIpAddresses(addresses, new Set(["eth0"]));
+
+    expect(result.map((item) => item.address)).toEqual([
+      "172.22.0.201",
+      "172.22.0.5",
+    ]);
+  });
+});
+
+const createInstance = (
+  config: Record<string, string>,
+  network?: Record<string, unknown>,
+): LxdInstance =>
+  ({
+    name: "kube1",
+    config,
+    state: network ? { network } : undefined,
+  }) as unknown as LxdInstance;
+
+const iface = (hwaddr: string, addresses: string[], type = "broadcast") => ({
+  hwaddr,
+  type,
+  state: "up",
+  addresses: addresses.map((address) => ({
+    address,
+    family: address.includes(":") ? "inet6" : "inet",
+    netmask: "",
+    scope: address.includes(":") ? "link" : "global",
+  })),
+});
+
+const kube1Network = {
+  cilium_host: iface("62:92:d8:02:ec:78", [
+    "10.0.1.127",
+    "fe80::6092:d8ff:fe02:ec78",
+  ]),
+  enp5s0: iface("00:16:3e:02:73:86", [
+    "172.22.0.201",
+    "172.22.0.5",
+    "2a02:a455:3cc4:400:216:3eff:fe02:7386",
+    "fe80::216:3eff:fe02:7386",
+  ]),
+  lo: iface("", ["127.0.0.1", "::1"], "loopback"),
+  lxc8995be0b0d68: iface("d2:d9:a5:06:6c:fb", ["fe80::d0d9:a5ff:fe06:6cfb"]),
+};
+
+const kube1Config = { "volatile.eth0.hwaddr": "00:16:3e:02:73:86" };
+
+describe("getManagedInterfaces", () => {
+  it("matches the interface by hwaddr, not by name", () => {
+    const instance = createInstance(kube1Config, kube1Network);
+
+    expect(getManagedInterfaces(instance)).toEqual(new Set(["enp5s0"]));
+  });
+
+  it("ignores casing differences in the hwaddr", () => {
+    const instance = createInstance(
+      { "volatile.eth0.hwaddr": "00:16:3E:02:73:86" },
+      kube1Network,
+    );
+
+    expect(getManagedInterfaces(instance)).toEqual(new Set(["enp5s0"]));
+  });
+
+  it("returns an empty set when no volatile hwaddr matches", () => {
+    const instance = createInstance(
+      { "volatile.eth0.hwaddr": "00:16:3e:ff:ff:ff" },
+      kube1Network,
+    );
+
+    expect(getManagedInterfaces(instance)).toEqual(new Set());
+  });
+
+  it("returns an empty set for an instance without state", () => {
+    expect(getManagedInterfaces(createInstance(kube1Config))).toEqual(
+      new Set(),
+    );
+  });
+});
+
+describe("getIpAddresses", () => {
+  it("returns an empty list for a stopped instance", () => {
+    expect(getIpAddresses(createInstance(kube1Config), "inet")).toEqual([]);
+    expect(getIpAddresses(createInstance(kube1Config), "inet6")).toEqual([]);
+  });
+
+  it("excludes loopback and lists the nic device addresses first", () => {
+    const instance = createInstance(kube1Config, kube1Network);
+
+    const result = getIpAddresses(instance, "inet");
+
+    expect(result.map((item) => item.address)).toEqual([
+      "172.22.0.201",
+      "172.22.0.5",
+      "10.0.1.127",
+    ]);
+    expect(result[0].iface).toBe("enp5s0");
+  });
+
+  it("ranks the global address first and the nic device link local next", () => {
+    const instance = createInstance(kube1Config, kube1Network);
+
+    const result = getIpAddresses(instance, "inet6");
+
+    expect(result.map((item) => item.address)).toEqual([
+      "2a02:a455:3cc4:400:216:3eff:fe02:7386",
+      "fe80::216:3eff:fe02:7386",
+      "fe80::6092:d8ff:fe02:ec78",
+      "fe80::d0d9:a5ff:fe06:6cfb",
+    ]);
+  });
+
+  it("falls back to local last ordering when no nic device matches", () => {
+    const instance = createInstance({}, kube1Network);
+
+    const result = getIpAddresses(instance, "inet6");
+
+    expect(result[0].address).toBe("2a02:a455:3cc4:400:216:3eff:fe02:7386");
+    expect(result.slice(1).every((item) => isLocalIPv6(item.address))).toBe(
+      true,
+    );
   });
 });
 
