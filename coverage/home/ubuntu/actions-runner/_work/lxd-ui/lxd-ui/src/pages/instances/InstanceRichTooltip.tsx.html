@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.34% </span>
+                <span class="strong">86.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>99/116</span>
+                <span class='fraction'>96/111</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.04% </span>
+                <span class="strong">9.52% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/46</span>
+                <span class='fraction'>4/42</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.17% </span>
+                <span class="strong">94% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>97/103</span>
+                <span class='fraction'>94/100</span>
             </div>
         
             
@@ -163,36 +163,30 @@
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
 <a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
-<span class="cline-any cline-yes">444x</span>
+<a name='L101'></a><a href='#L101'>101</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
+<span class="cline-any cline-yes">418x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -274,7 +268,7 @@ import InstanceLink from "pages/instances/InstanceLink";
 import InstanceStatusIcon from "pages/instances/InstanceStatusIcon";
 import { useInstance } from "context/useInstances";
 import { Spinner } from "@canonical/react-components";
-import { getIpAddresses, sortIpv6Addresses } from "util/networks";
+import { getIpAddresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
 import { isoTimeToString } from "util/helpers";
@@ -293,10 +287,7 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
   projectName,
 }) =&gt; {
   const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >getAddresses = (i</span>nstance: LxdInstance, family: IpFamily) =&gt; {</span>
-    const addresses = <span class="cstat-no" title="statement not covered" >getIpAddresses(instance, family);</span>
-    const sortedAddresses =
-<span class="cstat-no" title="statement not covered" >      family === "inet6" ? sortIpv6Addresses(addresses) : addresses;</span>
-<span class="cstat-no" title="statement not covered" >    return sortedAddresses.map((item) =&gt; item.address);</span>
+<span class="cstat-no" title="statement not covered" >    return getIpAddresses(instance, family).map((item) =&gt; item.address);</span>
   };
 &nbsp;
   const { data: instance, isLoading } = <span class="cstat-no" title="statement not covered" >useInstance(instanceName, projectName);</span>
@@ -379,7 +370,7 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-08-27T08:17:04.394Z
+                at 2026-08-28T12:13:41.768Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
