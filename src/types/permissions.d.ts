@@ -11,6 +11,7 @@ export interface LxdIdentity {
     | "Metrics certificate (unrestricted)"
     | "OIDC client"
     | "Client token bearer"
+    | "Initial UI token bearer"
     | "Server certificate"
     | "DevLXD token bearer";
   name: string;

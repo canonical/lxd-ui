@@ -156,13 +156,13 @@ test("reissue a new token for bearer identity", async ({ page }) => {
   expect(reissuedToken).not.toEqual(initialToken);
 
   await page.getByRole("button", { name: "Cancel" }).click();
-  await deleteIdentity(page, identity);
+  await deleteIdentity(page, identity, IDENTITY_TYPE.BEARER_CLIENT);
 });
 
 test("create and delete TLS identity", async ({ page }) => {
   const tlsName = randomIdentityName();
   await createIdentity(page, tlsName, IDENTITY_TYPE.TLS);
-  await deleteIdentity(page, tlsName);
+  await deleteIdentity(page, tlsName, IDENTITY_TYPE.TLS);
 });
 
 test("create and delete token bearer identities", async ({
@@ -188,7 +188,7 @@ test("create and delete token bearer identities", async ({
   );
   await createIdentity(page, clusterLinkName, IDENTITY_TYPE.CLUSTER_LINK);
 
-  await deleteIdentity(page, bearerClientName);
-  await deleteIdentity(page, bearerDevlxdName);
-  await deleteIdentity(page, clusterLinkName);
+  await deleteIdentity(page, bearerClientName, IDENTITY_TYPE.BEARER_CLIENT);
+  await deleteIdentity(page, bearerDevlxdName, IDENTITY_TYPE.BEARER_DEVLXD);
+  await deleteIdentity(page, clusterLinkName, IDENTITY_TYPE.CLUSTER_LINK);
 });

@@ -43,6 +43,7 @@ import PermissionIdentitiesActions from "pages/permissions/PermissionIdentitiesA
 import ResourceLabel from "components/ResourceLabel";
 import IdentityExpiration from "pages/permissions/IdentityExpiration";
 import IdentityAdditionalIdpGroups from "pages/permissions/IdentityAdditionalIdpGroups";
+import IdentityTypeChip from "pages/permissions/IdentityTypeChip";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -72,9 +73,12 @@ const PermissionIdentities: FC = () => {
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
     { content: "ID", sortKey: "id", className: "identity-id" },
-    { content: "Auth method", sortKey: "authmethod", className: "auth-method" },
-    { content: "Type", sortKey: "type", className: "identity-type" },
     { content: "Expires", sortKey: "expires", className: "expires" },
+    {
+      content: "Type",
+      sortKey: "type",
+      className: "type",
+    },
     {
       content: "Groups",
       sortKey: "groups",
@@ -177,21 +181,16 @@ const PermissionIdentities: FC = () => {
           title: identity.id,
         },
         {
-          content: identity.authentication_method.toUpperCase(),
-          role: "cell",
-          "aria-label": "Auth method",
-          className: "auth-method",
-        },
-        {
-          content: identity.type,
-          role: "cell",
-          "aria-label": "Type",
-          className: "u-truncate identity-type",
-        },
-        {
           content: <IdentityExpiration identity={identity} />,
           role: "cell",
           "aria-label": "Expires",
+          className: "expires",
+        },
+        {
+          content: <IdentityTypeChip identity={identity} />,
+          role: "cell",
+          "aria-label": "Type",
+          className: "type",
         },
         {
           content: getGroupLink(),
@@ -222,7 +221,7 @@ const PermissionIdentities: FC = () => {
               <DeleteIdentityBtn identity={identity} />
             </>
           ),
-          className: "actions u-align--right",
+          className: "u-align--right actions",
           role: "cell",
           "aria-label": "Actions",
         },
@@ -230,8 +229,7 @@ const PermissionIdentities: FC = () => {
       sortData: {
         id: identity.id,
         name: name.toLowerCase(),
-        authentication_method: identity.authentication_method,
-        type: identity.type,
+        type: identity.type.toLowerCase(),
         expires: identity.expires_at ?? "",
         groups: identity.groups?.length || 0,
       },
