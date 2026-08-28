@@ -1,0 +1,110 @@
+.account-identity,
+.account-preferences {
+  overflow: auto;
+
+  .row:first-of-type {
+    margin-top: $spv--x-large;
+  }
+
+  .row:not(:first-of-type) {
+    margin-top: $spv--large;
+  }
+
+  .section {
+    border-bottom: $border-thin;
+
+    table {
+      margin-bottom: $spv--large;
+    }
+  }
+}
+
+.account-identity {
+  .identity-details {
+    tr {
+      border: none;
+    }
+
+    td,
+    th {
+      padding-bottom: $spv--x-small;
+      padding-left: 0;
+      padding-top: $spv--x-small;
+    }
+
+    th {
+      font-weight: 400;
+      width: 30%;
+    }
+
+    td:first-of-type,
+    th:first-of-type {
+      padding-top: $spv--small;
+    }
+  }
+
+  .effective-permissions-table {
+    th:nth-child(1),
+    th:nth-child(3),
+    th:nth-child(4) {
+      width: 20%;
+    }
+
+    th:first-of-type,
+    td:first-of-type {
+      padding-left: 0;
+    }
+  }
+
+  .identity-groups {
+    margin-bottom: $spv--large;
+  }
+
+  .identity-group-row {
+    display: flex;
+    gap: $sph--large;
+    margin-bottom: $spv--x-small;
+  }
+
+  .identity-group-label {
+    flex-shrink: 0;
+    width: 5rem;
+  }
+
+  .identity-group-value {
+    align-items: center;
+    display: flex;
+    gap: $sph--small;
+  }
+
+  .idp-groups-notification {
+    margin-bottom: $spv--large;
+  }
+}
+
+.account-preferences {
+  .account-preference-value {
+    max-width: 20rem;
+  }
+
+  .readmode-button {
+    align-items: center;
+    display: flex;
+    padding: 0 1rem 0 0;
+    text-align: start;
+    width: 100%;
+
+    .readmode-value {
+      flex-grow: 1;
+      padding: 0.4rem 0;
+    }
+
+    .edit-icon {
+      min-width: 1rem;
+    }
+  }
+
+  .reset-button {
+    padding: 0 $sph--small;
+  }
+}

@@ -2,9 +2,6 @@ import type { LxdSettings, LXDSettingOnClusterMember } from "types/server";
 import type { ConfigField, LxdConfigPair } from "types/config";
 import type { ClusterSpecificValues } from "types/cluster";
 
-import { getDefaultProject } from "util/loginProject";
-import type { LxdProject } from "types/project";
-
 export type UserSetting = ConfigField & {
   value?: string;
   isSaved: boolean;
@@ -60,10 +57,7 @@ export const getConfigFieldClusteredValue = (
   return settingPerClusterMember;
 };
 
-export const getUserSettings = (
-  configPairs: LxdConfigPair,
-  projects: LxdProject[],
-): UserSetting[] => {
+export const getUserSettings = (configPairs: LxdConfigPair): UserSetting[] => {
   const settings: UserSetting[] = [
     {
       key: "user.ui_grafana_base_url",
@@ -73,23 +67,6 @@ export const getUserSettings = (
         "e.g. https://example.org/dashboard?project={project}&name={instance}\n or https://192.0.2.1:3000/d/bGY-LSB7k/lxd?orgId=1",
       shortdesc:
         "LXD will replace `{instance}` and `{project}` with project and instance names for deep-linking to individual grafana pages.\nSee {ref}`grafana` for more information.",
-      type: "string",
-      isSaved: true,
-    },
-    {
-      key: "user.ui_login_project",
-      category: "user",
-      default: getDefaultProject(projects),
-      shortdesc: "Project to display on login.",
-      type: "string",
-      isSaved: true,
-    },
-    {
-      key: "user.ui_theme",
-      category: "user",
-      default: "",
-      shortdesc:
-        "Set UI to dark theme, light theme, or to match the system theme.",
       type: "string",
       isSaved: true,
     },

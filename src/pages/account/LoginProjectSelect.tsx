@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import {
   Button,
   Form,
@@ -14,14 +14,8 @@ import {
   loadLoginProject,
   saveLoginProject,
 } from "util/loginProject";
-import ResourceLabel from "components/ResourceLabel";
-import type { ConfigField } from "types/config";
 
-interface Props {
-  configField: ConfigField;
-}
-
-const LoginProjectSelect: FC<Props> = ({ configField }) => {
+const LoginProjectSelect: FC = () => {
   const [isEditMode, setEditMode] = useState(false);
   const { data: projects = [] } = useProjects();
   const [value, setValue] = useState<string>(loadLoginProject() || "");
@@ -38,20 +32,18 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
     })),
   ];
 
-  const canBeReset = String(configField.default) !== String(value);
+  const defaultProject = getDefaultProject(projects);
+  const canBeReset = defaultProject !== value;
 
   const handleSave = () => {
     saveLoginProject(value);
 
-    const settingLabel = (
-      <ResourceLabel bold type="setting" value={configField.key} />
-    );
-    toastNotify.success(<>Setting {settingLabel} updated.</>);
+    toastNotify.success(<>Login project updated.</>);
     setEditMode(false);
   };
 
   const resetToDefault = () => {
-    setValue(configField.default || "");
+    setValue(defaultProject);
   };
 
   const onCancel = () => {
@@ -59,13 +51,10 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
     setEditMode(false);
   };
 
-  useEffect(() => {
-    if (!isEditMode) {
-      setValue(loadLoginProject() || "");
-      return;
-    }
+  const onEdit = () => {
     setValue(getLoginProject(projects));
-  }, [isEditMode, projects]);
+    setEditMode(true);
+  };
 
   return (
     <>
@@ -77,15 +66,15 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
           }}
         >
           <Select
-            name={`${configField.key}-select`}
-            aria-label={configField.key}
+            name="login-project-select"
+            aria-label="Login project"
             options={projectOptions}
             value={value}
             onChange={(e) => {
               setValue((e.target as HTMLSelectElement).value);
             }}
           />
-          <Button appearance="base" onClick={onCancel}>
+          <Button appearance="base" type="button" onClick={onCancel}>
             Cancel
           </Button>
           <Button appearance="positive" type="submit">
@@ -95,6 +84,7 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
             <Button
               className="reset-button"
               appearance="base"
+              type="button"
               onClick={resetToDefault}
               hasIcon
             >
@@ -108,9 +98,7 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
         <Button
           appearance="base"
           className="readmode-button u-no-margin"
-          onClick={() => {
-            setEditMode(true);
-          }}
+          onClick={onEdit}
           hasIcon
         >
           <div className="readmode-value u-truncate">

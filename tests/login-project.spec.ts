@@ -5,10 +5,8 @@ import {
   deleteProject,
   randomProjectName,
 } from "./helpers/projects";
-import { visitServerSettings } from "./helpers/server";
+import { visitAccountPreferences } from "./helpers/account";
 import { gotoURL } from "./helpers/navigate";
-
-const SETTING_NAME = "user.ui_login_project";
 
 test("opening /ui redirects to the configured login project", async ({
   page,
@@ -16,27 +14,24 @@ test("opening /ui redirects to the configured login project", async ({
   const project = randomProjectName();
   await createProject(page, project);
 
-  await visitServerSettings(page);
-  const settingRow = page.getByRole("row").filter({
-    has: page.getByText("user.ui_login_project"),
-  });
-  await settingRow.getByRole("button").click();
-  await settingRow
-    .getByRole("combobox", { name: SETTING_NAME })
+  await visitAccountPreferences(page);
+  await page.locator(".readmode-button").click();
+  await page
+    .getByRole("combobox", { name: "Login project" })
     .selectOption({ label: project });
-  await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await dismissNotification(page, `Setting ${SETTING_NAME} updated.`);
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+  await dismissNotification(page, "Login project updated.");
 
   await gotoURL(page, "/ui/");
   await expect(page).toHaveURL(new RegExp(`/ui/project/${project}/instances`));
 
-  await visitServerSettings(page);
-  await settingRow.getByRole("button").click();
-  await settingRow
+  await visitAccountPreferences(page);
+  await page.locator(".readmode-button").click();
+  await page
     .getByRole("button", { name: "Reset to default", exact: true })
     .click();
-  await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await dismissNotification(page, `Setting ${SETTING_NAME} updated.`);
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+  await dismissNotification(page, "Login project updated.");
 
   await deleteProject(page, project);
   await gotoURL(page, "/ui/");

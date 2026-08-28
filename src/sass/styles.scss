@@ -81,6 +81,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
 @import "@canonical/styles";
 @import "@canonical/react-ds-global-form/dist/esm/index.css";
+@import "account";
 @import "authentication_setup";
 @import "authentication_options";
 @import "certificate_add";
@@ -545,6 +546,7 @@ body.is-dark .lxd-icon {
 .member-selection-table,
 .migrate-instance-table,
 .network-acl-rule-table,
+.effective-permissions-table,
 .network-acl-table,
 .network-acl-used-by-table,
 .network-addresses-table,

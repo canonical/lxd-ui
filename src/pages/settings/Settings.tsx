@@ -19,7 +19,6 @@ import { useConfigOptions } from "context/useConfigOptions";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useClusteredSettings } from "context/useClusteredSettings";
-import { useProjects } from "context/useProjects";
 import {
   type UserSetting,
   getConfigFieldClusteredValue,
@@ -44,13 +43,11 @@ const Settings: FC = () => {
 
   const { settings, isSettingsLoading, settingsError } = useSupportedFeatures();
 
-  const { data: projects = [] } = useProjects();
-
   useEffect(() => {
     if (userSettings.length === 0 && !isSettingsLoading) {
-      setUserSettings(getUserSettings(settings?.config ?? {}, projects));
+      setUserSettings(getUserSettings(settings?.config ?? {}));
     }
-  }, [settings, projects, isSettingsLoading]);
+  }, [settings, isSettingsLoading]);
 
   const saveUserSetting = (index: number) => {
     const key = `user.${userSettings[index].key}`;
