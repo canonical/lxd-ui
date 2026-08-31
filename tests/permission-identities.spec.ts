@@ -156,39 +156,41 @@ test("reissue a new token for bearer identity", async ({ page }) => {
   expect(reissuedToken).not.toEqual(initialToken);
 
   await page.getByRole("button", { name: "Cancel" }).click();
-  await deleteIdentity(page, identity, IDENTITY_TYPE.BEARER_CLIENT);
+  await deleteIdentity(page, identity);
 });
 
 test("create and delete TLS identity", async ({ page }) => {
-  const tlsName = randomIdentityName();
-  await createIdentity(page, tlsName, IDENTITY_TYPE.TLS);
-  await deleteIdentity(page, tlsName, IDENTITY_TYPE.TLS);
+  const identity = randomIdentityName();
+  await createIdentity(page, identity, IDENTITY_TYPE.TLS);
+  await deleteIdentity(page, identity);
 });
 
-test("create and delete token bearer identities", async ({
+test("create and delete bearer client identity", async ({
   page,
   lxdVersion,
 }) => {
   skipIfTokenBearerIdentitiesNotSupported(lxdVersion);
-  const bearerClientName = randomIdentityName();
-  const bearerDevlxdName = randomIdentityName();
-  const clusterLinkName = randomIdentityName();
+  const identity = randomIdentityName();
+  await createIdentity(page, identity, IDENTITY_TYPE.BEARER_CLIENT, "1d");
+  await deleteIdentity(page, identity);
+});
 
-  await createIdentity(
-    page,
-    bearerClientName,
-    IDENTITY_TYPE.BEARER_CLIENT,
-    "1d",
-  );
-  await createIdentity(
-    page,
-    bearerDevlxdName,
-    IDENTITY_TYPE.BEARER_DEVLXD,
-    "2H",
-  );
-  await createIdentity(page, clusterLinkName, IDENTITY_TYPE.CLUSTER_LINK);
+test("create and delete devlxd client identity", async ({
+  page,
+  lxdVersion,
+}) => {
+  skipIfTokenBearerIdentitiesNotSupported(lxdVersion);
+  const identity = randomIdentityName();
+  await createIdentity(page, identity, IDENTITY_TYPE.BEARER_DEVLXD, "2H");
+  await deleteIdentity(page, identity);
+});
 
-  await deleteIdentity(page, bearerClientName, IDENTITY_TYPE.BEARER_CLIENT);
-  await deleteIdentity(page, bearerDevlxdName, IDENTITY_TYPE.BEARER_DEVLXD);
-  await deleteIdentity(page, clusterLinkName, IDENTITY_TYPE.CLUSTER_LINK);
+test("create and delete cluster link identity", async ({
+  page,
+  lxdVersion,
+}) => {
+  skipIfTokenBearerIdentitiesNotSupported(lxdVersion);
+  const identity = randomIdentityName();
+  await createIdentity(page, identity, IDENTITY_TYPE.CLUSTER_LINK);
+  await deleteIdentity(page, identity);
 });

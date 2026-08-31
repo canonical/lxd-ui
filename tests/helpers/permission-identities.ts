@@ -116,27 +116,22 @@ export const createIdentity = async (
   await expect(identityRow).toContainText(identityType);
 };
 
-export const deleteIdentity = async (
-  page: Page,
-  name: string,
-  identityType: IdentityType,
-) => {
+export const deleteIdentity = async (page: Page, name: string) => {
   await visitIdentities(page);
   const row = page.getByRole("row").filter({ hasText: name });
 
   const identityId = (
     await row.getByRole("cell", { name: "ID", exact: true }).textContent()
   )?.trim();
-
   expect(identityId).toBeTruthy();
 
   // Read the type as displayed in the row, since pending identities carry a
   // "(pending)" suffix (e.g. "Client certificate (pending)") that must match
   // the raw type rendered in the deletion toast.
-  const displayedType =
-    (
-      await row.getByRole("cell", { name: "Type", exact: true }).textContent()
-    )?.trim() || identityType;
+  const displayedType = (
+    await row.getByRole("cell", { name: "Type", exact: true }).textContent()
+  )?.trim();
+  expect(displayedType).toBeTruthy();
 
   await row.getByRole("button", { name: "Delete identity" }).click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
