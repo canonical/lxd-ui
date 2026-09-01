@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { Icon } from "@canonical/react-components";
+
 import { getExpiryMessage } from "util/seconds";
 import { useSecondsLeft } from "context/useSecondsLeft";
 import { useAuth } from "context/auth";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const BearerTokenWarning: React.FC = () => {
   const { authExpiresAt } = useAuth();
@@ -12,7 +13,7 @@ const BearerTokenWarning: React.FC = () => {
 
   return (
     <div>
-      <Icon name="warning" />
+      <DsIcon icon="warning" />
       {expiryMessage && (
         <span className="u-margin-left--small u-hide--medium u-hide--small">
           {expiryMessage}

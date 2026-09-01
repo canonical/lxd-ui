@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Button, Icon, type ButtonProps } from "@canonical/react-components";
+import { Button, type ButtonProps } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/helpers";
 import { getIdentityName } from "util/permissionIdentities";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   identities: LxdIdentity[];
@@ -53,7 +54,7 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
         hasIcon
         {...buttonProps}
       >
-        <Icon name="user-group" />
+        <DsIcon icon="user-group" />
         <span>{buttonText}</span>
       </Button>
     </>

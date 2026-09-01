@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useImageRegistriesEntitlements } from "util/entitlements/images";
 import type { LxdImageRegistry } from "types/image";
 import usePanelParams from "util/usePanelParams";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   imageRegistry: LxdImageRegistry;
@@ -39,7 +40,7 @@ const EditImageRegistryButton: FC<Props> = ({ imageRegistry }) => {
         openEditImageRegistry(imageRegistry.name);
       }}
     >
-      {!isSmallScreen && <Icon name="edit" />}
+      {!isSmallScreen && <DsIcon icon="edit" />}
       <span>Edit Registry</span>
     </Button>
   );

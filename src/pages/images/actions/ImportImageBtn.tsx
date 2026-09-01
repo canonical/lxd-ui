@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import ImportImageForm from "./forms/ImportImageForm";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   projectName: string;
@@ -33,7 +34,7 @@ const ImportImageBtn: FC<Props> = ({ projectName }) => {
             : "You do not have permission to create images"
         }
       >
-        {!isSmallScreen && <Icon name="import" />}
+        {!isSmallScreen && <DsIcon icon="import" />}
         <span>{isSmallScreen ? "Import" : "Import image"}</span>
       </Button>
     </>

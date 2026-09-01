@@ -2,7 +2,6 @@ import type { FC } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   MainTable,
   Row,
   ScrollableTable,
@@ -25,6 +24,7 @@ import CreateNetworkForwardBtn from "./actions/CreateNetworkForwardBtn";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import InlineExplanation from "components/InlineExplanation";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -136,7 +136,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                   }
                   title="Edit network forward"
                 >
-                  <Icon name="edit" />
+                  <DsIcon icon="edit" />
                 </Link>
               )}
               {!canEditNetwork(network) && (
@@ -150,7 +150,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                   title="You do not have permission to edit forwards for this network"
                   disabled
                 >
-                  <Icon name="edit" />
+                  <DsIcon icon="edit" />
                 </Button>
               )}
               <DeleteNetworkForwardBtn
@@ -217,7 +217,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
         {!isLoading && !hasNetworkForwards && (
           <EmptyState
             className="empty-state"
-            image={<Icon className="empty-state-icon" name="exposed" />}
+            image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No network forwards found"
           >
             <p>There are no network forwards in this project.</p>

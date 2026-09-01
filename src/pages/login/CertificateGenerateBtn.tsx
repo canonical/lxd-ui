@@ -1,6 +1,7 @@
 import { useState, type FC } from "react";
 import PasswordModal from "./PasswordModal";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Certs {
   crt: string;
@@ -76,13 +77,13 @@ const CertificateGenerateBtn: FC<Props> = ({ isPasswordRequired }) => {
           aria-label={`${isGenerating ? "Generating" : "Generate"} certificate`}
         >
           {isGenerating ? (
-            <Icon className="u-animation--spin" name="spinner" />
+            <DsIcon className="u-animation--spin" icon="spinner" />
           ) : (
-            <Icon name="begin-downloading" alt="download" />
+            <DsIcon icon="download" />
           )}
           <span>{isGenerating ? "Generating" : "Generate certificate"}</span>
         </Button>
-        {certs !== null && <Icon name="success" />}
+        {certs !== null && <DsIcon icon="success-fill" />}
       </div>
     </>
   );

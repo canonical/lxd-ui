@@ -1,7 +1,6 @@
 import {
   Button,
   EmptyState,
-  Icon,
   List,
   Notification,
   Row,
@@ -33,6 +32,7 @@ import { pluralize } from "util/helpers";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -156,7 +156,7 @@ const PermissionIdpGroups: FC = () => {
                   }
                   disabled={!canEditIdpGroup(idpGroup)}
                 >
-                  <Icon name="edit" />
+                  <DsIcon icon="edit" />
                 </Button>,
                 <DeleteIdpGroupBtn
                   key={`delete-${idpGroup.name}`}
@@ -272,7 +272,7 @@ const PermissionIdpGroups: FC = () => {
   ) : (
     <EmptyState
       className="empty-state"
-      image={<Icon name="user-group" className="empty-state-icon" />}
+      image={<DsIcon icon="user-group" className="empty-state-icon" />}
       title="No IDP group mappings"
     >
       <p>{idpGroupsInfo}</p>
@@ -288,7 +288,7 @@ const PermissionIdpGroups: FC = () => {
         }
         hasIcon={!isSmallScreen}
       >
-        {!isSmallScreen && <Icon name="plus" light />}
+        {!isSmallScreen && <DsIcon icon="plus" />}
         <span>Create IDP group</span>
       </Button>
     </EmptyState>
@@ -337,7 +337,7 @@ const PermissionIdpGroups: FC = () => {
                     }
                     hasIcon={!isSmallScreen}
                   >
-                    {!isSmallScreen && <Icon name="plus" light />}
+                    {!isSmallScreen && <DsIcon icon="plus" />}
                     <span>Create IDP group</span>
                   </Button>
                 )}

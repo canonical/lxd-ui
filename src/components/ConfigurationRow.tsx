@@ -1,5 +1,5 @@
 import { cloneElement, type ReactNode } from "react";
-import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
+import { Button, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
@@ -8,6 +8,7 @@ import { getConfigRowMetadata } from "util/configInheritance";
 import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: ConfigurationRowFormikProps;
@@ -104,7 +105,7 @@ export const getConfigurationRow = ({
           hasIcon
           className="u-no-margin--bottom"
         >
-          <Icon name="close" className="clear-configuration-icon" />
+          <DsIcon icon="close" className="clear-configuration-icon" />
         </Button>
       </div>
     );
@@ -152,7 +153,7 @@ export const getConfigurationRow = ({
               disabled={isDisabled()}
               hasIcon
             >
-              <Icon name="edit" />
+              <DsIcon icon="edit" />
             </Button>
           )}
         </>
@@ -174,7 +175,7 @@ export const getConfigurationRow = ({
         title={formik.values.editRestriction ?? "Create override"}
         hasIcon
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Button>,
     );
   };

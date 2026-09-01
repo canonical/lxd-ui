@@ -4,7 +4,7 @@ import type { NetworkFormValues } from "types/forms/network";
 import { slugify } from "util/slugify";
 import { CONNECTIONS } from "pages/networks/forms/NetworkFormMenu";
 import { filterUsedByType } from "util/usedBy";
-import { Button, Icon, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import { useNetworks } from "context/useNetworks";
@@ -14,6 +14,7 @@ import NetworkRichChip from "./NetworkRichChip";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -119,7 +120,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             className="p-chip is-inline is-dense resource-link active-chip"
             title={network.name}
           >
-            <Icon name="exposed" light />
+            <DsIcon icon="exposed" />
             <span className="p-chip__value">{network.name}</span>
           </div>
         </div>

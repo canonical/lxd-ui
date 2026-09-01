@@ -1,11 +1,15 @@
 .empty-state {
   margin: min(5dvh, $spv--strip-regular) auto;
 
+  // pragma DsIcon svgs (class="ds icon") ship their own same-specificity
+  // width/height rule, so !important is needed to reliably win the tie.
   .empty-state-icon {
-    height: 2.5rem;
+    --icon-size: 2.5rem;
+
+    height: 2.5rem !important;
     margin-top: $spv--medium;
     opacity: 0.25;
-    width: 2.5rem;
+    width: 2.5rem !important;
   }
 
   @include large {

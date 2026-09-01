@@ -6,7 +6,7 @@ import {
 } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton, Icon, List } from "@canonical/react-components";
+import { ConfirmationButton, List } from "@canonical/react-components";
 import classnames from "classnames";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { useEventQueue } from "context/eventQueue";
@@ -17,6 +17,7 @@ import ResourceLabel from "components/ResourceLabel";
 import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -168,7 +169,7 @@ const InstanceSnapshotActions: FC<Props> = ({
             shiftClickEnabled
             showShiftClickHint
           >
-            <Icon name="change-version" />
+            <DsIcon icon="change-version" />
           </ConfirmationButton>,
           <CreateImageFromInstanceSnapshotBtn
             key="publish"
@@ -206,7 +207,7 @@ const InstanceSnapshotActions: FC<Props> = ({
             shiftClickEnabled
             showShiftClickHint
           >
-            <Icon name="delete" />
+            <DsIcon icon="delete" />
           </ConfirmationButton>,
         ]}
       />

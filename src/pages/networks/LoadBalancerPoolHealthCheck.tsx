@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import type { LxdLoadBalancerPool } from "types/loadBalancers";
-import { Chip, Icon, Tooltip } from "@canonical/react-components";
+import { Chip, Tooltip } from "@canonical/react-components";
 import { getHealthCheckType } from "util/loadBalancers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   pool: LxdLoadBalancerPool;
@@ -54,7 +55,7 @@ const LoadBalancerPoolHealthCheck: FC<Props> = ({ pool }) => {
               </>
             }
           >
-            <Icon name="information" />
+            <DsIcon icon="information" />
           </Tooltip>
         </>
       )}

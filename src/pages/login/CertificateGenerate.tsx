@@ -5,7 +5,6 @@ import {
   Row,
   Spinner,
   CustomLayout,
-  Icon,
 } from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ import { ROOT_PATH } from "util/rootPath";
 import { AUTH_METHOD, isPermanent } from "util/authentication";
 import AuthenticationTlsStepper from "components/AuthenticationTlsStepper";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
 
 const CertificateGenerate: FC = () => {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ const CertificateGenerate: FC = () => {
               rel="noopener noreferrer"
             >
               Authentication Setup FAQ
-              <Icon className="external-link-icon" name="external-link" />
+              <DsIcon className="external-link-icon" icon="external-link" />
             </a>
           </Notification>
           {hasCertificate && (

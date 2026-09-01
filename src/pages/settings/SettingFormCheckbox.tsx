@@ -1,7 +1,8 @@
 import { useState, type FC } from "react";
-import { CheckboxInput, Button, Icon } from "@canonical/react-components";
+import { CheckboxInput, Button } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   initialValue?: string;
@@ -62,7 +63,7 @@ const SettingFormCheckbox: FC<Props> = ({
           onClick={resetToDefault}
           hasIcon
         >
-          <Icon name="restart" className="flip-horizontally" />
+          <DsIcon icon="restart" className="flip-horizontally" />
           <span>Reset to default</span>
         </Button>
       )}

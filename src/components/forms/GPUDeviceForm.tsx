@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   Button,
-  Icon,
   Input,
   Notification,
   useNotify,
@@ -38,6 +37,7 @@ import { useProfiles } from "context/useProfiles";
 import DocLink from "components/DocLink";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -104,7 +104,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             }}
             className="has-icon u-no-margin--bottom"
           >
-            <Icon name="connected"></Icon>
+            <DsIcon icon="connected" />
             <span>Reattach</span>
           </Button>
         ) : (
@@ -119,7 +119,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             title={formik.values.editRestriction ?? "Detach GPU"}
             disabled={!!formik.values.editRestriction}
           >
-            <Icon name="disconnect"></Icon>
+            <DsIcon icon="disconnected" />
             <span>Detach</span>
           </Button>
         ),
@@ -187,7 +187,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             title={formik.values.editRestriction ?? "Detach GPU"}
             disabled={!!formik.values.editRestriction}
           >
-            <Icon name="disconnect" />
+            <DsIcon icon="disconnected" />
             <span>Detach</span>
           </Button>
         ),

@@ -10,20 +10,15 @@ body.is-dark .rich-tooltip-table .p-icon--status-queued-small {
   @include vf-icon-status-small($colors--dark-theme--icon);
 }
 
-body.is-dark .rich-tooltip-table .p-icon--exposed {
-  @include vf-icon-exposed($colors--light-theme--icon);
+// ResourceIcon's DsIcon-rendered icons (e.g. network, cluster-link) use
+// fill: currentColor, so recolor via `color` instead of the vanilla
+// background-image mixins used for the still-vanilla resource icons above.
+.rich-tooltip-table .resource-link .ds.icon {
+  color: $colors--dark-theme--icon;
 }
 
-.rich-tooltip-table .p-icon--exposed {
-  @include vf-icon-exposed($colors--dark-theme--icon);
-}
-
-body.is-dark .rich-tooltip-table .p-icon--applications {
-  @include vf-icon-applications($colors--light-theme--icon);
-}
-
-.rich-tooltip-table .p-icon--applications {
-  @include vf-icon-applications($colors--dark-theme--icon);
+body.is-dark .rich-tooltip-table .resource-link .ds.icon {
+  color: $colors--light-theme--icon;
 }
 
 .p-tooltip__message:has(.rich-tooltip-table) {

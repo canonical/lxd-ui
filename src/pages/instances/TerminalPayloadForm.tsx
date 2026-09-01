@@ -4,7 +4,6 @@ import {
   Button,
   failure,
   Form,
-  Icon,
   Input,
   Modal,
   Notification,
@@ -22,6 +21,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { UI_TERMINAL_DEFAULT_PAYLOAD } from "util/instanceTerminal";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   payload: TerminalConnectPayload;
@@ -244,7 +244,7 @@ const TerminalPayloadForm: FC<Props> = ({
                 type="button"
                 hasIcon
               >
-                <Icon name="delete" />
+                <DsIcon icon="delete" />
               </Button>
             </div>
           ))}

@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
-import classnames from "classnames";
 import { useInstanceLoading } from "context/instanceLoading";
 import { Icon } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -17,7 +17,6 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
       {
         Error: "status-failed-small",
         Frozen: "status-in-progress-small",
-        Freezing: "spinner",
         Ready: "status-waiting-small",
         Running: "status-succeeded-small",
         Stopped: "status-queued-small",
@@ -25,18 +24,29 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
     );
   };
 
-  return loadingType ? (
-    <>
-      <Icon className="u-animation--spin status-icon" name="spinner" />
-      <i>{loadingType}</i>
-    </>
-  ) : (
+  if (loadingType) {
+    return (
+      <>
+        <DsIcon className="u-animation--spin status-icon" icon="spinner" />
+        <i>{loadingType}</i>
+      </>
+    );
+  }
+
+  if (instance.status === "Freezing") {
+    return (
+      <>
+        <DsIcon className="u-animation--spin status-icon" icon="spinner" />
+        {instance.status}
+      </>
+    );
+  }
+
+  return (
     <>
       <Icon
         name={getIconNameForStatus(instance.status)}
-        className={classnames("status-icon", {
-          "u-animation--spin": instance.status === "Freezing",
-        })}
+        className="status-icon"
       />
       {instance.status}
     </>

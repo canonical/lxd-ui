@@ -1,6 +1,7 @@
 import type { FC } from "react";
-import { Icon, Tooltip } from "@canonical/react-components";
+import { Tooltip } from "@canonical/react-components";
 import { useSettings } from "context/useSettings";
+import DsIcon from "components/DsIcon";
 import {
   RECENT_MAJOR_SERVER_VERSION,
   UI_GIT_HASH,
@@ -34,7 +35,7 @@ const Version: FC = () => {
             tooltipClassName="version-warning"
             zIndex={1000}
           >
-            <Icon name="warning" className="version-warning-icon" />
+            <DsIcon icon="warning" className="version-warning-icon" />
           </Tooltip>
         )}
         Version {serverVersion}-ui-{UI_VERSION}

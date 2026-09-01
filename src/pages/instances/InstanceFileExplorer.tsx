@@ -2,7 +2,6 @@ import { type FC } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   Notification,
   Row,
   Spinner,
@@ -18,6 +17,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -63,7 +63,7 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     return (
       <EmptyState
         className="empty-state"
-        image={<Icon name="containers" className="empty-state-icon" />}
+        image={<DsIcon icon="containers" className="empty-state-icon" />}
         title="Instance is not running"
       >
         <p>Virtual machines must be running to browse files.</p>

@@ -1,4 +1,4 @@
-import { ICONS } from "@canonical/react-components";
+import type { IconName } from "@canonical/ds-assets";
 
 export const severityOrder = [
   "positive",
@@ -7,10 +7,9 @@ export const severityOrder = [
   "information",
 ] as const;
 
-export const iconLookup = {
-  positive: ICONS.success,
-  // custom name for info icon to override default color from vanilla
-  information: "info--notification",
-  caution: ICONS.warning,
-  negative: ICONS.error,
-} as const;
+export const iconLookup: Record<(typeof severityOrder)[number], IconName> = {
+  positive: "success-fill",
+  information: "information",
+  caution: "warning",
+  negative: "error-fill",
+};

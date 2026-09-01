@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import {
   smallScreenBreakpoint,
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   className?: string;
@@ -22,7 +23,7 @@ const CreatePlacementGroupBtn: FC<Props> = ({ className, disabled }) => {
       hasIcon={!isSmallScreen}
       disabled={disabled}
     >
-      {!isSmallScreen && <Icon name="plus" light />}
+      {!isSmallScreen && <DsIcon icon="plus" />}
       <span>Create placement group</span>
     </Button>
   );

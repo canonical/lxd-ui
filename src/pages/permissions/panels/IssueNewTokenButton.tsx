@@ -1,5 +1,6 @@
 import { type FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   canEdit: boolean;
@@ -21,7 +22,7 @@ const IssueNewTokenButton: FC<Props> = ({ canEdit, onClick }) => {
       onClick={onClick}
       hasIcon
     >
-      <Icon name="restart" />
+      <DsIcon icon="restart" />
       <span>Issue new token</span>
     </Button>
   );

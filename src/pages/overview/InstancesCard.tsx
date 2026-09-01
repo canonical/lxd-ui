@@ -1,11 +1,6 @@
 import { useMemo, type FC } from "react";
 import { Link } from "react-router-dom";
-import {
-  Card,
-  DoughnutChart,
-  Icon,
-  Spinner,
-} from "@canonical/react-components";
+import { Card, DoughnutChart, Spinner } from "@canonical/react-components";
 import ChartLegend from "components/ChartLegend";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useInstances } from "context/useInstances";
@@ -17,6 +12,7 @@ import {
   type InstanceDistribution,
 } from "util/overviewInstances";
 import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
+import DsIcon from "components/DsIcon";
 
 const InstancesCard: FC = () => {
   const { projectName } = useCurrentProject();
@@ -42,7 +38,7 @@ const InstancesCard: FC = () => {
   const cardClassName = "overview-card instances";
   const cardTitle = (
     <span className="overview-card-title">
-      <Icon name="pods" /> Instances
+      <DsIcon icon="pods" /> Instances
       {!isLoading && !error && instances.length > 0 && ` (${instances.length})`}
     </span>
   );
@@ -67,7 +63,7 @@ const InstancesCard: FC = () => {
   if (error) {
     return (
       <Card className={cardClassName} title={cardTitle}>
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error while
         loading instances: {error.message}
       </Card>
     );

@@ -5,76 +5,49 @@
 @import "./breakpoints";
 @import "pattern_icon";
 @include lxdui-p-icon;
-@include vf-p-icon-add-canvas;
-@include vf-p-icon-add-logical-volume;
-@include vf-p-icon-applications;
-@include vf-p-icon-arrow-left;
-@include vf-p-icon-arrow-right;
-@include vf-p-icon-begin-downloading;
-@include vf-p-icon-book;
-@include vf-p-icon-canvas;
-@include vf-p-icon-certificate;
-@include vf-p-icon-change-version;
-@include vf-p-icon-close;
-@include vf-p-icon-cluster-host;
-@include vf-p-icon-connected;
-@include vf-p-icon-containers;
-@include vf-p-icon-copy-to-clipboard;
 @include vf-p-icon-devtools;
-@include vf-p-icon-disconnect;
-@include vf-p-icon-edit;
-@include vf-p-icon-export;
-@include vf-p-icon-exposed;
-@include vf-p-icon-file-blank;
-@include vf-p-icon-filter;
-@include vf-p-icon-folder;
-@include vf-p-icon-fullscreen;
-@include vf-p-icon-get-link;
-@include vf-p-icon-image;
-@include vf-p-icon-import;
-@include vf-p-icon-iso;
-@include vf-p-icon-lock-locked;
-@include vf-p-icon-machines;
-@include vf-p-icon-map;
-@include vf-p-icon-mount;
-@include vf-p-icon-open-terminal;
-@include vf-p-icon-pause;
-@include vf-p-icon-plans;
-@include vf-p-icon-play;
-@include vf-p-icon-pods;
-@include vf-p-icon-power-off;
-@include vf-p-icon-priority-low;
-@include vf-p-icon-private-key;
-@include vf-p-icon-profile;
-@include vf-p-icon-profiles;
-@include vf-p-icon-repository;
-@include vf-p-icon-restart;
-@include vf-p-icon-security;
-@include vf-p-icon-security-tick;
-@include vf-p-icon-settings;
-@include vf-p-icon-single-host;
-@include vf-p-icon-snapshot;
-@include vf-p-icon-statistics;
 @include vf-p-icon-status-failed-small;
 @include vf-p-icon-status-in-progress-small;
 @include vf-p-icon-status-queued-small;
 @include vf-p-icon-status-succeeded-small;
 @include vf-p-icon-status-waiting-small;
-@include vf-p-icon-status;
 @include vf-p-icon-storage-bucket;
 @include vf-p-icon-storage-pool;
 @include vf-p-icon-storage-volume;
-@include vf-p-icon-stop;
-@include vf-p-icon-submit-bug;
-@include vf-p-icon-switcher-dashboard;
-@include vf-p-icon-switcher-environments;
-@include vf-p-icon-task-outstanding;
-@include vf-p-icon-tidy;
-@include vf-p-icon-units;
-@include vf-p-icon-upload;
-@include vf-p-icon-user-group;
-@include vf-p-icon-video-play;
-@include vf-p-icon-warning-grey;
+
+// Vanilla's %vf-button-has-icon spacing rule only targets legacy
+// [class*='p-icon'] elements, so pragma DsIcon svgs (class="ds icon") lose
+// their button spacing and precise vertical centering. Restore both here. Issue is tracked in WD-38708
+[class*="p-button"].has-icon {
+  align-items: center;
+  display: inline-flex;
+
+  .ds.icon {
+    margin-left: $sph--small;
+    margin-right: $sph--small;
+
+    &:first-child {
+      margin-left: -$sph--small;
+    }
+
+    &:last-child {
+      margin-right: -$sph--small;
+    }
+  }
+
+  &.is-small .ds.icon {
+    margin-left: $sph--x-small;
+    margin-right: $sph--x-small;
+
+    &:first-child {
+      margin-left: -$sph--x-small;
+    }
+
+    &:last-child {
+      margin-right: -$sph--x-small;
+    }
+  }
+}
 
 $border-default: 1px solid $colors--theme--border-default;
 $border-thin: 1px solid $colors--theme--border-low-contrast !default;
@@ -234,10 +207,6 @@ body {
 
 .status-spinner {
   margin-left: 1.25rem;
-}
-
-.external-link-icon {
-  @include vf-icon-external-link($color-link);
 }
 
 .lxd-icon {

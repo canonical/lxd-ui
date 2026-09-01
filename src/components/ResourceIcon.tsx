@@ -37,8 +37,8 @@ export type ResourceIconType =
   | "replicator"
   | "token-bearer";
 
-type DsResourceIconType = "image-registry" | "network" | "project";
-type VanillaResourceIconType = Exclude<ResourceIconType, DsResourceIconType>;
+type VanillaResourceIconType = "bucket" | "pool" | "volume";
+type DsResourceIconType = Exclude<ResourceIconType, VanillaResourceIconType>;
 
 // Icons available in @canonical/ds-assets — rendered via DsIcon (<svg><use>).
 // Move entries here from vanillaResourceIcons as ds-assets gains coverage.
@@ -46,10 +46,6 @@ const dsResourceIcons: Record<DsResourceIconType, IconName> = {
   "image-registry": "image-registries",
   network: "exposed",
   project: "folder",
-};
-
-// Icons not yet in @canonical/ds-assets — rendered via vanilla-framework CSS.
-const vanillaResourceIcons: Record<VanillaResourceIconType, string> = {
   container: "pods",
   "virtual-machine": "pods",
   instance: "pods",
@@ -63,8 +59,6 @@ const vanillaResourceIcons: Record<VanillaResourceIconType, string> = {
   peering: "exposed",
   "network-acl": "security-tick",
   "network-forward": "exposed",
-  pool: "storage-pool",
-  volume: "storage-volume",
   "iso-volume": "iso",
   image: "image",
   "oidc-identity": "user",
@@ -73,12 +67,18 @@ const vanillaResourceIcons: Record<VanillaResourceIconType, string> = {
   "idp-group": "user-group",
   device: "units",
   setting: "settings",
-  bucket: "storage-bucket",
   "bucket-key": "private-key",
   metric: "statistics",
   "placement-group": "repository",
   replicator: "change-version",
   "token-bearer": "private-key",
+};
+
+// Icons not yet in @canonical/ds-assets — rendered via vanilla-framework CSS.
+const vanillaResourceIcons: Record<VanillaResourceIconType, string> = {
+  pool: "storage-pool",
+  volume: "storage-volume",
+  bucket: "storage-bucket",
 };
 
 interface Props {

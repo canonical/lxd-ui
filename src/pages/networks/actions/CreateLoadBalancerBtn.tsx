@@ -1,9 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
 import {
   mediumScreenBreakpoint,
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
+import { Button } from "@canonical/react-components";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import type { LxdNetwork } from "types/network";
 import classnames from "classnames";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
 import { useLoadBalancerPools } from "context/useLoadBalancerPools";
 import { useCurrentProject } from "context/useCurrentProject";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -49,7 +50,7 @@ const CreateLoadBalancerBtn: FC<Props> = ({
   return (
     <Button
       appearance={appearance}
-      hasIcon={hasIcon}
+      hasIcon={!isMediumScreen && hasIcon}
       onClick={() => {
         navigate(
           `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/load-balancers/create`,
@@ -59,10 +60,10 @@ const CreateLoadBalancerBtn: FC<Props> = ({
       disabled={!canEditNetwork(network) || !hasPools}
       title={getTitle()}
     >
-      {hasIcon && <Icon name="plus" light />}
+      {!isMediumScreen && hasIcon && <DsIcon icon="plus" />}
       <span>
         {isEmptyState || !isMediumScreen ? "Create load balancer" : "Create"}
-      </span>
+      </span>{" "}
     </Button>
   );
 };

@@ -9,6 +9,7 @@ import type { LxdStoragePool } from "types/storage";
 import { ROOT_PATH } from "util/rootPath";
 import { getVolumesUsedByPool } from "util/storagePool";
 import { pluralize } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 const StorageCard: FC = () => {
   const { data: pools = [], error, isLoading } = useStoragePools();
@@ -49,8 +50,8 @@ const StorageCard: FC = () => {
     return (
       <Card className={cardClassName} title={cardTitle}>
         <div className="error-message">
-          <Icon name="error" className="margin-right--large" /> Error while
-          loading storage pools: {error.message}
+          <DsIcon icon="error-fill" className="margin-right--large" /> Error
+          while loading storage pools: {error.message}
         </div>
       </Card>
     );

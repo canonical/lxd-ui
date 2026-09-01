@@ -1,9 +1,10 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
-import { Icon } from "@canonical/react-components";
+
 import { useResourceLimit } from "context/useResourceLimit";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -35,11 +36,9 @@ const MemoryLimitAvailable: FC<Props> = ({ formik }) => {
         {showHelpIcon && (
           <>
             {" "}
-            <Icon
-              name="information"
-              className="help-link-icon"
-              title={helpIconText}
-            />
+            <span title={helpIconText}>
+              <DsIcon icon="information" className="help-link-icon" />
+            </span>
           </>
         )}
       </b>
