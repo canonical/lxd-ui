@@ -8,7 +8,6 @@ import {
   Button,
   CheckboxInput,
   Col,
-  Icon,
   MainTable,
   Modal,
   Notification,
@@ -35,6 +34,7 @@ import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import { useParams } from "react-router-dom";
 import { useRemoteImages, useLocalImagesInProject } from "context/useImages";
+import DsIcon from "components/DsIcon";
 import {
   canonicalServer,
   imagesLxdServer,
@@ -467,7 +467,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 setShowFilters((prev) => !prev);
               }}
             >
-              <Icon name="filter" />
+              <DsIcon icon="filter" />
             </Button>
           </div>
           {isCardView && showFilters && filters}

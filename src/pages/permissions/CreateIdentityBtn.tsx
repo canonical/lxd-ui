@@ -1,10 +1,7 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
-import {
-  largeScreenBreakpoint,
-  useIsScreenBelow,
-} from "context/useIsScreenBelow";
+import { Button } from "@canonical/react-components";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   openPanel: () => void;
@@ -14,7 +11,6 @@ interface Props {
 
 const CreateIdentityBtn: FC<Props> = ({ openPanel, className, onClose }) => {
   const { canCreateIdentities } = useServerEntitlements();
-  const isSmallOrMediumScreen = useIsScreenBelow(largeScreenBreakpoint);
 
   const handleClick = () => {
     openPanel();
@@ -34,12 +30,12 @@ const CreateIdentityBtn: FC<Props> = ({ openPanel, className, onClose }) => {
       hasIcon
       title={
         canCreateIdentities()
-          ? ""
+          ? undefined
           : "You do not have permission to create identities"
       }
       disabled={!canCreateIdentities()}
     >
-      <Icon name="plus" light={!isSmallOrMediumScreen} />
+      <DsIcon icon="plus" />
       <span>Create identity</span>
     </Button>
   );

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   Button,
-  Icon,
   Modal,
   useToastNotification,
   usePortal,
@@ -15,6 +14,7 @@ import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
 import CustomIsoExplanationTooltip from "pages/storage/CustomIsoExplanationTooltip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   className?: string;
@@ -63,7 +63,7 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
             : "You do not have permission to create custom ISOs in this project."
         }
       >
-        {!isSmallScreen && <Icon name="upload" light />}
+        {!isSmallScreen && <DsIcon icon="upload" />}
         <span>Upload custom ISO</span>
       </Button>
       {isOpen && (

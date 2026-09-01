@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { useServerEntitlements } from "util/entitlements/server";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 export const CreateImageRegistryButton: FC = () => {
   const { canCreateImageRegistries } = useServerEntitlements();
@@ -22,7 +23,7 @@ export const CreateImageRegistryButton: FC = () => {
       }
       onClick={openCreateImageRegistry}
     >
-      <Icon name="plus" light className="u-margin--right" />
+      <DsIcon icon="plus" className="u-margin--right" />
       <span>Create registry</span>
     </Button>
   );

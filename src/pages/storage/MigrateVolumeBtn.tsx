@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { ActionButton, Icon, usePortal } from "@canonical/react-components";
+import { ActionButton, usePortal } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
 import MigrateVolumeModal from "./MigrateVolumeModal";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import classNames from "classnames";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -47,7 +48,7 @@ const MigrateVolumeBtn: FC<Props> = ({ volume, classname, onClose }) => {
         disabled={!canEditVolume(volume) || !isEmpty}
         title={getTitle()}
       >
-        <Icon name="machines" />
+        <DsIcon icon="machines" />
         <span>Migrate</span>
       </ActionButton>
     </>

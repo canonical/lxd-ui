@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { deletableStatuses } from "util/instanceDelete";
 import {
   ConfirmationButton,
-  Icon,
   useToastNotification,
   Notification,
 } from "@canonical/react-components";
@@ -20,6 +19,7 @@ import { isInstanceFrozen, isInstanceRunning } from "util/instanceStatus";
 import { InstanceRichChip } from "../InstanceRichChip";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -169,7 +169,7 @@ const DeleteInstanceBtn: FC<Props> = ({
       shiftClickEnabled={!isRunningOrFrozen}
       showShiftClickHint={!isRunningOrFrozen}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       {label && <span>{label}</span>}
     </ConfirmationButton>
   );

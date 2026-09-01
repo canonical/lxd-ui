@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
+
 import { Link } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   address: string;
@@ -26,7 +27,7 @@ export const InstanceIpEdit: FC<Props> = ({
         type="button"
         title={`Edit network configuration for instance ${instanceName}`}
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Link>
     </div>
   );

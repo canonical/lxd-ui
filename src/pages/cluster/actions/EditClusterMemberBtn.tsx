@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams, { panels } from "util/usePanelParams";
 import classnames from "classnames";
 import EditClusterMemberPanel from "pages/cluster/panels/EditClusterMemberPanel";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   member: string;
@@ -39,7 +40,7 @@ const EditClusterMemberBtn: FC<Props> = ({
         }
         hasIcon
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
         {hasLabel && <span>Edit</span>}
       </Button>
       {panelParams.panel === panels.editClusterMember &&

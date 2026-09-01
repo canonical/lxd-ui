@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
 import type { LxdClusterLink } from "types/cluster";
 import { useClusterLinkEntitlements } from "util/entitlements/cluster-links";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   clusterLink: LxdClusterLink;
@@ -29,7 +30,7 @@ const EditClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
       hasIcon
       disabled={!canEdit}
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
     </Button>
   );
 };

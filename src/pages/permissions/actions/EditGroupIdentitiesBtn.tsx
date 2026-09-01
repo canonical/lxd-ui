@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { LxdAuthGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -22,7 +23,7 @@ const EditGroupIdentitiesBtn: FC<Props> = ({ groups, className }) => {
         disabled={!groups.length}
         hasIcon
       >
-        <Icon name="user-group" />
+        <DsIcon icon="user-group" />
         <span>Manage identities</span>
       </Button>
     </>

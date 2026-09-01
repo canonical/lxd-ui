@@ -1,10 +1,11 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import CopyInstanceForm from "../forms/CopyInstanceForm";
 import classNames from "classnames";
 import { useProject, useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -59,7 +60,7 @@ const CopyInstanceBtn: FC<Props> = ({
         onClick={openPortal}
         title={getDisableReason() || "Copy instance"}
       >
-        <Icon name="canvas" />
+        <DsIcon icon="canvas" />
         <span>Copy</span>
       </Button>
     </>

@@ -2,7 +2,6 @@ import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ConfirmationButton,
-  Icon,
   Notification,
   useNotify,
   useToastNotification,
@@ -16,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 import classNames from "classnames";
 import ReplicatorRichChip from "../ReplicatorRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   replicator: LxdReplicator;
@@ -137,7 +137,7 @@ const DeleteReplicatorBtn: FC<Props> = ({
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       {hasLabel && <span>Delete</span>}
     </ConfirmationButton>
   );

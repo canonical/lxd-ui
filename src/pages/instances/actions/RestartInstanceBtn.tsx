@@ -5,12 +5,13 @@ import { queryKeys } from "util/queryKeys";
 import { restartInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
-import { Icon, useToastNotification } from "@canonical/react-components";
+import { useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { InstanceRichChip } from "../InstanceRichChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -104,7 +105,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="restart" />
+      <DsIcon icon="restart" />
     </MountedConfirmationButton>
   );
 };

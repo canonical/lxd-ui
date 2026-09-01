@@ -2,7 +2,6 @@ import { useState, type FC } from "react";
 import {
   Button,
   Form,
-  Icon,
   Select,
   useToastNotification,
 } from "@canonical/react-components";
@@ -14,6 +13,7 @@ import {
   loadLoginProject,
   saveLoginProject,
 } from "util/loginProject";
+import DsIcon from "components/DsIcon";
 
 const LoginProjectSelect: FC = () => {
   const [isEditMode, setEditMode] = useState(false);
@@ -88,7 +88,7 @@ const LoginProjectSelect: FC = () => {
               onClick={resetToDefault}
               hasIcon
             >
-              <Icon name="restart" className="flip-horizontally" />
+              <DsIcon icon="restart" className="flip-horizontally" />
               <span>Reset to default</span>
             </Button>
           )}
@@ -107,7 +107,7 @@ const LoginProjectSelect: FC = () => {
               ? "All projects"
               : value || getDefaultProject(projects)}
           </div>
-          <Icon name="edit" className="edit-icon" />
+          <DsIcon icon="edit" className="edit-icon" />
         </Button>
       )}
     </>

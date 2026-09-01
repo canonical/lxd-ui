@@ -1,7 +1,8 @@
 import { useState, type FC } from "react";
-import { Button, Form, Icon, Input } from "@canonical/react-components";
+import { Button, Form, Input } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   initialValue: string;
@@ -73,7 +74,7 @@ const SettingFormInput: FC<Props> = ({
             onDelete(configField.key);
           }}
         >
-          <Icon name="delete"></Icon>
+          <DsIcon icon="delete" />
           <span>Delete</span>
         </Button>
       )}
@@ -84,7 +85,7 @@ const SettingFormInput: FC<Props> = ({
           onClick={resetToDefault}
           hasIcon
         >
-          <Icon name="restart" className="flip-horizontally" />
+          <DsIcon icon="restart" className="flip-horizontally" />
           <span>Reset to default</span>
         </Button>
       )}

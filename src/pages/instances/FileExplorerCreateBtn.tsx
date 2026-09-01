@@ -1,9 +1,10 @@
 import { type FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import FileExplorerCreateModal from "./forms/FileExplorerCreateModal";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -39,7 +40,7 @@ const FileExplorerCreateBtn: FC<Props> = ({
             : "You do not have permission to manage files on this instance"
         }
       >
-        {!isSmallScreen && <Icon name="plus" />}
+        {!isSmallScreen && <DsIcon icon="plus" />}
         <span>{isSmallScreen ? "Create" : "Create directory"}</span>
       </Button>
       {isOpen && (

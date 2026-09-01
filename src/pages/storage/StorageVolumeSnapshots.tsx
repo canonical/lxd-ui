@@ -1,7 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import {
   EmptyState,
-  Icon,
   ScrollableTable,
   SearchBox,
   TablePagination,
@@ -27,6 +26,7 @@ import { figureCollapsedScreen } from "util/storageVolume";
 import useSortTableData from "util/useSortTableData";
 import DocLink from "components/DocLink";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -291,7 +291,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       ) : (
         <EmptyState
           className="empty-state"
-          image={<Icon name="snapshot" className="empty-state-icon" />}
+          image={<DsIcon icon="snapshot" className="empty-state-icon" />}
           title="No snapshots found"
         >
           <p>

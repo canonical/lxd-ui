@@ -1,11 +1,12 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import classNames from "classnames";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ExportInstanceModal from "pages/instances/forms/ExportInstanceModal";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isBackupDisabled } from "util/snapshots";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -50,7 +51,7 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
         title={getTitle()}
         disabled={!canManageInstanceBackups(instance) || backupDisabled}
       >
-        <Icon name="export" />
+        <DsIcon icon="export" />
         <span>Export</span>
       </Button>
     </>

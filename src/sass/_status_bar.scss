@@ -41,6 +41,29 @@
       .total-count {
         margin-left: 0.2rem;
       }
+
+      // Pragma severity icons use fill: currentColor, so use the matching
+      // semantic icon token for each severity.
+      .notification-icon-positive {
+        color: var(--color-icon-success);
+      }
+
+      .notification-icon-caution {
+        color: var(--color-icon-warning);
+      }
+
+      .notification-icon-negative {
+        color: var(--color-icon-error);
+      }
+
+      .notification-icon-information {
+        color: var(--color-icon-information);
+      }
+
+      .ds.icon {
+        position: relative;
+        top: -1px;
+      }
     }
   }
 

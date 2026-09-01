@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Icon, Card } from "@canonical/react-components";
+import { Card } from "@canonical/react-components";
 import { Link } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
 import { AUTH_METHOD } from "util/authentication";
 import { useSettings } from "context/useSettings";
 import DocLink from "components/DocLink";
+import DsIcon from "components/DsIcon";
 
 const AuthenticationOptions: FC = () => {
   const { data: settings } = useSettings();
@@ -13,7 +14,7 @@ const AuthenticationOptions: FC = () => {
   return (
     <div className="auth-options-container">
       <Card className="auth-option-card u-flex-column">
-        <Icon name="security" className="auth-option-icon u-hide--small" />
+        <DsIcon icon="security" className="auth-option-icon u-hide--small" />
         <h2 className="p-heading--4">SSO</h2>
         <ul className="auth-option-pros-cons-list">
           <li>Centralized access control for teams</li>
@@ -39,7 +40,7 @@ const AuthenticationOptions: FC = () => {
       </Card>
 
       <Card className="auth-option-card u-flex-column">
-        <Icon name="certificate" className="auth-option-icon u-hide--small" />
+        <DsIcon icon="certificate" className="auth-option-icon u-hide--small" />
         <h2 className="p-heading--4">TLS</h2>
 
         <ul className="auth-option-pros-cons-list">

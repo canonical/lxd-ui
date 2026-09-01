@@ -6,7 +6,7 @@ import type { LxdNicDevice } from "types/device";
 import type { CustomNetworkDevice } from "types/formDevice";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DeviceName from "components/forms/DeviceName";
-import { Icon, Tooltip } from "@canonical/react-components";
+import { Tooltip } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import ExpandableList from "components/ExpandableList";
 import { combineAcls, getNetworkAcls } from "util/networks";
@@ -15,6 +15,7 @@ import NetworkRichChip from "pages/networks/NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import NetworkDefaultACLRead from "pages/networks/forms/NetworkDefaultACLRead";
 import type { IpAddressFamily } from "types/forms/network";
+import DsIcon from "components/DsIcon";
 
 const getNetworkDeviceIpAddress = ({
   network,
@@ -97,7 +98,7 @@ export const getNetworkDeviceRows = ({
           >
             custom network{" "}
             <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
-              <Icon name="information" />
+              <DsIcon icon="information" />
             </Tooltip>
           </div>
         ),

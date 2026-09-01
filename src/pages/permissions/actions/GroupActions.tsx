@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Button, Icon, List, usePortal } from "@canonical/react-components";
+import { Button, List, usePortal } from "@canonical/react-components";
 import type { LxdAuthGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import { isAdminGroup } from "util/permissionGroups";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   group: LxdAuthGroup;
@@ -47,7 +48,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             }
             disabled={!canEditGroup(group)}
           >
-            <Icon name="edit" />
+            <DsIcon icon="edit" />
           </Button>,
           <Button
             key="delete"
@@ -59,7 +60,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             title={getTitle()}
             disabled={isAdminGroup(group) || !canDeleteGroup(group)}
           >
-            <Icon name="delete" />
+            <DsIcon icon="delete" />
           </Button>,
         ]}
       />

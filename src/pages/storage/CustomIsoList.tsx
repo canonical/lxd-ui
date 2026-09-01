@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import {
   EmptyState,
-  Icon,
   List,
   MainTable,
   Row,
@@ -25,6 +24,7 @@ import NotificationRow from "components/NotificationRow";
 import ResourceLabel from "components/ResourceLabel";
 import { useLoadIsoVolumes } from "context/useVolumes";
 import DocLink from "components/DocLink";
+import DsIcon from "components/DsIcon";
 
 const CustomIsoList: FC = () => {
   const toastNotify = useToastNotification();
@@ -157,7 +157,7 @@ const CustomIsoList: FC = () => {
   const content = !hasImages ? (
     <EmptyState
       className="empty-state"
-      image={<Icon name="iso" className="empty-state-icon" />}
+      image={<DsIcon icon="iso" className="empty-state-icon" />}
       title="No custom ISOs found in this project"
     >
       <p>Custom ISOs will appear here</p>
