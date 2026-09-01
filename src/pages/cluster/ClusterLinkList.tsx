@@ -2,7 +2,6 @@ import type { FC } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   List,
   MainTable,
   Row,
@@ -28,6 +27,7 @@ import { useClusterLinks } from "context/useClusterLinks";
 import ClusterLinkAddresses from "pages/cluster/ClusterLinkAddresses";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
 import { getLinkIdentity } from "util/clusterLink";
+import DsIcon from "components/DsIcon";
 
 const ClusterLinkList: FC = () => {
   const notify = useNotify();
@@ -202,7 +202,9 @@ const ClusterLinkList: FC = () => {
           {isEmptyState && (
             <EmptyState
               className="empty-state"
-              image={<Icon name="applications" className="empty-state-icon" />}
+              image={
+                <DsIcon icon="applications" className="empty-state-icon" />
+              }
               title="No cluster links found"
             >
               <p>There are no cluster links on this server.</p>
@@ -213,7 +215,7 @@ const ClusterLinkList: FC = () => {
                   rel="noopener noreferrer"
                 >
                   Learn more about clustering
-                  <Icon className="external-link-icon" name="external-link" />
+                  <DsIcon className="external-link-icon" icon="external-link" />
                 </a>
               </p>
               <CreateClusterLinkBtn />

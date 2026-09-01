@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import EnableClusteringModal from "pages/cluster/EnableClusteringModal";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   className?: string;
@@ -29,7 +30,7 @@ const EnableClusteringBtn: FC<Props> = ({ className, hasIcon = true }) => {
         disabled={!canEdit}
         title={title}
       >
-        {hasIcon && <Icon name="plus" />}
+        {hasIcon && <DsIcon icon="plus" />}
         <span>Enable clustering</span>
       </Button>
       {isOpen && (

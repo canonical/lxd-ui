@@ -4,7 +4,6 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -12,6 +11,7 @@ import { deleteNetworkForward } from "api/network-forwards";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import ResourceLabel from "components/ResourceLabel";
 import { useEventQueue } from "context/eventQueue";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -123,7 +123,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
       showShiftClickHint
       disabled={!canEditNetwork(network) || isLoading}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

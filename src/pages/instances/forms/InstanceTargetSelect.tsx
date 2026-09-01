@@ -1,7 +1,6 @@
 import { useRef, type FC } from "react";
 import {
   CustomSelect,
-  Icon,
   Input,
   Select,
   Spinner,
@@ -20,6 +19,7 @@ import type { SelectRef } from "@canonical/react-components/dist/components/Cust
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 import { PLACEMENT_GROUP_POLICY_COMPACT } from "pages/placement-groups/PlacementGroupForm";
 import { CLUSTER_GROUP_PREFIX } from "util/instances";
+import DsIcon from "components/DsIcon";
 
 export const TARGET = {
   AUTO: "auto",
@@ -185,7 +185,7 @@ const InstanceTargetSelect: FC<Props> = ({ formik }) => {
             <Tooltip
               message={`LXD automatically selects a cluster member for the instance.\nPlacement groups allow you to control how instances are distributed across cluster members.`}
             >
-              <Icon name="information" />
+              <DsIcon icon="information" />
             </Tooltip>
           </>
         }

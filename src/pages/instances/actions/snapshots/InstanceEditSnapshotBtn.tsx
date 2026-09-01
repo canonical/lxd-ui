@@ -1,7 +1,8 @@
 import type { FC, ReactNode } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import EditInstanceSnapshotForm from "pages/instances/forms/EditInstanceSnapshotForm";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -44,7 +45,7 @@ const InstanceEditSnapshotBtn: FC<Props> = ({
         aria-label="Edit snapshot"
         title={disabledReason ?? "Edit"}
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Button>
     </>
   );

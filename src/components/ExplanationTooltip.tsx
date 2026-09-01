@@ -1,7 +1,8 @@
 import { type FC, type ReactNode } from "react";
 import classNames from "classnames";
-import { Icon, Tooltip } from "@canonical/react-components";
+import { Tooltip } from "@canonical/react-components";
 import DocLink from "components/DocLink";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   explanation: ReactNode;
@@ -32,7 +33,7 @@ const ExplanationTooltip: FC<Props> = ({
         </span>
       }
     >
-      <Icon name="help" className="explanation-tooltip-icon" />
+      <DsIcon icon="help" className="explanation-tooltip-icon" />
     </Tooltip>
   );
 

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   Button,
-  Icon,
   MainTable,
   Tooltip,
   usePortal,
@@ -21,6 +20,7 @@ import type { MainTableRow } from "@canonical/react-components/dist/components/M
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import DsIcon from "components/DsIcon";
 
 interface InheritedSshKey {
   sshKey: SshKey;
@@ -176,7 +176,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               disabled={!!disabledReason}
               title={disabledReason}
             >
-              <Icon name="connected" />
+              <DsIcon icon="connected" />
               <span>Reattach</span>
             </Button>
           ) : (
@@ -189,7 +189,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               disabled={!!disabledReason}
               title={disabledReason}
             >
-              <Icon name="disconnect" />
+              <DsIcon icon="disconnected" />
               <span>Detach</span>
             </Button>
           ),
@@ -257,7 +257,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
                 disabled={!!disabledReason}
                 title={disabledReason}
               >
-                <Icon name="delete" />
+                <DsIcon icon="delete" />
                 <span>Delete</span>
               </Button>
             ),
@@ -278,7 +278,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
         <Tooltip
           message={`Cloud init must be enabled on the instance to apply the keys.\nAdditional keys get applied on instance creation or restart.\nSSH Keys are not removed automatically.`}
         >
-          <Icon name="information" />
+          <DsIcon icon="information" />
         </Tooltip>
       </p>
 
@@ -302,7 +302,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
         disabled={!!disabledReason}
         title={disabledReason}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>New SSH key</span>
       </Button>
       {isOpen && (

@@ -1,6 +1,7 @@
 import { Fragment, type FC } from "react";
-import { Icon, Label, Select } from "@canonical/react-components";
+import { Label, Select } from "@canonical/react-components";
 import { conjugateACLAction } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 export type Direction = "Ingress" | "Egress";
 
@@ -39,8 +40,8 @@ const NetworkDefaultACLSelector: FC<Props> = ({
           return (
             <Fragment key={direction}>
               <Label forId={getId(direction)}>
-                <Icon
-                  name={direction === "Egress" ? "arrow-left" : "arrow-right"}
+                <DsIcon
+                  icon={direction === "Egress" ? "arrow-left" : "arrow-right"}
                   className="network-default-acl-icon"
                 />
                 {direction} traffic is{" "}

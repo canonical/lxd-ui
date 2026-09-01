@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import {
   ConfirmationButton,
-  Icon,
   Notification,
   useToastNotification,
 } from "@canonical/react-components";
@@ -25,6 +24,7 @@ import {
 } from "util/projects";
 import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   replicator: LxdReplicator;
@@ -265,7 +265,7 @@ const RunReplicatorBtn: FC<Props> = ({
       }}
       disabled={Boolean(disabledReason())}
     >
-      <Icon name="play" />
+      <DsIcon icon="play" />
       {hasLabel && <span>{buttonLabel}</span>}
     </ConfirmationButton>
   );

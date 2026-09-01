@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import {
   ConfirmationButton,
-  Icon,
   useToastNotification,
 } from "@canonical/react-components";
 import { queryKeys } from "util/queryKeys";
@@ -9,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { deleteWarningBulk } from "api/warnings";
 import { pluralize } from "util/helpers";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   warningIds: string[];
@@ -77,7 +77,7 @@ const BulkDeleteWarningBtn: FC<Props> = ({ warningIds, onStart, onFinish }) => {
       showShiftClickHint
       aria-label="delete"
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       <span>Delete {pluralize("warning", warningIds.length)}</span>
     </ConfirmationButton>
   );

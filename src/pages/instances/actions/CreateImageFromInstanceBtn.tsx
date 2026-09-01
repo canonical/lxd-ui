@@ -1,11 +1,12 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
-import { ActionButton, Icon, usePortal } from "@canonical/react-components";
+import { ActionButton, usePortal } from "@canonical/react-components";
 import CreateImageFromInstanceForm from "../forms/CreateImageFromInstanceForm";
 import { useInstanceLoading } from "context/instanceLoading";
 import classNames from "classnames";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -63,7 +64,7 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
         title={getDisabledReason() || "Create image"}
         disabled={Boolean(getDisabledReason())}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>Create Image</span>
       </ActionButton>
     </>

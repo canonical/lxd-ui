@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import CopyVolumeForm from "../forms/CopyVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import classNames from "classnames";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -41,7 +42,7 @@ const CopyVolumeBtn: FC<Props> = ({ volume, classname, onClose }) => {
         }
         disabled={!canCreateStorageVolumes(project)}
       >
-        <Icon name="canvas" />
+        <DsIcon icon="canvas" />
         <span>Copy</span>
       </Button>
     </>

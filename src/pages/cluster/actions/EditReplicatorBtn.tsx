@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import classnames from "classnames";
 import type { LxdReplicator } from "types/replicator";
 import { useReplicatorEntitlements } from "util/entitlements/replicators";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   replicator: LxdReplicator;
@@ -43,7 +44,7 @@ const EditReplicatorBtn: FC<Props> = ({
       title={disabledReason() ?? "Edit"}
       disabled={Boolean(disabledReason())}
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
       {hasLabel && <span>Edit</span>}
     </Button>
   );

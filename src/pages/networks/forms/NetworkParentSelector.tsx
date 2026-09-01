@@ -1,7 +1,6 @@
 import { useEffect, type FC } from "react";
 import {
   Button,
-  Icon,
   Label,
   Select,
   Spinner,
@@ -16,6 +15,7 @@ import ClusterSpecificSelect, {
   type ClusterSpecificSelectOption,
 } from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
+import DsIcon from "components/DsIcon";
 import {
   useNetworks,
   useNetworksFromClusterMembers,
@@ -196,7 +196,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
               hasIcon
               disabled={!!formik.values.editRestriction}
             >
-              <Icon name="edit" />
+              <DsIcon icon="edit" />
             </Button>
           </>
         ) : (

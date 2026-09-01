@@ -2,7 +2,6 @@ import type { FC } from "react";
 import {
   CheckboxInput,
   Col,
-  Icon,
   Input,
   Row,
   Tooltip,
@@ -21,6 +20,7 @@ import NetworkSelector from "./NetworkSelector";
 import { useNetworks } from "context/useNetworks";
 import type { ProjectDetailsFormValues } from "types/forms/project";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import DsIcon from "components/DsIcon";
 
 export const projectDetailPayload = (
   values: ProjectDetailsFormValues,
@@ -195,7 +195,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               <>
                 {" "}
                 <Tooltip message="Unselected features will be shared with the default project">
-                  <Icon name="information" />
+                  <DsIcon icon="information" />
                 </Tooltip>
               </>
             )}
@@ -327,7 +327,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     className="checkbox-label-tooltip"
                     message={`Custom restrictions are only available${"\n"}to projects with isolated profiles`}
                   >
-                    <Icon name="information" />
+                    <DsIcon icon="information" />
                   </Tooltip>
                 </>
               }

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   Button,
-  Icon,
   Input,
   Label,
   Select,
@@ -19,6 +18,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import EditLoadBalancerPoolBtn from "pages/networks/actions/EditLoadBalancerPoolBtn";
 import { CREATE_POOL_VALUE } from "util/loadBalancers";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: FormikProps<LoadBalancerFormValues>;
@@ -169,13 +169,13 @@ const LoadBalancerPortsForm: FC<Props> = ({ formik, network }) => {
               <td className="instances u-align--right mono-font">
                 <b>{selectedTargetPool?.instances.length ?? "-"}</b>{" "}
                 <Tooltip message="Determined by selected target pool">
-                  <Icon name="information" />
+                  <DsIcon icon="information" />
                 </Tooltip>
               </td>
               <td className="target-port u-align--right mono-font">
                 <b>{selectedTargetPool?.config.target_port ?? "-"}</b>{" "}
                 <Tooltip message="Determined by selected target pool">
-                  <Icon name="information" />
+                  <DsIcon icon="information" />
                 </Tooltip>
               </td>
               <td className="pool-action">
@@ -198,7 +198,7 @@ const LoadBalancerPortsForm: FC<Props> = ({ formik, network }) => {
                   type="button"
                   title="Detach port"
                 >
-                  <Icon name="disconnect" />
+                  <DsIcon icon="disconnected" />
                   <span>Detach</span>
                 </Button>
               </td>

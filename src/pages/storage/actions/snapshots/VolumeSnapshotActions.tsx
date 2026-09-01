@@ -8,7 +8,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
   ConfirmationButton,
-  Icon,
   List,
   useNotify,
   useToastNotification,
@@ -20,6 +19,7 @@ import ResourceLabel from "components/ResourceLabel";
 import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import VolumeLinkChip from "pages/storage/VolumeLinkChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -148,7 +148,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
             shiftClickEnabled
             showShiftClickHint
           >
-            <Icon name="change-version" />
+            <DsIcon icon="change-version" />
           </ConfirmationButton>,
           <ConfirmationButton
             key="delete"
@@ -176,7 +176,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
             shiftClickEnabled
             showShiftClickHint
           >
-            <Icon name="delete" />
+            <DsIcon icon="delete" />
           </ConfirmationButton>,
         ]}
       />

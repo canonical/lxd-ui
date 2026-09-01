@@ -1,9 +1,10 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { Card, Icon, List } from "@canonical/react-components";
+import { Card, List } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import { isUnrestricted, pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const PermissionsCard: FC = () => {
   const { currentIdentity, effectiveGroups, isAuthLoading } = useAuth();
@@ -18,7 +19,7 @@ const PermissionsCard: FC = () => {
   const cardClassName = "overview-card permissions";
   const cardTitle = (
     <span className="overview-card-title">
-      <Icon name="user" /> Permissions
+      <DsIcon icon="user" /> Permissions
     </span>
   );
 

@@ -3,7 +3,6 @@ import {
   Button,
   Col,
   Form,
-  Icon,
   Input,
   Label,
   Notification,
@@ -32,6 +31,7 @@ import { focusField } from "util/formFields";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { NetworkForwardFormValues } from "types/forms/networkForward";
+import DsIcon from "components/DsIcon";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -286,7 +286,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                 type="button"
                 disabled={!isListenAddressValid}
               >
-                <Icon name="plus" />
+                <DsIcon icon="plus" />
                 <span>Add port</span>
               </Button>
             </div>

@@ -119,7 +119,7 @@ const GroupForm: FC<Props> = ({
       />
       <FormLink
         title={getPermissionsTitle() + pluralize("permission", 2)}
-        icon="lock-locked"
+        icon="locked"
         onClick={() => {
           setSubForm("permission");
         }}

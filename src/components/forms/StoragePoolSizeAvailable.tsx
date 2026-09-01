@@ -1,10 +1,11 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
-import { Icon } from "@canonical/react-components";
+
 import { useStoragePoolResourceLimit } from "context/useStoragePoolResourceLimit";
 import type { LxdStoragePool } from "types/storage";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
 import { isClusterLocalDriver } from "util/storagePool";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   pool?: LxdStoragePool;
@@ -31,11 +32,9 @@ const StoragePoolSizeAvailable: FC<Props> = ({ pool, clusterMember }) => {
         {showHelpIcon && (
           <>
             {" "}
-            <Icon
-              name="information"
-              className="help-link-icon"
-              title={helpIconText}
-            />
+            <span title={helpIconText}>
+              <DsIcon icon="information" className="help-link-icon" />
+            </span>
           </>
         )}
       </b>

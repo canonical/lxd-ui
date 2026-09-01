@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { Button, Icon, Tooltip } from "@canonical/react-components";
+import { Button, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -11,6 +11,7 @@ import CloudInitExpandButton from "components/forms/CloudInitExpandButton";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { getProfileFromSource } from "util/devices";
 import type { CloudInitKey } from "types/forms/instanceAndProfile";
+import DsIcon from "components/DsIcon";
 export { cloudInitPayload } from "util/instanceAndProfilePayloads";
 
 interface Props {
@@ -110,7 +111,7 @@ const CloudInitForm: FC<Props> = ({ formik, project }) => {
             hasIcon
             className="u-no-margin--bottom u-no-margin--right"
           >
-            <Icon name="close" className="clear-configuration-icon" />
+            <DsIcon icon="close" className="clear-configuration-icon" />
           </Button>
           <CloudInitExpandButton
             formik={formik}
@@ -134,7 +135,7 @@ const CloudInitForm: FC<Props> = ({ formik, project }) => {
           hasIcon
           disabled={!!formik.values.editRestriction}
         >
-          <Icon name="edit" />
+          <DsIcon icon="edit" />
         </Button>
       ),
     });
@@ -148,7 +149,7 @@ const CloudInitForm: FC<Props> = ({ formik, project }) => {
             message="Applied only to images that have the cloud-init package installed."
             className="configuration-extra"
           >
-            <Icon name="warning-grey" />
+            <DsIcon icon="warning" />
           </Tooltip>
         }
         rows={[

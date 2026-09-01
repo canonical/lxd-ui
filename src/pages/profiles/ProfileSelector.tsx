@@ -1,7 +1,6 @@
 import { type FC } from "react";
 import {
   Button,
-  Icon,
   Label,
   Select,
   useNotify,
@@ -11,6 +10,7 @@ import {
 import { defaultFirst } from "util/helpers";
 import { focusField } from "util/formFields";
 import { useProfiles } from "context/useProfiles";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   project: string;
@@ -79,7 +79,7 @@ const ProfileSelector: FC<Props> = ({
             </>
           }
         >
-          <Icon name="information" />
+          <DsIcon icon="information" />
         </Tooltip>
       </Label>
       {selected.map((value, index) => (
@@ -129,7 +129,7 @@ const ProfileSelector: FC<Props> = ({
                   disabled={!!disabledReason || index === 0}
                   hasIcon
                 >
-                  <Icon name="chevron-up" />
+                  <DsIcon icon="chevron-up" />
                 </Button>
                 <Button
                   appearance="base"
@@ -146,7 +146,7 @@ const ProfileSelector: FC<Props> = ({
                   disabled={!!disabledReason || index === selected.length - 1}
                   hasIcon
                 >
-                  <Icon name="chevron-down" />
+                  <DsIcon icon="chevron-down" />
                 </Button>
               </div>
             )}
@@ -163,7 +163,7 @@ const ProfileSelector: FC<Props> = ({
                 title={disabledReason}
                 hasIcon
               >
-                <Icon name="delete" />
+                <DsIcon icon="delete" />
                 <span>Remove</span>
               </Button>
             )}
@@ -181,7 +181,7 @@ const ProfileSelector: FC<Props> = ({
             title={disabledReason}
             hasIcon
           >
-            <Icon name="plus" />
+            <DsIcon icon="plus" />
             <span>Add profile</span>
           </Button>
         </div>

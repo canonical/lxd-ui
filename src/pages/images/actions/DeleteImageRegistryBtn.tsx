@@ -2,7 +2,6 @@ import { useState, type FC } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -15,6 +14,7 @@ import { queryKeys } from "util/queryKeys";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdImageRegistry } from "types/image";
 import { deleteImageRegistry } from "api/image-registries";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   imageRegistry: LxdImageRegistry;
@@ -108,7 +108,7 @@ const DeleteImageRegistryDeleteBtn: FC<Props> = ({ imageRegistry }) => {
       disabled={Boolean(disabledReason()) || isLoading}
       onHoverText={disabledReason()}
     >
-      {!isSmallScreen && <Icon name="delete" />}
+      {!isSmallScreen && <DsIcon icon="delete" />}
       <span>Delete registry</span>
     </ConfirmationButton>
   );
