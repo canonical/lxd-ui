@@ -17,6 +17,7 @@ const LocalPeeringTargetWarning: FC<Props> = ({
   return (
     (!networkACLs || networkACLs?.length == 0) && (
       <Tooltip
+        className="u-margin-left--small"
         message={
           <div>
             <div>Target network has unrestricted ingress and egress.</div>
