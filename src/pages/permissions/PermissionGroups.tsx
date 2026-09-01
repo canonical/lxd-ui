@@ -75,7 +75,11 @@ const PermissionGroups: FC = () => {
       sortKey: "permissions",
       className: "u-align--right permissions",
     },
-    { "aria-label": "Actions", className: "u-align--right actions" },
+    {
+      "aria-label": "Actions",
+      className: "u-align--right actions",
+      heading: "Actions",
+    },
   ];
 
   const filteredGroups = groups.filter(
@@ -208,6 +212,7 @@ const PermissionGroups: FC = () => {
           headers={headers}
           rows={sortedRows}
           sortable
+          responsive
           emptyStateMsg="No groups found matching this search"
           onUpdateSort={updateSort}
           itemName="group"

@@ -23,25 +23,6 @@
       .actions {
         width: 8.5rem;
       }
-
-      @media screen and (width < 1000px) {
-        .description {
-          display: none;
-        }
-      }
-
-      @media screen and (width < 900px) {
-        .identities,
-        .permissions {
-          display: none;
-        }
-      }
-
-      @media screen and (width < 600px) {
-        .select {
-          display: none;
-        }
-      }
     }
   }
 
