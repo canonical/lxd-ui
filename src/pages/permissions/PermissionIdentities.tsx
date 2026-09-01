@@ -1,6 +1,5 @@
 import {
   Button,
-  Icon,
   Row,
   ScrollableTable,
   TablePagination,
@@ -44,6 +43,7 @@ import ResourceLabel from "components/ResourceLabel";
 import IdentityExpiration from "pages/permissions/IdentityExpiration";
 import IdentityAdditionalIdpGroups from "pages/permissions/IdentityAdditionalIdpGroups";
 import IdentityTypeChip from "pages/permissions/IdentityTypeChip";
+import DsIcon from "components/DsIcon";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -220,7 +220,7 @@ const PermissionIdentities: FC = () => {
                 }
                 disabled={!canEditIdentity(identity)}
               >
-                <Icon name="edit" />
+                <DsIcon icon="edit" />
               </Button>
               <DeleteIdentityBtn identity={identity} />
             </>

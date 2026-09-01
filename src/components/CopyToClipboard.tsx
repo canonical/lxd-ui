@@ -1,5 +1,6 @@
 import { useState, type FC, type ReactNode } from "react";
-import { Button, Icon, Tooltip } from "@canonical/react-components";
+import { Button, Tooltip } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   value: string;
@@ -47,9 +48,9 @@ const CopyToClipboard: FC<Props> = ({
         onClick={handleCopy}
       >
         {copied ? (
-          <Icon
+          <DsIcon
             className="copy-to-clipboard-button-wrapper"
-            name="task-outstanding"
+            icon="checkmark"
           />
         ) : (
           <Tooltip
@@ -58,7 +59,7 @@ const CopyToClipboard: FC<Props> = ({
             className="copy-to-clipboard-button-wrapper"
             zIndex={999}
           >
-            <Icon name="copy-to-clipboard" />
+            <DsIcon icon="copy" />
           </Tooltip>
         )}
       </Button>

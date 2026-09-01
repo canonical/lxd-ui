@@ -2,7 +2,6 @@ import { useEffect, type FC } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   MainTable,
   Row,
   useNotify,
@@ -45,6 +44,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
 import NetworkLoadBalancerCount from "pages/networks/NetworkLoadBalancerCount";
+import DsIcon from "components/DsIcon";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();
@@ -297,7 +297,7 @@ const NetworkList: FC = () => {
                   : "You do not have permission to create networks in this project"
               }
             >
-              {!isSmallScreen && <Icon name="plus" light />}
+              {!isSmallScreen && <DsIcon icon="plus" />}
               <span>Create network</span>
             </Button>
           </PageHeader.BaseActions>
@@ -320,7 +320,7 @@ const NetworkList: FC = () => {
         {!isLoading && !hasNetworks && (
           <EmptyState
             className="empty-state"
-            image={<Icon className="empty-state-icon" name="exposed" />}
+            image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No networks found"
           >
             <p>There are no networks in this project.</p>

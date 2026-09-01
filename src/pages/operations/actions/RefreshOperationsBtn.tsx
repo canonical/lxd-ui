@@ -1,10 +1,11 @@
 import { useEffect, type FC } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ActionButton, Icon } from "@canonical/react-components";
+import { ActionButton } from "@canonical/react-components";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useOperationsWithChildren } from "context/operationsProvider";
 import { queryKeys } from "util/queryKeys";
+import DsIcon from "components/DsIcon";
 
 const RefreshOperationsBtn: FC = () => {
   const { isFetching } = useOperationsWithChildren();
@@ -29,7 +30,7 @@ const RefreshOperationsBtn: FC = () => {
       loading={isFetching}
       disabled={isFetching}
     >
-      {!isSmallScreen && <Icon name="restart" />}
+      {!isSmallScreen && <DsIcon icon="restart" />}
       <span>Refresh</span>
     </ActionButton>
   );

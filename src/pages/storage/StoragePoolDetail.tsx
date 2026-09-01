@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Icon, Row, Spinner, CustomLayout } from "@canonical/react-components";
+import { Row, Spinner, CustomLayout } from "@canonical/react-components";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
 import NotificationRow from "components/NotificationRow";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
@@ -12,6 +12,7 @@ import classnames from "classnames";
 import { cephObject, isBucketCompatibleDriver } from "util/storageOptions";
 import NotFound from "components/NotFound";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const StoragePoolDetail: FC = () => {
   const { name, project, activeTab } = useParams<{
@@ -64,7 +65,7 @@ const StoragePoolDetail: FC = () => {
                 : "Volumes are not supported on this pool"
             }
           >
-            Volumes <Icon name="external-link" />
+            Volumes <DsIcon icon="external-link" />
           </Link>
         );
       },
@@ -87,7 +88,7 @@ const StoragePoolDetail: FC = () => {
               : "Buckets are not supported on this pool"
           }
         >
-          Buckets <Icon name="external-link" />
+          Buckets <DsIcon icon="external-link" />
         </Link>
       ),
       label: "Buckets",

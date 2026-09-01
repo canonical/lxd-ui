@@ -4,7 +4,6 @@ import {
   Button,
   Col,
   Form,
-  Icon,
   Row,
   useListener,
   useNotify,
@@ -94,6 +93,7 @@ import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import { ISO_VOLUME_TYPE } from "util/devices";
 import { getInstancesUrl } from "util/projects";
 import type { MemoryLimit } from "types/limits";
+import DsIcon from "components/DsIcon";
 
 interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
@@ -221,7 +221,7 @@ const CreateInstance: FC = () => {
       <>
         <p>Continue the installation process from its console.</p>
         <Button onClick={async () => navigate(consoleUrl)} hasIcon>
-          <Icon name="canvas" />
+          <DsIcon icon="canvas" />
           <span>Open console</span>
         </Button>
       </>

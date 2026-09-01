@@ -8,7 +8,6 @@ import {
   Button,
   Col,
   CustomSelect,
-  Icon,
   MainTable,
   Modal,
   Notification,
@@ -44,6 +43,7 @@ import {
   isRegistryAllowedInProject,
 } from "util/imageRegistry";
 import type { CustomSelectOption } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown";
+import DsIcon from "components/DsIcon";
 import {
   canonicalServer,
   imagesLxdServer,
@@ -589,7 +589,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 setShowFilters((prev) => !prev);
               }}
             >
-              <Icon name="filter" />
+              <DsIcon icon="filter" />
             </Button>
           </div>
           {isCardView && showFilters && filters}

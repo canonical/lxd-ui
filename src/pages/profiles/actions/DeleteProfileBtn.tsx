@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -15,6 +14,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { useProfileEntitlements } from "util/entitlements/profiles";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   profile: LxdProfile;
@@ -94,7 +94,7 @@ const DeleteProfileBtn: FC<Props> = ({
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       <span>Delete</span>
     </ConfirmationButton>
   );

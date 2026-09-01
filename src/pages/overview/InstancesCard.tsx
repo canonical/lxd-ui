@@ -2,7 +2,6 @@ import { useMemo, type FC } from "react";
 import { Link } from "react-router-dom";
 import {
   DoughnutChart,
-  Icon,
   List,
   MainTable,
   Spinner,
@@ -25,6 +24,7 @@ import {
 import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
 import CardEmptyState from "./CardEmptyState";
 import { renderOverviewCard } from "util/overview";
+import DsIcon from "components/DsIcon";
 
 const InstancesCard: FC = () => {
   const { project, projectName } = useCurrentProject();
@@ -51,7 +51,7 @@ const InstancesCard: FC = () => {
   const cardTitle = (
     <>
       <span className="overview-card-title">
-        <Icon name="pods" /> Instances
+        <DsIcon icon="pods" /> Instances
         {!isLoading &&
           !error &&
           instances.length > 0 &&
@@ -77,7 +77,7 @@ const InstancesCard: FC = () => {
       cardClassName,
       cardTitle,
       <>
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error while
         loading instances: {error.message}
       </>,
       footerLink,

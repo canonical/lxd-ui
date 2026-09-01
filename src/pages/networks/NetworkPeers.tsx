@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   EmptyState,
-  Icon,
   MainTable,
   Row,
   ScrollableTable,
@@ -22,6 +21,7 @@ import NetworkRichChip from "./NetworkRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import LocalPeeringTargetWarning from "pages/networks/LocalPeeringTargetWarning";
 import InlineExplanation from "components/InlineExplanation";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -165,7 +165,7 @@ const NetworkPeers: FC<Props> = ({ network, project }) => {
         {!hasNetworkPeers && (
           <EmptyState
             className="empty-state"
-            image={<Icon className="empty-state-icon" name="exposed" />}
+            image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No local peerings found"
           >
             <p>There are no local peerings in this network and project.</p>

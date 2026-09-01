@@ -23,8 +23,9 @@
   .projects-card {
     position: relative;
 
-    .p-icon--folder:has(+ .u-off-screen) {
-      margin-top: 4px;
+    .overview-card-title {
+      // Preserve the line height when the title text is screen-reader-only.
+      min-height: 1lh;
     }
 
     > .projects-breadcrumb {
@@ -57,10 +58,14 @@
         display: flex;
         gap: $sph--small;
 
-        i {
-          height: 1.5rem;
+        i,
+        .ds.icon {
+          // pragma DsIcon svgs (class="ds icon") ship their own same-specificity
+          // width/height rule, so !important is needed to reliably win the tie.
+          // Issue is tracked in WD-38790
+          height: 1.5rem !important;
           margin-bottom: 2px;
-          width: 1.5rem;
+          width: 1.5rem !important;
         }
       }
 

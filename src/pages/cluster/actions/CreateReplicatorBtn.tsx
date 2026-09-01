@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject, useProjects } from "context/useProjects";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   appearance?: "positive" | "default";
@@ -53,11 +54,7 @@ export const CreateReplicatorButton: FC<Props> = ({
       disabled={isDisabled}
       title={getTitle()}
     >
-      <Icon
-        name="plus"
-        light={appearance === "positive"}
-        className="u-margin--right"
-      />
+      <DsIcon icon="plus" className="u-margin--right" />
       <span>Create replicator</span>
     </Button>
   );

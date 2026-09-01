@@ -1,5 +1,6 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   onSelect: () => void;
@@ -15,7 +16,7 @@ const NewProxyBtn: FC<Props> = ({ onSelect, disabledReason }) => {
       disabled={!!disabledReason}
       title={disabledReason}
     >
-      <Icon name="plus" />
+      <DsIcon icon="plus" />
       <span>New Proxy Device</span>
     </Button>
   );
