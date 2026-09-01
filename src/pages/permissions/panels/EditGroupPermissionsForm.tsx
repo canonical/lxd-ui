@@ -21,6 +21,7 @@ import { useServerEntitlements } from "util/entitlements/server";
 import { useGroupEntitlements } from "util/entitlements/groups";
 import type { FormPermission } from "types/forms/permissionGroup";
 import { isAdminGroup } from "util/permissionGroups";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   permissions: FormPermission[];
@@ -178,7 +179,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   title="Restore permission"
                   className="u-no-margin--right"
                 >
-                  <Icon name="restart" />
+                  <DsIcon icon="restart" />
                 </Button>
               ) : (
                 <Button
@@ -194,7 +195,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   className="u-no-margin--right"
                   disabled={!!getEditRestriction()}
                 >
-                  <Icon name="delete" />
+                  <DsIcon icon="delete" />
                 </Button>
               )}
               <Icon
@@ -242,7 +243,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
       {!permissions.length ? (
         <EmptyState
           className="empty-state empty-state__full-width"
-          image={<Icon name="plans" className="empty-state-icon" />}
+          image={<DsIcon icon="plans" className="empty-state-icon" />}
           title="No permissions"
         >
           <p>Select a permission above and add to the group</p>

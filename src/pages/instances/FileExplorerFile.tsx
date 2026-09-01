@@ -1,13 +1,14 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
 import { getFileExplorerURL } from "util/instances";
 import type { LxdInstance } from "types/instance";
+import DsIcon from "components/DsIcon";
+import type { IconName } from "@canonical/ds-assets";
 
 const FileExplorerFile: FC<{
   fileName: string;
   parentPath: string;
   instance: LxdInstance;
-  icon: string;
+  icon: IconName;
 }> = ({ fileName, parentPath, instance, icon }) => {
   return (
     <a
@@ -15,7 +16,7 @@ const FileExplorerFile: FC<{
       download={fileName}
       className="file-explorer-item"
     >
-      <Icon name={icon} />
+      <DsIcon icon={icon} />
       <span className="file-explorer-item__name" title={fileName}>
         {fileName}
       </span>

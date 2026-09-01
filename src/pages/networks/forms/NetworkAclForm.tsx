@@ -2,7 +2,6 @@ import { useState, type FC } from "react";
 import {
   Button,
   Form,
-  Icon,
   Input,
   ScrollableContainer,
   useNotify,
@@ -19,6 +18,7 @@ import { YAML_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import YamlForm from "components/forms/YamlForm";
 import type { LxdNetworkAcl } from "types/network";
 import NetworkAclUsedBy from "pages/networks/NetworkAclUsedBy";
+import DsIcon from "components/DsIcon";
 import type {
   NetworkAclFormValues,
   NetworkAclRuleFormValues,
@@ -195,7 +195,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                   disabled={isLackingEditPermission}
                   title={formik.values.editRestriction}
                 >
-                  <Icon name="plus" />
+                  <DsIcon icon="plus" />
                   <span>Add ingress rule</span>
                 </Button>
               </div>
@@ -225,7 +225,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                   disabled={isLackingEditPermission}
                   title={formik.values.editRestriction}
                 >
-                  <Icon name="plus" />
+                  <DsIcon icon="plus" />
                   <span>Add egress rule</span>
                 </Button>
               </div>

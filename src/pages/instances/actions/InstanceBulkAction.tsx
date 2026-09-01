@@ -6,17 +6,19 @@ import type {
 } from "types/instance";
 import { instanceAction, statusLabel } from "util/instanceBulkActions";
 import { pluralize } from "util/helpers";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import { ConfirmationButton } from "@canonical/react-components";
 import { getInstanceKey } from "util/instances";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
+import type { IconName } from "@canonical/ds-assets";
 
 interface Props {
   action: LxdInstanceAction;
   confirmAppearance?: string;
   confirmExtra?: ReactNode;
   confirmLabel: string;
-  icon: string;
+  icon: IconName;
   instances: LxdInstance[];
   isLoading: boolean;
   isDisabled: boolean;
@@ -164,7 +166,7 @@ const InstanceBulkAction: FC<Props> = ({
           : confirmLabel
       }
     >
-      <Icon name={icon} />
+      <DsIcon icon={icon} />
       <span className="u-hide--small">{confirmLabel}</span>
     </ConfirmationButton>
   );

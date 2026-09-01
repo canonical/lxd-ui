@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import CreateImageFromInstanceSnapshotForm from "pages/instances/forms/CreateImageFromInstanceSnapshotForm";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -47,7 +48,7 @@ const CreateImageFromInstanceSnapshotBtn: FC<Props> = ({
             : "You do not have permission to create images in this project"
         }
       >
-        <Icon name="export" />
+        <DsIcon icon="export" />
       </Button>
     </>
   );

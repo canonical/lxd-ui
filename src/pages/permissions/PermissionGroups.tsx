@@ -1,7 +1,6 @@
 import {
   Button,
   EmptyState,
-  Icon,
   Row,
   ScrollableTable,
   TablePagination,
@@ -29,6 +28,7 @@ import { useAuthGroups } from "context/useAuthGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import DocLink from "components/DocLink";
+import DsIcon from "components/DsIcon";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -228,7 +228,7 @@ const PermissionGroups: FC = () => {
   ) : (
     <EmptyState
       className="empty-state"
-      image={<Icon name="user-group" className="empty-state-icon" />}
+      image={<DsIcon icon="user-group" className="empty-state-icon" />}
       title="No groups"
     >
       <p>
@@ -248,11 +248,13 @@ const PermissionGroups: FC = () => {
         }}
         disabled={!canCreateGroups()}
         title={
-          canCreateGroups() ? "" : "You do not have permission to create groups"
+          canCreateGroups()
+            ? undefined
+            : "You do not have permission to create groups"
         }
         hasIcon={!isSmallScreen}
       >
-        {!isSmallScreen && <Icon name="plus" light />}
+        {!isSmallScreen && <DsIcon icon="plus" />}
         <span>Create group</span>
       </Button>
     </EmptyState>
@@ -309,12 +311,12 @@ const PermissionGroups: FC = () => {
                     disabled={!canCreateGroups()}
                     title={
                       canCreateGroups()
-                        ? ""
+                        ? undefined
                         : "You do not have permission to create groups"
                     }
                     hasIcon={!isSmallScreen}
                   >
-                    {!isSmallScreen && <Icon name="plus" light />}
+                    {!isSmallScreen && <DsIcon icon="plus" />}
                     <span>Create group</span>
                   </Button>
                 )}

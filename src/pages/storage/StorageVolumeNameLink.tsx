@@ -1,4 +1,3 @@
-import { ICONS, Icon } from "@canonical/react-components";
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import type { LxdStorageVolume } from "types/storage";
@@ -7,6 +6,7 @@ import { getVolumeDetailUrl, hasVolumeDetailPage } from "util/storageVolume";
 import { useInstances } from "context/useInstances";
 import { useLocalImagesInProject } from "context/useImages";
 import { getImageAlias, getImageName } from "util/images";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -62,7 +62,7 @@ const StorageVolumeNameLink: FC<Props> = ({
             className={isExternalLink ? "has-icon" : undefined}
           >
             {caption}
-            {isExternalLink && <Icon name={ICONS.externalLink} />}
+            {isExternalLink && <DsIcon icon="external-link" />}
           </Link>
         ) : (
           caption

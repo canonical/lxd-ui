@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import classnames from "classnames";
 import { Icon } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   status: string;
@@ -11,7 +11,6 @@ const getIconNameForStatus = (status: string): string => {
     {
       Error: "status-failed-small",
       Frozen: "status-in-progress-small",
-      Freezing: "spinner",
       Ready: "status-waiting-small",
       Running: "status-succeeded-small",
       Stopped: "status-queued-small",
@@ -20,14 +19,18 @@ const getIconNameForStatus = (status: string): string => {
 };
 
 const InstanceStatus: FC<Props> = ({ status }) => {
+  if (status === "Freezing") {
+    return (
+      <>
+        <DsIcon className="u-animation--spin status-icon" icon="spinner" />
+        {status}
+      </>
+    );
+  }
+
   return (
     <>
-      <Icon
-        name={getIconNameForStatus(status)}
-        className={classnames("status-icon", {
-          "u-animation--spin": status === "Freezing",
-        })}
-      />
+      <Icon name={getIconNameForStatus(status)} className="status-icon" />
       {status}
     </>
   );

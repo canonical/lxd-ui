@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import ConfigurationTable from "components/ConfigurationTable";
 import type {
@@ -38,6 +38,7 @@ import { isDeviceModified } from "util/formChangeCount";
 import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";
 import classnames from "classnames";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -96,7 +97,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
               className="has-icon u-no-margin--bottom"
               disabled={!!formik.values.editRestriction}
             >
-              <Icon name="connected"></Icon>
+              <DsIcon icon="connected" />
               <span>Reattach</span>
             </Button>
           </div>

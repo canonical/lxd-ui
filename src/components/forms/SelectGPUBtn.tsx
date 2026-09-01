@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import SelectGPUModal from "components/forms/SelectGPUModal";
 import type { GpuCard } from "types/resources";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   onSelect: (image: GpuCard) => void;
@@ -25,7 +26,7 @@ const SelectGPUBtn: FC<Props> = ({ onSelect, disabledReason }) => {
         disabled={!!disabledReason}
         title={disabledReason}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>Attach GPU</span>
       </Button>
       {isOpen && (

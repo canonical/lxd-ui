@@ -8,7 +8,6 @@ import SnapshotForm from "components/forms/SnapshotForm";
 import { useEventQueue } from "context/eventQueue";
 import {
   CheckboxInput,
-  Icon,
   List,
   Tooltip,
   useNotify,
@@ -25,6 +24,7 @@ import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import { getInstanceSnapshotName } from "util/operations";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { InstanceRichChip } from "../InstanceRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   close: () => void;
@@ -150,7 +150,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
                 message={statefulInfoMessage}
                 zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
               >
-                <Icon name="information" />
+                <DsIcon icon="information" />
               </Tooltip>,
             ]
           : []),

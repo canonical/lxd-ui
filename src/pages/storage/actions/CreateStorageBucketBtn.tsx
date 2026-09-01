@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   className?: string;
@@ -30,7 +31,7 @@ const CreateStorageBucketBtn: FC<Props> = ({ className }) => {
           : "You do not have permission to create buckets in this project"
       }
     >
-      {!isSmallScreen && <Icon name="plus" light />}
+      {!isSmallScreen && <DsIcon icon="plus" />}
       <span>Create bucket</span>
     </Button>
   );
