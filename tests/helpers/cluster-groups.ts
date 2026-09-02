@@ -21,7 +21,7 @@ export const randomGroupName = (): string => {
 export const createClusterGroup = async (page: Page, group: string) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Groups" }).click();
+  await page.getByRole("link", { name: "Cluster Groups" }).click();
   await page.getByRole("button", { name: "Create group" }).click();
   await page.getByPlaceholder("Enter name").click();
   await page.getByPlaceholder("Enter name").fill(group);
@@ -34,7 +34,7 @@ export const createClusterGroup = async (page: Page, group: string) => {
 export const deleteClusterGroup = async (page: Page, group: string) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Groups" }).click();
+  await page.getByRole("link", { name: "Cluster Groups" }).click();
   await page
     .getByRole("row", { name: group })
     .getByRole("button", { name: "Delete group" })
@@ -51,7 +51,7 @@ export const toggleClusterGroupMember = async (
 ) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Groups" }).click();
+  await page.getByRole("link", { name: "Cluster Groups" }).click();
   await page
     .getByRole("row", { name: group })
     .getByRole("button", { name: "Edit group" })

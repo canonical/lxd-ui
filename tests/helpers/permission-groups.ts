@@ -8,11 +8,13 @@ export const randomGroupName = (): string => {
   return `playwright-group-${randomNameSuffix()}`;
 };
 
-export const visitGroups = async (page: Page) => {
+export const visitAuthGroups = async (page: Page) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
-  await page.getByRole("link", { name: "Groups", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Groups" })).toBeVisible();
+  await page.getByRole("link", { name: "Auth Groups", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Auth groups" }),
+  ).toBeVisible();
 };
 
 export const renameGroup = async (
@@ -20,7 +22,7 @@ export const renameGroup = async (
   groupName: string,
   newGroupName: string,
 ) => {
-  await visitGroups(page);
+  await visitAuthGroups(page);
   await openEditGroupPanel(page, groupName);
   await page.getByPlaceholder("Enter name").fill(newGroupName);
 
@@ -132,7 +134,7 @@ export const createGroup = async (
   description: string,
   withPermissions = false,
 ) => {
-  await visitGroups(page);
+  await visitAuthGroups(page);
   await page.getByRole("button", { name: "Create group" }).click();
   await page.getByPlaceholder("Enter name").fill(groupName);
   await page.getByPlaceholder("Enter description").click();
@@ -151,7 +153,7 @@ export const createGroup = async (
 };
 
 export const deleteGroup = async (page: Page, groupName: string) => {
-  await visitGroups(page);
+  await visitAuthGroups(page);
   await page
     .getByRole("row", { name: `Select ${groupName}` })
     .getByTitle("Delete group")

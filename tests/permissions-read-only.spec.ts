@@ -424,10 +424,10 @@ test.describe("Given a user with Viewer Server permissions...", () => {
     await expect(page.getByLabel("Delete identity")).toBeDisabled();
   });
 
-  test("Cannot interact with Groups", async ({ page }) => {
+  test("Cannot interact with Auth Groups", async ({ page }) => {
     await gotoURL(page, "/ui/");
     await page.getByText("Permissions", { exact: true }).click();
-    await page.getByRole("link", { name: "Groups", exact: true }).click();
+    await page.getByRole("link", { name: "Auth Groups", exact: true }).click();
     await expect(
       page.getByRole("button", { name: "Create group" }),
     ).toBeDisabled();

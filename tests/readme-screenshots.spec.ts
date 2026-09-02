@@ -195,7 +195,7 @@ test("permission group create", async ({ page }) => {
   const group = "instance managers (default project)";
   await gotoURL(page, "/ui/");
   await page.getByText("Permissions").click();
-  await page.getByText("Groups", { exact: true }).click();
+  await page.getByText("Auth Groups", { exact: true }).click();
   await page.getByText("Create group").click();
   await page.getByPlaceholder("Enter name").fill(group);
   await page.getByText("Add permissions").click();

@@ -608,13 +608,13 @@ test.describe("clustering", () => {
 
   test("cluster groups page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Groups", "Clustering");
+    await clickSideNavItem(page, "Cluster Groups", "Clustering");
     await runA11yAudit(page, testInfo);
   });
 
   test("placement groups page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Placement", "Clustering");
+    await clickSideNavItem(page, "Placement Groups", "Clustering");
     await runA11yAudit(page, testInfo);
   });
 
@@ -710,9 +710,9 @@ test.describe("permissions", () => {
     await runA11yAudit(page, testInfo);
   });
 
-  test("groups page", async ({ page }, testInfo) => {
+  test("auth groups page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Groups", "Permissions");
+    await clickSideNavItem(page, "Auth Groups", "Permissions");
     await runA11yAudit(page, testInfo);
   });
 
@@ -748,17 +748,17 @@ test.describe("permissions", () => {
     await closePanel(page);
   });
 
-  test("create group panel", async ({ page }, testInfo) => {
+  test("create permission group panel", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Groups", "Permissions");
+    await clickSideNavItem(page, "Auth Groups", "Permissions");
     await page.getByRole("button", { name: "Create group" }).click();
     await runA11yAuditForPanel(page, testInfo);
     await closePanel(page);
   });
 
-  test("edit group panel", async ({ page }, testInfo) => {
+  test("edit permission group panel", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Groups", "Permissions");
+    await clickSideNavItem(page, "Auth Groups", "Permissions");
     await page.getByRole("button", { name: "Edit group" }).first().click();
     await runA11yAuditForPanel(page, testInfo);
     await closePanel(page);
