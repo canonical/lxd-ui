@@ -176,6 +176,8 @@ const config: PlaywrightTestConfig<TestOptions> = {
         hasCoverage: true,
       },
       dependencies: ["login-chromium"],
+      // a11y audit adds no code coverage; it runs in its own a11y-audit project
+      testIgnore: "accessibility-audit.spec.ts",
     },
     {
       name: "coverage:cluster-enable",
