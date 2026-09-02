@@ -19,7 +19,7 @@ import {
   visitImageRegistry,
 } from "./helpers/image-registries";
 import {
-  createInstance,
+  createAndStartInstance,
   deleteInstance,
   randomInstanceName,
   visitInstance,
@@ -33,8 +33,14 @@ import {
   visitNetwork,
 } from "./helpers/network";
 import {
+  createNetworkAcl,
+  deleteNetworkAcl,
+  randomNetworkAclName,
+} from "./helpers/network-acls";
+import {
   createVolume,
   deleteVolume,
+  randomIsoName,
   randomVolumeName,
   visitVolume,
 } from "./helpers/storageVolume";
@@ -67,6 +73,7 @@ import {
   randomIdpGroupName,
   visitIdpGroups,
 } from "./helpers/permission-idp-groups";
+import { createCustomISO, deleteCustomISO } from "./helpers/custom-isos";
 
 test.describe("instances", () => {
   const instance = randomInstanceName();
@@ -78,7 +85,7 @@ test.describe("instances", () => {
       return;
     }
     const page = await browser.newPage();
-    await createInstance(page, instance);
+    await createAndStartInstance(page, instance);
     await createPool(page, pool);
     await createProject(page, project);
     await page.close();
@@ -238,9 +245,67 @@ test.describe("instances", () => {
   test("configure snapshot modal", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
     await visitInstance(page, instance);
-    await page.getByTestId("tab-link-Snapshots").click();
+    await page.getByRole("tab", { name: "Snapshots" }).click();
     await page.getByRole("button", { name: "See configuration" }).click();
     await runA11yAuditForModal(page, testInfo);
+  });
+
+  test("configuration tab", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitInstance(page, instance);
+    await page.getByRole("tab", { name: "Configuration" }).click();
+    await page
+      .locator('[role="tabpanel"][aria-labelledby="configuration"]')
+      .waitFor();
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("snapshots tab", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitInstance(page, instance);
+    await page.getByRole("tab", { name: "Snapshots" }).click();
+    await page
+      .locator('[role="tabpanel"][aria-labelledby="snapshots"]')
+      .waitFor();
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("file explorer tab", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitInstance(page, instance);
+    await page.getByRole("tab", { name: "File explorer" }).click();
+    await page
+      .locator('[role="tabpanel"][aria-labelledby="file-explorer"]')
+      .waitFor();
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("terminal tab", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitInstance(page, instance);
+    await page.getByRole("tab", { name: "Terminal" }).click();
+    await page
+      .locator('[role="tabpanel"][aria-labelledby="terminal"]')
+      .waitFor();
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("console tab", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitInstance(page, instance);
+    await page.getByRole("tab", { name: "Console" }).click();
+    await page
+      .locator('[role="tabpanel"][aria-labelledby="console"]')
+      .waitFor();
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("logs tab", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitInstance(page, instance);
+    await page.getByRole("tab", { name: "Logs" }).click();
+    await page.locator('[role="tabpanel"][aria-labelledby="logs"]').waitFor();
+    await runA11yAudit(page, testInfo);
   });
 });
 
@@ -267,6 +332,7 @@ test.describe("profiles", () => {
 
 test.describe("networks", () => {
   const network = randomNetworkName();
+  const networkAcl = randomNetworkAclName();
 
   test.beforeAll(async ({ browser }, testInfo) => {
     if (!isA11yProject(testInfo.project.name)) {
@@ -274,6 +340,7 @@ test.describe("networks", () => {
     }
     const page = await browser.newPage();
     await createNetwork(page, network);
+    await createNetworkAcl(page, networkAcl);
     await page.close();
   });
 
@@ -282,6 +349,7 @@ test.describe("networks", () => {
       return;
     }
     const page = await browser.newPage();
+    await deleteNetworkAcl(page, networkAcl);
     await deleteNetwork(page, network);
     await page.close();
   });
@@ -329,6 +397,7 @@ test.describe("storage", () => {
   const volume = randomVolumeName();
   const pool = randomPoolName();
   const project = randomProjectName();
+  const isoName = randomIsoName();
 
   test.beforeAll(async ({ browser }, testInfo) => {
     if (!isA11yProject(testInfo.project.name)) {
@@ -338,6 +407,8 @@ test.describe("storage", () => {
     await createPool(page, pool);
     await createVolume(page, volume);
     await createProject(page, project);
+    await createCustomISO(page, isoName);
+
     await page.close();
   });
 
@@ -346,6 +417,8 @@ test.describe("storage", () => {
       return;
     }
     const page = await browser.newPage();
+
+    await deleteCustomISO(page, isoName);
     await deleteVolume(page, volume);
     await deletePool(page, pool);
     await deleteProject(page, project);

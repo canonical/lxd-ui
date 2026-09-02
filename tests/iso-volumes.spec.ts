@@ -5,8 +5,8 @@ import { activateOverride } from "./helpers/configuration";
 import { gotoURL } from "./helpers/navigate";
 import { randomIsoName } from "./helpers/storageVolume";
 import { dismissNotification } from "./helpers/notification";
+import { deleteCustomISO, ISO_FILE } from "./helpers/custom-isos";
 
-const ISO_FILE = "./tests/fixtures/foo.iso";
 test("upload and delete custom iso", async ({ page }) => {
   const isoName = randomIsoName();
 
@@ -32,11 +32,7 @@ test("upload and delete custom iso", async ({ page }) => {
   await assertTextVisible(page, "type: disk", true);
   await page.getByRole("button", { name: "Cancel", exact: true }).click();
 
-  await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
-  await assertTextVisible(page, "3 B");
-  await page.getByRole("button", { name: "Delete" }).click();
-  await page.getByText("Delete", { exact: true }).click();
-  await assertTextVisible(page, `Custom iso ${isoName} deleted.`);
+  await deleteCustomISO(page, isoName);
 });
 
 test("use custom iso for instance launch", async ({ page }) => {
@@ -73,11 +69,5 @@ test("use custom iso for instance launch", async ({ page }) => {
   await dismissNotification(page, `Created instance ${instance}.`);
 
   await deleteInstance(page, instance);
-  await gotoURL(page, "/ui/");
-  await page.getByRole("button", { name: "Storage", exact: true }).click();
-  await page.getByRole("link", { name: "Custom ISOs" }).click();
-  await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
-  await page.getByRole("button", { name: "Delete" }).click();
-  await page.getByText("Delete", { exact: true }).click();
-  await assertTextVisible(page, `Custom iso ${isoName} deleted.`);
+  await deleteCustomISO(page, isoName);
 });
