@@ -1,8 +1,7 @@
 import { Icon as VanillaIcon } from "@canonical/react-components";
-import { Icon as DsIcon } from "@canonical/react-ds-global";
 import type { IconName } from "@canonical/ds-assets";
 import type { FC } from "react";
-import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 export type ResourceIconType =
   | "bucket"
@@ -92,13 +91,7 @@ const isDsResourceIcon = (type: ResourceIconType): type is DsResourceIconType =>
 
 const ResourceIcon: FC<Props> = ({ type, className }) => {
   if (isDsResourceIcon(type)) {
-    return (
-      <DsIcon
-        icon={dsResourceIcons[type]}
-        className={className}
-        rootPath={`${ROOT_PATH}/ui/assets/icons`}
-      />
-    );
+    return <DsIcon icon={dsResourceIcons[type]} className={className} />;
   }
   return (
     <VanillaIcon name={vanillaResourceIcons[type]} className={className} />
