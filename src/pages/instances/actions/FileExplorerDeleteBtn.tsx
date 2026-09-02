@@ -26,6 +26,7 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
   const isDirectory = fileType === "directory";
   const pathType = isDirectory ? "Directory" : "File";
   const pathName = fullPath.split("/").slice(-1)[0];
+  const parentPath = fullPath.split("/").slice(0, -1).join("/") || "/";
 
   const instanceLink = (
     <InstanceRichChip
@@ -42,6 +43,15 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
         instance.project,
         queryKeys.files,
         fullPath,
+      ],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.instances,
+        instance.name,
+        instance.project,
+        queryKeys.files,
+        parentPath,
       ],
     });
   };
