@@ -84,7 +84,11 @@ const PermissionIdentities: FC = () => {
       sortKey: "groups",
       className: "u-align--right group-count",
     },
-    { "aria-label": "Actions", className: "u-align--right actions" },
+    {
+      "aria-label": "Actions",
+      className: "u-align--right actions",
+      heading: "Actions",
+    },
   ];
 
   const filters: PermissionIdentitiesFilterType = {
@@ -337,6 +341,7 @@ const PermissionIdentities: FC = () => {
                 headers={headers}
                 rows={sortedRows}
                 sortable
+                responsive
                 emptyStateMsg="No identities found matching this search"
                 onUpdateSort={updateSort}
                 itemName="identity"

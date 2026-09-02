@@ -29,22 +29,10 @@
       width: 8.5rem;
     }
 
-    @media screen and (width < 1000px) {
-      .group-count {
-        display: none;
-      }
-    }
-
-    @media screen and (width < 900px) {
-      .select {
-        display: none;
-      }
-    }
-
-    @media screen and (width < 600px) {
-      .identity-id {
-        display: none;
-      }
+    // let the expiry warning icon wrap onto its own line instead of
+    // being clipped or overflowing the cell/card boundary on narrow screens
+    .expires {
+      white-space: normal;
     }
   }
 

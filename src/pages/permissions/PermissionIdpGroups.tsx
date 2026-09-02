@@ -73,7 +73,11 @@ const PermissionIdpGroups: FC = () => {
       sortKey: "groups",
       className: "u-align--right mapped-groups",
     },
-    { "aria-label": "Actions", className: "u-align--right actions" },
+    {
+      "aria-label": "Actions",
+      className: "u-align--right actions",
+      heading: "Actions",
+    },
   ];
 
   const filteredGroups = groups.filter(
@@ -251,6 +255,7 @@ const PermissionIdpGroups: FC = () => {
             headers={headers}
             rows={sortedRows}
             sortable
+            responsive
             emptyStateMsg="No identity provider groups found matching this search"
             onUpdateSort={updateSort}
             itemName="IDP group"
