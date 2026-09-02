@@ -1,0 +1,23 @@
+name: Notify design review
+
+on:
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  notifyDesignReview:
+    if: >-
+      github.event.label.name == 'Review: Design needed'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.payload.pull_request.number,
+              body: '@sophiecarroll Design review is needed for this PR.'
+            });
