@@ -5,14 +5,17 @@ import { useIsClustered } from "./useIsClustered";
 import { fetchResources, fetchClusterMembersResources } from "api/server";
 import { useClusterMembers } from "./useClusterMembers";
 
-export const useResources = (currentServerInCluster?: string) => {
+export const useResources = (
+  currentServerInCluster?: string,
+  enabled = true,
+) => {
   const isClustered = useIsClustered();
   const { data: clusterMembers = [] } = useClusterMembers();
   const { canViewResources } = useServerEntitlements();
   const singleNodeQuery = useQuery({
     queryKey: [queryKeys.resources],
     queryFn: async () => fetchResources(),
-    enabled: canViewResources() && !isClustered,
+    enabled: canViewResources() && !isClustered && enabled,
   });
   const filteredClusterMembers = clusterMembers.filter(
     (member) =>
@@ -21,7 +24,7 @@ export const useResources = (currentServerInCluster?: string) => {
   const clusterQuery = useQuery({
     queryKey: [queryKeys.resources, filteredClusterMembers],
     queryFn: async () => fetchClusterMembersResources(filteredClusterMembers),
-    enabled: canViewResources() && isClustered,
+    enabled: canViewResources() && isClustered && enabled,
   });
 
   return isClustered ? clusterQuery : singleNodeQuery;

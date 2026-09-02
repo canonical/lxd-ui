@@ -33,16 +33,49 @@
       }
     }
 
+    .pagination {
+      .next {
+        margin-right: 0;
+      }
+
+      // stylelint-disable-next-line selector-id-pattern -- id from external library
+      .p-form__group:has(#itemsPerPage) {
+        display: none;
+      }
+    }
+
     .card-footer {
       display: flex;
       justify-content: flex-end;
       margin-top: $spv--small;
     }
 
-    &.cluster,
+    &.clustering,
     &.storage,
     &.memory {
       flex: 1;
+    }
+
+    &.clustering {
+      .p-card__content {
+        .total-resources {
+          display: flex;
+          gap: $sph--large;
+
+          &.with-margin-bottom {
+            margin-bottom: $spv--x-large;
+          }
+
+          .total-memory,
+          .total-cpu {
+            flex: 1;
+          }
+        }
+
+        .cluster-members-table {
+          margin-top: $spv--large;
+        }
+      }
     }
 
     &.instances {

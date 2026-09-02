@@ -2,12 +2,12 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Chip } from "@canonical/react-components";
 import { useAuth } from "context/auth";
+import { useClusterMembers } from "context/useClusterMembers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useIsClustered } from "context/useIsClustered";
-import { useStoragePoolResources } from "context/useStoragePoolResources";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import type { LxdStoragePool } from "types/storage";
-import { ensureArray, pluralize } from "util/helpers";
+import { pluralize } from "util/helpers";
 import { ALL_PROJECTS } from "util/projects";
 import { ROOT_PATH } from "util/rootPath";
 import { getVolumesUsedByPool, isClusterLocalDriver } from "util/storagePool";
@@ -20,12 +20,12 @@ const StoragePoolDetails: FC<Props> = ({ pool }) => {
   const isClustered = useIsClustered();
   const { defaultProject } = useAuth();
   const { projectName: currentProject } = useCurrentProject();
-  const { data: resources } = useStoragePoolResources(pool);
+  const { data: clusterMembers = [] } = useClusterMembers();
   const volumeCount = getVolumesUsedByPool(pool).length;
   const hasClusterMemberSpecificSize =
     isClustered &&
     isClusterLocalDriver(pool.driver) &&
-    ensureArray(resources).length > 1;
+    clusterMembers.length > 1;
   const project =
     currentProject === ALL_PROJECTS ? defaultProject : currentProject;
   const poolDetailUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}`;
@@ -56,7 +56,8 @@ const StoragePoolDetails: FC<Props> = ({ pool }) => {
 
       {hasClusterMemberSpecificSize ? (
         <p className="u-no-margin--bottom">
-          Usage varies per member.{" "}
+          Usage varies per member.
+          <br />
           <Link to={poolDetailUrl}>See pool details</Link>
         </p>
       ) : (

@@ -7,9 +7,7 @@ import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
 import ClusterMemberStatus from "./ClusterMemberStatus";
 import ClusterMemberMemoryUsage from "./ClusterMemberMemoryUsage";
-import { useQuery } from "@tanstack/react-query";
-import { fetchClusterMemberState } from "api/cluster-members";
-import { queryKeys } from "util/queryKeys";
+import { useClusterMemberState } from "context/useClusterMemberState";
 import { formatSeconds } from "util/seconds";
 import ResourceLabel from "components/ResourceLabel";
 import { ROOT_PATH } from "util/rootPath";
@@ -23,16 +21,7 @@ const ClusterMemberRichTooltip: FC<Props> = ({ clusterMember }) => {
   const { data: member, isLoading: isMemberLoading } =
     useClusterMember(clusterMember);
 
-  const { data: state } = useQuery({
-    queryKey: [
-      queryKeys.cluster,
-      queryKeys.members,
-      member?.server_name ?? undefined,
-      queryKeys.state,
-    ],
-    queryFn: async () => fetchClusterMemberState(member?.server_name ?? ""),
-    enabled: !!member,
-  });
+  const { data: state } = useClusterMemberState(member?.server_name);
 
   if (!member && !isMemberLoading) {
     return (
