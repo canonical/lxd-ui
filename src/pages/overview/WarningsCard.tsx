@@ -1,8 +1,15 @@
 import { type FC } from "react";
-import { Card, Icon, MainTable, Spinner } from "@canonical/react-components";
 import { Link } from "react-router-dom";
+import {
+  Card,
+  Icon,
+  MainTable,
+  Spinner,
+  TablePagination,
+} from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useWarnings } from "context/useWarnings";
+import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
 import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
 import { ROOT_PATH } from "util/rootPath";
 import { getWarningHeaders, getWarningRows } from "util/warnings";
@@ -45,21 +52,38 @@ const WarningsCard: FC = () => {
     );
   }
 
+  const rows = getWarningRows(newWarnings, "overview");
+  const warningsTable = (
+    <MainTable
+      id="warning-table"
+      headers={getWarningHeaders("overview")}
+      rows={newWarnings.length > ITEMS_PER_PAGE ? undefined : rows}
+      sortable={true}
+      defaultSort="severity"
+      defaultSortDirection="descending"
+      className="warnings-table warnings-table--overview"
+      emptyStateMsg="No warnings found"
+      responsive
+    />
+  );
+
   return (
     <Card className={cardClassName} title={cardTitle}>
-      <div className="warnings-table-overview-scroll">
-        <MainTable
-          id="warning-table"
-          headers={getWarningHeaders("overview")}
-          rows={getWarningRows(newWarnings, "overview")}
-          sortable={true}
-          defaultSort="severity"
-          defaultSortDirection="descending"
-          className="warnings-table warnings-table--overview"
-          emptyStateMsg="No warnings found"
-          responsive
-        />
-      </div>
+      {newWarnings.length > ITEMS_PER_PAGE ? (
+        <TablePagination
+          id="warnings-pagination"
+          data={rows}
+          pageLimits={[ITEMS_PER_PAGE]}
+          itemName="warning"
+          position="below"
+          className="u-no-margin--bottom"
+          aria-label="Warnings pagination control"
+        >
+          {warningsTable}
+        </TablePagination>
+      ) : (
+        warningsTable
+      )}
       <div className="card-footer">
         <Link to={`${ROOT_PATH}/ui/warnings?status=new`}>See more</Link>
       </div>
