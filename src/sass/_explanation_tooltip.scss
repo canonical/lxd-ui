@@ -24,3 +24,22 @@
   white-space: normal;
   width: max-content;
 }
+
+.inline-explanation-bar {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin-right: $sph--x-large;
+
+  p:first-child {
+    margin-bottom: $spv--small;
+  }
+
+  .network-create-action-btn {
+    margin-left: $sph--large;
+  }
+}
+
+.inline-explanation-wrap {
+  white-space: nowrap;
+}

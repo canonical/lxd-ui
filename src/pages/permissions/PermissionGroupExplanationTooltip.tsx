@@ -6,7 +6,7 @@ const PermissionGroupExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
-      explanation="Auth groups organise identities for permission management."
+      explanation="Auth groups organize identities for permission management."
       docPath="/explanation/authorization"
       docLabel="Learn more about authorization"
     >

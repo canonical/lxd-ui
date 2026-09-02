@@ -24,6 +24,7 @@ import DocLink from "components/DocLink";
 import CreateNetworkForwardBtn from "./actions/CreateNetworkForwardBtn";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import InlineExplanation from "components/InlineExplanation";
 
 interface Props {
   network: LxdNetwork;
@@ -181,7 +182,16 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   return (
     <>
       {hasNetworkForwards && (
-        <CreateNetworkForwardBtn network={network} className="u-float-right" />
+        <div className="inline-explanation-bar">
+          <div>
+            <InlineExplanation
+              explanation="Network forwards publish services running on instances across networks."
+              docPath="/howto/network_forwards/"
+              docLabel="Learn more about network forwards"
+            />
+          </div>
+          <CreateNetworkForwardBtn network={network} />
+        </div>
       )}
       <Row>
         {hasNetworkForwards && (
@@ -211,6 +221,10 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
             title="No network forwards found"
           >
             <p>There are no network forwards in this project.</p>
+            <p className="u-no-margin--bottom">
+              Network forwards publish services running on instances across
+              networks.
+            </p>
             <p>
               <DocLink docPath="/howto/network_forwards/" hasExternalIcon>
                 Learn more about network forwards

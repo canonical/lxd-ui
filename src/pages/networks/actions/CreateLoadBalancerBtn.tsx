@@ -1,8 +1,12 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
+import {
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import type { LxdNetwork } from "types/network";
+import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
 import { useLoadBalancerPools } from "context/useLoadBalancerPools";
@@ -13,6 +17,7 @@ interface Props {
   className?: string;
   appearance?: string;
   hasIcon?: boolean;
+  isEmptyState?: boolean;
 }
 
 const CreateLoadBalancerBtn: FC<Props> = ({
@@ -20,8 +25,9 @@ const CreateLoadBalancerBtn: FC<Props> = ({
   className,
   appearance = "positive",
   hasIcon = true,
+  isEmptyState = false,
 }) => {
-  const isSmallScreen = useIsScreenBelow();
+  const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
   const { canEditNetwork } = useNetworkEntitlements();
   const navigate = useNavigate();
   const { projectName: project } = useCurrentProject();
@@ -43,18 +49,20 @@ const CreateLoadBalancerBtn: FC<Props> = ({
   return (
     <Button
       appearance={appearance}
-      hasIcon={!isSmallScreen && hasIcon}
+      hasIcon={hasIcon}
       onClick={() => {
         navigate(
           `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/load-balancers/create`,
         );
       }}
-      className={className}
+      className={classnames("network-create-action-btn", className)}
       disabled={!canEditNetwork(network) || !hasPools}
       title={getTitle()}
     >
-      {!isSmallScreen && hasIcon && <Icon name="plus" light />}
-      <span>Create load balancer</span>
+      {hasIcon && <Icon name="plus" light />}
+      <span>
+        {isEmptyState || !isMediumScreen ? "Create load balancer" : "Create"}
+      </span>
     </Button>
   );
 };

@@ -144,6 +144,21 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   return (
     <Row>
       {hasNetworkLeases && (
+        <p className="network-leases-explanation p-text--small u-text--muted">
+          Leases represent IP addresses allocated to instances by a
+          network&apos;s DHCP server.{" "}
+          <DocLink
+            className="inline-explanation-wrap"
+            docPath={
+              "/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks"
+            }
+            hasExternalIcon
+          >
+            Learn more about network leases
+          </DocLink>
+        </p>
+      )}
+      {hasNetworkLeases && (
         <ScrollableTable
           dependencies={leases}
           tableId="network-lease-table"
@@ -170,6 +185,10 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
           title="No network leases found"
         >
           <p>There are no network leases in this project.</p>
+          <p className="u-no-margin--bottom">
+            Leases represent IP addresses allocated to instances by a
+            network&apos;s DHCP server.
+          </p>
           <p>
             <DocLink
               docPath="/howto/network_ipam/#view-dhcp-leases-for-fully-controlled-networks"

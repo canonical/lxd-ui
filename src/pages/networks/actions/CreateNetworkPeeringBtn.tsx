@@ -1,6 +1,9 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
+import {
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import usePanelParams from "util/usePanelParams";
 import type { LxdNetwork } from "types/network";
@@ -12,18 +15,21 @@ interface Props {
 }
 
 const CreateNetworkPeeringBtn: FC<Props> = ({ network, className }) => {
-  const isSmallScreen = useIsScreenBelow();
+  const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
   const { canEditNetwork } = useNetworkEntitlements();
   const panelParams = usePanelParams();
 
   return (
     <Button
       appearance="positive"
-      hasIcon={!isSmallScreen}
+      hasIcon
       onClick={() => {
         panelParams.openCreateLocalPeering();
       }}
-      className={classnames("p-button--positive", className)}
+      className={classnames(
+        "p-button--positive network-create-action-btn",
+        className,
+      )}
       disabled={!canEditNetwork(network)}
       title={
         canEditNetwork(network)
@@ -31,8 +37,8 @@ const CreateNetworkPeeringBtn: FC<Props> = ({ network, className }) => {
           : "You do not have permission to create local peerings for this network"
       }
     >
-      {!isSmallScreen && <Icon name="plus" light />}
-      <span>Create local peering</span>
+      <Icon name="plus" light />
+      <span>{isMediumScreen ? "Create" : "Create local peering"}</span>
     </Button>
   );
 };

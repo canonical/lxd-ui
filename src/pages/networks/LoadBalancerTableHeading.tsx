@@ -1,8 +1,8 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 
 interface Props {
-  title: string;
-  children: React.ReactNode;
+  title: ReactNode;
+  children: ReactNode;
 }
 
 const LoadBalancerTableHeading: FC<Props> = ({ title, children }) => {

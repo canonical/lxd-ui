@@ -21,7 +21,7 @@ import LoadBalancerPoolForm, {
 } from "pages/networks/forms/LoadBalancerPoolForm";
 import { createLoadBalancerPool } from "api/load-balancer-pools";
 import { useEscCallback } from "context/useEscCallback";
-import LoadBalancerExplanationTooltip from "pages/networks/LoadBalancerExplanationTooltip";
+import LoadBalancerPoolExplanationTooltip from "pages/networks/LoadBalancerPoolExplanationTooltip";
 
 interface Props {
   network: LxdNetwork;
@@ -94,9 +94,9 @@ const CreateLoadBalancerPoolPanel: FC<Props> = ({
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle>
-          <LoadBalancerExplanationTooltip>
+          <LoadBalancerPoolExplanationTooltip>
             Create load balancer pool
-          </LoadBalancerExplanationTooltip>
+          </LoadBalancerPoolExplanationTooltip>
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
       <NotificationRow className="u-no-padding" />

@@ -1,6 +1,9 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { useIsScreenBelow } from "context/useIsScreenBelow";
+import {
+  mediumScreenBreakpoint,
+  useIsScreenBelow,
+} from "context/useIsScreenBelow";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import type { LxdNetwork } from "types/network";
 import classnames from "classnames";
@@ -14,7 +17,7 @@ interface Props {
 }
 
 const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
-  const isSmallScreen = useIsScreenBelow();
+  const isMediumScreen = useIsScreenBelow(mediumScreenBreakpoint);
   const { canEditNetwork } = useNetworkEntitlements();
   const { projectName: project } = useCurrentProject();
   const navigate = useNavigate();
@@ -22,14 +25,14 @@ const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
   return (
     <Button
       appearance="positive"
-      hasIcon={!isSmallScreen}
+      hasIcon
       onClick={() => {
         navigate(
           `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/create`,
         );
       }}
       className={classnames(
-        "p-button--positive u-no-margin--bottom",
+        "p-button--positive u-no-margin--bottom network-create-action-btn",
         className,
       )}
       disabled={!canEditNetwork(network)}
@@ -39,8 +42,8 @@ const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
           : "You do not have permission to create network forwards for this network"
       }
     >
-      {!isSmallScreen && <Icon name="plus" light />}
-      <span>Create forward</span>
+      <Icon name="plus" light />
+      <span>{isMediumScreen ? "Create" : "Create forward"}</span>
     </Button>
   );
 };
