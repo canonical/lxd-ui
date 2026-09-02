@@ -14,6 +14,5 @@ export const useClusterMemberResources = (
       queryKeys.resources,
     ],
     queryFn: async () => fetchResources(serverName),
-    enabled: !!serverName,
   });
 };
