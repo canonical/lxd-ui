@@ -18,14 +18,17 @@ import ClusterMemberDetailPCI from "pages/cluster/ClusterMemberDetailPCI";
 import ClusterMemberDetailStorage from "pages/cluster/ClusterMemberDetailStorage";
 import ClusterMemberDetailUSB from "pages/cluster/ClusterMemberDetailUSB";
 import type { LxdClusterMember } from "types/cluster";
-import { getFirstVisibleSection } from "util/scroll";
+import { getFirstVisibleSection, scrollToSection } from "util/scroll";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   member?: LxdClusterMember;
 }
 
 const ClusterMemberHardware: FC<Props> = ({ member }) => {
-  const [section, setSection] = useState("system");
+  const { hash } = useLocation();
+  const initialSection = hash ? hash.substring(1) : "system";
+  const [section, setSection] = useState(initialSection);
 
   const { data: resources, isLoading } = useClusterMemberResources(
     member?.server_name,
@@ -58,6 +61,15 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
     wrapper?.addEventListener("scroll", scrollListener);
     return () => wrapper?.removeEventListener("scroll", scrollListener);
   }, [isLoading, sections]);
+
+  // the sections only exist once the resources are loaded, scroll after that
+  useEffect(() => {
+    if (!resources) {
+      return;
+    }
+    scrollToSection(initialSection);
+    setSection(initialSection);
+  }, [initialSection, resources]);
 
   if (isLoading || isStateLoading) {
     return <Spinner className="u-loader" text="Loading..." />;
