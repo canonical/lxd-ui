@@ -42,6 +42,7 @@ const ClusteringCard: FC = () => {
           name={getClusterMemberStatusIconName(
             status as LxdClusterMemberStatus,
           )}
+          className="status-icon"
         />
         {count} {status}
       </Fragment>
