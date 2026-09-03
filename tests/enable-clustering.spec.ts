@@ -12,7 +12,7 @@ test("check enabling clustering", async ({ page }, testInfo) => {
   await page.getByRole("button", { name: "Enable clustering" }).click();
   await page.getByRole("button", { name: "Close" }).click();
 
-  await page.getByRole("link", { name: "Groups" }).click();
+  await page.getByRole("link", { name: "Cluster Groups" }).click();
   await expect(page.getByText("Cluster groups", { exact: true })).toBeVisible();
   await expect(
     page.getByText("This server is not clustered", { exact: true }),
@@ -35,7 +35,7 @@ test("check enabling clustering", async ({ page }, testInfo) => {
     page.getByRole("button", { name: "Create cluster link" }),
   ).toBeEnabled();
 
-  await page.getByRole("link", { name: "Placement" }).click();
+  await page.getByRole("link", { name: "Placement Groups" }).click();
   await expect(
     page.getByText("Placement groups", { exact: true }),
   ).toBeVisible();

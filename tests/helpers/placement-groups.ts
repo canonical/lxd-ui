@@ -56,7 +56,7 @@ export const editPlacementGroup = async (
 export const visitPlacementGroups = async (page: Page) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Placement" }).click();
+  await page.getByRole("link", { name: "Placement Groups" }).click();
   await expect(
     page.getByRole("heading", { name: "Placement groups" }),
   ).toBeVisible();

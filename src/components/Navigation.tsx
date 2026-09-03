@@ -559,11 +559,11 @@ const Navigation: FC = () => {
                             <SideNavigationItem key="groups">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/cluster/groups`}
-                                title="Groups"
+                                title="Cluster Groups"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                Groups
+                                Cluster Groups
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem key="links">
@@ -579,11 +579,11 @@ const Navigation: FC = () => {
                             <SideNavigationItem key="placement">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
-                                title={`Placement groups (${projectName})`}
+                                title={`Placement Groups (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                Placement
+                                Placement Groups
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem key="replicators">
@@ -660,11 +660,11 @@ const Navigation: FC = () => {
                             <SideNavigationItem key="/ui/permissions/groups">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/permissions/groups`}
-                                title="Groups"
+                                title="Auth Groups"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                Groups
+                                Auth Groups
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem key="/ui/permissions/idp-groups">
