@@ -52,7 +52,7 @@ const ClusteringCard: FC = () => {
 
   const headers = [
     { content: "Members", sortKey: "name" },
-    { content: "Status", sortKey: "status" },
+    { content: "Status", sortKey: "status", className: "status-header" },
     { content: "Memory", sortKey: "memory" },
     { content: "CPU", sortKey: "cpu" },
   ];
@@ -130,6 +130,7 @@ const ClusteringCard: FC = () => {
           name={getClusterMemberStatusIconName(
             status as LxdClusterMemberStatus,
           )}
+          className="status-icon"
         />
         {count} {status}
       </Fragment>

@@ -43,14 +43,19 @@ export const getClusterLeader = (
 
 export const getClusterMemberStatusCounts = (
   members: LxdClusterMember[],
-): Partial<Record<LxdClusterMemberStatus, number>> => {
-  return members.reduce(
-    (acc, member) => {
-      acc[member.status] = (acc[member.status] || 0) + 1;
-      return acc;
-    },
-    {} as Partial<Record<LxdClusterMemberStatus, number>>,
-  );
+): Record<LxdClusterMemberStatus, number> => {
+  const counts: Record<LxdClusterMemberStatus, number> = {
+    Online: 0,
+    Evacuated: 0,
+    Offline: 0,
+    Blocked: 0,
+  };
+
+  members.forEach((member) => {
+    counts[member.status] += 1;
+  });
+
+  return counts;
 };
 
 export const getClusterMemberStatusIconName = (
