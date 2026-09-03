@@ -10,6 +10,7 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { userKeysValidation } from "util/userKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { objectToYaml, yamlToObject } from "util/yaml";
@@ -95,6 +96,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
 
   const ProfileSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
+    user_keys: userKeysValidation,
   });
 
   const editRestriction = canEditProfile(profile)

@@ -4,6 +4,7 @@ import type { SshKey } from "types/forms/instanceAndProfile";
 import * as Yup from "yup";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { MemoryLimit } from "types/limits";
+import { userKeysValidation } from "util/userKeys";
 
 export const parseSshKeys = (item: LxdProfile | LxdInstance): SshKey[] => {
   const sshConfigKeys = Object.keys(item.config).filter((item) =>
@@ -33,6 +34,7 @@ export const InstanceEditSchema: Yup.ObjectSchema<{
     "Limit must be greater than 0",
     (memory) => memory?.value !== 0,
   ),
+  user_keys: userKeysValidation,
 });
 
 export const isInstanceCreation = (

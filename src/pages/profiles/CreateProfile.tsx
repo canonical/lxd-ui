@@ -11,6 +11,7 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { userKeysValidation } from "util/userKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
@@ -63,6 +64,7 @@ import {
   cloudInitPayload,
   migrationPayload,
   sshKeyPayload,
+  userKeysPayload,
   formDeviceToPayload,
   profileDetailPayload,
   profileDetailConfigPayload,
@@ -94,6 +96,7 @@ const CreateProfile: FC = () => {
           checkDuplicateName(value, project, controllerState, "profiles"),
       )
       .required(),
+    user_keys: userKeysValidation,
   });
 
   const updateFormHeight = () => {
@@ -107,6 +110,7 @@ const CreateProfile: FC = () => {
       name: "",
       devices: [],
       cloud_init_ssh_keys: [],
+      user_keys: [],
       readOnly: false,
       entityType: "profile",
     },
@@ -160,6 +164,7 @@ const CreateProfile: FC = () => {
         ...bootPayload(values),
         ...cloudInitPayload(values),
         ...sshKeyPayload(values),
+        ...userKeysPayload(values),
       },
     };
   };

@@ -104,6 +104,115 @@ describe("conversion to form values and back with getInstanceEditValues and getI
       "ubuntu:gh:username",
     );
   });
+
+  it("converts user keys to form values and back", () => {
+    const instance = {
+      config: {
+        "user.owner": "alice",
+        "user.enabled": "false",
+        "user.empty": "",
+      },
+      devices: {},
+    } as unknown as LxdInstance;
+    const formValues = getInstanceEditValues(instance);
+
+    // the edit form anchors every row to its key, so that renaming a key does
+    // not move its row in the table
+    expect(formValues.user_keys).toEqual([
+      { key: "empty", value: "", sortKey: "empty" },
+      { key: "enabled", value: "false", sortKey: "enabled" },
+      { key: "owner", value: "alice", sortKey: "owner" },
+    ]);
+
+    const payload = getInstancePayload(instance, formValues);
+
+    expect(payload.config["user.owner"]).toBe("alice");
+    expect(payload.config["user.enabled"]).toBe("false");
+    // lxd stores no key without a value, so it is not sent back
+    expect(payload.config["user.empty"]).toBeUndefined();
+  });
+
+  it("ignores user key rows without a key", () => {
+    const instance = {
+      config: {},
+      devices: {},
+    } as unknown as LxdInstance;
+    const formValues = getInstanceEditValues(instance);
+
+    const payload = getInstancePayload(instance, {
+      ...formValues,
+      user_keys: [
+        { key: "", value: "" },
+        { key: "", value: "orphan" },
+        { key: "owner", value: "alice" },
+      ],
+    });
+
+    expect(payload.config["user."]).toBeUndefined();
+    expect(payload.config["user.owner"]).toBe("alice");
+  });
+
+  it("ignores user key rows without a value", () => {
+    const instance = {
+      config: {},
+      devices: {},
+    } as unknown as LxdInstance;
+    const formValues = getInstanceEditValues(instance);
+
+    const payload = getInstancePayload(instance, {
+      ...formValues,
+      user_keys: [
+        { key: "blank", value: "" },
+        { key: "owner", value: "alice" },
+      ],
+    });
+
+    expect(payload.config["user.blank"]).toBeUndefined();
+    expect(payload.config["user.owner"]).toBe("alice");
+  });
+
+  it("adds, edits and removes user keys", () => {
+    const instance = {
+      config: {
+        "user.owner": "alice",
+        "user.obsolete": "gone",
+      },
+      devices: {},
+    } as unknown as LxdInstance;
+    const formValues = getInstanceEditValues(instance);
+
+    const payload = getInstancePayload(instance, {
+      ...formValues,
+      user_keys: [
+        { key: "owner", value: "bob" },
+        { key: "added", value: "new" },
+      ],
+    });
+
+    expect(payload.config["user.owner"]).toBe("bob");
+    expect(payload.config["user.added"]).toBe("new");
+    expect(payload.config["user.obsolete"]).toBeUndefined();
+  });
+
+  it("keeps ui specific user keys on an unrelated edit", () => {
+    const instance = {
+      config: {
+        "user.ui_terminal_default_payload": '{"command":["bash"]}',
+        "user.owner": "alice",
+      },
+      devices: {},
+    } as unknown as LxdInstance;
+    const formValues = getInstanceEditValues(instance);
+
+    const payload = getInstancePayload(instance, {
+      ...formValues,
+      description: "an unrelated edit",
+    });
+
+    expect(payload.config["user.ui_terminal_default_payload"]).toBe(
+      '{"command":["bash"]}',
+    );
+  });
 });
 
 describe("conversion to form values and back with getProfileEditValues and getProfilePayload", () => {
@@ -119,6 +228,24 @@ describe("conversion to form values and back with getProfileEditValues and getPr
     const payload = getProfilePayload(profile, formValues) as CustomPayload;
 
     expect(payload["custom-key"]).toBe("custom-value");
+  });
+
+  it("adds and removes user keys on a profile", () => {
+    const profile = {
+      config: {
+        "user.obsolete": "gone",
+      },
+      devices: {},
+    } as unknown as LxdProfile;
+
+    const formValues = getProfileEditValues(profile);
+    const payload = getProfilePayload(profile, {
+      ...formValues,
+      user_keys: [{ key: "env", value: "prod" }],
+    });
+
+    expect(payload.config["user.env"]).toBe("prod");
+    expect(payload.config["user.obsolete"]).toBeUndefined();
   });
 
   it("preserves custom top level profile setting field", () => {

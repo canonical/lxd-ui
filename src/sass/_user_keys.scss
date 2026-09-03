@@ -1,0 +1,59 @@
+.user-key-list-table {
+  .key,
+  .value {
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+  }
+
+  .key {
+    width: 25%;
+  }
+}
+
+.user-keys-form {
+  .user-keys-table {
+    .key {
+      width: 25%;
+
+      @include mobile {
+        width: auto;
+      }
+    }
+
+    .profile {
+      width: 8rem;
+
+      @include mobile {
+        width: 5rem;
+      }
+
+      @include large {
+        width: 12rem;
+      }
+    }
+
+    .actions {
+      width: 10rem;
+
+      @include mobile-and-tablet {
+        width: 2.5rem;
+      }
+    }
+
+    input,
+    .p-form-validation__message,
+    .p-form__control,
+    .p-form__group {
+      margin-bottom: 0;
+    }
+
+    .p-form-validation__input + .p-form-validation__message {
+      margin-top: 0.5rem;
+    }
+
+    .p-button {
+      margin-bottom: 0;
+    }
+  }
+}

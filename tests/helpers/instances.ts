@@ -265,3 +265,27 @@ export const getInstanceCount = (project: string): number => {
 
   return instances.length;
 };
+
+// the cells carry an aria-label, so every row's accessible name is "Key Value";
+// match on the cell contents instead
+export const userKeyRow = (page: Page, key: string, value: string) => {
+  return page
+    .locator(".user-key-list-table tbody tr")
+    .filter({ has: page.locator(`.key:text-is("${key}")`) })
+    .filter({ has: page.locator(`.value:text-is("${value}")`) });
+};
+
+export const addUserKey = async (
+  page: Page,
+  index: number,
+  key: string,
+  value: string,
+) => {
+  await page.getByRole("button", { name: "Add user key" }).click();
+  // adding a row focuses its key input
+  await expect(
+    page.getByLabel(`User key ${index}`, { exact: true }),
+  ).toBeFocused();
+  await page.getByLabel(`User key ${index}`, { exact: true }).fill(key);
+  await page.getByLabel(`User key value ${index}`).fill(value);
+};

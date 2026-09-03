@@ -59,7 +59,8 @@
     }
   }
 
-  .profiles {
+  .profiles,
+  .user-keys {
     th:nth-child(1) {
       width: 30%;
     }

@@ -6,6 +6,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/editMode";
 import SshKeyForm from "components/forms/SshKeyForm";
+import UserKeysForm from "components/forms/UserKeysForm";
 import { useIsClustered } from "context/useIsClustered";
 import PlacementGroupSelect from "pages/instances/forms/PlacementGroupSelect";
 
@@ -21,6 +22,9 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit, project }) => {
   const helpText = !isDefaultProfile
     ? "Click the name in the header to rename the profile."
     : "Default profile cannot be renamed.";
+  const missingNameReason = formik.values.name
+    ? undefined
+    : "Please enter a name before adding custom configuration";
 
   return (
     <ScrollableForm>
@@ -74,7 +78,8 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit, project }) => {
               hasNoneOption
             />
           )}
-          <SshKeyForm formik={formik} />
+          <SshKeyForm formik={formik} disabledReason={missingNameReason} />
+          <UserKeysForm formik={formik} disabledReason={missingNameReason} />
         </Col>
       </Row>
     </ScrollableForm>
