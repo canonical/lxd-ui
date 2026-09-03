@@ -132,7 +132,7 @@ const ClusteringCard: FC = () => {
 
   const clusterMembersTable = (
     <MainTable
-      className="cluster-members-table"
+      className="overview-table"
       aria-label="Cluster members"
       headers={headers}
       rows={members.length > ITEMS_PER_PAGE ? undefined : rows}
