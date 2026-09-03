@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useParams } from "react-router-dom";
 import EditProject from "pages/projects/EditProject";
 import { Spinner } from "@canonical/react-components";
-import { useCurrentProject } from "context/useCurrentProject";
+import { useProject } from "context/useProjects";
 
 const ProjectConfiguration: FC = () => {
   const { project: projectName } = useParams<{ project: string }>();
@@ -11,7 +11,7 @@ const ProjectConfiguration: FC = () => {
     return <>Missing project</>;
   }
 
-  const { project, isLoading } = useCurrentProject();
+  const { data: project, isLoading } = useProject(projectName);
 
   if (isLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;

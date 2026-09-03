@@ -1,19 +1,23 @@
 import { type FC } from "react";
 import { Link } from "react-router-dom";
 import { capitalizeFirstLetter } from "util/helpers";
-import { ROOT_PATH } from "util/rootPath";
 import type { LxdInstanceStatus } from "types/instance";
 
 interface Props {
   status: "running" | "stopped" | "frozen" | "error";
   count: number;
+  instancesUrl: string;
 }
 
-const InstancesOverviewStatus: FC<Props> = ({ status, count }) => {
+const InstancesOverviewStatus: FC<Props> = ({
+  status,
+  count,
+  instancesUrl,
+}) => {
   const getStatusFilterHref = (status: LxdInstanceStatus) => {
     const params = new URLSearchParams();
     params.append("status", status);
-    return `${ROOT_PATH}/ui/all-projects/instances?${params.toString()}`;
+    return `${instancesUrl}?${params.toString()}`;
   };
 
   return (

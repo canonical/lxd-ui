@@ -10,6 +10,7 @@ export const useProjects = (): UseQueryResult<LxdProject[]> => {
     queryKey: [queryKeys.projects],
     queryFn: async () => fetchProjects(isFineGrained),
     enabled: isFineGrained !== null,
+    staleTime: 60_000, // consider cache fresh for 1 minute to avoid excessive API calls
   });
 };
 

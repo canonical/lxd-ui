@@ -41,10 +41,8 @@ const PermissionsCard: FC = () => {
         )}
       </div>
       <div className="card-footer">
-        <Link
-          to={`${ROOT_PATH}/ui/permissions/identities?system-identities=hide`}
-        >
-          See identities
+        <Link to={`${ROOT_PATH}/ui/permissions/groups`}>
+          Auth group details
         </Link>
       </div>
     </Card>

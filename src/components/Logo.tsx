@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useFeatureFlags } from "context/useFeatureFlags";
 import { useSettings } from "context/useSettings";
+import { getHomeUrl } from "util/projects";
 import { hasMicroCloudFlag } from "util/settings";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -12,9 +13,9 @@ interface Props {
 }
 
 const Logo: FC<Props> = ({ light }) => {
-  const { project, isLoading } = useCurrentProject();
-  const { isOverviewEnabled } = useFeatureFlags();
+  const { projectName } = useCurrentProject();
   const { data: settings } = useSettings();
+  const { isOverviewEnabled } = useFeatureFlags();
   const isMicroCloud = hasMicroCloudFlag(settings);
 
   const src = isMicroCloud
@@ -22,17 +23,10 @@ const Logo: FC<Props> = ({ light }) => {
     : `${ROOT_PATH}/ui/assets/img/lxd-logo.svg`;
   const heading = isMicroCloud ? "MicroCloud" : "LXD";
 
-  const getLogoLink = () => {
-    if (isLoading || !project) {
-      return `${ROOT_PATH}/ui/`;
-    }
-    return `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}`;
-  };
-
   return (
     <NavLink
       className="p-panel__logo"
-      to={isOverviewEnabled() ? `${ROOT_PATH}/ui/overview` : getLogoLink()}
+      to={getHomeUrl(projectName ?? "", isOverviewEnabled())}
     >
       <img src={src} alt="LXD-UI logo" className="p-panel__logo-image" />
       <div

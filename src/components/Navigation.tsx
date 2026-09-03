@@ -31,7 +31,7 @@ import { useIsClustered } from "context/useIsClustered";
 import { useFeatureFlags } from "context/useFeatureFlags";
 import { AUTH_METHOD, authIcon } from "util/authentication";
 import { unmanagedNetworkDetailRoute } from "util/networks";
-import { ALL_PROJECTS } from "util/projects";
+import { ALL_PROJECTS, getInstancesUrl, getOverviewUrl } from "util/projects";
 import { getReportBugURL } from "util/reportBug";
 import DocLink from "components/DocLink";
 import AuthenticationTlsStepper from "./AuthenticationTlsStepper";
@@ -276,7 +276,7 @@ const Navigation: FC = () => {
                       {isOverviewEnabled() && (
                         <SideNavigationItem>
                           <NavLink
-                            to={`${ROOT_PATH}/ui/overview`}
+                            to={getOverviewUrl(projectName)}
                             title={`Overview (${projectName})`}
                             onClick={softToggleMenu}
                           >
@@ -290,11 +290,7 @@ const Navigation: FC = () => {
                       )}
                       <SideNavigationItem>
                         <NavLink
-                          to={
-                            isAllProjects
-                              ? `${ROOT_PATH}/ui/all-projects/instances`
-                              : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instances`
-                          }
+                          to={getInstancesUrl(projectName)}
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
                         >

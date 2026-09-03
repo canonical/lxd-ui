@@ -1,34 +1,39 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Card, Icon, Spinner } from "@canonical/react-components";
+import ProjectTable from "pages/overview/ProjectTable";
+import { useCurrentProject } from "context/useCurrentProject";
 import { useProjects } from "context/useProjects";
-import ProjectRichChip from "pages/projects/ProjectRichChip";
-import type { LxdProject } from "types/project";
-import { pluralize } from "util/helpers";
-import { getInstancesUsedByProject } from "util/projects";
-import { ROOT_PATH } from "util/rootPath";
+import ProjectExplanationTooltip from "pages/projects/ProjectExplanationTooltip";
+import { ALL_INSTANCES_LIST_URL } from "util/instances";
+import {
+  ALL_PROJECTS,
+  ALL_PROJECTS_OVERVIEW_PATH,
+  getInstancesUrl,
+} from "util/projects";
 
 const ProjectsCard: FC = () => {
-  const { data: projects = [], error, isLoading } = useProjects();
-  const PROJECTS_LIMIT = 5;
-
-  const projectsWithCounts = projects.map((project: LxdProject) => {
-    return {
-      name: project.name,
-      instanceCount: getInstancesUsedByProject(project).length,
-    };
-  });
-
-  const topProjects = projectsWithCounts
-    .sort((a, b) => b.instanceCount - a.instanceCount)
-    .slice(0, PROJECTS_LIMIT);
-
+  const { project: currentProject, projectName } = useCurrentProject();
+  const isAllProjects = projectName === ALL_PROJECTS;
+  const { data: allProjects = [], error, isLoading } = useProjects();
+  const projects = isAllProjects
+    ? allProjects
+    : currentProject
+      ? [currentProject]
+      : [];
   const cardClassName = "overview-card projects";
   const cardTitle = (
-    <span className="overview-card-title">
-      <Icon name="folder" /> Projects
-      {!isLoading && !error && projects.length > 0 && ` (${projects.length})`}
-    </span>
+    <>
+      <span className="overview-card-title">
+        <Icon name="folder" /> {isAllProjects ? "Projects" : "Project"}
+        {!isLoading &&
+          !error &&
+          isAllProjects &&
+          projects.length > 0 &&
+          ` (${projects.length})`}
+      </span>
+      <ProjectExplanationTooltip />
+    </>
   );
 
   if (isLoading) {
@@ -52,31 +57,22 @@ const ProjectsCard: FC = () => {
 
   return (
     <Card className={cardClassName} title={cardTitle}>
-      {!isLoading && !error && (
-        <>
-          <table className="projects-instances-ranking-table u-no-margin">
-            <tbody>
-              {topProjects.map((project) => {
-                return (
-                  <tr key={project.name}>
-                    <td>
-                      <ProjectRichChip projectName={project.name} />
-                    </td>
-                    <td className="u-align--right u-text--muted">
-                      {project.instanceCount}{" "}
-                      {pluralize("instance", project.instanceCount)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      <ProjectTable projects={projects} isAllProjects={isAllProjects} />
 
-          <div className="card-footer">
-            <Link to={`${ROOT_PATH}/ui/projects`}>See more</Link>
-          </div>
-        </>
-      )}
+      <div className="card-footer">
+        {isAllProjects ? (
+          <Link to={ALL_INSTANCES_LIST_URL}>All instances list</Link>
+        ) : (
+          <>
+            {allProjects.length > 1 && (
+              <Link to={ALL_PROJECTS_OVERVIEW_PATH}>Show all projects</Link>
+            )}
+            <Link to={getInstancesUrl(projectName)}>
+              Project instances list
+            </Link>
+          </>
+        )}
+      </div>
     </Card>
   );
 };

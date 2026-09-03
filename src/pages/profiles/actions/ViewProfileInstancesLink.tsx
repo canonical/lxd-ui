@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { ROOT_PATH } from "util/rootPath";
+import { getInstancesUrl } from "util/projects";
 
 interface Props {
   profile: string;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ViewProfileInstancesLink: FC<Props> = ({ profile, project }) => {
-  const href = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instances?profile=${encodeURIComponent(profile)}`;
+  const href = `${getInstancesUrl(project)}?profile=${encodeURIComponent(profile)}`;
 
   return (
     <Link className="u-no-margin u-no-padding" to={href}>

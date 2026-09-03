@@ -1,11 +1,13 @@
-import type { LxdProject, ProjectReplicaMode } from "types/project";
-import { slugify } from "./slugify";
 import { updateProjectReplicaMode } from "api/projects";
 import { waitForOperation } from "api/operations";
+import { ALL_INSTANCES_LIST_URL } from "util/instances";
 import { pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
+import { slugify } from "util/slugify";
+import type { LxdProject, ProjectReplicaMode } from "types/project";
 
 export const ALL_PROJECTS = "All projects";
+export const ALL_PROJECTS_OVERVIEW_PATH = `${ROOT_PATH}/ui/all-projects/overview`;
 
 export const storageTabs: string[] = [
   "Pools",
@@ -24,15 +26,40 @@ export const projectSubpages = [
   "storage",
   "operations",
   "configuration",
+  "overview",
 ];
+
+export const getOverviewUrl = (projectName: string): string => {
+  if (projectName === ALL_PROJECTS) {
+    return ALL_PROJECTS_OVERVIEW_PATH;
+  }
+  return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/overview`;
+};
+
+export const getInstancesUrl = (projectName: string): string => {
+  if (projectName === ALL_PROJECTS) {
+    return ALL_INSTANCES_LIST_URL;
+  }
+  return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instances`;
+};
+
+export const getHomeUrl = (
+  projectName: string,
+  isOverviewEnabled: boolean,
+): string => {
+  return isOverviewEnabled
+    ? getOverviewUrl(projectName)
+    : getInstancesUrl(projectName);
+};
 
 export const getSubpageFromUrl = (url: string): string | undefined => {
   const urlWithoutQuery = url.split("?")[0];
   const normalizedPath = urlWithoutQuery.replace(ROOT_PATH, "");
   const parts = normalizedPath.split("/");
 
-  const mainSubpage = parts[4];
-  const tabSubpage = parts[5];
+  const subpageIndex = parts[2] === "all-projects" ? 3 : 4;
+  const mainSubpage = parts[subpageIndex];
+  const tabSubpage = parts[subpageIndex + 1];
 
   if (mainSubpage === "storage" && storageTabPaths.includes(tabSubpage)) {
     return `${encodeURIComponent(mainSubpage)}/${encodeURIComponent(tabSubpage)}`;
@@ -68,6 +95,23 @@ export const getProjectSwitchTarget = (
 
   const targetSection = getSubpageFromUrl(url) ?? "instances";
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/${targetSection}`;
+};
+
+export const getAllProjectsSwitchTarget = (
+  url: string,
+  isOverviewEnabled: boolean,
+): string => {
+  const targetSection = getSubpageFromUrl(url);
+
+  if (targetSection === "overview" && isOverviewEnabled) {
+    return ALL_PROJECTS_OVERVIEW_PATH;
+  }
+
+  if (targetSection === "instances") {
+    return ALL_INSTANCES_LIST_URL;
+  }
+
+  return getHomeUrl(ALL_PROJECTS, isOverviewEnabled);
 };
 
 export const isProjectEmpty = (project: LxdProject): boolean => {

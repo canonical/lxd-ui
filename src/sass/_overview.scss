@@ -3,16 +3,29 @@
 .overview-content {
   $golden-ratio: 1.618;
 
-  .overview-row {
-    display: flex;
+  .overview-columns {
+    display: grid;
     gap: $sph--large;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
+    margin-left: $sph--x-large;
+    margin-right: $sph--x-large;
 
-    @include mobile {
-      flex-direction: column;
+    @include mobile-and-tablet {
+      grid-template-columns: 1fr;
     }
   }
 
+  .overview-column {
+    display: flex;
+    flex-direction: column;
+    gap: $sph--large;
+    min-width: 0;
+  }
+
   .overview-card {
+    margin-bottom: 0;
+    min-width: 0;
+
     .p-card__title {
       align-items: center;
       display: flex;
@@ -33,12 +46,28 @@
       }
     }
 
+    &:has(.pagination) {
+      .p-card__content {
+        .overview-table {
+          min-height: 13.6rem;
+
+          tbody {
+            &::after {
+              content: "";
+              display: table-row;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+
     .pagination {
       .next {
         margin-right: 0;
       }
 
-      // stylelint-disable-next-line selector-id-pattern -- id from external library
+      /* stylelint-disable-next-line selector-id-pattern -- external library ID */
       .p-form__group:has(#itemsPerPage) {
         display: none;
       }
@@ -46,14 +75,13 @@
 
     .card-footer {
       display: flex;
+      gap: $sph--small;
       justify-content: flex-end;
-      margin-top: $spv--small;
-    }
+      margin-top: $spv--large;
 
-    &.clustering,
-    &.storage,
-    &.memory {
-      flex: 1;
+      a:last-child {
+        margin-left: auto;
+      }
     }
 
     &.clustering {
@@ -79,9 +107,6 @@
     }
 
     &.instances {
-      max-width: calc(50% - $sph--large / 2);
-      min-width: 20rem;
-
       .card-content {
         align-items: center;
         display: flex;
@@ -143,11 +168,22 @@
     }
 
     &.projects {
-      max-width: calc(50% - $sph--large / 2);
-      min-width: 20rem;
+      .overview-table {
+        .description {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
-      .plus-n-more {
-        margin-left: $sph--small;
+        .instances {
+          width: 6.5rem;
+        }
+
+        thead {
+          th.pre-wrap {
+            white-space: pre-wrap;
+          }
+        }
       }
     }
 
