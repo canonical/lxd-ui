@@ -6,6 +6,21 @@ export const scrollToElement = (id: string) => {
 };
 
 /**
+ * Scrolls the form content wrapper to the given section.
+ * Waits for one frame, so the sections are laid out before measuring.
+ */
+export const scrollToSection = (id: string) => {
+  requestAnimationFrame(() => {
+    const wrapper = document.getElementById("content-details");
+    const target = document.getElementById(id);
+    if (!wrapper || !target) {
+      return;
+    }
+    wrapper.scrollTop = target.offsetTop - wrapper.offsetTop;
+  });
+};
+
+/**
  * Returns the first section that is in the viewport.
  */
 export const getFirstVisibleSection = (

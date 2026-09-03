@@ -32,7 +32,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import { useNetworkEntitlements } from "util/entitlements/networks";
-import { scrollToElement } from "util/scroll";
+import { scrollToSection } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useEventQueue } from "context/eventQueue";
 import { useNetworkFromClusterMembers } from "context/useNetworks";
@@ -205,7 +205,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   };
 
   useEffect(() => {
-    scrollToElement(initialSection);
+    scrollToSection(initialSection);
     updateSection(initialSection);
   }, [initialSection]);
 
@@ -220,7 +220,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       if (newSection === GENERAL) {
         navigate(baseUrl);
       } else {
-        navigate(`${baseUrl}/#${slugify(newSection)}`);
+        window.location.href = `${baseUrl}#${slugify(newSection)}`;
       }
     }
     updateSection(slugify(newSection));

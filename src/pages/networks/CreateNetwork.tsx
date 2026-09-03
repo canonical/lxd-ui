@@ -39,7 +39,6 @@ import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import { bridgeType, ovnType } from "util/networks";
-import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useAuth } from "context/auth";
 import { useEventQueue } from "context/eventQueue";
@@ -194,7 +193,8 @@ const CreateNetwork: FC = () => {
   const updateSection = (newSection: string, source: "scroll" | "click") => {
     setSection(slugify(newSection));
     if (source === "click") {
-      scrollToElement(slugify(newSection));
+      const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks/create`;
+      window.location.href = `${baseUrl}#${slugify(newSection)}`;
     }
   };
 
