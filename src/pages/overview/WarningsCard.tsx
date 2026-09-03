@@ -61,7 +61,7 @@ const WarningsCard: FC = () => {
       sortable={true}
       defaultSort="severity"
       defaultSortDirection="descending"
-      className="warnings-table warnings-table--overview"
+      className="warnings-table overview-table"
       emptyStateMsg="No warnings found"
       responsive
     />

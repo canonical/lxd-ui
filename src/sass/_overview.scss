@@ -86,6 +86,10 @@
 
     &.clustering {
       .p-card__content {
+        .overview-table {
+          margin-top: $spv--large;
+        }
+
         .total-resources {
           display: flex;
           gap: $sph--large;
@@ -99,9 +103,13 @@
             flex: 1;
           }
         }
+      }
 
-        .cluster-members-table {
-          margin-top: $spv--large;
+      &:has(.pagination) {
+        .p-card__content {
+          .overview-table {
+            min-height: 14rem;
+          }
         }
       }
     }
@@ -211,7 +219,15 @@
     }
 
     &.warnings {
-      .warnings-table--overview {
+      &:has(.pagination) {
+        .p-card__content {
+          .overview-table {
+            min-height: 19.2rem;
+          }
+        }
+      }
+
+      .overview-table {
         thead th {
           background-color: var(--vf-color-background-default);
           position: sticky;
