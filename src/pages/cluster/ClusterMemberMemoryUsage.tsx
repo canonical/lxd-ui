@@ -36,6 +36,7 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
     totalMemory - freeMemory,
     totalMemory,
     memoryPercentage + bufferedMemoryPercentage,
+    true,
   );
 
   return (

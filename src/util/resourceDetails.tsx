@@ -107,6 +107,11 @@ export const getMemoryText = (
   used: number,
   total: number,
   percentage: number,
+  isShort?: boolean,
 ): string => {
-  return `${humanFileSize(used)} of ${humanFileSize(total)} (${percentage.toFixed(0)}%)`;
+  if (isShort) {
+    return `${humanFileSize(used)} of ${humanFileSize(total)} (${percentage.toFixed(0)}%)`;
+  }
+
+  return `${humanFileSize(used)} of ${humanFileSize(total)} used (${percentage.toFixed(0)}%)`;
 };
