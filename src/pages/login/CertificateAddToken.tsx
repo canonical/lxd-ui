@@ -8,6 +8,7 @@ import {
   Spinner,
   CustomLayout,
 } from "@canonical/react-components";
+import { InlineCode } from "@canonical/react-ds-global";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import CertificateAddForm from "pages/login/CertificateAddForm";
@@ -62,9 +63,9 @@ const CertificateAddToken: FC = () => {
                       </p>
                       <div>
                         First, the command checks to see if there is an auth
-                        group <code>admins</code>. The{" "}
-                        <code>{`>/dev/null 2>&1`}</code> part ensures that if
-                        the group is missing, no error is shown.
+                        group <InlineCode>admins</InlineCode>. The{" "}
+                        <InlineCode>{`>/dev/null 2>&1`}</InlineCode> part
+                        ensures that if the group is missing, no error is shown.
                       </div>
                       <CodeSnippet
                         blocks={[
@@ -75,7 +76,8 @@ const CertificateAddToken: FC = () => {
                         ]}
                       />
                       <div>
-                        If there is no group <code>admins</code>, it is created.
+                        If there is no group <InlineCode>admins</InlineCode>, it
+                        is created.
                       </div>
                       <CodeSnippet
                         blocks={[
@@ -86,8 +88,8 @@ const CertificateAddToken: FC = () => {
                         ]}
                       />
                       <div>
-                        The new group <code>admins</code> is given server admin
-                        permissions.
+                        The new group <InlineCode>admins</InlineCode> is given
+                        server admin permissions.
                       </div>
                       <CodeSnippet
                         blocks={[
@@ -98,10 +100,10 @@ const CertificateAddToken: FC = () => {
                         ]}
                       />
                       <div>
-                        Finally, a new identity <code>lxd-ui</code> is created
-                        and added to the group <code>admins</code>. This command
-                        returns the identity trust token which should be pasted
-                        below.
+                        Finally, a new identity <InlineCode>lxd-ui</InlineCode>{" "}
+                        is created and added to the group{" "}
+                        <InlineCode>admins</InlineCode>. This command returns
+                        the identity trust token which should be pasted below.
                       </div>
                       <CodeSnippet
                         blocks={[
