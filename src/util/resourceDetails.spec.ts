@@ -6,8 +6,13 @@ import {
 } from "./resourceDetails";
 
 describe("getMemoryText", () => {
-  it("includes the rounded usage percentage", () => {
-    expect(getMemoryText(1_500, 4_000, 37.5)).toBe("1.5 KiB of 3.9 KiB (38%)");
+  it("returns short and long variants", () => {
+    expect(getMemoryText(1_500, 4_000, 37.5, true)).toBe(
+      "1.5 KiB of 3.9 KiB (38%)",
+    );
+    expect(getMemoryText(1_500, 4_000, 37.5)).toBe(
+      "1.5 KiB of 3.9 KiB used (38%)",
+    );
   });
 });
 
