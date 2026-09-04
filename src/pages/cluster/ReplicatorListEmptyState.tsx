@@ -1,10 +1,11 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { EmptyState, Icon } from "@canonical/react-components";
+import { EmptyState } from "@canonical/react-components";
 import { CreateReplicatorButton } from "pages/cluster/actions/CreateReplicatorBtn";
 import CreateClusterLinkBtn from "pages/cluster/actions/CreateClusterLinkBtn";
 import { ROOT_PATH } from "util/rootPath";
 import { DOC_BASE_PATH } from "context/DOC_BASE_PATH";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   isProjectConfiguration: boolean;
@@ -44,7 +45,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
               rel="noopener noreferrer"
             >
               Learn more about replicators
-              <Icon className="external-link-icon" name="external-link" />
+              <DsIcon className="external-link-icon" icon="external-link" />
             </a>
           </p>
           <CreateReplicatorButton
@@ -63,7 +64,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
   return (
     <EmptyState
       className="empty-state"
-      image={<Icon name="change-version" className="empty-state-icon" />}
+      image={<DsIcon icon="change-version" className="empty-state-icon" />}
       title="No replicators found"
     >
       <p>
@@ -84,7 +85,7 @@ const ReplicatorListEmptyState: FC<Props> = ({
           rel="noopener noreferrer"
         >
           Learn more about replicators
-          <Icon className="external-link-icon" name="external-link" />
+          <DsIcon className="external-link-icon" icon="external-link" />
         </a>
       </p>
       <CreateReplicatorButton

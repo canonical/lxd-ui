@@ -1,11 +1,12 @@
 import { type FC } from "react";
-import { Icon, Spinner, CustomLayout } from "@canonical/react-components";
+import { Spinner, CustomLayout } from "@canonical/react-components";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { ROOT_PATH } from "util/rootPath";
 import AuthenticationOptions from "components/AuthenticationOptions";
 import { useSettings } from "context/useSettings";
 import { AUTH_METHOD } from "util/authentication";
+import DsIcon from "components/DsIcon";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -27,14 +28,14 @@ const Login: FC = () => {
           {hasOidc && (
             <>
               <div className="u-sv2">
-                <Icon name="cluster-host" className="lxd-icon" />
+                <DsIcon icon="cluster-host" className="lxd-icon" />
               </div>
               <div className="auth-container">
                 <a
                   className="p-button--positive has-icon"
                   href={`${ROOT_PATH}/oidc/login`}
                 >
-                  <Icon name="security" light />
+                  <DsIcon icon="security" />
                   <span>Login with SSO</span>
                 </a>
                 <Link to={`${ROOT_PATH}/ui/login/certificate-generate`}>
@@ -45,7 +46,7 @@ const Login: FC = () => {
           )}
           {!hasOidc && (
             <>
-              <Icon name="cluster-host" className="lxd-icon" />
+              <DsIcon icon="cluster-host" className="lxd-icon" />
               <h1 className="p-heading--4 u-sv1">Choose your login method</h1>
               <AuthenticationOptions />
             </>

@@ -1,7 +1,8 @@
 import { type ReactNode, type FC } from "react";
-import { EmptyState, Icon, Row } from "@canonical/react-components";
+import { EmptyState, Row } from "@canonical/react-components";
 import DocLink from "components/DocLink";
 import EnableClusteringBtn from "pages/cluster/actions/EnableClusteringBtn";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   text?: string;
@@ -13,7 +14,7 @@ const NotClusteredEmptyState: FC<Props> = ({ text, extraButton }) => {
     <Row>
       <EmptyState
         className="empty-state"
-        image={<Icon name="cluster-host" className="empty-state-icon" />}
+        image={<DsIcon icon="cluster-host" className="empty-state-icon" />}
         title="This server is not clustered"
       >
         {text && <p>{text}</p>}

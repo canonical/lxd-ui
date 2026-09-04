@@ -3,7 +3,6 @@ import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
 import {
   Button,
-  Icon,
   List,
   SidePanel,
   useNotify,
@@ -14,6 +13,7 @@ import InstanceDetailPanelContent from "./InstanceDetailPanelContent";
 import { useInstance } from "context/useInstances";
 import DeleteInstanceBtn from "pages/instances/actions/DeleteInstanceBtn";
 import { useEscCallback } from "context/useEscCallback";
+import DsIcon from "components/DsIcon";
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
@@ -51,7 +51,7 @@ const InstanceDetailPanel: FC = () => {
               onClick={panelParams.clear}
               aria-label="Close"
             >
-              <Icon name="close" />
+              <DsIcon icon="close" />
             </Button>
           </SidePanel.HeaderControls>
         </SidePanel.Header>

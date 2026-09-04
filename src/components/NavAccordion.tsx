@@ -1,7 +1,9 @@
 import { Icon } from "@canonical/react-components";
+import type { IconName } from "@canonical/ds-assets";
 import type { FC, ReactNode } from "react";
 import { matchPath, useLocation } from "react-router-dom";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
 
 export type AccordionNavMenu =
   | "permissions"
@@ -10,11 +12,14 @@ export type AccordionNavMenu =
   | "clustering"
   | "images";
 
+// "storage-pool" has no ds-assets equivalent yet.
+type NavAccordionIcon = IconName | "storage-pool";
+
 interface Props {
   baseUrls: string[];
   title: string;
   children: ReactNode;
-  iconName: string;
+  iconName: NavAccordionIcon;
   label: string;
   open: boolean;
   onOpen: () => void;
@@ -49,9 +54,22 @@ const NavAccordion: FC<Props> = ({
         onClick={disabled ? () => {} : onOpen}
         role="button"
       >
-        <Icon className="is-light p-side-navigation__icon" name={iconName} />{" "}
+        {iconName === "storage-pool" ? (
+          <Icon className="is-light p-side-navigation__icon" name={iconName} />
+        ) : (
+          <DsIcon
+            className="is-light p-side-navigation__icon"
+            icon={iconName}
+          />
+        )}{" "}
         {label}
-        <Icon name="chevron-up" className={open ? "open" : "closed"} />
+        <DsIcon
+          icon="chevron-up"
+          className={classnames("accordion-nav-chevron", {
+            open,
+            closed: !open,
+          })}
+        />
       </div>
       <ul
         className="p-side-navigation__list"

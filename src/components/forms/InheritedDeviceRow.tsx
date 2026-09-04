@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
-import { Button, Icon, Label } from "@canonical/react-components";
+import { Button, Label } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   id?: string;
@@ -88,7 +89,7 @@ export const getInheritedDeviceRow = ({
               className="u-no-margin--bottom"
               disabled={!!disabledReason}
             >
-              <Icon name="close" className="clear-configuration-icon" />
+              <DsIcon icon="close" className="clear-configuration-icon" />
             </Button>
           </div>
         )}
@@ -104,7 +105,7 @@ export const getInheritedDeviceRow = ({
           hasIcon
           disabled={!!disabledReason}
         >
-          <Icon name="edit" />
+          <DsIcon icon="edit" />
         </Button>
       )
     ),

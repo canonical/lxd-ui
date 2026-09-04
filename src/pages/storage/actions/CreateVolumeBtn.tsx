@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   projectName: string;
@@ -41,7 +42,7 @@ const CreateVolumeBtn: FC<Props> = ({
           : "You do not have permission to create volumes in this project"
       }
     >
-      {!isSmallScreen && <Icon name="plus" light />}
+      {!isSmallScreen && <DsIcon icon="plus" />}
       <span>Create volume</span>
     </Button>
   );

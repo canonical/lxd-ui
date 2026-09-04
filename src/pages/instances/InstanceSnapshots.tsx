@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
   EmptyState,
-  Icon,
   ScrollableTable,
   SearchBox,
   TablePagination,
@@ -25,6 +24,7 @@ import useSortTableData from "util/useSortTableData";
 import NotificationRow from "components/NotificationRow";
 import DocLink from "components/DocLink";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import DsIcon from "components/DsIcon";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -299,7 +299,7 @@ const InstanceSnapshots = (props: Props) => {
       ) : (
         <EmptyState
           className="empty-state"
-          image={<Icon name="snapshot" className="empty-state-icon" />}
+          image={<DsIcon icon="snapshot" className="empty-state-icon" />}
           title="No snapshots found"
         >
           <p>

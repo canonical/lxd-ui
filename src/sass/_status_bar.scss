@@ -41,6 +41,25 @@
       .total-count {
         margin-left: 0.2rem;
       }
+
+      // Pragma severity icons use fill: currentColor, so the tinted colors
+      // vanilla previously baked into these icons are restored via `color`,
+      // reusing vanilla-framework's theme-aware tinted-border tokens.
+      .notification-icon-positive {
+        color: var(--vf-color-border-positive);
+      }
+
+      .notification-icon-caution {
+        color: var(--vf-color-border-caution);
+      }
+
+      .notification-icon-negative {
+        color: var(--vf-color-border-negative);
+      }
+
+      .notification-icon-information {
+        color: var(--vf-color-border-information);
+      }
     }
   }
 

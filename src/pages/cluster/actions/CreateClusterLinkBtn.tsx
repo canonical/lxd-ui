@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   appearance?: "positive" | "base" | "default";
@@ -24,7 +25,7 @@ const CreateClusterLinkBtn: FC<Props> = ({ appearance = "positive" }) => {
       title={disableReason}
       disabled={disableReason !== undefined}
     >
-      <Icon name="plus" light={appearance === "positive"} />
+      <DsIcon icon="plus" />
       <span>Create cluster link</span>
     </Button>
   );

@@ -5,13 +5,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
   ConfirmationButton,
-  Icon,
   useToastNotification,
 } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import ResourceLabel from "components/ResourceLabel";
 import { useImageEntitlements } from "util/entitlements/images";
 import { getImageName } from "util/images";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   image: LxdImage;
@@ -87,7 +87,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

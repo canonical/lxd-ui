@@ -24,6 +24,7 @@ import DiskSizeQuotaLimitation from "components/forms/DiskSizeQuotaLimitation";
 import { isDeviceModified } from "util/formChangeCount";
 import StoragePoolSizeAvailable from "./StoragePoolSizeAvailable";
 import { getInstanceClusterMember } from "util/instances";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -118,7 +119,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                     disabled={!!formik.values.editRestriction}
                     dense
                   >
-                    <Icon name="close" className="clear-configuration-icon" />
+                    <DsIcon icon="close" className="clear-configuration-icon" />
                     <span>Clear</span>
                   </Button>
                 ) : (
@@ -134,7 +135,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                     hasIcon
                     disabled={!!formik.values.editRestriction}
                   >
-                    <Icon name="edit" />
+                    <DsIcon icon="edit" />
                     <span>Edit</span>
                   </Button>
                 )}
@@ -176,7 +177,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                     hasIcon
                     disabled={!!formik.values.editRestriction}
                   >
-                    <Icon name="edit" />
+                    <DsIcon icon="edit" />
                   </Button>
                 )}
               </>
@@ -227,7 +228,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                   hasIcon
                   disabled={!!formik.values.editRestriction}
                 >
-                  <Icon name="edit" />
+                  <DsIcon icon="edit" />
                 </Button>
               </>
             ),

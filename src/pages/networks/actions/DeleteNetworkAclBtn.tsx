@@ -5,7 +5,6 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -16,6 +15,7 @@ import { useNetworkAclEntitlements } from "util/entitlements/network-acls";
 import { deleteNetworkAcl } from "api/network-acls";
 import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
@@ -133,7 +133,7 @@ const DeleteNetworkAclBtn: FC<Props> = ({ networkAcl, project }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      {!isSmallScreen && <Icon name="delete" />}
+      {!isSmallScreen && <DsIcon icon="delete" />}
       <span>Delete ACL</span>
     </ConfirmationButton>
   );

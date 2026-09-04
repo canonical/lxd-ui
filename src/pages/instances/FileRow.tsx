@@ -1,12 +1,13 @@
 import { useState, type FC } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { queryKeys } from "util/queryKeys";
 import { fetchInstanceLogFile } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import DownloadButton from "pages/instances/DownloadButton";
 import { getUrlParam } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface FileRowProps {
   instance: LxdInstance;
@@ -45,7 +46,7 @@ const FileRow: FC<FileRowProps> = ({ instance, path }) => {
           aria-hidden={!isOpen}
           onClick={toggleVisibility}
         >
-          <Icon name={isOpen ? "chevron-up" : "chevron-down"} />
+          <DsIcon icon={isOpen ? "chevron-up" : "chevron-down"} />
           <h2 className="p-code-snippet__title file-row-title">{fileName}</h2>
         </Button>
         <a
@@ -53,7 +54,7 @@ const FileRow: FC<FileRowProps> = ({ instance, path }) => {
           aria-label={`File ${fileName} URL`}
           className="p-button--base u-no-margin--bottom"
         >
-          <Icon name="get-link" alt="link" />
+          <DsIcon icon="link" />
         </a>
         <DownloadButton
           fileName={fileName}

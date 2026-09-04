@@ -1,6 +1,7 @@
 import { Button, Icon } from "@canonical/react-components";
 import type { FC } from "react";
 import { getClientOS, pluralize } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   modifiedCount: number;
@@ -31,7 +32,7 @@ const ModifiedStatusAction: FC<Props> = ({
         onClick={onUndoChange}
         title={`Undo most recent change (${controlKey}+z)`}
       >
-        <Icon name="restart" />
+        <DsIcon icon="restart" />
         <span>{`Undo`}</span>
       </Button>
     </div>

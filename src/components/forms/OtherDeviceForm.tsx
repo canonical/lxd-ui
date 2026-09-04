@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   Button,
-  Icon,
   Input,
   Label,
   Select,
@@ -40,6 +39,7 @@ import {
 import { useProfiles } from "context/useProfiles";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -127,7 +127,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             dense
             title="Attach device"
           >
-            <Icon name="connected" />
+            <DsIcon icon="connected" />
             <span>Reattach</span>
           </Button>
         ) : (
@@ -144,7 +144,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             title={formik.values.editRestriction ?? "Detach device"}
             disabled={!!formik.values.editRestriction}
           >
-            <Icon name="disconnect" />
+            <DsIcon icon="disconnected" />
             <span>Detach</span>
           </Button>
         ),
@@ -218,7 +218,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             title={formik.values.editRestriction ?? "Detach device"}
             disabled={!!formik.values.editRestriction}
           >
-            <Icon name="disconnect" />
+            <DsIcon icon="disconnected" />
             <span>Detach</span>
           </Button>
         ),
@@ -351,7 +351,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
         disabled={!!formik.values.editRestriction}
         title={formik.values.editRestriction}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>Attach custom device</span>
       </Button>
     </ScrollableForm>

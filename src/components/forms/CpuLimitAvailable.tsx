@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
-import { Icon } from "@canonical/react-components";
+
 import { useResourceLimit } from "context/useResourceLimit";
 import { ResourceLimitIcon } from "components/ResourceLimitIcon";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -27,11 +28,9 @@ export const CpuLimitAvailable: FC<Props> = ({ formik }) => {
         {showHelpIcon && (
           <>
             {" "}
-            <Icon
-              name="information"
-              className="help-link-icon"
-              title={helpIconText}
-            />
+            <span title={helpIconText}>
+              <DsIcon icon="information" className="help-link-icon" />
+            </span>
           </>
         )}
       </b>

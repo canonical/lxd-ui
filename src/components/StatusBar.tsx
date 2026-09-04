@@ -4,8 +4,6 @@ import Version from "./Version";
 import OperationStatus from "./OperationStatus";
 import {
   AppStatus,
-  ICONS,
-  Icon,
   useToastNotification,
   useListener,
 } from "@canonical/react-components";
@@ -13,6 +11,7 @@ import { iconLookup, severityOrder } from "util/notifications";
 import { useAuth } from "context/auth";
 import BearerTokenWarning from "components/BearerTokenWarning";
 import { AUTH_METHOD } from "util/authentication";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   className?: string;
@@ -71,9 +70,10 @@ const StatusBar: FC<Props> = ({ className }) => {
   const notificationIcons = severityOrder.map((severity) => {
     if (countBySeverity[severity]) {
       return (
-        <Icon
+        <DsIcon
           key={severity}
-          name={iconLookup[severity]}
+          icon={iconLookup[severity]}
+          className={`notification-icon-${severity}`}
           aria-label={`${severity} notification exists`}
         />
       );
@@ -105,7 +105,7 @@ const StatusBar: FC<Props> = ({ className }) => {
             >
               {notificationIcons}
               <span className="total-count">{notifications.length}</span>
-              <Icon name={isListView ? ICONS.chevronDown : ICONS.chevronUp} />
+              <DsIcon icon={isListView ? "chevron-down" : "chevron-up"} />
             </button>
           )}
         </div>

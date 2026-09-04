@@ -35,6 +35,7 @@ import { ALL_PROJECTS, getInstancesUrl, getOverviewUrl } from "util/projects";
 import { getReportBugURL } from "util/reportBug";
 import DocLink from "components/DocLink";
 import AuthenticationTlsStepper from "./AuthenticationTlsStepper";
+import DsIcon from "components/DsIcon";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -102,6 +103,7 @@ const Navigation: FC = () => {
   const isOidc = authMethod === AUTH_METHOD.OIDC;
   const isBearerToken = authMethod === AUTH_METHOD.BEARER;
   const isClustered = useIsClustered();
+  const loggedInUserIcon = authIcon(authMethod);
 
   useEffect(() => {
     const isAllProjects = isAllProjectsFromUrl || !canViewProject;
@@ -249,7 +251,7 @@ const Navigation: FC = () => {
                   aria-label="close navigation"
                   onClick={hardToggleMenu}
                 >
-                  <Icon name="close" />
+                  <DsIcon icon="close" />
                 </Button>
               </div>
             </div>
@@ -280,9 +282,9 @@ const Navigation: FC = () => {
                             title={`Overview (${projectName})`}
                             onClick={softToggleMenu}
                           >
-                            <Icon
+                            <DsIcon
                               className="is-light p-side-navigation__icon"
-                              name="switcher-dashboard"
+                              icon="switcher-dashboard"
                             />{" "}
                             Overview
                           </NavLink>
@@ -294,9 +296,9 @@ const Navigation: FC = () => {
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
                         >
-                          <Icon
+                          <DsIcon
                             className="is-light p-side-navigation__icon"
-                            name="pods"
+                            icon="pods"
                           />{" "}
                           Instances
                         </NavLink>
@@ -309,9 +311,9 @@ const Navigation: FC = () => {
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
-                          <Icon
+                          <DsIcon
                             className="is-light p-side-navigation__icon"
-                            name="repository"
+                            icon="repository"
                           />{" "}
                           Profiles
                         </NavLink>
@@ -500,9 +502,9 @@ const Navigation: FC = () => {
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
-                          <Icon
+                          <DsIcon
                             className="is-light p-side-navigation__icon"
-                            name="switcher-environments"
+                            icon="switcher-environments"
                           />{" "}
                           Configuration
                         </NavLink>
@@ -606,9 +608,9 @@ const Navigation: FC = () => {
                           title={`Operations (${projectName})`}
                           onClick={softToggleMenu}
                         >
-                          <Icon
+                          <DsIcon
                             className="is-light p-side-navigation__icon"
-                            name="status"
+                            icon="status"
                           />{" "}
                           Operations
                         </NavLink>
@@ -621,9 +623,9 @@ const Navigation: FC = () => {
                             onClick={softToggleMenu}
                             activeUrlMatches={[`${ROOT_PATH}/ui/warnings`]}
                           >
-                            <Icon
+                            <DsIcon
                               className="is-light p-side-navigation__icon"
-                              name="warning-grey"
+                              icon="warning"
                             />{" "}
                             Warnings
                           </NavLink>
@@ -686,9 +688,9 @@ const Navigation: FC = () => {
                           title="Settings"
                           onClick={softToggleMenu}
                         >
-                          <Icon
+                          <DsIcon
                             className="is-light p-side-navigation__icon"
-                            name="settings"
+                            icon="settings"
                           />{" "}
                           Settings
                         </NavLink>
@@ -706,7 +708,7 @@ const Navigation: FC = () => {
                           className="p-button has-icon sso-login-button"
                           href={`${ROOT_PATH}/oidc/login`}
                         >
-                          <Icon name="security" />
+                          <DsIcon icon="security" />
                           <span>Login with SSO instead</span>
                         </a>
                       )}
@@ -740,10 +742,12 @@ const Navigation: FC = () => {
                         className="p-side-navigation__link"
                         title={`${loggedInUserName} (${loggedInUserID})`}
                       >
-                        <Icon
-                          className="p-side-navigation__icon is-dark"
-                          name={authIcon(authMethod)}
-                        />
+                        {loggedInUserIcon && (
+                          <DsIcon
+                            className="p-side-navigation__icon is-dark"
+                            icon={loggedInUserIcon}
+                          />
+                        )}
                         <div className="u-truncate">{loggedInUserName}</div>
                       </div>
                     </SideNavigationItem>
@@ -754,11 +758,11 @@ const Navigation: FC = () => {
                       title="Documentation"
                       docPath="/"
                     >
-                      <Icon
+                      <DsIcon
                         className={classnames("p-side-navigation__icon", {
                           "is-light": isAuthenticated,
                         })}
-                        name="book"
+                        icon="book"
                       />
                       Documentation
                     </DocLink>
@@ -771,11 +775,11 @@ const Navigation: FC = () => {
                       rel="noopener noreferrer"
                       title="Discussion"
                     >
-                      <Icon
+                      <DsIcon
                         className={classnames("p-side-navigation__icon", {
                           "is-light": isAuthenticated,
                         })}
-                        name="share"
+                        icon="share"
                       />
                       Discussion
                     </a>
@@ -788,11 +792,11 @@ const Navigation: FC = () => {
                       rel="noopener noreferrer"
                       title="Report a bug"
                     >
-                      <Icon
+                      <DsIcon
                         className={classnames("p-side-navigation__icon", {
                           "is-light": isAuthenticated,
                         })}
-                        name="submit-bug"
+                        icon="bug"
                       />
                       Report a bug
                     </a>
@@ -812,9 +816,9 @@ const Navigation: FC = () => {
                           softToggleMenu();
                         }}
                       >
-                        <Icon
+                        <DsIcon
                           className="is-light p-side-navigation__icon p-side-logout"
-                          name="export"
+                          icon="export"
                         />
                         Log out
                       </a>

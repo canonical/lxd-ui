@@ -3,7 +3,6 @@ import {
   ActionButton,
   Button,
   EmptyState,
-  Icon,
   Notification,
   RadioInput,
   useNotify,
@@ -17,6 +16,7 @@ import NotificationRow from "components/NotificationRow";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import InstanceConsoleShortcuts from "pages/instances/InstanceConsoleShortcuts";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -117,7 +117,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
                 }}
                 hasIcon
               >
-                <Icon name="fullscreen" />
+                <DsIcon icon="fullscreen" />
                 <span>Fullscreen</span>
               </Button>
               <InstanceConsoleShortcuts disabled={!isRunning} />
@@ -129,7 +129,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
       {isGraphic && !isRunning && (
         <EmptyState
           className="empty-state"
-          image={<Icon name="pods" className="empty-state-icon" />}
+          image={<DsIcon icon="pods" className="empty-state-icon" />}
           title="Instance stopped"
         >
           <p>Start the instance to access the graphic console.</p>

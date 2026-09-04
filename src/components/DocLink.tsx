@@ -1,6 +1,6 @@
-import { Icon } from "@canonical/react-components";
 import { DOC_BASE_PATH } from "context/DOC_BASE_PATH";
 import type { FC, ReactNode } from "react";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   docPath: string;
@@ -27,7 +27,7 @@ const DocLink: FC<Props> = ({
     >
       {children}
       {hasExternalIcon && (
-        <Icon className="external-link-icon" name="external-link" />
+        <DsIcon className="external-link-icon" icon="external-link" />
       )}
     </a>
   );

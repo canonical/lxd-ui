@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import OidcConfigurationModal from "pages/permissions/OidcConfigurationModal";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   isDisabled?: boolean;
@@ -40,7 +41,7 @@ const OidcConfigurationBtn: FC<Props> = ({
         }
         hasIcon
       >
-        <Icon name="security" className="auth-option-icon" />
+        <DsIcon icon="security" className="auth-option-icon" />
         <span>Configure single sign-on</span>
       </Button>
     </>

@@ -3,7 +3,6 @@ import {
   Button,
   Col,
   EmptyState,
-  Icon,
   MainTable,
   Notification,
   Row,
@@ -31,6 +30,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProfiles } from "context/useProfiles";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import DsIcon from "components/DsIcon";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -216,7 +216,7 @@ const ProfileList: FC = () => {
                       : "You do not have permission to create profiles in this project"
                   }
                 >
-                  {!isSmallScreen && <Icon name="plus" light />}
+                  {!isSmallScreen && <DsIcon icon="plus" />}
                   <span>Create profile</span>
                 </Button>
               </PageHeader.BaseActions>
@@ -242,7 +242,9 @@ const ProfileList: FC = () => {
             {profiles.length === 0 && (
               <EmptyState
                 className="empty-state"
-                image={<Icon name="repository" className="empty-state-icon" />}
+                image={
+                  <DsIcon icon="repository" className="empty-state-icon" />
+                }
                 title="No profiles found"
               >
                 <p>There are no profiles in this project.</p>

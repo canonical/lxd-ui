@@ -6,7 +6,6 @@ import {
   ActionButton,
   useToastNotification,
   usePortal,
-  Icon,
 } from "@canonical/react-components";
 import {
   getInstanceEditValues,
@@ -25,6 +24,7 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import { ISO_VOLUME_NAME } from "util/devices";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -158,7 +158,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
-        <Icon name="iso" />
+        <DsIcon icon="iso" />
         <span>Detach ISO</span>
       </ActionButton>
     </>
@@ -171,7 +171,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         disabled={!!disabledReason || isLoading}
         title={disabledReason}
       >
-        <Icon name="iso" />
+        <DsIcon icon="iso" />
         <span>Attach ISO</span>
       </ActionButton>
       {isOpen && (

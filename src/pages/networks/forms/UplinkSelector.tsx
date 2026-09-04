@@ -1,7 +1,6 @@
 import { useEffect, type FC } from "react";
 import {
   Button,
-  Icon,
   Label,
   Select,
   useNotify,
@@ -14,6 +13,7 @@ import type { NetworkFormValues } from "types/forms/network";
 import { useProject } from "context/useProjects";
 import { useNetworks } from "context/useNetworks";
 import { typesForUplink } from "util/networks";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   project: string;
@@ -97,7 +97,7 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
               hasIcon
               disabled={!!formik.values.editRestriction}
             >
-              <Icon name="edit" />
+              <DsIcon icon="edit" />
             </Button>
           </>
         ) : (

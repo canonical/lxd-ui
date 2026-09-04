@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   EmptyState,
-  Icon,
   MainTable,
   Row,
   ScrollableTable,
@@ -18,6 +17,7 @@ import { typesWithNicStaticIPSupport } from "util/networks";
 import { InstanceIpEdit } from "components/InstanceIpEdit";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -181,7 +181,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
       {!isLoading && !hasNetworkLeases && (
         <EmptyState
           className="empty-state"
-          image={<Icon className="empty-state-icon" name="exposed" />}
+          image={<DsIcon className="empty-state-icon" icon="exposed" />}
           title="No network leases found"
         >
           <p>There are no network leases in this project.</p>

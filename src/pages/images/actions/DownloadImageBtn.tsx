@@ -2,12 +2,12 @@ import { useState, type FC } from "react";
 import type { LxdImage } from "types/image";
 import {
   ActionButton,
-  Icon,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
 import { getImageName } from "util/images";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   image: LxdImage;
@@ -67,7 +67,7 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
       appearance="base"
       disabled={!isUnifiedTarball || isLoading}
     >
-      <Icon name="export" />
+      <DsIcon icon="export" />
     </ActionButton>
   );
 };

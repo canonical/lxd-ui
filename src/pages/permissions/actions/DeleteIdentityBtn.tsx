@@ -3,7 +3,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -16,6 +15,7 @@ import { useAuth } from "context/auth";
 import { AUTH_METHOD } from "util/authentication";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { logoutOidc } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   identity: LxdIdentity;
@@ -102,7 +102,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
       loading={isDeleting}
       disabled={!canDeleteIdentity(identity) || isDeleting}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };
