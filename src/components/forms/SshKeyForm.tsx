@@ -3,7 +3,6 @@ import {
   Button,
   Icon,
   MainTable,
-  Tooltip,
   usePortal,
 } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
@@ -18,6 +17,7 @@ import { useProfiles } from "context/useProfiles";
 import type { LxdProfile } from "types/profile";
 import SshKeyAddModal from "components/forms/SshKeyAddModal";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import SshKeyExplanationTooltip from "components/forms/SshKeyExplanationTooltip";
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
@@ -274,12 +274,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
   return (
     <div className="ssh-key-form">
       <p className="p-form__label u-sv-1">
-        SSH keys{" "}
-        <Tooltip
-          message={`Cloud init must be enabled on the instance to apply the keys.\nAdditional keys get applied on instance creation or restart.\nSSH Keys are not removed automatically.`}
-        >
-          <Icon name="information" />
-        </Tooltip>
+        <SshKeyExplanationTooltip>SSH keys</SshKeyExplanationTooltip>
       </p>
 
       {rows.length > 0 && (

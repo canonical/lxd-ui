@@ -12,7 +12,6 @@ import { useEventQueue } from "context/eventQueue";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useToastNotification } from "@canonical/react-components";
-import ProjectExplanationTooltip from "./ProjectExplanationTooltip";
 
 interface Props {
   project: LxdProject;
@@ -123,11 +122,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
   return (
     <RenameHeader
       name={project.name}
-      parentItems={[
-        <ProjectExplanationTooltip key="project-configuration">
-          Project configuration
-        </ProjectExplanationTooltip>,
-      ]}
+      parentItems={["Project configuration"]}
       renameDisabledReason={getRenameDisabledReason()}
       controls={<DeleteProjectBtn project={project} />}
       isLoaded={Boolean(project)}

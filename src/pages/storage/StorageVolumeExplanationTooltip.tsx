@@ -6,6 +6,7 @@ const StorageVolumeExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Storage volumes provide storage for instances."
       docPath="/explanation/storage/#storage-volumes"
       docLabel="Learn more about storage volumes"

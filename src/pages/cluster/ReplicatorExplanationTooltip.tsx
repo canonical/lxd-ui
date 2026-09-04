@@ -6,6 +6,7 @@ const ReplicatorExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Replicators copy instances between clusters across cluster links."
       docPath="/explanation/replicators/"
       docLabel="Learn more about replicators"

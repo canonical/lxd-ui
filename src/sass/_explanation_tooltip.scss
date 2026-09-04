@@ -9,7 +9,7 @@
   width: 1rem !important;
 }
 
-.explanation-tooltip-wrapper--breadcrumb {
+.explanation-tooltip-wrapper--inline {
   display: inline-flex;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .explanation-tooltip-portal .p-tooltip__message {
-  max-width: calc(60vw - 2rem);
+  max-width: min(calc(60vw - 2rem), 30rem);
   white-space: normal;
   width: max-content;
 }
