@@ -507,11 +507,21 @@ const Navigation: FC = () => {
                           Configuration
                         </NavLink>
                       </SideNavigationItem>
-                      <hr
-                        className={classnames("navigation-hr", {
-                          "is-light": isLight,
-                        })}
-                      />
+                    </>
+                  )}
+                </ul>
+                <hr
+                  className={classnames("navigation-hr", {
+                    "is-light": isLight,
+                  })}
+                  hidden={!isAuthenticated}
+                />
+                <ul
+                  className="p-side-navigation__list sidenav-top-ul"
+                  hidden={!isAuthenticated}
+                >
+                  {isAuthenticated && (
+                    <>
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrls={[
@@ -721,6 +731,11 @@ const Navigation: FC = () => {
                   { "is-light": isLight },
                 )}
               >
+                <hr
+                  className={classnames("navigation-hr", {
+                    "is-light": isLight,
+                  })}
+                />
                 <ul
                   className={classnames(
                     "p-side-navigation__list sidenav-bottom-ul",
@@ -729,11 +744,6 @@ const Navigation: FC = () => {
                     },
                   )}
                 >
-                  <hr
-                    className={classnames("navigation-hr", {
-                      "is-light": isLight,
-                    })}
-                  />
                   {isAuthenticated && (
                     <SideNavigationItem>
                       <div
