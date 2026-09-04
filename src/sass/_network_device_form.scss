@@ -32,6 +32,10 @@
           }
         }
 
+        tbody td:has(.ip-address) {
+          overflow: visible;
+        }
+
         .configuration {
           overflow: visible;
 
