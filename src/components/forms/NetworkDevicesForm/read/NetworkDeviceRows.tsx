@@ -152,7 +152,7 @@ export const getNetworkDeviceRows = ({
             inherited: (
               <div>
                 <b
-                  className={classnames("mono-font", {
+                  className={classnames("mono-font ip-address", {
                     "u-text--line-through": isDetached,
                   })}
                 >
