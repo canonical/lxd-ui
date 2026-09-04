@@ -1,8 +1,6 @@
 @import "./helpers";
 
 .overview-content {
-  $golden-ratio: 1.618;
-
   .overview-columns {
     display: grid;
     gap: $sph--large;
@@ -116,51 +114,31 @@
 
     &.instances {
       .card-content {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
+        gap: $sph--large;
 
-        .group-by-status-container {
-          .group-by-status {
-            border-left: solid 5px var(--vf-color-button-positive-default);
-            padding-left: $sph--large;
-
-            &.running {
-              border-color: var(--vf-color-button-positive-default);
-            }
-
-            &.stopped {
-              border-color: var(--vf-color-text-default);
-            }
-
-            &.frozen {
-              border-color: var(--vf-color-link-default);
-            }
-
-            &.error {
-              border-color: var(--vf-color-button-negative-default);
-            }
-
-            p.status-label {
-              margin-bottom: 0;
-            }
-
-            .status-count {
-              font-size: calc(1rem * $golden-ratio);
-            }
-          }
-        }
-
-        .group-by-type-container {
+        .group-by-status-chart {
           align-items: center;
           display: flex;
           flex: 1;
           flex-direction: column;
+          min-width: 0;
 
-          .group-by-type-doughnut-chart {
+          .chart-title {
+            align-self: flex-start;
+          }
+
+          .group-by-status-doughnut-chart {
             .doughnut-chart__segment {
               cursor: pointer;
             }
           }
+        }
+
+        .group-by-status-table {
+          flex: 1;
+          min-width: 0;
         }
       }
 
