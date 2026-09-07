@@ -21,6 +21,12 @@ interface Props {
   isServerClustered: boolean;
 }
 
+interface DownstreamNetwork {
+  name: string;
+  project: string;
+  used_by?: string[];
+}
+
 const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
   const { member } = useParams<{ member: string }>();
   const notify = useNotify();
@@ -43,14 +49,18 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
     }
   }, [error]);
 
-  const downstreamNetworks = networks.filter((downStreamCandidate) => {
-    return (
-      downStreamCandidate.config.network === formik.values.name ||
-      downStreamCandidate.config.parent === formik.values.name ||
-      network.used_by?.includes(
-        `/1.0/networks/${encodeURIComponent(downStreamCandidate.name)}`,
-      )
-    );
+  const usedByNetworks = filterUsedByType("network", network.used_by);
+  const downstreamNetworks: DownstreamNetwork[] = usedByNetworks.map((item) => {
+    const itemDetails =
+      item.project === project
+        ? networks.find((n) => n.name === item.name)
+        : undefined;
+
+    return {
+      name: item.name,
+      project: item.project,
+      used_by: itemDetails?.used_by,
+    };
   });
 
   const instances = filterUsedByType("instance", network.used_by);
@@ -127,7 +137,8 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
           {downstreamNetworks
             .slice(0, isNetworksCollapsed ? 5 : downstreamNetworks.length)
             .map((item) => {
-              const networkUrl = `${ROOT_PATH}/ui/project/default/network/${encodeURIComponent(item.name)}`;
+              const networkUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`;
+              const isExternalProject = item.project !== project;
               return (
                 <div
                   key={networkUrl}
@@ -135,9 +146,14 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
                     "has-descendents": (item.used_by ?? []).length > 0,
                   })}
                 >
+                  {isExternalProject && (
+                    <>
+                      <ProjectRichChip projectName={item.project} /> /{" "}
+                    </>
+                  )}
                   <NetworkRichChip
                     networkName={item.name}
-                    projectName="default"
+                    projectName={item.project}
                   />
                 </div>
               );
