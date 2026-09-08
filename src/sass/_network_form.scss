@@ -35,6 +35,10 @@
 
 .network-form {
   .contents {
+    .network-topology {
+      min-width: 54rem;
+    }
+
     .network-topology,
     .sections {
       max-width: 54rem;
