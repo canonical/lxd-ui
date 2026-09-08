@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.22% </span>
+                <span class="strong">2.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/31</span>
+                <span class='fraction'>1/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/37</span>
+                <span class='fraction'>0/38</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.33% </span>
+                <span class="strong">2.94% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/30</span>
+                <span class='fraction'>1/34</span>
             </div>
         
             
@@ -259,7 +259,29 @@
 <a name='L194'></a><a href='#L194'>194</a>
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -307,7 +329,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -390,6 +416,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -478,6 +510,12 @@ interface Props {
   isServerClustered: boolean;
 }
 &nbsp;
+interface DownstreamNetwork {
+  name: string;
+  project: string;
+  used_by?: string[];
+}
+&nbsp;
 const <span class="fstat-no" title="function not covered" >NetworkTopology: FC&lt;Props&gt; = ({</span> formik, project, isServerClustered }) =&gt; {
   const { member } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ member: string }&gt;();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
@@ -500,14 +538,18 @@ const <span class="fstat-no" title="function not covered" >NetworkTopology: FC&l
     }
   }, [error]);
 &nbsp;
-  const downstreamNetworks = <span class="cstat-no" title="statement not covered" >networks.<span class="fstat-no" title="function not covered" >filter((d</span>ownStreamCandidate) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-      downStreamCandidate.config.network === formik.values.name ||
-      downStreamCandidate.config.parent === formik.values.name ||
-      network.used_by?.includes(
-        `/1.0/networks/${encodeURIComponent(downStreamCandidate.name)}`,
-      )
-    );
+  const usedByNetworks = <span class="cstat-no" title="statement not covered" >filterUsedByType("network", network.used_by);</span>
+  const downstreamNetworks: DownstreamNetwork[] = <span class="cstat-no" title="statement not covered" >usedByNetworks.<span class="fstat-no" title="function not covered" >map((i</span>tem) =&gt; {</span>
+    const itemDetails =
+<span class="cstat-no" title="statement not covered" >      item.project === project</span>
+        ? networks.<span class="fstat-no" title="function not covered" >find((n</span>) =&gt; <span class="cstat-no" title="statement not covered" >n.name === item.name)</span>
+        : undefined;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      name: item.name,
+      project: item.project,
+      used_by: itemDetails?.used_by,
+    };
   });
 &nbsp;
   const instances = <span class="cstat-no" title="statement not covered" >filterUsedByType("instance", network.used_by);</span>
@@ -584,7 +626,8 @@ const <span class="fstat-no" title="function not covered" >NetworkTopology: FC&l
           {downstreamNetworks
             .slice(0, isNetworksCollapsed ? 5 : downstreamNetworks.length)
             .<span class="fstat-no" title="function not covered" >map((i</span>tem) =&gt; {
-              const networkUrl = <span class="cstat-no" title="statement not covered" >`${ROOT_PATH}/ui/project/default/network/${encodeURIComponent(item.name)}`;</span>
+              const networkUrl = <span class="cstat-no" title="statement not covered" >`${ROOT_PATH}/ui/project/${encodeURIComponent(item.project)}/network/${encodeURIComponent(item.name)}`;</span>
+              const isExternalProject = <span class="cstat-no" title="statement not covered" >item.project !== project;</span>
 <span class="cstat-no" title="statement not covered" >              return (</span>
                 &lt;div
                   key={networkUrl}
@@ -592,9 +635,14 @@ const <span class="fstat-no" title="function not covered" >NetworkTopology: FC&l
                     "has-descendents": (item.used_by ?? []).length &gt; 0,
                   })}
                 &gt;
+                  {isExternalProject &amp;&amp; (
+                    &lt;&gt;
+                      &lt;ProjectRichChip projectName={item.project} /&gt; /{" "}
+                    &lt;/&gt;
+                  )}
                   &lt;NetworkRichChip
                     networkName={item.name}
-                    projectName="default"
+                    projectName={item.project}
                   /&gt;
                 &lt;/div&gt;
               );
@@ -658,7 +706,7 @@ export default NetworkTopology;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-02T12:15:47.819Z
+                at 2026-09-08T09:34:29.919Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

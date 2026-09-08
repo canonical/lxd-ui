@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/pages/networks/NetworkClusterMemberChip.tsx</title>
+    <title>Code coverage report for src/context/useMetrics.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../prettify.css" />
-    <link rel="stylesheet" href="../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/networks</a> NetworkClusterMemberChip.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/context</a> useMetrics.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.6% </span>
+                <span class="strong">53.84% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>14/26</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.6% </span>
+                <span class="strong">53.84% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>14/26</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,15 +86,10 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -109,29 +104,43 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import ResourceLink from "components/ResourceLink";
-import type { LXDNetworkOnClusterMember } from "types/network";
-import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
-import { ROOT_PATH } from "util/rootPath";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { useAuth } from "./auth";
+import { queryKeys } from "util/queryKeys";
+import { fetchMetrics } from "api/metrics";
+import type { LxdMetricGroup } from "types/metrics";
+import { useServerEntitlements } from "util/entitlements/server";
+import { useMetricHistory } from "context/metricHistory";
 &nbsp;
-interface Props {
-  network: LXDNetworkOnClusterMember;
-}
-&nbsp;
-const NetworkClusterMemberChip: FC&lt;Props&gt; = ({ network }) =&gt; {
-  return network.memberName === "Cluster-wide" ? (
-    &lt;ResourceLink
-      type="cluster-group"
-      value="Cluster wide"
-      to={`${ROOT_PATH}/ui/cluster/members`}
-    /&gt;
-  ) : (
-    &lt;Clu<span class="fstat-no" title="function not covered" >sterMemberRichChip clusterMember={network.memberName} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+export const useMetrics = (
+  location: string,
+): UseQueryResult&lt;<span class="fstat-no" title="function not covered" >LxdMetricGroup[]&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const { isRestricted, isFineGrained } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" >  const { canViewMetrics } = useServerEntitlements();</span>
+<span class="cstat-no" title="statement not covered" >  const { setMetricEntry } = useMetricHistory();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default NetworkClusterMemberChip;</span>
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
+<span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.metrics, location],</span>
+<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      fetchMetrics(location).then((metric) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setMetricEntry({ time: Date.now() / 1000, metric });</span>
+<span class="cstat-no" title="statement not covered" >        return metric;</span>
+<span class="cstat-no" title="statement not covered" >      }),</span>
+<span class="cstat-no" title="statement not covered" >    refetchInterval: 15 * 1000, // 15 seconds</span>
+    enabled: !isRestricted &amp;&amp; isFineGrained !== null &amp;&amp; canViewMetrics(),
+  });
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -139,16 +148,16 @@ const NetworkClusterMemberChip: FC&lt;Props&gt; = ({ network }) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-02T12:15:47.819Z
+                at 2026-09-08T09:34:29.919Z
             </div>
-        <script src="../../../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../sorter.js"></script>
-        <script src="../../../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

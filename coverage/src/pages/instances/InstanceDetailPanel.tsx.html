@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/pages/networks/NetworkSearchFilter.tsx</title>
+    <title>Code coverage report for src/pages/instances/InstanceDetailPanel.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/networks</a> NetworkSearchFilter.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/instances</a> InstanceDetailPanel.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.85% </span>
+                <span class="strong">56.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/107</span>
+                <span class='fraction'>50/88</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.85% </span>
+                <span class="strong">56.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>48/107</span>
+                <span class='fraction'>50/88</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -151,26 +151,9 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -256,134 +239,94 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { memo, type FC } from "react";
-import { SearchAndFilter } from "@canonical/react-components";
-import type {
-  SearchAndFilterChip,
-  SearchAndFilterData,
-} from "@canonical/react-components/dist/components/SearchAndFilter/types";
-import { useSearchParams } from "react-router-dom";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import OpenTerminalBtn from "./actions/OpenTerminalBtn";
+import OpenConsoleBtn from "./actions/OpenConsoleBtn";
 import {
-  paramsFromSearchData,
-  searchParamsToChips,
-} from "util/searchAndFilter";
-import { useClusterMembers } from "context/useClusterMembers";
+  Button,
+  Icon,
+  List,
+  SidePanel,
+  useNotify,
+} from "@canonical/react-components";
+import usePanelParams from "util/usePanelParams";
+import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
+import InstanceDetailPanelContent from "./InstanceDetailPanelContent";
+import { useInstance } from "context/useInstances";
+import DeleteInstanceBtn from "pages/instances/actions/DeleteInstanceBtn";
+import { useEscCallback } from "context/useEscCallback";
 &nbsp;
-export const QUERY = "query";
-export const TYPE = "type";
-export const MANAGED = "managed";
-export const MEMBER = "member";
-export const STATE = "state";
+const InstanceDetailPanel: FC = () =&gt; {
+  const notify = useNotify();
+  const panelParams = usePanelParams();
 &nbsp;
-const QUERY_PARAMS = [QUERY, TYPE, MANAGED, MEMBER, STATE];
+  useEscCallback(panelParams.clear);
 &nbsp;
-export interface NetworkFilters {
-  queries: string[];
-  type: string[];
-  managed: string[];
-  member: string[];
-  state: string[];
-}
+  const enable = panelParams.instance !== null;
+  const {
+    data: instance,
+    error,
+    isLoading,
+  } = useInstance(panelParams.instance ?? "", panelParams.project, enable);
 &nbsp;
-const NetworkSearchFilter: FC = () =&gt; {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { data: clusterMembers = [] } = useClusterMembers();
+  if (error) {
+    notify.failure("Loading instance failed", error);
+  }
 &nbsp;
-  const memberSet = [
-    ...new Set(clusterMembers.map((member) =&gt; member.server_name)),
-  ];
-&nbsp;
-  const searchAndFilterData: SearchAndFilterData[] = [
-    {
-      id: 1,
-      heading: "Type",
-      chips: ["OVN", "Bridge", "Physical"].map((type) =&gt; {
-        return { lead: TYPE, value: type };
-      }),
-    },
-    {
-      id: 2,
-<span class="fstat-no" title="function not covered" >      heading: "Managed",</span>
-<span class="cstat-no" title="statement not covered" >      chips: ["Yes", "No"].map((managed) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        return { lead: MANAGED, value: managed };</span>
-<span class="cstat-no" title="statement not covered" >      }),</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    {</span>
-<span class="cstat-no" title="statement not covered" >      id: 3,</span>
-<span class="cstat-no" title="statement not covered" >      heading: "State",</span>
-<span class="cstat-no" title="statement not covered" >      chips: ["Created", "Pending", "Unknown", "Unavailable", "Errored"].map(</span>
-<span class="cstat-no" title="statement not covered" >        (state) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          return { lead: STATE, value: state };</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >      ),</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    ...(clusterMembers.length &gt; 0</span>
-<span class="cstat-no" title="statement not covered" >      ? [</span>
-<span class="cstat-no" title="statement not covered" >          {</span>
-<span class="cstat-no" title="statement not covered" >            id: 4,</span>
-<span class="cstat-no" title="statement not covered" >            heading: "Cluster member",</span>
-<span class="cstat-no" title="statement not covered" >            chips: ["Cluster-wide"].concat(memberSet).map((location) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              return { lead: MEMBER, value: location };</span>
-<span class="cstat-no" title="statement not covered" >            }),</span>
-<span class="cstat-no" title="statement not covered" >          },</span>
-<span class="cstat-no" title="statement not covered" >        ]</span>
-<span class="cstat-no" title="statement not covered" >      : []),</span>
-<span class="cstat-no" title="statement not covered" >  ];</span>
+  return (
+    &lt;SidePanel
+      loading={isLoading}
+      hasError={!instance}
+      className="u-hide--medium u-hide--small detail-panel instance-detail-panel"
+      pinned
+      width="narrow"
+    &gt;
+      &lt;SidePanel.Sticky&gt;
+        &lt;SidePanel.Header&gt;
+          &lt;SidePanel.HeaderTitle&gt;Instance summary&lt;/SidePanel.HeaderTitle&gt;
+          &lt;SidePanel.HeaderControls&gt;
+            &lt;Button
+              appearance="base"
+              className="u-no-margin--bottom"
+<span class="fstat-no" title="function not covered" >              hasIcon</span>
+<span class="cstat-no" title="statement not covered" >              onClick={panelParams.clear}</span>
+<span class="cstat-no" title="statement not covered" >              aria-label="Close"</span>
+<span class="cstat-no" title="statement not covered" >            &gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;Icon name="close" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/SidePanel.HeaderControls&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/SidePanel.Header&gt;</span>
+<span class="cstat-no" title="statement not covered" >        {instance &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="actions"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;List</span>
+<span class="cstat-no" title="statement not covered" >              inline</span>
+<span class="cstat-no" title="statement not covered" >              className="primary actions-list"</span>
+<span class="cstat-no" title="statement not covered" >              items={[</span>
+<span class="cstat-no" title="statement not covered" >                &lt;OpenTerminalBtn key="terminal" instance={instance} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >                &lt;OpenConsoleBtn key="console" instance={instance} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >                &lt;DeleteInstanceBtn</span>
+<span class="cstat-no" title="statement not covered" >                  key="delete"</span>
+<span class="cstat-no" title="statement not covered" >                  instance={instance}</span>
+<span class="cstat-no" title="statement not covered" >                  label=""</span>
+<span class="cstat-no" title="statement not covered" >                  classname="is-dense p-button--base"</span>
+<span class="cstat-no" title="statement not covered" >                /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >              ]}</span>
+<span class="cstat-no" title="statement not covered" >            /&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;div className="state"&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;InstanceStateActions instance={instance} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >        )}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/SidePanel.Sticky&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const onSearchDataChange = (searchData: SearchAndFilterChip[]) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const newParams = paramsFromSearchData(</span>
-<span class="cstat-no" title="statement not covered" >      searchData,</span>
-<span class="cstat-no" title="statement not covered" >      searchParams,</span>
-<span class="cstat-no" title="statement not covered" >      QUERY_PARAMS,</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (newParams.toString() !== searchParams.toString()) {</span>
-<span class="cstat-no" title="statement not covered" >      setSearchParams(newParams);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;h2 className="u-off-screen"&gt;Search and filter&lt;/h2&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;SearchAndFilter</span>
-<span class="cstat-no" title="statement not covered" >        existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}</span>
-<span class="cstat-no" title="statement not covered" >        filterPanelData={searchAndFilterData}</span>
-<span class="cstat-no" title="statement not covered" >        returnSearchData={onSearchDataChange}</span>
-<span class="cstat-no" title="statement not covered" >        onExpandChange={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          window.dispatchEvent(</span>
-<span class="cstat-no" title="statement not covered" >            new CustomEvent("resize", { detail: "search-and-filter" }),</span>
-<span class="cstat-no" title="statement not covered" >          );</span>
-<span class="cstat-no" title="statement not covered" >        }}</span>
-<span class="cstat-no" title="statement not covered" >        onPanelToggle={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          window.dispatchEvent(new CustomEvent("sfp-toggle"));</span>
-<span class="cstat-no" title="statement not covered" >        }}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SidePanel.Content&gt;</span>
+<span class="cstat-no" title="statement not covered" >        {instance &amp;&amp; &lt;InstanceDetailPanelContent instance={instance} /&gt;}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/SidePanel.Content&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/SidePanel&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default memo(NetworkSearchFilter);</span>
+<span class="cstat-no" title="statement not covered" >export default InstanceDetailPanel;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -391,7 +334,7 @@ const NetworkSearchFilter: FC = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-02T12:15:47.819Z
+                at 2026-09-08T09:34:29.919Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

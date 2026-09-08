@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/context/useLoadBalancers.tsx</title>
+    <title>Code coverage report for src/pages/instances/InstanceUsageFilesystem.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/context</a> useLoadBalancers.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/instances</a> InstanceUsageFilesystem.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.1% </span>
+                <span class="strong">65.62% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/38</span>
+                <span class='fraction'>21/32</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.1% </span>
+                <span class="strong">65.62% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/38</span>
+                <span class='fraction'>21/32</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,13 +95,7 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -109,21 +103,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -138,45 +127,38 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import type { LxdLoadBalancer } from "types/loadBalancers";
-import { fetchLoadBalancer, fetchLoadBalancers } from "api/load-balancers";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { humanFileSize } from "util/helpers";
+import Meter from "components/Meter";
+import type { FilesystemUsage } from "util/metricSelectors";
 &nbsp;
-export const useLoadBalancers = (
-  network: string,
-<span class="fstat-no" title="function not covered" >  project: string,</span>
-<span class="cstat-no" title="statement not covered" >): UseQueryResult&lt;LxdLoadBalancer[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
-<span class="cstat-no" title="statement not covered" >      project,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.networks,</span>
-<span class="cstat-no" title="statement not covered" >      network,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.loadBalancers,</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-    queryFn: async () =&gt; fetchLoadBalancers(network, project),
-  });
-};
+interface Props {
+  filesystem?: FilesystemUsage;
+}
 &nbsp;
-export const useLoadBalancer = (
-<span class="cstat-no" title="statement not covered" >  network: string,</span>
-  project: string,
-  listenAddress: string,
-):<span class="fstat-no" title="function not covered" > UseQueryResult&lt;LxdLoadBalancer&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
-<span class="cstat-no" title="statement not covered" >      project,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.networks,</span>
-<span class="cstat-no" title="statement not covered" >      network,</span>
-<span class="cstat-no" title="statement not covered" >      queryKeys.loadBalancers,</span>
-<span class="cstat-no" title="statement not covered" >      listenAddress,</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: async () =&gt; fetchLoadBalancer(network, project, listenAddress),</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+const InstanceUsageFilesystem: FC&lt;Props&gt; = ({ filesystem }) =&gt; {
+  if (!filesystem) {
+    return "";
+  }
+&nbsp;
+  const used = filesystem.total - filesystem.free;
+&nbsp;
+  return (
+    &lt;div&gt;
+      &lt;Meter
+        percentage={(100 / filesystem.total) * used}
+        t<span class="fstat-no" title="function not covered" >ext={</span>
+<span class="cstat-no" title="statement not covered" >          humanFileSize(filesystem.total - filesystem.free) +</span>
+<span class="cstat-no" title="statement not covered" >          " of " +</span>
+<span class="cstat-no" title="statement not covered" >          humanFileSize(filesystem.total)</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >        hoverText={`free: ${humanFileSize(filesystem.free)}\nused: ${humanFileSize(used)}`}</span>
+<span class="cstat-no" title="statement not covered" >      /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >export default InstanceUsageFilesystem;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -184,16 +166,16 @@ export const useLoadBalancer = (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-02T12:15:47.819Z
+                at 2026-09-08T09:34:29.919Z
             </div>
-        <script src="../../prettify.js"></script>
+        <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../sorter.js"></script>
-        <script src="../../block-navigation.js"></script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
     </body>
 </html>
     
