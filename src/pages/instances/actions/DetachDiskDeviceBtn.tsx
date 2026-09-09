@@ -1,5 +1,6 @@
 import type { FC } from "react";
-import { ConfirmationButton, Icon, Button } from "@canonical/react-components";
+import { ConfirmationButton, Button } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   onDetach: () => void;
@@ -22,7 +23,7 @@ const DetachDiskDeviceBtn: FC<Props> = ({
         onClick={onDetach}
         disabled={!!disabledReason}
       >
-        <Icon name="disconnect" />
+        <DsIcon icon="disconnected" />
         <span>Detach</span>
       </Button>
     );
@@ -50,7 +51,7 @@ const DetachDiskDeviceBtn: FC<Props> = ({
       showShiftClickHint
       disabled={!!disabledReason}
     >
-      <Icon name="disconnect" />
+      <DsIcon icon="disconnected" />
       <span>Detach</span>
     </ConfirmationButton>
   );

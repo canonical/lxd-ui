@@ -1,5 +1,6 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
+
+import DsIcon from "components/DsIcon";
 
 const UploadCustomImageHint: FC = () => {
   return (
@@ -17,7 +18,7 @@ const UploadCustomImageHint: FC = () => {
               rel="noopener noreferrer"
             >
               Windows ISO images
-              <Icon className="external-link-icon" name="external-link" />
+              <DsIcon className="external-link-icon" icon="external-link" />
             </a>
           </p>
         </div>

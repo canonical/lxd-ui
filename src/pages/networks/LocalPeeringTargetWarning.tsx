@@ -1,6 +1,7 @@
-import { Icon, Tooltip } from "@canonical/react-components";
+import { Tooltip } from "@canonical/react-components";
 import type { FC } from "react";
 import { useNetwork } from "context/useNetworks";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: string;
@@ -25,7 +26,7 @@ const LocalPeeringTargetWarning: FC<Props> = ({
           </div>
         }
       >
-        <Icon name="warning" />
+        <DsIcon icon="warning" />
       </Tooltip>
     )
   );

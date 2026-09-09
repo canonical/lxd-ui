@@ -8,6 +8,7 @@ import {
   Spinner,
   TablePagination,
 } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import { pluralize } from "util/helpers";
@@ -54,7 +55,7 @@ const ClusteringCard: FC = () => {
   const cardTitle = (
     <>
       <span className="overview-card-title">
-        <Icon name="cluster-host" /> {isClustered ? "Clustering" : "Server"}
+        <DsIcon icon="cluster-host" /> {isClustered ? "Clustering" : "Server"}
       </span>
       {isClustered ? (
         <ClusterMemberExplanationTooltip />
@@ -78,7 +79,7 @@ const ClusteringCard: FC = () => {
   if (error) {
     return (
       <Card className={cardClassName} title={cardTitle}>
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error while
         loading {isClustered ? "cluster" : "server"} details: {error.message}
       </Card>
     );

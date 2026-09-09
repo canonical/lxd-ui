@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -10,6 +9,7 @@ import { queryKeys } from "util/queryKeys";
 import ResourceLabel from "components/ResourceLabel";
 import type { LxdPlacementGroup } from "types/placementGroup";
 import { deletePlacementGroup } from "api/placement-groups";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   placementGroup: LxdPlacementGroup;
@@ -78,7 +78,7 @@ const DeletePlacementGroupBtn: FC<Props> = ({ placementGroup, project }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

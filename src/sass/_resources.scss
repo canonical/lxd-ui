@@ -4,6 +4,10 @@
   max-width: 50%;
   vertical-align: bottom;
 
+  // Legacy vanilla icons size via background-image, while pragma DsIcon svgs
+  // (class="ds icon") size via width/height, so `background-size: contain`
+  // is needed to keep the legacy icon's rendered size consistent with its
+  // DsIcon siblings. Issue is tracked in WD-38790
   i,
   .ds.icon {
     background-size: contain !important;
@@ -12,6 +16,10 @@
 }
 
 .resource-link {
+  // Legacy vanilla icons size via background-image, while pragma DsIcon svgs
+  // (class="ds icon") size via width/height, so `background-size: contain`
+  // is needed to keep the legacy icon's rendered size consistent with its
+  // DsIcon siblings. Issue is tracked in WD-38790
   i,
   .ds.icon {
     background-size: contain !important;

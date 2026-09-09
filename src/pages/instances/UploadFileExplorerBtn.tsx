@@ -2,7 +2,6 @@ import { type ChangeEvent, useRef, useState, type FC } from "react";
 import {
   Button,
   ConfirmationModal,
-  Icon,
   usePortal,
 } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
@@ -10,6 +9,7 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import FileExplorerUploadModal from "./forms/FileExplorerUploadModal";
 import { pluralize } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -98,7 +98,7 @@ const UploadFileExplorerBtn: FC<Props> = ({
             : "You do not have permission to manage files on this instance"
         }
       >
-        {!isSmallScreen && <Icon name="upload" />}
+        {!isSmallScreen && <DsIcon icon="upload" />}
         <span>Upload</span>
       </Button>
       {isOpen && (

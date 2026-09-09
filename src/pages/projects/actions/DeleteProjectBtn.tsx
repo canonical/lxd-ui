@@ -8,7 +8,6 @@ import { isProjectEmpty } from "util/projects";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import {
   Button,
-  Icon,
   Tooltip,
   useNotify,
   usePortal,
@@ -19,6 +18,7 @@ import { useProjectEntitlements } from "util/entitlements/projects";
 import DeleteProjectModal from "./DeleteProjectModal";
 import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
+import DsIcon from "components/DsIcon";
 
 const generateTooltipMessage = (
   canDelete: boolean,
@@ -136,7 +136,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
             isEmpty,
           )}
         >
-          {!isSmallScreen && <Icon name="delete" />}
+          {!isSmallScreen && <DsIcon icon="delete" />}
           <span>Delete project</span>
         </Tooltip>
       </Button>

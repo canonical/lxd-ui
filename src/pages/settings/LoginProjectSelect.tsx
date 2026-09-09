@@ -2,7 +2,6 @@ import { useEffect, useState, type FC } from "react";
 import {
   Button,
   Form,
-  Icon,
   Select,
   useToastNotification,
 } from "@canonical/react-components";
@@ -16,6 +15,7 @@ import {
 } from "util/loginProject";
 import ResourceLabel from "components/ResourceLabel";
 import type { ConfigField } from "types/config";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   configField: ConfigField;
@@ -98,7 +98,7 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
               onClick={resetToDefault}
               hasIcon
             >
-              <Icon name="restart" className="flip-horizontally" />
+              <DsIcon icon="restart" className="flip-horizontally" />
               <span>Reset to default</span>
             </Button>
           )}
@@ -118,7 +118,7 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
               ? "All projects"
               : value || getDefaultProject(projects)}
           </div>
-          <Icon name="edit" className="edit-icon" />
+          <DsIcon icon="edit" className="edit-icon" />
         </Button>
       )}
     </>

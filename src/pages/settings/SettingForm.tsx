@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import {
   Button,
-  Icon,
   ThemeSwitcher,
   useNotify,
   useToastNotification,
@@ -20,6 +19,7 @@ import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
 import type { ClusterSpecificValues } from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   configField: ConfigField;
@@ -205,7 +205,7 @@ const SettingForm: FC<Props> = ({
               <div className="readmode-value u-truncate">
                 {getReadModeValue()}
               </div>
-              <Icon name="edit" className="edit-icon" />
+              <DsIcon icon="edit" className="edit-icon" />
             </Button>
           )}
         </>

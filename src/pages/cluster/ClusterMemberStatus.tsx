@@ -3,6 +3,7 @@ import { Icon } from "@canonical/react-components";
 import { useMemberLoading } from "context/memberLoading";
 import { getClusterMemberStatusIconName } from "util/clusterMember";
 import type { LxdClusterMember } from "types/cluster";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   member: LxdClusterMember;
@@ -15,7 +16,7 @@ const ClusterMemberStatus: FC<Props> = ({ member }) => {
   if (loadingType) {
     return (
       <>
-        <Icon className="u-animation--spin status-icon" name="spinner" />
+        <DsIcon className="u-animation--spin status-icon" icon="spinner" />
         <i>{loadingType}</i>
       </>
     );

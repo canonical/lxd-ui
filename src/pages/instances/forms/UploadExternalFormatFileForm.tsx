@@ -3,7 +3,6 @@ import {
   Button,
   CheckboxInput,
   Form,
-  Icon,
   Input,
   Select,
   useNotify,
@@ -40,6 +39,7 @@ import { useClusterMembers } from "context/useClusterMembers";
 import { fileToSanitisedName } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import { InstanceRichChip } from "../InstanceRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   close: () => void;
@@ -301,14 +301,15 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           label={
             <span title={noFileSelectedMessage}>
               Convert to raw format{" "}
-              <Icon
-                name="information"
+              <span
                 title={
                   noFileSelectedMessage
                     ? noFileSelectedMessage
                     : "Can be skipped if the image is already in raw format to speed up the import."
                 }
-              />
+              >
+                <DsIcon icon="information" />
+              </span>
             </span>
           }
           disabled={!!noFileSelectedMessage}
@@ -319,14 +320,15 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           label={
             <span title={noFileSelectedMessage}>
               Add Virtio drivers{" "}
-              <Icon
-                name="information"
+              <span
                 title={
                   noFileSelectedMessage
                     ? noFileSelectedMessage
                     : "Mandatory, if the image does not have Virtio drivers installed."
                 }
-              />
+              >
+                <DsIcon icon="information" />
+              </span>
             </span>
           }
           disabled={!!noFileSelectedMessage}

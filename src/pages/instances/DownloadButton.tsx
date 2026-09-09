@@ -1,7 +1,8 @@
 import { useRef, type FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { fetchInstanceLogFile } from "api/instances";
+import DsIcon from "components/DsIcon";
 
 interface DownloadButtonProps {
   instance: LxdInstance;
@@ -58,7 +59,7 @@ const DownloadButton: FC<DownloadButtonProps> = ({
       dense
       ref={buttonRef}
     >
-      <Icon name="begin-downloading" alt="download" />
+      <DsIcon icon="download" />
     </Button>
   );
 };

@@ -1,12 +1,12 @@
 import type { BulkOperationResult } from "util/promises";
 import {
-  Icon,
   MainTable,
   Modal,
   type NotificationAction,
 } from "@canonical/react-components";
 import { useModal } from "context/useModal";
 import ResourceLink from "components/ResourceLink";
+import DsIcon from "components/DsIcon";
 
 export function useBulkDetails() {
   const { showModal, hideModal } = useModal();
@@ -41,7 +41,9 @@ export function useBulkDetails() {
                 {
                   content: (
                     <>
-                      <Icon name={isSuccess ? "success" : "error"} />{" "}
+                      <DsIcon
+                        icon={isSuccess ? "success-fill" : "error-fill"}
+                      />{" "}
                       {isSuccess ? "Success" : "Error: " + result.reason}
                     </>
                   ),

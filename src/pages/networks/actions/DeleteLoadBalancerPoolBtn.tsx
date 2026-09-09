@@ -4,7 +4,6 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  Icon,
   useToastNotification,
 } from "@canonical/react-components";
 import { useNetworkEntitlements } from "util/entitlements/networks";
@@ -12,6 +11,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { deleteLoadBalancerPool } from "api/load-balancer-pools";
 import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdLoadBalancerPool } from "types/loadBalancers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -108,7 +108,7 @@ const DeleteLoadBalancerPoolBtn: FC<Props> = ({
       showShiftClickHint
       disabled={!canEditNetwork(network) || isLoading || isPoolUsed}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       {hasCaption && <span>Delete pool</span>}
     </ConfirmationButton>
   );

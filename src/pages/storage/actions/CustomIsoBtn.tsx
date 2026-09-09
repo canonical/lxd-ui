@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   project: string;
@@ -26,7 +27,7 @@ const CustomIsoBtn: FC<Props> = ({ project }) => {
       onClick={handleClick}
       element="a"
     >
-      {!isSmallScreen && <Icon name="iso" />}
+      {!isSmallScreen && <DsIcon icon="iso" />}
       <span>Custom ISOs</span>
     </Button>
   );

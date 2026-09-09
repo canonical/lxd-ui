@@ -1,11 +1,12 @@
 import { useState, type FC } from "react";
-import { Button, Form, Icon } from "@canonical/react-components";
+import { Button, Form } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { ClusterSpecificValues } from "types/cluster";
 import ClusterSpecificSelect from "components/ClusterSpecificSelect";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   initialValue: ClusterSpecificValues;
@@ -108,7 +109,7 @@ const ClusteredSettingFormInput: FC<Props> = ({
               onClick={resetToDefault}
               hasIcon
             >
-              <Icon name="restart" className="flip-horizontally" />
+              <DsIcon icon="restart" className="flip-horizontally" />
               <span>Reset to default</span>
             </Button>
           )}

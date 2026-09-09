@@ -3,7 +3,6 @@ import {
   Button,
   Col,
   Form,
-  Icon,
   Input,
   Label,
   Notification,
@@ -24,6 +23,7 @@ import { focusField } from "util/formFields";
 import type { LoadBalancerFormValues } from "types/forms/loadBalancers";
 import LoadBalancerPortsForm from "pages/networks/forms/LoadBalancerPortsForm";
 import type { LxdLoadBalancer } from "types/loadBalancers";
+import DsIcon from "components/DsIcon";
 
 export const toLoadBalancer = (
   values: LoadBalancerFormValues,
@@ -182,7 +182,7 @@ const LoadBalancerForm: FC<Props> = ({ formik, isEdit, network }) => {
         )}
         <div>
           <Button hasIcon onClick={addPort} type="button">
-            <Icon name="plus" />
+            <DsIcon icon="plus" />
             <span>Add port</span>
           </Button>
         </div>
