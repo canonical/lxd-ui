@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { CustomSelect, OutputField } from "@canonical/react-components";
+import { CustomSelect, Label, OutputField } from "@canonical/react-components";
 import {
   getAlletraStoragePoolFormFields,
   getCephObjectPoolFormFields,
@@ -28,6 +28,7 @@ import {
 } from "util/storagePoolForm";
 import { useSettings } from "context/useSettings";
 import DocLink from "components/DocLink";
+import StorageDriverExplanationTooltip from "pages/storage/StorageDriverExplanationTooltip";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -136,17 +137,28 @@ const StorageDriverSelect: FC<Props> = ({ formik }) => {
   return (
     <>
       {!formik.values.isCreating ? (
-        <OutputField
-          id={"driver"}
-          label={"Driver"}
-          value={storageDriverLabels[formik.values.driver]}
-          help={getHelpText()}
-        />
+        <>
+          <Label forId="driver">
+            <StorageDriverExplanationTooltip>
+              Driver
+            </StorageDriverExplanationTooltip>
+          </Label>
+          <OutputField
+            id="driver"
+            label=""
+            value={storageDriverLabels[formik.values.driver]}
+            help={getHelpText()}
+          />
+        </>
       ) : (
         <CustomSelect
           id="driver"
           name="driver"
-          label="Driver"
+          label={
+            <StorageDriverExplanationTooltip>
+              Driver
+            </StorageDriverExplanationTooltip>
+          }
           wrapperClassName="select-input"
           dropdownClassName="storage-driver-dropdown"
           help={getHelpText()}

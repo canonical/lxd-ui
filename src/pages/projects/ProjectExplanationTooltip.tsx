@@ -6,7 +6,7 @@ const ProjectExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
-      className="explanation-tooltip-wrapper--breadcrumb"
+      className="explanation-tooltip-wrapper--inline"
       explanation="Projects organize and isolate LXD resources into separate groups."
       docPath="/reference/projects/"
       docLabel="Learn more about projects"

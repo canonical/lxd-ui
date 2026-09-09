@@ -6,6 +6,7 @@ const PlacementGroupExplanationTooltip: FC<{
 }> = ({ children }) => {
   return (
     <ExplanationTooltip
+      className="explanation-tooltip-wrapper--inline"
       explanation="Placement groups define rules for placing instances across cluster members."
       docPath="/howto/cluster_placement_groups/"
       docLabel="Learn more about placement groups"

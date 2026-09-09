@@ -1,13 +1,16 @@
+import classNames from "classnames";
 import type { FC, ReactNode } from "react";
 import ExplanationTooltip from "components/ExplanationTooltip";
 
 const StoragePoolExplanationTooltip: FC<{
   children?: ReactNode;
+  className?: string;
   isConfigVariant?: boolean;
-}> = ({ children, isConfigVariant }) => {
+}> = ({ children, className, isConfigVariant }) => {
   return (
     <ExplanationTooltip
-      explanation="Storage pools host instance and image data."
+      className={classNames("explanation-tooltip-wrapper--inline", className)}
+      explanation="Storage pools host data from instances, images and more."
       docPath={
         isConfigVariant
           ? "/reference/storage_drivers/"

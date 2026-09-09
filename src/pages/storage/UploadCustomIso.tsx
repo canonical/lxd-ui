@@ -22,6 +22,7 @@ import type { LxdSyncResponse } from "types/apiResponse";
 import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
 import classnames from "classnames";
 import { createIsoStorageVolume } from "api/storage-volumes";
+import StoragePoolExplanationTooltip from "pages/storage/StoragePoolExplanationTooltip";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -155,7 +156,11 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           setValue={setPool}
           selectProps={{
             id: "storagePool",
-            label: "Storage pool",
+            label: (
+              <StoragePoolExplanationTooltip>
+                Storage pool
+              </StoragePoolExplanationTooltip>
+            ),
             disabled: file === null,
             stacked: true,
           }}
