@@ -3,8 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import {
   Row,
   ScrollableTable,
-  useNotify,
   CustomLayout,
+  Notification,
   Spinner,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
@@ -23,17 +23,14 @@ import {
   STATUS,
   type WarningFilters,
 } from "util/warnings";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const WarningList: FC = () => {
-  const notify = useNotify();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [searchParams] = useSearchParams();
-  const { data: warnings = [], error, isLoading } = useWarnings();
-
-  if (error) {
-    notify.failure("Loading warnings failed", error);
-  }
+  const { canViewWarnings } = useServerEntitlements();
+  const { data: warnings = [], isLoading } = useWarnings(canViewWarnings());
 
   const hasWarnings = isLoading || warnings.length > 0;
 
@@ -115,36 +112,44 @@ const WarningList: FC = () => {
       }
     >
       <NotificationRow />
-      <Row>
-        <ScrollableTable
-          dependencies={[filteredWarnings]}
-          tableId="warning-table"
-          belowIds={["status-bar"]}
-        >
-          <SelectableMainTable
-            id="warning-table"
-            headers={getWarningHeaders()}
-            rows={rows}
-            paginate={30}
-            sortable
-            className="warnings-table"
-            emptyStateMsg={
-              isLoading ? (
-                <Spinner className="u-loader" text="Loading warnings..." />
-              ) : (
-                "No warnings found matching this search"
-              )
-            }
-            itemName="warning"
-            parentName="server"
-            selectedNames={selectedNames}
-            setSelectedNames={setSelectedNames}
-            filteredNames={filteredWarnings.map((warning) => warning.uuid)}
-            disabledNames={processingNames}
-            responsive
-          />
-        </ScrollableTable>
-      </Row>
+      {canViewWarnings() ? (
+        <Row>
+          <ScrollableTable
+            dependencies={[filteredWarnings]}
+            tableId="warning-table"
+            belowIds={["status-bar"]}
+          >
+            <SelectableMainTable
+              id="warning-table"
+              headers={getWarningHeaders()}
+              rows={rows}
+              paginate={30}
+              sortable
+              className="warnings-table"
+              emptyStateMsg={
+                isLoading ? (
+                  <Spinner className="u-loader" text="Loading warnings..." />
+                ) : (
+                  "No warnings found matching this search"
+                )
+              }
+              itemName="warning"
+              parentName="server"
+              selectedNames={selectedNames}
+              setSelectedNames={setSelectedNames}
+              filteredNames={filteredWarnings.map((warning) => warning.uuid)}
+              disabledNames={processingNames}
+              responsive
+            />
+          </ScrollableTable>
+        </Row>
+      ) : (
+        <Row>
+          <Notification severity="caution" title="Restricted permissions">
+            You do not have permission to view warnings.
+          </Notification>
+        </Row>
+      )}
     </CustomLayout>
   );
 };
