@@ -74,6 +74,10 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
+  const canViewWarnings = () =>
+    hasEntitlement(isFineGrained, "can_view_warnings", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   const canCreateImageRegistries = () =>
     hasEntitlement(
       isFineGrained,
@@ -94,5 +98,6 @@ export const useServerEntitlements = () => {
     canViewMetrics,
     canViewPermissions,
     canViewResources,
+    canViewWarnings,
   };
 };
