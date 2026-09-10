@@ -18,6 +18,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -25,8 +26,10 @@ interface Props {
 
 const InstanceFileExplorer: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
+  const { canAccessInstanceFiles } = useInstanceEntitlements();
   const [searchParams] = useSearchParams();
   const currentPath = searchParams.get("path") || "/";
+
   const canServeFiles =
     isInstanceRunning(instance) || instance.type === "container";
 
@@ -44,7 +47,7 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     ],
     queryFn: async () =>
       fetchInstanceDirectory(instance.name, instance.project, currentPath),
-    enabled: canServeFiles,
+    enabled: canServeFiles && canAccessInstanceFiles(instance),
   });
 
   const invalidateCache = () => {
@@ -58,6 +61,14 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
       ],
     });
   };
+
+  if (!canAccessInstanceFiles(instance)) {
+    return (
+      <Notification severity="caution" title="Restricted permissions">
+        You do not have permission to access the file system for this instance.
+      </Notification>
+    );
+  }
 
   if (!canServeFiles) {
     return (

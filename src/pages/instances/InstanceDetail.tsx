@@ -16,6 +16,8 @@ import { buildGrafanaUrl } from "util/grafanaUrl";
 import NotFound from "components/NotFound";
 import { ROOT_PATH } from "util/rootPath";
 import InstanceFileExplorer from "./InstanceFileExplorer";
+import InstanceProfilesWarning from "./InstanceProfilesWarning";
+import { useProfiles } from "context/useProfiles";
 
 const tabs: string[] = [
   "Overview",
@@ -49,6 +51,8 @@ const InstanceDetail: FC = () => {
     refetch: refreshInstance,
     isLoading,
   } = useInstance(name, project);
+
+  const { data: profiles = [] } = useProfiles(project);
 
   const renderTabs: (string | TabLink)[] = [...tabs];
 
@@ -111,6 +115,10 @@ const InstanceDetail: FC = () => {
 
           {activeTab === "configuration" && (
             <div role="tabpanel" aria-labelledby="configuration">
+              <InstanceProfilesWarning
+                instanceProfiles={instance.profiles}
+                profiles={profiles}
+              />
               <EditInstance instance={instance} />
             </div>
           )}
