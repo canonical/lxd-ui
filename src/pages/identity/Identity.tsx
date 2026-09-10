@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import {
   Button,
   Col,
@@ -27,6 +27,8 @@ const Identity: FC = () => {
   const { currentIdentity, isFineGrained } = useAuth();
   const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const { data: authGroups = [] } = useAuthGroups();
+  const [showIdpGroupsNotification, setShowIdpGroupsNotification] =
+    useState(true);
 
   const assignedGroups = currentIdentity?.groups ?? [];
   const effectiveGroups = currentIdentity?.effective_groups ?? [];
@@ -234,10 +236,13 @@ const Identity: FC = () => {
                   </div>
                 )}
               </div>
-              {inheritedGroups.length > 0 && (
+              {inheritedGroups.length > 0 && showIdpGroupsNotification && (
                 <Notification
                   severity="information"
                   className="idp-groups-notification"
+                  onDismiss={() => {
+                    setShowIdpGroupsNotification(false);
+                  }}
                 >
                   Inherited groups are granted through identity provider group
                   mappings, not on the identity itself. To change them, join or
