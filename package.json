@@ -103,7 +103,7 @@
     "vite": "7.3.6",
     "vite-plugin-istanbul": "7.2.1",
     "vite-tsconfig-paths": "6.0.3",
-    "vitest": "4.1.0"
+    "vitest": "4.1.11"
   },
   "lint-staged": {
     "src/**/*.{json,jsx,ts,tsx}": [
