@@ -58,8 +58,10 @@
   }
 
   .identity-group-row {
+    align-items: baseline;
     display: flex;
-    margin-bottom: $spv--x-small;
+    padding-bottom: $spv--x-small;
+    padding-top: $spv--small;
   }
 
   // match the label column width of the general details table
@@ -72,6 +74,12 @@
     align-items: center;
     display: flex;
     gap: $sph--small;
+
+    // keep the edit button from making the row taller than a line of text
+    .p-button--base {
+      margin-bottom: -0.375rem;
+      margin-top: -0.375rem;
+    }
   }
 
   .idp-groups-notification {
@@ -79,14 +87,22 @@
   }
 
   .identity-preferences {
+    display: flex;
+    flex-direction: column;
+    gap: $spv--large;
     margin-bottom: $spv--large;
+    padding-top: $spv--small - 0.375rem;
 
     .identity-group-row {
-      align-items: baseline;
-      margin-bottom: $spv--small;
+      align-items: flex-start;
+      padding: 0;
     }
 
-    .p-segmented-control {
+    .identity-group-label {
+      padding-top: 0.375rem;
+    }
+
+    .p-segmented-control__button {
       margin-bottom: 0;
     }
   }

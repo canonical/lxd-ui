@@ -125,7 +125,6 @@ const Identity: FC = () => {
       element={Link}
       to={`${ROOT_PATH}/ui/permissions/identities?panel=edit-identity&identity=${encodeURIComponent(currentIdentity.id)}`}
       appearance="base"
-      className="u-no-margin--bottom"
       title="Modify groups"
       aria-label="Modify groups"
       hasIcon
@@ -230,9 +229,11 @@ const Identity: FC = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="identity-group-value">
-                    {renderGroups(effectiveGroups)}
-                    {editGroupsButton}
+                  <div className="identity-group-row">
+                    <div className="identity-group-value">
+                      {renderGroups(effectiveGroups)}
+                      {editGroupsButton}
+                    </div>
                   </div>
                 )}
               </div>
