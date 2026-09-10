@@ -5,7 +5,7 @@ import {
   deleteProject,
   randomProjectName,
 } from "./helpers/projects";
-import { visitAccountPreferences } from "./helpers/account";
+import { visitIdentityPage } from "./helpers/identity";
 import { gotoURL } from "./helpers/navigate";
 
 test("opening /ui redirects to the configured login project", async ({
@@ -14,7 +14,7 @@ test("opening /ui redirects to the configured login project", async ({
   const project = randomProjectName();
   await createProject(page, project);
 
-  await visitAccountPreferences(page);
+  await visitIdentityPage(page);
   await page.locator(".readmode-button").click();
   await page
     .getByRole("combobox", { name: "Login project" })
@@ -25,7 +25,7 @@ test("opening /ui redirects to the configured login project", async ({
   await gotoURL(page, "/ui/");
   await expect(page).toHaveURL(new RegExp(`/ui/project/${project}/instances`));
 
-  await visitAccountPreferences(page);
+  await visitIdentityPage(page);
   await page.locator(".readmode-button").click();
   await page
     .getByRole("button", { name: "Reset to default", exact: true })

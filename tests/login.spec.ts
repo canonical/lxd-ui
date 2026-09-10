@@ -5,7 +5,6 @@ import {
   removeCertificateTrust,
   restoreCertificateTrust,
 } from "./helpers/auth";
-import { openAccountMenu } from "./helpers/account";
 
 const loginUser = async (page: Page) => {
   await page.getByRole("link", { name: "Login with SSO" }).click();
@@ -14,9 +13,7 @@ const loginUser = async (page: Page) => {
   await page.getByLabel("Password *").click();
   await page.getByLabel("Password *").fill(process.env.LXD_OIDC_PASSWORD || "");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(
-    page.locator(".sidenav-bottom-ul .accordion-nav-menu"),
-  ).toBeVisible();
+  await expect(page.getByText("Log out")).toBeVisible();
 };
 
 test("login", async ({ page }, testInfo) => {
@@ -26,7 +23,6 @@ test("login", async ({ page }, testInfo) => {
 
   await gotoURL(page, "/ui/");
   await loginUser(page);
-  await openAccountMenu(page);
   await page.getByText("Log out").click();
 
   // add tls certificate to trust store so rest of tests can run correctly

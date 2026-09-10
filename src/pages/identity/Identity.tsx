@@ -8,6 +8,7 @@ import {
   MainTable,
   Notification,
   Row,
+  ThemeSwitcher,
 } from "@canonical/react-components";
 import { Link } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
@@ -20,8 +21,9 @@ import { getIdentityName } from "util/permissionIdentities";
 import { isoTimeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdPermission } from "types/permissions";
+import LoginProjectSelect from "pages/identity/LoginProjectSelect";
 
-const AccountIdentity: FC = () => {
+const Identity: FC = () => {
   const { currentIdentity, isFineGrained } = useAuth();
   const { loggedInUserName, loggedInUserID } = useLoggedInUser();
   const { data: authGroups = [] } = useAuthGroups();
@@ -137,7 +139,7 @@ const AccountIdentity: FC = () => {
           <PageHeader.Left>
             <PageHeader.Title>
               <ExplanationTooltip
-                explanation="The identity you are authenticated as, with the groups it belongs to and the permissions they grant."
+                explanation="The identity you are authenticated as, the groups it belongs to and the permissions they grant, along with your preferences for this browser."
                 docPath="/explanation/authorization"
                 docLabel="Learn more about authorization"
               >
@@ -147,7 +149,7 @@ const AccountIdentity: FC = () => {
           </PageHeader.Left>
         </PageHeader>
       }
-      contentClassName="account-identity"
+      contentClassName="identity-page"
     >
       <NotificationRow />
       <Row className="section">
@@ -273,8 +275,35 @@ const AccountIdentity: FC = () => {
           </Row>
         </>
       )}
+      <Row className="section">
+        <Col size={3}>
+          <h2 className="p-heading--5">
+            <ExplanationTooltip explanation="Preferences are stored in this browser only. They are not bound to your identity and do not apply to other browsers or devices.">
+              Preferences
+            </ExplanationTooltip>
+          </h2>
+        </Col>
+        <Col size={7}>
+          <div className="identity-preferences">
+            <div className="identity-group-row">
+              <span className="identity-group-label u-text--muted">Theme</span>
+              <div className="identity-group-value">
+                <ThemeSwitcher />
+              </div>
+            </div>
+            <div className="identity-group-row">
+              <span className="identity-group-label u-text--muted">
+                Login project
+              </span>
+              <div className="identity-group-value identity-preference-value">
+                <LoginProjectSelect />
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </CustomLayout>
   );
 };
 
-export default AccountIdentity;
+export default Identity;

@@ -81,7 +81,6 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 
 @import "@canonical/styles";
 @import "@canonical/react-ds-global-form/dist/esm/index.css";
-@import "account";
 @import "authentication_setup";
 @import "authentication_options";
 @import "certificate_add";
@@ -110,6 +109,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "form-link";
 @import "font";
 @import "forms";
+@import "identity";
 @import "images";
 @import "image_registry_detail";
 @import "image_registry_list";

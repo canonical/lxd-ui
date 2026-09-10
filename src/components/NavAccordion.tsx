@@ -8,15 +8,14 @@ export type AccordionNavMenu =
   | "storage"
   | "networking"
   | "clustering"
-  | "images"
-  | "account";
+  | "images";
 
 interface Props {
   baseUrls: string[];
   title: string;
   children: ReactNode;
   iconName: string;
-  label: ReactNode;
+  label: string;
   open: boolean;
   onOpen: () => void;
   disabled?: boolean;

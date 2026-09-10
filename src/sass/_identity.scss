@@ -1,5 +1,4 @@
-.account-identity,
-.account-preferences {
+.identity-page {
   overflow: auto;
 
   .row:first-of-type {
@@ -17,9 +16,7 @@
       margin-bottom: $spv--large;
     }
   }
-}
 
-.account-identity {
   .identity-details {
     tr {
       border: none;
@@ -62,13 +59,13 @@
 
   .identity-group-row {
     display: flex;
-    gap: $sph--large;
     margin-bottom: $spv--x-small;
   }
 
+  // match the label column width of the general details table
   .identity-group-label {
     flex-shrink: 0;
-    width: 5rem;
+    width: 30%;
   }
 
   .identity-group-value {
@@ -80,10 +77,22 @@
   .idp-groups-notification {
     margin-bottom: $spv--large;
   }
-}
 
-.account-preferences {
-  .account-preference-value {
+  .identity-preferences {
+    margin-bottom: $spv--large;
+
+    .identity-group-row {
+      align-items: baseline;
+      margin-bottom: $spv--small;
+    }
+
+    .p-segmented-control {
+      margin-bottom: 0;
+    }
+  }
+
+  .identity-preference-value {
+    flex-grow: 1;
     max-width: 20rem;
   }
 

@@ -48,7 +48,6 @@ const initialiseOpenNavMenus = (location: Location) => {
     location.pathname.includes("ui/image-registries") ||
     location.pathname.includes("ui/image-registry/") ||
     location.pathname.includes("/local-images");
-  const openAccount = location.pathname.includes("/ui/account");
 
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
@@ -69,10 +68,6 @@ const initialiseOpenNavMenus = (location: Location) => {
 
   if (openImages) {
     initialOpenMenus.push("images");
-  }
-
-  if (openAccount) {
-    initialOpenMenus.push("account");
   }
 
   return initialOpenMenus;
@@ -120,15 +115,6 @@ const Navigation: FC = () => {
       setProjectName(project.name);
     }
   }, [project?.name, isAllProjectsFromUrl, projectName]);
-
-  useEffect(() => {
-    setOpenNavMenus((prevOpenMenus) => {
-      const missing = initialiseOpenNavMenus(location).filter(
-        (navMenu) => !prevOpenMenus.includes(navMenu),
-      );
-      return missing.length ? [...prevOpenMenus, ...missing] : prevOpenMenus;
-    });
-  }, [location.pathname]);
 
   useEffect(() => {
     if (!menuCollapsed) {
@@ -758,66 +744,17 @@ const Navigation: FC = () => {
                 >
                   {isAuthenticated && (
                     <SideNavigationItem>
-                      <NavAccordion
-                        baseUrls={[`${ROOT_PATH}/ui/account`]}
+                      <NavLink
+                        to={`${ROOT_PATH}/ui/identity`}
                         title={`${loggedInUserName} (${loggedInUserID})`}
-                        iconName={authIcon(authMethod)}
-                        label={
-                          <div className="u-truncate account-nav-label">
-                            {loggedInUserName}
-                          </div>
-                        }
-                        onOpen={() => {
-                          toggleAccordionNav("account");
-                        }}
-                        open={
-                          openNavMenus.includes("account") && !menuCollapsed
-                        }
+                        onClick={softToggleMenu}
                       >
-                        {[
-                          <SideNavigationItem key="/ui/account/identity">
-                            <NavLink
-                              to={`${ROOT_PATH}/ui/account/identity`}
-                              title="Identity"
-                              onClick={softToggleMenu}
-                              className="accordion-nav-secondary"
-                            >
-                              Identity
-                            </NavLink>
-                          </SideNavigationItem>,
-                          <SideNavigationItem key="/ui/account/preferences">
-                            <NavLink
-                              to={`${ROOT_PATH}/ui/account/preferences`}
-                              title="Preferences"
-                              onClick={softToggleMenu}
-                              className="accordion-nav-secondary"
-                            >
-                              Preferences
-                            </NavLink>
-                          </SideNavigationItem>,
-                          ...(isOidc || isBearerToken
-                            ? [
-                                <SideNavigationItem key="log-out">
-                                  <a
-                                    className="p-side-navigation__link accordion-nav-secondary"
-                                    title="Log out"
-                                    onClick={() => {
-                                      if (isBearerToken) {
-                                        logoutBearerToken();
-                                      } else {
-                                        logoutOidc();
-                                      }
-
-                                      softToggleMenu();
-                                    }}
-                                  >
-                                    Log out
-                                  </a>
-                                </SideNavigationItem>,
-                              ]
-                            : []),
-                        ]}
-                      </NavAccordion>
+                        <Icon
+                          className="p-side-navigation__icon is-dark"
+                          name={authIcon(authMethod)}
+                        />
+                        <div className="u-truncate">{loggedInUserName}</div>
+                      </NavLink>
                     </SideNavigationItem>
                   )}
                   <SideNavigationItem>
@@ -869,6 +806,29 @@ const Navigation: FC = () => {
                       Report a bug
                     </a>
                   </SideNavigationItem>
+                  {(isOidc || isBearerToken) && (
+                    <SideNavigationItem>
+                      <a
+                        className="p-side-navigation__link"
+                        title="Log out"
+                        onClick={() => {
+                          if (isBearerToken) {
+                            logoutBearerToken();
+                          } else {
+                            logoutOidc();
+                          }
+
+                          softToggleMenu();
+                        }}
+                      >
+                        <Icon
+                          className="is-light p-side-navigation__icon p-side-logout"
+                          name="export"
+                        />
+                        Log out
+                      </a>
+                    </SideNavigationItem>
+                  )}
                 </ul>
                 <div
                   className={classnames("sidenav-toggle-wrapper", {
