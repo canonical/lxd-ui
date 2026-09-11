@@ -109,6 +109,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "form-link";
 @import "font";
 @import "forms";
+@import "identity";
 @import "images";
 @import "image_registry_detail";
 @import "image_registry_list";
@@ -545,6 +546,7 @@ body.is-dark .lxd-icon {
 .member-selection-table,
 .migrate-instance-table,
 .network-acl-rule-table,
+.effective-permissions-table,
 .network-acl-table,
 .network-acl-used-by-table,
 .network-addresses-table,

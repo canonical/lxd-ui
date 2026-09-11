@@ -744,16 +744,17 @@ const Navigation: FC = () => {
                 >
                   {isAuthenticated && (
                     <SideNavigationItem>
-                      <div
-                        className="p-side-navigation__link"
+                      <NavLink
+                        to={`${ROOT_PATH}/ui/identity`}
                         title={`${loggedInUserName} (${loggedInUserID})`}
+                        onClick={softToggleMenu}
                       >
                         <Icon
                           className="p-side-navigation__icon is-dark"
                           name={authIcon(authMethod)}
                         />
                         <div className="u-truncate">{loggedInUserName}</div>
-                      </div>
+                      </NavLink>
                     </SideNavigationItem>
                   )}
                   <SideNavigationItem>
