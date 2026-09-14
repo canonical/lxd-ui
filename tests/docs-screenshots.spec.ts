@@ -46,7 +46,7 @@ test("instances", async ({ page }) => {
   await page.getByText("Instances", { exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill(instance);
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntu24.04 LTS" })
@@ -429,7 +429,7 @@ test("LXD - Tutorial folder", async ({ page }) => {
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-vm");
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })
@@ -523,7 +523,7 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
   await page.getByText("Instances", { exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill(vminstance);
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntunobledesktopvirtual-" })
@@ -642,7 +642,7 @@ test("LXD - UI Folder - Instances", async ({ page }) => {
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-container");
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })

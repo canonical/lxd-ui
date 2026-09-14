@@ -159,7 +159,9 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
             </Row>
             <Row>
               <Col size={4}>
-                <Label forId="listenAddress">Listen address</Label>
+                <Label forId="listenAddress" required>
+                  Listen address
+                </Label>
               </Col>
               <Col size={8}>
                 {isOvnNetwork && !isEdit && (

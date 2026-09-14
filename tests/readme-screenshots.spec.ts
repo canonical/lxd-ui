@@ -30,7 +30,7 @@ test("instance creation screen", async ({ page }) => {
   await page.getByText("Instances", { exact: true }).click();
   await page.getByText("Create instance").click();
   await page.getByPlaceholder("Enter name").fill("comic-glider");
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntu24.04 LTS" })
@@ -103,7 +103,7 @@ test("instance graphical console screen", async ({ page }) => {
   await page.getByText("Instances", { exact: true }).click();
   await page.getByText("Create instance").click();
   await page.getByPlaceholder("Enter name").fill(instance);
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "ubuntu/24.04/desktop" })

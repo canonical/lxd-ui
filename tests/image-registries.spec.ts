@@ -142,7 +142,7 @@ test("project image registry restrictions", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Available image registries", "");
 
   await visitCreateInstancePage(page, project);
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await expect(page.getByText("No matching images found")).toBeVisible();
 
   await deleteProject(page, project);
