@@ -150,28 +150,30 @@ const Navigation: FC = () => {
 
   const adjustNavigationScrollForOverflow = () => {
     const navHeader = document.querySelector(".l-navigation .p-panel__header");
-    const navTop = document.querySelector(".l-navigation .p-panel__content");
+    const navContent = document.querySelector(
+      ".l-navigation .p-panel__content",
+    );
     const navBottom = document.querySelector(
       ".l-navigation .sidenav-bottom-container",
     );
     const navHeaderHeight = getElementAbsoluteHeight(navHeader as HTMLElement);
-    const navTopHeight = getElementAbsoluteHeight(navTop as HTMLElement);
+    const navContentHeight = navContent?.scrollHeight ?? 0;
     const navBottomHeight = getElementAbsoluteHeight(navBottom as HTMLElement);
 
-    const totalNavHeight = navHeaderHeight + navTopHeight + navBottomHeight;
+    const totalNavHeight = navHeaderHeight + navContentHeight + navBottomHeight;
 
     const isNavigationPanelOverflow = totalNavHeight >= window.innerHeight;
 
-    const targetNavTopHeight =
+    const targetNavContentHeight =
       window.innerHeight - navHeaderHeight - navBottomHeight;
 
     if (isNavigationPanelOverflow) {
-      const style = `height: ${targetNavTopHeight}px`;
-      navTop?.setAttribute("style", style);
+      const style = `height: ${targetNavContentHeight}px`;
+      navContent?.setAttribute("style", style);
       setScroll(true);
     } else {
       const style = `height: auto`;
-      navTop?.setAttribute("style", style);
+      navContent?.setAttribute("style", style);
       setScroll(false);
     }
   };

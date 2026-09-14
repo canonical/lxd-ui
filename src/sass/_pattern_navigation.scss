@@ -116,14 +116,14 @@
 }
 
 .sidenav-top-ul {
-  height: 100%;
+  height: auto;
   margin-bottom: 0;
-  overflow: auto;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 .sidenav-top-container {
   height: 100%;
+  overflow: hidden auto;
 }
 
 .sidenav-bottom-ul {
