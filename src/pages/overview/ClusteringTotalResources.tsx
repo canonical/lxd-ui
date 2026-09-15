@@ -1,13 +1,11 @@
 import type { FC } from "react";
-import { useQueries } from "@tanstack/react-query";
 import { Notification, Spinner } from "@canonical/react-components";
-import { fetchClusterMemberState } from "api/cluster-members";
 import classnames from "classnames";
 import Meter from "components/Meter";
 import { useClusterMembers } from "context/useClusterMembers";
+import { useClusterMemberStates } from "context/useClusterMemberState";
 import { useIsClustered } from "context/useIsClustered";
 import { useResources } from "context/useResources";
-import { queryKeys } from "util/queryKeys";
 import { getCpuText, getMemoryText } from "util/resourceDetails";
 
 const ClusteringTotalResources: FC = () => {
@@ -19,14 +17,7 @@ const ClusteringTotalResources: FC = () => {
     .filter((member) => member.status === "Online")
     .map((member) => member.server_name);
 
-  const memberStateQueries = useQueries({
-    queries: onlineMemberNames.map((name) => ({
-      queryKey: [queryKeys.cluster, queryKeys.members, name, queryKeys.state],
-      queryFn: async () => fetchClusterMemberState(name),
-      enabled: isClustered && !isMembersLoading,
-      refetchInterval: 15000,
-    })),
-  });
+  const memberStateQueries = useClusterMemberStates(onlineMemberNames);
 
   const { data: resources, isLoading: isResourcesLoading } = useResources(
     undefined,
