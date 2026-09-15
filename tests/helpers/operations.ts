@@ -4,7 +4,7 @@ import { gotoURL } from "./navigate";
 
 export const validateOperation = async (page: Page, title: string) => {
   await page.getByText("Operations", { exact: true }).click();
-  await expect(page.getByText(title)).toBeVisible();
+  await expect(page.getByText(title).first()).toBeVisible();
 };
 
 export const visitOperations = async (page: Page) => {
