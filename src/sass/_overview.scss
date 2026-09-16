@@ -42,7 +42,7 @@
     min-width: 0;
 
     .overview-card-subtitle {
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-bold;
     }
 
     .p-card__title {
@@ -363,5 +363,18 @@
     .empty-state {
       text-align: center;
     }
+  }
+}
+
+.overview-empty-state {
+  margin: auto;
+  text-align: center;
+
+  @include large {
+    width: 75%;
+  }
+
+  @include extra-large {
+    width: 68%;
   }
 }

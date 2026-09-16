@@ -1,18 +1,25 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { Card, Icon, List, Spinner } from "@canonical/react-components";
+import { Icon, List, Spinner } from "@canonical/react-components";
 import ExplanationTooltip from "components/ExplanationTooltip";
-import { useAuth } from "context/auth";
+import { useCurrentProject } from "context/useCurrentProject";
+import { useProjects } from "context/useProjects";
 import { useStoragePools } from "context/useStoragePools";
 import StoragePoolDetails from "pages/overview/StoragePoolDetails";
 import type { LxdStoragePool } from "types/storage";
+import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
 import { getVolumesUsedByPool } from "util/storagePool";
+import { getDefaultProject } from "util/loginProject";
 import { pluralize } from "util/helpers";
+import CardEmptyState from "./CardEmptyState";
+import { renderOverviewCard } from "util/overview";
 
 const StorageCard: FC = () => {
   const { data: pools = [], error, isLoading } = useStoragePools();
-  const { defaultProject } = useAuth();
+  const { projectName, isAllProjects } = useCurrentProject();
+  const { data: projects = [] } = useProjects();
+  const { canCreateStoragePools } = useServerEntitlements();
 
   const totalVolumeCount = pools.reduce(
     (count, pool: LxdStoragePool) => count + getVolumesUsedByPool(pool).length,
@@ -37,27 +44,61 @@ const StorageCard: FC = () => {
     </>
   );
 
+  const storageProject = isAllProjects
+    ? (projects.find((p) => p.name === getDefaultProject(projects))?.name ??
+      "default")
+    : projectName;
+  const storagePoolsUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(storageProject)}/storage/pools`;
+  const footerLink = isAllProjects ? null : (
+    <Link to={storagePoolsUrl}>Storage pools list</Link>
+  );
+
   if (isLoading) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <Spinner className="u-loader" text="Loading storage pools..." />
-      </Card>
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <Spinner className="u-loader" text="Loading storage pools..." />,
+      footerLink,
     );
   }
 
   if (error) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <div className="error-message">
-          <Icon name="error" className="margin-right--large" /> Error while
-          loading storage pools: {error.message}
-        </div>
-      </Card>
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <div className="error-message">
+        <Icon name="error" className="margin-right--large" /> Error while
+        loading storage pools: {error.message}
+      </div>,
+      footerLink,
     );
   }
 
-  return (
-    <Card className={cardClassName} title={cardTitle}>
+  if (pools.length === 0) {
+    const canCreatePool = canCreateStoragePools();
+
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <CardEmptyState
+        title="No storage pools found"
+        subtitle={
+          canCreatePool && (
+            <>
+              Create a storage pool on the{" "}
+              <Link to={storagePoolsUrl}>storage pools list</Link> page
+            </>
+          )
+        }
+      />,
+      footerLink,
+    );
+  }
+
+  return renderOverviewCard(
+    cardClassName,
+    cardTitle,
+    <>
       <List
         inline
         middot
@@ -68,17 +109,15 @@ const StorageCard: FC = () => {
       />
       <div className="storage-pools-container">
         {pools.map((pool) => (
-          <StoragePoolDetails pool={pool} key={pool.name} />
+          <StoragePoolDetails
+            pool={pool}
+            project={storageProject}
+            key={pool.name}
+          />
         ))}
       </div>
-      <div className="card-footer">
-        <Link
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/storage/pools`}
-        >
-          Storage pools list
-        </Link>
-      </div>
-    </Card>
+    </>,
+    footerLink,
   );
 };
 

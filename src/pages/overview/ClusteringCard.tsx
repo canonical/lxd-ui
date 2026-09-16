@@ -1,7 +1,6 @@
 import { Fragment, type FC } from "react";
 import { Link } from "react-router-dom";
 import {
-  Card,
   Icon,
   List,
   MainTable,
@@ -31,6 +30,7 @@ import ClusteringTotalResources from "pages/overview/ClusteringTotalResources";
 import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 import ServerExplanationTooltip from "pages/cluster/ServerExplanationTooltip";
 import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
+import { renderOverviewCard } from "util/overview";
 
 const ClusteringCard: FC = () => {
   const isClustered = useIsClustered();
@@ -153,23 +153,33 @@ const ClusteringCard: FC = () => {
     </>
   );
 
+  const footerLink = (
+    <Link to={`${ROOT_PATH}/ui/cluster/${isClustered ? "members" : "server"}`}>
+      {isClustered ? "Clustering details" : "Server details"}
+    </Link>
+  );
+
   if (isLoading) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <Spinner
-          className="u-loader"
-          text={`Loading ${isClustered ? "cluster" : "server"} details...`}
-        />
-      </Card>
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <Spinner
+        className="u-loader"
+        text={`Loading ${isClustered ? "cluster" : "server"} details...`}
+      />,
+      footerLink,
     );
   }
 
   if (error) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <>
         <Icon name="error" className="margin-right--large" /> Error while
         loading {isClustered ? "cluster" : "server"} details: {error.message}
-      </Card>
+      </>,
+      footerLink,
     );
   }
 
@@ -185,8 +195,10 @@ const ClusteringCard: FC = () => {
     />
   );
 
-  return (
-    <Card className={cardClassName} title={cardTitle}>
+  return renderOverviewCard(
+    cardClassName,
+    cardTitle,
+    <>
       {isClustered && (
         <List
           inline
@@ -217,15 +229,8 @@ const ClusteringCard: FC = () => {
         ) : (
           clusterMembersTable
         ))}
-
-      <div className="card-footer">
-        <Link
-          to={`${ROOT_PATH}/ui/cluster/${isClustered ? "members" : "server"}`}
-        >
-          {isClustered ? "Clustering details" : "Server details"}
-        </Link>
-      </div>
-    </Card>
+    </>,
+    footerLink,
   );
 };
 
