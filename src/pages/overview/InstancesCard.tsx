@@ -9,7 +9,6 @@ import {
 import ChartLegend from "components/ChartLegend";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useInstances } from "context/useInstances";
-import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import InstancesOverviewStatus from "pages/overview/InstancesOverviewStatus";
 import { pluralize } from "util/helpers";
 import {
@@ -17,6 +16,8 @@ import {
   type InstanceDistribution,
 } from "util/overviewInstances";
 import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
+import InstanceExplanationTooltip from "pages/instances/InstanceExplanationTooltip";
+import InstancesCardEmptyState from "./InstancesCardEmptyState";
 
 const InstancesCard: FC = () => {
   const { projectName } = useCurrentProject();
@@ -41,10 +42,16 @@ const InstancesCard: FC = () => {
 
   const cardClassName = "overview-card instances";
   const cardTitle = (
-    <span className="overview-card-title">
-      <Icon name="pods" /> Instances
-      {!isLoading && !error && instances.length > 0 && ` (${instances.length})`}
-    </span>
+    <>
+      <span className="overview-card-title">
+        <Icon name="pods" /> Instances
+        {!isLoading &&
+          !error &&
+          instances.length > 0 &&
+          ` (${instances.length})`}
+      </span>{" "}
+      <InstanceExplanationTooltip />
+    </>
   );
   const vmColor = "#C5C5C5";
   const containerColor = "#636363";
@@ -76,7 +83,7 @@ const InstancesCard: FC = () => {
   if (instances.length === 0) {
     return (
       <Card className={cardClassName} title={cardTitle}>
-        <InstanceEmptyState className="u-no-margin" />
+        <InstancesCardEmptyState />
       </Card>
     );
   }

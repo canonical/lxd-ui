@@ -26,6 +26,10 @@
     margin-bottom: 0;
     min-width: 0;
 
+    .overview-card-subtitle {
+      font-weight: 500;
+    }
+
     .p-card__title {
       align-items: center;
       display: flex;
@@ -252,4 +256,24 @@
       }
     }
   }
+}
+
+.overview-empty-state {
+  margin: auto;
+
+  @include large {
+    width: 75%;
+  }
+
+  @include extra-large {
+    width: 68%;
+  }
+
+  &__full-width {
+    width: 100%;
+  }
+}
+
+.overview-card.warnings .overview-empty-state {
+  text-align: center;
 }

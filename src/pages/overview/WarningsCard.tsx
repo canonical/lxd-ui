@@ -13,6 +13,7 @@ import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
 import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
 import { ROOT_PATH } from "util/rootPath";
 import { getWarningHeaders, getWarningRows } from "util/warnings";
+import WarningsCardEmptyState from "./WarningsCardEmptyState";
 
 const WarningsCard: FC = () => {
   const { data: warnings = [], error, isLoading } = useWarnings();
@@ -52,6 +53,14 @@ const WarningsCard: FC = () => {
     );
   }
 
+  if (newWarnings.length === 0) {
+    return (
+      <Card className={cardClassName} title={cardTitle}>
+        <WarningsCardEmptyState />
+      </Card>
+    );
+  }
+
   const rows = getWarningRows(newWarnings, "overview");
   const warningsTable = (
     <MainTable
@@ -62,7 +71,6 @@ const WarningsCard: FC = () => {
       defaultSort="severity"
       defaultSortDirection="descending"
       className="warnings-table overview-table"
-      emptyStateMsg="No warnings found"
       responsive
     />
   );
