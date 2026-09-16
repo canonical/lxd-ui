@@ -86,6 +86,11 @@
 
     &.clustering {
       .p-card__content {
+        .with-border {
+          border: solid 1px var(--vf-color-border-default);
+          padding: $spv--medium $sph--large;
+        }
+
         .overview-table {
           margin-top: $spv--large;
         }

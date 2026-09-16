@@ -62,13 +62,26 @@ describe("getClusterMemberStatusCounts", () => {
 
     expect(getClusterMemberStatusCounts(members)).toEqual({
       Online: 2,
+      Evacuated: 0,
       Offline: 1,
       Blocked: 1,
     });
+
+    expect(Object.keys(getClusterMemberStatusCounts(members))).toEqual([
+      "Online",
+      "Evacuated",
+      "Offline",
+      "Blocked",
+    ]);
   });
 
-  it("returns an empty object for an empty list", () => {
-    expect(getClusterMemberStatusCounts([])).toEqual({});
+  it("returns zero counts for an empty list", () => {
+    expect(getClusterMemberStatusCounts([])).toEqual({
+      Online: 0,
+      Evacuated: 0,
+      Offline: 0,
+      Blocked: 0,
+    });
   });
 });
 
