@@ -1,7 +1,6 @@
 import { useMemo, type FC } from "react";
 import { Link } from "react-router-dom";
 import {
-  Card,
   DoughnutChart,
   Icon,
   List,
@@ -10,10 +9,12 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useInstances } from "context/useInstances";
-import InstanceEmptyState from "pages/instances/InstanceEmptyState";
+import { useProjects } from "context/useProjects";
 import InstanceExplanationTooltip from "pages/instances/InstanceExplanationTooltip";
 import InstanceStatus from "pages/instances/InstanceStatus";
+import { useProjectEntitlements } from "util/entitlements/projects";
 import { capitalizeFirstLetter, pluralize } from "util/helpers";
+import { getDefaultProject } from "util/loginProject";
 import {
   getInstanceDistribution,
   getInstanceStatusSegments,
@@ -22,15 +23,19 @@ import {
   type InstanceDistribution,
 } from "util/overviewInstances";
 import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
+import CardEmptyState from "./CardEmptyState";
+import { renderOverviewCard } from "util/overview";
 
 const InstancesCard: FC = () => {
-  const { projectName } = useCurrentProject();
+  const { project, projectName } = useCurrentProject();
   const isAllProjects = projectName === ALL_PROJECTS;
   const {
     data: instances = [],
     error,
     isLoading,
   } = useInstances(isAllProjects ? null : projectName);
+  const { canCreateInstances } = useProjectEntitlements();
+  const { data: projects = [] } = useProjects();
 
   const distribution = useMemo<InstanceDistribution>(
     () => getInstanceDistribution(instances),
@@ -47,35 +52,64 @@ const InstancesCard: FC = () => {
     <>
       <span className="overview-card-title">
         <Icon name="pods" /> Instances
-        {!isLoading && !error && ` (${instances.length})`}
+        {!isLoading &&
+          !error &&
+          instances.length > 0 &&
+          ` (${instances.length})`}
       </span>
       <InstanceExplanationTooltip />
     </>
   );
   const instancesUrl = getInstancesUrl(projectName);
+  const footerLink = <Link to={instancesUrl}>Instances list</Link>;
 
   if (isLoading) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <Spinner className="u-loader" text="Loading instances..." />
-      </Card>
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <Spinner className="u-loader" text="Loading instances..." />,
+      footerLink,
     );
   }
 
   if (error) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <>
         <Icon name="error" className="margin-right--large" /> Error while
         loading instances: {error.message}
-      </Card>
+      </>,
+      footerLink,
     );
   }
 
   if (instances.length === 0) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <InstanceEmptyState className="u-no-margin" />
-      </Card>
+    const defaultProjectName = getDefaultProject(projects);
+    const defaultProject = projects.find(
+      (project) => project.name === defaultProjectName,
+    );
+    const projectForCreation = isAllProjects ? defaultProject : project;
+    const createInstancesUrl = getInstancesUrl(
+      projectForCreation?.name ?? "default",
+    );
+    const canCreate = canCreateInstances(projectForCreation);
+
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      <CardEmptyState
+        title="No instances found"
+        subtitle={
+          canCreate && (
+            <>
+              Create an instance on the{" "}
+              <Link to={createInstancesUrl}>instances list</Link> page
+            </>
+          )
+        }
+      />,
+      footerLink,
     );
   }
 
@@ -108,8 +142,10 @@ const InstancesCard: FC = () => {
     };
   });
 
-  return (
-    <Card className={cardClassName} title={cardTitle}>
+  return renderOverviewCard(
+    cardClassName,
+    cardTitle,
+    <>
       <List
         inline
         middot
@@ -150,11 +186,8 @@ const InstancesCard: FC = () => {
           responsive
         />
       </div>
-
-      <div className="card-footer">
-        <Link to={instancesUrl}>Instances list</Link>
-      </div>
-    </Card>
+    </>,
+    footerLink,
   );
 };
 

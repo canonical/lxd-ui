@@ -1,10 +1,12 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { Card, Icon, List } from "@canonical/react-components";
+import { Icon, List } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import { pluralize } from "util/helpers";
 import { isLegacyIdentity } from "util/identity";
 import { ROOT_PATH } from "util/rootPath";
+import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
+import { renderOverviewCard } from "util/overview";
 
 const PermissionsCard: FC = () => {
   const { currentIdentity, effectiveGroups, isAuthLoading } = useAuth();
@@ -17,35 +19,49 @@ const PermissionsCard: FC = () => {
 
   const cardClassName = "overview-card permissions";
   const cardTitle = (
-    <span className="overview-card-title">
-      <Icon name="user" /> Permissions
-    </span>
+    <>
+      <span className="overview-card-title">
+        <Icon name="user" /> Permissions
+      </span>
+      <PermissionGroupExplanationTooltip />
+    </>
   );
 
-  return (
-    <Card className={cardClassName} title={cardTitle}>
-      <p className="u-no-margin--bottom">
-        Overview information is filtered by your auth groups.
-      </p>
+  const footerLink = (
+    <Link to={`${ROOT_PATH}/ui/permissions/groups`}>Auth group details</Link>
+  );
+
+  const authMessage = (
+    <p className="u-no-margin--bottom">
+      Overview information is filtered by your auth groups.
+    </p>
+  );
+
+  if (!effectiveGroups?.length) {
+    return renderOverviewCard(
+      cardClassName,
+      cardTitle,
+      authMessage,
+      footerLink,
+    );
+  }
+
+  return renderOverviewCard(
+    cardClassName,
+    cardTitle,
+    <>
+      {authMessage}
       <div>
-        <span>Your {pluralize("group", effectiveGroups?.length ?? 0)}: </span>
-        {effectiveGroups?.length ? (
-          <List
-            inline
-            middot
-            items={effectiveGroups}
-            className="effective-groups-list u-no-margin--bottom"
-          />
-        ) : (
-          <span className="u-text--muted">-</span>
-        )}
+        <span>Your {pluralize("group", effectiveGroups?.length)}: </span>
+        <List
+          inline
+          middot
+          items={effectiveGroups}
+          className="effective-groups-list u-no-margin--bottom"
+        />
       </div>
-      <div className="card-footer">
-        <Link to={`${ROOT_PATH}/ui/permissions/groups`}>
-          Auth group details
-        </Link>
-      </div>
-    </Card>
+    </>,
+    footerLink,
   );
 };
 

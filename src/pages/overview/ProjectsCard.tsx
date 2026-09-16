@@ -1,21 +1,25 @@
 import type { FC, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Card, Icon, Spinner } from "@canonical/react-components";
+import { Icon, Spinner } from "@canonical/react-components";
 import Breadcrumb from "components/Breadcrumb";
 import ProjectTable from "pages/overview/ProjectTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useProjects } from "context/useProjects";
 import ProjectExplanationTooltip from "pages/projects/ProjectExplanationTooltip";
+import { useServerEntitlements } from "util/entitlements/server";
 import { ALL_INSTANCES_LIST_URL } from "util/instances";
 import {
   ALL_PROJECTS,
   ALL_PROJECTS_OVERVIEW_PATH,
   getInstancesUrl,
 } from "util/projects";
+import CardEmptyState from "./CardEmptyState";
+import { renderOverviewCard } from "util/overview";
 
 const ProjectsCard: FC = () => {
   const { project: currentProject, projectName } = useCurrentProject();
   const isAllProjects = projectName === ALL_PROJECTS;
+  const { canCreateProjects } = useServerEntitlements();
   const { data: allProjects = [], error, isLoading } = useProjects();
   const projects = isAllProjects
     ? allProjects
@@ -44,6 +48,13 @@ const ProjectsCard: FC = () => {
       <ProjectExplanationTooltip />
     </>
   );
+
+  const footerLink = isAllProjects ? (
+    <Link to={ALL_INSTANCES_LIST_URL}>All instances list</Link>
+  ) : (
+    <Link to={getInstancesUrl(projectName)}>Project instances list</Link>
+  );
+
   const projectBreadcrumb = !isAllProjects && (
     <Breadcrumb className="projects-breadcrumb">
       <li className="u-no-margin--bottom continuous-breadcrumb p-heading--3">
@@ -58,9 +69,7 @@ const ProjectsCard: FC = () => {
   const renderCard = (content: ReactNode) => (
     <div className="projects-card">
       {projectBreadcrumb}
-      <Card className={cardClassName} title={cardTitle}>
-        {content}
-      </Card>
+      {renderOverviewCard(cardClassName, cardTitle, content, footerLink)}
     </div>
   );
 
@@ -79,18 +88,21 @@ const ProjectsCard: FC = () => {
     );
   }
 
-  return renderCard(
-    <>
-      <ProjectTable projects={projects} isAllProjects={isAllProjects} />
+  if (projects.length === 0) {
+    return renderCard(
+      <CardEmptyState
+        title="No projects found"
+        subtitle={
+          canCreateProjects() && (
+            <>Create a project in the navigation menu project dropdown</>
+          )
+        }
+      />,
+    );
+  }
 
-      <div className="card-footer">
-        {isAllProjects ? (
-          <Link to={ALL_INSTANCES_LIST_URL}>All instances list</Link>
-        ) : (
-          <Link to={getInstancesUrl(projectName)}>Project instances list</Link>
-        )}
-      </div>
-    </>,
+  return renderCard(
+    <ProjectTable projects={projects} isAllProjects={isAllProjects} />,
   );
 };
 
