@@ -5,16 +5,19 @@ import ProjectTable from "pages/overview/ProjectTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useProjects } from "context/useProjects";
 import ProjectExplanationTooltip from "pages/projects/ProjectExplanationTooltip";
+import { useServerEntitlements } from "util/entitlements/server";
 import { ALL_INSTANCES_LIST_URL } from "util/instances";
 import {
   ALL_PROJECTS,
   ALL_PROJECTS_OVERVIEW_PATH,
   getInstancesUrl,
 } from "util/projects";
+import CardEmptyState from "./CardEmptyState";
 
 const ProjectsCard: FC = () => {
   const { project: currentProject, projectName } = useCurrentProject();
   const isAllProjects = projectName === ALL_PROJECTS;
+  const { canCreateProjects } = useServerEntitlements();
   const { data: allProjects = [], error, isLoading } = useProjects();
   const projects = isAllProjects
     ? allProjects
@@ -35,6 +38,9 @@ const ProjectsCard: FC = () => {
       <ProjectExplanationTooltip />
     </>
   );
+  const footerlink = (
+    <Link to={ALL_INSTANCES_LIST_URL}>All instances list</Link>
+  );
 
   if (isLoading) {
     return (
@@ -51,6 +57,24 @@ const ProjectsCard: FC = () => {
           <Icon name="error" className="margin-right--large" /> Error while
           loading projects: {error.message}
         </div>
+        <div className="card-footer">{footerlink}</div>
+      </Card>
+    );
+  }
+
+  if (projects.length === 0) {
+    return (
+      <Card className={cardClassName} title={cardTitle}>
+        <CardEmptyState
+          title="No projects found"
+          subtitle={
+            canCreateProjects() && (
+              <>Create a project in the navigation menu project dropdown</>
+            )
+          }
+          footerLink={footerlink}
+          classname="overview-empty-state-long"
+        />
       </Card>
     );
   }

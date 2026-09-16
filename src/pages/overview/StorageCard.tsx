@@ -6,13 +6,16 @@ import { useAuth } from "context/auth";
 import { useStoragePools } from "context/useStoragePools";
 import StoragePoolDetails from "pages/overview/StoragePoolDetails";
 import type { LxdStoragePool } from "types/storage";
+import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
 import { getVolumesUsedByPool } from "util/storagePool";
 import { pluralize } from "util/helpers";
+import CardEmptyState from "./CardEmptyState";
 
 const StorageCard: FC = () => {
   const { data: pools = [], error, isLoading } = useStoragePools();
   const { defaultProject } = useAuth();
+  const { canCreateStoragePools } = useServerEntitlements();
 
   const totalVolumeCount = pools.reduce(
     (count, pool: LxdStoragePool) => count + getVolumesUsedByPool(pool).length,
@@ -56,6 +59,29 @@ const StorageCard: FC = () => {
     );
   }
 
+  const storagePoolsUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/storage/pools`;
+
+  if (pools.length === 0) {
+    const canCreatePool = canCreateStoragePools();
+
+    return (
+      <Card className={cardClassName} title={cardTitle}>
+        <CardEmptyState
+          title="No storage pools found"
+          subtitle={
+            canCreatePool && (
+              <>
+                Create a storage pool on the{" "}
+                <Link to={storagePoolsUrl}>storage pools list</Link> page
+              </>
+            )
+          }
+          footerLink={<Link to={storagePoolsUrl}>Storage pools list</Link>}
+        />
+      </Card>
+    );
+  }
+
   return (
     <Card className={cardClassName} title={cardTitle}>
       <List
@@ -72,11 +98,7 @@ const StorageCard: FC = () => {
         ))}
       </div>
       <div className="card-footer">
-        <Link
-          to={`${ROOT_PATH}/ui/project/${encodeURIComponent(defaultProject)}/storage/pools`}
-        >
-          Storage pools list
-        </Link>
+        <Link to={storagePoolsUrl}>Storage pools list</Link>
       </div>
     </Card>
   );
