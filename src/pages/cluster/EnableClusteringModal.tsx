@@ -97,9 +97,7 @@ const EnableClusteringModal: FC<Props> = ({ onClose }) => {
             loading={formik.isSubmitting}
             className="u-no-margin--bottom"
             onClick={() => void formik.submitForm()}
-            disabled={
-              !formik.values.serverName || !formik.values.clusterAddress
-            }
+            disabled={formik.isSubmitting}
             type="button"
           >
             Enable clustering
@@ -117,14 +115,16 @@ const EnableClusteringModal: FC<Props> = ({ onClose }) => {
       <Input
         label="Server name"
         type="text"
-        required
+        error={formik.touched.serverName ? formik.errors.serverName : null}
         {...formik.getFieldProps("serverName")}
       />
       <Input
         label="Cluster address"
         type="text"
         help="Address to use for clustering traffic by this server"
-        required
+        error={
+          formik.touched.clusterAddress ? formik.errors.clusterAddress : null
+        }
         {...formik.getFieldProps("clusterAddress")}
       />
     </Modal>

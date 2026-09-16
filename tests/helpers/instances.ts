@@ -46,7 +46,7 @@ export const createInstance = async (
   await visitCreateInstancePage(page, project);
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   const dialog = page.getByRole("dialog", { name: "Select base image" });
   await dialog.getByRole("combobox", { name: "Type" }).selectOption(type);
   await page.getByPlaceholder("Search an image").click();
@@ -154,7 +154,7 @@ export const createAndStartInstance = async (
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill(DEFAULT_IMAGE);
   await page

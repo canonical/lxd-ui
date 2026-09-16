@@ -4,6 +4,7 @@ import {
   Col,
   Icon,
   Input,
+  Label,
   Row,
   Select,
 } from "@canonical/react-components";
@@ -77,7 +78,9 @@ const InstanceCreateDetailsForm: FC<Props> = ({
       </Row>
       <Row>
         <Col size={12}>
-          <p className="p-form__label">Base Image*</p>
+          <Label forId="select-image" required>
+            Base Image
+          </Label>
           <div className="p-form__control u-clearfix base-image">
             {formik.values.image ? (
               <>

@@ -42,7 +42,7 @@ test("LXD - UI Folder - Clustered", async ({ page }) => {
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill("Ubuntu-vm-server2");
-  await page.getByRole("button", { name: "Browse images" }).click();
+  await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
     .filter({ hasText: "Ubuntu24.04 LTSnoblealldefaultUbuntuRemoteSelect" })
