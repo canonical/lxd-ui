@@ -16,9 +16,17 @@ export const profileNameValidation = (
       "deduplicate",
       "A profile with this name already exists",
       async (value, context) => {
-        const targetProject =
-          (context.parent as { targetProject?: string }).targetProject ??
-          project;
+        const parent = context.parent as {
+          targetProject?: string;
+          isRefresh?: boolean;
+        };
+        const targetProject = parent.targetProject ?? project;
+
+        // When refreshing during a copy, the target profile is expected to
+        // already exist, so skip the duplicate name check.
+        if (parent.isRefresh) {
+          return true;
+        }
 
         return (
           oldName === value ||
