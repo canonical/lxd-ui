@@ -1,9 +1,7 @@
 import { useState, type FC } from "react";
 import {
-  Button,
   Col,
   CustomLayout,
-  Icon,
   List,
   MainTable,
   Notification,
@@ -121,17 +119,16 @@ const Identity: FC = () => {
     };
   });
 
-  const editGroupsButton = currentIdentity ? (
-    <Button
-      element={Link}
-      to={`${ROOT_PATH}/ui/permissions/identities?panel=edit-identity&identity=${encodeURIComponent(currentIdentity.id)}`}
-      appearance="base"
-      title="Modify groups"
-      aria-label="Modify groups"
-      hasIcon
-    >
-      <Icon name="edit" />
-    </Button>
+  const editGroupsHint = currentIdentity ? (
+    <p className="identity-groups-hint u-text--muted u-no-margin--bottom">
+      Edit the groups assigned to your identity on the{" "}
+      <Link
+        to={`${ROOT_PATH}/ui/permissions/identities?panel=edit-identity&identity=${encodeURIComponent(currentIdentity.id)}`}
+      >
+         Identities
+      </Link>{" "}
+       page.
+    </p>
   ) : null;
 
   return (
@@ -146,8 +143,8 @@ const Identity: FC = () => {
                 docLabel="Learn more about authorization"
               >
                 {currentIdentity
-                    ? getIdentityName(currentIdentity)
-                    : loggedInUserName}
+                  ? getIdentityName(currentIdentity)
+                  : loggedInUserName}
               </ExplanationTooltip>
             </PageHeader.Title>
           </PageHeader.Left>
@@ -250,7 +247,6 @@ const Identity: FC = () => {
                       </span>
                       <div className="identity-group-value">
                         {renderGroups(assignedGroups)}
-                        {editGroupsButton}
                       </div>
                     </div>
                     <div className="identity-group-row">
@@ -266,10 +262,10 @@ const Identity: FC = () => {
                   <div className="identity-group-row">
                     <div className="identity-group-value">
                       {renderGroups(effectiveGroups)}
-                      {editGroupsButton}
                     </div>
                   </div>
                 )}
+                {editGroupsHint}
               </div>
               {inheritedGroups.length > 0 && showIdpGroupsNotification && (
                 <Notification

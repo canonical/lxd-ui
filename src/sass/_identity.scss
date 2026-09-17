@@ -74,12 +74,11 @@
     align-items: center;
     display: flex;
     gap: $sph--small;
+  }
 
-    // keep the edit button from making the row taller than a line of text
-    .p-button--base {
-      margin-bottom: -0.375rem;
-      margin-top: -0.375rem;
-    }
+  .identity-groups-hint {
+    font-size: 0.875rem;
+    padding-top: $spv--small;
   }
 
   .idp-groups-notification {
