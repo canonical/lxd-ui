@@ -22,6 +22,7 @@ import { isoTimeToString } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdPermission } from "types/permissions";
 import LoginProjectSelect from "pages/identity/LoginProjectSelect";
+import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
 
 const Identity: FC = () => {
   const { currentIdentity, isFineGrained } = useAuth();
@@ -233,7 +234,11 @@ const Identity: FC = () => {
         <>
           <Row className="section">
             <Col size={3}>
-              <h2 className="p-heading--5">Groups</h2>
+              <h2 className="p-heading--5">
+                <PermissionGroupExplanationTooltip>
+                  Auth Groups
+                </PermissionGroupExplanationTooltip>
+              </h2>
             </Col>
             <Col size={7}>
               <div className="identity-groups">
