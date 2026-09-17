@@ -21,6 +21,11 @@ import {
   visitProfile,
 } from "./helpers/profile";
 import { dismissNotification } from "./helpers/notification";
+import {
+  createCustomProject,
+  deleteProject,
+  randomProjectName,
+} from "./helpers/projects";
 
 let profile = randomProfileName();
 
@@ -199,15 +204,75 @@ name: ${profile}`);
 });
 
 test("Profile copy", async ({ page }) => {
+  const copiedProfileName = profile + "-copy";
+
   await visitProfile(page, profile);
   await page.getByRole("button", { name: "Copy Profile" }).click();
 
-  const copiedProfileName = profile + "-copy";
-
-  await page.getByLabel("New profile name").fill(copiedProfileName);
-  await page.getByRole("button", { name: "Copy", exact: true }).click();
+  const dialog = page.getByRole("dialog", {
+    name: "Copy or refresh profile",
+  });
+  await dialog.getByRole("radio", { name: "Copy this profile" }).check();
+  await dialog.getByLabel("New profile name").fill(copiedProfileName);
+  await dialog
+    .getByRole("button", { name: "Copy profile", exact: true })
+    .click();
 
   await dismissNotification(page, `Created profile ${copiedProfileName}.`);
 
   await deleteProfile(page, copiedProfileName);
+});
+
+test("Profile copy to custom project", async ({ page }) => {
+  const targetProject = randomProjectName();
+  await createCustomProject(page, targetProject);
+  const targetProfile = profile;
+
+  await visitProfile(page, profile);
+  await page.getByRole("button", { name: "Copy Profile" }).click();
+
+  const dialog = page.getByRole("dialog", {
+    name: "Copy or refresh profile",
+  });
+  await dialog.getByRole("radio", { name: "Copy this profile" }).check();
+  await dialog.getByLabel("Target project").selectOption(targetProject);
+  await dialog.getByLabel("New profile name").fill(targetProfile);
+  await dialog
+    .getByRole("button", { name: "Copy profile", exact: true })
+    .click();
+
+  await dismissNotification(page, `Created profile ${targetProfile}.`);
+
+  await deleteProfile(page, targetProfile, targetProject);
+  await deleteProject(page, targetProject);
+});
+
+test("Profile refresh", async ({ page }) => {
+  const targetProject = randomProjectName();
+  await createCustomProject(page, targetProject);
+
+  const targetProfileName = profile + "-target";
+  await createProfile(page, targetProfileName, targetProject);
+
+  await visitProfile(page, profile);
+  await page.getByRole("button", { name: "Copy Profile" }).click();
+
+  const dialog = page.getByRole("dialog", {
+    name: "Copy or refresh profile",
+  });
+  await dialog
+    .getByRole("radio", {
+      name: "Refresh another profile with the contents of this profile",
+    })
+    .check();
+  await dialog.getByLabel("Target project").selectOption(targetProject);
+  await dialog.getByLabel("Profile to refresh").selectOption(targetProfileName);
+  await dialog
+    .getByRole("button", { name: "Refresh profile", exact: true })
+    .click();
+
+  await dismissNotification(page, `Refreshed profile ${targetProfileName}.`);
+
+  await deleteProfile(page, targetProfileName, targetProject);
+  await deleteProject(page, targetProject);
 });
