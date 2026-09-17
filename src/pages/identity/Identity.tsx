@@ -202,6 +202,33 @@ const Identity: FC = () => {
           )}
         </Col>
       </Row>
+      <Row className="section">
+        <Col size={3}>
+          <h2 className="p-heading--5">
+            <ExplanationTooltip explanation="Preferences are stored in this browser only. They are not bound to your identity and do not apply to other browsers or devices.">
+              Preferences
+            </ExplanationTooltip>
+          </h2>
+        </Col>
+        <Col size={7}>
+          <div className="identity-preferences">
+            <div className="identity-group-row">
+              <span className="identity-group-label u-text--muted">Theme</span>
+              <div className="identity-group-value">
+                <ThemeSwitcher />
+              </div>
+            </div>
+            <div className="identity-group-row">
+              <span className="identity-group-label u-text--muted">
+                Login project
+              </span>
+              <div className="identity-group-value identity-preference-value">
+                <LoginProjectSelect />
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
       {currentIdentity && (
         <>
           <Row className="section">
@@ -283,33 +310,6 @@ const Identity: FC = () => {
           </Row>
         </>
       )}
-      <Row className="section">
-        <Col size={3}>
-          <h2 className="p-heading--5">
-            <ExplanationTooltip explanation="Preferences are stored in this browser only. They are not bound to your identity and do not apply to other browsers or devices.">
-              Preferences
-            </ExplanationTooltip>
-          </h2>
-        </Col>
-        <Col size={7}>
-          <div className="identity-preferences">
-            <div className="identity-group-row">
-              <span className="identity-group-label u-text--muted">Theme</span>
-              <div className="identity-group-value">
-                <ThemeSwitcher />
-              </div>
-            </div>
-            <div className="identity-group-row">
-              <span className="identity-group-label u-text--muted">
-                Login project
-              </span>
-              <div className="identity-group-value identity-preference-value">
-                <LoginProjectSelect />
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
     </CustomLayout>
   );
 };
