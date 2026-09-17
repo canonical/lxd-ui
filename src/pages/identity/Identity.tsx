@@ -144,7 +144,9 @@ const Identity: FC = () => {
                 docPath="/explanation/authorization"
                 docLabel="Learn more about authorization"
               >
-                Identity
+                {currentIdentity
+                    ? getIdentityName(currentIdentity)
+                    : loggedInUserName}
               </ExplanationTooltip>
             </PageHeader.Title>
           </PageHeader.Left>
