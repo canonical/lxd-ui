@@ -270,7 +270,7 @@ Learn more about the [test architecture](ARCHITECTURE.MD#e2e-test-setup-for-mult
 For testing features with a read only access, set up limited permissions for your user.
 
 ### Step 1: Create a read-only group (optional if group already exists)
-1. In the UI, navigate to **Permissions > Groups**.
+1. In the UI, navigate to **Permissions > Auth groups**.
 2. Click on **Create group**.
 3. Enter a name for the new group, for example, `read-only`.
 4. Click on **Add permissions**. Set the **Resource type** to `server`. Set the **Entitlement** to `viewer`. And click on **Add**.

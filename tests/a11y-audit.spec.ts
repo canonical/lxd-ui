@@ -681,13 +681,13 @@ test.describe("clustering", () => {
 
   test("cluster groups page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Cluster Groups", "Clustering");
+    await clickSideNavItem(page, "Cluster groups", "Clustering");
     await runA11yAudit(page, testInfo);
   });
 
   test("placement groups page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Placement Groups", "Clustering");
+    await clickSideNavItem(page, "Placement groups", "Clustering");
     await runA11yAudit(page, testInfo);
   });
 
@@ -785,7 +785,7 @@ test.describe("permissions", () => {
 
   test("auth groups page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Auth Groups", "Permissions");
+    await clickSideNavItem(page, "Auth groups", "Permissions");
     await runA11yAudit(page, testInfo);
   });
 
@@ -823,7 +823,7 @@ test.describe("permissions", () => {
 
   test("create permission group panel", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Auth Groups", "Permissions");
+    await clickSideNavItem(page, "Auth groups", "Permissions");
     await page.getByRole("button", { name: "Create group" }).click();
     await runA11yAuditForPanel(page, testInfo);
     await closePanel(page);
@@ -831,7 +831,7 @@ test.describe("permissions", () => {
 
   test("edit permission group panel", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await clickSideNavItem(page, "Auth Groups", "Permissions");
+    await clickSideNavItem(page, "Auth groups", "Permissions");
     await page.getByRole("button", { name: "Edit group" }).first().click();
     await runA11yAuditForPanel(page, testInfo);
     await closePanel(page);

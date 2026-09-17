@@ -569,11 +569,11 @@ const Navigation: FC = () => {
                             <SideNavigationItem key="groups">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/cluster/groups`}
-                                title="Cluster Groups"
+                                title="Cluster groups"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                Cluster Groups
+                                Cluster groups
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem key="links">
@@ -589,11 +589,11 @@ const Navigation: FC = () => {
                             <SideNavigationItem key="placement">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/placement-groups`}
-                                title={`Placement Groups (${projectName})`}
+                                title={`Placement groups (${projectName})`}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                Placement Groups
+                                Placement groups
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem key="replicators">
@@ -670,11 +670,11 @@ const Navigation: FC = () => {
                             <SideNavigationItem key="/ui/permissions/groups">
                               <NavLink
                                 to={`${ROOT_PATH}/ui/permissions/groups`}
-                                title="Auth Groups"
+                                title="Auth groups"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                Auth Groups
+                                Auth groups
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem key="/ui/permissions/idp-groups">

@@ -11,7 +11,7 @@ export const randomGroupName = (): string => {
 export const visitAuthGroups = async (page: Page) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
-  await page.getByRole("link", { name: "Auth Groups", exact: true }).click();
+  await page.getByRole("link", { name: "Auth groups", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Auth groups" }),
   ).toBeVisible();
