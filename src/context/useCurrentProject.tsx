@@ -8,11 +8,12 @@ import {
 } from "react";
 import type { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
-import { useProject } from "context/useProjects";
+import { useProject, useProjects } from "context/useProjects";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
 import { ROOT_PATH } from "util/rootPath";
 import { ALL_PROJECTS } from "util/projects";
+import { getDefaultProject } from "util/loginProject";
 
 interface ContextProps {
   canViewProject: boolean;
@@ -42,6 +43,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const { isAuthLoading } = useAuth();
   const { isLoading: isSettingsLoading } = useSettings();
   const { pathname } = useLocation();
+  const { data: projects = [] } = useProjects();
   const url = pathname.replace(`${ROOT_PATH}/ui/`, "");
 
   const parts = url.split("/");
@@ -54,6 +56,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
     isLoading: boolean,
     project: LxdProject | undefined,
     urlProject: string,
+    projectUserCanView: LxdProject[],
   ) => {
     if (isAllProjectsFromUrl) {
       return ALL_PROJECTS;
@@ -69,11 +72,11 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
       return urlProject;
     }
 
-    return "default";
+    return getDefaultProject(projectUserCanView);
   };
 
   const [projectName, setProjectName] = useState<string>(() =>
-    initializeProjectName(isAllProjects, true, undefined, project),
+    initializeProjectName(isAllProjects, true, undefined, project, projects),
   );
 
   // Determine which project to fetch data for:
@@ -97,11 +100,12 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
       isLoading,
       data,
       project,
+      projects,
     );
     if (newProjectName !== projectName) {
       setProjectName(newProjectName);
     }
-  }, [project, isAllProjects, isLoading, data, projectName]);
+  }, [project, isAllProjects, isLoading, data, projectName, projects]);
 
   return (
     <ProjectContext.Provider
