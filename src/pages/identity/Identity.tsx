@@ -233,7 +233,7 @@ const Identity: FC = () => {
             <Col size={3}>
               <h2 className="p-heading--5">
                 <PermissionGroupExplanationTooltip>
-                  Auth Groups
+                  Auth groups
                 </PermissionGroupExplanationTooltip>
               </h2>
             </Col>
