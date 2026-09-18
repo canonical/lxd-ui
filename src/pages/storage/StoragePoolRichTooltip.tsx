@@ -8,6 +8,8 @@ import ItemName from "components/ItemName";
 import { useStoragePool } from "context/useStoragePools";
 import { useClusterMember } from "context/useClusterMembers";
 import StoragePoolSize from "./StoragePoolSize";
+import { getPoolStatus } from "util/storagePool";
+import { useOperations } from "context/operationsProvider";
 
 interface Props {
   poolName: string;
@@ -20,6 +22,7 @@ const StoragePoolRichTooltip: FC<Props> = ({ poolName, url, location }) => {
   const { data: member, isLoading: isMemberLoading } = useClusterMember(
     location || "none",
   );
+  const { runningOperations } = useOperations();
 
   if (!pool && !isPoolLoading) {
     return (
@@ -58,7 +61,7 @@ const StoragePoolRichTooltip: FC<Props> = ({ poolName, url, location }) => {
     },
     {
       title: "Status",
-      value: pool?.status || "-",
+      value: getPoolStatus(pool, runningOperations) || "-",
     },
     {
       title: "Size",

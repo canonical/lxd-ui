@@ -17,6 +17,8 @@ import {
   pureStorage,
   zfsDriver,
 } from "util/storageOptions";
+import type { LxdOperation } from "types/operation";
+import { getOperationEntityUrls } from "util/operations";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
@@ -242,4 +244,24 @@ export const getVolumesUsedByPool = (pool: LxdStoragePool): string[] => {
         `/1.0/storage-pools/${encodeURIComponent(pool.name)}/volumes/`,
       ) && !item.includes("/snapshots/"),
   );
+};
+
+export const getPoolStatus = (
+  pool?: LxdStoragePool,
+  runningOperations?: LxdOperation[],
+) => {
+  const isCreating = runningOperations?.find((op) => {
+    if (op.description !== "Creating storage pool") {
+      return false;
+    }
+    return getOperationEntityUrls(op).some((url) => {
+      return url === `/1.0/storage-pools/${pool?.name}`;
+    });
+  });
+
+  if (isCreating) {
+    return "Creating";
+  }
+
+  return pool?.status;
 };
