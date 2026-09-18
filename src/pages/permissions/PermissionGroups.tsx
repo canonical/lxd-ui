@@ -232,7 +232,7 @@ const PermissionGroups: FC = () => {
       title="No groups"
     >
       <p>
-        Groups are an easy way to manage the structured assignment of
+        Auth groups are an easy way to manage the structured assignment of
         permissions
       </p>
       <p>
