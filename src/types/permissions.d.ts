@@ -5,9 +5,11 @@ export interface LxdIdentity {
   type:
     | "Client certificate"
     | "Client certificate (pending)"
+    | "Client certificate (restricted)"
     | "Client certificate (unrestricted)"
     | "Cluster link certificate"
     | "Cluster link certificate (pending)"
+    | "Metrics certificate (restricted)"
     | "Metrics certificate (unrestricted)"
     | "OIDC client"
     | "Client token bearer"

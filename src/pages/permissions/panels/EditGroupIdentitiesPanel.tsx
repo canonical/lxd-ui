@@ -13,13 +13,13 @@ import SelectableMainTable from "components/SelectableMainTable";
 import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
-import { pluralize, isUnrestricted } from "util/helpers";
+import { pluralize } from "util/helpers";
+import { isLegacyIdentity, isSystemIdentity } from "util/identity";
 import type { LxdAuthGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD_FILTER,
-  isSystemIdentity,
   SYSTEM_IDENTITIES,
   QUERY,
   type PermissionIdentitiesFilterType,
@@ -80,7 +80,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
   }, [groups]);
 
   const fineGrainedIdentities = identities.filter(
-    (identity) => !isUnrestricted(identity),
+    (identity) => !isLegacyIdentity(identity),
   );
 
   const {
