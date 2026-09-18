@@ -22,11 +22,14 @@ import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
 import { useIsClustered } from "context/useIsClustered";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
+import { getPoolStatus } from "util/storagePool";
+import { useOperations } from "context/operationsProvider";
 
 const StoragePools: FC = () => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const isClustered = useIsClustered();
+  const { runningOperations } = useOperations();
 
   if (!project) {
     return <>Missing project</>;
@@ -60,6 +63,8 @@ const StoragePools: FC = () => {
   ];
 
   const rows = pools.map((pool) => {
+    const status = getPoolStatus(pool, runningOperations);
+
     return {
       key: pool.name,
       className: "u-row",
@@ -104,7 +109,7 @@ const StoragePools: FC = () => {
           "aria-label": "Volumes in all projects",
         },
         {
-          content: pool.status,
+          content: status,
           role: "cell",
           "aria-label": "Status",
           className: "status",
@@ -125,7 +130,7 @@ const StoragePools: FC = () => {
       sortData: {
         name: pool.name.toLowerCase(),
         driver: pool.driver,
-        status: pool.status,
+        status: status,
         usedBy: pool.used_by?.length ?? 0,
       },
     };
