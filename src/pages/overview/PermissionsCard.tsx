@@ -2,16 +2,15 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Card, Icon, List } from "@canonical/react-components";
 import { useAuth } from "context/auth";
-import { isUnrestricted, pluralize } from "util/helpers";
+import { isLegacyIdentity, pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 
 const PermissionsCard: FC = () => {
   const { currentIdentity, effectiveGroups, isAuthLoading } = useAuth();
   const isAdmin = effectiveGroups?.includes("admins") ?? false;
-  const isUnrestrictedCert = currentIdentity && isUnrestricted(currentIdentity);
-  const hasFullPermissions = isAdmin || isUnrestrictedCert;
+  const isLegacy = currentIdentity && isLegacyIdentity(currentIdentity);
 
-  if (isAuthLoading || hasFullPermissions) {
+  if (isAuthLoading || isAdmin || isLegacy) {
     return null;
   }
 

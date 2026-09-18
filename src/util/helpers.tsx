@@ -416,6 +416,14 @@ export const isUnrestricted = (identity: LxdIdentity) => {
   );
 };
 
+export const isRestricted = (identity: LxdIdentity) => {
+  return identity.type.endsWith("(restricted)");
+};
+
+export const isLegacyIdentity = (identity: LxdIdentity) => {
+  return isRestricted(identity) || isUnrestricted(identity);
+};
+
 export const isFineGrainedTls = (identity: LxdIdentity) => {
   return ["Client certificate (pending)", "Client certificate"].includes(
     identity.type,
