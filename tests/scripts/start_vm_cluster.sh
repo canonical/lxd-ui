@@ -123,19 +123,23 @@ sudo lxc exec vm3 -- sudo microovn status
 
 sudo lxc exec vm1 -- lxc config set network.ovn.northbound_connection "ssl:$VM1_IP:6641,ssl:$VM2_IP:6641,ssl:$VM3_IP:6641"
 
-sudo lxc exec vm1 -- sudo snap install microceph --channel latest/edge
+# XXX: avoid Ceph 20.2.4 due to new authentication for CVE-2025-30156 not compatible with the ceph-common version shipped in the LXD snap
+# Revert to latest/edge once https://bugs.launchpad.net/ubuntu/+source/ceph/+bug/2166817 is fixed and propagated in the LXD snap
+MICROCEPH_CHANNEL="tentacle/stable"
+
+sudo lxc exec vm1 -- sudo snap install microceph --channel $MICROCEPH_CHANNEL
 sudo lxc exec vm1 -- sudo microceph cluster bootstrap
 sudo lxc exec vm1 -- sudo microceph waitready
 sudo lxc exec vm1 -- sudo microceph status
 
 CEPH_TOKEN=$(sudo lxc exec vm1 -- sudo microceph cluster add vm2)
-sudo lxc exec vm2 -- sudo snap install microceph --channel latest/edge
+sudo lxc exec vm2 -- sudo snap install microceph --channel $MICROCEPH_CHANNEL
 sudo lxc exec vm2 -- sudo microceph cluster join "$CEPH_TOKEN"
 sudo lxc exec vm2 -- sudo microceph waitready
 sudo lxc exec vm2 -- sudo microceph status
 
 CEPH_TOKEN=$(sudo lxc exec vm1 -- sudo microceph cluster add vm3)
-sudo lxc exec vm3 -- sudo snap install microceph --channel latest/edge
+sudo lxc exec vm3 -- sudo snap install microceph --channel $MICROCEPH_CHANNEL
 sudo lxc exec vm3 -- sudo microceph cluster join "$CEPH_TOKEN"
 sudo lxc exec vm3 -- sudo microceph waitready
 sudo lxc exec vm3 -- sudo microceph status
