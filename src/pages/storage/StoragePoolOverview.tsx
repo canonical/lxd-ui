@@ -5,8 +5,9 @@ import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdStoragePool } from "types/storage";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
-import { isClusterLocalDriver } from "util/storagePool";
+import { getPoolStatus, isClusterLocalDriver } from "util/storagePool";
 import { useIsClustered } from "context/useIsClustered";
+import { useOperations } from "context/operationsProvider";
 
 interface Props {
   pool: LxdStoragePool;
@@ -21,6 +22,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
   useListener(window, updateContentHeight, "resize", true);
   const isClustered = useIsClustered();
   const hasMemberSpecificSize = isClusterLocalDriver(pool.driver);
+  const { runningOperations } = useOperations();
 
   return (
     <div className="storage-overview-tab">
@@ -37,7 +39,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">Status</th>
-                <td>{pool.status}</td>
+                <td>{getPoolStatus(pool, runningOperations)}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">Size</th>
