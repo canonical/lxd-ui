@@ -42,6 +42,8 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
     isServerClustered && clusteredTypes.includes(network.type);
 
   const { data: networks = [], error } = useNetworks(project);
+  const { data: defaultNetworks = [], isLoading: isDefaultNetworksLoading } =
+    useNetworks("default", undefined, !hasClusteredUplinks);
 
   useEffect(() => {
     if (error) {
@@ -93,6 +95,12 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
   const hasUplink =
     uplink ?? clusterUplinks.filter((item) => item !== null).length > 0;
 
+  // uplinks are always in the default project
+  const isManagedUplink =
+    Boolean(uplink) &&
+    !isDefaultNetworksLoading &&
+    defaultNetworks.some((n) => n.name === uplink && n.managed !== false);
+
   return (
     <>
       <h2 className="p-heading--4" id={slugify(CONNECTIONS)}>
@@ -104,7 +112,11 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             {hasClusteredUplinks
               ? clusterUplinks
               : uplink && (
-                  <div className="uplink-item has-parent">
+                  <div
+                    className={classNames("uplink-item", {
+                      "has-parent": isManagedUplink,
+                    })}
+                  >
                     <NetworkRichChip
                       networkName={uplink}
                       projectName="default"
