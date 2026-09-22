@@ -56,10 +56,7 @@ const RenameHeader: FC<Props> = ({
       <div className={classnames("p-panel__title", titleClassName)}>
         <Breadcrumb trailingContent={relatedChip}>
           {parentItems.map((item, key) => (
-            <li
-              className="p-heading--4 u-no-margin--bottom continuous-breadcrumb"
-              key={key}
-            >
+            <li className="p-heading--4 continuous-breadcrumb" key={key}>
               {item}
             </li>
           ))}
@@ -101,7 +98,7 @@ const RenameHeader: FC<Props> = ({
             </li>
           ) : (
             <li
-              className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb u-truncate"
+              className="p-heading--4 name continuous-breadcrumb u-truncate"
               onClick={toggleRename}
               title={canRename ? `Rename ${name}` : ""}
             >

@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./sass/styles.scss";
+import "@canonical/styles-vanilla-adapter/adapter.css";
+import "@canonical/react-ds-global-form/dist/esm/index.css";
 import Root from "./Root";
 
 const rootElement = document.getElementById("app");

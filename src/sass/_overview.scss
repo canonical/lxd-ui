@@ -178,7 +178,7 @@
             min-height: 0;
             overflow: hidden;
             position: relative;
-            width: 100%;
+            width: 100% !important;
 
             .doughnut-chart__chart {
               height: 100%;
