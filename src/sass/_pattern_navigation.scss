@@ -109,6 +109,19 @@
 .l-navigation {
   background: $colors--dark-theme--background-default !important;
   color: $color-mid-light !important;
+
+  .p-side-navigation--icons {
+    .p-side-navigation__link {
+      padding-left: 3.5rem;
+      position: relative;
+    }
+
+    .p-side-navigation__icon {
+      left: 1.5rem;
+      position: absolute !important;
+      top: $spv--small;
+    }
+  }
 }
 
 .sidenav-top-ul::after {
