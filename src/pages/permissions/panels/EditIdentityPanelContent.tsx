@@ -1,9 +1,7 @@
 import { OutputField } from "@canonical/react-components";
 import type { FC } from "react";
-import {
-  getIdentityName,
-  isBearerIdentityType,
-} from "util/permissionIdentities";
+import { getIdentityName } from "util/permissionIdentities";
+import { isBearerIdentityType } from "util/identity";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
 import EditIdentityGroupsSection, {
   type IdentityGroupChanges,

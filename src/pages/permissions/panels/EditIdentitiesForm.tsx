@@ -8,7 +8,7 @@ import { useState, type FC } from "react";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
-import { isUnrestricted } from "util/helpers";
+import { isLegacyIdentity } from "util/identity";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import {
@@ -48,7 +48,7 @@ const EditIdentitiesForm: FC<Props> = ({
   }
 
   const fineGrainedIdentities = identities.filter(
-    (identity) => !isUnrestricted(identity),
+    (identity) => !isLegacyIdentity(identity),
   );
 
   const preselectedIdentities = new Set(getIdentityIdsForGroup(group));

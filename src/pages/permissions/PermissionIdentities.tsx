@@ -17,7 +17,6 @@ import { useSearchParams } from "react-router-dom";
 import useSortTableData from "util/useSortTableData";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD_FILTER,
-  isSystemIdentity,
   QUERY,
   SYSTEM_IDENTITIES,
   type PermissionIdentitiesFilterType,
@@ -31,7 +30,8 @@ import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
-import { isUnrestricted, pluralize } from "util/helpers";
+import { pluralize } from "util/helpers";
+import { isLegacyIdentity, isSystemIdentity } from "util/identity";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import {
@@ -159,7 +159,7 @@ const PermissionIdentities: FC = () => {
 
     return {
       key: identity.id,
-      name: isUnrestricted(identity) ? "" : identity.id,
+      name: isLegacyIdentity(identity) ? "" : identity.id,
       className: "u-row",
       columns: [
         {
@@ -197,13 +197,13 @@ const PermissionIdentities: FC = () => {
           className: "type",
         },
         {
-          content: getGroupLink(),
+          content: isLegacyIdentity(identity) ? "-" : getGroupLink(),
           role: "cell",
           className: "u-align--right group-count",
           "aria-label": "Groups for this identity",
         },
         {
-          content: !isUnrestricted(identity) && (
+          content: !isLegacyIdentity(identity) && (
             <>
               <Button
                 appearance="base"
@@ -246,7 +246,7 @@ const PermissionIdentities: FC = () => {
   });
 
   const fineGrainedIdentities = identities.filter((identity) => {
-    return !isUnrestricted(identity);
+    return !isLegacyIdentity(identity);
   });
 
   if (isLoading) {

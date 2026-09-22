@@ -7,7 +7,6 @@ import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import { isDiskDevice, isNicDevice, isRootDisk } from "./devices";
 import type { FormDevice } from "types/formDevice";
-import type { LxdIdentity } from "types/permissions";
 import { addTarget } from "util/target";
 import { debounceAsync } from "util/debounce";
 import crypto from "crypto";
@@ -406,20 +405,6 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
 export const getDefaultNetwork = (profile: LxdProfile) => {
   const networks = Object.values(profile.devices ?? {}).filter(isNicDevice);
   return networks[0]?.network ?? "none";
-};
-
-export const isUnrestricted = (identity: LxdIdentity) => {
-  // matches both "Client certificate (unrestricted)" and "Metrics certificate (unrestricted)"
-  return (
-    identity.type.endsWith("(unrestricted)") ||
-    identity.type.startsWith("Server certificate")
-  );
-};
-
-export const isFineGrainedTls = (identity: LxdIdentity) => {
-  return ["Client certificate (pending)", "Client certificate"].includes(
-    identity.type,
-  );
 };
 
 export const base64EncodeObject = (data: object) => {

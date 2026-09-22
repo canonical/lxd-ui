@@ -230,14 +230,6 @@ export const BEARER_EXPIRY_PATTERN = /^(\d+[ymwdHMS])(?:\s+\d+[ymwdHMS])*$/;
 export const BEARER_EXPIRY_VALIDATION_TEXT =
   "Use format like 1d 3H 5M with units y, m, w, d, H, M, or S";
 
-export const isBearerIdentityType = (
-  identityType: LxdIdentity["type"],
-): identityType is
-  | typeof IDENTITY_TYPE.BEARER_CLIENT
-  | typeof IDENTITY_TYPE.BEARER_DEVLXD => {
-  return identityType.toLowerCase().includes("token bearer");
-};
-
 // Identity-type strings that can carry help text but are not part of IdentityType
 type AdditionalIdentityType =
   | "Initial UI token bearer"
