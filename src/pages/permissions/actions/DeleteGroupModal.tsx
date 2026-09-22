@@ -75,9 +75,11 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
       .then(() => {
         queryClient.invalidateQueries({
           predicate: (query) => {
-            return [queryKeys.identities, queryKeys.authGroups].includes(
-              query.queryKey[0] as string,
-            );
+            return [
+              queryKeys.identities,
+              queryKeys.authGroups,
+              queryKeys.currentIdentity,
+            ].includes(query.queryKey[0] as string);
           },
         });
         toastNotify.success(successMessage);

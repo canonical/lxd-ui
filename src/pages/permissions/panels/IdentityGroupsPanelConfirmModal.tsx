@@ -67,9 +67,11 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
         // modifying groups should invalidate both identities and groups api queries
         queryClient.invalidateQueries({
           predicate: (query) => {
-            return [queryKeys.identities, queryKeys.authGroups].includes(
-              query.queryKey[0] as string,
-            );
+            return [
+              queryKeys.identities,
+              queryKeys.authGroups,
+              queryKeys.currentIdentity,
+            ].includes(query.queryKey[0] as string);
           },
         });
 

@@ -11,7 +11,9 @@ import {
   Form,
   PrefixedInput,
 } from "@canonical/react-components";
+import { Link } from "react-router-dom";
 import { generateUUID } from "util/helpers";
+import { ROOT_PATH } from "util/rootPath";
 import { getConfigFieldValue, type UserSetting } from "util/settings";
 import type { LxdSettings } from "types/server";
 
@@ -63,6 +65,50 @@ export const getSettingRow = (
             onDelete={deleteUserSetting}
             onSuccess={onSuccess}
           />
+        ),
+        role: "cell",
+        "aria-label": "Value",
+        className: "u-vertical-align-middle",
+      },
+    ],
+  };
+};
+
+export const getMovedSettingRow = (
+  configField: ConfigField,
+  isNewCategory: boolean,
+): MainTableRow => {
+  return {
+    key: configField.key,
+    className: "u-text--muted",
+    columns: [
+      {
+        content: isNewCategory && (
+          <h2 className="p-heading--5">{configField.category}</h2>
+        ),
+        role: "cell",
+        className: "group",
+        "aria-label": "Group",
+      },
+      {
+        content: (
+          <div className="key-cell">
+            {configField.key}
+            <p className="p-text--small u-no-margin--bottom">
+              <ConfigFieldDescription description={configField.shortdesc} />
+            </p>
+          </div>
+        ),
+        role: "rowheader",
+        className: "key",
+        "aria-label": "Key",
+      },
+      {
+        content: (
+          <div className="moved-setting">
+            Moved to your{" "}
+            <Link to={`${ROOT_PATH}/ui/identity`}>identity page</Link>
+          </div>
         ),
         role: "cell",
         "aria-label": "Value",

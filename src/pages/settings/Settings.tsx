@@ -19,13 +19,13 @@ import { useConfigOptions } from "context/useConfigOptions";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useClusteredSettings } from "context/useClusteredSettings";
-import { useProjects } from "context/useProjects";
 import {
   type UserSetting,
   getConfigFieldClusteredValue,
   getUserSettings,
 } from "util/settings";
 import {
+  getMovedSettingRow,
   getSettingRow,
   getUserSettingInputRow,
   getAddSettingButton,
@@ -44,13 +44,11 @@ const Settings: FC = () => {
 
   const { settings, isSettingsLoading, settingsError } = useSupportedFeatures();
 
-  const { data: projects = [] } = useProjects();
-
   useEffect(() => {
     if (userSettings.length === 0 && !isSettingsLoading) {
-      setUserSettings(getUserSettings(settings?.config ?? {}, projects));
+      setUserSettings(getUserSettings(settings?.config ?? {}));
     }
-  }, [settings, projects, isSettingsLoading]);
+  }, [settings, isSettingsLoading]);
 
   const saveUserSetting = (index: number) => {
     const key = `user.${userSettings[index].key}`;
@@ -150,14 +148,16 @@ const Settings: FC = () => {
   userSettings.filter(matchesQuery).forEach((setting, index) => {
     const isNewCategory = index === 0;
 
-    const row = setting.isSaved
-      ? getSettingRow(setting, isNewCategory, {}, deleteUserSetting, settings)
-      : getUserSettingInputRow(
-          userSettings,
-          index,
-          setUserSettings,
-          saveUserSetting,
-        );
+    const row = setting.isMovedToIdentityPage
+      ? getMovedSettingRow(setting, isNewCategory)
+      : setting.isSaved
+        ? getSettingRow(setting, isNewCategory, {}, deleteUserSetting, settings)
+        : getUserSettingInputRow(
+            userSettings,
+            index,
+            setUserSettings,
+            saveUserSetting,
+          );
 
     rows.push(row);
   });

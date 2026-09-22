@@ -215,6 +215,9 @@ const EditAuthGroupPanel: FC<Props> = ({ group, onClose }) => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.authGroups],
         });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.currentIdentity],
+        });
       });
   };
 

@@ -5,7 +5,7 @@ import DocLink from "components/DocLink";
 
 interface Props {
   explanation: ReactNode;
-  docPath: string;
+  docPath?: string;
   docLabel?: string;
   className?: string;
   children?: ReactNode;
@@ -26,9 +26,11 @@ const ExplanationTooltip: FC<Props> = ({
       message={
         <span className="explanation-tooltip">
           <span>{explanation}</span>
-          <DocLink docPath={docPath} hasExternalIcon>
-            {docLabel}
-          </DocLink>
+          {docPath && (
+            <DocLink docPath={docPath} hasExternalIcon>
+              {docLabel}
+            </DocLink>
+          )}
         </span>
       }
     >
