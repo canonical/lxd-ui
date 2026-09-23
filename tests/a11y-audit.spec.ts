@@ -641,12 +641,6 @@ test.describe("projects", () => {
     skipIfNotA11yProject(testInfo.project.name);
     const project = randomProjectName();
     await createProject(page, project);
-
-    await gotoURL(page, "/ui/");
-    await page.getByRole("button", { name: "default" }).waitFor();
-    await page.getByRole("button", { name: "default" }).click();
-    await page.getByRole("link", { name: project }).click();
-    await page.getByRole("button", { name: project }).waitFor();
     await openProjectConfiguration(page);
     await page.getByRole("button", { name: "Delete" }).click();
     await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
