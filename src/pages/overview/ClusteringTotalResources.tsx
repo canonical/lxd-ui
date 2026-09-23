@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Notification, Spinner } from "@canonical/react-components";
+import { Spinner } from "@canonical/react-components";
 import classnames from "classnames";
 import Meter from "components/Meter";
 import { useClusterMembers } from "context/useClusterMembers";
@@ -16,6 +16,9 @@ const ClusteringTotalResources: FC = () => {
   const onlineMemberNames = members
     .filter((member) => member.status === "Online")
     .map((member) => member.server_name);
+  const hasNotOnlineMembers = members.some(
+    (member) => member.status !== "Online",
+  );
 
   const memberStateQueries = useClusterMemberStates(onlineMemberNames);
 
@@ -27,16 +30,6 @@ const ClusteringTotalResources: FC = () => {
   const isLoading = isClustered
     ? isMembersLoading || memberStateQueries.some((query) => query.isLoading)
     : isResourcesLoading;
-  const allMemberStatesSettled = memberStateQueries.every(
-    (query) => query.isSuccess || query.isError,
-  );
-  const reportedMemberCount = memberStateQueries.filter(
-    (query) => query.isSuccess,
-  ).length;
-  const hasIncompleteClusterResources =
-    isClustered &&
-    allMemberStatesSettled &&
-    reportedMemberCount < members.length;
 
   const totals = isClustered
     ? memberStateQueries.reduce(
@@ -83,14 +76,24 @@ const ClusteringTotalResources: FC = () => {
 
   return (
     <>
-      {hasIncompleteClusterResources && (
-        <Notification severity="information" title="Partial resource data">
-          Resource usage includes data from online members only.
-        </Notification>
+      {isClustered && (
+        <>
+          <h5
+            className={classnames({
+              "u-no-margin--bottom": hasNotOnlineMembers,
+            })}
+          >
+            Resource usage
+          </h5>
+          {hasNotOnlineMembers && (
+            <p>Resource usage includes data from online members only</p>
+          )}
+        </>
       )}
       <div
         className={classnames("total-resources", {
           "with-margin-bottom": !isClustered,
+          "with-border": isClustered,
         })}
       >
         <div className="total-memory">
