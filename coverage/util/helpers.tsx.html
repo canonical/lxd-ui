@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">28.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>76/266</span>
+                <span class='fraction'>74/262</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">11.25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/153</span>
+                <span class='fraction'>17/151</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.45% </span>
+                <span class="strong">5.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/55</span>
+                <span class='fraction'>3/53</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.01% </span>
+                <span class="strong">28.68% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>74/255</span>
+                <span class='fraction'>72/251</span>
             </div>
         
             
@@ -570,23 +570,7 @@
 <a name='L505'></a><a href='#L505'>505</a>
 <a name='L506'></a><a href='#L506'>506</a>
 <a name='L507'></a><a href='#L507'>507</a>
-<a name='L508'></a><a href='#L508'>508</a>
-<a name='L509'></a><a href='#L509'>509</a>
-<a name='L510'></a><a href='#L510'>510</a>
-<a name='L511'></a><a href='#L511'>511</a>
-<a name='L512'></a><a href='#L512'>512</a>
-<a name='L513'></a><a href='#L513'>513</a>
-<a name='L514'></a><a href='#L514'>514</a>
-<a name='L515'></a><a href='#L515'>515</a>
-<a name='L516'></a><a href='#L516'>516</a>
-<a name='L517'></a><a href='#L517'>517</a>
-<a name='L518'></a><a href='#L518'>518</a>
-<a name='L519'></a><a href='#L519'>519</a>
-<a name='L520'></a><a href='#L520'>520</a>
-<a name='L521'></a><a href='#L521'>521</a>
-<a name='L522'></a><a href='#L522'>522</a>
-<a name='L523'></a><a href='#L523'>523</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L508'></a><a href='#L508'>508</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -993,20 +977,6 @@
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
@@ -1116,7 +1086,6 @@ import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import { isDiskDevice, isNicDevice, isRootDisk } from "./devices";
 import type { FormDevice } from "types/formDevice";
-import type { LxdIdentity } from "types/permissions";
 import { addTarget } from "util/target";
 import { debounceAsync } from "util/debounce";
 import crypto from "crypto";
@@ -1517,20 +1486,6 @@ export const <span class="fstat-no" title="function not covered" >getDefaultNetw
 <span class="cstat-no" title="statement not covered" >  return networks[0]?.network ?? "none";</span>
 };
 &nbsp;
-export const <span class="fstat-no" title="function not covered" >isUnrestricted = (i</span>dentity: LxdIdentity) =&gt; {
-  // matches both "Client certificate (unrestricted)" and "Metrics certificate (unrestricted)"
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    identity.type.endsWith("(unrestricted)") ||
-    identity.type.startsWith("Server certificate")
-  );
-};
-&nbsp;
-export const <span class="fstat-no" title="function not covered" >isFineGrainedTls = (i</span>dentity: LxdIdentity) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return ["Client certificate (pending)", "Client certificate"].includes(</span>
-    identity.type,
-  );
-};
-&nbsp;
 export const <span class="fstat-no" title="function not covered" >base64EncodeObject = (d</span>ata: object) =&gt; {
   const jsonString = <span class="cstat-no" title="statement not covered" >JSON.stringify(data);</span>
 <span class="cstat-no" title="statement not covered" >  return btoa(jsonString);</span>
@@ -1636,7 +1591,7 @@ export const pluralize = (item: string, count: number): string =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-21T15:15:35.900Z
+                at 2026-09-23T10:07:44.423Z
             </div>
         <script src="../prettify.js"></script>
         <script>
