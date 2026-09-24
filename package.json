@@ -30,7 +30,7 @@
     "test-e2e-cleanup": "rm -rf coverage/playwright*",
     "test-e2e-coverage": "PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage && npx playwright test --project coverage:cluster-enable",
     "test-e2e-cluster-coverage": "PW_TEST_HTML_REPORT_OPEN='never' npx playwright test --project coverage:clustered",
-    "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
+    "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ && node tests/scripts/relativize-coverage.mjs coverage/playwright/coverage-final.json && nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
   },
   "dependencies": {
     "@canonical/ds-assets": "0.38.0",

@@ -1,5 +1,6 @@
 import type { Page } from "@playwright/test";
 import fs from "fs";
+import nodePath from "path";
 import { fromSource, removeMapFileComments } from "convert-source-map";
 import v8ToIstanbul from "v8-to-istanbul";
 import type { CoverageMapData } from "istanbul-lib-coverage";
@@ -48,9 +49,18 @@ export const finishCoverage = async (page: Page): Promise<void> => {
     // a unique name for this report
     const uuid = generateUUID();
 
-    // _coverageSchema is mandatory for nyc to parse the report
-    Object.entries(istanbulCoverage).forEach(([key]) => {
-      istanbulCoverage[key]["_coverageSchema"] = uuid;
+    // Use paths relative to the repository root. The absolute paths produced
+    // by v8-to-istanbul are machine specific and cannot be resolved when the
+    // reports are merged on a different runner in CI.
+    const relativeCoverage = {} as typeof istanbulCoverage;
+    Object.entries(istanbulCoverage).forEach(([key, value]) => {
+      const relativeKey = nodePath.relative(process.cwd(), key);
+      // _coverageSchema is mandatory for nyc to parse the report
+      relativeCoverage[relativeKey] = {
+        ...value,
+        path: relativeKey,
+        _coverageSchema: uuid,
+      };
     });
 
     const outDir = "coverage/playwright";
@@ -59,7 +69,7 @@ export const finishCoverage = async (page: Page): Promise<void> => {
     }
     fs.writeFileSync(
       `${outDir}/playwright_coverage_${uuid}.json`,
-      JSON.stringify(istanbulCoverage),
+      JSON.stringify(relativeCoverage),
     );
   }
 };
