@@ -1,6 +1,7 @@
 import { type FC, type KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Icon, Input } from "@canonical/react-components";
+import Breadcrumb from "components/Breadcrumb";
 import type { LxdInstance } from "types/instance";
 import {
   getFileExplorerDirectoryURL,
@@ -112,47 +113,39 @@ const FileExplorerBreadcrumb: FC<Props> = ({ currentPath, instance }) => {
 
   return (
     <div className="file-explorer-breadcrumb-bar">
-      <nav
-        className="p-breadcrumbs p-breadcrumbs--large"
-        aria-label="File Explorer Path"
-      >
-        <ol className="p-breadcrumbs__items breadcrumb-wrapper">
-          <li className="p-heading--5 breadcrumb-header">Directory:&nbsp;</li>
-          {breadcrumbs.map((crumb, index) => {
-            const isCurrentDirectory = index === breadcrumbs.length - 1;
+      <Breadcrumb ariaLabel="File Explorer Path">
+        <li className="p-heading--5 breadcrumb-header">Directory:&nbsp;</li>
+        {breadcrumbs.map((crumb, index) => {
+          const isCurrentDirectory = index === breadcrumbs.length - 1;
 
-            return (
-              <li
-                key={crumb.path}
-                className="p-heading--5 continuous-breadcrumb"
-              >
-                {isCurrentDirectory ? (
-                  <span>{crumb.label}</span>
-                ) : (
-                  <Link to={getFileExplorerDirectoryURL(crumb.path, instance)}>
-                    {crumb.label}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-          <li>
-            <Button
-              appearance="base"
-              className="u-no-margin--bottom"
-              onClick={() => {
-                setPath(currentPath);
-                setIsEditing(true);
-              }}
-              title="Search path"
-              aria-label="Search path"
-              hasIcon
-            >
-              <Icon name="search" />
-            </Button>
-          </li>
-        </ol>
-      </nav>
+          return (
+            <li key={crumb.path} className="p-heading--5 continuous-breadcrumb">
+              {isCurrentDirectory ? (
+                <span>{crumb.label}</span>
+              ) : (
+                <Link to={getFileExplorerDirectoryURL(crumb.path, instance)}>
+                  {crumb.label}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+        <li>
+          <Button
+            appearance="base"
+            className="u-no-margin--bottom"
+            onClick={() => {
+              setPath(currentPath);
+              setIsEditing(true);
+            }}
+            title="Search path"
+            aria-label="Search path"
+            hasIcon
+          >
+            <Icon name="search" />
+          </Button>
+        </li>
+      </Breadcrumb>
     </div>
   );
 };

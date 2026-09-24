@@ -12,12 +12,12 @@ const Overview: FC = () => {
     <CustomLayout mainClassName="overview" contentClassName="overview-content">
       <div className="overview-columns">
         <div className="overview-column">
-          <PermissionsCard />
           <ProjectsCard />
           <ClusteringCard />
           <WarningsCard />
         </div>
         <div className="overview-column">
+          <PermissionsCard />
           <InstancesCard />
           <StorageCard />
         </div>

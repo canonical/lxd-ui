@@ -22,6 +22,19 @@
     min-width: 0;
   }
 
+  .projects-card {
+    position: relative;
+
+    > .projects-breadcrumb {
+      left: calc($sph--large + 1.5rem + $sph--small);
+      margin-bottom: 0;
+      position: absolute;
+      right: $sph--large;
+      top: $spv--medium;
+      z-index: 1;
+    }
+  }
+
   .overview-card {
     margin-bottom: 0;
     min-width: 0;
@@ -34,9 +47,13 @@
       width: 100%;
 
       .overview-card-title {
+        align-items: center;
+        display: flex;
+        gap: $sph--small;
+
         i {
           height: 1.5rem;
-          margin-bottom: calc(-1 * $spv--small / 2);
+          margin-bottom: 2px;
           width: 1.5rem;
         }
       }
