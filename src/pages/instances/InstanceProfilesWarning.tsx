@@ -1,18 +1,20 @@
 import { Notification } from "@canonical/react-components";
 import type { FC } from "react";
-import type { LxdProfile } from "types/profile";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   instanceProfiles: string[];
-  profiles?: LxdProfile[];
+  project: string;
 }
 
-const InstanceProfilesWarning: FC<Props> = ({ instanceProfiles, profiles }) => {
+const InstanceProfilesWarning: FC<Props> = ({ instanceProfiles, project }) => {
+  const { data: profiles = [], isLoading } = useProfiles(project);
+
   const isMissingSomeProfiles = instanceProfiles.some(
     (profile) => !profiles?.find((p) => p.name === profile),
   );
 
-  if (isMissingSomeProfiles) {
+  if (isMissingSomeProfiles && !isLoading) {
     return (
       <Notification severity="caution" title="Restricted permissions">
         You do not have permission to view all profiles applied to this

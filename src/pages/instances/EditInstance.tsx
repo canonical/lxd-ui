@@ -99,7 +99,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [section]);
+  useEffect(updateFormHeight, [section, profiles]);
   useListener(window, updateFormHeight, "resize", true);
 
   const editRestriction = canEditInstance(instance)
