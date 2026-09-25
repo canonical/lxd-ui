@@ -101,6 +101,7 @@ const ReplicatorDetail = lazy(
 );
 const ReplicatorList = lazy(async () => import("pages/cluster/ReplicatorList"));
 const Settings = lazy(async () => import("pages/settings/Settings"));
+const Identity = lazy(async () => import("pages/identity/Identity"));
 const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
 const StorageVolumes = lazy(async () => import("pages/storage/StorageVolumes"));
 const StorageBuckets = lazy(async () => import("pages/storage/StorageBuckets"));
@@ -639,6 +640,10 @@ const App: FC = () => {
         <Route
           path={`${ROOT_PATH}/ui/settings`}
           element={<ProtectedRoute outlet={<Settings />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/identity`}
+          element={<ProtectedRoute outlet={<Identity />} />}
         />
         {isOverviewEnabled() && (
           <>

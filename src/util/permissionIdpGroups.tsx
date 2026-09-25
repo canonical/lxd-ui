@@ -68,6 +68,9 @@ export const useDeleteIdpGroups = (idpGroups: IdpGroup[]) => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.currentIdentity],
+        });
         toastNotify.success(successMessage);
       })
       .catch((e) => {

@@ -90,6 +90,9 @@ const CreateIdpGroupPanel: FC = () => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.currentIdentity],
+        });
         closePanel();
       })
       .catch((e) => {
