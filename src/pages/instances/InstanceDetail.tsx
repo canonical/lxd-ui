@@ -17,7 +17,6 @@ import NotFound from "components/NotFound";
 import { ROOT_PATH } from "util/rootPath";
 import InstanceFileExplorer from "./InstanceFileExplorer";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
-import { useProfiles } from "context/useProfiles";
 
 const tabs: string[] = [
   "Overview",
@@ -52,8 +51,6 @@ const InstanceDetail: FC = () => {
     isLoading,
   } = useInstance(name, project);
 
-  const { data: profiles = [] } = useProfiles(project);
-
   const renderTabs: (string | TabLink)[] = [...tabs];
 
   const grafanaUrl = buildGrafanaUrl(name, project, settings);
@@ -71,13 +68,7 @@ const InstanceDetail: FC = () => {
   }
 
   if (isLoading) {
-    return (
-      <Spinner
-        className="u-loader"
-        text="Loading instance details..."
-        isMainComponent
-      />
-    );
+    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
   return (
@@ -117,7 +108,7 @@ const InstanceDetail: FC = () => {
             <div role="tabpanel" aria-labelledby="configuration">
               <InstanceProfilesWarning
                 instanceProfiles={instance.profiles}
-                profiles={profiles}
+                project={project}
               />
               <EditInstance instance={instance} />
             </div>
