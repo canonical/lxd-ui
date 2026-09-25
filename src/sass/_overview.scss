@@ -1,8 +1,6 @@
 @import "./helpers";
 
 .overview-content {
-  $golden-ratio: 1.618;
-
   .overview-columns {
     display: grid;
     gap: $sph--large;
@@ -25,6 +23,10 @@
   .overview-card {
     margin-bottom: 0;
     min-width: 0;
+
+    .overview-card-subtitle {
+      font-weight: 500 !important;
+    }
 
     .p-card__title {
       align-items: center;
@@ -124,57 +126,127 @@
     }
 
     &.instances {
+      .p-card__title {
+        margin-bottom: $spv--small;
+      }
+
       .card-content {
-        align-items: center;
+        align-items: flex-start;
+        container-type: inline-size;
         display: flex;
+        gap: $sph--large;
 
-        .group-by-status-container {
-          .group-by-status {
-            border-left: solid 5px var(--vf-color-button-positive-default);
-            padding-left: $sph--large;
-
-            &.running {
-              border-color: var(--vf-color-button-positive-default);
-            }
-
-            &.stopped {
-              border-color: var(--vf-color-text-default);
-            }
-
-            &.frozen {
-              border-color: var(--vf-color-link-default);
-            }
-
-            &.error {
-              border-color: var(--vf-color-button-negative-default);
-            }
-
-            p.status-label {
-              margin-bottom: 0;
-            }
-
-            .status-count {
-              font-size: calc(1rem * $golden-ratio);
-            }
-          }
-        }
-
-        .group-by-type-container {
+        .group-by-status-chart {
           align-items: center;
+          align-self: stretch;
           display: flex;
           flex: 1;
           flex-direction: column;
 
-          .group-by-type-doughnut-chart {
+          .chart-title {
+            align-self: flex-start;
+            font-weight: 500;
+          }
+
+          .group-by-status-doughnut-chart {
+            flex: 1;
+            max-width: 100% !important;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+
+            .doughnut-chart__chart {
+              height: 100%;
+              left: 0;
+              position: absolute;
+              top: 0;
+              width: 100%;
+            }
+
             .doughnut-chart__segment {
               cursor: pointer;
             }
           }
+
+          @container (max-width: 26rem) {
+            display: none;
+          }
         }
       }
 
-      @include mobile {
-        min-width: 100%;
+      .group-by-status-table {
+        flex: 1;
+        margin-bottom: 0;
+        min-width: 0;
+
+        thead tr,
+        tbody tr {
+          border: 0;
+        }
+
+        thead th {
+          font-size: 1rem;
+          font-weight: 400;
+          text-transform: none;
+        }
+
+        [role="rowheader"] {
+          white-space: nowrap;
+        }
+
+        @include mobile-and-tablet {
+          &.p-table--mobile-card {
+            thead {
+              display: table-header-group;
+            }
+
+            tbody {
+              display: table-row-group;
+              gap: unset;
+              grid-template-columns: unset;
+              width: auto;
+            }
+
+            tbody tr {
+              border: 0;
+              display: table-row;
+              margin-bottom: 0;
+              padding: 0;
+            }
+
+            td,
+            tbody th,
+            thead th {
+              display: table-cell !important;
+              min-width: 0;
+              overflow: visible;
+              padding: $sph--large 0 $sph--large $sph--large;
+              position: static;
+              text-overflow: clip;
+              white-space: normal;
+              width: auto;
+              word-break: normal;
+
+              &::before {
+                content: none;
+              }
+
+              &:not(:first-child)::after {
+                content: none;
+              }
+
+              &.u-align--right {
+                justify-content: initial !important;
+                text-align: right !important;
+              }
+            }
+
+            [role="rowheader"] {
+              white-space: nowrap;
+            }
+          }
+        }
       }
     }
 
@@ -259,6 +331,10 @@
           ); // line-height * lines + padding
         }
       }
+    }
+
+    .empty-state {
+      text-align: center;
     }
   }
 }

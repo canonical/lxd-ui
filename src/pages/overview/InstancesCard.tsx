@@ -4,16 +4,21 @@ import {
   Card,
   DoughnutChart,
   Icon,
+  List,
+  MainTable,
   Spinner,
 } from "@canonical/react-components";
-import ChartLegend from "components/ChartLegend";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useInstances } from "context/useInstances";
 import InstanceEmptyState from "pages/instances/InstanceEmptyState";
-import InstancesOverviewStatus from "pages/overview/InstancesOverviewStatus";
-import { pluralize } from "util/helpers";
+import InstanceExplanationTooltip from "pages/instances/InstanceExplanationTooltip";
+import InstanceStatus from "pages/instances/InstanceStatus";
+import { capitalizeFirstLetter, pluralize } from "util/helpers";
 import {
   getInstanceDistribution,
+  getInstanceStatusSegments,
+  getInstanceStatusFilterHref,
+  OVERVIEW_INSTANCE_STATUSES,
   type InstanceDistribution,
 } from "util/overviewInstances";
 import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
@@ -27,34 +32,27 @@ const InstancesCard: FC = () => {
     isLoading,
   } = useInstances(isAllProjects ? null : projectName);
 
-  const {
-    runningCount,
-    stoppedCount,
-    frozenCount,
-    errorCount,
-    containerCount,
-    virtualMachineCount,
-  } = useMemo<InstanceDistribution>(
+  const distribution = useMemo<InstanceDistribution>(
     () => getInstanceDistribution(instances),
     [instances],
   );
+  const {
+    containerCount,
+    virtualMachineCount,
+    status: statusCounts,
+  } = distribution;
 
   const cardClassName = "overview-card instances";
   const cardTitle = (
-    <span className="overview-card-title">
-      <Icon name="pods" /> Instances
-      {!isLoading && !error && instances.length > 0 && ` (${instances.length})`}
-    </span>
+    <>
+      <span className="overview-card-title">
+        <Icon name="pods" /> Instances
+        {!isLoading && !error && ` (${instances.length})`}
+      </span>
+      <InstanceExplanationTooltip />
+    </>
   );
-  const vmColor = "#C5C5C5";
-  const containerColor = "#636363";
   const instancesUrl = getInstancesUrl(projectName);
-
-  const getTypeFilterHref = (type: "VM" | "Container") => {
-    const params = new URLSearchParams();
-    params.append("type", type);
-    return `${instancesUrl}?${params.toString()}`;
-  };
 
   if (isLoading) {
     return (
@@ -81,67 +79,76 @@ const InstancesCard: FC = () => {
     );
   }
 
+  const segments = getInstanceStatusSegments(statusCounts, instancesUrl);
+
+  const rows = OVERVIEW_INSTANCE_STATUSES.map((status) => {
+    return {
+      key: status,
+      name: status,
+      className: "u-row",
+      columns: [
+        {
+          content: <InstanceStatus status={capitalizeFirstLetter(status)} />,
+          role: "rowheader",
+          "aria-label": "Status",
+        },
+        {
+          content: (
+            <Link
+              className="status-link p-link--soft"
+              to={getInstanceStatusFilterHref(status, instancesUrl)}
+            >
+              {statusCounts[status]}
+            </Link>
+          ),
+          className: "u-align--right",
+          "aria-label": "Instances",
+        },
+      ],
+    };
+  });
+
   return (
     <Card className={cardClassName} title={cardTitle}>
-      <div className="card-content">
-        <div className="group-by-status-container">
-          <InstancesOverviewStatus
-            status="running"
-            count={runningCount}
-            instancesUrl={instancesUrl}
-          />
-          <InstancesOverviewStatus
-            status="stopped"
-            count={stoppedCount}
-            instancesUrl={instancesUrl}
-          />
-          <InstancesOverviewStatus
-            status="frozen"
-            count={frozenCount}
-            instancesUrl={instancesUrl}
-          />
-          <InstancesOverviewStatus
-            status="error"
-            count={errorCount}
-            instancesUrl={instancesUrl}
-          />
-        </div>
+      <List
+        inline
+        middot
+        items={[
+          `${virtualMachineCount} ${pluralize("VM", virtualMachineCount)}`,
+          `${containerCount} ${pluralize("container", containerCount)}`,
+        ]}
+        className="u-no-margin--bottom"
+      />
 
-        <div className="group-by-type-container">
+      <div className="card-content">
+        <div className="group-by-status-chart">
+          <p className="chart-title">Instances by status</p>
           <DoughnutChart
-            segments={[
-              {
-                color: vmColor,
-                tooltip: `${virtualMachineCount} VMs`,
-                value: virtualMachineCount,
-                href: getTypeFilterHref("VM"),
-              },
-              {
-                color: containerColor,
-                tooltip: `${containerCount} containers`,
-                value: containerCount,
-                href: getTypeFilterHref("Container"),
-              },
-            ]}
+            segments={segments}
             size={150}
             segmentHoverWidth={45}
             segmentThickness={40}
-            chartID="dashboard-instances-by-type-doughnut-chart"
-            className="group-by-type-doughnut-chart"
-          />
-          <ChartLegend
-            items={[
-              {
-                color: vmColor,
-                label: `${virtualMachineCount} ${pluralize("VM", virtualMachineCount)}`,
-              },
-              {
-                color: containerColor,
-                label: `${containerCount} ${pluralize("container", containerCount)}`,
-              },
-            ]}
+            chartID="dashboard-instances-by-status-doughnut-chart"
+            className="group-by-status-doughnut-chart"
           />
         </div>
+
+        <MainTable
+          className="overview-table group-by-status-table"
+          aria-label="Instances by status"
+          headers={[
+            {
+              content: "Status",
+              className: "overview-card-subtitle status-header",
+            },
+            {
+              content: "Instances",
+              className: "overview-card-subtitle u-align--right",
+            },
+          ]}
+          rows={rows}
+          responsive
+        />
       </div>
 
       <div className="card-footer">
