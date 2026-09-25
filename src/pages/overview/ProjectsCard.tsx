@@ -1,6 +1,7 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Card, Icon, Spinner } from "@canonical/react-components";
+import Breadcrumb from "components/Breadcrumb";
 import ProjectTable from "pages/overview/ProjectTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useProjects } from "context/useProjects";
@@ -24,56 +25,72 @@ const ProjectsCard: FC = () => {
   const cardClassName = "overview-card projects";
   const cardTitle = (
     <>
-      <span className="overview-card-title">
-        <Icon name="folder" /> {isAllProjects ? "Projects" : "Project"}
-        {!isLoading &&
-          !error &&
-          isAllProjects &&
-          projects.length > 0 &&
-          ` (${projects.length})`}
-      </span>
+      <div className="overview-card-title">
+        <Icon name="folder" aria-hidden="true" />
+        <span className={isAllProjects ? undefined : "u-off-screen"}>
+          {isAllProjects ? (
+            <>
+              All projects
+              {!isLoading &&
+                !error &&
+                projects.length > 0 &&
+                ` (${projects.length})`}
+            </>
+          ) : (
+            "Projects"
+          )}
+        </span>
+      </div>
       <ProjectExplanationTooltip />
     </>
   );
+  const projectBreadcrumb = !isAllProjects && (
+    <Breadcrumb className="projects-breadcrumb">
+      <li className="u-no-margin--bottom continuous-breadcrumb p-heading--3">
+        <Link to={ALL_PROJECTS_OVERVIEW_PATH}>All projects</Link>
+      </li>
+      <li className="u-no-margin--bottom continuous-breadcrumb p-heading--3">
+        {projectName}
+      </li>
+    </Breadcrumb>
+  );
+
+  const renderCard = (content: ReactNode) => (
+    <div className="projects-card">
+      {projectBreadcrumb}
+      <Card className={cardClassName} title={cardTitle}>
+        {content}
+      </Card>
+    </div>
+  );
 
   if (isLoading) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <Spinner className="u-loader" text="Loading projects..." />
-      </Card>
+    return renderCard(
+      <Spinner className="u-loader" text="Loading projects..." />,
     );
   }
 
   if (error) {
-    return (
-      <Card className={cardClassName} title={cardTitle}>
-        <div className="error-message">
-          <Icon name="error" className="margin-right--large" /> Error while
-          loading projects: {error.message}
-        </div>
-      </Card>
+    return renderCard(
+      <div className="error-message">
+        <Icon name="error" className="margin-right--large" /> Error while
+        loading projects: {error.message}
+      </div>,
     );
   }
 
-  return (
-    <Card className={cardClassName} title={cardTitle}>
+  return renderCard(
+    <>
       <ProjectTable projects={projects} isAllProjects={isAllProjects} />
 
       <div className="card-footer">
         {isAllProjects ? (
           <Link to={ALL_INSTANCES_LIST_URL}>All instances list</Link>
         ) : (
-          <>
-            {allProjects.length > 1 && (
-              <Link to={ALL_PROJECTS_OVERVIEW_PATH}>Show all projects</Link>
-            )}
-            <Link to={getInstancesUrl(projectName)}>
-              Project instances list
-            </Link>
-          </>
+          <Link to={getInstancesUrl(projectName)}>Project instances list</Link>
         )}
       </div>
-    </Card>
+    </>,
   );
 };
 
