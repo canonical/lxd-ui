@@ -5,12 +5,13 @@ import { stopInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
-import { Icon, useToastNotification } from "@canonical/react-components";
+import { useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
 import { InstanceRichChip } from "../InstanceRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -119,7 +120,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="stop" />
+      <DsIcon icon="stop" />
     </MountedConfirmationButton>
   );
 };

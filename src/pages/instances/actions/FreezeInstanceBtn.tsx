@@ -4,13 +4,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { freezeInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import { Icon, useToastNotification } from "@canonical/react-components";
+import { useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
 import { InstanceRichChip } from "../InstanceRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -99,7 +100,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="pause" />
+      <DsIcon icon="pause" />
     </MountedConfirmationButton>
   );
 };

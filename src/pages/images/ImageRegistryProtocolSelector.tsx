@@ -1,8 +1,8 @@
 import { type FC } from "react";
 import { RadioInput } from "@canonical/react-components";
-import HelpLink from "components/HelpLink";
 import type { FormikProps } from "formik";
 import type { ImageRegistryFormValues } from "types/forms/image";
+import ExplanationTooltip from "components/ExplanationTooltip";
 
 interface Props {
   formik: FormikProps<ImageRegistryFormValues>;
@@ -10,14 +10,14 @@ interface Props {
 export const ImageRegistryProtocolSelector: FC<Props> = ({ formik }) => {
   return (
     <div className="image-registry-protocol-selector">
-      <HelpLink
+      <ExplanationTooltip
+        explanation="Select the protocol for the remote image server."
         docPath="/reference/remote_image_servers/#remote-server-types"
-        title="Learn more about remote server types."
+        docLabel="Learn more about remote server types."
+        className="explanation-tooltip-wrapper--inline"
       >
-        <label htmlFor="protocol" className="u-no-margin--bottom">
-          Protocol
-        </label>
-      </HelpLink>
+        Protocol
+      </ExplanationTooltip>
       <div id="protocol">
         <RadioInput
           inline

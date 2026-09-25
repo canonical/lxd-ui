@@ -1,10 +1,11 @@
-import { Button, Icon, useListener } from "@canonical/react-components";
+import { Button, useListener } from "@canonical/react-components";
 import { useEffect, useRef, useState, type FC } from "react";
 import { getIdentityName, type ChangeSummary } from "util/permissionIdentities";
 import Tag from "components/Tag";
 import type { LxdIdentity } from "types/permissions";
 import LoggedInUserNotification from "./LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
+import DsIcon from "components/DsIcon";
 import {
   getAbsoluteHeightBelowById,
   getAbsoluteHeightBelowBySelector,
@@ -199,7 +200,7 @@ const GroupsOrIdentityChangesTable: FC<Props> = ({
                   dense
                   appearance="base"
                 >
-                  <Icon name="change-version" />
+                  <DsIcon icon="change-version" />
                 </Button>
               </th>
               <th>{groupBy === "identity" ? "Group" : "Identity"}</th>

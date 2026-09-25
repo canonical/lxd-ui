@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams, { panels } from "util/usePanelParams";
 import EditClusterGroupPanel from "pages/cluster/panels/EditClusterGroupPanel";
 import { useServerEntitlements } from "util/entitlements/server";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   group: string;
@@ -29,7 +30,7 @@ const EditClusterGroupBtn: FC<Props> = ({ group }) => {
         }
         hasIcon
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Button>
       {panelParams.panel === panels.editClusterGroups &&
         panelParams.group === group && <EditClusterGroupPanel />}

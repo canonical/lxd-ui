@@ -1,12 +1,13 @@
 import { type FC, type KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Icon, Input } from "@canonical/react-components";
+import { Button, Input } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import {
   getFileExplorerDirectoryURL,
   validateDirectoryPathSyntax,
 } from "util/instances";
 import { fetchInstanceDirectory } from "api/instances";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   currentPath: string;
@@ -94,7 +95,7 @@ const FileExplorerBreadcrumb: FC<Props> = ({ currentPath, instance }) => {
             disabled={isNavigating}
             hasIcon
           >
-            <Icon name="search" />
+            <DsIcon icon="search" />
           </Button>
         </div>
       </div>
@@ -148,7 +149,7 @@ const FileExplorerBreadcrumb: FC<Props> = ({ currentPath, instance }) => {
               aria-label="Search path"
               hasIcon
             >
-              <Icon name="search" />
+              <DsIcon icon="search" />
             </Button>
           </li>
         </ol>

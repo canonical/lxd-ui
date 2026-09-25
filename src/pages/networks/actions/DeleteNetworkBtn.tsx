@@ -6,7 +6,6 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -17,6 +16,7 @@ import { useNetworkEntitlements } from "util/entitlements/networks";
 import NetworkRichChip from "../NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -140,7 +140,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      {!isSmallScreen && <Icon name="delete" />}
+      {!isSmallScreen && <DsIcon icon="delete" />}
       <span>Delete network</span>
     </ConfirmationButton>
   );

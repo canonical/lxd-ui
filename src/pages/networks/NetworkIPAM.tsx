@@ -1,7 +1,6 @@
 import { useEffect, type FC } from "react";
 import {
   EmptyState,
-  Icon,
   MainTable,
   Row,
   ScrollableTable,
@@ -25,6 +24,7 @@ import { useNetworks } from "context/useNetworks";
 import type { LxdNetworkAllocation } from "types/network";
 import NetworkRichChip from "./NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const NetworkIPAM: FC = () => {
   const notify = useNotify();
@@ -196,7 +196,7 @@ const NetworkIPAM: FC = () => {
         {!isLoading && allocations.length === 0 && (
           <EmptyState
             className="empty-state"
-            image={<Icon className="empty-state-icon" name="exposed" />}
+            image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No network allocations found"
           >
             <p>There are no network allocations in this project.</p>

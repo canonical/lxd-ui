@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon, Input, Label } from "@canonical/react-components";
+import { Button, Input, Label } from "@canonical/react-components";
 import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -34,7 +35,7 @@ const NetworkMTUField: FC<Props> = ({ formik }) => {
               hasIcon
               disabled={!!formik.values.editRestriction}
             >
-              <Icon name="edit" />
+              <DsIcon icon="edit" />
             </Button>
           </>
         ) : (

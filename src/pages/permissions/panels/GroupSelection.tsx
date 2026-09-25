@@ -13,6 +13,7 @@ import useSortTableData from "util/useSortTableData";
 import { ROOT_PATH } from "util/rootPath";
 import classnames from "classnames";
 import type { LxdAuthGroup } from "types/permissions";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -186,7 +187,7 @@ const GroupSelection: FC<Props> = ({
       ) : (
         <EmptyState
           className="empty-state empty-state__full-width"
-          image={<Icon name="user-group" className="empty-state-icon" />}
+          image={<DsIcon icon="user-group" className="empty-state-icon" />}
           title="No groups found"
         >
           <p>
@@ -195,7 +196,7 @@ const GroupSelection: FC<Props> = ({
           </p>
           <Link to={`${ROOT_PATH}/ui/permissions/groups?panel=create-groups`}>
             Create group
-            <Icon className="external-link-icon" name="external-link" />
+            <DsIcon className="external-link-icon" icon="external-link" />
           </Link>
         </EmptyState>
       )}

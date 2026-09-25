@@ -34,10 +34,14 @@
       width: 100%;
 
       .overview-card-title {
-        i {
-          height: 1.5rem;
+        // pragma DsIcon svgs (class="ds icon") ship their own same-specificity
+        // width/height rule, so !important is needed to reliably win the tie.
+        // Issue is tracked in WD-38790
+        i,
+        .ds.icon {
+          height: 1.5rem !important;
           margin-bottom: calc(-1 * $spv--small / 2);
-          width: 1.5rem;
+          width: 1.5rem !important;
         }
       }
 

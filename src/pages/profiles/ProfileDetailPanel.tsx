@@ -1,15 +1,11 @@
 import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useCurrentProject } from "context/useCurrentProject";
-import {
-  Button,
-  Icon,
-  useNotify,
-  SidePanel,
-} from "@canonical/react-components";
+import { Button, useNotify, SidePanel } from "@canonical/react-components";
 import ProfileDetailPanelContent from "./ProfileDetailPanelContent";
 import { useProfile } from "context/useProfiles";
 import { useEscCallback } from "context/useEscCallback";
+import DsIcon from "components/DsIcon";
 
 const ProfileDetailPanel: FC = () => {
   const notify = useNotify();
@@ -53,7 +49,7 @@ const ProfileDetailPanel: FC = () => {
               onClick={panelParams.clear}
               aria-label="Close"
             >
-              <Icon name="close" />
+              <DsIcon icon="close" />
             </Button>
           </SidePanel.HeaderControls>
         </SidePanel.Header>

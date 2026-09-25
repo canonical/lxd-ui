@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon, List } from "@canonical/react-components";
+import { Button, List } from "@canonical/react-components";
 import type { LxdOperation, LxdOperationStatus } from "types/operation";
 import { pluralize } from "util/helpers";
 import { countByStatus } from "util/operations";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   operation: LxdOperation;
@@ -45,7 +46,10 @@ const ChildOperationTrigger: FC<Props> = ({
         className="bulk-toggle-btn"
       >
         <span className="p-chip is-dense u-no-margin">
-          <Icon name={isExpanded ? "chevron-up" : "chevron-down"} />
+          <DsIcon
+            icon={isExpanded ? "chevron-up" : "chevron-down"}
+            className="bulk-toggle-chevron"
+          />
           <List
             middot
             items={[

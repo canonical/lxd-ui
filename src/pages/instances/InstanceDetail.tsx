@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Icon, Row, CustomLayout, Spinner } from "@canonical/react-components";
+import { Row, CustomLayout, Spinner } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,7 @@ import { ROOT_PATH } from "util/rootPath";
 import InstanceFileExplorer from "./InstanceFileExplorer";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
 import { useProfiles } from "context/useProfiles";
+import DsIcon from "components/DsIcon";
 
 const tabs: string[] = [
   "Overview",
@@ -61,7 +62,7 @@ const InstanceDetail: FC = () => {
     renderTabs.push({
       label: (
         <div>
-          <Icon name="external-link" /> Metrics
+          <DsIcon icon="external-link" /> Metrics
         </div>
       ) as unknown as string,
       href: grafanaUrl,

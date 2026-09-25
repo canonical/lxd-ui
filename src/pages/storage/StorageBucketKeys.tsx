@@ -1,7 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import {
   EmptyState,
-  Icon,
   ScrollableTable,
   SearchBox,
   TablePagination,
@@ -21,6 +20,7 @@ import StorageBucketKeyActions from "pages/storage/actions/StorageBucketKeyActio
 import StorageBucketKeyBulkDelete from "pages/storage/actions/StorageBucketKeyBulkDelete";
 import type { LxdStorageBucket } from "types/storage";
 import { capitalizeFirstLetter } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -238,7 +238,7 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
       ) : (
         <EmptyState
           className="empty-state"
-          image={<Icon name="private-key" className="empty-state-icon" />}
+          image={<DsIcon icon="private-key" className="empty-state-icon" />}
           title="No keys"
         >
           <p>This storage bucket does not contain any keys.</p>

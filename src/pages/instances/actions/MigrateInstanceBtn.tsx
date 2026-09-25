@@ -1,10 +1,11 @@
 import type { FC } from "react";
-import { ActionButton, Icon, usePortal } from "@canonical/react-components";
+import { ActionButton, usePortal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
 import MigrateInstanceModal from "../MigrateInstanceModal";
 import classNames from "classnames";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -42,7 +43,7 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
             : "You do not have permission to migrate this instance"
         }
       >
-        <Icon name="machines" />
+        <DsIcon icon="machines" />
         <span>Migrate</span>
       </ActionButton>
     </>
