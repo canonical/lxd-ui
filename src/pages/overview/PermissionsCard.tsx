@@ -5,6 +5,8 @@ import { useAuth } from "context/auth";
 import { pluralize } from "util/helpers";
 import { isLegacyIdentity } from "util/identity";
 import { ROOT_PATH } from "util/rootPath";
+import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
+import CardEmptyState from "./CardEmptyState";
 
 const PermissionsCard: FC = () => {
   const { currentIdentity, effectiveGroups, isAuthLoading } = useAuth();
@@ -17,10 +19,28 @@ const PermissionsCard: FC = () => {
 
   const cardClassName = "overview-card permissions";
   const cardTitle = (
-    <span className="overview-card-title">
-      <Icon name="user" /> Permissions
-    </span>
+    <>
+      <span className="overview-card-title">
+        <Icon name="user" /> Permissions
+      </span>
+      <PermissionGroupExplanationTooltip />
+    </>
   );
+  const footerLink = (
+    <Link to={`${ROOT_PATH}/ui/permissions/groups`}>Auth group details</Link>
+  );
+
+  if (!effectiveGroups || effectiveGroups.length === 0) {
+    return (
+      <Card className={cardClassName} title={cardTitle}>
+        <CardEmptyState
+          title="Overview information is filtered by your auth groups"
+          centered={false}
+          footerLink={footerLink}
+        />
+      </Card>
+    );
+  }
 
   return (
     <Card className={cardClassName} title={cardTitle}>
@@ -29,22 +49,14 @@ const PermissionsCard: FC = () => {
       </p>
       <div>
         <span>Your {pluralize("group", effectiveGroups?.length ?? 0)}: </span>
-        {effectiveGroups?.length ? (
-          <List
-            inline
-            middot
-            items={effectiveGroups}
-            className="effective-groups-list u-no-margin--bottom"
-          />
-        ) : (
-          <span className="u-text--muted">-</span>
-        )}
+        <List
+          inline
+          middot
+          items={effectiveGroups}
+          className="effective-groups-list u-no-margin--bottom"
+        />
       </div>
-      <div className="card-footer">
-        <Link to={`${ROOT_PATH}/ui/permissions/groups`}>
-          Auth group details
-        </Link>
-      </div>
+      <div className="card-footer">{footerLink}</div>
     </Card>
   );
 };

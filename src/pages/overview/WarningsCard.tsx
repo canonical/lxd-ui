@@ -11,11 +11,18 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useWarnings } from "context/useWarnings";
 import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
 import WarningExplanationTooltip from "pages/warnings/WarningExplanationTooltip";
+import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
 import { getWarningHeaders, getWarningRows } from "util/warnings";
+import CardEmptyState from "./CardEmptyState";
 
 const WarningsCard: FC = () => {
-  const { data: warnings = [], error, isLoading } = useWarnings();
+  const { canViewWarnings } = useServerEntitlements();
+  const {
+    data: warnings = [],
+    error,
+    isLoading,
+  } = useWarnings(canViewWarnings());
   const { project, isAllProjects } = useCurrentProject();
   const newWarnings = warnings.filter(
     (warning) =>
@@ -52,6 +59,21 @@ const WarningsCard: FC = () => {
     );
   }
 
+  if (newWarnings.length === 0) {
+    return (
+      <Card className={cardClassName} title={cardTitle}>
+        <CardEmptyState
+          title="No warnings found"
+          footerLink={
+            <Link to={`${ROOT_PATH}/ui/warnings?status=new`}>
+              Warnings list
+            </Link>
+          }
+        />{" "}
+      </Card>
+    );
+  }
+
   const rows = getWarningRows(newWarnings, "overview");
   const warningsTable = (
     <MainTable
@@ -62,7 +84,6 @@ const WarningsCard: FC = () => {
       defaultSort="severity"
       defaultSortDirection="descending"
       className="warnings-table overview-table"
-      emptyStateMsg="No warnings found"
       responsive
     />
   );
