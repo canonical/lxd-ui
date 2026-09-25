@@ -2,6 +2,12 @@
 // so our local settings are applied to react-components SCSS
 
 $font-use-subset-latin: true;
+$font-base-family: unquote(
+  '"Ubuntu Sans", "Ubuntu", "Cantarell", system-ui, -apple-system, "Segoe UI", sans-serif'
+);
+$font-monospace: unquote(
+  '"Ubuntu Sans Mono", "Ubuntu Mono", ui-monospace, "SF Mono", menlo, consolas, monospace'
+);
 $breakpoint-large: 1090px;
 
 /* Indices

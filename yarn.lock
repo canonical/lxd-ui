@@ -476,6 +476,13 @@
     "@canonical/design-tokens" "0.10.0"
     opentype.js "^1.3.4"
 
+"@canonical/styles-vanilla-adapter@0.40.0":
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/@canonical/styles-vanilla-adapter/-/styles-vanilla-adapter-0.40.0.tgz#0a0861f46ca614b8c8c123a0ecf16b613edc95c1"
+  integrity sha512-BHvxFwnc/2I3m439h0C10W5vXkwYyIYaf7ZGScdwn/JhlxWy+050ffpwhCTDdqZHXav/oTMAwQnkOc7C3a//WA==
+  dependencies:
+    "@canonical/styles" "^0.40.0"
+
 "@canonical/styles@0.40.0", "@canonical/styles@^0.40.0":
   version "0.40.0"
   resolved "https://registry.yarnpkg.com/@canonical/styles/-/styles-0.40.0.tgz#06a1f950e66258e6db8ada3a64e742edc31d4afc"
