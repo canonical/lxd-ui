@@ -38,6 +38,11 @@ import {
   randomNetworkAclName,
 } from "./helpers/network-acls";
 import {
+  OVERVIEW_NARROW_VIEWPORT,
+  visitAllProjectsOverview,
+  visitOverview,
+} from "./helpers/overview";
+import {
   createVolume,
   deleteVolume,
   randomIsoName,
@@ -855,6 +860,56 @@ test.describe("settings", () => {
   test("list page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
     await clickSideNavItem(page, "Settings");
+    await runA11yAudit(page, testInfo);
+  });
+});
+
+test.describe("overview page", () => {
+  const instance = randomInstanceName();
+
+  test.beforeAll(async ({ browser }, testInfo) => {
+    if (!isA11yProject(testInfo.project.name)) {
+      return;
+    }
+    const page = await browser.newPage();
+    await createAndStartInstance(page, instance);
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }, testInfo) => {
+    if (!isA11yProject(testInfo.project.name)) {
+      return;
+    }
+    const page = await browser.newPage();
+    await deleteInstance(page, instance);
+    await page.close();
+  });
+
+  test("project overview page", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitOverview(page);
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("project overview page narrow viewport", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await page.setViewportSize(OVERVIEW_NARROW_VIEWPORT);
+    await visitOverview(page);
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("all projects overview page", async ({ page }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await visitAllProjectsOverview(page);
+    await runA11yAudit(page, testInfo);
+  });
+
+  test("all projects overview page narrow viewport", async ({
+    page,
+  }, testInfo) => {
+    skipIfNotA11yProject(testInfo.project.name);
+    await page.setViewportSize(OVERVIEW_NARROW_VIEWPORT);
+    await visitAllProjectsOverview(page);
     await runA11yAudit(page, testInfo);
   });
 });
