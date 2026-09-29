@@ -75,9 +75,9 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
       <EmptyState
         className="empty-state"
         image={<Icon name="containers" className="empty-state-icon" />}
-        title="Instance is not running"
+        title="Instance stopped"
       >
-        <p>Virtual machines must be running to browse files.</p>
+        <p>Start the VM to browse files.</p>
         <StartInstanceBtn
           instance={instance}
           appearance="positive"

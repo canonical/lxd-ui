@@ -630,9 +630,7 @@ test("file explorer shows empty state for a stopped virtual machine", async ({
   );
   await visitAndStopInstance(page, vmInstance);
   await page.getByRole("tab", { name: "File Explorer" }).click();
-  await expect(page.getByText("Instance is not running")).toBeVisible();
-  await expect(
-    page.getByText("Virtual machines must be running to browse files."),
-  ).toBeVisible();
+  await expect(page.getByText("Instance stopped")).toBeVisible();
+  await expect(page.getByText("Start the VM to browse files.")).toBeVisible();
   await expect(page.getByText("Start instance")).toBeVisible();
 });
