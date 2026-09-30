@@ -42,17 +42,13 @@ export const EditImageRegistryPanel: FC = () => {
 
   const getPayload = () => {
     const isSimpleStreams = formik.values.protocol === "simplestreams";
-    const isPublic = isSimpleStreams || formik.values.cluster === "";
-    const config: LxdImageRegistryConfig = {
-      public: isPublic ? "true" : "false",
-    };
+    const config: LxdImageRegistryConfig = {};
 
     if (isSimpleStreams) {
       config.url = formik.values.url;
     } else {
       config.cluster = formik.values.cluster;
       config.source_project = formik.values.sourceProject;
-      config.url = formik.values.url;
     }
 
     return {

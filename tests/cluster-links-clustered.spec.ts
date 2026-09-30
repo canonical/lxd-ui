@@ -1,4 +1,4 @@
-import { test, expect, type LxdVersions } from "./fixtures/lxd-test";
+import { test, expect } from "./fixtures/lxd-test";
 import {
   deleteClusterLink,
   editClusterLink,
@@ -10,6 +10,7 @@ import {
   deleteIdentityOnRemoteCluster,
   createClusterLinkUnidirectional,
   createClusterLinkBidirectional,
+  skipIfUnidirectionalClusterLinksNotSupported,
 } from "./helpers/cluster-links";
 import { skipIfNotClustered } from "./helpers/cluster";
 import { randomInstanceName } from "./helpers/instances";
@@ -22,15 +23,6 @@ import {
   setupProjectsForReplicator,
   visitReplicators,
 } from "./helpers/replicators";
-
-export const skipIfUnidirectionalClusterLinksNotSupported = (
-  lxdVersion: LxdVersions,
-) => {
-  test.skip(
-    lxdVersion !== "latest-edge",
-    "Unidirectional cluster links are not available",
-  );
-};
 
 test("cluster link create edit delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { Col, Row } from "@canonical/react-components";
 import type { LxdImageRegistry } from "types/image";
-import { isImageRegistryPublic } from "util/imageRegistries";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 
 interface Props {
@@ -52,7 +51,7 @@ const ImageRegistryConfiguration: FC<Props> = ({ imageRegistry }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">Public</th>
-                <td>{isImageRegistryPublic(imageRegistry) ? "Yes" : "No"}</td>
+                <td>{imageRegistry.public ? "Yes" : "No"}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">Cluster</th>
