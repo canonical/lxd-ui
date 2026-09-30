@@ -28,7 +28,11 @@ import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
-import { enrichStatuses, type InstanceFilters } from "util/instanceFilter";
+import {
+  enrichStatuses,
+  instanceMatchesQuery,
+  type InstanceFilters,
+} from "util/instanceFilter";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import type {
@@ -212,16 +216,7 @@ const InstanceList: FC = () => {
     if (creationNames.includes(item.name)) {
       return false;
     }
-    if (
-      !filters.queries.every(
-        (q) =>
-          item.name.toLowerCase().includes(q.toLowerCase()) ||
-          item.description.toLowerCase().includes(q.toLowerCase()) ||
-          item.config["image.description"]
-            ?.toLowerCase()
-            .includes(q.toLowerCase()),
-      )
-    ) {
+    if (!filters.queries.every((q) => instanceMatchesQuery(item, q))) {
       return false;
     }
     if (
