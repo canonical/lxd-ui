@@ -19,5 +19,13 @@
     .public {
       width: 3rem;
     }
+
+    .actions {
+      width: calc(2 * (16px + 2rem) + 2px);
+    }
+
+    .actions-list {
+      min-width: 5rem;
+    }
   }
 }

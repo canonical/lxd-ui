@@ -2,18 +2,20 @@ import { test } from "./fixtures/lxd-test";
 import { skipIfNotClustered } from "./helpers/cluster";
 import {
   createClusterLinkBidirectional,
+  createClusterLinkUnidirectional,
+  createIdentityOnRemoteCluster,
+  deleteClusterLink,
+  deleteIdentityOnRemoteCluster,
   randomLinkName,
+  skipIfUnidirectionalClusterLinksNotSupported,
   visitClusterLinks,
 } from "./helpers/cluster-links";
 import {
   skipIfImageRegistriesNotSupported,
-  createImageRegistry,
-  randomImageRegistryName,
-  deleteImageRegistry,
-  validateRegistryRow,
+  createAndValidateLxdRegistry,
 } from "./helpers/image-registries";
 
-test("create private LXD image registry", async ({
+test("create private LXD image registry with a bidirectional cluster link", async ({
   page,
   lxdVersion,
 }, testInfo) => {
@@ -24,21 +26,26 @@ test("create private LXD image registry", async ({
   await visitClusterLinks(page);
   await createClusterLinkBidirectional(page, clusterName);
 
-  const projectName = "default";
-  const registryName = randomImageRegistryName();
-  await createImageRegistry(page, registryName, "LXD", {
-    cluster: clusterName,
-    sourceProject: projectName,
-  });
+  await createAndValidateLxdRegistry(page, clusterName);
+  await visitClusterLinks(page);
+  await deleteClusterLink(page, clusterName);
+});
 
-  await validateRegistryRow(
-    page,
-    registryName,
-    "Protocol",
-    `lxdCluster: ${clusterName} Project: ${projectName}`,
-  );
-  await validateRegistryRow(page, registryName, "Built-in", "No");
-  await validateRegistryRow(page, registryName, "Public", "No");
+test("create private LXD image registry with a unidirectional cluster link", async ({
+  page,
+  lxdVersion,
+}, testInfo) => {
+  skipIfImageRegistriesNotSupported(lxdVersion);
+  skipIfUnidirectionalClusterLinksNotSupported(lxdVersion);
+  skipIfNotClustered(testInfo.project.name);
 
-  await deleteImageRegistry(page, registryName);
+  const unidirectionalClusterName = randomLinkName();
+  await visitClusterLinks(page);
+  const token = createIdentityOnRemoteCluster(unidirectionalClusterName);
+  await createClusterLinkUnidirectional(page, unidirectionalClusterName, token);
+
+  await createAndValidateLxdRegistry(page, unidirectionalClusterName);
+  deleteIdentityOnRemoteCluster(unidirectionalClusterName);
+  await visitClusterLinks(page);
+  await deleteClusterLink(page, unidirectionalClusterName);
 });

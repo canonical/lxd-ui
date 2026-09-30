@@ -7,6 +7,7 @@ import {
   CustomLayout,
   Spinner,
   MainTable,
+  List,
 } from "@canonical/react-components";
 import useSortTableData from "util/useSortTableData";
 import { useImageRegistries } from "context/useImageRegistries";
@@ -18,12 +19,14 @@ import ImageRegistriesSearchFilter, {
 } from "./ImageRegistriesSearchFilter";
 import { Link, useSearchParams } from "react-router-dom";
 import type { LxdImageRegistryProtocol } from "types/image";
-import { isImageRegistryPublic } from "util/imageRegistries";
 import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
 import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { CreateImageRegistryPanel } from "./panels/CreateImageRegistryPanel";
 import { ImageRegistryProtocol } from "./ImageRegistryProtocol";
+import { EditImageRegistryPanel } from "./panels/EditImageRegistryPanel";
+import EditImageRegistryButton from "./actions/EditImageRegistryButton";
+import DeleteImageRegistryBtn from "./actions/DeleteImageRegistryBtn";
 
 const ImageRegistriesList: FC = () => {
   const notify = useNotify();
@@ -62,6 +65,7 @@ const ImageRegistriesList: FC = () => {
       className: "public",
       title: "Public",
     },
+    { "aria-label": "Actions", className: "actions" },
   ];
 
   const filters: ImageRegistryFilter = {
@@ -93,13 +97,11 @@ const ImageRegistriesList: FC = () => {
         )) &&
       (!filters.protocol.length || filters.protocol.includes(item.protocol)) &&
       (!filters.builtin.length || filters.builtin.includes(item.builtin)) &&
-      (!filters.public.length ||
-        filters.public.includes(isImageRegistryPublic(item)))
+      (!filters.public.length || filters.public.includes(item.public))
     );
   });
 
   const rows = filteredImageRegistries.map((registry) => {
-    const isPublicRegistry = isImageRegistryPublic(registry);
     const isSimpleStreams = registry.protocol === "simplestreams";
     const url = registry.config?.url ?? "";
     const sourceProject = registry.config?.source_project ?? "";
@@ -147,10 +149,33 @@ const ImageRegistriesList: FC = () => {
           className: "built-in",
         },
         {
-          content: isPublicRegistry ? "Yes" : "No",
+          content: registry.public ? "Yes" : "No",
           role: "cell",
           "aria-label": "Public",
           className: "public",
+        },
+        {
+          content: (
+            <List
+              inline
+              className="actions-list u-no-margin--bottom"
+              items={[
+                <EditImageRegistryButton
+                  key="edit"
+                  imageRegistry={registry}
+                  hasLabel={false}
+                />,
+                <DeleteImageRegistryBtn
+                  key="delete"
+                  imageRegistry={registry}
+                  hasLabel={false}
+                />,
+              ]}
+            />
+          ),
+          role: "cell",
+          "aria-label": "Actions",
+          className: "u-align--right actions",
         },
       ],
       sortData: {
@@ -158,7 +183,7 @@ const ImageRegistriesList: FC = () => {
         description: registry.description.toLowerCase(),
         protocol: registry.protocol.toLowerCase(),
         builtin: registry.builtin,
-        public: isPublicRegistry,
+        public: registry.public,
         source: isSimpleStreams
           ? url.toLowerCase()
           : `${cluster}/${sourceProject}`.toLowerCase(),
@@ -240,6 +265,9 @@ const ImageRegistriesList: FC = () => {
 
       {panelParams.panel === panels.createImageRegistry && (
         <CreateImageRegistryPanel />
+      )}
+      {panelParams.panel === panels.editImageRegistry && (
+        <EditImageRegistryPanel />
       )}
     </>
   );

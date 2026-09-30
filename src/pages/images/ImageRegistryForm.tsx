@@ -7,6 +7,7 @@ import {
 import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { ImageRegistryFormValues } from "types/forms/image";
+import { useClusterLinks } from "context/useClusterLinks";
 import { ImageRegistryClusterLinkSelector } from "./ImageRegistryClusterLinkSelector";
 import { ImageRegistryProtocolSelector } from "./ImageRegistryProtocolSelector";
 
@@ -16,6 +17,12 @@ interface Props {
 
 export const ImageRegistryForm: FC<Props> = ({ formik }) => {
   const isSimpleStreams = formik.values.protocol === "simplestreams";
+  const { data: links = [] } = useClusterLinks();
+  const selectedLink = links.find(
+    (link) => link.name === formik.values.cluster,
+  );
+  const isDefaultProjectEnforced = selectedLink?.type === "public";
+
   const stripProtocol = (value: string) => value.replace(/^https?:\/\//i, "");
   const isEdit = !formik.values.isCreating;
 
@@ -91,11 +98,19 @@ export const ImageRegistryForm: FC<Props> = ({ formik }) => {
           <ImageRegistryClusterLinkSelector formik={formik} required />
           <Input
             {...formik.getFieldProps("sourceProject")}
+            disabled={isDefaultProjectEnforced}
             type="text"
-            label="Source project"
+            label="Project within source cluster"
             placeholder="Enter source project"
             error={getFieldError("sourceProject")}
-            help="Project with images on the remote cluster."
+            help={
+              isDefaultProjectEnforced && (
+                <>
+                  Public images can only be found in the <code>default</code>{" "}
+                  project.
+                </>
+              )
+            }
           />
         </>
       )}

@@ -101,7 +101,7 @@ test("view image registry detail page", async ({ page, lxdVersion }) => {
   await visitImageRegistry(page, BUILTIN_IMAGE_REGISTRY);
 
   await expect(
-    page.getByRole("link", { name: "Images", exact: true }),
+    page.getByRole("tab", { name: "Images", exact: true }),
   ).toBeVisible();
   await page.getByTestId("tab-link-Configuration").click();
 
