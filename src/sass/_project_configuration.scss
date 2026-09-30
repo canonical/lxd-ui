@@ -78,3 +78,25 @@
     margin-top: $spv--x-large;
   }
 }
+
+.override-form .image-registry-restriction-input {
+  .p-radio {
+    margin-bottom: $spv--large - $spv-nudge;
+    padding-top: map-get($settings-text-p, nudge);
+  }
+
+  .restricted-image-registries {
+    margin-top: $spv--large;
+  }
+}
+
+.restricted-image-registries__dropdown {
+  .multi-select__dropdown-header {
+    display: none;
+  }
+
+  .multi-select__group:first-child
+    .multi-select__dropdown-item:not(:first-child) {
+    padding-left: calc($sph--x-large * 2);
+  }
+}

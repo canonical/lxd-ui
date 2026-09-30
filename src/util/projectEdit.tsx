@@ -106,7 +106,7 @@ export const getProjectEditValues = (
     restricted_network_uplinks: project.config["restricted.networks.uplinks"],
     restricted_network_zones: project.config["restricted.networks.zones"],
 
-    restricted_registries: project.config["restricted.registries"],
+    restricted_registries: project.config["restricted.registries"] || undefined,
 
     replica_mode: project.replica_mode,
     replica_cluster: project.config["replica.cluster"],
