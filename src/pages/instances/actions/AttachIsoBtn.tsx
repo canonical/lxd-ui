@@ -19,7 +19,7 @@ import CustomIsoModal from "pages/images/CustomIsoModal";
 import type { FormDiskDevice } from "types/formDevice";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
-import { instanceLinkFromOperation } from "util/operations";
+import { instanceLinkFromOperation } from "util/instanceLinkFromOperation";
 import ResourceLink from "components/ResourceLink";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";

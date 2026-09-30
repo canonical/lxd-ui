@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@canonical/react-components";
 import { useProfile } from "context/useProfiles";
-import { getDefaultNetwork } from "util/helpers";
+import { getDefaultNetwork } from "util/devices";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
