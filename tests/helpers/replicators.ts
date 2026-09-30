@@ -321,9 +321,9 @@ export const deleteAllAfterReplicatorTest = async (
   }
   deleteProjectOnRemoteCluster(project);
   deleteClusterLinkOnRemoteCluster(clusterLink);
+  await deleteProject(page, project);
   await visitClusterLinks(page);
   await deleteClusterLink(page, clusterLink);
-  await deleteProject(page, project);
 };
 
 export const visitReplicators = async (page: Page) => {

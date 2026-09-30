@@ -4,10 +4,12 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { type FC, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { updateReplicaMode } from "util/projects";
+import { queryKeys } from "util/queryKeys";
 import type { LxdProject } from "types/project";
 
 interface Props {
@@ -21,6 +23,7 @@ const ClearProjectReplicaModeBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const { canEditProject } = useProjectEntitlements();
+  const queryClient = useQueryClient();
 
   const disabledReason = () => {
     if (!canEditProject(project)) {
@@ -52,6 +55,9 @@ const ClearProjectReplicaModeBtn: FC<Props> = ({ project, isEdit }: Props) => {
     updateReplicaMode(project.name, "", handleSuccess, handleFailure).finally(
       () => {
         setIsClearing(false);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.projects, project.name],
+        });
       },
     );
   };
