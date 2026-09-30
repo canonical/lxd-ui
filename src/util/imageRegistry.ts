@@ -9,12 +9,28 @@ import {
   fetchRegistryImages,
 } from "api/image-registries";
 import type { LxdProject } from "types/project";
+import type { RegistryRestrictionMode } from "types/forms/project";
 
 export const REGISTRY_KEYWORDS = {
   ALLOW: "allow",
   BLOCK: "block",
   BUILTIN: "builtin",
 } as const;
+
+export const getRegistryRestrictionMode = (
+  value?: string,
+): RegistryRestrictionMode => {
+  if (!value || value === REGISTRY_KEYWORDS.BUILTIN) {
+    return "builtin";
+  }
+  if (value === REGISTRY_KEYWORDS.ALLOW) {
+    return "allow";
+  }
+  if (value === REGISTRY_KEYWORDS.BLOCK) {
+    return "block";
+  }
+  return "custom";
+};
 
 export const isRegistryAllowedInProject = (
   registry: Pick<LxdImageRegistry, "name" | "builtin">,
@@ -27,24 +43,23 @@ export const isRegistryAllowedInProject = (
     return true;
   }
 
-  const rawRegistries = project?.config["restricted.registries"] ?? "builtin";
-
-  if (rawRegistries === REGISTRY_KEYWORDS.ALLOW) {
+  const value = project.config["restricted.registries"];
+  const mode = getRegistryRestrictionMode(value);
+  if (mode === "allow") {
     return true;
   }
-
-  if (rawRegistries === REGISTRY_KEYWORDS.BLOCK) {
+  if (mode === "block") {
     return false;
   }
-
-  const allowedList = rawRegistries.split(",").map((item) => item.trim());
-
-  const allowsBuiltIn = allowedList.includes(REGISTRY_KEYWORDS.BUILTIN);
-  if (allowsBuiltIn && registry.builtin) {
-    return true;
+  if (mode === "builtin") {
+    return registry.builtin;
   }
 
-  return allowedList.includes(registry.name);
+  const allowed = (value ?? "").split(",").map((item) => item.trim());
+  return (
+    allowed.includes(registry.name) ||
+    (registry.builtin && allowed.includes(REGISTRY_KEYWORDS.BUILTIN))
+  );
 };
 
 // fetch image registries and images from all configured registries

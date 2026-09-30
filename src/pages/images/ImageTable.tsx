@@ -10,6 +10,7 @@ import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromI
 import type { LxdImage, LxdImageRegistry } from "types/image";
 import { getArchitectureDisplayName } from "util/architectures";
 import { humanFileSize, isoTimeToString } from "util/helpers";
+import { isRegistryAllowedInProject } from "util/imageRegistry";
 import {
   getImageAlias,
   getImageName,
@@ -17,7 +18,6 @@ import {
   localLxdToRemoteImage,
 } from "util/images";
 import useSortTableData from "util/useSortTableData";
-import { isRegistryAllowedInProject } from "util/imageRegistry";
 
 interface Props {
   images: LxdImage[];

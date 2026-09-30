@@ -28,6 +28,7 @@ import { useProfile } from "context/useProfiles";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { ROOT_PATH } from "util/rootPath";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { validateImageRestriction } from "pages/projects/forms/ImageRestrictionForm";
 
 interface Props {
   project: LxdProject;
@@ -63,6 +64,7 @@ const EditProject: FC<Props> = ({ project }) => {
   const formik: FormikProps<ProjectFormValues> = useFormik({
     initialValues: initialValues,
     validationSchema: ProjectSchema,
+    validate: validateImageRestriction,
     enableReinitialize: true,
     onSubmit: (values) => {
       const projectPayload = getProjectPayload(project, values) as LxdProject;
