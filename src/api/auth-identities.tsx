@@ -16,7 +16,7 @@ export const fetchIdentities = async (
   isFineGrained: boolean | null,
 ): Promise<LxdIdentity[]> => {
   const params = new URLSearchParams();
-  params.set("recursion", "1");
+  params.set("recursion", "2");
   addEntitlements(params, isFineGrained, identitiesEntitlements);
 
   return fetch(`${ROOT_PATH}/1.0/auth/identities?${params.toString()}`)
