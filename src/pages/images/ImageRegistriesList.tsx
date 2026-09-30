@@ -18,7 +18,6 @@ import ImageRegistriesSearchFilter, {
 } from "./ImageRegistriesSearchFilter";
 import { Link, useSearchParams } from "react-router-dom";
 import type { LxdImageRegistryProtocol } from "types/image";
-import { isImageRegistryPublic } from "util/imageRegistries";
 import { CreateImageRegistryButton } from "./actions/CreateImageRegistryButton";
 import { ROOT_PATH } from "util/rootPath";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -93,13 +92,11 @@ const ImageRegistriesList: FC = () => {
         )) &&
       (!filters.protocol.length || filters.protocol.includes(item.protocol)) &&
       (!filters.builtin.length || filters.builtin.includes(item.builtin)) &&
-      (!filters.public.length ||
-        filters.public.includes(isImageRegistryPublic(item)))
+      (!filters.public.length || filters.public.includes(item.public))
     );
   });
 
   const rows = filteredImageRegistries.map((registry) => {
-    const isPublicRegistry = isImageRegistryPublic(registry);
     const isSimpleStreams = registry.protocol === "simplestreams";
     const url = registry.config?.url ?? "";
     const sourceProject = registry.config?.source_project ?? "";
@@ -147,7 +144,7 @@ const ImageRegistriesList: FC = () => {
           className: "built-in",
         },
         {
-          content: isPublicRegistry ? "Yes" : "No",
+          content: registry.public ? "Yes" : "No",
           role: "cell",
           "aria-label": "Public",
           className: "public",
@@ -158,7 +155,7 @@ const ImageRegistriesList: FC = () => {
         description: registry.description.toLowerCase(),
         protocol: registry.protocol.toLowerCase(),
         builtin: registry.builtin,
-        public: isPublicRegistry,
+        public: registry.public,
         source: isSimpleStreams
           ? url.toLowerCase()
           : `${cluster}/${sourceProject}`.toLowerCase(),

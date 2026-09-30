@@ -32,9 +32,7 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
           {link.name}
         </span>
         <span className="cluster-link-description u-text--muted">
-          {link.type === "bidirectional"
-            ? "public and private images"
-            : "public images only"}
+          public and private images
         </span>
       </div>
     ),

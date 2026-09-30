@@ -5,7 +5,6 @@ import { RichTooltipTable } from "components/RichTooltipTable";
 import ResourceLabel from "components/ResourceLabel";
 import { Link } from "react-router";
 import { useImageRegistry } from "context/useImageRegistries";
-import { isImageRegistryPublic } from "util/imageRegistries";
 import ItemName from "components/ItemName";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -33,7 +32,7 @@ const ImageRegistryRichTooltip: FC<Props> = ({
 
   const description = imageRegistry?.description;
   const protcol = imageRegistry?.protocol;
-  const isPublic = imageRegistry && isImageRegistryPublic(imageRegistry);
+  const isPublic = imageRegistry?.public;
   const cluster = imageRegistry?.config?.cluster;
   const sourceProject = imageRegistry?.config?.source_project;
   const url = imageRegistry?.config?.url;
