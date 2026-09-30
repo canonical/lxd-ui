@@ -8,7 +8,7 @@ const ImageRegistryExplanationTooltip: FC<{
     <ExplanationTooltip
       className="explanation-tooltip-wrapper--inline"
       explanation="Image registries connect to other LXD clusters to use custom images."
-      docPath="/image-handling/"
+      docPath="/howto/image_registries/"
       docLabel="Learn more about image registries"
     >
       {children}
