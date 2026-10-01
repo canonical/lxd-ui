@@ -363,21 +363,3 @@ export const permissionSort = (
     resourceTypeComparison || resourceNameComparison || entitlementComparison
   );
 };
-
-// each resource type has specific columns to display, which should uniquely identify the resource
-export const getResourceOptionColumns = (type: string) => {
-  const resourceOptionColumns: Record<string, (keyof ResourceDetail)[]> = {
-    image: ["description", "aliases", "fingerprint", "imageType", "project"],
-    image_alias: ["name", "project"],
-    instance: ["name", "project"],
-    network: ["name", "project"],
-    network_acl: ["name", "project"],
-    network_zone: ["name", "project"],
-    profile: ["name", "project"],
-    storage_bucket: ["name", "project"],
-    storage_volume: ["name", "pool", "project"],
-    default: ["name"],
-  };
-
-  return resourceOptionColumns[type] ?? resourceOptionColumns.default;
-};

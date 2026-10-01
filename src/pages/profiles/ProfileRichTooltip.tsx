@@ -11,7 +11,7 @@ import DevicesSummaryList from "components/DevicesSummaryList";
 import { getProfileInstances } from "util/usedBy";
 import ProfileTruncatedNetworkList from "pages/profiles/ProfileTruncatedNetworkList";
 import ResourceLink from "components/ResourceLink";
-import { getDefaultStoragePool } from "util/helpers";
+import { getDefaultStoragePool } from "util/devices";
 import { ROOT_PATH } from "util/rootPath";
 import ProfileConfigurationSections from "pages/profiles/ProfileConfigurationSections";
 import ProfileResourceLimits from "pages/profiles/ProfileResourceLimits";

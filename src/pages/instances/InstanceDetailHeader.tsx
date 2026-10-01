@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEventQueue } from "context/eventQueue";
 import { ALL_INSTANCES_LIST_URL, instanceNameValidation } from "util/instances";
-import { instanceLinkFromOperation } from "util/operations";
+import { instanceLinkFromOperation } from "util/instanceLinkFromOperation";
 import InstanceDetailActions from "./InstanceDetailActions";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useCurrentProject } from "context/useCurrentProject";

@@ -10,11 +10,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import {
-  checkDuplicateName,
-  getDefaultNetwork,
-  getDefaultStoragePool,
-} from "util/helpers";
+import { checkDuplicateName } from "util/helpers";
+import { getDefaultNetwork, getDefaultStoragePool } from "util/devices";
 import { ROOT_PATH } from "util/rootPath";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
