@@ -92,7 +92,6 @@ const ReplicatorList: FC<Props> = ({ variant = "main", project, cluster }) => {
           content: (
             <Link
               to={`${ROOT_PATH}/ui/project/${encodeURIComponent(replicator.project)}/replicator/${encodeURIComponent(replicator.name)}`}
-              className="u-truncate"
             >
               {replicator.name}
             </Link>

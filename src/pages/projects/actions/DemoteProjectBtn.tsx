@@ -3,11 +3,13 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { type FC, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { updateReplicaMode } from "util/projects";
+import { queryKeys } from "util/queryKeys";
 import type { LxdProject } from "types/project";
 
 interface Props {
@@ -20,6 +22,7 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
   const isSmallScreen = useIsScreenBelow();
   const toastNotify = useToastNotification();
   const { canEditProject } = useProjectEntitlements();
+  const queryClient = useQueryClient();
   const [isForce, setForce] = useState(false);
 
   const disabledReason = () => {
@@ -57,6 +60,9 @@ const DemoteProjectBtn: FC<Props> = ({ project, isEdit }: Props) => {
       isForce,
     ).finally(() => {
       setIsDemoting(false);
+      void queryClient.invalidateQueries({
+        queryKey: [queryKeys.projects, project.name],
+      });
     });
   };
 
