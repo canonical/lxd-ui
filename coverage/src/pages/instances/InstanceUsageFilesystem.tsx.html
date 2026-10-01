@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/32</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>30/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Functions</span>
+                <span class="quiet">Branches</span>
                 <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>30/32</span>
             </div>
         
             
@@ -95,38 +95,38 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">409x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">408x</span>
-<span class="cline-any cline-yes">408x</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">381x</span>
+<span class="cline-any cline-yes">381x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
@@ -137,9 +137,9 @@ interface Props {
 }
 &nbsp;
 const InstanceUsageFilesystem: FC&lt;Props&gt; = ({ filesystem }) =&gt; {
-  if (!filesystem) {
-    return "";
-  }
+  if (!filesystem) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return "";</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   const used = filesystem.total - filesystem.free;
 &nbsp;
@@ -147,7 +147,7 @@ const InstanceUsageFilesystem: FC&lt;Props&gt; = ({ filesystem }) =&gt; {
     &lt;div&gt;
       &lt;Meter
         percentage={(100 / filesystem.total) * used}
-        t<span class="fstat-no" title="function not covered" >ext={</span>
+        text={
           humanFileSize(filesystem.total - filesystem.free) +
           " of " +
           humanFileSize(filesystem.total)
@@ -166,7 +166,7 @@ export default InstanceUsageFilesystem;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-29T19:16:43.089Z
+                at 2026-10-01T18:22:12.191Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">95.55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/45</span>
+                <span class='fraction'>43/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">95.55% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>30/45</span>
+                <span class='fraction'>43/45</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -133,19 +133,19 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -177,20 +177,20 @@ const ClusterLinkUsedBy: FC&lt;Props&gt; = ({ clusterLink }) =&gt; {
     &lt;table className="p-main-table delete-cluster-link-table"&gt;
       &lt;tbody&gt;
         &lt;UsedByRow entityType="replicator" usedBy={clusterLink.used_by} /&gt;
-        {otherPaths.length &gt; <span class="branch-0 cbranch-no" title="branch not covered" >0 &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;tr className="used-by-row"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;th className="u-text--muted used-by-row-header"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Icon name="units" className="icon" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              {pluralize("Other", otherPaths.length)} ({otherPaths.length})</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/th&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;td&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;ExpandableList</span>
-<span class="cstat-no" title="statement not covered" >                items={otherPaths.map((path) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div key={path}&gt;{path}&lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                ))}</span>
-<span class="cstat-no" title="statement not covered" >              /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/td&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/tr&gt;</span>
+        {otherPaths.length &gt; 0 &amp;&amp; (
+          &lt;tr className="used-by-row"&gt;
+            &lt;th className="u-text--muted used-by-row-header"&gt;
+              &lt;Icon name="units" className="icon" /&gt;
+              {pluralize("Other", otherPaths.length)} ({otherPaths.length})
+            &lt;/th&gt;
+            &lt;td&gt;
+              &lt;ExpandableList
+                items={otherPaths.map((path) =&gt; (
+                  &lt;div key={path}&gt;{path}&lt;/div&gt;
+                ))}
+              /&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
         )}
       &lt;/tbody&gt;
     &lt;/table&gt;
@@ -205,7 +205,7 @@ export default ClusterLinkUsedBy;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-29T19:16:43.089Z
+                at 2026-10-01T18:22:12.191Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55% </span>
+                <span class="strong">52.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>88/160</span>
+                <span class='fraction'>81/153</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55% </span>
+                <span class="strong">52.94% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>88/160</span>
+                <span class='fraction'>81/153</span>
             </div>
         
             
@@ -216,29 +216,23 @@
 <a name='L151'></a><a href='#L151'>151</a>
 <a name='L152'></a><a href='#L152'>152</a>
 <a name='L153'></a><a href='#L153'>153</a>
-<a name='L154'></a><a href='#L154'>154</a>
-<a name='L155'></a><a href='#L155'>155</a>
-<a name='L156'></a><a href='#L156'>156</a>
-<a name='L157'></a><a href='#L157'>157</a>
-<a name='L158'></a><a href='#L158'>158</a>
-<a name='L159'></a><a href='#L159'>159</a>
-<a name='L160'></a><a href='#L160'>160</a>
-<a name='L161'></a><a href='#L161'>161</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
+<a name='L154'></a><a href='#L154'>154</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">65x</span>
@@ -340,13 +334,6 @@
 <span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">135x</span>
-<span class="cline-any cline-yes">135x</span>
-<span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-yes">135x</span>
 <span class="cline-any cline-yes">135x</span>
@@ -380,12 +367,12 @@
 <span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type FC, type KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Icon, Input } from "@canonical/react-components";
+import Breadcrumb from "components/Breadcrumb";
 import type { LxdInstance } from "types/instance";
 import {
   getFileExplorerDirectoryURL,
@@ -497,47 +484,39 @@ const FileExplorerBreadcrumb: FC&lt;Props&gt; = ({ currentPath, instance }) =&gt
 &nbsp;
   return (
     &lt;div className="file-explorer-breadcrumb-bar"&gt;
-      &lt;nav
-        className="p-breadcrumbs p-breadcrumbs--large"
-        aria-label="File Explorer Path"
-      &gt;
-        &lt;ol className="p-breadcrumbs__items breadcrumb-wrapper"&gt;
-          &lt;li className="p-heading--5 breadcrumb-header"&gt;Directory:&amp;nbsp;&lt;/li&gt;
-          {breadcrumbs.map((crumb, index) =&gt; {
-            const isCurrentDirectory = index === breadcrumbs.length - 1;
+      &lt;Breadcrumb ariaLabel="File Explorer Path"&gt;
+        &lt;li className="p-heading--5 breadcrumb-header"&gt;Directory:&amp;nbsp;&lt;/li&gt;
+        {breadcrumbs.map((crumb, index) =&gt; {
+          const isCurrentDirectory = index === breadcrumbs.length - 1;
 &nbsp;
-            return (
-              &lt;li
-                key={crumb.path}
-                className="p-heading--5 continuous-breadcrumb"
-              &gt;
-                {isCurrentDirectory ? (
-                  &lt;span&gt;{crumb.label}&lt;/span&gt;
-                ) : (
-                  &lt;Link to={getFileExplorerDirectoryURL(crumb.path, instance)}&gt;
-                    {crumb.label}
-                  &lt;/Link&gt;
-                )}
-              &lt;/li&gt;
-            );
-          })}
-          &lt;li&gt;
-            &lt;Button
-              appearance="base"
-              className="u-no-margin--bottom"
-              onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                setPath(currentPath);</span>
-<span class="cstat-no" title="statement not covered" >                setIsEditing(true);</span>
-<span class="cstat-no" title="statement not covered" >              }}</span>
-              title="Search path"
-              aria-label="Search path"
-              hasIcon
-            &gt;
-              &lt;Icon name="search" /&gt;
-            &lt;/Button&gt;
-          &lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/nav&gt;
+          return (
+            &lt;li key={crumb.path} className="p-heading--5 continuous-breadcrumb"&gt;
+              {isCurrentDirectory ? (
+                &lt;span&gt;{crumb.label}&lt;/span&gt;
+              ) : (
+                &lt;Link to={getFileExplorerDirectoryURL(crumb.path, instance)}&gt;
+                  {crumb.label}
+                &lt;/Link&gt;
+              )}
+            &lt;/li&gt;
+          );
+        })}
+        &lt;li&gt;
+          &lt;Button
+            appearance="base"
+            className="u-no-margin--bottom"
+            onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              setPath(currentPath);</span>
+<span class="cstat-no" title="statement not covered" >              setIsEditing(true);</span>
+<span class="cstat-no" title="statement not covered" >            }}</span>
+            title="Search path"
+            aria-label="Search path"
+            hasIcon
+          &gt;
+            &lt;Icon name="search" /&gt;
+          &lt;/Button&gt;
+        &lt;/li&gt;
+      &lt;/Breadcrumb&gt;
     &lt;/div&gt;
   );
 };
@@ -550,7 +529,7 @@ export default FileExplorerBreadcrumb;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-29T19:16:43.089Z
+                at 2026-10-01T18:22:12.191Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
