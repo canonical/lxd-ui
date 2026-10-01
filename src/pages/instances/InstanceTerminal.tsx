@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState, type FC } from "react";
-import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
+import {
+  Link,
+  unstable_usePrompt as usePrompt,
+  useParams,
+} from "react-router-dom";
 import { FitAddon } from "@xterm/addon-fit";
 import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
@@ -22,7 +26,7 @@ import {
 } from "@canonical/react-components";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
-import { getDefaultPayload } from "util/instanceTerminal";
+import { getDefaultPayload, isAgentLikelyMissing } from "util/instanceTerminal";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
 
 const XTERM_OPTIONS = {
@@ -145,6 +149,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
 
   const isRunning = isInstanceRunning(instance);
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
+  const isAgentMissing = isAgentLikelyMissing(instance);
   const canConnect = isRunning && !isBooting;
   const displayConsole = canConnect || controlWs !== null;
   const canExec = canExecInstance(instance);
@@ -310,7 +315,26 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           )}
         </>
       )}
-      {!displayConsole && (
+      {!displayConsole && isAgentMissing && (
+        <EmptyState
+          className="empty-state"
+          image={<Icon name="pods" className="empty-state-icon" />}
+          title="Waiting for the LXD agent"
+        >
+          <p>
+            The terminal will be ready once the LXD agent is running in the
+            instance. Instances without the LXD agent, such as Windows virtual
+            machines, can be accessed through the console.
+          </p>
+          <Link
+            className="p-button--positive"
+            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/console`}
+          >
+            Open console
+          </Link>
+        </EmptyState>
+      )}
+      {!displayConsole && !isAgentMissing && (
         <EmptyState
           className="empty-state"
           image={<Icon name="pods" className="empty-state-icon" />}
