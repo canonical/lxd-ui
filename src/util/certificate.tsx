@@ -26,7 +26,7 @@ const details = [
   },
 ];
 
-const generateCert = (password: string) => {
+export const generateCert = (password: string) => {
   const validDays = 1000;
 
   const keys = forge.pki.rsa.generateKeyPair(2048);
@@ -40,7 +40,8 @@ const generateCert = (password: string) => {
   );
   cert.setSubject(details);
   cert.setIssuer(details);
-  cert.sign(keys.privateKey);
+  // forge defaults to sha1, which is deprecated for certificate signatures
+  cert.sign(keys.privateKey, forge.md.sha384.create());
 
   const crt = forge.pki.certificateToPem(cert);
 
