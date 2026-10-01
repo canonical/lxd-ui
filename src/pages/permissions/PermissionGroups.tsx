@@ -29,6 +29,7 @@ import { useAuthGroups } from "context/useAuthGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import DocLink from "components/DocLink";
+import GroupAdditionalIdpIdentities from "pages/permissions/GroupAdditionalIdpIdentities";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -118,15 +119,18 @@ const PermissionGroups: FC = () => {
         },
         {
           content: (
-            <Button
-              appearance="link"
-              dense
-              onClick={() => {
-                panelParams.openEditGroup(group.name, "identity");
-              }}
-            >
-              {allIdentityIds.length}
-            </Button>
+            <>
+              <Button
+                appearance="link"
+                dense
+                onClick={() => {
+                  panelParams.openEditGroup(group.name, "identity");
+                }}
+              >
+                {allIdentityIds.length}
+              </Button>
+              <GroupAdditionalIdpIdentities group={group} />
+            </>
           ),
           role: "cell",
           className: "u-align--right identities",
