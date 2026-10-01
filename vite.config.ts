@@ -33,6 +33,10 @@ export default defineConfig({
         api: "modern-compiler",
         silenceDeprecations: ["global-builtin", "import", "if-function"],
         additionalData: scssSettings,
+        loadPaths: [
+          "node_modules",
+          "node_modules/@canonical/styles-vanilla-adapter/src",
+        ],
       },
     },
   },
