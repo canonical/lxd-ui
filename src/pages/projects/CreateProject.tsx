@@ -39,7 +39,10 @@ import { useProfile } from "context/useProfiles";
 import { useAuth } from "context/auth";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import type { ProjectFormValues } from "types/forms/project";
-import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
+import {
+  imageRestrictionPayload,
+  validateImageRestriction,
+} from "pages/projects/forms/ImageRestrictionForm";
 import { replicaPayload } from "pages/projects/forms/ProjectReplicaForm";
 
 const CreateProject: FC = () => {
@@ -109,6 +112,7 @@ const CreateProject: FC = () => {
     },
     enableReinitialize: true,
     validationSchema: ProjectSchema,
+    validate: validateImageRestriction,
     onSubmit: (values) => {
       const restrictions = values.restricted
         ? {

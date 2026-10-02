@@ -109,7 +109,7 @@ const ImageRegistryImages: FC<Props> = ({ imageRegistry }) => {
       )}
       <ImageTable
         images={filteredImages}
-        imageRegistryName={imageRegistry.name}
+        imageRegistry={imageRegistry}
         supportedArchitectures={supportedArchitectures}
       />
     </>

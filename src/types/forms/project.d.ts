@@ -68,6 +68,8 @@ export interface NetworkRestrictionFormValues {
   restricted_network_zones?: string;
 }
 
+export type RegistryRestrictionMode = "builtin" | "allow" | "block" | "custom";
+
 export interface ImageRestrictionFormValues {
   restricted_registries?: string;
 }

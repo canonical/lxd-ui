@@ -9,6 +9,53 @@ import {
   fetchRegistryImages,
 } from "api/image-registries";
 import type { LxdProject } from "types/project";
+import type { RegistryRestrictionMode } from "types/forms/project";
+
+export const REGISTRY_KEYWORD_BUILTIN = "builtin";
+export const REGISTRY_KEYWORD_ALLOW = "allow";
+export const REGISTRY_KEYWORD_BLOCK = "block";
+
+export const getRegistryRestrictionMode = (
+  value?: string,
+): RegistryRestrictionMode => {
+  if (!value || value === REGISTRY_KEYWORD_BUILTIN) {
+    return "builtin";
+  }
+  if (value === REGISTRY_KEYWORD_ALLOW) {
+    return "allow";
+  }
+  if (value === REGISTRY_KEYWORD_BLOCK) {
+    return "block";
+  }
+  return "custom";
+};
+
+export const isRegistryAllowedInProject = (
+  registry: Pick<LxdImageRegistry, "name" | "builtin">,
+  project?: LxdProject | null,
+): boolean => {
+  if (project?.config.restricted !== "true") {
+    return true;
+  }
+
+  const value = project.config["restricted.registries"];
+  const mode = getRegistryRestrictionMode(value);
+  if (mode === "allow") {
+    return true;
+  }
+  if (mode === "block") {
+    return false;
+  }
+  if (mode === "builtin") {
+    return registry.builtin;
+  }
+
+  const allowed = (value ?? "").split(",").map((item) => item.trim());
+  return (
+    allowed.includes(registry.name) ||
+    (registry.builtin && allowed.includes(REGISTRY_KEYWORD_BUILTIN))
+  );
+};
 
 // fetch image registries and images from all configured registries
 export const loadImagesFromAllRegistries = async (
@@ -17,16 +64,8 @@ export const loadImagesFromAllRegistries = async (
 ): Promise<RemoteImagesResult> => {
   const registries = await fetchImageRegistries(isFineGrained);
 
-  const isAllowedRegistry = (registry: LxdImageRegistry): boolean => {
-    const isProjectRestricted = project?.config["restricted"];
-    if (!isProjectRestricted) {
-      return true;
-    }
-
-    const allowedRegistries =
-      project?.config["restricted.registries"]?.split(",") ?? [];
-    return allowedRegistries.includes(registry.name);
-  };
+  const isAllowedRegistry = (registry: LxdImageRegistry): boolean =>
+    isRegistryAllowedInProject(registry, project);
 
   const imagesByRegistry: Record<string, RemoteImage[]> = {};
   const imageRequests = await Promise.allSettled(
