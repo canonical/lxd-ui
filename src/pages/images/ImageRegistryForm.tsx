@@ -95,7 +95,16 @@ export const ImageRegistryForm: FC<Props> = ({ formik }) => {
             label="Source project"
             placeholder="Enter source project"
             error={getFieldError("sourceProject")}
-            help="Project with images on the remote cluster."
+            help={
+              <>
+                Project with images on the remote cluster. The{" "}
+                <code>default</code> project can contain public and private
+                images. Other projects contain only private images. To view
+                private images, the cluster link selected above must have
+                authentication group(s) with permissions to view images in this
+                project.
+              </>
+            }
           />
         </>
       )}

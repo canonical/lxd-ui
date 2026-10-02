@@ -1,10 +1,19 @@
-import { expect } from "../fixtures/lxd-test";
+import { expect, test, type LxdVersions } from "../fixtures/lxd-test";
 import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
 import { getRemoteClusterVm } from "./cluster";
+
+export const skipIfUnidirectionalClusterLinksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Unidirectional cluster links are not available",
+  );
+};
 
 export const DELETE_ALL_CLUSTER_LINKS_COMMAND =
   "lxc cluster link list --format csv | cut -d, -f1 | xargs -r -n1 lxc cluster link delete";
@@ -135,6 +144,6 @@ export const createIdentityOnRemoteCluster = (link: string) => {
 export const deleteIdentityOnRemoteCluster = (link: string) => {
   const remoteVm = getRemoteClusterVm();
   runCommand(
-    `lxc exec ${remoteVm} -- sh -c 'lxc auth identity delete tls/${link}'`,
+    `lxc exec ${remoteVm} -- sh -c 'lxc auth identity delete cluster-link/${link}'`,
   );
 };
