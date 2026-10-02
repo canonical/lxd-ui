@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
+import { InlineCode } from "@canonical/react-ds-global";
 import { conjugateACLAction } from "util/helpers";
 import type { Direction } from "./NetworkDefaultACLSelector";
 
@@ -15,11 +16,11 @@ const NetworkDefaultACLRead: FC<{
       <br />
       <Icon name="arrow-left" className="network-default-acl-icon" />
       Egress traffic is:{" "}
-      <code>{conjugateACLAction(egressAction || "reject")}</code>
+      <InlineCode>{conjugateACLAction(egressAction || "reject")}</InlineCode>
       <br />
       <Icon name="arrow-right" className="network-default-acl-icon" />
       Ingress traffic is:{" "}
-      <code>{conjugateACLAction(ingressAction || "reject")}</code>
+      <InlineCode>{conjugateACLAction(ingressAction || "reject")}</InlineCode>
     </div>
   );
 };
