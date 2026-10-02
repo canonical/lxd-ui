@@ -580,3 +580,10 @@ body.is-dark .lxd-icon {
     background-color: $colors--theme--background-default;
   }
 }
+
+.p-notification__content {
+  .p-notification__title {
+    font-variant-caps: normal;
+    letter-spacing: normal;
+  }
+}
