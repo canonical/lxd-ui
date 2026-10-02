@@ -1,12 +1,13 @@
 import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, EmptyState, Icon } from "@canonical/react-components";
+import { Button, EmptyState } from "@canonical/react-components";
 import classnames from "classnames";
 import DocLink from "components/DocLink";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useProject } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   className?: string;
@@ -27,7 +28,7 @@ const InstanceEmptyState: FC<Props> = ({ className }) => {
   return (
     <EmptyState
       className={classnames("empty-state", className)}
-      image={<Icon name="pods" className="empty-state-icon" />}
+      image={<DsIcon icon="pods" className="empty-state-icon" />}
       title="No instances found"
     >
       <p>

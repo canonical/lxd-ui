@@ -1,8 +1,9 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import EditVolumeSnapshotForm from "pages/storage/forms/EditVolumeSnapshotForm";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -47,7 +48,7 @@ const VolumeEditSnapshotBtn: FC<Props> = ({
             : "You do not have permission to edit this snapshot"
         }
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Button>
     </>
   );

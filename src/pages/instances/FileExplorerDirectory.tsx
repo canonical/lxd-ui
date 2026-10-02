@@ -1,8 +1,8 @@
-import { Icon } from "@canonical/react-components";
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import { getFileExplorerDirectoryURL, getFullPath } from "util/instances";
+import DsIcon from "components/DsIcon";
 
 const FileExplorerDirectory: FC<{
   dirName: string;
@@ -16,7 +16,7 @@ const FileExplorerDirectory: FC<{
       to={getFileExplorerDirectoryURL(fullPath, instance)}
       className="file-explorer-item"
     >
-      <Icon name="folder" />
+      <DsIcon icon="folder" />
       <span className="file-explorer-item__name" title={dirName}>
         {dirName}
       </span>

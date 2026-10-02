@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -15,6 +14,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";
 import { useNavigate } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   bucket: LxdStorageBucket;
@@ -120,7 +120,7 @@ const DeleteStorageBucketBtn: FC<Props> = ({
           : "You do not have permission to delete this bucket."
       }
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       {isDetailPage && <span>Delete</span>}
     </ConfirmationButton>
   );

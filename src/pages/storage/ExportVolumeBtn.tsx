@@ -1,11 +1,12 @@
 import type { FC } from "react";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import classNames from "classnames";
 import type { LxdStorageVolume } from "types/storage";
 import ExportVolumeModal from "./forms/ExportVolumeModal";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isBackupDisabled } from "util/snapshots";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -50,7 +51,7 @@ const ExportVolumeBtn: FC<Props> = ({ volume, classname, onClose }) => {
         title={getTitle()}
         disabled={!canManageVolumeBackups(volume) || backupDisabled}
       >
-        <Icon name="export" />
+        <DsIcon icon="export" />
         <span>Export</span>
       </Button>
     </>

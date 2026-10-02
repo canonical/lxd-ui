@@ -4,7 +4,6 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -13,6 +12,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { useClusterLinkEntitlements } from "util/entitlements/cluster-links";
 import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ClusterLinkUsedBy from "pages/cluster/ClusterLinkUsedBy";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   clusterLink: LxdClusterLink;
@@ -87,7 +87,7 @@ const DeleteClusterLinkBtn: FC<Props> = ({ clusterLink }) => {
       shiftClickEnabled={!isInUse}
       showShiftClickHint={!isInUse}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

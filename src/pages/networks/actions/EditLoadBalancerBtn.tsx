@@ -1,11 +1,12 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { LxdNetwork } from "types/network";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { Link } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdLoadBalancer } from "types/loadBalancers";
 import { isLegacyLoadBalancer } from "util/loadBalancers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -33,7 +34,7 @@ const EditLoadBalancerBtn: FC<Props> = ({ network, loadBalancer, project }) => {
         }
         disabled
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Button>
     );
   }
@@ -44,7 +45,7 @@ const EditLoadBalancerBtn: FC<Props> = ({ network, loadBalancer, project }) => {
       to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/load-balancers/${encodeURIComponent(loadBalancer.listen_address)}/edit`}
       title="Edit load balancer"
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
     </Link>
   );
 };

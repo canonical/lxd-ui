@@ -1,5 +1,5 @@
 import type { FC, MouseEvent, ReactNode } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useModal } from "context/useModal";
 import ResourceLink from "components/ResourceLink";
 import type { CloudInitKey } from "types/forms/instanceAndProfile";
@@ -11,6 +11,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useLocation } from "react-router-dom";
 import ResourceLabel from "components/ResourceLabel";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const LABELS: Record<CloudInitKey, string> = {
   cloud_init_network_config: "cloud-init network config",
@@ -134,7 +135,7 @@ const CloudInitExpandButton: FC<Props> = ({
       hasIcon
       className={classnames("u-no-margin--bottom", className)}
     >
-      <Icon name="fullscreen" className="full-screen-icon" />
+      <DsIcon icon="fullscreen" className="full-screen-icon" />
     </Button>
   );
 };

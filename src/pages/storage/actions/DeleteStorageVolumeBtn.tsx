@@ -2,16 +2,13 @@ import { useState, type FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import {
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, useNotify } from "@canonical/react-components";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { deleteStorageVolume } from "api/storage-volumes";
 import classNames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import { useEventQueue } from "context/eventQueue";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -137,7 +134,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
           : "You do not have permission to delete this volume."
       }
     >
-      {hasIcon && <Icon name="delete" />}
+      {hasIcon && <DsIcon icon="delete" />}
       {label && <span>{label}</span>}
     </ConfirmationButton>
   );
