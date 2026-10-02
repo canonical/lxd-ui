@@ -38,6 +38,7 @@ export interface LxdImageRegistry {
   name: string;
   description: string;
   protocol: LxdImageRegistryProtocol;
+  public: boolean;
   builtin: boolean;
   config?: LxdImageRegistryConfig;
   access_entitlements?: string[];
@@ -45,7 +46,6 @@ export interface LxdImageRegistry {
 
 export interface LxdImageRegistryConfig {
   url?: string;
-  public?: string;
   cluster?: string;
   source_project?: string;
 }
