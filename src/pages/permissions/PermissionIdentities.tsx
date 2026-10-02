@@ -174,14 +174,14 @@ const PermissionIdentities: FC = () => {
           ),
           role: "rowheader",
           "aria-label": "Name",
-          className: "u-truncate",
+          className: "u-truncate name",
           title: name,
         },
         {
           content: identity.id,
           role: "cell",
           "aria-label": "ID",
-          className: "u-truncate identity-id",
+          className: "u-truncate",
           title: identity.id,
         },
         {

@@ -34,6 +34,10 @@
     .expires {
       white-space: normal;
     }
+
+    .name:not(:has(.tag)) .resource-label {
+      max-width: 100%;
+    }
   }
 
   @media screen and (width < 500px) {
