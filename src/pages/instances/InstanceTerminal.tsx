@@ -26,7 +26,7 @@ import {
 } from "@canonical/react-components";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
-import { getDefaultPayload, isAgentLikelyMissing } from "util/instanceTerminal";
+import { getDefaultPayload } from "util/instanceTerminal";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
 
 const XTERM_OPTIONS = {
@@ -149,7 +149,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
 
   const isRunning = isInstanceRunning(instance);
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
-  const isAgentMissing = isAgentLikelyMissing(instance);
+  const isWaitingForAgent = isBooting && instance.type === "virtual-machine";
   const canConnect = isRunning && !isBooting;
   const displayConsole = canConnect || controlWs !== null;
   const canExec = canExecInstance(instance);
@@ -315,26 +315,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           )}
         </>
       )}
-      {!displayConsole && isAgentMissing && (
-        <EmptyState
-          className="empty-state"
-          image={<Icon name="pods" className="empty-state-icon" />}
-          title="Waiting for the LXD agent"
-        >
-          <p>
-            The terminal will be ready once the LXD agent is running in the
-            instance. Instances without the LXD agent, such as Windows virtual
-            machines, can be accessed through the console.
-          </p>
-          <Link
-            className="p-button--positive"
-            to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/console`}
-          >
-            Open console
-          </Link>
-        </EmptyState>
-      )}
-      {!displayConsole && !isAgentMissing && (
+      {!displayConsole && (
         <EmptyState
           className="empty-state"
           image={<Icon name="pods" className="empty-state-icon" />}
@@ -345,6 +326,18 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
               ? "Terminal will be ready once the instance has finished booting."
               : "Start the instance to access the terminal."}
           </p>
+          {isWaitingForAgent && (
+            <p>
+              The terminal needs the LXD agent running in the instance. For
+              instances without the agent, such as Windows, use the{" "}
+              <Link
+                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/console`}
+              >
+                console
+              </Link>{" "}
+              instead.
+            </p>
+          )}
           <StartInstanceBtn
             instance={instance}
             appearance="positive"
