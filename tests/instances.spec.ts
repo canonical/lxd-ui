@@ -54,6 +54,9 @@ import { gotoURL } from "./helpers/navigate";
 import { execSync } from "child_process";
 import { rmSync } from "fs";
 import { dismissNotification } from "./helpers/notification";
+import { getLxcCmd } from "./helpers/auth";
+import { runCommand } from "./helpers/shell";
+import { searchEntityListPage } from "./helpers/search";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -280,6 +283,25 @@ test("instance edit user keys", async ({ page }) => {
 
   await page.getByTestId("tab-link-Overview").click();
   await expect(userKeyRow(page, "maintainer", "alice")).toBeHidden();
+});
+
+test("instance search by user key", async ({ page }) => {
+  const lxc = getLxcCmd();
+  runCommand(`${lxc} config set ${instance} user.team blue`);
+
+  await gotoURL(page, "/ui/project/default");
+  await searchEntityListPage(page, "user.team=blue");
+  await expect(
+    page.getByRole("link", { name: instance }).first(),
+  ).toBeVisible();
+
+  await gotoURL(page, "/ui/project/default");
+  await searchEntityListPage(page, "user.team=red");
+  await expect(
+    page.getByText("No instance found matching this search"),
+  ).toBeVisible();
+
+  runCommand(`${lxc} config unset ${instance} user.team`);
 });
 
 test("instance create vm with boot.mode", async ({ page }) => {
