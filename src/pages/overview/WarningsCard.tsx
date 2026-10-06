@@ -51,7 +51,7 @@ const WarningsCard: FC = () => {
     );
   }
 
-  if (error) {
+  if (error && canViewWarnings()) {
     return renderOverviewCard(
       cardClassName,
       cardTitle,
@@ -63,19 +63,7 @@ const WarningsCard: FC = () => {
     );
   }
 
-  if (!canViewWarnings()) {
-    return renderOverviewCard(
-      cardClassName,
-      cardTitle,
-      <div className="error-message">
-        <Icon name="error" className="margin-right--large" /> You do not have
-        permission to view warnings.
-      </div>,
-      footerLink,
-    );
-  }
-
-  if (newWarnings.length === 0) {
+  if (newWarnings.length === 0 || !canViewWarnings()) {
     return renderOverviewCard(
       cardClassName,
       cardTitle,
