@@ -18,7 +18,6 @@ import {
   createProject,
   openProjectConfiguration,
   assertProjectReplicaMode,
-  promoteProjectToLeader,
   deleteProject,
 } from "./projects";
 import { createInstance } from "./instances";
@@ -57,9 +56,8 @@ export const setupProjectsForReplicator = async (
   await createClusterLinkBidirectional(page, clusterLink, token);
   await setClusterForProject(page, clusterLink, project);
 
-  // Create standby project & promote to leader
+  // Create standby project
   createStandbyProjectOnRemoteCluster(project, clusterLink);
-  await promoteProjectToLeader(page, project);
 };
 
 export const createReplicator = async (

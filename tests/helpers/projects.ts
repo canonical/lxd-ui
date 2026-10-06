@@ -79,12 +79,8 @@ export const confirmDelete = async (page: Page, project: string) => {
 };
 
 export const deleteProject = async (page: Page, project: string) => {
-  await gotoURL(page, "/ui/");
-  await page.waitForLoadState("networkidle");
-  await page.getByRole("button", { name: "default" }).click();
-  await page.getByRole("link", { name: project }).click();
-  await page.waitForLoadState("networkidle");
-  await page.getByRole("link", { name: "Configuration" }).click();
+  await visitProject(page, project);
+  await openProjectConfiguration(page);
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByRole("dialog", { name: "Confirm delete" }).waitFor();
 
@@ -92,6 +88,9 @@ export const deleteProject = async (page: Page, project: string) => {
 };
 
 export const promoteProjectToLeader = async (page: Page, project: string) => {
+  await visitProject(page, project);
+  await openProjectConfiguration(page);
+  await page.getByText("Replication").click();
   await page.getByRole("button", { name: "Promote to leader" }).click();
   const confirmButton = page
     .getByRole("dialog", { name: "Confirm promote" })
@@ -137,4 +136,12 @@ export const assertProjectReplicaMode = async (
 export const saveProjectConfiguration = async (page: Page, project: string) => {
   await page.getByRole("button").filter({ hasText: "Save" }).click();
   await dismissNotification(page, `Project ${project} updated.`);
+};
+
+const visitProject = async (page: Page, project: string) => {
+  await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
+  await page.getByRole("button", { name: "default" }).click();
+  await page.getByRole("link", { name: project }).click();
+  await page.waitForLoadState("networkidle");
 };

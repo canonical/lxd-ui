@@ -10,6 +10,43 @@ import {
 } from "api/image-registries";
 import type { LxdProject } from "types/project";
 
+export const REGISTRY_KEYWORDS = {
+  ALLOW: "allow",
+  BLOCK: "block",
+  BUILTIN: "builtin",
+} as const;
+
+export const isRegistryAllowedInProject = (
+  registry: Pick<LxdImageRegistry, "name" | "builtin">,
+  project?: LxdProject | null,
+): boolean => {
+  const isProjectRestricted =
+    project?.config["restricted"] && project?.config["restricted"] !== "false";
+
+  if (!isProjectRestricted) {
+    return true;
+  }
+
+  const rawRegistries = project?.config["restricted.registries"] ?? "builtin";
+
+  if (rawRegistries === REGISTRY_KEYWORDS.ALLOW) {
+    return true;
+  }
+
+  if (rawRegistries === REGISTRY_KEYWORDS.BLOCK) {
+    return false;
+  }
+
+  const allowedList = rawRegistries.split(",").map((item) => item.trim());
+
+  const allowsBuiltIn = allowedList.includes(REGISTRY_KEYWORDS.BUILTIN);
+  if (allowsBuiltIn && registry.builtin) {
+    return true;
+  }
+
+  return allowedList.includes(registry.name);
+};
+
 // fetch image registries and images from all configured registries
 export const loadImagesFromAllRegistries = async (
   isFineGrained: boolean,
@@ -17,47 +54,35 @@ export const loadImagesFromAllRegistries = async (
 ): Promise<RemoteImagesResult> => {
   const registries = await fetchImageRegistries(isFineGrained);
 
-  const isAllowedRegistry = (registry: LxdImageRegistry): boolean => {
-    const isProjectRestricted =
-      project?.config["restricted"] &&
-      project?.config["restricted"] !== "false";
-
-    if (!isProjectRestricted) {
-      return true;
-    }
-
-    const allowedRegistries =
-      project?.config["restricted.registries"]?.split(",") ?? [];
-    return allowedRegistries.includes(registry.name);
-  };
-
   const imagesByRegistry: Record<string, RemoteImage[]> = {};
   const imageRequests = await Promise.allSettled(
-    registries.filter(isAllowedRegistry).map(async (registry) => {
-      const registryImages = await fetchRegistryImages(
-        registry.name,
-        isFineGrained,
-      );
+    registries
+      .filter((registry) => isRegistryAllowedInProject(registry, project))
+      .map(async (registry) => {
+        const registryImages = await fetchRegistryImages(
+          registry.name,
+          isFineGrained,
+        );
 
-      imagesByRegistry[registry.name] = registryImages
-        .filter((image) => {
-          return !(registry.builtin && image.aliases === null);
-        })
-        .map((image) => {
-          const item = localLxdToRemoteImage(image);
-          const ltsAlias = image.aliases?.find((a) => a.name === "lts");
+        imagesByRegistry[registry.name] = registryImages
+          .filter((image) => {
+            return !(registry.builtin && image.aliases === null);
+          })
+          .map((image) => {
+            const item = localLxdToRemoteImage(image);
+            const ltsAlias = image.aliases?.find((a) => a.name === "lts");
 
-          return {
-            ...item,
-            isLts: ltsAlias !== undefined,
-            registryBuiltIn: registry.builtin,
-            registryName: registry.name,
-            server: registry.config?.url,
-            title: item.os + item.release_title + item.release + item.server,
-          };
-        })
-        .sort(byOSRelease);
-    }),
+            return {
+              ...item,
+              isLts: ltsAlias !== undefined,
+              registryBuiltIn: registry.builtin,
+              registryName: registry.name,
+              server: registry.config?.url,
+              title: item.os + item.release_title + item.release + item.server,
+            };
+          })
+          .sort(byOSRelease);
+      }),
   );
 
   // if any image request failed, throw

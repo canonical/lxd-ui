@@ -82,6 +82,7 @@ test("project replication configuration", async ({
   // Create & edit replicator
   const replicator = randomReplicatorName();
   await createReplicator(page, replicator, clusterLink, project);
+  await promoteProjectToLeader(page, project);
   const replicatorRow = page.getByRole("row").filter({ hasText: replicator });
 
   await replicatorRow.getByRole("button", { name: "Edit replicator" }).click();
