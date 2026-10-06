@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import { ConfirmationButton } from "@canonical/react-components";
 import type { IdpGroup } from "types/permissions";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { useDeleteIdpGroups } from "util/permissionIdpGroups";
 import ResourceLabel from "components/ResourceLabel";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   idpGroup: IdpGroup;
@@ -47,7 +48,7 @@ const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
         ),
       }}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

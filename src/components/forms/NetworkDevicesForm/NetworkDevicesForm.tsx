@@ -1,5 +1,5 @@
 import { useEffect, type FC } from "react";
-import { Button, Icon, Spinner, useNotify } from "@canonical/react-components";
+import { Button, Spinner, useNotify } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { getInheritedNetworks } from "util/configInheritance";
 import { useNetworks } from "context/useNetworks";
@@ -8,6 +8,7 @@ import NetworkDeviceFormInherited from "components/forms/NetworkDevicesForm/read
 import NetworkDeviceFormCustom from "components/forms/NetworkDevicesForm/read/NetworkDeviceFormCustom";
 import ScrollableForm from "components/ScrollableForm";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -70,7 +71,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
           disabled={!!formik.values.editRestriction}
           title={formik.values.editRestriction}
         >
-          <Icon name="plus" />
+          <DsIcon icon="plus" />
           <span>Attach network</span>
         </Button>
       </ScrollableForm>

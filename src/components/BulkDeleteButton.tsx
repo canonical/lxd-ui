@@ -2,11 +2,11 @@ import type { FC, ReactNode } from "react";
 import { pluralize } from "util/helpers";
 import {
   ConfirmationButton,
-  Icon,
   type ConfirmationButtonProps,
 } from "@canonical/react-components";
 import classnames from "classnames";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   entities: unknown[];
@@ -90,7 +90,7 @@ const BulkDeleteButton: FC<Props> = ({
         onConfirm: onDelete,
       }}
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
       <span className="u-hide--small">{buttonLabel}</span>
     </ConfirmationButton>
   );

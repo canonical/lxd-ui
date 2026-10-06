@@ -1,8 +1,9 @@
 import { useState, type FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { TerminalConnectPayload } from "types/terminal";
 import TerminalPayloadForm from "../TerminalPayloadForm";
 import type { LxdInstance } from "types/instance";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   payload: TerminalConnectPayload;
@@ -37,7 +38,7 @@ const ReconnectTerminalBtn: FC<Props> = ({ payload, reconnect, instance }) => {
         />
       )}
       <Button className="u-no-margin--bottom" hasIcon onClick={openModal}>
-        <Icon name="connected" />
+        <DsIcon icon="connected" />
         <span>Reconnect</span>
       </Button>
     </>

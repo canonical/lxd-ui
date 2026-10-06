@@ -1,11 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import {
-  Button,
-  Icon,
-  useListener,
-  useNotify,
-} from "@canonical/react-components";
+import { Button, useListener, useNotify } from "@canonical/react-components";
 import classnames from "classnames";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import {
@@ -14,6 +9,7 @@ import {
 } from "context/useIsScreenBelow";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { hasPrefixValue } from "util/formFields";
+import DsIcon from "components/DsIcon";
 import {
   isDiskDevice,
   isGPUDevice,
@@ -100,7 +96,7 @@ const InstanceFormMenu: FC<Props> = ({
             setMenuExpanded(!isMenuExpanded);
           }}
         >
-          <Icon name={isMenuExpanded ? "chevron-left" : "chevron-right"} />
+          <DsIcon icon={isMenuExpanded ? "chevron-left" : "chevron-right"} />
         </Button>
       )}
       {(!isMediumScreen || isMenuExpanded) && (

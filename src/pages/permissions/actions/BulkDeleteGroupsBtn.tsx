@@ -1,9 +1,10 @@
 import { useState, type FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { LxdAuthGroup } from "types/permissions";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { pluralize } from "util/helpers";
 import { useGroupEntitlements } from "util/entitlements/groups";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -38,7 +39,7 @@ const BulkDeleteGroupsBtn: FC<Props> = ({ groups, className, onDelete }) => {
         hasIcon
         disabled={!deletableGroups.length}
       >
-        <Icon name="delete" />
+        <DsIcon icon="delete" />
         <span>{`Delete ${groups.length} ${pluralize("group", groups.length)}`}</span>
       </Button>
       {confirming && (

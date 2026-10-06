@@ -1,10 +1,15 @@
 import { Button, Icon } from "@canonical/react-components";
+import type { IconName } from "@canonical/ds-assets";
 import type { FC, ReactNode } from "react";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
+
+// "storage-pool" and "devtools" have no ds-assets equivalent yet.
+type FormLinkIcon = IconName | "storage-pool" | "devtools";
 
 interface Props {
   title: ReactNode;
-  icon: string;
+  icon: FormLinkIcon;
   onClick: () => void;
   isModified?: boolean;
   subText?: ReactNode;
@@ -41,7 +46,11 @@ const FormLink: FC<Props> = ({
       title={onHoverText}
     >
       <span className="form-link__column">
-        <Icon name={icon} className="form-link__icon" />
+        {icon === "storage-pool" || icon === "devtools" ? (
+          <Icon name={icon} className="form-link__icon" />
+        ) : (
+          <DsIcon icon={icon} className="form-link__icon" />
+        )}
         <span className="form-link__title-wrapper">
           <span className="form-link__title">{title}</span>
           {subTextBelowTitle && subText && (
@@ -56,7 +65,7 @@ const FormLink: FC<Props> = ({
         {!subTextBelowTitle && (
           <span className="form-link__count u-text--muted">{subText}</span>
         )}
-        <Icon name="chevron-right" />
+        <DsIcon icon="chevron-right" />
       </span>
     </Button>
   );

@@ -162,12 +162,21 @@
   rotate: 90deg;
 }
 
+// The legacy vanilla storage-pool icon is a solid, full-weight glyph, while
+// its DsIcon siblings in the sidebar (networking, clustering, images,
+// permissions) are thin-stroke outlines. Dim the legacy icon so its visual
+// weight matches the rest of the sidebar icons. Issue is tracked in
+// WD-38790
+.p-icon--storage-pool.p-side-navigation__icon {
+  opacity: 0.6;
+}
+
 .accordion-nav-menu {
   align-items: center;
   display: flex;
   justify-content: space-between;
 
-  .p-icon--chevron-up {
+  .accordion-nav-chevron {
     margin-right: $sph--small;
   }
 
@@ -181,6 +190,24 @@
 
   &:hover {
     cursor: pointer;
+  }
+
+  // DsIcon siblings use `fill: currentColor`, so they automatically
+  // brighten along with the link's `color` transition on hover/active/
+  // selected states (see vanilla's %side-navigation__link placeholder).
+  // The legacy storage-pool icon's color is baked into a background-image
+  // and ignores `color`, so it needs its own opacity bump to reach full
+  // brightness in these same states, mirroring the same selector list
+  // vanilla uses for the link's own color change. Issue is tracked in
+  // WD-38790
+  &:hover,
+  &:active,
+  &.is-active,
+  &[aria-current="page"],
+  &[aria-current="true"] {
+    .p-icon--storage-pool.p-side-navigation__icon {
+      opacity: 1;
+    }
   }
 }
 

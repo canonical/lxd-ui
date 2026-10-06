@@ -1,7 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import {
   EmptyState,
-  Icon,
   List,
   Row,
   ScrollableTable,
@@ -35,6 +34,7 @@ import ImportImageBtn from "pages/images/actions/ImportImageBtn";
 import { useLocalImagesInProject } from "context/useImages";
 import { getArchitectureDisplayName } from "util/architectures";
 import { useImageEntitlements } from "util/entitlements/images";
+import DsIcon from "components/DsIcon";
 
 const LocalImageList: FC = () => {
   const notify = useNotify();
@@ -269,7 +269,7 @@ const LocalImageList: FC = () => {
         {images.length === 0 && (
           <EmptyState
             className="empty-state"
-            image={<Icon name="image" className="empty-state-icon" />}
+            image={<DsIcon icon="image" className="empty-state-icon" />}
             title="No local images found in this project"
           >
             <p>

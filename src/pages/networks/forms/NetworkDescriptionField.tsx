@@ -1,11 +1,12 @@
 import type { FC } from "react";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import { Button, Icon, Label } from "@canonical/react-components";
+import { Button, Label } from "@canonical/react-components";
 import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { FormikProps } from "formik/dist/types";
 import type { NetworkFormValues } from "types/forms/network";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   props?: Record<string, unknown>;
@@ -41,7 +42,7 @@ const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
               hasIcon
               disabled={!!formik.values.editRestriction}
             >
-              <Icon name="edit" />
+              <DsIcon icon="edit" />
             </Button>
           </>
         ) : (

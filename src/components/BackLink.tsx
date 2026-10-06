@@ -1,5 +1,6 @@
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { FC, MouseEventHandler, ReactNode } from "react";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   linkText: string;
@@ -19,7 +20,7 @@ const BackLink: FC<Props> = ({ linkText, title, onClick, onMouseDown }) => {
         appearance="link"
         className="p-heading--4"
       >
-        <Icon name="chevron-left" className="back-link-icon" />
+        <DsIcon icon="chevron-left" className="back-link-icon" />
         {linkText}
       </Button>
     </>

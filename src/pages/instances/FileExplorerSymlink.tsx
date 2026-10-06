@@ -1,13 +1,13 @@
 import { type FC, useState } from "react";
 import {
   Button,
-  Icon,
   Spinner,
   useToastNotification,
 } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import { fetchSymlinkContent, fetchInstanceFileHeader } from "api/instances";
+import DsIcon from "components/DsIcon";
 import {
   getFileExplorerDirectoryURL,
   getFileExplorerURL,
@@ -106,7 +106,7 @@ const FileExplorerSymlink: FC<Props> = ({ fileName, parentPath, instance }) => {
       }}
       disabled={isLoading}
     >
-      {isLoading ? <Spinner /> : <Icon name="connected" />}
+      {isLoading ? <Spinner /> : <DsIcon icon="connected" />}
       <span className="file-explorer-item__name" title={fileName}>
         {fileName}
       </span>

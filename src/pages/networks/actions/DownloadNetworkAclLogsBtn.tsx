@@ -1,13 +1,10 @@
 import type { FC } from "react";
 import type { LxdNetworkAcl } from "types/network";
-import {
-  Button,
-  Icon,
-  useToastNotification,
-} from "@canonical/react-components";
+import { Button, useToastNotification } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { fetchNetworkAclLog } from "api/network-acls";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   networkAcl: LxdNetworkAcl;
@@ -52,8 +49,13 @@ const DownloadNetworkAclLogsBtn: FC<Props> = ({ networkAcl, project }) => {
   };
 
   return (
-    <Button appearance="" type="button" onClick={startDownload} hasIcon>
-      {!isSmallScreen && <Icon name="begin-downloading" />}
+    <Button
+      appearance=""
+      type="button"
+      onClick={startDownload}
+      hasIcon={!isSmallScreen}
+    >
+      {!isSmallScreen && <DsIcon icon="download" />}
       <span>Download logs</span>
     </Button>
   );

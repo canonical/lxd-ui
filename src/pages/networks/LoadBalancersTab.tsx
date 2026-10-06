@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   EmptyState,
-  Icon,
   Row,
   Spinner,
   useNotify,
@@ -16,6 +15,7 @@ import LoadBalancerTableHeading from "pages/networks/LoadBalancerTableHeading";
 import CreateLoadBalancerPoolBtn from "pages/networks/actions/CreateLoadBalancerPoolBtn";
 import { useLoadBalancerPools } from "context/useLoadBalancerPools";
 import LoadBalancerExplanationTooltip from "pages/networks/LoadBalancerExplanationTooltip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -47,7 +47,7 @@ const LoadBalancersTab: FC<Props> = ({ network }) => {
     return (
       <EmptyState
         className="empty-state"
-        image={<Icon className="empty-state-icon" name="exposed" />}
+        image={<DsIcon className="empty-state-icon" icon="exposed" />}
         title="No load balancers found"
       >
         {hasPools && <p>There are no load balancers in this network.</p>}

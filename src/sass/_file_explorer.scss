@@ -23,6 +23,11 @@
   [class*="p-icon"] {
     flex-shrink: 0;
   }
+
+  .ds.icon {
+    color: var(--color-icon);
+    flex-shrink: 0;
+  }
 }
 
 .file-explorer-item__name {

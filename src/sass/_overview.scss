@@ -57,10 +57,14 @@
         display: flex;
         gap: $sph--small;
 
-        i {
-          height: 1.5rem;
-          margin-bottom: 2px;
-          width: 1.5rem;
+        i,
+        .ds.icon {
+          // pragma DsIcon svgs (class="ds icon") ship their own same-specificity
+          // width/height rule, so !important is needed to reliably win the tie.
+          // Issue is tracked in WD-38790
+          height: 1.5rem !important;
+          margin-bottom: calc(-1 * $spv--small / 2);
+          width: 1.5rem !important;
         }
       }
 

@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
 import type { LxdNetwork } from "types/network";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { CREATE_POOL_VALUE } from "util/loadBalancers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -49,7 +50,7 @@ const EditLoadBalancerPoolBtn: FC<Props> = ({
         pool === "" || pool === CREATE_POOL_VALUE || !canEditNetwork(network)
       }
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
       {hasCaption && <span>Edit pool</span>}
     </Button>
   );

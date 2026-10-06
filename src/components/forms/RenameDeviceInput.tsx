@@ -1,8 +1,9 @@
 import { useState, type FC } from "react";
-import { Button, Icon, Input, Label } from "@canonical/react-components";
+import { Button, Input, Label } from "@canonical/react-components";
 import DeviceName from "components/forms/DeviceName";
 import { isDeviceModified } from "util/formChangeCount";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   name: string;
@@ -57,7 +58,7 @@ const RenameDeviceInput: FC<Props> = ({
             disabled={!!disableReason}
             title={disableReason}
           >
-            <Icon name="edit" />
+            <DsIcon icon="edit" />
           </Button>
         </>
       )}

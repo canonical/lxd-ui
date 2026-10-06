@@ -4,7 +4,6 @@ import {
   Col,
   ColumnSelector,
   CustomLayout,
-  Icon,
   Row,
   ScrollableTable,
   Spinner,
@@ -88,6 +87,7 @@ import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -704,7 +704,7 @@ const InstanceList: FC = () => {
                   disabled={!!createInstanceRestriction}
                   title={createInstanceRestriction}
                 >
-                  {!isSmallScreen && <Icon name="plus" light />}
+                  {!isSmallScreen && <DsIcon icon="plus" />}
                   <span>{createButtonLabel}</span>
                 </Button>
               </PageHeader.BaseActions>

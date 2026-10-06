@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import CreateClusterGroupPanel from "pages/cluster/panels/CreateClusterGroupPanel";
 import { useServerEntitlements } from "util/entitlements/server";
 import usePanelParams, { panels } from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   disabled?: boolean;
@@ -30,7 +31,7 @@ const CreateClusterGroupBtn: FC<Props> = ({ disabled }) => {
         hasIcon
         onClick={panelParams.openCreateClusterGroup}
       >
-        <Icon name="plus" light />
+        <DsIcon icon="plus" />
         <span>Create group</span>
       </Button>
       {panelParams.panel === panels.createClusterGroup && (

@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import type { LxdStorageBucket, LxdStorageBucketKey } from "types/storage";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useStorageBucketEntitlements } from "util/entitlements/storage-buckets";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   bucketKey: LxdStorageBucketKey;
@@ -27,7 +28,7 @@ const EditStorageBucketKeyBtn: FC<Props> = ({ bucket, bucketKey }) => {
           : "You do not have permission to edit this bucket key"
       }
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
     </Button>
   );
 };

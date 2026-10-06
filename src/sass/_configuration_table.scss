@@ -43,10 +43,6 @@
     }
   }
 
-  .clear-configuration-icon {
-    @include vf-icon-close-themed;
-  }
-
   .configuration-help {
     @extend %small-text;
 

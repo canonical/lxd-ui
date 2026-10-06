@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Card,
   DoughnutChart,
-  Icon,
   List,
   MainTable,
   Spinner,
@@ -22,6 +21,7 @@ import {
   type InstanceDistribution,
 } from "util/overviewInstances";
 import { ALL_PROJECTS, getInstancesUrl } from "util/projects";
+import DsIcon from "components/DsIcon";
 
 const InstancesCard: FC = () => {
   const { projectName } = useCurrentProject();
@@ -46,7 +46,7 @@ const InstancesCard: FC = () => {
   const cardTitle = (
     <>
       <span className="overview-card-title">
-        <Icon name="pods" /> Instances
+        <DsIcon icon="pods" /> Instances
         {!isLoading && !error && ` (${instances.length})`}
       </span>
       <InstanceExplanationTooltip />
@@ -65,7 +65,7 @@ const InstancesCard: FC = () => {
   if (error) {
     return (
       <Card className={cardClassName} title={cardTitle}>
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error while
         loading instances: {error.message}
       </Card>
     );

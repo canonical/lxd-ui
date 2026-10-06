@@ -2,7 +2,6 @@ import { type FC } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   Notification,
   Row,
   Spinner,
@@ -19,6 +18,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -74,8 +74,8 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
     return (
       <EmptyState
         className="empty-state"
-        image={<Icon name="containers" className="empty-state-icon" />}
         title="Instance stopped"
+        image={<DsIcon icon="containers" className="empty-state-icon" />}
       >
         <p>Start the VM to browse files.</p>
         <StartInstanceBtn

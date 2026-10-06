@@ -1,11 +1,5 @@
 import type { FC } from "react";
-import {
-  Button,
-  Icon,
-  Input,
-  MainTable,
-  Tooltip,
-} from "@canonical/react-components";
+import { Button, Input, MainTable, Tooltip } from "@canonical/react-components";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { useParams } from "react-router-dom";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
@@ -21,6 +15,8 @@ import {
 } from "util/userKeys";
 import { useProfiles } from "context/useProfiles";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import DsIcon from "components/DsIcon";
+import type { IconName } from "@canonical/ds-assets";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -84,7 +80,7 @@ const UserKeysForm: FC<Props> = ({ formik, disabledReason }) => {
 
   const actionButton = (
     label: string,
-    icon: string,
+    icon: IconName,
     onClick: () => void,
     target: string,
   ) => {
@@ -99,7 +95,7 @@ const UserKeysForm: FC<Props> = ({ formik, disabledReason }) => {
         aria-label={`${label} ${target}`}
         className="u-no-margin--bottom"
       >
-        <Icon name={icon} />
+        <DsIcon icon={icon} />
         <span className="u-hide--small u-hide--medium">{label}</span>
       </Button>
     );
@@ -314,7 +310,7 @@ const UserKeysForm: FC<Props> = ({ formik, disabledReason }) => {
         <Tooltip
           message={`Custom user.* configuration keys, used to tag an instance.`}
         >
-          <Icon name="information" />
+          <DsIcon icon="information" />
         </Tooltip>
       </p>
 
@@ -338,7 +334,7 @@ const UserKeysForm: FC<Props> = ({ formik, disabledReason }) => {
         disabled={!!disabledReason}
         title={disabledReason}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>Add user key</span>
       </Button>
     </div>
