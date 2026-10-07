@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@canonical/react-components";
 import { useProfile } from "context/useProfiles";
-import { getDefaultStoragePool } from "util/helpers";
+import { getDefaultStoragePool } from "util/devices";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {

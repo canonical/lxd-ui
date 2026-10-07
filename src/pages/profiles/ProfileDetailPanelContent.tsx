@@ -7,7 +7,7 @@ import ProfileInstances from "./ProfileInstances";
 import DevicesSummaryList from "components/DevicesSummaryList";
 import type { LxdProject } from "types/project";
 import { isProjectWithProfiles } from "util/projects";
-import { getDefaultStoragePool } from "util/helpers";
+import { getDefaultStoragePool } from "util/devices";
 import ProfileConfigurationSections from "pages/profiles/ProfileConfigurationSections";
 import ProfileResourceLimits from "pages/profiles/ProfileResourceLimits";
 import StoragePoolRichChip from "pages/storage/StoragePoolRichChip";

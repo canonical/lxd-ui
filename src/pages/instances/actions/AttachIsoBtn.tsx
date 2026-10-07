@@ -19,7 +19,7 @@ import CustomIsoModal from "pages/images/CustomIsoModal";
 import type { FormDiskDevice } from "types/formDevice";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
-import { instanceLinkFromOperation } from "util/operations";
+import { InstanceLinkFromOperation } from "../InstanceLinkFromOperation";
 import ResourceLink from "components/ResourceLink";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";
@@ -104,10 +104,9 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
     const instancePlusIso = getInstancePayload(instance, values) as LxdInstance;
     updateInstance(instancePlusIso, project ?? "")
       .then((operation) => {
-        const instanceLink = instanceLinkFromOperation({
-          operation,
-          project,
-        });
+        const instanceLink = (
+          <InstanceLinkFromOperation operation={operation} project={project} />
+        );
         eventQueue.set(
           operation.metadata.id,
           () =>
