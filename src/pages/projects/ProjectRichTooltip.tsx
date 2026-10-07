@@ -11,7 +11,7 @@ import {
   getInstancesUsedByProject,
   isProjectWithProfiles,
 } from "util/projects";
-import { getDefaultStoragePool, getDefaultNetwork } from "util/helpers";
+import { getDefaultStoragePool, getDefaultNetwork } from "util/devices";
 import ResourceLink from "components/ResourceLink";
 import { ROOT_PATH } from "util/rootPath";
 

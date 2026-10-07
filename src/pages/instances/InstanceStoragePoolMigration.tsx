@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import StoragePoolSelectTable from "../storage/StoragePoolSelectTable";
-import { getRootPool } from "util/helpers";
+import { getRootPool } from "util/devices";
 
 interface Props {
   instance: LxdInstance;

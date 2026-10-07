@@ -5,8 +5,6 @@ import type { LxdProfile } from "types/profile";
 import type { LxdNetwork, LxdNetworkAcl } from "types/network";
 import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
-import { isDiskDevice, isNicDevice, isRootDisk } from "./devices";
-import type { FormDevice } from "types/formDevice";
 import { addTarget } from "util/target";
 import { debounceAsync } from "util/debounce";
 import crypto from "crypto";
@@ -382,29 +380,6 @@ export const getUniqueResourceName = (
   }
 
   return name;
-};
-
-export const getRootPool = (instance: LxdInstance): string => {
-  const rootStorage = Object.values(instance.expanded_devices ?? {})
-    .filter(isDiskDevice)
-    .find((device) => {
-      return isRootDisk(device as FormDevice);
-    });
-  return rootStorage?.pool ?? "";
-};
-
-export const getDefaultStoragePool = (profile: LxdProfile) => {
-  const rootStorage = Object.values(profile.devices ?? {})
-    .filter(isDiskDevice)
-    .find((device) => {
-      return isRootDisk(device as FormDevice);
-    });
-  return rootStorage?.pool ?? "";
-};
-
-export const getDefaultNetwork = (profile: LxdProfile) => {
-  const networks = Object.values(profile.devices ?? {}).filter(isNicDevice);
-  return networks[0]?.network ?? "none";
 };
 
 export const base64EncodeObject = (data: object) => {

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { getResourceOptionColumns } from "util/permissions";
+import { getResourceOptionColumns } from "util/resourceDetails";
 
 interface Props {
   resourceType: string;

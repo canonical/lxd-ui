@@ -9,6 +9,7 @@ import type {
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
+import type { LxdInstance } from "types/instance";
 import type { LxdProfile } from "types/profile";
 import type {
   FormDevice,
@@ -118,6 +119,29 @@ export const isCustomNic = (device: LxdDeviceValue): boolean => {
     isNicDevice(device) &&
     Object.keys(device).some((key) => !standardKeys.includes(key))
   );
+};
+
+export const getRootPool = (instance: LxdInstance): string => {
+  const rootStorage = Object.values(instance.expanded_devices ?? {})
+    .filter(isDiskDevice)
+    .find((device) => {
+      return isRootDisk(device as FormDevice);
+    });
+  return rootStorage?.pool ?? "";
+};
+
+export const getDefaultStoragePool = (profile: LxdProfile) => {
+  const rootStorage = Object.values(profile.devices ?? {})
+    .filter(isDiskDevice)
+    .find((device) => {
+      return isRootDisk(device as FormDevice);
+    });
+  return rootStorage?.pool ?? "";
+};
+
+export const getDefaultNetwork = (profile: LxdProfile) => {
+  const networks = Object.values(profile.devices ?? {}).filter(isNicDevice);
+  return networks[0]?.network ?? "none";
 };
 
 export const deviceKeyToLabel = (input: string): string => {
