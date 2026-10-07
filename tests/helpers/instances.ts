@@ -8,7 +8,7 @@ import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
 import { getLxcCmd } from "./auth";
 
-const DEFAULT_IMAGE = "alpine/3.23/cloud";
+const DEFAULT_IMAGE = "alpine/3.24/cloud";
 
 export const randomInstanceName = (): string => {
   return `playwright-instance-${randomNameSuffix()}`;
@@ -157,14 +157,12 @@ export const createAndStartInstance = async (
   await page.getByRole("button", { name: "* Base Image" }).click();
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill(DEFAULT_IMAGE);
+  await page.getByRole("combobox", { name: "Type" }).selectOption(type);
   await page
     .getByRole("row")
     .filter({ hasNotText: "cached" })
     .getByRole("button", { name: "Select" })
     .click();
-  await page
-    .getByRole("combobox", { name: "Instance type" })
-    .selectOption(type);
   await page.getByRole("button", { name: "Create and start" }).first().click();
   await page.getByText(`Created and started instance ${instance}.`).waitFor();
 };
