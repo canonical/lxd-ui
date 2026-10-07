@@ -7,7 +7,11 @@ import type { LXDSettingOnClusterMember, LxdSettings } from "types/server";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdMetadata, LxdConfigPair } from "types/config";
 import type { LxdResources } from "types/resources";
-import type { LxdClusterMember, ClusterSpecificValues } from "types/cluster";
+import type {
+  LxdClusterMember,
+  ClusterSpecificValues,
+  LxdClusterMemberState,
+} from "types/cluster";
 import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";
 
@@ -95,6 +99,14 @@ export const updateClusteredSettings = async (
       .then(resolve)
       .catch(reject);
   });
+};
+
+export const fetchServerState = async (): Promise<LxdClusterMemberState> => {
+  return fetch(`${ROOT_PATH}/1.0/state`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdClusterMemberState>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchResources = async (

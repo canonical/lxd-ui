@@ -5,8 +5,10 @@ import Meter from "components/Meter";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useClusterMemberStates } from "context/useClusterMemberState";
 import { useIsClustered } from "context/useIsClustered";
-import { useResources } from "context/useResources";
 import { getCpuText, getMemoryText } from "util/resourceDetails";
+import { useServerState } from "context/useSettings";
+import type { UseQueryResult } from "@tanstack/react-query";
+import type { LxdClusterMemberState } from "types/cluster";
 
 const ClusteringTotalResources: FC = () => {
   const isClustered = useIsClustered();
@@ -22,50 +24,37 @@ const ClusteringTotalResources: FC = () => {
 
   const memberStateQueries = useClusterMemberStates(onlineMemberNames);
 
-  const { data: resources, isLoading: isResourcesLoading } = useResources(
-    undefined,
-    !isClustered,
-  );
+  const { data: serverState, isLoading: isServerStateLoading } =
+    useServerState(!isClustered);
 
   const isLoading = isClustered
     ? isMembersLoading || memberStateQueries.some((query) => query.isLoading)
-    : isResourcesLoading;
+    : isServerStateLoading;
 
-  const totals = isClustered
-    ? memberStateQueries.reduce(
-        (acc, query) => {
-          const sysinfo = query.data?.sysinfo;
+  const totalQueries = isClustered ? memberStateQueries : [serverState];
+  const totals = totalQueries.reduce(
+    (acc, query) => {
+      const sysinfo = isClustered
+        ? (query as UseQueryResult<LxdClusterMemberState>).data?.sysinfo
+        : serverState?.sysinfo;
 
-          if (sysinfo) {
-            acc.memory.total += sysinfo.total_ram;
-            acc.memory.used += Math.max(
-              0,
-              sysinfo.total_ram - sysinfo.free_ram - sysinfo.buffered_ram,
-            );
-            acc.cpu.total += sysinfo.logical_cpus || 0;
-            acc.cpu.used += sysinfo.load_averages?.[0] || 0;
-          }
+      if (sysinfo) {
+        acc.memory.total += sysinfo.total_ram;
+        acc.memory.used += Math.max(
+          0,
+          sysinfo.total_ram - sysinfo.free_ram - sysinfo.buffered_ram,
+        );
+        acc.cpu.total += sysinfo.logical_cpus || 0;
+        acc.cpu.used += sysinfo.load_averages?.[0] || 0;
+      }
 
-          return acc;
-        },
-        {
-          memory: { total: 0, used: 0 },
-          cpu: { total: 0, used: 0 },
-        },
-      )
-    : {
-        memory: {
-          total:
-            resources && !Array.isArray(resources) ? resources.memory.total : 0,
-          used:
-            resources && !Array.isArray(resources) ? resources.memory.used : 0,
-        },
-        cpu: {
-          total:
-            resources && !Array.isArray(resources) ? resources.cpu.total : 0,
-          used: 0, // TODO: Implement when backend ready
-        },
-      };
+      return acc;
+    },
+    {
+      memory: { total: 0, used: 0 },
+      cpu: { total: 0, used: 0 },
+    },
+  );
 
   const memoryPercentage = totals.memory.total
     ? (totals.memory.used / totals.memory.total) * 100
@@ -121,8 +110,6 @@ const ClusteringTotalResources: FC = () => {
             <div>
               <Spinner text="Loading..." />
             </div>
-          ) : !isClustered ? (
-            <div>-</div>
           ) : (
             <Meter
               percentage={cpuPercentage}
