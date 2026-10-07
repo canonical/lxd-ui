@@ -155,9 +155,12 @@ export const createAndStartInstance = async (
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "* Base Image" }).click();
+  await page
+    .getByRole("dialog", { name: "Select base image" })
+    .getByRole("combobox", { name: "Type" })
+    .selectOption(type);
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill(DEFAULT_IMAGE);
-  await page.getByRole("combobox", { name: "Type" }).selectOption(type);
   await page
     .getByRole("row")
     .filter({ hasNotText: "cached" })

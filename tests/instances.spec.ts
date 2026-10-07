@@ -330,6 +330,9 @@ test("instance yaml edit", async ({ page }) => {
   await page.getByText("YAML configuration").click();
   await page.getByRole("button", { name: "Close notification" }).click();
 
+  // wait for 1 second to ensure any re-rendering is complete
+  await page.waitForTimeout(1000);
+
   await page.locator(".cm-editor").click();
   await page.getByText("description", { exact: true }).click();
   await page.keyboard.press("ControlOrMeta+f");

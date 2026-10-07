@@ -13,7 +13,7 @@ import {
 } from "./helpers/cluster-links";
 import { skipIfNotClustered } from "./helpers/cluster";
 import { randomInstanceName } from "./helpers/instances";
-import { randomProjectName } from "./helpers/projects";
+import { promoteProjectToLeader, randomProjectName } from "./helpers/projects";
 import {
   createReplicator,
   deleteAllAfterReplicatorTest,
@@ -106,6 +106,7 @@ test("cluster link deletion is blocked while in use by a replicator", async ({
 
   await setupProjectsForReplicator(page, project, instance, clusterLink);
   await createReplicator(page, replicator, clusterLink, project);
+  await promoteProjectToLeader(page, project);
 
   await visitClusterLinks(page);
   const linkRow = page.getByRole("row").filter({ hasText: clusterLink });

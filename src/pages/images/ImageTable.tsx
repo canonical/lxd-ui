@@ -7,7 +7,7 @@ import {
 import ExpandableList from "components/ExpandableList";
 import { useCurrentProject } from "context/useCurrentProject";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
-import type { LxdImage } from "types/image";
+import type { LxdImage, LxdImageRegistry } from "types/image";
 import { getArchitectureDisplayName } from "util/architectures";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import {
@@ -17,35 +17,26 @@ import {
   localLxdToRemoteImage,
 } from "util/images";
 import useSortTableData from "util/useSortTableData";
+import { isRegistryAllowedInProject } from "util/imageRegistry";
 
 interface Props {
   images: LxdImage[];
-  imageRegistryName: string;
+  imageRegistry: LxdImageRegistry;
   supportedArchitectures?: string[];
 }
 
 const ImageTable: FC<Props> = ({
   images,
   supportedArchitectures = [],
-  imageRegistryName,
+  imageRegistry,
 }) => {
   const { projectName, project } = useCurrentProject();
-
-  const isImageRegistryAllowed = (): boolean => {
-    if (project?.config.restricted !== "true") {
-      return true;
-    }
-
-    const allowedRegistries =
-      project?.config["restricted.registries"]?.split(",") ?? [];
-    return allowedRegistries.includes(imageRegistryName);
-  };
 
   const getDisabledReason = (image: LxdImage): string | undefined => {
     if (!supportedArchitectures.includes(image.architecture)) {
       return "Image is incompatible with your hardware architecture";
     }
-    if (!isImageRegistryAllowed()) {
+    if (!isRegistryAllowedInProject(imageRegistry, project)) {
       return "Images from this registry are not allowed in this project";
     }
     return undefined;

@@ -2,7 +2,7 @@ import { expect, test } from "./fixtures/lxd-test";
 import { getRemoteClusterVm, skipIfNotClustered } from "./helpers/cluster";
 import { randomLinkName } from "./helpers/cluster-links";
 import { randomInstanceName } from "./helpers/instances";
-import { randomProjectName } from "./helpers/projects";
+import { promoteProjectToLeader, randomProjectName } from "./helpers/projects";
 import {
   createReplicator,
   deleteAllAfterReplicatorTest,
@@ -25,6 +25,7 @@ test("Replicator", async ({ page }, testInfo) => {
 
   const replicator = randomReplicatorName();
   await createReplicator(page, replicator, clusterLink, project);
+  await promoteProjectToLeader(page, project);
 
   const replicatorRow = page.getByRole("row").filter({ hasText: replicator });
   await replicatorRow.getByRole("link", { name: replicator }).click();
