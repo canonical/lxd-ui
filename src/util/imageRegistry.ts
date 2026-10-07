@@ -18,7 +18,10 @@ export const loadImagesFromAllRegistries = async (
   const registries = await fetchImageRegistries(isFineGrained);
 
   const isAllowedRegistry = (registry: LxdImageRegistry): boolean => {
-    const isProjectRestricted = project?.config["restricted"];
+    const isProjectRestricted =
+      project?.config["restricted"] &&
+      project?.config["restricted"] !== "false";
+
     if (!isProjectRestricted) {
       return true;
     }
