@@ -123,8 +123,16 @@ export const isRestoringBackup = (operation: LxdOperation): boolean => {
   return operation.description === "Restoring backup";
 };
 
+// Since LXD 6.7, copying an instance or a snapshot into a new instance has its
+// own operation description, before it was reported as "Creating instance".
+const INSTANCE_CREATION_DESCRIPTIONS = [
+  "Creating instance",
+  "Copying instance",
+  "Copying snapshot",
+];
+
 export const isCreatingInstance = (operation: LxdOperation): boolean => {
-  return operation.description === "Creating instance";
+  return INSTANCE_CREATION_DESCRIPTIONS.includes(operation.description);
 };
 
 export const instanceLinkFromOperation = (args: {
