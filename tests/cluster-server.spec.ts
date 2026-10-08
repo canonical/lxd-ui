@@ -5,13 +5,19 @@ import { gotoURL } from "./helpers/navigate";
 const visitClusterServer = async (page: Page): Promise<void> => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Server", exact: true }).click();
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Server" })
+    .click();
+  await page.waitForLoadState("networkidle");
 };
 
 test("cluster server page displays hardware details", async ({ page }) => {
   await visitClusterServer(page);
 
-  await expect(page.getByText("Server", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Server", exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByText("This server is not clustered", { exact: true }),
   ).toBeVisible();

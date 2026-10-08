@@ -27,7 +27,7 @@ test.beforeEach(() => {
 
 test("instance creation screen", async ({ page }) => {
   await gotoURL(page, "/ui/");
-  await page.getByText("Instances", { exact: true }).click();
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByText("Create instance").click();
   await page.getByPlaceholder("Enter name").fill("comic-glider");
   await page.getByRole("button", { name: "* Base Image" }).click();
@@ -57,7 +57,7 @@ test("instance list screen", async ({ page }) => {
   for (const instance of instances) {
     await createInstance(page, instance, "container", project, "24.04");
   }
-  await gotoURL(page, `/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}/instances`);
   await page
     .getByRole("row", {
       name: "Select comic-glider my-cluster Name Type Description Status Actions",
@@ -100,7 +100,7 @@ test("instance terminal screen", async ({ page }) => {
 test("instance graphical console screen", async ({ page }) => {
   await gotoURL(page, "/ui/");
   const instance = "upright-pangolin";
-  await page.getByText("Instances", { exact: true }).click();
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByText("Create instance").click();
   await page.getByPlaceholder("Enter name").fill(instance);
   await page.getByRole("button", { name: "* Base Image" }).click();

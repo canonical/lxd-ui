@@ -6,8 +6,13 @@ test("check enabling clustering", async ({ page }, testInfo) => {
 
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Clustering" }).click();
-  await page.getByRole("link", { name: "Server" }).click();
-  await expect(page.getByText("Server", { exact: true })).toBeVisible();
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Server" })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Server", exact: true }),
+  ).toBeVisible();
   await expect(page.getByText("System")).toBeVisible();
   await page.getByRole("button", { name: "Enable clustering" }).click();
   await page.getByRole("button", { name: "Close" }).click();
@@ -60,7 +65,10 @@ test("check enabling clustering", async ({ page }, testInfo) => {
     page.getByRole("button", { name: "Create cluster link" }),
   ).toBeEnabled();
 
-  await page.getByRole("link", { name: "Server" }).click();
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Server" })
+    .click();
   await page.getByRole("button", { name: "Enable clustering" }).click();
   await page.getByLabel("Server name").fill("micro1");
   await page.getByLabel("Cluster address").fill("127.0.0.1");

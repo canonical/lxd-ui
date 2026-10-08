@@ -637,6 +637,7 @@ test.describe("projects", () => {
     await gotoURL(page, "/ui/");
     await page.getByRole("button", { name: "default" }).waitFor();
     await page.getByRole("button", { name: "default" }).click();
+    await page.getByRole("button", { name: "Create project" }).waitFor();
     await page.getByRole("button", { name: "Create project" }).click();
     await page.getByRole("heading", { name: "Create a project" }).waitFor();
     await runA11yAudit(page, testInfo);

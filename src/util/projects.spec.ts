@@ -1,6 +1,5 @@
 import {
   ALL_PROJECTS,
-  getHomeUrl,
   getAllProjectsSwitchTarget,
   getInstancesUrl,
   getOverviewUrl,
@@ -39,32 +38,6 @@ describe("getInstancesUrl", () => {
   it("returns the project instances url", () => {
     expect(getInstancesUrl("my-project")).toBe(
       `${ROOT_PATH}/ui/project/my-project/instances`,
-    );
-  });
-});
-
-describe("getHomeUrl", () => {
-  it("returns the overview url when overview is enabled", () => {
-    expect(getHomeUrl("my-project", true)).toBe(
-      `${ROOT_PATH}/ui/project/my-project/overview`,
-    );
-  });
-
-  it("returns the instances url when overview is disabled", () => {
-    expect(getHomeUrl("my-project", false)).toBe(
-      `${ROOT_PATH}/ui/project/my-project/instances`,
-    );
-  });
-
-  it("returns the all-projects overview url when overview is enabled", () => {
-    expect(getHomeUrl(ALL_PROJECTS, true)).toBe(
-      `${ROOT_PATH}/ui/all-projects/overview`,
-    );
-  });
-
-  it("returns the all-projects instances url when overview is disabled", () => {
-    expect(getHomeUrl(ALL_PROJECTS, false)).toBe(
-      `${ROOT_PATH}/ui/all-projects/instances`,
     );
   });
 });
@@ -131,12 +104,9 @@ describe("getProjectSwitchTarget", () => {
 });
 
 describe("getAllProjectsSwitchTarget", () => {
-  it("keeps the overview section when the feature is enabled", () => {
+  it("keeps the overview section", () => {
     expect(
-      getAllProjectsSwitchTarget(
-        `${ROOT_PATH}/ui/project/my-project/overview`,
-        true,
-      ),
+      getAllProjectsSwitchTarget(`${ROOT_PATH}/ui/project/my-project/overview`),
     ).toBe(`${ROOT_PATH}/ui/all-projects/overview`);
   });
 
@@ -144,17 +114,13 @@ describe("getAllProjectsSwitchTarget", () => {
     expect(
       getAllProjectsSwitchTarget(
         `${ROOT_PATH}/ui/project/my-project/instances`,
-        true,
       ),
     ).toBe(`${ROOT_PATH}/ui/all-projects/instances`);
   });
 
   it("falls back to the all-projects home page for project-only sections", () => {
     expect(
-      getAllProjectsSwitchTarget(
-        `${ROOT_PATH}/ui/project/my-project/profiles`,
-        false,
-      ),
-    ).toBe(`${ROOT_PATH}/ui/all-projects/instances`);
+      getAllProjectsSwitchTarget(`${ROOT_PATH}/ui/project/my-project/profiles`),
+    ).toBe(`${ROOT_PATH}/ui/all-projects/overview`);
   });
 });

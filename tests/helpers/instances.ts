@@ -73,7 +73,7 @@ export const visitInstance = async (
   instance: string,
   project = "default",
 ) => {
-  await gotoURL(page, `/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}/instances`);
   await searchEntityListPage(page, instance);
   await page.getByRole("link", { name: instance }).first().click();
   await expect(page.getByText(`Instances${instance}`)).toBeVisible();

@@ -4,6 +4,7 @@ import { dismissNotification } from "./notification";
 
 export const openInstancePanel = async (page: Page, instance: string) => {
   await gotoURL(page, "/ui/");
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   const instanceRow = page.getByRole("row", { name: instance }).first();
   await instanceRow.waitFor({ state: "visible" });
   const cells = instanceRow.locator(":has-text('Container')");

@@ -43,7 +43,7 @@ test("instances", async ({ page }) => {
   await createVolume(page, volume);
   await createNetwork(page, network, "bridge");
   await gotoURL(page, "/ui/");
-  await page.getByText("Instances", { exact: true }).click();
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill(instance);
   await page.getByRole("button", { name: "* Base Image" }).click();
@@ -520,7 +520,7 @@ test("LXD - Tutorial - Graphical consoles", async ({ page }) => {
 
   const vminstance = "Ubuntu-desktop";
   await gotoURL(page, "/ui/");
-  await page.getByText("Instances", { exact: true }).click();
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByPlaceholder("Enter name").fill(vminstance);
   await page.getByRole("button", { name: "* Base Image" }).click();

@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
 import { defaultFirst } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
-import { useFeatureFlags } from "context/useFeatureFlags";
 import { useProjects } from "context/useProjects";
 import { useServerEntitlements } from "util/entitlements/server";
 import { getAllProjectsSwitchTarget } from "util/projects";
@@ -25,7 +24,6 @@ const NavigationProjectSelector: FC<Props> = ({
   const location = useLocation();
   const searchRef = useRef<HTMLInputElement>(null);
   const { canCreateProjects } = useServerEntitlements();
-  const { isOverviewEnabled } = useFeatureFlags();
 
   const { data: projects = [] } = useProjects();
 
@@ -69,12 +67,7 @@ const NavigationProjectSelector: FC<Props> = ({
           )}
           <Button
             onClick={() => {
-              navigate(
-                getAllProjectsSwitchTarget(
-                  location.pathname,
-                  isOverviewEnabled(),
-                ),
-              );
+              navigate(getAllProjectsSwitchTarget(location.pathname));
             }}
             className="p-contextual-menu__link all-projects"
             hasIcon

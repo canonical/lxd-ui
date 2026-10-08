@@ -4,6 +4,6 @@ import { assertTextVisible } from "./helpers/permissions";
 
 test("view warnings page", async ({ page }) => {
   await gotoURL(page, "/ui/");
-  await page.getByTitle("Warnings").click();
+  await page.getByRole("link", { name: "Warnings", exact: true }).click();
   await assertTextVisible(page, "Last message");
 });
