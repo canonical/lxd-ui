@@ -265,10 +265,8 @@ test("Profile refresh", async ({ page }) => {
     name: "Copy or refresh profile",
   });
   await dialog
-    .getByRole("radio", {
-      name: "Refresh another profile with the contents of this profile",
-    })
-    .check();
+    .getByLabel("Refresh another profile with the contents of this profile")
+    .click();
   await dialog.getByLabel("Target project").selectOption(targetProject);
   await dialog.getByLabel("Profile to refresh").selectOption(targetProfileName);
   await dialog
