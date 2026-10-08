@@ -12,7 +12,7 @@ import {
   randomProjectName,
   promoteProjectToLeader,
   demoteProjectToStandby,
-  assertProjectReplicaMode,
+  clearReplicaMode,
 } from "./helpers/projects";
 import { skipIfNotClustered } from "./helpers/cluster";
 import { dismissNotification } from "./helpers/notification";
@@ -100,8 +100,7 @@ test("project replication configuration", async ({
   await deleteReplicatorRow(page, replicator);
   await expect(replicatorRow).toHaveCount(0);
 
-  await page.getByRole("button", { name: "Clear replica mode" }).click();
-  await assertProjectReplicaMode(page, "None");
+  await clearReplicaMode(page, project);
 
   await deleteAllAfterReplicatorTest(page, project, clusterLink);
 });
