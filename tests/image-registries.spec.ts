@@ -151,11 +151,13 @@ test("project image registry restrictions", async ({ page, lxdVersion }) => {
   await expect(page.getByText("Select at least one registry")).toBeVisible();
   await page
     .getByRole("checkbox", { name: "Built-in registries", exact: true })
-    .click();
+    .click({ force: true });
   await expect(
     page.getByRole("checkbox", { name: BUILTIN_IMAGE_REGISTRY }),
   ).toBeDisabled();
-  await page.getByRole("checkbox", { name: registryName }).click();
+  await page
+    .getByRole("checkbox", { name: registryName })
+    .click({ force: true });
   await page.getByRole("combobox", { name: "Select registries" }).click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await dismissNotification(page, `Project ${project} updated.`);

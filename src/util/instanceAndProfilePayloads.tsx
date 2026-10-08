@@ -340,8 +340,11 @@ const getInstanceSource = (
   hasImageRegistries: boolean,
 ) => {
   if (values.image?.registryName && hasImageRegistries) {
+    const alias = values.image?.aliases.split(",")[0];
+    const fingerprint = values.image?.fingerprint;
     return {
-      alias: values.image?.aliases.split(",")[0],
+      fingerprint: fingerprint,
+      alias: fingerprint ? undefined : alias,
       mode: "pull",
       image_registry: values.image?.registryName,
       type: "image",
