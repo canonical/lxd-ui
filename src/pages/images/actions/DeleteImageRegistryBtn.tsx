@@ -18,9 +18,13 @@ import { deleteImageRegistry } from "api/image-registries";
 
 interface Props {
   imageRegistry: LxdImageRegistry;
+  hasLabel?: boolean;
 }
 
-const DeleteImageRegistryDeleteBtn: FC<Props> = ({ imageRegistry }) => {
+const DeleteImageRegistryDeleteBtn: FC<Props> = ({
+  imageRegistry,
+  hasLabel = true,
+}) => {
   const isSmallScreen = useIsScreenBelow();
   const navigate = useNavigate();
   const location = useLocation();
@@ -98,18 +102,20 @@ const DeleteImageRegistryDeleteBtn: FC<Props> = ({ imageRegistry }) => {
         onConfirm: handleDelete,
         message: "Delete image registry",
       }}
-      appearance="default"
+      appearance={hasLabel ? "default" : "base"}
       className={classnames("u-no-margin--bottom", {
-        "has-icon": !isSmallScreen,
+        "has-icon": !hasLabel || !isSmallScreen,
       })}
+      aria-label={hasLabel ? undefined : "Delete registry"}
+      title={disabledReason() || "Delete registry"}
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
       disabled={Boolean(disabledReason()) || isLoading}
       onHoverText={disabledReason()}
     >
-      {!isSmallScreen && <Icon name="delete" />}
-      <span>Delete registry</span>
+      {(!hasLabel || !isSmallScreen) && <Icon name="delete" />}
+      {hasLabel && <span>Delete registry</span>}
     </ConfirmationButton>
   );
 };

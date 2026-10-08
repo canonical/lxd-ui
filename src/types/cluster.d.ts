@@ -59,7 +59,7 @@ export interface LxdClusterGroup {
 
 export type ClusterSpecificValues = Record<string, string>;
 
-export type LxdClusterLinkType = "bidirectional" | "unidirectional";
+export type LxdClusterLinkType = "bidirectional" | "unidirectional" | "public";
 
 export interface LxdClusterLink {
   config: Record<string, string>;

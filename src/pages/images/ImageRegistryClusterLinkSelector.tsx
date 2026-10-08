@@ -31,32 +31,32 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
         <span className="cluster-link-name u-truncate" title={link.name}>
           {link.name}
         </span>
-        <span className="cluster-link-description u-text--muted">
-          {link.type === "bidirectional"
-            ? "public and private images"
-            : "public images only"}
-        </span>
+        {link.type === "public" ? (
+          <span className="cluster-link-description u-text--muted">
+            Public images only
+          </span>
+        ) : null}
       </div>
     ),
   }));
 
   const clusterLinkURL = `${ROOT_PATH}/ui/cluster/links`;
-  const helpText = hasNoLinks ? (
+  const helpText = (
     <>
-      Cluster containing the images. Create your first{" "}
-      <Link to={clusterLinkURL}>cluster link</Link>.
-    </>
-  ) : (
-    <>
-      Cluster containing the images. Manage your{" "}
-      <Link to={clusterLinkURL}>cluster links</Link>.
+      Source cluster containing the images.
+      {hasNoLinks && (
+        <>
+          {" "}
+          Create your first <Link to={clusterLinkURL}>cluster link</Link>.
+        </>
+      )}
     </>
   );
 
   return (
     <CustomSelect
-      {...formik.getFieldProps("cluster")}
-      label="Cluster"
+      name="cluster"
+      label="Source cluster"
       options={
         hasNoLinks
           ? [{ value: "", label: "No cluster links available." }]
@@ -66,6 +66,10 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
       help={helpText}
       onChange={(value) => {
         formik.setFieldValue("cluster", value);
+        const selectedLink = links.find((link) => link.name === value);
+        if (selectedLink?.type === "public") {
+          formik.setFieldValue("sourceProject", "default");
+        }
       }}
       required={required}
     />

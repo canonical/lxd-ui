@@ -11,8 +11,8 @@ export const ImageRegistryProtocolSelector: FC<Props> = ({ formik }) => {
   return (
     <div className="image-registry-protocol-selector">
       <HelpLink
-        docPath="/reference/remote_image_servers/#remote-server-types"
-        title="Learn more about remote server types."
+        docPath="/reference/image_registries/#registry-protocols"
+        title="Learn more about image registry protocols."
       >
         <label htmlFor="protocol" className="u-no-margin--bottom">
           Protocol

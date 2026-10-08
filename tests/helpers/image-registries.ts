@@ -10,10 +10,7 @@ export const randomImageRegistryName = () => {
 };
 
 export const skipIfImageRegistriesNotSupported = (lxdVersion: LxdVersions) => {
-  test.skip(
-    lxdVersion === "latest-edge" || lxdVersion === "latest-stable",
-    "Image registries are not available",
-  );
+  test.skip(lxdVersion !== "latest-edge", "Image registries are not available");
 };
 
 export const visitImageRegistries = async (page: Page) => {
@@ -48,18 +45,37 @@ export const createImageRegistry = async (
   await sidePanel.getByRole("radio", { name: protocol }).check({ force: true });
 
   if (protocol === "SimpleStreams" && config.url) {
-    await expect(sidePanel.getByLabel("Source project")).not.toBeVisible();
-    await expect(sidePanel.getByLabel("Cluster")).not.toBeVisible();
+    await expect(
+      sidePanel.getByRole("textbox", {
+        name: "Project within source cluster",
+        exact: true,
+      }),
+    ).not.toBeVisible();
+    await expect(
+      sidePanel.getByRole("button", { name: /Source cluster$/ }),
+    ).not.toBeVisible();
 
     await sidePanel.getByLabel("Server").fill(config.url);
   }
 
   if (protocol === "LXD" && config.cluster && config.sourceProject) {
     await expect(sidePanel.getByLabel("Server")).not.toBeVisible();
-    await sidePanel.getByLabel("Cluster").click();
-    await page.getByTitle(config.cluster).click();
+    const sourceCluster = sidePanel.getByRole("button", {
+      name: /Source cluster$/,
+    });
+    await sourceCluster.click();
+    await page
+      .getByRole("option")
+      .filter({ has: page.getByTitle(config.cluster, { exact: true }) })
+      .click();
+    await expect(sourceCluster).toHaveText(config.cluster);
 
-    await sidePanel.getByLabel("Source project").fill(config.sourceProject);
+    await sidePanel
+      .getByRole("textbox", {
+        name: "Project within source cluster",
+        exact: true,
+      })
+      .fill(config.sourceProject);
   }
 
   await sidePanel.getByRole("button", { name: "Create", exact: true }).click();
@@ -103,4 +119,27 @@ export const validateRegistryDetailRow = async (
   await expect(
     panel.locator("tr").filter({ hasText: field }).locator("td"),
   ).toContainText(value);
+};
+
+export const createAndValidateLxdRegistry = async (
+  page: Page,
+  clusterName: string,
+): Promise<void> => {
+  const projectName = "default";
+  const registryName = randomImageRegistryName();
+  await createImageRegistry(page, registryName, "LXD", {
+    cluster: clusterName,
+    sourceProject: projectName,
+  });
+
+  await validateRegistryRow(
+    page,
+    registryName,
+    "Protocol",
+    `lxdCluster: ${clusterName} Project: ${projectName}`,
+  );
+  await validateRegistryRow(page, registryName, "Built-in", "No");
+  await validateRegistryRow(page, registryName, "Public", "No");
+
+  await deleteImageRegistry(page, registryName);
 };
