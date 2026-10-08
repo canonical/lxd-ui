@@ -19,6 +19,7 @@ import type {
 } from "types/forms/project";
 import type { LxdProject } from "types/project";
 import { ensureEditMode } from "util/editMode";
+import { REPLICATOR_CLUSTER_LINK_TYPES } from "util/clusterLink";
 import ReplicatorExplanationTooltip from "pages/cluster/ReplicatorExplanationTooltip";
 
 export const replicaPayload = (
@@ -131,6 +132,7 @@ const ProjectReplicaForm: FC<Props> = ({ formik, project, isEdit }) => {
           <ClusterLinkSelector
             name="replica_cluster"
             label="Replica cluster"
+            types={REPLICATOR_CLUSTER_LINK_TYPES}
             value={formik.values.replica_cluster}
             error={
               formik.touched.replica_cluster

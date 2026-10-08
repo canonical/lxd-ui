@@ -10,8 +10,12 @@ import {
   deleteIdentityOnRemoteCluster,
   createClusterLinkUnidirectional,
   createClusterLinkBidirectional,
+  fetchPublicClusterLinkCertificate,
+  getRemoteClusterAddress,
+  clusterLinkExists,
 } from "./helpers/cluster-links";
 import { skipIfNotClustered } from "./helpers/cluster";
+import { dismissNotification } from "./helpers/notification";
 import { randomInstanceName } from "./helpers/instances";
 import { promoteProjectToLeader, randomProjectName } from "./helpers/projects";
 import {
@@ -29,6 +33,15 @@ export const skipIfUnidirectionalClusterLinksNotSupported = (
   test.skip(
     lxdVersion !== "latest-edge",
     "Unidirectional cluster links are not available",
+  );
+};
+
+export const skipIfPublicClusterLinksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Public cluster links are not available",
   );
 };
 
@@ -156,5 +169,42 @@ test("create unidirectional cluster link", async ({
   await expect(row.getByRole("cell", { name: "Auth groups" })).toHaveText("0");
 
   deleteIdentityOnRemoteCluster(link);
+  await deleteClusterLink(page, link);
+});
+
+test("create public cluster link", async ({ page, lxdVersion }, testInfo) => {
+  skipIfNotClustered(testInfo.project.name);
+  skipIfPublicClusterLinksNotSupported(lxdVersion);
+
+  const link = randomLinkName();
+  const remoteAddress = `${getRemoteClusterAddress()}:8443`;
+  const panel = page.getByLabel("Side panel");
+  await visitClusterLinks(page);
+
+  // going back from the verify step removes the pending link
+  await fetchPublicClusterLinkCertificate(page, link, remoteAddress);
+  await expect(panel.locator("#remote-address")).toHaveText(remoteAddress);
+  await panel.getByRole("button", { name: "Back" }).click();
+  await expect(
+    panel.getByRole("button", { name: "Fetch certificate" }),
+  ).toBeVisible();
+  expect(clusterLinkExists(link)).toBe(false);
+
+  // confirming the fingerprint creates the link
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  const createButton = panel.getByRole("button", { name: "Create link" });
+  await expect(createButton).toBeDisabled();
+  await panel
+    .getByText("I confirm this certificate fingerprint is correct")
+    .click();
+  await createButton.click();
+  await dismissNotification(page, `Cluster link ${link} created.`);
+
+  const row = page.getByRole("row").filter({ hasText: link });
+  await expect(row.getByRole("cell", { name: "Type" })).toHaveText("Public");
+  await expect(row.getByRole("cell", { name: "Status" })).toHaveText(
+    "Reachable",
+  );
+
   await deleteClusterLink(page, link);
 });

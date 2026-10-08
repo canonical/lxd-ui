@@ -24,7 +24,7 @@ const ClusterLinkStatus: FC<Props> = ({ link }) => {
   }
 
   const identity = getLinkIdentity(identities, link.name);
-  const status = getClusterLinksStatus(identity, state);
+  const status = getClusterLinksStatus(identity, state, link);
 
   return (
     <>

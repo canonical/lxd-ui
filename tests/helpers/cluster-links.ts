@@ -77,6 +77,44 @@ export const createClusterLinkUnidirectional = async (
   await dismissNotification(page, `Cluster link ${link} created.`);
 };
 
+// Fills in the public link details and fetches the remote certificate,
+// leaving the side panel on the "Verify certificate" step
+export const fetchPublicClusterLinkCertificate = async (
+  page: Page,
+  link: string,
+  remoteAddress: string,
+) => {
+  await page.getByRole("button", { name: "Create cluster link" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Choose cluster link type" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Public" }).click();
+
+  await page.getByPlaceholder("Enter address").fill(remoteAddress);
+  await page.getByPlaceholder("Enter name").fill(link);
+  const panel = page.getByLabel("Side panel");
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+
+  await expect(
+    panel.getByRole("heading", { name: /Verify certificate/ }),
+  ).toBeVisible();
+  await expect(panel.locator("#certificate-fingerprint")).toHaveText(
+    /^[0-9a-f]{64}$/,
+  );
+};
+
+export const getRemoteClusterAddress = () => {
+  const remoteVm = getRemoteClusterVm();
+  const output = runCommand(`lxc list ${remoteVm} --format csv -c 4`);
+  return output.replace(/"/g, "").trim().split(" ")[0].split(",")[0];
+};
+
+export const clusterLinkExists = (link: string) => {
+  const output = runCommand("lxc cluster link list --format csv");
+  return output.split("\n").some((line) => line.split(",")[0] === link);
+};
+
 export const editClusterLink = async (page: Page, link: string) => {
   const row = page.getByRole("row").filter({ hasText: link });
   await row.getByRole("button", { name: "Edit cluster link" }).click();
