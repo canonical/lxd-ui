@@ -1,6 +1,7 @@
 import { handleResponse } from "util/helpers";
 import type {
   LxdClusterLink,
+  LxdClusterLinkCertificate,
   LxdClusterLinkCreated,
   LxdClusterLinkState,
 } from "types/cluster";
@@ -65,6 +66,24 @@ export const createClusterLink = async (
   })
     .then(handleResponse)
     .then((data: LxdApiResponse<LxdClusterLinkCreated | null>) => {
+      return data.metadata;
+    });
+};
+
+// First step of creating a public cluster link: creates a pending link and
+// returns the fingerprint of the remote cluster's certificate for verification
+export const fetchPublicClusterLinkCertificate = async (
+  body: string,
+): Promise<LxdClusterLinkCertificate> => {
+  return fetch(`${ROOT_PATH}/1.0/cluster/links`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  })
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdClusterLinkCertificate>) => {
       return data.metadata;
     });
 };

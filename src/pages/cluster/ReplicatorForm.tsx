@@ -7,6 +7,7 @@ import ClusterLinkSelector from "pages/cluster/ClusterLinkSelector";
 import { ReplicatorScheduleInput } from "pages/cluster/ReplicatorScheduleInput";
 import ProjectSelector from "pages/networks/forms/ProjectSelector";
 import { ROOT_PATH } from "util/rootPath";
+import { REPLICATOR_CLUSTER_LINK_TYPES } from "util/clusterLink";
 import type { ReplicatorFormValues } from "types/forms/replicator";
 
 interface Props {
@@ -38,6 +39,7 @@ export const ReplicatorForm: FC<Props> = ({ formik, isEdit = false }) => {
         }}
         help="Cluster to replicate to. "
         takeFocus
+        types={REPLICATOR_CLUSTER_LINK_TYPES}
       />
       {isEdit ? (
         <OutputField

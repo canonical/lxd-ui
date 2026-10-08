@@ -1,12 +1,15 @@
 import type { FC } from "react";
 import FormLink from "components/FormLink";
 import type { LxdClusterLinkType } from "types/cluster";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   onSelect: (type: LxdClusterLinkType) => void;
 }
 
 const ClusterLinkDirectionSelection: FC<Props> = ({ onSelect }) => {
+  const { hasClusterLinksPublic } = useSupportedFeatures();
+
   return (
     <>
       <FormLink
@@ -27,7 +30,19 @@ const ClusterLinkDirectionSelection: FC<Props> = ({ onSelect }) => {
         onClick={() => {
           onSelect("unidirectional");
         }}
+        className="u-no-margin--right"
       />
+      {hasClusterLinksPublic && (
+        <FormLink
+          icon="exposed"
+          title="Public"
+          subText="Access another LXD cluster without authentication or return access. Used for public image fetching."
+          subTextBelowTitle
+          onClick={() => {
+            onSelect("public");
+          }}
+        />
+      )}
     </>
   );
 };

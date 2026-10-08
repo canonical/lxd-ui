@@ -15,6 +15,15 @@ export const skipIfUnidirectionalClusterLinksNotSupported = (
   );
 };
 
+export const skipIfPublicClusterLinksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Public cluster links are not available",
+  );
+};
+
 export const DELETE_ALL_CLUSTER_LINKS_COMMAND =
   "lxc cluster link list --format csv | cut -d, -f1 | xargs -r -n1 lxc cluster link delete";
 
@@ -84,6 +93,57 @@ export const createClusterLinkUnidirectional = async (
   await panel.getByRole("button", { name: "Create link" }).click();
 
   await dismissNotification(page, `Cluster link ${link} created.`);
+};
+
+// Fills in the public link details and fetches the remote certificate,
+// leaving the side panel on the "Verify certificate" step
+export const fetchPublicClusterLinkCertificate = async (
+  page: Page,
+  link: string,
+  remoteAddress: string,
+) => {
+  await page.getByRole("button", { name: "Create cluster link" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Choose cluster link type" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Public" }).click();
+
+  await page.getByPlaceholder("Enter address").fill(remoteAddress);
+  await page.getByPlaceholder("Enter name").fill(link);
+  const panel = page.getByLabel("Side panel");
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+
+  await expect(
+    panel.getByRole("heading", { name: /Verify certificate/ }),
+  ).toBeVisible();
+  await expect(panel.locator("#certificate-fingerprint")).toHaveText(
+    /^[0-9a-f]{64}$/,
+  );
+};
+
+export const getRemoteClusterAddress = () => {
+  const remoteVm = getRemoteClusterVm();
+  const output = runCommand(`lxc list ${remoteVm} --format csv -c 4`);
+  return output.replace(/"/g, "").trim().split(" ")[0].split(",")[0];
+};
+
+// Creates a public link that is left pending, as if its creation was interrupted
+export const createPendingPublicClusterLink = (
+  link: string,
+  remoteAddress: string,
+) => {
+  const body = JSON.stringify({
+    name: link,
+    type: "public",
+    remote_address: remoteAddress,
+  });
+  runCommand(`lxc query -X POST --data '${body}' /1.0/cluster/links`);
+};
+
+export const clusterLinkExists = (link: string) => {
+  const output = runCommand("lxc cluster link list --format csv");
+  return output.split("\n").some((line) => line.split(",")[0] === link);
 };
 
 export const editClusterLink = async (page: Page, link: string) => {

@@ -32,6 +32,7 @@ export interface PanelHelper {
   openCreateIdentity: () => void;
   openEditClusterGroup: (group: string) => void;
   openEditClusterLink: (clusterLink: string) => void;
+  openVerifyClusterLink: (clusterLink: string) => void;
   openEditGroup: (group: string, subForm?: GroupSubForm) => void;
   openEditIdpGroup: (group: string) => void;
   openCreatePlacementGroup: () => void;
@@ -70,6 +71,7 @@ export const panels = {
   createStorageBucketKey: "create-bucket-key",
   editClusterGroups: "edit-cluster-group",
   editClusterLink: "edit-cluster-link",
+  verifyClusterLink: "verify-cluster-link",
   editClusterMember: "edit-cluster-member",
   editLoadBalancerPool: "edit-load-balancer-pool",
   createNetworkDevice: "create-network-device",
@@ -205,6 +207,10 @@ const usePanelParams = (): PanelHelper => {
 
     openEditClusterLink: (clusterLink) => {
       setPanelParams(panels.editClusterLink, { "cluster-link": clusterLink });
+    },
+
+    openVerifyClusterLink: (clusterLink) => {
+      setPanelParams(panels.verifyClusterLink, { "cluster-link": clusterLink });
     },
 
     openEditGroup: (group, subForm) => {

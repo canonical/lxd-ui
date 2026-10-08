@@ -77,7 +77,7 @@ export interface LxdClusterLinkState {
 export interface LxdClusterLinkMemberState {
   address: string;
   server_name: string;
-  status: "Active" | "Unreachable";
+  status: "Active" | "Unreachable" | "Unauthenticated";
 }
 
 export interface LxdClusterLinkCreated {
@@ -87,6 +87,10 @@ export interface LxdClusterLinkCreated {
   fingerprint: string;
   secret: string;
   type: "Client certificate";
+}
+
+export interface LxdClusterLinkCertificate {
+  fingerprint: string;
 }
 
 export type StatusCaption = "Pending" | "Reachable" | "Unreachable";
