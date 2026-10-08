@@ -8,6 +8,7 @@ import {
 import { useClusterLinks } from "context/useClusterLinks";
 import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
 import { ROOT_PATH } from "util/rootPath";
+import type { LxdClusterLinkType } from "types/cluster";
 
 interface ClusterLinkSelectorProps extends Omit<
   CustomSelectProps,
@@ -21,6 +22,7 @@ interface ClusterLinkSelectorProps extends Omit<
   required?: boolean;
   help?: React.ReactNode;
   emptyOptionLabel?: string;
+  allowedLinkTypes?: LxdClusterLinkType[];
 }
 
 const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
@@ -32,9 +34,13 @@ const ClusterLinkSelector: FC<ClusterLinkSelectorProps> = ({
   required = false,
   help,
   emptyOptionLabel = "Select a cluster",
+  allowedLinkTypes,
   ...selectProps
 }) => {
-  const { data: links = [], error: apiError, isLoading } = useClusterLinks();
+  const { data: allLinks = [], error: apiError, isLoading } = useClusterLinks();
+  const links = allowedLinkTypes
+    ? allLinks.filter((link) => allowedLinkTypes.includes(link.type))
+    : allLinks;
   const notify = useNotify();
   const linkNames = links.map((link) => link.name);
 
