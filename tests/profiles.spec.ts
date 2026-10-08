@@ -265,7 +265,7 @@ test("Profile refresh", async ({ page }) => {
     name: "Copy or refresh profile",
   });
   await dialog
-    .getByLabel("Refresh another profile with the contents of this profile")
+    .getByText("Refresh another profile with the contents of this profile")
     .click();
   await dialog.getByLabel("Target project").selectOption(targetProject);
   await dialog.getByLabel("Profile to refresh").selectOption(targetProfileName);
