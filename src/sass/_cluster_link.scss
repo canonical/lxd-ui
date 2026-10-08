@@ -11,6 +11,25 @@
   }
 }
 
+// show the whole fingerprint over several lines, so it can be compared in full
+.cluster-link-fingerprint .command {
+  white-space: normal;
+  word-break: break-all;
+}
+
+// Leave room for the focus outline of controls on the left edge, such as checkboxes.
+// Both the panel content and its scroll container clip horizontally, so the panel
+// content is widened to the left and the scroll container pads the content back.
+// The outline needs 4px, the extra space avoids clipping it when the panel sits on a
+// fractional pixel position.
+.cluster-link-panel {
+  margin-left: -0.5rem;
+
+  .content-details {
+    padding-left: 0.5rem;
+  }
+}
+
 .delete-cluster-link-dialog {
   .p-modal__dialog {
     @include large {

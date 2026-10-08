@@ -1,6 +1,7 @@
 import { handleResponse } from "util/helpers";
 import type {
   LxdClusterLink,
+  LxdClusterLinkCertificate,
   LxdClusterLinkCreated,
   LxdClusterLinkState,
 } from "types/cluster";
@@ -55,7 +56,7 @@ export const fetchClusterLinkState = async (
 
 export const createClusterLink = async (
   body: string,
-): Promise<LxdClusterLinkCreated | null> => {
+): Promise<LxdClusterLinkCreated | LxdClusterLinkCertificate | null> => {
   return fetch(`${ROOT_PATH}/1.0/cluster/links`, {
     method: "POST",
     headers: {
@@ -64,9 +65,15 @@ export const createClusterLink = async (
     body,
   })
     .then(handleResponse)
-    .then((data: LxdApiResponse<LxdClusterLinkCreated | null>) => {
-      return data.metadata;
-    });
+    .then(
+      (
+        data: LxdApiResponse<
+          LxdClusterLinkCreated | LxdClusterLinkCertificate | null
+        >,
+      ) => {
+        return data.metadata;
+      },
+    );
 };
 
 export const updateClusterLink = async (
