@@ -28,6 +28,7 @@ const getPrimitiveFieldChanges = (
     "user_keys",
     "barePool",
     "editRestriction",
+    "restricted_registries_mode",
   ]);
 
   for (const key in formik.values) {

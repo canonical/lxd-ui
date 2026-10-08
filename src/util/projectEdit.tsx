@@ -16,6 +16,7 @@ import { getDefaultNetwork, getDefaultStoragePool } from "./devices";
 import type { LxdProfile } from "types/profile";
 import { imageRestrictionPayload } from "pages/projects/forms/ImageRestrictionForm";
 import { replicaPayload } from "pages/projects/forms/ProjectReplicaForm";
+import { getRegistryRestrictionMode } from "util/imageRegistry";
 
 export const getProjectEditValues = (
   project: LxdProject,
@@ -107,6 +108,9 @@ export const getProjectEditValues = (
     restricted_network_zones: project.config["restricted.networks.zones"],
 
     restricted_registries: project.config["restricted.registries"],
+    restricted_registries_mode: getRegistryRestrictionMode(
+      project.config["restricted.registries"],
+    ),
 
     replica_mode: project.replica_mode,
     replica_cluster: project.config["replica.cluster"],

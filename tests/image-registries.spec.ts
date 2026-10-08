@@ -19,7 +19,7 @@ import {
   randomProjectName,
 } from "./helpers/projects";
 import { visitCreateInstancePage } from "./helpers/instances";
-import { assertReadMode } from "./helpers/configuration";
+import { activateOverride, assertReadMode } from "./helpers/configuration";
 
 const BUILTIN_IMAGE_REGISTRY = "ubuntu-daily";
 const BUILTIN_IMAGE_REGISTRY_URL = "https://cloud-images.ubuntu.com/daily/";
@@ -138,8 +138,36 @@ test("project image registry restrictions", async ({ page, lxdVersion }) => {
     .getByText("Images")
     .click();
 
-  // No image registry is allowed for use in the project by default.
-  await assertReadMode(page, "Available image registries", "");
+  await activateOverride(page, "Available image registries");
+  await expect(
+    page.getByRole("radio", { name: "Built-in registries only (default)" }),
+  ).toBeChecked();
+
+  await page.getByText("Custom registries selection").click();
+  await expect(page.getByText("Select at least one registry")).toBeVisible();
+  await expect(
+    page.getByRole("combobox", { name: "Select registries" }),
+  ).toHaveAttribute("aria-expanded", "true");
+  await expect(page.getByText("Select at least one registry")).toBeVisible();
+  await page
+    .getByRole("checkbox", { name: "Built-in registries", exact: true })
+    .click();
+  await expect(
+    page.getByRole("checkbox", { name: BUILTIN_IMAGE_REGISTRY }),
+  ).toBeDisabled();
+  await page.getByRole("checkbox", { name: registryName }).click();
+  await page.getByRole("combobox", { name: "Select registries" }).click();
+  await page.getByRole("button", { name: "Save 1 change" }).click();
+  await dismissNotification(page, `Project ${project} updated.`);
+
+  await page
+    .getByRole("row", { name: "Available image registries" })
+    .getByRole("button", { name: "Edit" })
+    .click();
+  await page.getByText("Block all registries").click();
+  await page.getByRole("button", { name: "Save 1 change" }).click();
+  await dismissNotification(page, `Project ${project} updated.`);
+  await assertReadMode(page, "Available image registries", "No registries");
 
   await visitCreateInstancePage(page, project);
   await page.getByRole("button", { name: "* Base Image" }).click();
