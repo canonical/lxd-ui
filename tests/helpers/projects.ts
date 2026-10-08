@@ -118,6 +118,25 @@ export const demoteProjectToStandby = async (page: Page, project: string) => {
   ).toBeVisible();
 };
 
+export const clearReplicaMode = async (page: Page, project: string) => {
+  await page.getByRole("button", { name: "Clear replica mode" }).click();
+  const confirmationModal = page.getByRole("dialog", {
+    name: "Confirm clear replica mode",
+  });
+  await confirmationModal
+    .getByLabel("Force", { exact: true })
+    .check({ force: true });
+  await confirmationModal
+    .getByRole("button")
+    .filter({ hasText: "Clear" })
+    .click();
+  await dismissNotification(
+    page,
+    `Replica mode cleared for project ${project}`,
+  );
+  await assertProjectReplicaMode(page, "None");
+};
+
 export const selectReplicaCluster = async (page: Page, clusterName: string) => {
   await page.getByLabel("Replica cluster").click();
   const clusterOption = page.getByRole("option", { name: clusterName });
