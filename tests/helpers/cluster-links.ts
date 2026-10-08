@@ -4,7 +4,7 @@ import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
-import { getRemoteClusterVm } from "./cluster";
+import { getLocalClusterVm, getRemoteClusterVm } from "./cluster";
 
 export const skipIfUnidirectionalClusterLinksNotSupported = (
   lxdVersion: LxdVersions,
@@ -12,6 +12,15 @@ export const skipIfUnidirectionalClusterLinksNotSupported = (
   test.skip(
     lxdVersion !== "latest-edge",
     "Unidirectional cluster links are not available",
+  );
+};
+
+export const skipIfPublicClusterLinksNotSupported = (
+  lxdVersion: LxdVersions,
+) => {
+  test.skip(
+    lxdVersion !== "latest-edge",
+    "Public cluster links are not available",
   );
 };
 
@@ -84,6 +93,67 @@ export const createClusterLinkUnidirectional = async (
   await panel.getByRole("button", { name: "Create link" }).click();
 
   await dismissNotification(page, `Cluster link ${link} created.`);
+};
+
+// Fills in the public link details and fetches the remote certificate,
+// leaving the side panel on the "Verify certificate" step
+export const fetchPublicClusterLinkCertificate = async (
+  page: Page,
+  link: string,
+  remoteAddress: string,
+) => {
+  await page.getByRole("button", { name: "Create cluster link" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Choose cluster link type" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Public" }).click();
+
+  await page.getByPlaceholder("Enter address").fill(remoteAddress);
+  await page.getByPlaceholder("Enter name").fill(link);
+  const panel = page.getByLabel("Side panel");
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+
+  await expect(
+    panel.getByRole("heading", { name: /Verify certificate/ }),
+  ).toBeVisible();
+  await expect(panel.locator("#certificate-fingerprint")).toHaveText(
+    /^[0-9a-f]{64}$/,
+  );
+};
+
+// The remote VM runs LXD too, so it also lists its own lxdbr0 address, which other VMs can't reach
+export const getRemoteClusterAddress = (): string => {
+  const remoteVm = getRemoteClusterVm();
+  const output = runCommand(`lxc list ${remoteVm} --format csv -c 4`);
+  const addresses = output.replace(/"/g, "").trim().split(/[\n,]/);
+  const address =
+    addresses.find((entry) => !entry.includes("(lxdbr0)")) ?? addresses[0];
+  return address.trim().split(" ")[0];
+};
+
+// Creates a public link that is left pending, as if its creation was interrupted
+export const createPendingPublicClusterLink = (
+  link: string,
+  remoteAddress: string,
+): void => {
+  const localVm = getLocalClusterVm();
+  const body = JSON.stringify({
+    name: link,
+    type: "public",
+    remote_address: remoteAddress,
+  });
+  runCommand(
+    `lxc exec ${localVm} -- lxc query -X POST --data '${body}' /1.0/cluster/links`,
+  );
+};
+
+export const clusterLinkExists = (link: string): boolean => {
+  const localVm = getLocalClusterVm();
+  const output = runCommand(
+    `lxc exec ${localVm} -- lxc cluster link list --format csv`,
+  );
+  return output.split("\n").some((line) => line.split(",")[0] === link);
 };
 
 export const editClusterLink = async (page: Page, link: string) => {
