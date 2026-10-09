@@ -132,6 +132,7 @@ test("project image registry restrictions", async ({ page, lxdVersion }) => {
 
   await page.getByText("Allow custom restrictions on a project level").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
+  await dismissNotification(page, `Project ${project} updated.`);
 
   await page
     .getByRole("navigation", { name: "Project form navigation" })
