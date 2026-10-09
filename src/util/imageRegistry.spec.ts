@@ -17,8 +17,8 @@ vi.mock("api/image-registries", () => ({
 const project = (config: Record<string, string>) =>
   ({ name: "p", config }) as unknown as LxdProject;
 
-const builtin = { name: "ubuntu", builtin: true };
-const custom = { name: "my-reg", builtin: false };
+const builtin = { name: "ubuntu", builtin: true, public: true };
+const custom = { name: "my-reg", builtin: false, public: true };
 
 describe("loadImagesFromAllRegistries", () => {
   beforeEach(() => {

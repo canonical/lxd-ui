@@ -91,7 +91,9 @@ export const editReplicatorSidePanel = async (
     await sidePanel.getByLabel("Schedule").fill(newSchedule);
   }
 
-  await sidePanel.getByRole("button", { name: "Update" }).click();
+  await sidePanel
+    .getByRole("button", { name: "Update" })
+    .click({ force: true });
   await dismissNotification(page, `Replicator ${replicatorName} updated.`);
 };
 

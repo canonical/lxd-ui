@@ -123,7 +123,10 @@ const ImageTable: FC<Props> = ({
             <CreateInstanceFromImageBtn
               key="launch"
               projectName={projectName}
-              image={localLxdToRemoteImage(image)}
+              image={{
+                ...localLxdToRemoteImage(image),
+                registryName: imageRegistry.name,
+              }}
               disabledReason={getDisabledReason(image)}
             />
           ),
