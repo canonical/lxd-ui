@@ -1,10 +1,6 @@
 import React, { createContext, type ReactNode, useContext } from "react";
 
-const LOCAL_STORAGE_PREFIX = "lxdui_ff_";
-
-interface FeatureFlagContextType {
-  isOverviewEnabled: () => boolean;
-}
+type FeatureFlagContextType = Record<string, never>;
 
 const FeatureFlagContext = createContext<FeatureFlagContextType | undefined>(
   undefined,
@@ -13,16 +9,8 @@ const FeatureFlagContext = createContext<FeatureFlagContextType | undefined>(
 export const FeatureFlagProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const isFeatureEnabled = (flag: string): boolean => {
-    return localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${flag}`) === "true";
-  };
-
   return (
-    <FeatureFlagContext.Provider
-      value={{
-        isOverviewEnabled: () => isFeatureEnabled("OVERVIEW"),
-      }}
-    >
+    <FeatureFlagContext.Provider value={{}}>
       {children}
     </FeatureFlagContext.Provider>
   );

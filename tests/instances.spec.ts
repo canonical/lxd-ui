@@ -289,13 +289,13 @@ test("instance search by user key", async ({ page }) => {
   const lxc = getLxcCmd();
   runCommand(`${lxc} config set ${instance} user.team blue`);
 
-  await gotoURL(page, "/ui/project/default");
+  await gotoURL(page, "/ui/project/default/instances");
   await searchEntityListPage(page, "user.team=blue");
   await expect(
     page.getByRole("link", { name: instance }).first(),
   ).toBeVisible();
 
-  await gotoURL(page, "/ui/project/default");
+  await gotoURL(page, "/ui/project/default/instances");
   await searchEntityListPage(page, "user.team=red");
   await expect(
     page.getByText("No instance found matching this search"),
@@ -363,6 +363,7 @@ test("Copy an instance", async ({ page }) => {
 
 test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
   await gotoURL(page, "/ui/");
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search and filter").fill(instance);
   await page.getByPlaceholder("Search and filter").press("Enter");
@@ -430,6 +431,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
 
   //Upload an instance
   await gotoURL(page, "/ui/");
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.waitForLoadState("networkidle");
@@ -459,6 +461,7 @@ test("Create instance from external instance file", async ({
     `curl -L -o ${instanceFile} https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img`,
   );
   await gotoURL(page, "/ui/");
+  await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.getByText("External format (.qcow2, .").click();

@@ -9,7 +9,6 @@ import { isBearerAuthError, logoutBearerToken, logoutOidc } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 import lazy from "util/lazyWithRetry";
 import { useIsClustered } from "context/useIsClustered";
-import { useFeatureFlags } from "context/useFeatureFlags";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import {
@@ -21,7 +20,7 @@ import {
 } from "@canonical/react-components";
 import { setFavicon } from "util/favicon";
 import { unmanagedNetworkDetailRoute } from "util/networks";
-import { ALL_PROJECTS, getHomeUrl } from "util/projects";
+import { ALL_PROJECTS, getOverviewUrl } from "util/projects";
 import { AUTH_METHOD } from "util/authentication";
 
 const AuthenticationSetup = lazy(
@@ -153,7 +152,6 @@ const App: FC = () => {
   const notify = useNotify();
   const { data: settings } = useSettings();
   const isClustered = useIsClustered();
-  const { isOverviewEnabled } = useFeatureFlags();
   const hasOidc = settings?.auth_methods?.includes(AUTH_METHOD.OIDC);
   const hasCertificate = settings?.client_certificate;
   setFavicon();
@@ -187,7 +185,7 @@ const App: FC = () => {
       hasNoProjects || defaultProject === ALL_PROJECTS
         ? ALL_PROJECTS
         : defaultProject;
-    return getHomeUrl(homeProject, isOverviewEnabled());
+    return getOverviewUrl(homeProject);
   };
 
   if (isAuthLoading) {
@@ -645,22 +643,16 @@ const App: FC = () => {
           path={`${ROOT_PATH}/ui/identity`}
           element={<ProtectedRoute outlet={<Identity />} />}
         />
-        {isOverviewEnabled() && (
-          <>
-            <Route
-              path={`${ROOT_PATH}/ui/all-projects/overview`}
-              element={<ProtectedRoute outlet={<Overview />} />}
-            />
-            <Route
-              path={`${ROOT_PATH}/ui/project/:project/overview`}
-              element={
-                <ProtectedRoute
-                  outlet={<ProjectLoader outlet={<Overview />} />}
-                />
-              }
-            />
-          </>
-        )}
+        <Route
+          path={`${ROOT_PATH}/ui/all-projects/overview`}
+          element={<ProtectedRoute outlet={<Overview />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/project/:project/overview`}
+          element={
+            <ProtectedRoute outlet={<ProjectLoader outlet={<Overview />} />} />
+          }
+        />
         <Route path={`${ROOT_PATH}/ui/login`} element={<Login />} />
         <Route
           path={`${ROOT_PATH}/ui/login/certificate-generate`}

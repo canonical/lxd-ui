@@ -26,7 +26,7 @@ test.describe("Initial access with bearer token", () => {
 
     await visitInitialAccessLink(page, baseURL);
 
-    await expect(page).toHaveURL(/\/ui\/project\/.*\/instances/);
+    await expect(page).toHaveURL(/\/ui\/project\/.*\/overview/);
     await expect(page.getByText("Initial access expires in")).toBeVisible();
     await page.getByRole("link", { name: "Set up permanent access" }).click();
     await page.getByRole("link", { name: "Set up TLS login" }).click();
@@ -85,7 +85,7 @@ test.describe("Initial access with bearer token", () => {
 
     await page.getByRole("button", { name: "Create identity" }).click();
 
-    await expect(page).toHaveURL(/\/ui\/project\/.*\/instances/);
+    await expect(page).toHaveURL(/\/ui\/project\/.*\/overview/);
     await expect(
       page.getByRole("link", { name: "Set up permanent access" }),
     ).not.toBeVisible();

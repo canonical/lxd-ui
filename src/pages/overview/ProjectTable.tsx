@@ -10,7 +10,7 @@ import ProjectDefaultStorage from "pages/projects/ProjectDefaultStorage";
 import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
 import type { LxdProject } from "types/project";
 import { defaultFirst } from "util/helpers";
-import { getInstancesUsedByProject, getHomeUrl } from "util/projects";
+import { getInstancesUsedByProject, getOverviewUrl } from "util/projects";
 import { ROOT_PATH } from "util/rootPath";
 
 interface Props {
@@ -66,7 +66,7 @@ const ProjectTable: FC<Props> = ({ projects, isAllProjects = false }) => {
         {
           content: isAllProjects ? (
             <Link
-              to={getHomeUrl(project.name, true)}
+              to={getOverviewUrl(project.name)}
               className="u-truncate"
               title={project.name}
             >

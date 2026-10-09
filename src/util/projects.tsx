@@ -43,15 +43,6 @@ export const getInstancesUrl = (projectName: string): string => {
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instances`;
 };
 
-export const getHomeUrl = (
-  projectName: string,
-  isOverviewEnabled: boolean,
-): string => {
-  return isOverviewEnabled
-    ? getOverviewUrl(projectName)
-    : getInstancesUrl(projectName);
-};
-
 export const getSubpageFromUrl = (url: string): string | undefined => {
   const urlWithoutQuery = url.split("?")[0];
   const normalizedPath = urlWithoutQuery.replace(ROOT_PATH, "");
@@ -97,13 +88,10 @@ export const getProjectSwitchTarget = (
   return `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/${targetSection}`;
 };
 
-export const getAllProjectsSwitchTarget = (
-  url: string,
-  isOverviewEnabled: boolean,
-): string => {
+export const getAllProjectsSwitchTarget = (url: string): string => {
   const targetSection = getSubpageFromUrl(url);
 
-  if (targetSection === "overview" && isOverviewEnabled) {
+  if (targetSection === "overview") {
     return ALL_PROJECTS_OVERVIEW_PATH;
   }
 
@@ -111,7 +99,7 @@ export const getAllProjectsSwitchTarget = (
     return ALL_INSTANCES_LIST_URL;
   }
 
-  return getHomeUrl(ALL_PROJECTS, isOverviewEnabled);
+  return getOverviewUrl(ALL_PROJECTS);
 };
 
 export const isProjectEmpty = (project: LxdProject): boolean => {

@@ -393,7 +393,10 @@ test.describe("Given a user with Viewer Server permissions...", () => {
       exact: true,
     });
     await clusteringToggle.click();
-    await page.getByRole("link", { name: "Server" }).click();
+    await page
+      .getByRole("navigation")
+      .getByRole("link", { name: "Server" })
+      .click();
     await expect(
       page.getByRole("button", { name: "Enable clustering" }),
     ).toBeDisabled();
