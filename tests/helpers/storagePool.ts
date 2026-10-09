@@ -20,7 +20,7 @@ export const createPool = async (
 ) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
-  await page.getByRole("link", { name: "Pools" }).click();
+  await page.getByRole("link", { name: "Pools", exact: true }).click();
   await expect(page.getByRole("button", { name: "Create pool" })).toBeVisible();
   if (await page.getByText(pool).isVisible()) {
     await deletePool(page, pool);
@@ -49,7 +49,7 @@ export const deletePool = async (page: Page, pool: string) => {
 export const visitPool = async (page: Page, pool: string) => {
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
-  await page.getByRole("link", { name: "Pools" }).click();
+  await page.getByRole("link", { name: "Pools", exact: true }).click();
   await page.getByRole("link", { name: pool, exact: true }).first().click();
   await expect(page.getByText(`Storage pools${pool}`)).toBeVisible();
 };
