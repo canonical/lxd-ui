@@ -15,5 +15,6 @@ export const useSupportedFeatures = () => {
     hasStorageDriverPowerstoreNvme: apiExtensions.has(
       "storage_driver_powerstore_nvme",
     ),
+    hasReplicators: apiExtensions.has("replicators"),
   };
 };

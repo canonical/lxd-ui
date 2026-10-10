@@ -5,26 +5,33 @@ import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
 import { ROOT_PATH } from "util/rootPath";
 
-const projectEntitlements = [
-  "can_create_image_aliases",
-  "can_create_images",
-  "can_create_instances",
-  "can_create_networks",
-  "can_create_network_acls",
-  "can_create_profiles",
-  "can_create_replicators",
-  "can_create_storage_volumes",
-  "can_create_storage_buckets",
-  "can_delete",
-  "can_edit",
-];
+const getProjectEntitlements = (hasReplicators: boolean) => {
+  const result = [
+    "can_create_image_aliases",
+    "can_create_images",
+    "can_create_instances",
+    "can_create_networks",
+    "can_create_network_acls",
+    "can_create_profiles",
+    "can_create_storage_volumes",
+    "can_create_storage_buckets",
+    "can_delete",
+    "can_edit",
+  ];
+  if (hasReplicators) {
+    result.push("can_create_replicators");
+  }
+  return result;
+};
 
 export const fetchProjects = async (
   isFineGrained: boolean | null,
+  hasReplicators: boolean,
 ): Promise<LxdProject[]> => {
   const params = new URLSearchParams();
   params.set("recursion", "1");
-  addEntitlements(params, isFineGrained, projectEntitlements);
+  const entitlements = getProjectEntitlements(hasReplicators);
+  addEntitlements(params, isFineGrained, entitlements);
 
   return fetch(`${ROOT_PATH}/1.0/projects?${params.toString()}`)
     .then(handleResponse)
@@ -36,9 +43,11 @@ export const fetchProjects = async (
 export const fetchProject = async (
   name: string,
   isFineGrained: boolean | null,
+  hasReplicators: boolean,
 ): Promise<LxdProject> => {
   const params = new URLSearchParams();
-  addEntitlements(params, isFineGrained, projectEntitlements);
+  const entitlements = getProjectEntitlements(hasReplicators);
+  addEntitlements(params, isFineGrained, entitlements);
 
   return fetch(
     `${ROOT_PATH}/1.0/projects/${encodeURIComponent(name)}?${params.toString()}`,

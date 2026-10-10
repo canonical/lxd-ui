@@ -46,7 +46,8 @@ interface ProviderProps {
 }
 
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
-  const { isSettingsLoading, settings, settingsError } = useSupportedFeatures();
+  const { hasReplicators, isSettingsLoading, settings, settingsError } =
+    useSupportedFeatures();
 
   const authMethod = settings?.auth_user_method ?? null;
 
@@ -83,7 +84,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     error: projectError,
   } = useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: async () => fetchProjects(isFineGrained()),
+    queryFn: async () => fetchProjects(isFineGrained(), hasReplicators),
     enabled: settings?.auth === "trusted" && isFineGrained() !== null,
   });
 
