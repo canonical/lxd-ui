@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
-import { gotoURL } from "./navigate";
+import { visitOverview } from "./overview";
 import { expect } from "../fixtures/lxd-test";
 import {
   cephObject,
@@ -18,7 +18,7 @@ export const createPool = async (
   pool: string,
   driver = storageDriverLabels[dirDriver],
 ) => {
-  await gotoURL(page, "/ui/");
+  await visitOverview(page);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools", exact: true }).click();
   await expect(page.getByRole("button", { name: "Create pool" })).toBeVisible();
@@ -47,7 +47,7 @@ export const deletePool = async (page: Page, pool: string) => {
 };
 
 export const visitPool = async (page: Page, pool: string) => {
-  await gotoURL(page, "/ui/");
+  await visitOverview(page);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools", exact: true }).click();
   await page.getByRole("link", { name: pool, exact: true }).first().click();
