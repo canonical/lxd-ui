@@ -634,8 +634,9 @@ test.describe("projects", () => {
 
   test("create page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await gotoURL(page, "/ui/");
-    await page.getByRole("button", { name: "default" }).waitFor();
+    // wait for the overview to load, opening the project selector while it
+    // renders closes the selector again
+    await visitOverview(page);
     await page.getByRole("button", { name: "default" }).click();
     await page.getByRole("button", { name: "Create project" }).waitFor();
     await page.getByRole("button", { name: "Create project" }).click();
