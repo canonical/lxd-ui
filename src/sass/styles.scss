@@ -441,6 +441,10 @@ body.is-dark .lxd-icon {
   }
 }
 
+.p-modal .p-notification__action i {
+  vertical-align: middle;
+}
+
 .host-path-device-modal,
 .create-cluster-link,
 .identity-token-modal {
@@ -586,4 +590,8 @@ body.is-dark .lxd-icon {
     font-variant-caps: normal;
     letter-spacing: normal;
   }
+}
+
+.p-notification__message p:first-child {
+  padding-top: 0;
 }
