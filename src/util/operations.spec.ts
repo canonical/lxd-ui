@@ -149,6 +149,16 @@ describe("getProjectName", () => {
 
     expect(name).toBe("imageProject");
   });
+
+  it("identifies the target project from an instance copy operation", () => {
+    const operation = craftOperation(
+      ["/1.0/instances/sourceInstance?project=source"],
+      "/1.0/instances/copiedInstance?project=target",
+    );
+    const name = getProjectName(operation);
+
+    expect(name).toBe("target");
+  });
 });
 
 describe("getInstanceSnapshotName", () => {

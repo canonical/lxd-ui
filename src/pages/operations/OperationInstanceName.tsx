@@ -1,6 +1,10 @@
 import type { FC } from "react";
 import type { LxdOperation } from "types/operation";
-import { getInstanceName, getProjectName } from "util/operations";
+import {
+  getInstanceName,
+  getProjectName,
+  isCreatingInstance,
+} from "util/operations";
 import ResourceLabel from "components/ResourceLabel";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
@@ -32,8 +36,7 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
     "Showing console",
   ];
   const isLinkable =
-    (operation.status === "Success" &&
-      operation.description === "Creating instance") ||
+    (operation.status === "Success" && isCreatingInstance(operation)) ||
     linkableDescriptions.includes(operation.description);
 
   if (isLinkable && projectName) {
