@@ -1,4 +1,8 @@
-import { byLtsFirst, byOSRelease, localLxdToRemoteImage } from "util/images";
+import {
+  byOSRelease,
+  localLxdToRemoteImage,
+  sortUbuntuImages,
+} from "util/images";
 import type {
   LxdImageRegistry,
   RemoteImage,
@@ -138,7 +142,7 @@ export const loadImagesFromAllRegistries = async (
     const images = name in imagesByRegistry ? imagesByRegistry[name] : [];
     imagesByRegistry[name] = images.filter(uniqueTitle);
     imagesByRegistry[name].map(markVmAndContainerImagesAsOne);
-    imagesByRegistry[name].reverse().sort(byLtsFirst);
+    imagesByRegistry[name] = sortUbuntuImages(imagesByRegistry[name]);
   });
 
   // order for builtin registries

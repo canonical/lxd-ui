@@ -1,4 +1,4 @@
-import { byOSRelease } from "util/images";
+import { byLtsFirst, byOSRelease, sortUbuntuImages } from "util/images";
 import { expect, test } from "./fixtures/lxd-test";
 import { deleteImage, visitLocalImages } from "./helpers/images";
 import {
@@ -76,6 +76,63 @@ test("Export and Import an image", async ({ page }) => {
 
   await deleteImage(page, imageAlias);
   await deleteInstance(page, instance);
+});
+
+test.describe("sortUbuntuImages", () => {
+  const createUbuntuImage = (
+    release: string,
+    releaseTitle?: string,
+  ): RemoteImage => ({
+    aliases: "",
+    arch: "amd64",
+    created_at: Date.now(),
+    os: "Ubuntu",
+    release,
+    release_title: releaseTitle,
+    server: "images",
+    type: "container",
+  });
+
+  test("promotes only the newest LTS, then sorts releases numerically", () => {
+    const images = [
+      createUbuntuImage("24.10"),
+      createUbuntuImage("24.04", "Ubuntu 24.04 LTS"),
+      createUbuntuImage("27.04"),
+      createUbuntuImage("25.04"),
+      createUbuntuImage("26.04", "Ubuntu 26.04 LTS"),
+      createUbuntuImage("25.10"),
+    ];
+
+    expect(sortUbuntuImages(images).map((image) => image.release)).toEqual([
+      "26.04",
+      "27.04",
+      "25.10",
+      "25.04",
+      "24.10",
+      "24.04",
+    ]);
+  });
+});
+
+test.describe("byLtsFirst", () => {
+  test("prioritizes an LTS release title for legacy image ordering", () => {
+    const regularImage: RemoteImage = {
+      aliases: "",
+      arch: "amd64",
+      created_at: Date.now(),
+      os: "Ubuntu",
+      release: "24.10",
+      server: "images",
+      type: "container",
+    };
+    const ltsImage: RemoteImage = {
+      ...regularImage,
+      release: "24.04",
+      release_title: "Ubuntu 24.04 LTS",
+    };
+
+    expect(byLtsFirst(ltsImage, regularImage)).toBeLessThan(0);
+  });
 });
 
 test.describe("byOSRelease", () => {
