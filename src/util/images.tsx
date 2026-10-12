@@ -64,14 +64,59 @@ export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
   };
 };
 
+const getReleaseVersion = (image: RemoteImage): number[] | undefined => {
+  const version =
+    image.release_title?.match(/\d+(?:\.\d+)+/)?.[0] ??
+    image.release.match(/\d+(?:\.\d+)+/)?.[0];
+  return version?.split(".").map(Number);
+};
+
+const isLtsImage = (image: RemoteImage): boolean =>
+  image.aliases.includes("lts") ||
+  image.isLts === true ||
+  image.release_title?.toLowerCase().includes("lts") === true;
+
 export const byLtsFirst = (a: RemoteImage, b: RemoteImage): number => {
-  if (a.aliases.includes("lts") || a.isLts) {
-    return -1;
-  }
-  if (b.aliases.includes("lts") || b.isLts) {
-    return 1;
-  }
+  if (isLtsImage(a)) return -1;
+  if (isLtsImage(b)) return 1;
   return 0;
+};
+
+const compareReleaseVersions = (a: RemoteImage, b: RemoteImage): number => {
+  const aVersion = getReleaseVersion(a);
+  const bVersion = getReleaseVersion(b);
+
+  if (!aVersion) return bVersion ? 1 : 0;
+  if (!bVersion) return -1;
+
+  for (
+    let index = 0;
+    index < Math.max(aVersion.length, bVersion.length);
+    index++
+  ) {
+    const difference = (bVersion[index] ?? 0) - (aVersion[index] ?? 0);
+    if (difference !== 0) return difference;
+  }
+
+  return 0;
+};
+
+export const sortUbuntuImages = (images: RemoteImage[]): RemoteImage[] => {
+  const sortedImages = [...images].sort(compareReleaseVersions);
+  const latestLtsImage = sortedImages.find(
+    (image) => isLtsImage(image) && getReleaseVersion(image),
+  );
+
+  if (!latestLtsImage) return sortedImages;
+
+  return [
+    ...sortedImages.filter(
+      (image) => compareReleaseVersions(image, latestLtsImage) === 0,
+    ),
+    ...sortedImages.filter(
+      (image) => compareReleaseVersions(image, latestLtsImage) !== 0,
+    ),
+  ];
 };
 
 const getImageInfo = (img: RemoteImage | LxdImage): string => {
