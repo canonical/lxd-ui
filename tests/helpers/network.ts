@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
+import { visitOverview } from "./overview";
 import { expect } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster-groups";
 import type { IpAddressFamily } from "types/forms/network";
@@ -209,7 +210,7 @@ export const createNetworkForward = async (page: Page, network: string) => {
 export const getNetworkLink = async (page: Page, network: string) => {
   // network actions may result in ERR_NETWORK_CHANGED, we should wait for network to settle before checking visibility
   await page.waitForLoadState("networkidle");
-  await gotoURL(page, "/ui/");
+  await visitOverview(page);
   await page.getByRole("button", { name: "Networking" }).click();
   await page.getByTitle("Networks (default)").click();
   const networkLink = page.getByRole("link", { name: network, exact: true });
