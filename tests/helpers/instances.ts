@@ -53,7 +53,7 @@ export const createInstance = async (
   await page.getByPlaceholder("Search an image").fill(image);
   await page
     .getByRole("row")
-    .filter({ hasNotText: "cached" })
+    .filter({ hasNotText: "Cached" })
     .getByRole("button", { name: "Select" })
     .first()
     .click();
@@ -163,7 +163,7 @@ export const createAndStartInstance = async (
   await page.getByPlaceholder("Search an image").fill(DEFAULT_IMAGE);
   await page
     .getByRole("row")
-    .filter({ hasNotText: "cached" })
+    .filter({ hasNotText: "Cached" })
     .getByRole("button", { name: "Select" })
     .click();
   await page.getByRole("button", { name: "Create and start" }).first().click();

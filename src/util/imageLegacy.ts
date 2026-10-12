@@ -18,25 +18,61 @@ export const minimalServer =
 const imagesLxdJson = "https://images.lxd.canonical.com/streams/v1/images.json";
 export const imagesLxdServer = "https://images.lxd.canonical.com";
 
+interface LegacyImageSource {
+  label: string;
+  server: string;
+  json: string;
+  sortLtsFirst: boolean;
+}
+
+export const legacyImageSources: LegacyImageSource[] = [
+  {
+    label: "Ubuntu",
+    server: canonicalServer,
+    json: canonicalJson,
+    sortLtsFirst: true,
+  },
+  {
+    label: "Ubuntu Minimal",
+    server: minimalServer,
+    json: minimalJson,
+    sortLtsFirst: true,
+  },
+  {
+    label: "LXD Images",
+    server: imagesLxdServer,
+    json: imagesLxdJson,
+    sortLtsFirst: false,
+  },
+];
+
 // fetching directly from hard coded indexes and servers
-export const loadRemoteImagesLegacy = async (): Promise<RemoteImagesResult> => {
-  const canonicalImages = await loadImageJson(canonicalJson, canonicalServer);
-  const minimalImages = await loadImageJson(minimalJson, minimalServer);
-  const imagesLxdImages = await loadImageJson(imagesLxdJson, imagesLxdServer);
+// when a server is passed, only images from that source are loaded
+export const loadRemoteImagesLegacy = async (
+  server?: string,
+): Promise<RemoteImagesResult> => {
+  const sources = server
+    ? legacyImageSources.filter((source) => source.server === server)
+    : legacyImageSources;
 
-  const images = [...canonicalImages.images]
-    .reverse()
-    .sort(byLtsFirst)
-    .concat([...minimalImages.images].reverse().sort(byLtsFirst))
-    .concat([...imagesLxdImages.images]);
+  const results = await Promise.all(
+    sources.map(async (source) => {
+      const result = await loadImageJson(source.json, source.server);
+      const images = source.sortLtsFirst
+        ? [...result.images].reverse().sort(byLtsFirst)
+        : result.images;
+      return { images, error: result.error };
+    }),
+  );
 
-  const errors = [
-    canonicalImages.error,
-    minimalImages.error,
-    imagesLxdImages.error,
-  ].filter((e) => e !== "");
+  const errors = results
+    .map((result) => result.error)
+    .filter((error) => error !== "");
 
-  return { images, error: errors.join(". ") };
+  return {
+    images: results.flatMap((result) => result.images),
+    error: errors.join(". "),
+  };
 };
 
 const loadImageJson = async (
