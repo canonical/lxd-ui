@@ -40,7 +40,8 @@ import {
 import {
   OVERVIEW_NARROW_VIEWPORT,
   visitAllProjectsOverview,
-  visitOverview,
+  visitLandingPage,
+  visitProjectOverview,
 } from "./helpers/overview";
 import {
   createVolume,
@@ -634,9 +635,7 @@ test.describe("projects", () => {
 
   test("create page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    // wait for the overview to load, opening the project selector while it
-    // renders closes the selector again
-    await visitOverview(page);
+    await visitLandingPage(page);
     await page.getByRole("button", { name: "default" }).click();
     await page.getByRole("button", { name: "Create project" }).waitFor();
     await page.getByRole("button", { name: "Create project" }).click();
@@ -889,14 +888,14 @@ test.describe("overview page", () => {
 
   test("project overview page", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
-    await visitOverview(page);
+    await visitProjectOverview(page);
     await runA11yAudit(page, testInfo);
   });
 
   test("project overview page narrow viewport", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
     await page.setViewportSize(OVERVIEW_NARROW_VIEWPORT);
-    await visitOverview(page);
+    await visitProjectOverview(page);
     await runA11yAudit(page, testInfo);
   });
 
