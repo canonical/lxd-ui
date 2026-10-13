@@ -69,7 +69,7 @@ const InstanceLoadBalancerTable: FC<Props> = ({ device, instance }) => {
             );
           }),
           role: "cell",
-          "aria-label": "Instance status in pool",
+          "aria-label": "Status",
         },
       ],
     },
