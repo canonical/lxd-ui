@@ -1,4 +1,5 @@
 import type { LxdInstance, LxdInstanceStatus } from "types/instance";
+import { configMatchesQuery } from "util/configQuery";
 
 export interface InstanceFilters {
   queries: string[];
@@ -34,23 +35,8 @@ export const enrichStatuses = (
   return statuses;
 };
 
-// Supports the config filters of lxc list, e.g. "user.owner=alice".
-// Like in lxc list, an empty value matches instances where the key is not set.
-const matchesConfigQuery = (instance: LxdInstance, query: string): boolean => {
-  const [key, ...valueParts] = query.split("=");
-  const configKey = key.trim();
-  if (!configKey || valueParts.length === 0) {
-    return false;
-  }
-
-  const config = instance.expanded_config ?? instance.config;
-  const matchingKey = Object.keys(config).find(
-    (item) => item.toLowerCase() === configKey,
-  );
-  const configValue = matchingKey ? (config[matchingKey] ?? "") : "";
-
-  return configValue.toLowerCase() === valueParts.join("=").trim();
-};
+const matchesConfigQuery = (instance: LxdInstance, query: string): boolean =>
+  configMatchesQuery(instance.expanded_config ?? instance.config, query);
 
 export const instanceMatchesQuery = (
   instance: LxdInstance,

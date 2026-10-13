@@ -16,6 +16,7 @@ import {
 } from "@canonical/react-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
+import { configMatchesQuery } from "util/configQuery";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
@@ -84,7 +85,8 @@ const ProfileList: FC = () => {
       const q = query.toLowerCase();
       if (
         !item.name.toLowerCase().includes(q) &&
-        !item.description.toLowerCase().includes(q)
+        !item.description.toLowerCase().includes(q) &&
+        !configMatchesQuery(item.config, q)
       ) {
         return false;
       }
