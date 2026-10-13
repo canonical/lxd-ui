@@ -88,6 +88,12 @@ import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
+import { useMetricsByLocation } from "context/useMetrics";
+import {
+  getFilesystemUsage,
+  getMemoryUsage,
+  getUsedPercentage,
+} from "util/metricSelectors";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -151,6 +157,10 @@ const InstanceList: FC = () => {
   if (error) {
     notify.failure("Loading instances failed", error);
   }
+
+  const metricsByLocation = useMetricsByLocation(
+    instances.map((instance) => instance.location),
+  );
 
   const setCreateButtonLabel = () => {
     _setCreateButtonLabel(isMediumScreen ? "Create" : "Create instance");
@@ -302,10 +312,12 @@ const InstanceList: FC = () => {
       : []),
     {
       content: MEMORY,
+      sortKey: "memory",
       style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
     },
     {
       content: FILESYSTEM,
+      sortKey: "filesystem",
       style: { width: `${COLUMN_WIDTHS[FILESYSTEM]}px` },
     },
     {
@@ -432,6 +444,9 @@ const InstanceList: FC = () => {
       const ipv6 = getIpAddresses(instance, "inet6");
 
       const loadingType = instanceLoading.getType(instance);
+
+      const metrics = metricsByLocation.get(instance.location) ?? [];
+      const [rootFilesystem] = getFilesystemUsage(metrics, instance);
 
       const hasActivePanel =
         panelParams.instance === instance.name &&
@@ -575,6 +590,8 @@ const InstanceList: FC = () => {
           type: instance.type,
           snapshots: instance.snapshots?.length ?? 0,
           project: instance.project,
+          memory: getUsedPercentage(getMemoryUsage(metrics, instance)),
+          filesystem: getUsedPercentage(rootFilesystem),
         },
       };
     });

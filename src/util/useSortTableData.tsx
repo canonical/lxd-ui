@@ -8,6 +8,9 @@ interface Props {
   defaultSortDirection?: SortDirection;
 }
 
+const isMissingValue = (row: MainTableRow, sort: string) =>
+  !!row.sortData && sort in row.sortData && row.sortData[sort] === undefined;
+
 const useSortTableData = (props: Props) => {
   const { defaultSort, defaultSortDirection = "ascending", rows } = props;
   const [sort, setSort] = useState<string | null | undefined>(defaultSort);
@@ -17,6 +20,13 @@ const useSortTableData = (props: Props) => {
     rows.sort((a, b) => {
       const aVal = a.sortData ? (a.sortData[sort] as string) : "";
       const bVal = b.sortData ? (b.sortData[sort] as string) : "";
+      // rows that have the sort key without a value are always at the bottom,
+      // regardless of direction
+      const aMissing = isMissingValue(a, sort);
+      const bMissing = isMissingValue(b, sort);
+      if (aMissing || bMissing) {
+        return Number(aMissing) - Number(bMissing);
+      }
       if (aVal > bVal) {
         return sortDirection === "ascending" ? 1 : -1;
       }

@@ -184,3 +184,13 @@ const findMetric = (
       ) ?? []
   );
 };
+
+export const getUsedPercentage = (
+  usage?: MemoryUsage | FilesystemUsage,
+): number | undefined => {
+  if (!usage?.total) {
+    return undefined;
+  }
+
+  return ((usage.total - usage.free) / usage.total) * 100;
+};

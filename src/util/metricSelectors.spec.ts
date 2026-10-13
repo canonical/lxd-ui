@@ -1,5 +1,9 @@
 import parsePrometheusTextFormat from "parse-prometheus-text-format";
-import { getCpuUsage, getInstanceMetricReport } from "util/metricSelectors";
+import {
+  getCpuUsage,
+  getInstanceMetricReport,
+  getUsedPercentage,
+} from "util/metricSelectors";
 import type { LxdInstance } from "types/instance";
 
 describe("parse instance metrics to a report", () => {
@@ -74,6 +78,20 @@ describe("parse instance metrics to a report", () => {
 
     expect(cpuUsage?.cpuSecondsTotal).toBe(19522.7);
     expect(cpuUsage?.cpuSecondsIdle).toBe(18822.159999999996);
+  });
+});
+
+describe("getUsedPercentage", () => {
+  it("returns the used share of the total as a percentage", () => {
+    expect(getUsedPercentage({ device: "/", free: 25, total: 100 })).toBe(75);
+    expect(getUsedPercentage({ cached: 10, free: 60, total: 80 })).toBe(25);
+  });
+
+  it("returns undefined without usage or with a zero total", () => {
+    expect(getUsedPercentage(undefined)).toBeUndefined();
+    expect(
+      getUsedPercentage({ device: "/", free: 0, total: 0 }),
+    ).toBeUndefined();
   });
 });
 
