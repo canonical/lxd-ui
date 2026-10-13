@@ -33,7 +33,7 @@ const LoadBalancerPoolsTable: FC<Props> = ({ loadBalancerPools, network }) => {
       ? [{ content: "Health check", className: "health-check" }]
       : []),
     { content: "Instances" },
-    { content: "Instance statuses", className: "status-header" },
+    { content: "Target health", className: "status-header" },
     {
       "aria-label": "Actions",
       className: "u-align--right actions",
@@ -94,7 +94,7 @@ const LoadBalancerPoolsTable: FC<Props> = ({ loadBalancerPools, network }) => {
         {
           content: <LoadBalancerPoolStatuses pool={pool} network={network} />,
           role: "cell",
-          "aria-label": "Statuses",
+          "aria-label": "Target health",
         },
         {
           content: (
