@@ -1,4 +1,4 @@
-import { cloneElement, type ReactNode } from "react";
+import { cloneElement, type ChangeEventHandler, type ReactNode } from "react";
 import { Button, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -22,6 +22,10 @@ interface Props {
   inputHelp?: string;
   readOnlyRenderer?: (value: ReactNode) => string | ReactNode;
   hideOverrideBtn?: boolean;
+  onChange?: ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  >;
+  clearOverride?: () => void;
 }
 
 export const getConfigurationRow = ({
@@ -36,6 +40,8 @@ export const getConfigurationRow = ({
   inputHelp,
   readOnlyRenderer = (value: ReactNode) => <>{value}</>,
   hideOverrideBtn = false,
+  onChange,
+  clearOverride,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
   const value = values[name];
@@ -49,7 +55,11 @@ export const getConfigurationRow = ({
 
   const toggleDefault = () => {
     if (isOverridden) {
-      formik.setFieldValue(name, undefined);
+      if (clearOverride) {
+        clearOverride();
+      } else {
+        formik.setFieldValue(name, undefined);
+      }
     } else {
       enableOverride();
       focusField(name);
@@ -81,7 +91,7 @@ export const getConfigurationRow = ({
               id: name,
               name,
               onBlur: formik.handleBlur,
-              onChange: formik.handleChange,
+              onChange: onChange ?? formik.handleChange,
               value,
               disabled: isDisabled(),
               help: (
