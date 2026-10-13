@@ -301,6 +301,19 @@ test("instance search by user key", async ({ page }) => {
     page.getByText("No instance found matching this search"),
   ).toBeVisible();
 
+  const searchUrl = (negatedQuery: string) =>
+    `/ui/project/default/instances?query=${encodeURIComponent(instance)}&query=${encodeURIComponent(negatedQuery)}`;
+
+  await gotoURL(page, searchUrl("!user.team=red"));
+  await expect(
+    page.getByRole("link", { name: instance }).first(),
+  ).toBeVisible();
+
+  await gotoURL(page, searchUrl("!user.team=blue"));
+  await expect(
+    page.getByText("No instance found matching this search"),
+  ).toBeVisible();
+
   runCommand(`${lxc} config unset ${instance} user.team`);
 });
 
