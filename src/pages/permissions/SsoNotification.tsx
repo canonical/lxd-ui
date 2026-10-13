@@ -9,6 +9,7 @@ const SsoNotification: FC = () => {
     { name: "Keycloak", docPath: "/howto/oidc_keycloak/" },
     { name: "Entra ID", docPath: "/howto/oidc_entra_id/" },
     { name: "Pocket ID", docPath: "/howto/oidc_pocket_id/" },
+    { name: "authentik", docPath: "/howto/oidc_authentik/" },
   ];
 
   const getOidcProviderLink = (providerName: string, docPath: string) => {
