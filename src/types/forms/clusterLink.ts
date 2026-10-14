@@ -9,4 +9,6 @@ export interface ClusterLinkFormValues {
   isCreating: boolean;
   initialAuthGroups?: string[];
   type: LxdClusterLinkType;
+  remoteAddress?: string;
+  fingerprint?: string;
 }
