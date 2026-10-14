@@ -5,9 +5,16 @@ import {
   fetchImagesInAllProjects,
   fetchLocalImagesInProject,
 } from "api/images";
-import type { LxdImage, RemoteImagesResult } from "types/image";
+import type {
+  LxdImage,
+  LxdImageRegistry,
+  RemoteImagesResult,
+} from "types/image";
 import { loadRemoteImagesLegacy } from "util/imageLegacy";
-import { loadImagesFromAllRegistries } from "util/imageRegistry";
+import {
+  loadImagesFromBuiltInRegistries,
+  loadImagesFromRegistry,
+} from "util/imageRegistry";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useCurrentProject } from "context/useCurrentProject";
 
@@ -34,22 +41,62 @@ export const useImagesInAllProjects = (
   });
 };
 
-export const useRemoteImages = (): UseQueryResult<RemoteImagesResult> => {
+// loads images from the built-in registries by default, or from a single
+// registry when a registry name (or a server url for legacy servers) is passed
+export const useRemoteImages = (
+  registries: LxdImageRegistry[],
+  registryName?: string,
+  enabled = true,
+): UseQueryResult<RemoteImagesResult> => {
   const { isFineGrained } = useAuth();
   const { hasImageRegistries } = useSupportedFeatures();
   const { project } = useCurrentProject();
+  const registryQueriesEnabled =
+    enabled &&
+    hasImageRegistries &&
+    isFineGrained !== null &&
+    project !== undefined;
 
   const legacyResult = useQuery({
-    queryKey: [queryKeys.images, "selector", hasImageRegistries],
-    queryFn: async () => loadRemoteImagesLegacy(),
-    enabled: !hasImageRegistries,
+    queryKey: [queryKeys.images, "selector", hasImageRegistries, registryName],
+    queryFn: async () => loadRemoteImagesLegacy(registryName),
+    enabled: enabled && !hasImageRegistries,
+  });
+
+  const builtInResult = useQuery({
+    queryKey: [
+      queryKeys.images,
+      "selector",
+      hasImageRegistries,
+      project?.name,
+      "builtin",
+    ],
+    queryFn: async () =>
+      loadImagesFromBuiltInRegistries(registries, !!isFineGrained, project),
+    enabled: registryQueriesEnabled && !registryName,
   });
 
   const registryResult = useQuery({
-    queryKey: [queryKeys.images, "selector", hasImageRegistries, project?.name],
-    queryFn: async () => loadImagesFromAllRegistries(!!isFineGrained, project),
-    enabled: hasImageRegistries && isFineGrained !== null && project !== null,
+    queryKey: [
+      queryKeys.images,
+      "selector",
+      hasImageRegistries,
+      project?.name,
+      "registry",
+      registryName,
+    ],
+    queryFn: async () => {
+      const registry = registries.find((item) => item.name === registryName);
+      if (!registry) {
+        return { images: [], error: `Registry ${registryName} not found` };
+      }
+      return loadImagesFromRegistry(registry, !!isFineGrained, project);
+    },
+    enabled: registryQueriesEnabled && !!registryName,
   });
 
-  return hasImageRegistries ? registryResult : legacyResult;
+  if (!hasImageRegistries) {
+    return legacyResult;
+  }
+  return registryName ? registryResult : builtInResult;
 };
