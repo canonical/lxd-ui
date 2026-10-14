@@ -85,7 +85,7 @@ jobs:
 
       - name: Setup for tests
         shell: bash
-        run: sudo -E ./tests/scripts/setup_test
+        run: sudo --preserve-env=GOCOVERDIR,DEPLOYMENT,LXD_OIDC_ISSUER,LXD_OIDC_CLIENT_ID,LXD_OIDC_CLIENT_SECRET,LXD_OIDC_AUDIENCE,LXD_OIDC_GROUPS_CLAIM ./tests/scripts/setup_test
 
       - name: Run Playwright tests
         env:

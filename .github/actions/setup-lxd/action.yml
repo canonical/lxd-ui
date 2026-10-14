@@ -101,7 +101,7 @@ runs:
         LXD_OIDC_USER: ${{ inputs.lxd_oidc_user }}
         LXD_OIDC_PASSWORD: ${{ inputs.lxd_oidc_password }}
       run: |
-        sudo -E ./tests/scripts/setup_test
+        sudo --preserve-env=GOCOVERDIR,DEPLOYMENT,LXD_OIDC_ISSUER,LXD_OIDC_CLIENT_ID,LXD_OIDC_CLIENT_SECRET,LXD_OIDC_AUDIENCE,LXD_OIDC_GROUPS_CLAIM,LXD_OIDC_USER,LXD_OIDC_PASSWORD ./tests/scripts/setup_test
         {
           echo "DEPLOYMENT=${DEPLOYMENT}"
           echo "LXD_OIDC_ISSUER=${LXD_OIDC_ISSUER}"
