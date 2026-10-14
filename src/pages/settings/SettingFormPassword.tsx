@@ -48,6 +48,7 @@ const SettingFormPassword: FC<Props> = ({
             />
             <Button
               appearance="base"
+              type="button"
               hasIcon
               onClick={() => {
                 setShowPassword((prev) => !prev);
