@@ -10,11 +10,12 @@ const PRESERVED_ENV = [
   "PATH",
 ].join(",");
 
+const SUDO =
+  process.getuid?.() === 0 ? "" : `sudo --preserve-env=${PRESERVED_ENV} `;
+
 export const runCommand = (command: string) => {
   console.log("Running command: ", command);
-  const result = execSync(
-    `sudo --preserve-env=${PRESERVED_ENV} ${command}`,
-  ).toString();
+  const result = execSync(`${SUDO}${command}`).toString();
   console.log("Result: ", result);
   return result;
 };
