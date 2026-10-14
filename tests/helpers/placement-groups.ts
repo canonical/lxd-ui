@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
-import { gotoURL } from "./navigate";
+import { visitLandingPage } from "./overview";
 import { expect } from "../fixtures/lxd-test";
 import { dismissNotification } from "./notification";
 
@@ -54,7 +54,7 @@ export const editPlacementGroup = async (
 };
 
 export const visitPlacementGroups = async (page: Page) => {
-  await gotoURL(page, "/ui/");
+  await visitLandingPage(page);
   await page.getByRole("button", { name: "Clustering" }).click();
   await page.getByRole("link", { name: "Placement groups" }).click();
   await expect(
