@@ -100,7 +100,7 @@ const PlacementGroupList: FC = () => {
           content: (
             <List
               inline
-              className="actions-list"
+              className="actions-list u-no-margin--bottom"
               items={[
                 <Button
                   key="edit"
