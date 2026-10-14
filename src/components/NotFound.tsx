@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Row, Col, Notification } from "@canonical/react-components";
+import { InlineCode } from "@canonical/react-ds-global";
 import { capitalizeFirstLetter } from "util/helpers";
 import ResourceIcon, { type ResourceIconType } from "components/ResourceIcon";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
@@ -47,7 +48,7 @@ const NotFound: FC<Props> = ({ entityType, entityName, errorMessage }) => {
         </p>
         <p>
           The {entityLabel} is missing or you do not have the{" "}
-          <code>viewer</code> permission for it.
+          <InlineCode>viewer</InlineCode> permission for it.
         </p>
         {errorMessage && (
           <Notification severity="negative" borderless>
