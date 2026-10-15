@@ -1,7 +1,10 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchClusterMember, fetchClusterMembers } from "api/cluster-members";
-import type { LxdClusterMember } from "types/cluster";
+import type {
+  LxdClusterMember,
+  LxdClusterMemberWithState,
+} from "types/cluster";
 import { useIsClustered } from "context/useIsClustered";
 
 export const useClusterMembers = (): UseQueryResult<LxdClusterMember[]> => {
@@ -9,7 +12,19 @@ export const useClusterMembers = (): UseQueryResult<LxdClusterMember[]> => {
 
   return useQuery({
     queryKey: [queryKeys.cluster, queryKeys.members],
-    queryFn: fetchClusterMembers,
+    queryFn: async () => fetchClusterMembers("1"),
+    enabled: isClustered,
+  });
+};
+
+export const useClusterMembersWithState = (): UseQueryResult<
+  LxdClusterMemberWithState[]
+> => {
+  const isClustered = useIsClustered();
+
+  return useQuery({
+    queryKey: [queryKeys.cluster, queryKeys.members, queryKeys.recursion, "2"],
+    queryFn: async () => fetchClusterMembers("2"),
     enabled: isClustered,
   });
 };
@@ -21,5 +36,6 @@ export const useClusterMember = (
     queryKey: [queryKeys.cluster, queryKeys.members, name],
     queryFn: async () => fetchClusterMember(name),
     enabled: name !== "" && name !== "none",
+    refetchInterval: 15000, // Refetch stats frequently
   });
 };
