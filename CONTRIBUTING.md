@@ -8,75 +8,56 @@
        cd lxd-ui
        git remote add upstream https://github.com/canonical/lxd-ui.git
 
+    On a Mac, complete the Mac setup in step 3 first, then return here and clone the repository inside the VM. The instructions below indicate which commands run on your Mac and which run inside the VM.
+
 3. Setup LXD as a backend:
   
      <details>
       <summary>Setup LXD - Linux (with snap)</summary>
       <br/>
-      <pre><code>snap install lxd
-    lxd init # can accept all defaults
-    lxc config set core.https_address "[::]:8443"</code></pre>
+
+       sudo snap install lxd
+       sudo lxd init # can accept all defaults
+       sudo usermod -aG lxd "$USER"
+       newgrp lxd
+       lxc config set core.https_address "[::]:8443"
     </details>
 
     <details>
       <summary>Setup LXD - Mac</summary>
       <br/>
-    
-      > :warning: **VM instances cannot be created with LXC + Multipass on a Mac**. Nested virtualization is unsupported.
-    
-      First, if you have not already, you need to install [Homebrew](https://brew.sh/).
-    
-      Then install LXC client with brew:
-    
-      <pre><code>brew install lxc</code></pre>
-    
-      LXD cannot run natively on a Mac, so you need to connect LXC to a remote LXD server. You can set up one inside a Multipass instance. [How to install Multipass on macOS - Using brew](https://multipass.run/docs/installing-on-macos#heading--use-brew)
-    
-      Once you have LXC and Multipass installed, we can create a Multipass instance where we will run the LXD daemon:
-    
-      <pre><code># launch a new instance called "lxd" with 2 CPUs, 4G memory, and 50G of disk space - gauge these values as you prefer
-    multipass launch -n lxd -c 2 -m 4G -d 50G</code></pre>
-    
-      If you get the `Launched: lxd` output, it means that the command succeeded. We can now launch a shell into the newly created instance:
-    
-      <pre><code>multipass shell lxd</code></pre>
-    
-      You should be greeted with the Ubuntu shell login message `Welcome to Ubuntu ...`. Make sure the latest version of LXD is installed:
-    
-      <pre><code>sudo snap refresh lxd --channel=latest/stable</code></pre>
-    
-      This command will either output `snap "lxd" has no updates available` or update lxd to the latest stable version.
-    
-      Initialise LXD - replace `your-password` with a password of your choice - and then close the multipass shell:
-    
-      <pre><code>sudo lxd init --auto --trust-password your-password --network-address '[::]'
-    exit</code></pre>
-    
-      Connect the LXD server in Multipass to the local LXC. In a terminal on your Mac, run:
-    
-      <pre><code>lxc remote add default $(multipass info lxd | grep IPv4 | awk '{print $2}') --password your-password --accept-certificate</code></pre>
-    
-      (replace `your-password` with the password you selected before)
-    
-      You should get a message saying: `Client certificate now trusted by server: default`
-    
-      Switch the remote to the `default` server that we have just added:
-    
-      <pre><code>lxc remote switch default</code></pre>
-    
-      Launch an instance with the lxc command on your Mac:
-    
-      <pre><code>lxc launch ubuntu:jammy test-jammy</code></pre>
-    
-      If this succeeds, the setup of LXC and LXD is complete. Finally, expose the API on port 8443:
-    
-      <pre><code>lxc config set core.https_address "[::]:8443"</code></pre>
+
+      LXD and workshop only run on Linux. On a Mac, you run both inside a Linux VM created with Multipass, and keep the code inside that VM.
+
+      > :warning: **VM instances cannot be created with LXD inside Multipass on a Mac**. Nested virtualization is unsupported.
+
+      Install [Multipass](https://multipass.run/docs/installing-on-macos#heading--use-brew), then run these commands on your Mac to create a VM called `lxd` with 2 CPUs, 4G memory and 30G of disk space, and open a shell in it:
+
+       multipass launch 24.04 -n lxd -c 2 -m 4G -d 30G
+       multipass shell lxd
+
+      Inside the VM, install LXD, allow the `ubuntu` user to use it, and leave the VM:
+
+       sudo snap install lxd
+       sudo lxd init --auto
+       sudo usermod -aG lxd ubuntu
+       exit
+
+      Back on your Mac, open a new VM shell so the group change takes effect:
+
+       multipass shell lxd
+
+      Inside the VM, expose the LXD API on port 8443:
+
+       lxc config set core.https_address "[::]:8443"
+
+      Run all the following steps inside this VM, including step 2 (clone the fork).
     </details>
 
 
 4. Install [workshop](https://snapcraft.io/workshop) and launch it from the head of this repo
 
-       snap install workshop --classic
+       sudo snap install workshop --classic
        workshop launch
 
     This concludes the dev setup. Now you can run the development server with
@@ -93,11 +74,27 @@
 
        sudo lxc auth identity create tls/workshop-cert keys/lxd-ui.crt --group admins
     
-    If you are on a Mac and running LXD inside Multipass, set the `LXD_UI_BACKEND_IP` in the `.env.local` file:
+    Workshop reaches LXD through its own network bridge. Set the `LXD_UI_BACKEND_IP` in the `.env.local` file to the address of that bridge, then restart workshop and the dev server:
 
-       echo "LXD_UI_BACKEND_IP=$(multipass info lxd | grep IPv4 | awk '{print $2}')" > .env.local
+       echo "LXD_UI_BACKEND_IP=$(lxc network get workshopbr0 ipv4.address | cut -d/ -f1)" >> .env.local
+       workshop stop dev
+       workshop start dev
+       workshop run dev serve
 
     Now you can open https://localhost:8407/ to reach lxd-ui.
+
+    <details>
+      <summary>Open lxd-ui from a Mac</summary>
+      <br/>
+
+      The development server runs inside the VM, so forward its port to your Mac first. Run the following command on your Mac to add your Mac's SSH public key to the VM. It uses `~/.ssh/id_ed25519.pub`: if you use a different key, change the path, and if you have no key yet, create one on your Mac with `ssh-keygen -t ed25519`:
+
+       multipass exec lxd -- bash -c "echo '$(cat ~/.ssh/id_ed25519.pub)' >> ~/.ssh/authorized_keys"
+
+      Then connect [VS Code Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) to `ubuntu@<vm-ip>` and open the repo folder in the VM. VS Code forwards port 8407 for you. Without VS Code, run this in a terminal on your Mac instead:
+
+       ssh -N -L 8407:localhost:8407 ubuntu@$(multipass info lxd | grep IPv4 | awk '{print $2}')
+    </details>
 
 
 5. To enable pre-commit checks, after the first successful run of `workshop`, execute `yarn hooks-add`. To remove them, run `yarn hooks-remove`.
@@ -116,6 +113,14 @@
 8. Go to the [repository](https://github.com/canonical/lxd-ui/) and open a pull request.
 
 The team actively monitors for new pull requests. We will review your PR and either merge it, request changes to it, or close it with an explanation.
+
+# Troubleshooting on Mac
+
+- **The UI cannot reach LXD.** Check that `LXD_UI_BACKEND_IP` in `.env.local` is the `workshopbr0` address, not `172.17.0.1`, and that `lxc config get core.https_address` in the VM is `[::]:8443`.
+- **Errors about packages for the wrong platform.** The repo was shared from the Mac into the VM. Clone it inside the VM instead, and do not use `multipass mount` for it.
+- **`certificate is not valid yet` after the Mac wakes from sleep.** The VM clock is behind. Run `sudo timedatectl set-ntp true` and `sudo systemctl restart systemd-timesyncd` inside the VM.
+- **`workshop run dev serve` stops with `i/o timeout`, but the UI still works.** The terminal lost its connection; the server is still running inside the workshop. If you start it again and see `Port 8507 is already in use`, run `workshop stop dev` and `workshop start dev` first.
+- **Commit signing fails inside the VM.** Your GPG key is only on the Mac. Import it into the VM, see [Signing off commits](#signing-off-commits).
 
 # License and copyright
 All contributors must sign the [Canonical contributor license agreement](https://ubuntu.com/legal/contributors), which gives Canonical permission to use the contributions. The author of a change remains the copyright holder of their code (no copyright assignment).
