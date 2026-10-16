@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">90.32% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/28</span>
+                <span class='fraction'>28/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -88,36 +88,40 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">1439x</span>
-<span class="cline-any cline-yes">1439x</span>
-<span class="cline-any cline-yes">1439x</span>
-<span class="cline-any cline-yes">1439x</span>
-<span class="cline-any cline-yes">72x</span>
-<span class="cline-any cline-yes">72x</span>
-<span class="cline-any cline-yes">72x</span>
-<span class="cline-any cline-yes">72x</span>
-<span class="cline-any cline-yes">1367x</span>
-<span class="cline-any cline-yes">1367x</span>
-<span class="cline-any cline-yes">1439x</span>
-<span class="cline-any cline-yes">1439x</span>
-<span class="cline-any cline-yes">254x</span>
-<span class="cline-any cline-yes">254x</span>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">1475x</span>
+<span class="cline-any cline-yes">1475x</span>
+<span class="cline-any cline-yes">1475x</span>
+<span class="cline-any cline-yes">1475x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">1401x</span>
+<span class="cline-any cline-yes">1401x</span>
+<span class="cline-any cline-yes">1401x</span>
+<span class="cline-any cline-yes">250x</span>
+<span class="cline-any cline-yes">250x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
-import { Icon } from "@canonical/react-components";
 import InstanceStatus from "pages/instances/InstanceStatus";
+import DsIcon from "components/DsIcon";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -127,14 +131,16 @@ const <span class="fstat-no" title="function not covered" >InstanceStatusIcon: F
   const instanceLoading = <span class="cstat-no" title="statement not covered" >useInstanceLoading();</span>
   const loadingType = <span class="cstat-no" title="statement not covered" >instanceLoading.getType(instance);</span>
 &nbsp;
-  return loadingType ? (
-    &lt;&gt;
-      &lt;Icon className="u-animation--spin status-icon" name="spinner" /&gt;
-      &lt;i&gt;{loadingType}&lt;/i&gt;
-    &lt;/&gt;
-  ) : (
-    &lt;InstanceStatus status={instance.status} /&gt;
-  );
+<span class="cstat-no" title="statement not covered" >  if (loadingType) {</span>
+    return (
+      &lt;&gt;
+        &lt;DsIcon className="u-animation--spin status-icon" icon="spinner" /&gt;
+        &lt;i&gt;{loadingType}&lt;/i&gt;
+      &lt;/&gt;
+    );
+  }
+&nbsp;
+  return &lt;InstanceStatus status={instance.status} /&gt;;
 };
 &nbsp;
 export default InstanceStatusIcon;
@@ -145,7 +151,7 @@ export default InstanceStatusIcon;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-14T16:07:52.184Z
+                at 2026-10-16T07:23:52.997Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

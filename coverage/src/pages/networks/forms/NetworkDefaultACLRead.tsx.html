@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.1% </span>
+                <span class="strong">93.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/29</span>
+                <span class='fraction'>28/30</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -89,36 +89,39 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">205x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">205x</span>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">204x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">204x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
+&nbsp;
 import { conjugateACLAction } from "util/helpers";
 import type { Direction } from "./NetworkDefaultACLSelector";
+import DsIcon from "components/DsIcon";
 &nbsp;
 const <span class="fstat-no" title="function not covered" >NetworkDefaultACLRead: FC&lt;{</span>
   values: Record&lt;Direction, string&gt;;
@@ -130,11 +133,11 @@ const <span class="fstat-no" title="function not covered" >NetworkDefaultACLRead
     &lt;div className="u-sv1"&gt;
       When no ACL rule matches:
       &lt;br /&gt;
-      &lt;Icon name="arrow-left" className="network-default-acl-icon" /&gt;
+      &lt;DsIcon icon="arrow-left" className="network-default-acl-icon" /&gt;
       Egress traffic is:{" "}
       &lt;code&gt;{conjugateACLAction(<span class="branch-0 cbranch-no" title="branch not covered" >egressAction || "reject")</span>}&lt;/code&gt;
       &lt;br /&gt;
-      &lt;Icon name="arrow-right" className="network-default-acl-icon" /&gt;
+      &lt;DsIcon icon="arrow-right" className="network-default-acl-icon" /&gt;
       Ingress traffic is:{" "}
       &lt;code&gt;{conjugateACLAction(<span class="branch-0 cbranch-no" title="branch not covered" >ingressAction || "reject")</span>}&lt;/code&gt;
     &lt;/div&gt;
@@ -148,7 +151,7 @@ export default NetworkDefaultACLRead;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-14T16:07:52.184Z
+                at 2026-10-16T07:23:52.997Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

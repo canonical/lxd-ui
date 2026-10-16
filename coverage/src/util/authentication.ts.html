@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.37% </span>
+                <span class="strong">82.05% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/37</span>
+                <span class='fraction'>32/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/15</span>
+                <span class='fraction'>6/15</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">96.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/28</span>
+                <span class='fraction'>29/30</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,35 +91,41 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">468x</span>
-<span class="cline-any cline-yes">468x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">472x</span>
-<span class="cline-any cline-yes">8592x</span>
-<span class="cline-any cline-yes">8592x</span>
-<span class="cline-any cline-yes">8573x</span>
-<span class="cline-any cline-yes">8592x</span>
-<span class="cline-any cline-yes">8592x</span>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">465x</span>
+<span class="cline-any cline-yes">465x</span>
+<span class="cline-any cline-yes">465x</span>
+<span class="cline-any cline-yes">465x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">467x</span>
+<span class="cline-any cline-yes">8860x</span>
+<span class="cline-any cline-yes">8860x</span>
+<span class="cline-any cline-yes">8372x</span>
+<span class="cline-any cline-yes">8860x</span>
+<span class="cline-any cline-yes">8860x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">8592x</span>
+<span class="cline-any cline-yes">8860x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">8592x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">8592x</span>
-<span class="cline-any cline-yes">8592x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Authentication method constants
+<span class="cline-any cline-yes">8860x</span>
+<span class="cline-any cline-yes">469x</span>
+<span class="cline-any cline-yes">8860x</span>
+<span class="cline-any cline-yes">8860x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { IconName } from "@canonical/ds-assets";
+&nbsp;
+// Authentication method constants
 export const AUTH_METHOD = {
   TLS: "tls",
   OIDC: "oidc",
@@ -134,17 +140,17 @@ export const <span class="fstat-no" title="function not covered" >isPermanent = 
 <span class="cstat-no" title="statement not covered" >  return !!method &amp;&amp; method !== AUTH_METHOD.BEARER;</span>
 };
 &nbsp;
-export const <span class="fstat-no" title="function not covered" >authIcon = (a</span>uthMethod?: LXDAuthMethod | null): string =&gt; {
+export const <span class="fstat-no" title="function not covered" >authIcon = (a</span>uthMethod?: LXDAuthMethod | null): IconName | "" =&gt; {
 <span class="cstat-no" title="statement not covered" >  switch (authMethod) {</span>
     case AUTH_METHOD.TLS:
-<span class="cstat-no" title="statement not covered" >      return "lock-locked";</span>
+<span class="cstat-no" title="statement not covered" >      return "locked";</span>
 <span class="branch-0 cbranch-no" title="branch not covered" >    case AUTH_METHOD.OIDC:</span>
 <span class="branch-0 cbranch-no" title="branch not covered" >    case AUTH_METHOD.UNIX:</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return "profile";</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return "user-profile";</span></span>
     case AUTH_METHOD.BEARER:
 <span class="cstat-no" title="statement not covered" >      return "private-key";</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >    default:</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return "";</span></span>
+    default:
+<span class="cstat-no" title="statement not covered" >      return "";</span>
   }
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -154,7 +160,7 @@ export const <span class="fstat-no" title="function not covered" >authIcon = (a<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-14T16:07:52.184Z
+                at 2026-10-16T07:23:52.997Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
