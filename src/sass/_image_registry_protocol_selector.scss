@@ -1,8 +1,8 @@
 .image-registry-protocol-selector {
   margin-bottom: $spv--medium;
 
-  .help-link {
-    margin-bottom: $sp-small + $sp-xx-small;
+  .explanation-tooltip-icon {
+    transform: translateY(-2px);
   }
 
   .lxd-protocol-input {

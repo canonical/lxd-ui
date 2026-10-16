@@ -16,7 +16,6 @@ import Xterm from "components/Xterm";
 import type { Terminal } from "@xterm/xterm";
 import {
   EmptyState,
-  Icon,
   Notification,
   useListener,
   Spinner,
@@ -28,6 +27,7 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import { getDefaultPayload } from "util/instanceTerminal";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
+import DsIcon from "components/DsIcon";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -265,7 +265,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
               disabled={isLoading || !controlWs}
               hasIcon
             >
-              <Icon name="fullscreen" />
+              <DsIcon icon="fullscreen" />
               <span>Fullscreen</span>
             </Button>
             <ReconnectTerminalBtn
@@ -318,7 +318,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       {!displayConsole && (
         <EmptyState
           className="empty-state"
-          image={<Icon name="pods" className="empty-state-icon" />}
+          image={<DsIcon icon="pods" className="empty-state-icon" />}
           title={isBooting ? "Instance starting" : "Instance stopped"}
         >
           <p>

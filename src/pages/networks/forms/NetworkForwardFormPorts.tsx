@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import {
   Button,
-  Icon,
   Input,
   Label,
   PrefixedIpInput,
@@ -15,6 +14,7 @@ import type {
 import type { LxdNetwork } from "types/network";
 import type { IpAddressFamily } from "types/forms/network";
 import { getCidr } from "util/networks";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: FormikProps<NetworkForwardFormValues>;
@@ -165,7 +165,7 @@ const NetworkForwardFormPorts: FC<Props> = ({
                   type="button"
                   aria-label={`Delete port ${index}`}
                 >
-                  <Icon name="delete" />
+                  <DsIcon icon="delete" />
                 </Button>
               </td>
             </tr>

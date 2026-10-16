@@ -1,10 +1,5 @@
 import type { FC } from "react";
-import {
-  Button,
-  Icon,
-  MainTable,
-  usePortal,
-} from "@canonical/react-components";
+import { Button, MainTable, usePortal } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type {
   InstanceAndProfileFormValues,
@@ -21,6 +16,7 @@ import SshKeyExplanationTooltip from "components/forms/SshKeyExplanationTooltip"
 import { useParams } from "react-router-dom";
 import { scrollToElement } from "util/scroll";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
+import DsIcon from "components/DsIcon";
 
 interface InheritedSshKey {
   sshKey: SshKey;
@@ -176,7 +172,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               disabled={!!disabledReason}
               title={disabledReason}
             >
-              <Icon name="connected" />
+              <DsIcon icon="connected" />
               <span>Reattach</span>
             </Button>
           ) : (
@@ -189,7 +185,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               disabled={!!disabledReason}
               title={disabledReason}
             >
-              <Icon name="disconnect" />
+              <DsIcon icon="disconnected" />
               <span>Detach</span>
             </Button>
           ),
@@ -257,7 +253,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
                 disabled={!!disabledReason}
                 title={disabledReason}
               >
-                <Icon name="delete" />
+                <DsIcon icon="delete" />
                 <span>Delete</span>
               </Button>
             ),
@@ -297,7 +293,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
         disabled={!!disabledReason}
         title={disabledReason}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>New SSH key</span>
       </Button>
       {isOpen && (

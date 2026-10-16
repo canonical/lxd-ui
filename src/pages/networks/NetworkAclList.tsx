@@ -2,7 +2,6 @@ import { useEffect, type FC } from "react";
 import {
   Button,
   EmptyState,
-  Icon,
   MainTable,
   Row,
   useNotify,
@@ -18,6 +17,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useNetworkAcls } from "context/useNetworkAcls";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 const NetworkAclList: FC = () => {
   const navigate = useNavigate();
@@ -120,7 +120,7 @@ const NetworkAclList: FC = () => {
           : "You do not have permission to create ACLs in this project"
       }
     >
-      <Icon name="plus" light />
+      <DsIcon icon="plus" />
       <span>Create ACL</span>
     </Button>
   );
@@ -157,7 +157,7 @@ const NetworkAclList: FC = () => {
         {!isLoading && networkAcls.length === 0 && (
           <EmptyState
             className="empty-state"
-            image={<Icon className="empty-state-icon" name="exposed" />}
+            image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No network access control lists found"
           >
             <p>There are no network ACLs in this project.</p>

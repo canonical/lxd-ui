@@ -1,5 +1,6 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   toggleReadOnly: () => void;
@@ -17,7 +18,7 @@ const FormEditButton: FC<Props> = ({ toggleReadOnly, disableReason }) => {
       hasIcon
       disabled={!!disableReason}
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
     </Button>
   );
 };

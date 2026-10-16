@@ -2,7 +2,6 @@ import type { FC } from "react";
 import {
   Button,
   Col,
-  Icon,
   Input,
   Label,
   Row,
@@ -22,6 +21,7 @@ import ScrollableForm from "components/ScrollableForm";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
 import SshKeyForm from "components/forms/SshKeyForm";
 import UserKeysForm from "components/forms/UserKeysForm";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -94,7 +94,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                   title="Clear"
                   hasIcon
                 >
-                  <Icon name="close" />
+                  <DsIcon icon="close" />
                 </Button>
               </>
             ) : (

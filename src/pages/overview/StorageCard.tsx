@@ -14,6 +14,7 @@ import { getDefaultProject } from "util/loginProject";
 import { pluralize } from "util/helpers";
 import CardEmptyState from "./CardEmptyState";
 import { renderOverviewCard } from "util/overview";
+import DsIcon from "components/DsIcon";
 
 const StorageCard: FC = () => {
   const { data: pools = [], error, isLoading } = useStoragePools();
@@ -67,7 +68,7 @@ const StorageCard: FC = () => {
       cardClassName,
       cardTitle,
       <div className="error-message">
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error
         loading storage pools: {error.message}
       </div>,
       footerLink,

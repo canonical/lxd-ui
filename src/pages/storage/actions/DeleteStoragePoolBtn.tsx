@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import {
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -17,6 +16,7 @@ import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 import { ROOT_PATH } from "util/rootPath";
 import { useEventQueue } from "context/eventQueue";
 import StoragePoolRichChip from "../StoragePoolRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   pool: LxdStoragePool;
@@ -140,7 +140,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
       disabled={Boolean(disabledReason()) || isLoading}
       onHoverText={disabledReason()}
     >
-      {(!isSmallScreen || !shouldExpand) && <Icon name="delete" />}
+      {(!isSmallScreen || !shouldExpand) && <DsIcon icon="delete" />}
       {shouldExpand && <span>Delete pool</span>}
     </ConfirmationButton>
   );

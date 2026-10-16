@@ -1,12 +1,13 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { Icon, List } from "@canonical/react-components";
+import { List } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import { pluralize } from "util/helpers";
 import { isLegacyIdentity } from "util/identity";
 import { ROOT_PATH } from "util/rootPath";
 import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
 import { renderOverviewCard } from "util/overview";
+import DsIcon from "components/DsIcon";
 
 const PermissionsCard: FC = () => {
   const { currentIdentity, effectiveGroups, isAuthLoading } = useAuth();
@@ -21,7 +22,7 @@ const PermissionsCard: FC = () => {
   const cardTitle = (
     <>
       <span className="overview-card-title">
-        <Icon name="user" /> Permissions
+        <DsIcon icon="user" /> Permissions
       </span>
       <PermissionGroupExplanationTooltip />
     </>

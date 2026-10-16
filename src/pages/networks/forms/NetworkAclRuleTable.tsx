@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { Button, Icon, MainTable } from "@canonical/react-components";
+import { Button, MainTable } from "@canonical/react-components";
 import type { NetworkAclRuleFormValues } from "types/forms/networkAcl";
 import { capitalizeFirstLetter } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   editRestriction?: string;
@@ -87,7 +88,7 @@ const NetworkAclRuleTable: FC<Props> = ({
                       (editRestriction ? ` - ${editRestriction}` : "")
                     }
                   >
-                    <Icon name="edit" />
+                    <DsIcon icon="edit" />
                   </Button>
                   <Button
                     onClick={() => {
@@ -103,7 +104,7 @@ const NetworkAclRuleTable: FC<Props> = ({
                       (editRestriction ? ` - ${editRestriction}` : "")
                     }
                   >
-                    <Icon name="delete" />
+                    <DsIcon icon="delete" />
                   </Button>
                 </>
               ),

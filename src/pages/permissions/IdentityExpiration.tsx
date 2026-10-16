@@ -1,7 +1,8 @@
 import { type FC } from "react";
 import { isBeforeNow, isoTimeToString, UNDEFINED_DATE } from "util/helpers";
 import type { LxdIdentity } from "types/permissions";
-import { Icon, Tooltip } from "@canonical/react-components";
+import { Tooltip } from "@canonical/react-components";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   identity: LxdIdentity;
@@ -16,7 +17,7 @@ const IdentityExpiration: FC<Props> = ({ identity }) => {
   return isExpired ? (
     <Tooltip message="Has expired" position="right">
       <span>{caption}</span>
-      <Icon name="warning" className="u-margin-left--small" />
+      <DsIcon icon="warning" className="u-margin-left--small" />
     </Tooltip>
   ) : (
     caption

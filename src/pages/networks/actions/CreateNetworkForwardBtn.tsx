@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import {
   mediumScreenBreakpoint,
   useIsScreenBelow,
@@ -10,6 +10,7 @@ import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
 import { useCurrentProject } from "context/useCurrentProject";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -42,7 +43,7 @@ const CreateNetworkForwardBtn: FC<Props> = ({ network, className }) => {
           : "You do not have permission to create network forwards for this network"
       }
     >
-      <Icon name="plus" light />
+      <DsIcon icon="plus" />
       <span>{isMediumScreen ? "Create" : "Create forward"}</span>
     </Button>
   );

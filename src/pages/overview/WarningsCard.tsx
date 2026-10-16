@@ -1,11 +1,10 @@
 import type { FC } from "react";
-import { Link } from "react-router-dom";
 import {
-  Icon,
   MainTable,
   Spinner,
   TablePagination,
 } from "@canonical/react-components";
+import { Link } from "react-router-dom";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useWarnings } from "context/useWarnings";
 import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
@@ -15,6 +14,7 @@ import { ROOT_PATH } from "util/rootPath";
 import { getWarningHeaders, getWarningRows } from "util/warnings";
 import CardEmptyState from "./CardEmptyState";
 import { renderOverviewCard } from "util/overview";
+import DsIcon from "components/DsIcon";
 
 const WarningsCard: FC = () => {
   const { canViewWarnings } = useServerEntitlements();
@@ -36,7 +36,7 @@ const WarningsCard: FC = () => {
   const cardTitle = (
     <>
       <span className="overview-card-title">
-        <Icon name="warning-grey" /> Warnings
+        <DsIcon icon="warning" /> Warnings
       </span>
       <WarningExplanationTooltip />
     </>
@@ -56,7 +56,7 @@ const WarningsCard: FC = () => {
       cardClassName,
       cardTitle,
       <div className="error-message">
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error while
         loading warnings: {error.message}
       </div>,
       footerLink,
