@@ -373,10 +373,10 @@
   dependencies:
     "@canonical/ds-types" "^0.44.1"
 
-"@canonical/react-components@4.13.0":
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.13.0.tgz#2abbb5e929eafef28b2fe49751ee7b4431a3023d"
-  integrity sha512-7XvfqFMMAFyJihXjmCk9d9WsFQpC7Tx1bPYf9czhofA4Psn26a7TtEW1S/HLvDw7ikMqiuqD+AIygCx3LM8y9w==
+"@canonical/react-components@4.14.0":
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-4.14.0.tgz#436dbf486ee1bd5fbcb88125d608b8ff58bb4c4b"
+  integrity sha512-QNbikWZSSQKiGFGXcjrxA3LGbjey+V6G9y19tvdhl3mMkoJdqvXTCh8kLUD/ZLhY8Xvm9ElYg6yYOuwCnPyJoA==
   dependencies:
     "@types/jest" "30.0.0"
     "@types/node" "20.19.30"
