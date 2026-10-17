@@ -87,7 +87,9 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
         .finally(() => {
           formik.setSubmitting(false);
           queryClient.invalidateQueries({
-            queryKey: [queryKeys.cluster, queryKeys.members],
+            predicate: (query) =>
+              query.queryKey[0] === queryKeys.cluster &&
+              query.queryKey[1] === queryKeys.members,
           });
           queryClient.invalidateQueries({
             queryKey: [queryKeys.cluster, queryKeys.members, values.name],
