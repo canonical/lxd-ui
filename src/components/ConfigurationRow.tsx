@@ -1,5 +1,5 @@
-import { cloneElement, type ReactNode } from "react";
-import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
+import { cloneElement, type ChangeEventHandler, type ReactNode } from "react";
+import { Button, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
@@ -8,6 +8,7 @@ import { getConfigRowMetadata } from "util/configInheritance";
 import { ensureEditMode } from "util/editMode";
 import { focusField } from "util/formFields";
 import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: ConfigurationRowFormikProps;
@@ -21,6 +22,10 @@ interface Props {
   inputHelp?: string;
   readOnlyRenderer?: (value: ReactNode) => string | ReactNode;
   hideOverrideBtn?: boolean;
+  onChange?: ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  >;
+  clearOverride?: () => void;
 }
 
 export const getConfigurationRow = ({
@@ -35,6 +40,8 @@ export const getConfigurationRow = ({
   inputHelp,
   readOnlyRenderer = (value: ReactNode) => <>{value}</>,
   hideOverrideBtn = false,
+  onChange,
+  clearOverride,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
   const value = values[name];
@@ -48,7 +55,11 @@ export const getConfigurationRow = ({
 
   const toggleDefault = () => {
     if (isOverridden) {
-      formik.setFieldValue(name, undefined);
+      if (clearOverride) {
+        clearOverride();
+      } else {
+        formik.setFieldValue(name, undefined);
+      }
     } else {
       enableOverride();
       focusField(name);
@@ -80,7 +91,7 @@ export const getConfigurationRow = ({
               id: name,
               name,
               onBlur: formik.handleBlur,
-              onChange: formik.handleChange,
+              onChange: onChange ?? formik.handleChange,
               value,
               disabled: isDisabled(),
               help: (
@@ -104,7 +115,7 @@ export const getConfigurationRow = ({
           hasIcon
           className="u-no-margin--bottom"
         >
-          <Icon name="close" className="clear-configuration-icon" />
+          <DsIcon icon="close" />
         </Button>
       </div>
     );
@@ -152,7 +163,7 @@ export const getConfigurationRow = ({
               disabled={isDisabled()}
               hasIcon
             >
-              <Icon name="edit" />
+              <DsIcon icon="edit" />
             </Button>
           )}
         </>
@@ -174,7 +185,7 @@ export const getConfigurationRow = ({
         title={formik.values.editRestriction ?? "Create override"}
         hasIcon
       >
-        <Icon name="edit" />
+        <DsIcon icon="edit" />
       </Button>,
     );
   };

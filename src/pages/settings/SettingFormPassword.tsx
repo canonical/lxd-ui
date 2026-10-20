@@ -1,7 +1,8 @@
 import { useState, type FC } from "react";
-import { Button, Form, Icon, Input } from "@canonical/react-components";
+import { Button, Form, Input } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   isSet: boolean;
@@ -48,13 +49,14 @@ const SettingFormPassword: FC<Props> = ({
             />
             <Button
               appearance="base"
+              type="button"
               hasIcon
               onClick={() => {
                 setShowPassword((prev) => !prev);
               }}
               aria-label="toggle password visibility"
             >
-              <Icon name={showPassword ? "hide" : "show"} />
+              <DsIcon icon={showPassword ? "hide" : "show"} />
             </Button>
           </div>
           <Button appearance="base" onClick={onCancel}>

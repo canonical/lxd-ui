@@ -6,7 +6,6 @@ import type { LxdClusterMember } from "types/cluster";
 import {
   CheckboxInput,
   ConfirmationButton,
-  Icon,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -16,6 +15,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { useMemberLoading } from "context/memberLoading";
 import { useServerEntitlements } from "util/entitlements/server";
 import ClusterMemberRichChip from "../ClusterMemberRichChip";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   member: LxdClusterMember;
@@ -155,7 +155,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({
       title="Restore cluster member"
       className={classnames(className, "has-icon u-no-margin--bottom")}
     >
-      <Icon name="play" />
+      <DsIcon icon="play" />
       {hasLabel && <span>Restore</span>}
     </ConfirmationButton>
   );

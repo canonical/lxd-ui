@@ -6,12 +6,12 @@ import type {
 import {
   CheckboxInput,
   ContextualMenu,
-  Icon,
   MainTable,
   useListener,
 } from "@canonical/react-components";
 import classnames from "classnames";
 import { pluralize } from "util/helpers";
+import DsIcon from "components/DsIcon";
 
 interface SelectableMainTableProps {
   filteredNames: string[];
@@ -106,7 +106,7 @@ const SelectableMainTable: FC<Props> = ({
               title="Multiselect"
               toggleAppearance="base"
               toggleClassName="has-icon u-no-margin--bottom"
-              toggleLabel={<Icon name="chevron-down" />}
+              toggleLabel={<DsIcon icon="chevron-down" />}
               toggleProps={{
                 "aria-label": "multiselect rows",
                 disabled: disableSelect,

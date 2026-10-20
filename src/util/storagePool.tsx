@@ -26,6 +26,7 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_osd_pool_name: "ceph.osd.pool_name",
   ceph_rbd_clone_copy: "ceph.rbd.clone_copy",
   ceph_rbd_du: "ceph.rbd.du",
+  ceph_replicators: "ceph.replicator.<project>",
   ceph_user_name: "ceph.user.name",
   ceph_rbd_features: "ceph.rbd.features",
   cephfs_cluster_name: "cephfs.cluster_name",

@@ -59,14 +59,6 @@ const ProjectSelector: FC<
     return options;
   };
 
-  const getHeader = () => {
-    return (
-      <div className="header">
-        <span className="project-option u-no-margin--bottom">Name</span>
-      </div>
-    );
-  };
-
   return (
     <CustomSelect
       label="Project"
@@ -76,7 +68,6 @@ const ProjectSelector: FC<
       }}
       value={value}
       options={getProjectOptions()}
-      header={getHeader()}
       dropdownClassName="project-select-dropdown"
       aria-label="Project"
     />

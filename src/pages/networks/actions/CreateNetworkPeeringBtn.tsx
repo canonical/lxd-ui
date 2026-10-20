@@ -1,13 +1,15 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import {
   mediumScreenBreakpoint,
   useIsScreenBelow,
 } from "context/useIsScreenBelow";
+
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import usePanelParams from "util/usePanelParams";
 import type { LxdNetwork } from "types/network";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -37,7 +39,7 @@ const CreateNetworkPeeringBtn: FC<Props> = ({ network, className }) => {
           : "You do not have permission to create local peerings for this network"
       }
     >
-      <Icon name="plus" light />
+      <DsIcon icon="plus" />
       <span>{isMediumScreen ? "Create" : "Create local peering"}</span>
     </Button>
   );

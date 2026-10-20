@@ -3,6 +3,7 @@ import {
   getInstanceSnapshotName,
   getProjectName,
   getVolumeSnapshotName,
+  isCreatingInstance,
 } from "./operations";
 import type { LxdOperation } from "types/operation";
 
@@ -89,6 +90,16 @@ describe("getInstanceName", () => {
     expect(name).toBe("targetInstanceName");
   });
 
+  it("identifies the new instance name from an instance copy operation", () => {
+    const operation = craftOperation(
+      ["/1.0/instances/sourceInstance?project=default"],
+      "/1.0/instances/copiedInstance?project=default",
+    );
+    const name = getInstanceName(operation);
+
+    expect(name).toBe("copiedInstance");
+  });
+
   it("identifies original instance name from an instance rename operation using original_entity_url field", () => {
     const operation = craftOperation(
       [],
@@ -137,6 +148,16 @@ describe("getProjectName", () => {
     const name = getProjectName(operation);
 
     expect(name).toBe("imageProject");
+  });
+
+  it("identifies the target project from an instance copy operation", () => {
+    const operation = craftOperation(
+      ["/1.0/instances/sourceInstance?project=source"],
+      "/1.0/instances/copiedInstance?project=target",
+    );
+    const name = getProjectName(operation);
+
+    expect(name).toBe("target");
   });
 });
 
@@ -199,5 +220,28 @@ describe("getVolumeSnapshotName", () => {
     const name = getVolumeSnapshotName(operation);
 
     expect(name).toBe("test-snapshot");
+  });
+});
+
+describe("isCreatingInstance", () => {
+  const withDescription = (description: string) =>
+    ({ description }) as LxdOperation;
+
+  it("detects instance creation", () => {
+    expect(isCreatingInstance(withDescription("Creating instance"))).toBe(true);
+  });
+
+  it("detects instance and snapshot copies, which create a new instance", () => {
+    expect(isCreatingInstance(withDescription("Copying instance"))).toBe(true);
+    expect(isCreatingInstance(withDescription("Copying snapshot"))).toBe(true);
+  });
+
+  it("ignores other operations", () => {
+    expect(isCreatingInstance(withDescription("Starting instance"))).toBe(
+      false,
+    );
+    expect(isCreatingInstance(withDescription("Copying storage volume"))).toBe(
+      false,
+    );
   });
 });

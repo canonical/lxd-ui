@@ -56,10 +56,10 @@ jobs:
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
 
       - name: Setup Ceph
-        uses: canonical/lxd/.github/actions/setup-microceph@44384ab5c1c21636e0f45a6e80f1dfe95cf51c3b
+        uses: canonical/lxd/.github/actions/setup-microceph@24f1a0007b10433a697938b744024956a1f33c62
 
       - name: Setup OVN
-        uses: canonical/lxd/.github/actions/setup-microovn@44384ab5c1c21636e0f45a6e80f1dfe95cf51c3b
+        uses: canonical/lxd/.github/actions/setup-microovn@24f1a0007b10433a697938b744024956a1f33c62
 
       - name: Install LXD
         uses: canonical/setup-lxd@8c6a87bfb56aa48f3fb9b830baa18562d8bfd4ee # v1
@@ -76,7 +76,7 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
 
@@ -85,7 +85,7 @@ jobs:
 
       - name: Setup for tests
         shell: bash
-        run: sudo -E ./tests/scripts/setup_test
+        run: sudo --preserve-env=GOCOVERDIR,DEPLOYMENT,LXD_OIDC_ISSUER,LXD_OIDC_CLIENT_ID,LXD_OIDC_CLIENT_SECRET,LXD_OIDC_AUDIENCE,LXD_OIDC_GROUPS_CLAIM ./tests/scripts/setup_test
 
       - name: Run Playwright tests
         env:
@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload screenshots
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: lxd-ui-doc-screenshots
           path: tests/screenshots/doc/images
@@ -107,7 +107,7 @@ jobs:
 
       - name: Upload screenshot-automation-report
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: report
           path: blob-report

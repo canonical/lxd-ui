@@ -1,11 +1,5 @@
 import type { FC } from "react";
-import {
-  Button,
-  Icon,
-  Input,
-  Label,
-  Select,
-} from "@canonical/react-components";
+import { Button, Input, Label, Select } from "@canonical/react-components";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type {
   CreateInstanceFormValues,
@@ -55,6 +49,7 @@ import {
 } from "util/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { useConfigOptions } from "context/useConfigOptions";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -152,7 +147,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       }}
       disabled={!!formik.values.editRestriction}
     >
-      <Icon name="edit" />
+      <DsIcon icon="edit" />
     </Button>
   );
 
@@ -321,7 +316,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
                   disabled: !!formik.values.editRestriction,
                 }}
               >
-                <Icon name="edit" />
+                <DsIcon icon="edit" />
               </CustomVolumeSelectBtn>
             </div>
           ),
@@ -612,7 +607,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
           addDiskDevice(device);
         }}
       >
-        <Icon name="plus" />
+        <DsIcon icon="plus" />
         <span>Attach disk device</span>
       </AttachDiskDeviceBtn>
     </div>

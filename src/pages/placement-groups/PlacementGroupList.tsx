@@ -3,7 +3,6 @@ import {
   Button,
   Col,
   EmptyState,
-  Icon,
   List,
   MainTable,
   Row,
@@ -26,6 +25,7 @@ import DeletePlacementGroupBtn from "pages/placement-groups/actions/DeletePlacem
 import CreatePlacementGroupBtn from "pages/placement-groups/actions/CreatePlacementGroupBtn";
 import usePanelParams, { panels } from "util/usePanelParams";
 import useSortTableData from "util/useSortTableData";
+import DsIcon from "components/DsIcon";
 
 const PlacementGroupList: FC = () => {
   const panelParams = usePanelParams();
@@ -100,7 +100,7 @@ const PlacementGroupList: FC = () => {
           content: (
             <List
               inline
-              className="actions-list"
+              className="actions-list u-no-margin--bottom"
               items={[
                 <Button
                   key="edit"
@@ -112,7 +112,7 @@ const PlacementGroupList: FC = () => {
                     panelParams.openEditPlacementGroup(placementGroup.name);
                   }}
                 >
-                  <Icon name="edit" />
+                  <DsIcon icon="edit" />
                 </Button>,
                 <DeletePlacementGroupBtn
                   placementGroup={placementGroup}
@@ -172,7 +172,9 @@ const PlacementGroupList: FC = () => {
             {isEmpty && (
               <EmptyState
                 className="empty-state"
-                image={<Icon name="repository" className="empty-state-icon" />}
+                image={
+                  <DsIcon icon="repository" className="empty-state-icon" />
+                }
                 title="No placement groups found"
               >
                 <p>There are no placement groups in this project.</p>

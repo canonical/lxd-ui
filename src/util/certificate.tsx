@@ -40,7 +40,6 @@ export const generateCert = (password: string) => {
   );
   cert.setSubject(details);
   cert.setIssuer(details);
-  // forge defaults to sha1, which is deprecated for certificate signatures
   cert.sign(keys.privateKey, forge.md.sha384.create());
 
   const crt = forge.pki.certificateToPem(cert);

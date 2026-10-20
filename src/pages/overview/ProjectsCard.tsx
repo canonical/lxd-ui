@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Icon, Spinner } from "@canonical/react-components";
 import Breadcrumb from "components/Breadcrumb";
+import { Spinner } from "@canonical/react-components";
 import ProjectTable from "pages/overview/ProjectTable";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useProjects } from "context/useProjects";
@@ -15,6 +15,7 @@ import {
 } from "util/projects";
 import CardEmptyState from "./CardEmptyState";
 import { renderOverviewCard } from "util/overview";
+import DsIcon from "components/DsIcon";
 
 const ProjectsCard: FC = () => {
   const { project: currentProject, projectName } = useCurrentProject();
@@ -30,7 +31,7 @@ const ProjectsCard: FC = () => {
   const cardTitle = (
     <>
       <span className="overview-card-title">
-        <Icon name="folder" aria-hidden="true" />
+        <DsIcon icon="folder" />
         <span className={isAllProjects ? undefined : "u-off-screen"}>
           {isAllProjects ? (
             <>
@@ -82,7 +83,7 @@ const ProjectsCard: FC = () => {
   if (error) {
     return renderCard(
       <div className="error-message">
-        <Icon name="error" className="margin-right--large" /> Error while
+        <DsIcon icon="error-fill" className="margin-right--large" /> Error while
         loading projects: {error.message}
       </div>,
     );

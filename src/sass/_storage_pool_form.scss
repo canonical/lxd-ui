@@ -7,4 +7,9 @@
   .form-contents:has(.code-editor-wrapper) > div {
     max-width: initial !important;
   }
+
+  .ceph-replicators-form {
+    border-top: 1px solid var(--vf-color-border-low-contrast);
+    padding: calc(0.5rem - 1px) $sph--small $spv--small;
+  }
 }

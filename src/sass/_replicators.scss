@@ -31,6 +31,12 @@
 }
 
 .run-replicator-modal {
+  // Temporary Pragma/Vanilla alignment workaround; remove with WD-38790.
+  .preflight-check-row .ds.icon {
+    position: relative;
+    top: -1px;
+  }
+
   .preflight-check-row {
     &-error-message {
       margin-left: calc(16px + 0.5rem);

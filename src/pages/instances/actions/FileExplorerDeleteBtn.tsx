@@ -1,7 +1,6 @@
 import { useState, type FC } from "react";
 import {
   ConfirmationButton,
-  Icon,
   useToastNotification,
 } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
@@ -10,6 +9,7 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "../InstanceRichChip";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -110,7 +110,7 @@ const FileExplorerDeleteBtn: FC<Props> = ({ instance, fullPath, fileType }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

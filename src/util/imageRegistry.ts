@@ -8,12 +8,17 @@ import type {
   RemoteImage,
   RemoteImagesResult,
 } from "types/image";
-import {
-  fetchImageRegistries,
-  fetchRegistryImages,
-} from "api/image-registries";
+import { fetchRegistryImages } from "api/image-registries";
 import type { LxdProject } from "types/project";
 import type { RegistryRestrictionMode } from "types/forms/project";
+
+const REGISTRY_PREFIX = "registry:";
+
+export const getRegistryName = (value: string): string =>
+  value.slice(REGISTRY_PREFIX.length);
+
+export const addRegistryPrefix = (registryName: string): string =>
+  REGISTRY_PREFIX + registryName;
 
 export const REGISTRY_KEYWORDS = {
   ALLOW: "allow",
@@ -66,100 +71,118 @@ export const isRegistryAllowedInProject = (
   );
 };
 
-// fetch image registries and images from all configured registries
-export const loadImagesFromAllRegistries = async (
+const uniqueTitle = (item: RemoteImage, index: number, self: RemoteImage[]) => {
+  return index === self.findIndex((t) => t.title === item.title);
+};
+
+const markVmAndContainerImagesAsOne = (item: RemoteImage) => {
+  delete item.type;
+  // The merged container and vm images have different fingerprints,
+  // so we drop it so the instance is created from the alias of the chosen type.
+  delete item.fingerprint;
+  item.versions = {
+    vm: {
+      items: {
+        "disk1.img": { ftype: "disk1.img" },
+      },
+    },
+  };
+};
+
+// Only built-in Ubuntu registries need VM/container merging and Ubuntu sorting.
+// Custom registries with Ubuntu-prefixed names and other built-ins stay unchanged.
+const processRegistryImages = (
+  registry: LxdImageRegistry,
+  images: RemoteImage[],
+): RemoteImage[] => {
+  if (!registry.builtin || !registry.name.startsWith("ubuntu")) {
+    return images;
+  }
+  const processed = images.filter(uniqueTitle);
+  processed.forEach(markVmAndContainerImagesAsOne);
+  return sortUbuntuImages(processed);
+};
+
+// fetch and transform images from a single registry
+// the project restriction is checked before making any request
+export const loadImagesFromRegistry = async (
+  registry: LxdImageRegistry,
   isFineGrained: boolean,
   project?: LxdProject,
 ): Promise<RemoteImagesResult> => {
-  const registries = await fetchImageRegistries(isFineGrained);
+  if (!isRegistryAllowedInProject(registry, project)) {
+    return { images: [], error: "" };
+  }
 
-  const imagesByRegistry: Record<string, RemoteImage[]> = {};
-  const imageRequests = await Promise.allSettled(
-    registries
-      .filter((registry) => isRegistryAllowedInProject(registry, project))
-      .map(async (registry) => {
-        const registryImages = await fetchRegistryImages(
-          registry.name,
-          isFineGrained,
-        );
+  try {
+    const registryImages = await fetchRegistryImages(
+      registry.name,
+      isFineGrained,
+    );
+    const images = registryImages
+      .filter((image) => {
+        return !(registry.builtin && image.aliases === null);
+      })
+      .map((image) => {
+        const item = localLxdToRemoteImage(image);
+        const ltsAlias = image.aliases?.find((a) => a.name === "lts");
 
-        imagesByRegistry[registry.name] = registryImages
-          .filter((image) => {
-            return !(registry.builtin && image.aliases === null);
-          })
-          .map((image) => {
-            const item = localLxdToRemoteImage(image);
-            const ltsAlias = image.aliases?.find((a) => a.name === "lts");
+        return {
+          ...item,
+          isLts: ltsAlias !== undefined,
+          registryBuiltIn: registry.builtin,
+          registryName: registry.name,
+          server: registry.config?.url,
+          title: item.os + item.release_title + item.release + item.server,
+        };
+      })
+      .sort(byOSRelease);
+    return { images: processRegistryImages(registry, images), error: "" };
+  } catch (e) {
+    return { images: [], error: e instanceof Error ? e.message : String(e) };
+  }
+};
 
-            return {
-              ...item,
-              isLts: ltsAlias !== undefined,
-              registryBuiltIn: registry.builtin,
-              registryName: registry.name,
-              server: registry.config?.url,
-              title: item.os + item.release_title + item.release + item.server,
-            };
-          })
-          .sort(byOSRelease);
-      }),
+export const loadImagesFromBuiltInRegistries = async (
+  registries: LxdImageRegistry[],
+  isFineGrained: boolean,
+  project?: LxdProject,
+): Promise<RemoteImagesResult> => {
+  const allowedRegistries = registries.filter(
+    (registry) =>
+      registry.builtin && isRegistryAllowedInProject(registry, project),
   );
 
-  // if any image request failed, throw
+  const imageRequests = await Promise.all(
+    allowedRegistries.map(async (registry) =>
+      loadImagesFromRegistry(registry, isFineGrained, project),
+    ),
+  );
+
+  // if any image request failed, report it with the registry name
+  const imagesByRegistry: Record<string, RemoteImage[]> = {};
   const errors: string[] = [];
-  imageRequests.forEach((res) => {
-    if (res.status !== "fulfilled") {
-      errors.push(res.reason as string);
+  imageRequests.forEach((result, index) => {
+    const registryName = allowedRegistries[index].name;
+    imagesByRegistry[registryName] = result.images;
+    if (result.error) {
+      errors.push(`${registryName}: ${result.error}`);
     }
   });
 
-  const uniqueTitle = (
-    item: RemoteImage,
-    index: number,
-    self: RemoteImage[],
-  ) => {
-    return index === self.findIndex((t) => t.title === item.title);
-  };
-
-  const markVmAndContainerImagesAsOne = (item: RemoteImage) => {
-    delete item.type;
-    item.versions = {
-      vm: {
-        items: {
-          "disk1.img": { ftype: "disk1.img" },
-        },
-      },
-    };
-  };
-
-  const ubuntuRegistries = [
+  const preferredRegistryOrder = [
     "ubuntu",
     "ubuntu-minimal",
+    "images",
     "ubuntu-daily",
     "ubuntu-minimal-daily",
   ];
-
-  ubuntuRegistries.forEach((name) => {
-    const images = name in imagesByRegistry ? imagesByRegistry[name] : [];
-    imagesByRegistry[name] = images.filter(uniqueTitle);
-    imagesByRegistry[name].map(markVmAndContainerImagesAsOne);
-    imagesByRegistry[name] = sortUbuntuImages(imagesByRegistry[name]);
-  });
-
-  // order for builtin registries
-  const images: RemoteImage[] = [
-    ...imagesByRegistry["ubuntu"],
-    ...imagesByRegistry["ubuntu-minimal"],
-    ...("images" in imagesByRegistry ? imagesByRegistry["images"] : []),
-    ...imagesByRegistry["ubuntu-daily"],
-    ...imagesByRegistry["ubuntu-minimal-daily"],
-  ];
-
-  // add images from custom registries
-  Object.entries(imagesByRegistry).forEach(([registry, registryImages]) => {
-    if (!ubuntuRegistries.includes(registry) && registry !== "images") {
-      images.push(...registryImages);
-    }
-  });
+  const otherRegistryNames = allowedRegistries
+    .map((registry) => registry.name)
+    .filter((name) => !preferredRegistryOrder.includes(name));
+  const images = [...preferredRegistryOrder, ...otherRegistryNames].flatMap(
+    (name) => imagesByRegistry[name] ?? [],
+  );
 
   return { images, error: errors.join(". ") };
 };

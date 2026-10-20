@@ -1,6 +1,7 @@
 import { useState, type FC } from "react";
-import { Button, Icon, List } from "@canonical/react-components";
+import { Button, List } from "@canonical/react-components";
 import CopyToClipboard from "components/CopyToClipboard";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   password?: string;
@@ -42,7 +43,7 @@ const PasswordOutputToggle: FC<Props> = ({ password }) => {
             aria-label={isRevealed ? "Hide password" : "Show password"}
             type="button"
           >
-            <Icon name={isRevealed ? "hide" : "show"} />
+            <DsIcon icon={isRevealed ? "hide" : "show"} />
           </Button>,
           <CopyToClipboard
             key="copy"

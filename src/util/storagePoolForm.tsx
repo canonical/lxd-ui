@@ -15,6 +15,8 @@ import {
 import type { ReactNode } from "react";
 import type { FormikProps } from "formik";
 
+export const cephReplicatorConfigPrefix = "ceph.replicator.";
+
 export const isStoragePoolWithSize = (driver: string) => {
   const driversWithSize = [zfsDriver, lvmDriver, btrfsDriver];
   return driversWithSize.includes(driver);
@@ -54,6 +56,17 @@ export const toStoragePoolFormValues = (
     barePool: pool,
     ceph_cluster_name: pool.config?.["ceph.cluster_name"],
     ceph_osd_pg_num: pool.config?.["ceph.osd.pg_num"],
+    ceph_replicators: Object.entries(pool.config ?? {})
+      .filter(([key]) => key.startsWith(cephReplicatorConfigPrefix))
+      .map(([key, peerSite]) => ({
+        id: key,
+        project: key.slice(cephReplicatorConfigPrefix.length),
+        peerSite: peerSite ?? "",
+      }))
+      .filter(
+        ({ project, peerSite }) =>
+          project.trim() !== "" && peerSite.trim() !== "",
+      ),
     ceph_rbd_clone_copy: pool.config?.["ceph.rbd.clone_copy"],
     ceph_rbd_du: pool.config?.["ceph.rbd.du"],
     ceph_user_name: pool.config?.["ceph.user.name"],
