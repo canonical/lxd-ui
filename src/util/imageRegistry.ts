@@ -77,6 +77,9 @@ const uniqueTitle = (item: RemoteImage, index: number, self: RemoteImage[]) => {
 
 const markVmAndContainerImagesAsOne = (item: RemoteImage) => {
   delete item.type;
+  // The merged container and vm images have different fingerprints,
+  // so we drop it so the instance is created from the alias of the chosen type.
+  delete item.fingerprint;
   item.versions = {
     vm: {
       items: {
