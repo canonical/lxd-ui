@@ -342,9 +342,14 @@ const getInstanceSource = (
   if (values.image?.registryName && hasImageRegistries) {
     const alias = values.image?.aliases.split(",")[0];
     const fingerprint = values.image?.fingerprint;
+    // built-in registries have universal entries for both VMs and containers,
+    // so we must send the alias for built-in registries to ensure the correct image
+    // for the chosen type is pulled
+    const sendAlias = alias && values.image.registryBuiltIn;
+
     return {
-      fingerprint: fingerprint,
-      alias: fingerprint ? undefined : alias,
+      alias: sendAlias ? alias : undefined,
+      fingerprint: sendAlias ? undefined : fingerprint,
       mode: "pull",
       image_registry: values.image?.registryName,
       type: "image",
