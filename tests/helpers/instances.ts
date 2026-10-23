@@ -8,7 +8,9 @@ import { dismissNotification } from "./notification";
 import { runCommand } from "./shell";
 import { getLxcCmd } from "./auth";
 
-const DEFAULT_IMAGE = "alpine/3.24/cloud";
+export const DEFAULT_IMAGE = "alpine/3.24/cloud";
+export const UBUNTU_MINIMAL_IMAGE = "26.04";
+export const UBUNTU_DESKTOP_IMAGE = "ubuntu/26.04/desktop";
 
 export const randomInstanceName = (): string => {
   return `playwright-instance-${randomNameSuffix()}`;
@@ -48,6 +50,14 @@ export const createInstance = async (
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "* Base Image" }).click();
   const dialog = page.getByRole("dialog", { name: "Select base image" });
+
+  if (image === UBUNTU_MINIMAL_IMAGE) {
+    await dialog.getByRole("button", { name: "Registry" }).click();
+    await page
+      .getByRole("option", { name: "ubuntu-minimal", exact: true })
+      .click();
+  }
+
   await dialog.getByRole("combobox", { name: "Type" }).selectOption(type);
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill(image);
