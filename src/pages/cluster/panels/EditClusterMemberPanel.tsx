@@ -89,9 +89,6 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
           queryClient.invalidateQueries({
             queryKey: [queryKeys.cluster, queryKeys.members],
           });
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.cluster, queryKeys.members, values.name],
-          });
         });
     },
   });
