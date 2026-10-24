@@ -9,23 +9,18 @@ import StoragePoolDetails from "pages/overview/StoragePoolDetails";
 import type { LxdStoragePool } from "types/storage";
 import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
-import { getVolumesUsedByPool } from "util/storagePool";
 import { getDefaultProject } from "util/loginProject";
 import { pluralize } from "util/helpers";
 import CardEmptyState from "./CardEmptyState";
 import { renderOverviewCard } from "util/overview";
 import DsIcon from "components/DsIcon";
+import { getVolumeCount } from "util/storagePool";
 
 const StorageCard: FC = () => {
   const { data: pools = [], error, isLoading } = useStoragePools();
   const { projectName, isAllProjects } = useCurrentProject();
   const { data: projects = [] } = useProjects();
   const { canCreateStoragePools } = useServerEntitlements();
-
-  const totalVolumeCount = pools.reduce(
-    (count, pool: LxdStoragePool) => count + getVolumesUsedByPool(pool).length,
-    0,
-  );
 
   const cardClassName = "overview-card storage";
   const cardTitle = (
@@ -49,6 +44,13 @@ const StorageCard: FC = () => {
     ? (projects.find((p) => p.name === getDefaultProject(projects))?.name ??
       "default")
     : projectName;
+
+  const totalVolumeCount = pools.reduce(
+    (count, pool: LxdStoragePool) =>
+      count + getVolumeCount(pool, storageProject, isAllProjects),
+    0,
+  );
+
   const storagePoolsUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(storageProject)}/storage/pools`;
   const footerLink = isAllProjects ? null : (
     <Link to={storagePoolsUrl}>Storage pools list</Link>
