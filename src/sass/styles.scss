@@ -5,6 +5,7 @@
 @import "./breakpoints";
 @import "pattern_icon";
 @include lxdui-p-icon;
+@include vf-p-icon-certificate;
 @include vf-p-icon-devtools;
 @include vf-p-icon-status-failed-small;
 @include vf-p-icon-status-in-progress-small;
@@ -446,14 +447,13 @@ body.is-dark .lxd-icon {
   }
 }
 
-.identity-token-modal {
-  .p-modal__dialog {
-    // Keep snippet title glyphs uniform in identity token modals.
-    .p-code-snippet__title {
-      font-variant: normal;
-      font-variant-caps: normal;
-    }
-  }
+// Temporary workaround for a Pragma style conflict, to be removed in WD-38790.
+// Pragma's heading-5 token renders every h5 in small caps with wide letter spacing.
+// Our components (code snippet and notification titles, multi select group headings)
+// are designed with the Vanilla headings/h5, which uses neither.
+h5 {
+  font-variant: normal;
+  letter-spacing: normal;
 }
 
 .table-description {
@@ -573,13 +573,6 @@ body.is-dark .lxd-icon {
 
   .u-row--disabled:hover {
     background-color: $colors--theme--background-default;
-  }
-}
-
-.p-notification__content {
-  .p-notification__title {
-    font-variant-caps: normal;
-    letter-spacing: normal;
   }
 }
 
