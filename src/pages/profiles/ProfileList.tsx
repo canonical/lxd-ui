@@ -3,7 +3,6 @@ import {
   Button,
   Col,
   EmptyState,
-  Icon,
   MainTable,
   Notification,
   Row,
@@ -16,6 +15,7 @@ import {
 } from "@canonical/react-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
+import { configMatchesQuery } from "util/configQuery";
 import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
@@ -31,6 +31,7 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProfiles } from "context/useProfiles";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
+import DsIcon from "components/DsIcon";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -84,7 +85,8 @@ const ProfileList: FC = () => {
       const q = query.toLowerCase();
       if (
         !item.name.toLowerCase().includes(q) &&
-        !item.description.toLowerCase().includes(q)
+        !item.description.toLowerCase().includes(q) &&
+        !configMatchesQuery(item.config, q)
       ) {
         return false;
       }
@@ -216,7 +218,7 @@ const ProfileList: FC = () => {
                       : "You do not have permission to create profiles in this project"
                   }
                 >
-                  {!isSmallScreen && <Icon name="plus" light />}
+                  {!isSmallScreen && <DsIcon icon="plus" />}
                   <span>Create profile</span>
                 </Button>
               </PageHeader.BaseActions>
@@ -242,7 +244,9 @@ const ProfileList: FC = () => {
             {profiles.length === 0 && (
               <EmptyState
                 className="empty-state"
-                image={<Icon name="repository" className="empty-state-icon" />}
+                image={
+                  <DsIcon icon="repository" className="empty-state-icon" />
+                }
                 title="No profiles found"
               >
                 <p>There are no profiles in this project.</p>

@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   project: string;
@@ -32,7 +33,7 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
       }
       disabled={!canCreateStoragePools()}
     >
-      {!isSmallScreen && <Icon name="plus" light />}
+      {!isSmallScreen && <DsIcon icon="plus" />}
       <span>Create pool</span>
     </Button>
   );

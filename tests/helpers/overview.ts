@@ -4,7 +4,7 @@ import { gotoURL } from "./navigate";
 
 export const OVERVIEW_NARROW_VIEWPORT = { width: 400, height: 800 };
 
-export const visitOverview = async (
+export const visitProjectOverview = async (
   page: Page,
   project = "default",
 ): Promise<void> => {
@@ -20,5 +20,15 @@ export const visitAllProjectsOverview = async (page: Page): Promise<void> => {
   await page.waitForLoadState("networkidle");
   await expect(
     page.getByRole("link", { name: "All instances list" }),
+  ).toBeVisible();
+};
+
+// "/ui/" redirects to the overview. Using the navigation while the overview
+// renders can close menus again, so wait until the overview has loaded.
+export const visitLandingPage = async (page: Page): Promise<void> => {
+  await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
+  await expect(
+    page.getByRole("link", { name: /^(Project|All) instances list$/ }),
   ).toBeVisible();
 };

@@ -7,7 +7,8 @@ import StoragePoolSize from "pages/storage/StoragePoolSize";
 import type { LxdStoragePool } from "types/storage";
 import { pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
-import { getVolumesUsedByPool, isClusterLocalDriver } from "util/storagePool";
+import { getVolumeCount, isClusterLocalDriver } from "util/storagePool";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   pool: LxdStoragePool;
@@ -17,7 +18,9 @@ interface Props {
 const StoragePoolDetails: FC<Props> = ({ pool, project }) => {
   const isClustered = useIsClustered();
   const { data: clusterMembers = [] } = useClusterMembers();
-  const volumeCount = getVolumesUsedByPool(pool).length;
+  const { isAllProjects } = useCurrentProject();
+  const volumeCount = getVolumeCount(pool, project, isAllProjects);
+
   const hasClusterMemberSpecificSize =
     isClustered &&
     isClusterLocalDriver(pool.driver) &&

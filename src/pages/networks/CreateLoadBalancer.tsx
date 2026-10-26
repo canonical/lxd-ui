@@ -69,6 +69,13 @@ const CreateLoadBalancer: FC = () => {
     return "";
   };
 
+  const renderListenAddress = (listenAddress?: string) => {
+    if (listenAddress === "0.0.0.0" || listenAddress === "::") {
+      return "";
+    }
+    return listenAddress;
+  };
+
   const invalidateCache = () => {
     queryClient.invalidateQueries({
       queryKey: [
@@ -83,13 +90,18 @@ const CreateLoadBalancer: FC = () => {
 
   const onSuccess = (listenAddress?: string) => {
     invalidateCache();
-    toastNotify.success(`Load balancer ${listenAddress} created.`);
+    toastNotify.success(
+      `Load balancer ${renderListenAddress(listenAddress)} created.`,
+    );
   };
 
   const onFailure = (e: unknown, listenAddress?: string) => {
     invalidateCache();
     formik.setSubmitting(false);
-    toastNotify.failure(`Creation of load balancer ${listenAddress} failed`, e);
+    toastNotify.failure(
+      `Creation of load balancer ${renderListenAddress(listenAddress)} failed`,
+      e,
+    );
   };
 
   const formik = useFormik<LoadBalancerFormValues>({
@@ -117,7 +129,7 @@ const CreateLoadBalancer: FC = () => {
 
           if (operation?.metadata.id) {
             toastNotify.info(
-              `Creation of load balancer ${formik.values.listenAddress} has started.`,
+              `Creation of load balancer ${renderListenAddress(formik.values.listenAddress)} has started.`,
             );
             eventQueue.set(
               operation.metadata.id,

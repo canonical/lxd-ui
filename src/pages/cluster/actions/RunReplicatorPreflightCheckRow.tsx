@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from "react";
-import { Icon, Spinner } from "@canonical/react-components";
+import { Spinner } from "@canonical/react-components";
 import classnames from "classnames";
+import DsIcon from "components/DsIcon";
 
 export interface PreflightCheck {
   id: string;
@@ -21,10 +22,10 @@ const RunReplicatorPreflightCheckRow: FC<
       return <Spinner className="u-no-padding--top" />;
     }
     if (check.status === "pass") {
-      return <Icon name="success" />;
+      return <DsIcon icon="success-fill" />;
     }
     if (check.status === "fail") {
-      return <Icon name="error" />;
+      return <DsIcon icon="error-fill" />;
     }
     return null;
   };

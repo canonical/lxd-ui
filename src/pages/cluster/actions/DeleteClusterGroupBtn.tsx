@@ -5,12 +5,12 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ConfirmationButton,
-  Icon,
   useToastNotification,
 } from "@canonical/react-components";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
 import { ROOT_PATH } from "util/rootPath";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   group: string;
@@ -81,7 +81,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       title="Delete group"
       className="has-icon"
     >
-      <Icon name="delete" />
+      <DsIcon icon="delete" />
     </ConfirmationButton>
   );
 };

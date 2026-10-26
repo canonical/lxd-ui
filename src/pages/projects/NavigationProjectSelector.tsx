@@ -1,10 +1,5 @@
 import { useRef, type FC } from "react";
-import {
-  Button,
-  ContextualMenu,
-  Icon,
-  SearchBox,
-} from "@canonical/react-components";
+import { Button, ContextualMenu, SearchBox } from "@canonical/react-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavigationProjectSelectorList from "pages/projects/NavigationProjectSelectorList";
 import { defaultFirst } from "util/helpers";
@@ -12,6 +7,7 @@ import { ROOT_PATH } from "util/rootPath";
 import { useProjects } from "context/useProjects";
 import { useServerEntitlements } from "util/entitlements/server";
 import { getAllProjectsSwitchTarget } from "util/projects";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   activeProject: string;
@@ -72,7 +68,7 @@ const NavigationProjectSelector: FC<Props> = ({
             className="p-contextual-menu__link all-projects"
             hasIcon
           >
-            <Icon name="folder" light />
+            <DsIcon icon="folder" />
             <span>All projects</span>
           </Button>
           <hr className="is-dark" />
@@ -94,7 +90,7 @@ const NavigationProjectSelector: FC<Props> = ({
                 : "You do not have permission to create projects"
             }
           >
-            <Icon name="plus" light />
+            <DsIcon icon="plus" />
             <span>Create project</span>
           </Button>
         </div>

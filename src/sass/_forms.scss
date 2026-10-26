@@ -423,6 +423,11 @@
   }
 }
 
+.image-registry-category {
+  color: $colors--theme--text-default;
+  font-weight: $font-weight-bold;
+}
+
 .image-select-modal {
   > section {
     min-height: 100%;

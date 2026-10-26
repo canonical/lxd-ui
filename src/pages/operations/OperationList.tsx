@@ -27,6 +27,7 @@ import {
   getProjectName,
 } from "util/operations";
 import useSortTableData from "util/useSortTableData";
+import DsIcon from "components/DsIcon";
 
 const renderParentFirstColumnContent = ({
   operation,
@@ -295,7 +296,7 @@ const OperationList: FC = () => {
           {!isLoading && operations.length === 0 && (
             <EmptyState
               className="empty-state"
-              image={<Icon name="status" className="empty-state-icon" />}
+              image={<DsIcon icon="status" className="empty-state-icon" />}
               title="No operations found"
             >
               <p>There are no ongoing operations.</p>

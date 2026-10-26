@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { Icon, MainTable, Tooltip } from "@canonical/react-components";
+import { MainTable, Tooltip } from "@canonical/react-components";
 import type { LxdNetwork } from "types/network";
 import DeleteLoadBalancerBtn from "pages/networks/actions/DeleteLoadBalancerBtn";
 import type { LxdLoadBalancer } from "types/loadBalancers";
@@ -7,6 +7,7 @@ import LoadBalancerPortStatus from "pages/networks/LoadBalancerPortStatus";
 import LoadBalancerPoolChip from "pages/networks/LoadBalancerPoolChip";
 import EditLoadBalancerBtn from "pages/networks/actions/EditLoadBalancerBtn";
 import { isLegacyLoadBalancer } from "util/loadBalancers";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -53,7 +54,7 @@ const LoadBalancersTable: FC<Props> = ({ network, loadBalancers, project }) => {
                       </>
                     }
                   >
-                    <Icon name="warning" className="u-margin--left" />
+                    <DsIcon icon="warning" className="u-margin--left" />
                   </Tooltip>
                 </>
               ) : null}

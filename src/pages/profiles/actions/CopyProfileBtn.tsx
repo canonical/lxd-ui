@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import type { LxdProfile } from "types/profile";
-import { Button, Icon, usePortal } from "@canonical/react-components";
+import { Button, usePortal } from "@canonical/react-components";
 import classnames from "classnames";
 import CopyProfileForm from "../forms/CopyProfileForm";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   profile: LxdProfile;
@@ -32,7 +33,7 @@ const CopyProfileBtn: FC<Props> = ({ profile, className, onClose }) => {
         onClick={openPortal}
         title={"Copy profile"}
       >
-        <Icon name="canvas" />
+        <DsIcon icon="canvas" />
         <span>Copy</span>
       </Button>
     </>

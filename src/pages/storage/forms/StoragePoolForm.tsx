@@ -41,7 +41,10 @@ import {
 } from "util/storagePool";
 import { slugify } from "util/slugify";
 import YamlForm from "components/forms/YamlForm";
-import { handleConfigKeys } from "util/storagePoolForm";
+import {
+  cephReplicatorConfigPrefix,
+  handleConfigKeys,
+} from "util/storagePoolForm";
 import DocLink from "components/DocLink";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
@@ -84,6 +87,17 @@ export const toStoragePool = (
         [getPoolKey("ceph_user_name")]: values.ceph_user_name,
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
         [getPoolKey("ceph_osd_pool_name")]: values.ceph_osd_pool_name,
+        ...Object.fromEntries(
+          (values.ceph_replicators ?? [])
+            .filter(
+              ({ project, peerSite }) =>
+                project.trim() !== "" && peerSite.trim() !== "",
+            )
+            .map(({ project, peerSite }) => [
+              `${cephReplicatorConfigPrefix}${project.trim()}`,
+              peerSite.trim(),
+            ]),
+        ),
       };
     }
     if (isCephFSDriver(values)) {
@@ -184,7 +198,9 @@ export const toStoragePool = (
   const excludeConfigKeys = new Set(handleConfigKeys);
   const missingConfigFields = Object.fromEntries(
     Object.entries(values.barePool?.config ?? {}).filter(
-      (e) => !excludeConfigKeys.has(e[0]),
+      ([key]) =>
+        !excludeConfigKeys.has(key) &&
+        !key.startsWith(cephReplicatorConfigPrefix),
     ),
   );
 

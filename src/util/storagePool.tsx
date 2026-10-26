@@ -19,6 +19,7 @@ import {
 } from "util/storageOptions";
 import type { LxdOperation } from "types/operation";
 import { getOperationEntityUrls } from "util/operations";
+import { filterUsedByType } from "util/usedBy";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
@@ -26,6 +27,7 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_osd_pool_name: "ceph.osd.pool_name",
   ceph_rbd_clone_copy: "ceph.rbd.clone_copy",
   ceph_rbd_du: "ceph.rbd.du",
+  ceph_replicators: "ceph.replicator.<project>",
   ceph_user_name: "ceph.user.name",
   ceph_rbd_features: "ceph.rbd.features",
   cephfs_cluster_name: "cephfs.cluster_name",
@@ -233,16 +235,25 @@ export const hasSource = (driver: string): boolean => {
   return driversWithSource.includes(driver);
 };
 
-export const getVolumesUsedByPool = (pool: LxdStoragePool): string[] => {
+export const getVolumeCount = (
+  pool: LxdStoragePool,
+  project: string,
+  isAllProjects: boolean,
+): number => {
   if (!pool.used_by) {
-    return [];
+    return 0;
   }
 
-  return pool.used_by.filter(
-    (item) =>
-      item.startsWith(
-        `/1.0/storage-pools/${encodeURIComponent(pool.name)}/volumes/`,
-      ) && !item.includes("/snapshots/"),
+  return (
+    filterUsedByType("instance", pool.used_by).filter(
+      (item) => item.project === project || isAllProjects,
+    ).length +
+    filterUsedByType("volume", pool.used_by).filter(
+      (item) => item.project === project || isAllProjects,
+    ).length +
+    filterUsedByType("image", pool.used_by).filter(
+      (item) => item.project === project || isAllProjects,
+    ).length
   );
 };
 

@@ -1,10 +1,11 @@
 import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import classnames from "classnames";
 import { useInstanceStart } from "util/instanceStart";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -44,11 +45,11 @@ const StartInstanceBtn: FC<Props> = ({
           : "You do not have permission to start this instance"
       }
     >
-      <Icon
+      <DsIcon
         className={classnames(iconClassname, {
           "u-animation--spin": showSpinner,
         })}
-        name={showSpinner ? "spinner" : "play"}
+        icon={showSpinner ? "spinner" : "play"}
       />
       {hasLabel && <span>Start instance</span>}
     </Button>

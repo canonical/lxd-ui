@@ -1,4 +1,4 @@
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { type FC } from "react";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import { ensureEditMode } from "util/editMode";
@@ -12,6 +12,7 @@ import {
 import { isCustomNic, isNicDevice, isNoneDevice } from "util/devices";
 import type { InheritedNetwork } from "types/forms/configInheritance";
 import usePanelParams from "util/usePanelParams";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -97,7 +98,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled || isCustom}
           key="edit-button"
         >
-          <Icon name="edit" />
+          <DsIcon icon="edit" />
           <span>Edit</span>
         </Button>,
       );
@@ -116,7 +117,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled}
           key="detach-inherited-button"
         >
-          <Icon name="disconnect" />
+          <DsIcon icon="disconnected" />
           <span>Detach</span>
         </Button>,
       );
@@ -135,7 +136,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled}
           key="detach-overridden-button"
         >
-          <Icon name="disconnect" />
+          <DsIcon icon="disconnected" />
           <span>Detach</span>
         </Button>,
       );
@@ -154,7 +155,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled}
           key="reattach-button"
         >
-          <Icon name="connected" />
+          <DsIcon icon="connected" />
           <span>Reattach</span>
         </Button>,
       );
@@ -173,7 +174,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled}
           key="detach-local-button"
         >
-          <Icon name="disconnect" />
+          <DsIcon icon="disconnected" />
           <span>Detach</span>
         </Button>,
       );
@@ -192,7 +193,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled}
           key="clear-override-button"
         >
-          <Icon name="close" />
+          <DsIcon icon="close" />
           <span>Clear</span>
         </Button>,
       );

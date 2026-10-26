@@ -6,9 +6,8 @@ import {
 } from "react";
 import {
   Button,
-  CheckboxInput,
   Col,
-  Icon,
+  CustomSelect,
   MainTable,
   Modal,
   Notification,
@@ -35,9 +34,20 @@ import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import { useParams } from "react-router-dom";
 import { useRemoteImages, useLocalImagesInProject } from "context/useImages";
+import { useImageRegistries } from "context/useImageRegistries";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useCurrentProject } from "context/useCurrentProject";
+import {
+  addRegistryPrefix,
+  getRegistryName,
+  isRegistryAllowedInProject,
+} from "util/imageRegistry";
+import type { CustomSelectOption } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown";
+import DsIcon from "components/DsIcon";
 import {
   canonicalServer,
   imagesLxdServer,
+  legacyImageSources,
   minimalServer,
 } from "util/imageLegacy";
 
@@ -49,6 +59,7 @@ interface Props {
 const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
+const BUILTIN_AND_LOCAL_IMAGES = "view:builtin-and-local";
 
 const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [query, setQuery] = useState<string>("");
@@ -57,7 +68,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [arch, setArch] = useState<string>("amd64");
   const [type, setType] = useState<LxdImageType | undefined>(undefined);
   const [variant, setVariant] = useState<string>(ANY);
-  const [hideRemote, setHideRemote] = useState(false);
+  const [source, setSource] = useState<string>(BUILTIN_AND_LOCAL_IMAGES);
   const [error, setError] = useState("");
   const [hideError, setHideError] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -66,34 +77,148 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const isCardView = useIsScreenBelow(1090);
 
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
-  const { data: remoteImages, isLoading: isRemoteImagesLoading } =
-    useRemoteImages();
-  const { data: localImages = [], isLoading: isLocalImageLoading } =
-    useLocalImagesInProject(project ?? "default");
+  const { hasImageRegistries } = useSupportedFeatures();
+  const { project: currentProject, isLoading: isProjectLoading } =
+    useCurrentProject();
+  const {
+    data: registries = [],
+    error: registriesError,
+    isLoading: isRegistriesLoading,
+    isSuccess: hasRegistries,
+  } = useImageRegistries(hasImageRegistries);
+  const isRegistrySelectDisabled =
+    isSettingsLoading ||
+    (hasImageRegistries &&
+      (isProjectLoading || currentProject === undefined || !hasRegistries));
 
-  if (remoteImages?.error && remoteImages?.error !== error) {
-    setError(remoteImages?.error ?? "");
+  const isCombinedSource = source === BUILTIN_AND_LOCAL_IMAGES;
+  const registryName = isCombinedSource ? undefined : getRegistryName(source);
+
+  const {
+    data: remoteImages,
+    isLoading: isRemoteImagesLoading,
+    error: remoteImagesError,
+  } = useRemoteImages(
+    registries,
+    registryName,
+    !hasImageRegistries || hasRegistries,
+  );
+  const { data: localImages = [], isLoading: isLocalImageLoading } =
+    useLocalImagesInProject(project ?? "default", isCombinedSource);
+
+  const loadingError = [
+    ...new Set(
+      [
+        registriesError?.message,
+        remoteImagesError?.message,
+        remoteImages?.error,
+      ].filter(Boolean),
+    ),
+  ].join(". ");
+
+  if (loadingError !== error) {
+    setError(loadingError);
     setHideError(false);
   }
 
-  const isWaitingForRemoteImages = !hideRemote && isRemoteImagesLoading;
   const isLoading =
-    isWaitingForRemoteImages || isLocalImageLoading || isSettingsLoading;
+    isRemoteImagesLoading ||
+    isLocalImageLoading ||
+    isSettingsLoading ||
+    isRegistriesLoading ||
+    (hasImageRegistries && isProjectLoading);
 
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
+  const localRemoteImages = isCombinedSource
+    ? localImages.map(localLxdToRemoteImage).sort(byOSRelease)
+    : [];
   const images = isLoading
     ? []
-    : localImages
-        .map(localLxdToRemoteImage)
-        .sort(byOSRelease)
+    : localRemoteImages
         .concat(remoteImages?.images ?? [])
         .filter((image) => archSupported.includes(image.arch));
+  const hasImages = images.length > 0;
+
+  const handleSourceChange = (value: string): void => {
+    setSource(value);
+    // reset filters that depend on the loaded image set
+    setOs("");
+    setRelease("");
+    setVariant(ANY);
+    setError("");
+    setHideError(false);
+  };
+
+  const registryOptions: CustomSelectOption[] = [
+    {
+      label: "Built-in & local",
+      value: BUILTIN_AND_LOCAL_IMAGES,
+    },
+  ];
+  if (hasImageRegistries) {
+    const allowedRegistries = registries
+      .filter((item) => isRegistryAllowedInProject(item, currentProject))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const builtinRegistries = allowedRegistries.filter((item) => item.builtin);
+    const customRegistries = allowedRegistries.filter((item) => !item.builtin);
+    if (customRegistries.length > 0) {
+      registryOptions.push({
+        label: (
+          <strong className="image-registry-category">Custom registries</strong>
+        ),
+        text: "Custom registries",
+        value: "category:custom",
+        disabled: true,
+      });
+      registryOptions.push(
+        ...customRegistries.map((item) => ({
+          label: item.name,
+          value: addRegistryPrefix(item.name),
+        })),
+      );
+      registryOptions.push({
+        label: (
+          <strong className="image-registry-category">
+            Built-in registries
+          </strong>
+        ),
+        text: "Built-in registries",
+        value: "category:builtin",
+        disabled: true,
+      });
+    }
+    registryOptions.push(
+      ...builtinRegistries.map((item) => ({
+        label: item.name,
+        value: addRegistryPrefix(item.name),
+      })),
+    );
+  } else {
+    registryOptions.push(
+      ...legacyImageSources.map((legacySource) => ({
+        label: legacySource.label,
+        value: addRegistryPrefix(legacySource.server),
+      })),
+    );
+  }
 
   const archAll = [...new Set(images.map((item) => item.arch))]
     .filter((arch) => arch !== "")
     .sort();
+  const archOptions = archAll.map((item) => ({
+    label: item,
+    value: item,
+  }));
+  if (archOptions.length === 0) {
+    archOptions.push({
+      label: isLoading
+        ? "Loading architectures..."
+        : "No architectures available",
+      value: "",
+    });
+  }
   const variantAll = [...new Set(images.map((item) => item.variant))].sort();
 
   if (!isLoading && !archAll.includes(arch) && archAll.length > 0) {
@@ -152,12 +277,6 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         item.os.toLowerCase().includes(query) ||
         item.release.toLowerCase().includes(query)
       );
-    })
-    .filter((item) => {
-      if (!hideRemote) {
-        return true;
-      }
-      return item.server === LOCAL_IMAGE || item.cached;
     })
     .map((item) => {
       const figureType = () => {
@@ -303,6 +422,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           variant: displayVariant?.toLowerCase(),
           type: itemType,
           alias: item.aliases,
+          cached: item.cached ? "Cached" : "Remote",
         },
       };
     });
@@ -321,6 +441,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     },
     {
       content: "Cached",
+      sortKey: "cached",
     },
     {
       content: "",
@@ -330,6 +451,15 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const filters = (
     <div className="image-select-filters">
+      <CustomSelect
+        id="image-registry"
+        label="Registry"
+        name="registry"
+        onChange={handleSourceChange}
+        options={registryOptions}
+        value={source}
+        disabled={isRegistrySelectDisabled}
+      />
       <Select
         label="Distribution"
         name="distribution"
@@ -339,6 +469,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         }}
         options={getOptionList((item: RemoteImage) => item.os)}
         value={os}
+        disabled={!hasImages}
       />
       <Select
         label="Release"
@@ -351,7 +482,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           (item) => item.os === os,
         )}
         value={release}
-        disabled={os === ""}
+        disabled={!hasImages || os === ""}
       />
       <Select
         label="Variant"
@@ -375,6 +506,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             }),
         )}
         value={variant}
+        disabled={!hasImages}
       />
       <Select
         label="Architecture"
@@ -382,13 +514,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         onChange={(v) => {
           setArch(v.target.value);
         }}
-        options={archAll.map((item) => {
-          return {
-            label: item,
-            value: item,
-          };
-        })}
-        value={arch}
+        options={archOptions}
+        value={archAll.length > 0 ? arch : ""}
+        disabled={archAll.length === 0}
       />
       <Select
         label="Type"
@@ -408,13 +536,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           ...instanceCreationTypes,
         ]}
         value={type ?? ""}
-      />
-      <CheckboxInput
-        checked={hideRemote}
-        label="Show only cached images"
-        onChange={() => {
-          setHideRemote((prev) => !prev);
-        }}
+        disabled={!hasImages}
       />
     </div>
   );
@@ -467,7 +589,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 setShowFilters((prev) => !prev);
               }}
             >
-              <Icon name="filter" />
+              <DsIcon icon="filter" />
             </Button>
           </div>
           {isCardView && showFilters && filters}

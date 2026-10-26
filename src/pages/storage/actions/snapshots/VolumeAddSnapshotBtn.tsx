@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
-import { Button, Icon, Tooltip, usePortal } from "@canonical/react-components";
+import { Button, Tooltip, usePortal } from "@canonical/react-components";
 import CreateVolumeSnapshotForm from "pages/storage/forms/CreateVolumeSnapshotForm";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import DsIcon from "components/DsIcon";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -49,7 +50,7 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
           disabled={isDisabled || !canManageStorageVolumeSnapshots(volume)}
           className={className}
         >
-          <Icon name="add-canvas" />
+          <DsIcon icon="add-canvas" />
         </Button>
       ) : (
         <Button

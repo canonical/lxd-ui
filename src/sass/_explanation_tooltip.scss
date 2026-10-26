@@ -7,6 +7,24 @@
 .explanation-tooltip-icon {
   height: 1rem !important;
   width: 1rem !important;
+
+  :is(
+      h1,
+      h2,
+      h3,
+      h4,
+      .p-heading--1,
+      .p-heading--2,
+      .p-heading--3,
+      .p-heading--4,
+      .u-match-h1,
+      .u-match-h2,
+      .u-match-h3,
+      .u-match-h4
+    )
+    & {
+    vertical-align: baseline !important;
+  }
 }
 
 .explanation-tooltip-wrapper--inline {
