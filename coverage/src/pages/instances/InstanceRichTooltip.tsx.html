@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.48% </span>
+                <span class="strong">88.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>96/111</span>
+                <span class='fraction'>98/111</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.3% </span>
+                <span class="strong">43.18% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/43</span>
+                <span class='fraction'>19/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94% </span>
+                <span class="strong">96% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>94/100</span>
+                <span class='fraction'>96/100</span>
             </div>
         
             
@@ -183,21 +183,21 @@
 <span class="cline-any cline-yes">252x</span>
 <span class="cline-any cline-yes">252x</span>
 <span class="cline-any cline-yes">252x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -291,15 +291,15 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
   };
 &nbsp;
   const { data: instance, isLoading } = <span class="cstat-no" title="statement not covered" >useInstance(instanceName, projectName);</span>
-<span class="cstat-no" title="statement not covered" >  if (!<span class="branch-0 cbranch-no" title="branch not covered" >instance &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!isLoading) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span></span></span>
-<span class="cstat-no" title="statement not covered" >    return &lt;&gt;&lt;/&gt;;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  if (!instance &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!isLoading) {</span></span>
+    return &lt;&gt;&lt;/&gt;;
+  }
 &nbsp;
-  const ipv4Addresses = <span class="cstat-no" title="statement not covered" >instance ? getAddresses(instance, "inet"<span class="branch-0 cbranch-no" title="branch not covered" >) : [];</span></span>
-  const ipv6Addresses = <span class="cstat-no" title="statement not covered" >instance ? getAddresses(instance, "inet6"<span class="branch-0 cbranch-no" title="branch not covered" >) : [];</span></span>
-  const macAddresses = <span class="cstat-no" title="statement not covered" >instance ? getInstanceMacAddresses(instance<span class="branch-0 cbranch-no" title="branch not covered" >) : [];</span></span>
+  const ipv4Addresses = <span class="cstat-no" title="statement not covered" >instance ? getAddresses(instance, "inet") : [];</span>
+  const ipv6Addresses = <span class="cstat-no" title="statement not covered" >instance ? getAddresses(instance, "inet6") : [];</span>
+  const macAddresses = <span class="cstat-no" title="statement not covered" >instance ? getInstanceMacAddresses(instance) : [];</span>
 &nbsp;
-  const instanceDescription = <span class="cstat-no" title="statement not covered" >instance?.<span class="branch-0 cbranch-no" title="branch not covered" >description || "-";</span></span>
+  const instanceDescription = <span class="cstat-no" title="statement not covered" >instance?.description || "-";</span>
 &nbsp;
   const rows: TooltipRow[] = <span class="cstat-no" title="statement not covered" >[</span>
     {
@@ -310,14 +310,14 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
             &lt;InstanceStatusIcon instance={instance} /&gt;
           &lt;/div&gt;
           &lt;InstanceStateActions instance={instance} /&gt;
-<span class="branch-0 cbranch-no" title="branch not covered" >        &lt;/div&gt;</span>
+        &lt;/div&gt;
 <span class="cstat-no" title="statement not covered" >      ) : (</span>
 <span class="cstat-no" title="statement not covered" >        "-"</span>
       ),
     },
     {
       title: "Instance",
-      value: instance ? &lt;InstanceLink instance={instance}<span class="branch-0 cbranch-no" title="branch not covered" > /&gt; : &lt;Spinner /&gt;,</span>
+      value: instance ? &lt;InstanceLink instance={instance} /&gt; : &lt;Spinner /&gt;,
       valueTitle: instanceName,
     },
     {
@@ -327,11 +327,11 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
     },
     {
       title: "Type",
-      value: instance ? getInstanceType(instance<span class="branch-0 cbranch-no" title="branch not covered" >) : "-",</span>
+      value: instance ? getInstanceType(instance) : "-",
     },
     {
       title: "IPV4",
-      value: ipv4Addresses.<span class="branch-0 cbranch-no" title="branch not covered" >length ? (</span>
+      value: ipv4Addresses.length ? (
 <span class="cstat-no" title="statement not covered" >        &lt;TruncatedList items={ipv4Addresses} /&gt;</span>
       ) : (
         "-"
@@ -339,7 +339,7 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
     },
     {
       title: "IPV6",
-      value: ipv6Addresses.<span class="branch-0 cbranch-no" title="branch not covered" >length ? (</span>
+      value: ipv6Addresses.length ? (
 <span class="cstat-no" title="statement not covered" >        &lt;TruncatedList items={ipv6Addresses} /&gt;</span>
       ) : (
         "-"
@@ -347,15 +347,15 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
     },
     {
       title: "MAC addresses",
-      value: instance ? &lt;TruncatedList items={macAddresses}<span class="branch-0 cbranch-no" title="branch not covered" > /&gt; : "-",</span>
+      value: instance ? &lt;TruncatedList items={macAddresses} /&gt; : "-",
     },
     {
       title: "Created",
-      value: instance ? isoTimeToString(instance.created_at<span class="branch-0 cbranch-no" title="branch not covered" >) : "-",</span>
+      value: instance ? isoTimeToString(instance.created_at) : "-",
     },
     {
       title: "Last used",
-      value: instance ? isoTimeToString(instance.last_used_at<span class="branch-0 cbranch-no" title="branch not covered" >) : "-",</span>
+      value: instance ? isoTimeToString(instance.last_used_at) : "-",
     },
   ];
 &nbsp;
@@ -370,7 +370,7 @@ export const <span class="fstat-no" title="function not covered" >InstanceRichTo
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-23T12:37:18.529Z
+                at 2026-10-26T05:02:15.917Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
