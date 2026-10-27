@@ -2,6 +2,8 @@ import type { FC } from "react";
 import type { LxdResources } from "types/resources";
 import { formatSeconds } from "util/seconds";
 import type { LxdClusterMemberState } from "types/cluster";
+import { useSettings } from "context/useSettings";
+import CopyToClipboard from "components/CopyToClipboard";
 
 interface Props {
   resources: LxdResources;
@@ -9,6 +11,10 @@ interface Props {
 }
 
 const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
+  const { data: settings } = useSettings();
+  // all members of a cluster share the cluster certificate
+  const certificateFingerprint = settings?.environment?.certificate_fingerprint;
+
   return (
     <table>
       <tbody>
@@ -121,6 +127,21 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
               <td>{resources.system.motherboard.version || "N/A"}</td>
             </tr>
           </>
+        )}
+
+        {certificateFingerprint && (
+          <tr>
+            <th className="u-text--muted">Certificate fingerprint</th>
+            <td>
+              <div className="certificate-fingerprint">
+                <span className="u-break-all">{certificateFingerprint}</span>
+                <CopyToClipboard
+                  value={certificateFingerprint}
+                  tooltipMessage="Copy fingerprint"
+                />
+              </div>
+            </td>
+          </tr>
         )}
       </tbody>
     </table>

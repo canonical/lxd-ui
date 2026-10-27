@@ -1,6 +1,8 @@
 import type { Page } from "@playwright/test";
 import { test, expect } from "./fixtures/lxd-test";
 import { gotoURL } from "./helpers/navigate";
+import { runCommand } from "./helpers/shell";
+import { getLxcCmd } from "./helpers/auth";
 
 const visitClusterServer = async (page: Page): Promise<void> => {
   await gotoURL(page, "/ui/");
@@ -52,4 +54,23 @@ test("cluster server page displays hardware details", async ({ page }) => {
   await expect(
     page.getByText("This server is not clustered", { exact: true }),
   ).toBeHidden();
+});
+
+test("cluster server page displays the certificate fingerprint", async ({
+  page,
+}) => {
+  const server = JSON.parse(runCommand(`${getLxcCmd()} query /1.0`)) as {
+    environment: { certificate_fingerprint: string };
+  };
+  const fingerprint = server.environment.certificate_fingerprint;
+
+  await visitClusterServer(page);
+
+  const row = page
+    .getByRole("row")
+    .filter({ hasText: "Certificate fingerprint" });
+  await expect(row.getByText(fingerprint, { exact: true })).toBeVisible();
+  await expect(
+    row.getByRole("button", { name: "Copy to clipboard" }),
+  ).toBeVisible();
 });

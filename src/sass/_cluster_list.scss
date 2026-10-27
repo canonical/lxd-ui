@@ -112,6 +112,12 @@
   }
 }
 
+// keep the copy button next to the first line when the value wraps
+.certificate-fingerprint {
+  align-items: flex-start;
+  display: flex;
+}
+
 .cluster-link-table {
   .status-header {
     padding-left: 1.8rem;
