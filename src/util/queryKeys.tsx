@@ -28,6 +28,7 @@ export const queryKeys = {
   profiles: "profiles",
   projects: "projects",
   resources: "resources",
+  recursion: "recursion",
   storage: "storage",
   settings: "settings",
   state: "state",
