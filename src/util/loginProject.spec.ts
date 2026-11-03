@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import {
   loadLoginProject,
   saveLoginProject,
@@ -8,10 +9,31 @@ import {
 import { ALL_PROJECTS } from "util/projects";
 import type { LxdProject } from "types/project";
 
+// Mock localStorage to prevent Node 22+ unconfigured globalThis.localStorage errors
+const mockLocalStorage = () => {
+  const store = new Map<string, string>();
+  return {
+    getItem: (key: string): string | null => store.get(key) ?? null,
+    setItem: (key: string, value: string): void => {
+      store.set(key, String(value));
+    },
+    removeItem: (key: string): void => {
+      store.delete(key);
+    },
+    clear: (): void => {
+      store.clear();
+    },
+  };
+};
+
 const mockProject = (name: string): LxdProject => ({ name }) as LxdProject;
 
 beforeEach(() => {
-  localStorage.clear();
+  vi.stubGlobal("localStorage", mockLocalStorage());
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
 });
 
 describe("loadLoginProject", () => {
