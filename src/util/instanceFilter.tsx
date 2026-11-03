@@ -35,12 +35,9 @@ export const enrichStatuses = (
   return statuses;
 };
 
-export const instanceMatchesQuery = (
-  instance: LxdInstance,
-  query: string,
-): boolean => {
-  const lowerQuery = query.toLowerCase();
+const NEGATION_PREFIX = "!";
 
+const matchesQuery = (instance: LxdInstance, lowerQuery: string): boolean => {
   return (
     instance.name.toLowerCase().includes(lowerQuery) ||
     instance.description.toLowerCase().includes(lowerQuery) ||
@@ -49,4 +46,22 @@ export const instanceMatchesQuery = (
       .includes(lowerQuery) ||
     configMatchesQuery(instance.expanded_config ?? instance.config, lowerQuery)
   );
+};
+
+// A query starting with "!" matches the instances that don't match the rest
+// of the query, e.g. "!user.backup=daily".
+export const instanceMatchesQuery = (
+  instance: LxdInstance,
+  query: string,
+): boolean => {
+  const lowerQuery = query.toLowerCase();
+  const isNegated =
+    lowerQuery.startsWith(NEGATION_PREFIX) &&
+    lowerQuery.length > NEGATION_PREFIX.length;
+
+  if (isNegated) {
+    return !matchesQuery(instance, lowerQuery.slice(NEGATION_PREFIX.length));
+  }
+
+  return matchesQuery(instance, lowerQuery);
 };

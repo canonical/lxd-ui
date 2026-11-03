@@ -48,4 +48,15 @@ describe("instanceMatchesQuery", () => {
   it("does not treat a query without a key as a config filter", () => {
     expect(instanceMatchesQuery(instance, "=alice")).toBe(false);
   });
+
+  it("negates a query starting with an exclamation mark", () => {
+    expect(instanceMatchesQuery(instance, "!web")).toBe(false);
+    expect(instanceMatchesQuery(instance, "!database")).toBe(true);
+    expect(instanceMatchesQuery(instance, "!user.owner=alice")).toBe(false);
+    expect(instanceMatchesQuery(instance, "!user.owner=bob")).toBe(true);
+  });
+
+  it("treats a lone exclamation mark as a plain search", () => {
+    expect(instanceMatchesQuery(instance, "!")).toBe(false);
+  });
 });
