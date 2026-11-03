@@ -30,16 +30,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -115,38 +115,38 @@
 <span class="cline-any cline-yes">126x</span>
 <span class="cline-any cline-yes">126x</span>
 <span class="cline-any cline-yes">126x</span>
-<span class="cline-any cline-yes">2524x</span>
-<span class="cline-any cline-yes">2524x</span>
-<span class="cline-any cline-yes">2524x</span>
-<span class="cline-any cline-yes">2524x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">868x</span>
-<span class="cline-any cline-yes">2524x</span>
-<span class="cline-any cline-yes">2524x</span>
-<span class="cline-any cline-yes">242x</span>
-<span class="cline-any cline-yes">242x</span>
-<span class="cline-any cline-yes">2282x</span>
-<span class="cline-any cline-yes">2514x</span>
+<span class="cline-any cline-yes">2417x</span>
+<span class="cline-any cline-yes">2417x</span>
+<span class="cline-any cline-yes">2417x</span>
+<span class="cline-any cline-yes">2417x</span>
+<span class="cline-any cline-yes">1485x</span>
+<span class="cline-any cline-yes">933x</span>
+<span class="cline-any cline-yes">2417x</span>
+<span class="cline-any cline-yes">2417x</span>
+<span class="cline-any cline-yes">247x</span>
+<span class="cline-any cline-yes">246x</span>
+<span class="cline-any cline-yes">2170x</span>
+<span class="cline-any cline-yes">2408x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2282x</span>
-<span class="cline-any cline-yes">2282x</span>
-<span class="cline-any cline-yes">2558x</span>
-<span class="cline-any cline-yes">2282x</span>
-<span class="cline-any cline-yes">2282x</span>
-<span class="cline-any cline-yes">2514x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">1656x</span>
-<span class="cline-any cline-yes">626x</span>
-<span class="cline-any cline-yes">626x</span>
-<span class="cline-any cline-yes">626x</span>
-<span class="cline-any cline-yes">126x</span>
-<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">2170x</span>
+<span class="cline-any cline-yes">2170x</span>
+<span class="cline-any cline-yes">2376x</span>
+<span class="cline-any cline-yes">2170x</span>
+<span class="cline-any cline-yes">2170x</span>
+<span class="cline-any cline-yes">2408x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">1484x</span>
+<span class="cline-any cline-yes">686x</span>
+<span class="cline-any cline-yes">686x</span>
+<span class="cline-any cline-yes">686x</span>
+<span class="cline-any cline-yes">125x</span>
+<span class="cline-any cline-yes">125x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import type { LxdOperation } from "types/operation";
 import { getInstanceName, isRestoringBackup } from "util/operations";
@@ -162,13 +162,13 @@ const InstanceCreationProgress: FC&lt;Props&gt; = ({ operation }) =&gt; {
   const metadata =
     operation.id in operationProgress
       ? operationProgress[operation.id]
-      : (operation.<span class="branch-0 cbranch-no" title="branch not covered" >metadata ?? {});</span>
+      : (operation.metadata ?? {});
 &nbsp;
   if (isRestoringBackup(operation)) {
-    return `Restoring backup for ${getInstanceName(operation)}`;
+<span class="fstat-no" title="function not covered" >    return `Restoring backup for ${getInstanceName(operation)}`;</span>
   }
 &nbsp;
-  if (metadata.format_progress_progress) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+  if (metadata.format_progress_progress) {
 <span class="cstat-no" title="statement not covered" >    return &lt;div&gt;{metadata.format_progress_progress}&lt;/div&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
@@ -196,7 +196,7 @@ export default InstanceCreationProgress;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-03T14:44:32.302Z
+                at 2026-11-03T14:48:12.417Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
