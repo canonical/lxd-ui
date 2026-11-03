@@ -19,6 +19,10 @@ export interface LxdClusterMember {
   url: string;
 }
 
+export interface LxdClusterMemberWithState extends LxdClusterMember {
+  state?: LxdClusterMemberState;
+}
+
 export interface StoragePoolSpace {
   total: number;
   used: number;

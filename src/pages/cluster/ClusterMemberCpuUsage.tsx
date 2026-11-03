@@ -1,26 +1,15 @@
 import type { FC } from "react";
-import { Spinner } from "@canonical/react-components";
 import Meter from "components/Meter";
-import { useClusterMemberState } from "context/useClusterMemberState";
-import type { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMemberWithState } from "types/cluster";
 import { getCpuText } from "util/resourceDetails";
 
 interface Props {
-  member: LxdClusterMember;
+  member: LxdClusterMemberWithState;
 }
 
 const ClusterMemberCpuUsage: FC<Props> = ({ member }) => {
-  const { data: state, isLoading } = useClusterMemberState(
-    member.server_name,
-    member.status === "Online",
-  );
-
-  const totalCores = state?.sysinfo?.logical_cpus ?? 0;
-  const used = state?.sysinfo?.load_averages?.[0] ?? 0;
-
-  if (isLoading) {
-    return <Spinner className="u-loader" />;
-  }
+  const totalCores = member.state?.sysinfo?.logical_cpus ?? 0;
+  const used = member.state?.sysinfo?.load_averages?.[0] ?? 0;
 
   if (!totalCores) {
     return <span className="u-text--muted">-</span>;

@@ -2,42 +2,31 @@ import type { FC } from "react";
 import { Spinner } from "@canonical/react-components";
 import classnames from "classnames";
 import Meter from "components/Meter";
-import { useClusterMembers } from "context/useClusterMembers";
-import { useClusterMemberStates } from "context/useClusterMemberState";
+import { useClusterMembersWithState } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import { getCpuText, getMemoryText } from "util/resourceDetails";
 import { useServerState } from "context/useSettings";
-import type { UseQueryResult } from "@tanstack/react-query";
-import type { LxdClusterMemberState } from "types/cluster";
 
 const ClusteringTotalResources: FC = () => {
   const isClustered = useIsClustered();
   const { data: members = [], isLoading: isMembersLoading } =
-    useClusterMembers();
+    useClusterMembersWithState();
 
-  const onlineMemberNames = members
-    .filter((member) => member.status === "Online")
-    .map((member) => member.server_name);
   const hasNotOnlineMembers = members.some(
     (member) => member.status !== "Online",
   );
 
-  const memberStateQueries = useClusterMemberStates(onlineMemberNames);
-
   const { data: serverState, isLoading: isServerStateLoading } =
     useServerState(!isClustered);
 
-  const isLoading = isClustered
-    ? isMembersLoading || memberStateQueries.some((query) => query.isLoading)
-    : isServerStateLoading;
+  const isLoading = isClustered ? isMembersLoading : isServerStateLoading;
 
-  const totalQueries = isClustered ? memberStateQueries : [serverState];
-  const totals = totalQueries.reduce(
-    (acc, query) => {
-      const sysinfo = isClustered
-        ? (query as UseQueryResult<LxdClusterMemberState>).data?.sysinfo
-        : serverState?.sysinfo;
+  const memberStates = members.map((member) => member.state);
 
+  const totalStates = isClustered ? memberStates : [serverState];
+  const totals = totalStates.reduce(
+    (acc, memberState) => {
+      const sysinfo = memberState?.sysinfo;
       if (sysinfo) {
         acc.memory.total += sysinfo.total_ram;
         acc.memory.used += Math.max(
