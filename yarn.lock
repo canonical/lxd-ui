@@ -1533,9 +1533,9 @@
     zimmerframe "^1.1.2"
 
 "@storybook/addon-vitest@^10.6.0":
-  version "10.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-vitest/-/addon-vitest-10.6.0.tgz#f7375166d1e7005c06c43946c95d402d04d53536"
-  integrity sha512-GY2SwSXLNgyMqjQ59J7YTkEQTHdEbBMggOvbbuhuPUBhWo97OGSDCmn1UW3nXDZvkoWyWhF9T9628m1uei7FbA==
+  version "10.6.5"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-vitest/-/addon-vitest-10.6.5.tgz#a891e8ed47afad4e3a1ee8118cf1742604544b5e"
+  integrity sha512-0N0E7TQgmdrPNCPqNiVdTWOEQ1Nes+YsUphYX/abzlp6ReOyYBoQJw6mZ0b7BN5ACgdXQsr9Tth161t72k+51Q==
   dependencies:
     "@storybook/global" "^5.0.0"
     "@storybook/icons" "^2.0.2"
