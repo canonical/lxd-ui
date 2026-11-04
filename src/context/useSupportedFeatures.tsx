@@ -9,6 +9,9 @@ export const useSupportedFeatures = () => {
     isSettingsLoading: isLoading,
     settingsError: error,
     hasImageRegistries: apiExtensions.has("image_registries"),
+    hasInstanceSnapshotsMultiVolume: apiExtensions.has(
+      "instance_snapshots_multi_volume",
+    ),
     hasLoadBalancerHealthChecks: apiExtensions.has(
       "network_load_balancer_pool_health_checks",
     ),
