@@ -24,6 +24,7 @@ export interface LxdSettings {
     storage_supported_drivers: SupportedStorageDriver[];
     backup_metadata_version_range?: number[];
     server_name?: string;
+    certificate_fingerprint?: string;
   };
 }
 
