@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.33% </span>
+                <span class="strong">55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>46/120</span>
+                <span class='fraction'>66/120</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>24/36</span>
+                <span class='fraction'>28/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.1% </span>
+                <span class="strong">68.91% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>43/74</span>
+                <span class='fraction'>51/74</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -137,37 +137,37 @@
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">490x</span>
-<span class="cline-any cline-yes">490x</span>
-<span class="cline-any cline-yes">490x</span>
+<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">476x</span>
+<span class="cline-any cline-yes">476x</span>
+<span class="cline-any cline-yes">476x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">490x</span>
-<span class="cline-any cline-yes">490x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">476x</span>
+<span class="cline-any cline-yes">476x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
@@ -197,8 +197,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">490x</span>
-<span class="cline-any cline-yes">490x</span>
+<span class="cline-any cline-yes">476x</span>
+<span class="cline-any cline-yes">476x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -213,33 +213,33 @@
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { pluralize } from "util/helpers";
 &nbsp;
-export const formatSeconds = <span class="fstat-no" title="function not covered" >(seconds: number): string =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  let result = "";</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  if (seconds % 60 &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >    result = `${seconds % 60} ${pluralize("second", seconds % 60)}`;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const minutes = Math.floor(seconds / 60) % 60;</span>
-<span class="cstat-no" title="statement not covered" >  if (minutes &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >    const suffix = result ? `, ${result}` : "";</span>
-<span class="cstat-no" title="statement not covered" >    result = `${minutes} ${pluralize("minute", minutes)}${suffix}`;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const hours = Math.floor(seconds / 60 / 60) % 24;</span>
-<span class="cstat-no" title="statement not covered" >  if (hours &gt; 0) {</span>
+export const formatSeconds = (seconds: number): string =&gt; {
+  let result = "";
+&nbsp;
+  if (seconds % 60 &gt; 0) {
+    result = `${seconds % 60} ${pluralize("second", seconds % 60)}`;
+  }
+&nbsp;
+  const minutes = Math.floor(seconds / 60) % 60;
+  if (minutes &gt; 0) {
+    const suffix = result ? `, ${result}` : "";
+    result = `${minutes} ${pluralize("minute", minutes)}${suffix}`;
+  }
+&nbsp;
+  const hours = Math.floor(seconds / 60 / 60) % 24;
+  if (hours &gt; 0) {
 <span class="cstat-no" title="statement not covered" >    const suffix = result ? `, ${result}` : "";</span>
 <span class="cstat-no" title="statement not covered" >    result = `${hours} ${pluralize("hour", hours)}${suffix}`;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const days = Math.floor(seconds / 60 / 60 / 24);</span>
-<span class="cstat-no" title="statement not covered" >  if (days &gt; 0) {</span>
+&nbsp;
+  const days = Math.floor(seconds / 60 / 60 / 24);
+  if (days &gt; 0) {
 <span class="cstat-no" title="statement not covered" >    const suffix = result ? `, ${result}` : "";</span>
 <span class="cstat-no" title="statement not covered" >    result = `${days} ${pluralize("day", days)}${suffix}`;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return result;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+  return result;
+};
 &nbsp;
 export const <span class="fstat-no" title="function not covered" >formatCountdown = (s</span>econds: number): string =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (seconds &lt;= 0) <span class="cstat-no" title="statement not covered" >return "00:00:00";</span></span>
@@ -292,7 +292,7 @@ export const <span class="fstat-no" title="function not covered" >getExpiryMessa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-03T14:48:12.417Z
+                at 2026-11-04T11:46:12.501Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
