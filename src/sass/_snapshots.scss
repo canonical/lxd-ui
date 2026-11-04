@@ -88,6 +88,43 @@
   }
 }
 
+// keep the label of a disabled checkbox readable, only the box is disabled
+.snapshot-disabled-checkbox .p-checkbox__input:disabled + .p-checkbox__label {
+  opacity: 1;
+
+  &::before,
+  &::after {
+    opacity: $disabled-element-opacity;
+  }
+}
+
+.custom-disk-devices {
+  color: $colors--theme--text-muted;
+  margin-bottom: $spv--medium;
+  margin-top: -$sp-unit;
+  padding-left: 2rem;
+
+  .custom-disk-devices__row {
+    @extend %small-text;
+
+    margin-bottom: 0;
+  }
+
+  .custom-disk-devices__list {
+    display: inline;
+    font-family: unquote($font-monospace);
+    margin-bottom: 0;
+
+    .p-inline-list__item {
+      margin-right: $sph--small;
+
+      &:not(:last-child)::after {
+        content: ",";
+      }
+    }
+  }
+}
+
 .snapshot-creation-form {
   @include large {
     .name-error {
