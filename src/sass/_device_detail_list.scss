@@ -8,8 +8,7 @@
     padding-left: 0;
   }
 
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: 12rem;
+  .device-type {
+    width: 8rem !important;
   }
 }
