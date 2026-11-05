@@ -30,7 +30,6 @@
   &.p-chip {
     // background-color is set to white by vanilla if p-chip is applied to a link and not button
     background-color: $colors--theme--background-neutral-default;
-    border: none;
     width: fit-content;
 
     > .ds.icon {
