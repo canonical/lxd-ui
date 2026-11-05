@@ -116,6 +116,11 @@
   .status-header {
     padding-left: 1.8rem;
   }
+
+  // room for up to three row actions (verify certificate, edit, delete)
+  .actions {
+    width: 9rem;
+  }
 }
 
 .cluster-server {

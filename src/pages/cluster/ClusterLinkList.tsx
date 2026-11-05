@@ -26,7 +26,9 @@ import EditClusterLinkPanel from "pages/cluster/panels/EditClusterLinkPanel";
 import { useClusterLinks } from "context/useClusterLinks";
 import ClusterLinkAddresses from "pages/cluster/ClusterLinkAddresses";
 import CreateClusterLink from "pages/cluster/CreateClusterLink";
-import { getLinkIdentity } from "util/clusterLink";
+import { getLinkIdentity, isPendingPublicLink } from "util/clusterLink";
+import VerifyClusterLinkBtn from "pages/cluster/actions/VerifyClusterLinkBtn";
+import CreateClusterLinkPanel from "pages/cluster/panels/CreateClusterLinkPanel";
 import DsIcon from "components/DsIcon";
 
 const ClusterLinkList: FC = () => {
@@ -132,6 +134,14 @@ const ClusterLinkList: FC = () => {
               inline
               className="actions-list u-no-margin--bottom"
               items={[
+                ...(isPendingPublicLink(clusterLink)
+                  ? [
+                      <VerifyClusterLinkBtn
+                        clusterLink={clusterLink}
+                        key="verify"
+                      />,
+                    ]
+                  : []),
                 <EditClusterLinkBtn clusterLink={clusterLink} key="edit" />,
                 <DeleteClusterLinkBtn clusterLink={clusterLink} key="delete" />,
               ]}
@@ -230,6 +240,11 @@ const ClusterLinkList: FC = () => {
           clusterLink={panelLink}
         />
       )}
+      {panelParams.panel === panels.verifyClusterLink &&
+        panelLink &&
+        isPendingPublicLink(panelLink) && (
+          <CreateClusterLinkPanel pendingLink={panelLink} />
+        )}
     </>
   );
 };
