@@ -36,7 +36,7 @@ const UsedByItem: FC<Props> = ({
 
   return (
     <div>
-      {item.project !== activeProject && (
+      {item.project !== activeProject && type !== "image-registry" && (
         <>
           <ProjectRichChip
             projectName={item.project}
@@ -77,9 +77,18 @@ const UsedByItem: FC<Props> = ({
       {type === "profile" && (
         <ProfileRichChip profileName={item.name} projectName={item.project} />
       )}
-      {type !== "instance" && type !== "profile" && (
-        <ResourceLink type={type} value={label} to={to} />
+      {type === "image-registry" && (
+        <ResourceLink
+          type={type}
+          value={label}
+          to={`${ROOT_PATH}/ui/image-registry/${encodeURIComponent(item.name)}`}
+        />
       )}
+      {type !== "instance" &&
+        type !== "profile" &&
+        type !== "image-registry" && (
+          <ResourceLink type={type} value={label} to={to} />
+        )}
     </div>
   );
 };
