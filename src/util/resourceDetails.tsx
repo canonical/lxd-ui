@@ -22,6 +22,7 @@ export type ResourceType =
   | "profile"
   | "snapshot"
   | "image"
+  | "image-registry"
   | "network"
   | "network-forward"
   | "bucket"

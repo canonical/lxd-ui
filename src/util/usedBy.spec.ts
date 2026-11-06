@@ -89,4 +89,12 @@ describe("filterUsedByType", () => {
     expect(results[0].volume).toBe("abb");
     expect(results[0].target).toBe("micro2");
   });
+
+  it("finds image registry", () => {
+    const paths = ["/1.0/image-registries/registry1?project=foo"];
+    const results = filterUsedByType("image-registry", paths);
+
+    expect(results[0].name).toBe("registry1");
+    expect(results[0].project).toBe("foo");
+  });
 });
