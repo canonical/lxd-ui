@@ -42,9 +42,9 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
   const memoryPercentage = (usedMemory / totalMemory) * 100;
   const bufferedMemoryPercentage = (bufferedMemory / totalMemory) * 100;
   const memoryText = getMemoryText(
-    totalMemory - freeMemory,
+    usedMemory,
     totalMemory,
-    memoryPercentage + bufferedMemoryPercentage,
+    memoryPercentage,
     true,
   );
 
@@ -54,9 +54,20 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
       secondaryPercentage={bufferedMemoryPercentage}
       text={memoryText}
       hoverText={
-        `free: ${humanFileSize(freeMemory)}\n` +
-        `used: ${humanFileSize(usedMemory)}\n` +
-        `buffered: ${humanFileSize(bufferedMemory)}\n`
+        <>
+          <div>
+            <span className="meter-legend primary" /> used:{" "}
+            {humanFileSize(usedMemory)}
+          </div>
+          <div>
+            <span className="meter-legend secondary" /> buffered:{" "}
+            {humanFileSize(bufferedMemory)}
+          </div>
+          <div>
+            <span className="meter-legend tertiary" /> free:{" "}
+            {humanFileSize(freeMemory)}
+          </div>
+        </>
       }
     />
   );
