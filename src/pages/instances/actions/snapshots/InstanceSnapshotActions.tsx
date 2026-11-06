@@ -5,10 +5,12 @@ import {
   restoreInstanceSnapshot,
 } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton, List } from "@canonical/react-components";
+import {
+  CheckboxInput,
+  ConfirmationButton,
+  List,
+} from "@canonical/react-components";
 import classnames from "classnames";
-import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { useEventQueue } from "context/eventQueue";
 import InstanceEditSnapshotBtn from "./InstanceEditSnapshotBtn";
 import CreateImageFromInstanceSnapshotBtn from "pages/instances/actions/snapshots/CreateImageFromInstanceSnapshotBtn";
@@ -18,6 +20,13 @@ import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 import DsIcon from "components/DsIcon";
+import {
+  CUSTOM_DISK_DEVICES_MESSAGE_SUFFIX,
+  getCustomVolumeDevices,
+  getCustomVolumeSnapshotDevices,
+  isInstanceSnapshotQuery,
+} from "util/instanceSnapshots";
+import CustomDiskDevicesCheckbox from "./CustomDiskDevicesCheckbox";
 
 interface Props {
   instance: LxdInstance;
@@ -36,6 +45,11 @@ const InstanceSnapshotActions: FC<Props> = ({
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
   const [restoreState, setRestoreState] = useState(true);
+  const [restoreCustomVolumes, setRestoreCustomVolumes] = useState(true);
+  const [deleteCustomVolumes, setDeleteCustomVolumes] = useState(true);
+  const customVolumeDevices = getCustomVolumeSnapshotDevices(snapshot);
+  const hasCustomVolumes = customVolumeDevices.length > 0;
+  const attachedCustomVolumeDevices = getCustomVolumeDevices(instance);
   const queryClient = useQueryClient();
   const { canManageInstanceSnapshots } = useInstanceEntitlements();
   const disabledReason = canManageInstanceSnapshots(instance)
@@ -43,8 +57,9 @@ const InstanceSnapshotActions: FC<Props> = ({
     : "You do not have permission to manage snapshots for this instance";
 
   const handleDelete = () => {
+    const includeCustomVolumes = hasCustomVolumes && deleteCustomVolumes;
     setDeleting(true);
-    deleteInstanceSnapshot(instance, snapshot)
+    deleteInstanceSnapshot(instance, snapshot, includeCustomVolumes)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -58,7 +73,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   instanceName={instance.name}
                   projectName={instance.project}
                 />
-                .
+                {includeCustomVolumes && CUSTOM_DISK_DEVICES_MESSAGE_SUFFIX}.
               </>,
             );
           },
@@ -68,7 +83,7 @@ const InstanceSnapshotActions: FC<Props> = ({
           () => {
             setDeleting(false);
             queryClient.invalidateQueries({
-              predicate: (query) => query.queryKey[0] === queryKeys.instances,
+              predicate: isInstanceSnapshotQuery(includeCustomVolumes),
             });
           },
         );
@@ -80,8 +95,14 @@ const InstanceSnapshotActions: FC<Props> = ({
   };
 
   const handleRestore = () => {
+    const includeCustomVolumes = hasCustomVolumes && restoreCustomVolumes;
     setRestoring(true);
-    restoreInstanceSnapshot(instance, snapshot, restoreState)
+    restoreInstanceSnapshot(
+      instance,
+      snapshot,
+      restoreState,
+      includeCustomVolumes,
+    )
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -98,7 +119,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   instanceName={instance.name}
                   projectName={instance.project}
                 />
-                .
+                {includeCustomVolumes && CUSTOM_DISK_DEVICES_MESSAGE_SUFFIX}.
               </>,
             );
           },
@@ -108,7 +129,7 @@ const InstanceSnapshotActions: FC<Props> = ({
           () => {
             setRestoring(false);
             queryClient.invalidateQueries({
-              predicate: (query) => query.queryKey[0] === queryKeys.instances,
+              predicate: isInstanceSnapshotQuery(includeCustomVolumes),
             });
           },
         );
@@ -145,23 +166,40 @@ const InstanceSnapshotActions: FC<Props> = ({
             confirmationModalProps={{
               title: "Confirm restore",
               children: (
-                <p>
-                  This will restore snapshot{" "}
-                  <ResourceLabel type="snapshot" value={snapshot.name} bold />.
-                  <br />
-                  This action cannot be undone, and can result in data loss.
-                </p>
+                <>
+                  <p>
+                    This will restore snapshot{" "}
+                    <ResourceLabel type="snapshot" value={snapshot.name} bold />
+                    .
+                    <br />
+                    This action cannot be undone, and can result in data loss.
+                  </p>
+                  {snapshot.stateful && (
+                    <CheckboxInput
+                      label="Restore the instance state"
+                      checked={restoreState}
+                      onChange={() => {
+                        setRestoreState((prev) => !prev);
+                      }}
+                    />
+                  )}
+                  {hasCustomVolumes && (
+                    <CustomDiskDevicesCheckbox
+                      id={`restore-custom-volumes-${snapshot.name}`}
+                      label="Restore custom disk devices attached to this instance"
+                      checked={restoreCustomVolumes}
+                      onChange={setRestoreCustomVolumes}
+                      includedDevices={customVolumeDevices}
+                      allDevices={attachedCustomVolumeDevices}
+                    />
+                  )}
+                </>
               ),
-              confirmExtra: snapshot.stateful ? (
-                <ConfirmationCheckbox
-                  label="Restore the instance state"
-                  confirmed={[restoreState, setRestoreState]}
-                />
-              ) : undefined,
               confirmButtonLabel: disabledReason ?? "Restore snapshot",
               confirmButtonAppearance: "positive",
               close: () => {
                 setRestoreState(true);
+                setRestoreCustomVolumes(true);
               },
               onConfirm: handleRestore,
             }}
@@ -193,14 +231,30 @@ const InstanceSnapshotActions: FC<Props> = ({
             confirmationModalProps={{
               title: "Confirm delete",
               children: (
-                <p>
-                  This will permanently delete snapshot{" "}
-                  <ResourceLabel type="snapshot" value={snapshot.name} bold />.
-                  <br />
-                  This action cannot be undone, and can result in data loss.
-                </p>
+                <>
+                  <p>
+                    This will permanently delete snapshot{" "}
+                    <ResourceLabel type="snapshot" value={snapshot.name} bold />
+                    .
+                    <br />
+                    This action cannot be undone, and can result in data loss.
+                  </p>
+                  {hasCustomVolumes && (
+                    <CustomDiskDevicesCheckbox
+                      id={`delete-custom-volumes-${snapshot.name}`}
+                      label="Delete snapshots for custom disk devices attached to this instance"
+                      checked={deleteCustomVolumes}
+                      onChange={setDeleteCustomVolumes}
+                      includedDevices={customVolumeDevices}
+                      allDevices={attachedCustomVolumeDevices}
+                    />
+                  )}
+                </>
               ),
               confirmButtonLabel: disabledReason ?? "Delete snapshot",
+              close: () => {
+                setDeleteCustomVolumes(true);
+              },
               onConfirm: handleDelete,
             }}
             disabled={isDeleting || isRestoring || !!disabledReason}

@@ -88,6 +88,31 @@
   }
 }
 
+// keep the label of a disabled checkbox readable, only the box is disabled
+.snapshot-stateful-checkbox .p-checkbox__input:disabled + .p-checkbox__label {
+  opacity: 1;
+
+  &::before,
+  &::after {
+    opacity: $disabled-element-opacity;
+  }
+}
+
+.custom-disk-devices {
+  margin-bottom: $spv--medium;
+  padding-left: 2rem;
+
+  .custom-disk-devices__row {
+    display: flex;
+    gap: $sph--small;
+  }
+
+  .custom-disk-devices__title {
+    color: $colors--theme--text-muted;
+    flex-shrink: 0;
+  }
+}
+
 .snapshot-creation-form {
   @include large {
     .name-error {

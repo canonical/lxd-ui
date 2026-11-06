@@ -1,15 +1,17 @@
 import { useState, type FC, type ReactNode } from "react";
 import type { LxdInstance } from "types/instance";
 import {
+  CUSTOM_DISK_DEVICES_MESSAGE_SUFFIX,
+  getCustomVolumeDevices,
+  getCustomVolumeDevicesToSnapshot,
   getInstanceSnapshotSchema,
+  isInstanceSnapshotQuery,
   isInstanceStateful,
 } from "util/instanceSnapshots";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useEventQueue } from "context/eventQueue";
 import {
   CheckboxInput,
-  List,
-  Tooltip,
   useNotify,
   useToastNotification,
 } from "@canonical/react-components";
@@ -19,12 +21,14 @@ import type { SnapshotFormValues } from "types/forms/snapshot";
 import { getExpiresAt } from "util/snapshots";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { createInstanceSnapshot } from "api/instance-snapshots";
-import { queryKeys } from "util/queryKeys";
-import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import { getInstanceSnapshotName } from "util/operations";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { InstanceRichChip } from "../InstanceRichChip";
-import DsIcon from "components/DsIcon";
+import { useCurrentProject } from "context/useCurrentProject";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useLoadCustomVolumes } from "context/useVolumes";
+import { isProjectWithVolumes } from "util/projects";
+import CustomDiskDevicesCheckbox from "../actions/snapshots/CustomDiskDevicesCheckbox";
 
 interface Props {
   close: () => void;
@@ -42,11 +46,27 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const { project, isLoading: isProjectLoading } = useCurrentProject();
+  const { hasInstanceSnapshotsMultiVolume, isSettingsLoading } =
+    useSupportedFeatures();
+  const canSnapshotCustomVolumes =
+    hasInstanceSnapshotsMultiVolume && isProjectWithVolumes(project);
+  const { data: customVolumes = [], isLoading: isCustomVolumesLoading } =
+    useLoadCustomVolumes(instance.project, {
+      enabled: canSnapshotCustomVolumes,
+    });
+  const customVolumeDevices = canSnapshotCustomVolumes
+    ? getCustomVolumeDevicesToSnapshot(instance, customVolumes)
+    : [];
+  const showCustomVolumesCheckbox = customVolumeDevices.length > 0;
 
-  const formik = useFormik<SnapshotFormValues<{ stateful?: boolean }>>({
+  const formik = useFormik<
+    SnapshotFormValues<{ stateful?: boolean; includeCustomVolumes?: boolean }>
+  >({
     initialValues: {
       name: "",
       stateful: false,
+      includeCustomVolumes: true,
       expirationDate: null,
       expirationTime: null,
     },
@@ -60,6 +80,8 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
+      const includeCustomVolumes =
+        showCustomVolumesCheckbox && !!values.includeCustomVolumes;
       const instanceLink = (
         <InstanceRichChip
           instanceName={instance.name}
@@ -71,13 +93,14 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
         values.name,
         expiresAt,
         values.stateful || false,
+        includeCustomVolumes,
       )
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
               queryClient.invalidateQueries({
-                predicate: (query) => query.queryKey[0] === queryKeys.instances,
+                predicate: isInstanceSnapshotQuery(includeCustomVolumes),
               });
               onSuccess(
                 <>
@@ -86,7 +109,8 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
                     name={getInstanceSnapshotName(operation.metadata)}
                     instance={instance}
                   />{" "}
-                  created for instance {instanceLink}.
+                  created for instance {instanceLink}
+                  {includeCustomVolumes && CUSTOM_DISK_DEVICES_MESSAGE_SUFFIX}.
                 </>,
               );
               resetForm();
@@ -111,50 +135,48 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
     },
   });
 
-  let statefulInfoMessage: React.JSX.Element | string = (
-    <>
-      {`To create a stateful snapshot, the instance needs\n`}
-      the <code>migration.stateful</code> config set to true
-    </>
-  );
-
   const isStateful = isInstanceStateful(instance);
   const isRunning = instance.status === "Running";
-  if (isStateful) {
-    statefulInfoMessage = `To create a stateful snapshot,\nthe instance must be running`;
-  }
-  if (isStateful && isRunning) {
-    statefulInfoMessage = "";
-  }
+  const getStatefulHelp = () => {
+    if (!isStateful) {
+      return (
+        <>
+          <code>migration.stateful</code> config on this instance must be set to
+          true.
+        </>
+      );
+    }
+    if (!isRunning) {
+      return "The instance must be running.";
+    }
+    return undefined;
+  };
 
   const statefulCheckbox = (
-    <List
-      inline
-      items={[
-        <CheckboxInput
-          key="stateful"
-          id="stateful"
-          name="stateful"
-          label="Stateful"
-          className="u-inline-block"
-          disabled={!isStateful || !isRunning}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          defaultChecked={formik.values.stateful}
-        />,
-        ...(statefulInfoMessage
-          ? [
-              <Tooltip
-                key="stateful-info"
-                position="btm-left"
-                message={statefulInfoMessage}
-                zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
-              >
-                <DsIcon icon="information" />
-              </Tooltip>,
-            ]
-          : []),
-      ]}
+    <CheckboxInput
+      id="stateful"
+      name="stateful"
+      label="Stateful snapshot"
+      className="snapshot-stateful-checkbox"
+      disabled={!isStateful || !isRunning}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      checked={formik.values.stateful}
+      help={getStatefulHelp()}
+    />
+  );
+
+  const customVolumesCheckbox = (
+    <CustomDiskDevicesCheckbox
+      id="includeCustomVolumes"
+      label="Snapshot custom disk devices attached to this instance"
+      help="Devices and volumes shared with other instances are not included."
+      checked={!!formik.values.includeCustomVolumes}
+      onChange={(checked) =>
+        void formik.setFieldValue("includeCustomVolumes", checked)
+      }
+      includedDevices={customVolumeDevices}
+      allDevices={getCustomVolumeDevices(instance)}
     />
   );
 
@@ -163,7 +185,15 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
       isEdit={false}
       formik={formik}
       close={close}
-      additionalFormInput={statefulCheckbox}
+      isLoading={
+        isProjectLoading || isSettingsLoading || isCustomVolumesLoading
+      }
+      additionalFormInput={
+        <>
+          {statefulCheckbox}
+          {showCustomVolumesCheckbox && customVolumesCheckbox}
+        </>
+      }
     />
   );
 };
