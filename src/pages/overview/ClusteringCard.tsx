@@ -46,7 +46,10 @@ const ClusteringCard: FC = () => {
     const memoryPercentage = totalMemory
       ? (Math.max(
           0,
-          totalMemory - (sysinfo?.free_ram ?? 0) - (sysinfo?.buffered_ram ?? 0),
+          totalMemory -
+            (sysinfo?.free_ram ?? 0) -
+            (sysinfo?.buffered_ram ?? 0) -
+            (sysinfo?.shared_ram ?? 0),
         ) /
           totalMemory) *
         100

@@ -25,9 +25,9 @@ const InstanceUsageMemory: FC<Props> = ({ memory }) => {
           humanFileSize(memory.total)
         }
         hoverText={
-          `free: ${humanFileSize(memory.free)}\n` +
           `used: ${humanFileSize(used)}\n` +
-          `cached: ${humanFileSize(memory.cached)}\n`
+          `cached: ${humanFileSize(memory.cached)}\n` +
+          `free: ${humanFileSize(memory.free)}\n`
         }
       />
     </div>

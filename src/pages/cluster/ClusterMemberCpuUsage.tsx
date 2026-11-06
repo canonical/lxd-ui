@@ -28,6 +28,9 @@ const ClusterMemberCpuUsage: FC<Props> = ({ member }) => {
         percentage={cpuPercentage}
         text={getCpuText(cpuPercentage, true)}
         ariaLabelledby={labelId}
+        hoverText={
+          `load average: ${used.toFixed(2)}\n` + `total cores: ${totalCores}\n`
+        }
       />
     </>
   );

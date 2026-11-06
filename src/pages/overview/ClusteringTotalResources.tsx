@@ -6,6 +6,7 @@ import { useClusterMembersWithState } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import { getCpuText, getMemoryText } from "util/resourceDetails";
 import { useServerState } from "context/useSettings";
+import { humanFileSize } from "util/helpers";
 
 const ClusteringTotalResources: FC = () => {
   const isClustered = useIsClustered();
@@ -28,10 +29,16 @@ const ClusteringTotalResources: FC = () => {
     (acc, memberState) => {
       const sysinfo = memberState?.sysinfo;
       if (sysinfo) {
+        acc.memory.free += sysinfo.free_ram;
+        acc.memory.shared += sysinfo.shared_ram;
         acc.memory.total += sysinfo.total_ram;
+        acc.memory.buffered += sysinfo.buffered_ram;
         acc.memory.used += Math.max(
           0,
-          sysinfo.total_ram - sysinfo.free_ram - sysinfo.buffered_ram,
+          sysinfo.total_ram -
+            sysinfo.free_ram -
+            sysinfo.buffered_ram -
+            sysinfo.shared_ram,
         );
         acc.cpu.total += sysinfo.logical_cpus || 0;
         acc.cpu.used += sysinfo.load_averages?.[0] || 0;
@@ -40,13 +47,17 @@ const ClusteringTotalResources: FC = () => {
       return acc;
     },
     {
-      memory: { total: 0, used: 0 },
+      memory: { total: 0, used: 0, buffered: 0, free: 0, shared: 0 },
       cpu: { total: 0, used: 0 },
     },
   );
 
   const memoryPercentage = totals.memory.total
     ? (totals.memory.used / totals.memory.total) * 100
+    : 0;
+  const memoryBufferedPercentage = totals.memory.total
+    ? ((totals.memory.buffered + totals.memory.shared) / totals.memory.total) *
+      100
     : 0;
   const cpuPercentage = totals.cpu.total
     ? Math.min(100, (totals.cpu.used / totals.cpu.total) * 100)
@@ -83,11 +94,17 @@ const ClusteringTotalResources: FC = () => {
           ) : (
             <Meter
               percentage={memoryPercentage}
+              secondaryPercentage={memoryBufferedPercentage}
               text={getMemoryText(
                 totals.memory.used,
                 totals.memory.total,
                 memoryPercentage,
               )}
+              hoverText={
+                `used: ${humanFileSize(totals.memory.used)}\n` +
+                `buffered ${humanFileSize(totals.memory.buffered)} + shared: ${humanFileSize(totals.memory.shared)}\n` +
+                `free: ${humanFileSize(totals.memory.free)}\n`
+              }
               ariaLabelledby="total-memory-label"
             />
           )}
@@ -104,6 +121,10 @@ const ClusteringTotalResources: FC = () => {
               percentage={cpuPercentage}
               text={getCpuText(cpuPercentage)}
               ariaLabelledby="total-cpu-label"
+              hoverText={
+                `load average: ${totals.cpu.used.toFixed(2)}\n` +
+                `total cores: ${totals.cpu.total}\n`
+              }
             />
           )}
         </div>
