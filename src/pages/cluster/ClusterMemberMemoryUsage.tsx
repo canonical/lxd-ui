@@ -38,13 +38,18 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
 
   const freeMemory = sysinfo?.free_ram ?? 0;
   const bufferedMemory = sysinfo?.buffered_ram ?? 0;
-  const usedMemory = Math.max(0, totalMemory - freeMemory - bufferedMemory);
+  const sharedMemory = sysinfo?.shared_ram ?? 0;
+  const usedMemory = Math.max(
+    0,
+    totalMemory - freeMemory - bufferedMemory - sharedMemory,
+  );
   const memoryPercentage = (usedMemory / totalMemory) * 100;
-  const bufferedMemoryPercentage = (bufferedMemory / totalMemory) * 100;
+  const bufferedMemoryPercentage =
+    ((bufferedMemory + sharedMemory) / totalMemory) * 100;
   const memoryText = getMemoryText(
-    totalMemory - freeMemory,
+    usedMemory,
     totalMemory,
-    memoryPercentage + bufferedMemoryPercentage,
+    memoryPercentage,
     true,
   );
 
@@ -54,9 +59,9 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
       secondaryPercentage={bufferedMemoryPercentage}
       text={memoryText}
       hoverText={
-        `free: ${humanFileSize(freeMemory)}\n` +
         `used: ${humanFileSize(usedMemory)}\n` +
-        `buffered: ${humanFileSize(bufferedMemory)}\n`
+        `buffered: ${humanFileSize(bufferedMemory)} + shared: ${humanFileSize(sharedMemory)}\n` +
+        `free: ${humanFileSize(freeMemory)}\n`
       }
     />
   );
