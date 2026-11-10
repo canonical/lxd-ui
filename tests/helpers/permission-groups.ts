@@ -45,7 +45,11 @@ export const selectOption = async (
   label: string,
   value: string,
 ) => {
-  await page.getByRole("button", { name: label, exact: true }).first().click();
+  const toggle = page.getByRole("button", { name: label, exact: true }).first();
+  if ((await toggle.getAttribute("aria-expanded")) !== "true") {
+    await toggle.click();
+  }
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
   await page.getByLabel("sub").getByText(value, { exact: true }).click();
 };
 
