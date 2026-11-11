@@ -1,4 +1,5 @@
 @use "sass:map";
+@import "./helpers";
 
 .cluster-list {
   .status-header {
@@ -115,6 +116,12 @@
 .cluster-link-table {
   .status-header {
     padding-left: 1.8rem;
+  }
+
+  .description {
+    @include u-line-clamp-truncate(2);
+
+    max-height: calc(1.5rem * 2 + 0.5rem);
   }
 
   // room for up to three row actions (verify certificate, edit, delete)
