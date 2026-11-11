@@ -1,6 +1,7 @@
 import { type FC } from "react";
 import { useParams } from "react-router-dom";
 import { Col, CustomLayout, Row, Spinner } from "@canonical/react-components";
+import classnames from "classnames";
 import NotFound from "components/NotFound";
 import NotificationRow from "components/NotificationRow";
 import { useClusterLink } from "context/useClusterLinks";
@@ -105,7 +106,7 @@ const ReplicatorDetail: FC = () => {
                   </tr>
                   <tr>
                     <th className="u-text--muted">Cluster status</th>
-                    <td className="status-cell">
+                    <td className={classnames({ "status-cell": clusterLink })}>
                       {clusterLink ? (
                         <ClusterLinkStatus link={clusterLink} />
                       ) : (
