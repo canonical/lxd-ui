@@ -60,6 +60,12 @@
        sudo snap install workshop --classic
        workshop launch
 
+    Fetch the default gateway of the Workshop container and append it to `.env.local` as the LXD backend address
+
+    ```bash
+    echo "LXD_UI_BACKEND_IP=$(workshop exec dev -- ip -4 route show default | awk '{print $3}')" >> .env.local
+    ```
+
     This concludes the dev setup. Now you can run the development server with
 
         workshop run dev serve
@@ -68,19 +74,12 @@
     ip via port `8407`. Ensure that the lxd API on port `8443` is open, so `workshop` can access it.
 
     For local development, the UI is served by the Vite development server, which uses port 8507 by default. 
-    If you have another process listening on this port on your system, create `.env.local` as a copy of the `.env` file and change the `VITE_PORT` variable in it to any free port.
+    If you have another process listening on this port on your system, add or update the `VITE_PORT` variable in `.env.local` to use any free port.
 
     The first time, running `workshop run dev serve` will generate certificates for you. You can find them in the `keys` folder on the top level of the repo. Trust them from your local `lxc` with
 
        sudo lxc auth identity create tls/workshop-cert keys/lxd-ui.crt --group admins
     
-    Workshop reaches LXD through its own network bridge. Set the `LXD_UI_BACKEND_IP` in the `.env.local` file to the address of that bridge, then restart workshop and the dev server:
-
-       echo "LXD_UI_BACKEND_IP=$(lxc network get workshopbr0 ipv4.address | cut -d/ -f1)" >> .env.local
-       workshop stop dev
-       workshop start dev
-       workshop run dev serve
-
     Now you can open https://localhost:8407/ to reach lxd-ui.
 
     <details>
