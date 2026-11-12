@@ -19,7 +19,7 @@
     "forceConsistentCasingInFileNames": true, // ensure support for file systems with and without case sensitivity
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true, // extra check because we like to use switch
-    "moduleResolution": "node", // imports to be without the .js extension
+    "moduleResolution": "bundler", // imports to be without the .js extension
     "isolatedModules": true, // recommended for vite projects, see https://v2.vitejs.dev/guide/features.html#typescript-compiler-options
     "sourceMap": true,
     "types": ["vitest/globals"]
