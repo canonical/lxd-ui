@@ -28,6 +28,8 @@ import { useSettings } from "context/useSettings";
 import { cephDriver, getSupportedStorageDrivers } from "util/storageOptions";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 import { usePoolFromClusterMembers } from "context/useStoragePools";
 import StoragePoolRichChip from "./StoragePoolRichChip";
@@ -182,6 +184,8 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
   const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(pool.name)}/configuration`;
 
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl, true);
+
   const updateSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
@@ -224,7 +228,6 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
-              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={!formik.values.name}
             />

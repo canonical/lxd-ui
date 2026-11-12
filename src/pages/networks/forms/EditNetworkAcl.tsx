@@ -17,6 +17,8 @@ import {
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import ResourceLink from "components/ResourceLink";
 import type { NetworkAclFormValues } from "types/forms/networkAcl";
 import NetworkAclForm, {
@@ -126,6 +128,8 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
     },
   });
 
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl);
+
   const setSection = (newSection: string) => {
     if (newSection === GENERAL) {
       navigate(baseUrl);
@@ -169,7 +173,6 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
-              baseUrl={baseUrl}
               disabled={false}
               isYaml={section === slugify(YAML_CONFIGURATION)}
             />

@@ -31,6 +31,8 @@ import {
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import { useNetworkEntitlements } from "util/entitlements/networks";
 import { scrollToSection } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
@@ -211,6 +213,8 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
 
   const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`;
 
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl);
+
   const setSection = (newSection: string, source: "click" | "scroll") => {
     if (source === "scroll" && section === slugify(YAML_CONFIGURATION)) {
       return;
@@ -272,7 +276,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
-              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={isNetworkFormInvalid(formik, clusterMembers)}
             />
