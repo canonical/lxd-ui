@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import ResourceLink from "components/ResourceLink";
+import { SNAPSHOT_PARAM } from "util/useSnapshotTablePagination";
 import type { PartialWithRequired } from "types/partial";
 import type { LxdInstance } from "types/instance";
 import { ROOT_PATH } from "util/rootPath";
@@ -14,7 +15,7 @@ const InstanceSnapshotLinkChip: FC<Props> = ({ name, instance }) => {
     <ResourceLink
       type="snapshot"
       value={name}
-      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
+      to={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots?${SNAPSHOT_PARAM}=${encodeURIComponent(name)}`}
     />
   );
 };

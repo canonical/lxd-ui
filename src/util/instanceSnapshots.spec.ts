@@ -1,11 +1,14 @@
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdDevices, LxdDiskDevice } from "types/device";
-import type { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import {
   getCustomVolumeDeviceLabel,
   getCustomVolumeDevices,
   getCustomVolumeDevicesToSnapshot,
   getCustomVolumeSnapshotDevices,
+  getCustomVolumeSnapshotLinks,
+  getInstanceSnapshotsByVolumeSnapshotUuid,
+  getSnapshotCustomVolumes,
   hasUnreadableCustomVolumeSnapshotDevices,
 } from "./instanceSnapshots";
 
@@ -225,5 +228,130 @@ describe("hasUnreadableCustomVolumeSnapshotDevices", () => {
     expect(
       hasUnreadableCustomVolumeSnapshotDevices(getSnapshot('["data"]')),
     ).toBe(true);
+  });
+
+  it("is true for a record with a value that is not a UUID string", () => {
+    expect(
+      hasUnreadableCustomVolumeSnapshotDevices(getSnapshot('{"data":1}')),
+    ).toBe(true);
+  });
+});
+
+const dataUuid = "eb2d384b-c790-4261-9e82-7b017cd26009";
+const walUuid = "6a8c757f-4d12-43b4-94a1-3ea735e1faf7";
+
+const getLinkedSnapshot = (
+  name: string,
+  attachedVolumes: Record<string, string>,
+  devices: LxdDevices,
+): LxdInstanceSnapshot =>
+  ({
+    name,
+    config: { "volatile.attached_volumes": JSON.stringify(attachedVolumes) },
+    expanded_devices: devices,
+  }) as unknown as LxdInstanceSnapshot;
+
+const getVolumeSnapshot = (name: string, uuid: string): LxdVolumeSnapshot =>
+  ({ name, config: { "volatile.uuid": uuid } }) as LxdVolumeSnapshot;
+
+describe("getSnapshotCustomVolumes", () => {
+  it("returns the volumes of the devices recorded in the snapshots once", () => {
+    const instance = {
+      ...getInstance({ root: rootDisk }),
+      snapshots: [
+        getLinkedSnapshot("snap0", { data: dataUuid }, { data: dataDisk }),
+        getLinkedSnapshot("snap1", { data: walUuid }, { data: dataDisk }),
+      ],
+    } as LxdInstance;
+    const volume = getVolume("data-vol", []);
+    expect(getSnapshotCustomVolumes(instance, [volume])).toEqual([volume]);
+  });
+
+  it("picks the volume on the instance's member for a local pool", () => {
+    const instance = {
+      ...getInstance({ root: rootDisk }),
+      location: "member2",
+      snapshots: [
+        getLinkedSnapshot("snap0", { data: dataUuid }, { data: dataDisk }),
+      ],
+    } as LxdInstance;
+    const volume = { ...getVolume("data-vol", []), location: "member2" };
+    const volumes = [
+      { ...getVolume("data-vol", []), location: "member1" },
+      volume,
+    ];
+    expect(getSnapshotCustomVolumes(instance, volumes)).toEqual([volume]);
+  });
+
+  it("skips devices without a matching custom volume", () => {
+    const instance = {
+      ...getInstance({ root: rootDisk }),
+      snapshots: [
+        getLinkedSnapshot("snap0", { data: dataUuid }, { data: dataDisk }),
+        getLinkedSnapshot("snap1", { gone: walUuid }, {}),
+      ],
+    } as LxdInstance;
+    expect(getSnapshotCustomVolumes(instance, [])).toEqual([]);
+  });
+});
+
+describe("getCustomVolumeSnapshotLinks", () => {
+  const dataVolume = getVolume("data-vol", []);
+  const walVolume = getVolume("wal-vol", []);
+  const snapshot = getLinkedSnapshot(
+    "snap0",
+    { wal: walUuid, data: dataUuid },
+    { data: dataDisk },
+  );
+
+  it("links each device to the volume snapshot with its UUID, sorted by device", () => {
+    const dataSnapshot = getVolumeSnapshot("snap3", dataUuid);
+    const walSnapshot = getVolumeSnapshot("snap1", walUuid);
+    expect(
+      getCustomVolumeSnapshotLinks(snapshot, [
+        { volume: walVolume, snapshots: [walSnapshot] },
+        { volume: dataVolume, snapshots: [dataSnapshot] },
+      ]),
+    ).toEqual([
+      { deviceLabel: "/data", volume: dataVolume, snapshot: dataSnapshot },
+      { deviceLabel: "wal", volume: walVolume, snapshot: walSnapshot },
+    ]);
+  });
+
+  it("skips devices whose volume snapshot is not found", () => {
+    const dataSnapshot = getVolumeSnapshot("snap3", dataUuid);
+    expect(
+      getCustomVolumeSnapshotLinks(snapshot, [
+        { volume: dataVolume, snapshots: [dataSnapshot] },
+      ]),
+    ).toEqual([
+      { deviceLabel: "/data", volume: dataVolume, snapshot: dataSnapshot },
+    ]);
+  });
+});
+
+describe("getInstanceSnapshotsByVolumeSnapshotUuid", () => {
+  it("maps each recorded volume snapshot UUID to its instance snapshot", () => {
+    const nightly = getLinkedSnapshot(
+      "nightly",
+      { data: dataUuid, wal: walUuid },
+      {},
+    );
+    const web = { ...getInstance({}), snapshots: [getSnapshot(), nightly] };
+    const db = { ...getInstance({}), name: "db", snapshots: null };
+    const result = getInstanceSnapshotsByVolumeSnapshotUuid([
+      db,
+      web,
+    ] as LxdInstance[]);
+    expect([...result.keys()]).toEqual([dataUuid, walUuid]);
+    expect(result.get(walUuid)).toEqual({ instance: web, snapshot: nightly });
+  });
+
+  it("skips unreadable records", () => {
+    const web = {
+      ...getInstance({}),
+      snapshots: [getSnapshot("not json")],
+    } as LxdInstance;
+    expect(getInstanceSnapshotsByVolumeSnapshotUuid([web]).size).toBe(0);
   });
 });

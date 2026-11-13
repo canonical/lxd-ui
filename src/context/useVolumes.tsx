@@ -13,6 +13,7 @@ import {
   fetchAllStorageVolumes,
   fetchStorageVolume,
 } from "api/storage-volumes";
+import { fetchStorageVolumeSnapshots } from "api/volume-snapshots";
 
 export const useLoadVolumes = (
   project: string,
@@ -45,6 +46,19 @@ export const useLoadCustomVolumes = (
     ...options,
   });
 };
+
+export const getVolumeSnapshotsQuery = (volume: LxdStorageVolume) => ({
+  queryKey: [
+    queryKeys.storage,
+    queryKeys.snapshots,
+    volume.pool,
+    volume.project,
+    volume.type,
+    volume.name,
+    volume.location,
+  ],
+  queryFn: async () => fetchStorageVolumeSnapshots(volume),
+});
 
 export const useStorageVolume = (
   pool: string,

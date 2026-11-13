@@ -82,7 +82,7 @@ const openInstanceSnapshotAction = async (
   await row.getByRole("button", { name: action }).click();
 };
 
-test("instance snapshot with custom disk devices create, restore and remove", async ({
+test("instance snapshot with custom disk devices create, link, restore and remove", async ({
   page,
 }) => {
   const instance = randomInstanceName();
@@ -109,6 +109,19 @@ test("instance snapshot with custom disk devices create, restore and remove", as
     `Snapshot ${snapshot} created for instance ${instance} and its exclusively attached custom disk devices.`,
   );
   await expectVolumeSnapshot(page, volume, true);
+
+  const volumeSnapshotRow = page.getByRole("row").filter({ hasText: "snap0" });
+  await expect(volumeSnapshotRow).toContainText(`${instance} /`);
+  await volumeSnapshotRow.getByRole("link", { name: snapshot }).click();
+  const instanceSnapshotRow = page
+    .getByRole("row")
+    .filter({ hasText: snapshot });
+  await expect(instanceSnapshotRow).toHaveClass(/is-highlighted/);
+  await expect(instanceSnapshotRow).toContainText("/data");
+  await instanceSnapshotRow.getByRole("link", { name: "snap0" }).click();
+  await expect(page.getByRole("row").filter({ hasText: "snap0" })).toHaveClass(
+    /is-highlighted/,
+  );
 
   await openInstanceSnapshotAction(page, instance, snapshot, "Restore");
   const restoreDialog = page.getByRole("dialog", { name: "Confirm restore" });
