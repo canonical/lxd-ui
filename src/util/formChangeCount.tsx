@@ -238,3 +238,9 @@ export const getFormChangeCount = (formik: ConfigurationRowFormikProps) => {
     getUserKeyChanges(formik)
   );
 };
+
+export const hasUnsavedFormChanges = (
+  formik: ConfigurationRowFormikProps,
+): boolean => {
+  return !formik.values.readOnly && getFormChangeCount(formik) > 0;
+};

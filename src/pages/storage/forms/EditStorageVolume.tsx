@@ -19,6 +19,8 @@ import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import { updateStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 import { getVolumeDetailUrl } from "util/storageVolume";
@@ -113,6 +115,8 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
 
   const baseUrl = `${getVolumeDetailUrl(volume)}/configuration`;
 
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl, true);
+
   const setSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
@@ -139,11 +143,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
             >
               Cancel
             </Button>
-            <FormSubmitBtn
-              formik={formik}
-              baseUrl={baseUrl}
-              disabled={!formik.values.name}
-            />
+            <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
           </>
         )}
       </FormFooterLayout>

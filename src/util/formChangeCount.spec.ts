@@ -1,4 +1,7 @@
-import { getFormChangeCount } from "util/formChangeCount";
+import {
+  getFormChangeCount,
+  hasUnsavedFormChanges,
+} from "util/formChangeCount";
 import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import type { FormDevice } from "types/formDevice";
 
@@ -464,5 +467,34 @@ describe("formChangeCount", () => {
     const result = getFormChangeCount(formik);
 
     expect(result).toBe(1);
+  });
+});
+
+describe("hasUnsavedFormChanges", () => {
+  it("is true for a changed form in edit mode", () => {
+    const formik = {
+      initialValues: { readOnly: false, description: "" },
+      values: { readOnly: false, description: "changed" },
+    } as ConfigurationRowFormikProps;
+
+    expect(hasUnsavedFormChanges(formik)).toBe(true);
+  });
+
+  it("is false for an unchanged or reverted form", () => {
+    const formik = {
+      initialValues: { readOnly: false, description: "same" },
+      values: { readOnly: false, description: "same" },
+    } as ConfigurationRowFormikProps;
+
+    expect(hasUnsavedFormChanges(formik)).toBe(false);
+  });
+
+  it("is false for a read only form", () => {
+    const formik = {
+      initialValues: { readOnly: false, description: "" },
+      values: { readOnly: true, description: "saved" },
+    } as ConfigurationRowFormikProps;
+
+    expect(hasUnsavedFormChanges(formik)).toBe(false);
   });
 });

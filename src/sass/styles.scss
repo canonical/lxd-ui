@@ -325,6 +325,14 @@ body.is-dark .lxd-icon {
   margin-bottom: $spv--large !important;
 }
 
+// a tab keeps mouse focus when its navigation is cancelled, so only the
+// selected tab shows the highlight bar
+.p-tabs__link:not([aria-selected="true"], :hover) {
+  &:focus:not(:focus-visible)::before {
+    content: none;
+  }
+}
+
 .u-space-between {
   display: flex;
   justify-content: space-between;

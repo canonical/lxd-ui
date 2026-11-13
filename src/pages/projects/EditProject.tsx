@@ -24,6 +24,8 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import { useProfile } from "context/useProfiles";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { ROOT_PATH } from "util/rootPath";
@@ -99,6 +101,8 @@ const EditProject: FC<Props> = ({ project }) => {
 
   const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project.name)}/configuration`;
 
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl, true);
+
   const setSection = (newSection: string) => {
     if (newSection === PROJECT_DETAILS) {
       navigate(baseUrl);
@@ -129,11 +133,7 @@ const EditProject: FC<Props> = ({ project }) => {
               >
                 Cancel
               </Button>
-              <FormSubmitBtn
-                formik={formik}
-                baseUrl={baseUrl}
-                disabled={!formik.values.name}
-              />
+              <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
             </>
           )}
         </FormFooterLayout>

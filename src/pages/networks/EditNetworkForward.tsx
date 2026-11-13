@@ -16,16 +16,18 @@ import {
   fetchNetworkForward,
   updateNetworkForward,
 } from "api/network-forwards";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "components/BaseLayout";
 import NetworkForwardExplanationTooltip from "pages/networks/NetworkForwardExplanationTooltip";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useEventQueue } from "context/eventQueue";
 import { useNetwork } from "context/useNetworks";
 import { ROOT_PATH } from "util/rootPath";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
 
 const EditNetworkForward: FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -148,6 +150,11 @@ const EditNetworkForward: FC = () => {
         });
     },
   });
+
+  useUnsavedChangesGuard(
+    formik.dirty && !formik.isSubmitting,
+    location.pathname,
+  );
 
   return (
     <BaseLayout

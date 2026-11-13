@@ -52,6 +52,8 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import NotificationRow from "components/NotificationRow";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import BootForm from "components/forms/BootForm";
@@ -162,6 +164,8 @@ const EditProfile: FC<Props> = ({ profile }) => {
   });
 
   const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration`;
+
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl, true);
 
   const updateSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {
@@ -292,7 +296,6 @@ const EditProfile: FC<Props> = ({ profile }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
-              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />

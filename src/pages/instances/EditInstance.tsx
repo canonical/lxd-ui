@@ -58,6 +58,8 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
+import { hasUnsavedFormChanges } from "util/formChangeCount";
 import BootForm from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import { useProfiles } from "context/useProfiles";
@@ -158,6 +160,8 @@ const EditInstance: FC<Props> = ({ instance }) => {
   });
 
   const baseUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(instance.name)}/configuration`;
+
+  useUnsavedChangesGuard(hasUnsavedFormChanges(formik), baseUrl, true);
 
   const updateSection = (newSection: string) => {
     if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
@@ -316,7 +320,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
-              baseUrl={baseUrl}
               isYaml={isYamlSection}
               disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />
