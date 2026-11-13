@@ -106,6 +106,8 @@ const ClusterLinkList: FC = () => {
           content: clusterLink.description,
           role: "cell",
           "aria-label": "Description",
+          className: "description",
+          title: clusterLink.description,
         },
         {
           content: clusterLink.used_by?.length ?? 0,

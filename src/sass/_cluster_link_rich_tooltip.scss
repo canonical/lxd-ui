@@ -10,7 +10,13 @@
     }
 
     .status-spinner {
-      margin-left: 0;
+      margin-left: 1.25rem;
+    }
+  }
+
+  tr:not(.status-row) {
+    .rich-tooltip-row-content {
+      padding-left: calc(0.3rem + 1.25rem);
     }
   }
 }
