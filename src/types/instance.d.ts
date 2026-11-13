@@ -68,6 +68,7 @@ interface LxdInstanceSnapshot {
     "volatile.attached_volumes"?: string;
     "volatile.base_image"?: string;
   };
+  expanded_devices?: LxdDevices;
 }
 
 export type LxdInstanceAction =

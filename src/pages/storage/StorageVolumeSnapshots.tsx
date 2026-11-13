@@ -18,15 +18,19 @@ import type { LxdStorageVolume } from "types/storage";
 import VolumeSnapshotBulkDelete from "./actions/snapshots/VolumeSnapshotBulkDelete";
 import VolumeAddSnapshotBtn from "./actions/snapshots/VolumeAddSnapshotBtn";
 import VolumeConfigureSnapshotBtn from "./actions/snapshots/VolumeConfigureSnapshotBtn";
-import { fetchStorageVolumeSnapshots } from "api/volume-snapshots";
 import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
+import { getVolumeSnapshotsQuery } from "context/useVolumes";
 import { isSnapshotsDisabled } from "util/snapshots";
 import { figureCollapsedScreen } from "util/storageVolume";
 import useSortTableData from "util/useSortTableData";
+import useSnapshotTablePagination from "util/useSnapshotTablePagination";
 import DocLink from "components/DocLink";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import DsIcon from "components/DsIcon";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useInstances } from "context/useInstances";
+import { getInstanceSnapshotsByVolumeSnapshotUuid } from "util/instanceSnapshots";
+import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -44,20 +48,16 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
     data: volumeSnapshots,
     error,
     isLoading: isSnapshotsLoading,
-  } = useQuery({
-    queryKey: [
-      queryKeys.storage,
-      queryKeys.snapshots,
-      volume.pool,
-      volume.project,
-      volume.type,
-      volume.name,
-      volume.location,
-    ],
-    queryFn: async () => fetchStorageVolumeSnapshots(volume),
-  });
+  } = useQuery(getVolumeSnapshotsQuery(volume));
 
   const snapshotsDisabled = isSnapshotsDisabled(project);
+  const { hasInstanceSnapshotsMultiVolume } = useSupportedFeatures();
+  // instance snapshots only include volumes of their own project
+  const { data: instances = [], isPending: isInstancesPending } = useInstances(
+    volume.project,
+    hasInstanceSnapshotsMultiVolume && !!volumeSnapshots?.length,
+  );
+  const instanceSnapshots = getInstanceSnapshotsByVolumeSnapshotUuid(instances);
 
   useEffect(() => {
     const validNames = new Set(
@@ -111,6 +111,9 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       sortKey: "expires_at",
       className: "expiration",
     },
+    ...(hasInstanceSnapshotsMultiVolume
+      ? [{ content: "Instance snapshot", className: "instance-snapshot" }]
+      : []),
     { "aria-label": "Actions", className: "actions" },
   ];
 
@@ -118,6 +121,8 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
     const actions = (
       <VolumeSnapshotActions volume={volume} snapshot={snapshot} />
     );
+    const uuid = snapshot.config["volatile.uuid"];
+    const link = uuid ? instanceSnapshots.get(uuid) : undefined;
 
     return {
       key: snapshot.name,
@@ -157,6 +162,30 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           "aria-label": "Expires at",
           className: "expiration",
         },
+        ...(hasInstanceSnapshotsMultiVolume
+          ? [
+              {
+                content: isInstancesPending ? (
+                  <Spinner />
+                ) : link ? (
+                  <div className="snapshot-link">
+                    <span className="u-truncate" title={link.instance.name}>
+                      {link.instance.name} /
+                    </span>
+                    <InstanceSnapshotLinkChip
+                      name={link.snapshot.name}
+                      instance={link.instance}
+                    />
+                  </div>
+                ) : (
+                  "-"
+                ),
+                role: "cell",
+                "aria-label": "Instance snapshot",
+                className: "instance-snapshot",
+              },
+            ]
+          : []),
         {
           content: actions,
           role: "cell",
@@ -177,6 +206,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
     defaultSort: "created_at",
     defaultSortDirection: "descending",
   });
+  const pagination = useSnapshotTablePagination(sortedRows);
 
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
@@ -247,7 +277,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
             belowIds={["status-bar"]}
           >
             <TablePagination
-              data={sortedRows}
+              {...pagination}
               id="pagination"
               itemName="snapshot"
               className="u-no-margin--top"

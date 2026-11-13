@@ -1,3 +1,14 @@
+.snapshot-link {
+  align-items: center;
+  display: flex;
+  gap: $sph--small;
+
+  .snapshot-link__device {
+    color: $colors--theme--text-muted;
+    font-family: unquote($font-monospace);
+  }
+}
+
 .snapshot-list {
   .p-panel__controls {
     padding-top: 0;
@@ -23,8 +34,24 @@
     width: 105px;
   }
 
+  .custom-disk-snapshots {
+    width: 200px;
+  }
+
+  .instance-snapshot {
+    width: 250px;
+  }
+
+  .snapshot-link {
+    flex-wrap: wrap;
+  }
+
   .actions {
     width: 280px;
+  }
+
+  .is-highlighted {
+    background-color: $colors--theme--background-caution-default;
   }
 
   .u-row:hover {

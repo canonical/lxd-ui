@@ -3,6 +3,7 @@ import {
   EmptyState,
   ScrollableTable,
   SearchBox,
+  Spinner,
   TablePagination,
   useListener,
   useNotify,
@@ -21,10 +22,18 @@ import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigure
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
+import useSnapshotTablePagination from "util/useSnapshotTablePagination";
 import NotificationRow from "components/NotificationRow";
 import DocLink from "components/DocLink";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import DsIcon from "components/DsIcon";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useCustomVolumeSnapshots } from "context/useCustomVolumeSnapshots";
+import {
+  getCustomVolumeSnapshotDevices,
+  getCustomVolumeSnapshotLinks,
+} from "util/instanceSnapshots";
+import CustomVolumeSnapshotLinks from "./CustomVolumeSnapshotLinks";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -44,6 +53,11 @@ const InstanceSnapshots = (props: Props) => {
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
   const { project } = useCurrentProject();
   const snapshotsDisabled = isSnapshotsDisabled(project);
+  const { hasInstanceSnapshotsMultiVolume } = useSupportedFeatures();
+  const {
+    data: customVolumeSnapshots,
+    isLoading: isCustomVolumeSnapshotsLoading,
+  } = useCustomVolumeSnapshots(instance);
 
   const onSuccess = (message: ReactNode, actions?: NotificationAction[]) => {
     toastNotify.success(message, actions);
@@ -111,6 +125,14 @@ const InstanceSnapshots = (props: Props) => {
       className: "expiration",
     },
     { content: "Stateful", sortKey: "stateful", className: "stateful" },
+    ...(hasInstanceSnapshotsMultiVolume
+      ? [
+          {
+            content: "Custom disk snapshots",
+            className: "custom-disk-snapshots",
+          },
+        ]
+      : []),
     { "aria-label": "Actions", className: "actions" },
   ];
 
@@ -168,6 +190,27 @@ const InstanceSnapshots = (props: Props) => {
           "aria-label": "Stateful",
           className: "stateful",
         },
+        ...(hasInstanceSnapshotsMultiVolume
+          ? [
+              {
+                content:
+                  isCustomVolumeSnapshotsLoading &&
+                  getCustomVolumeSnapshotDevices(snapshot).length > 0 ? (
+                    <Spinner />
+                  ) : (
+                    <CustomVolumeSnapshotLinks
+                      links={getCustomVolumeSnapshotLinks(
+                        snapshot,
+                        customVolumeSnapshots,
+                      )}
+                    />
+                  ),
+                role: "cell",
+                "aria-label": "Custom disk snapshots",
+                className: "custom-disk-snapshots",
+              },
+            ]
+          : []),
         {
           content: actions,
           role: "cell",
@@ -189,6 +232,7 @@ const InstanceSnapshots = (props: Props) => {
     defaultSort: "created_at",
     defaultSortDirection: "descending",
   });
+  const pagination = useSnapshotTablePagination(sortedRows);
 
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
@@ -255,7 +299,7 @@ const InstanceSnapshots = (props: Props) => {
             belowIds={["status-bar"]}
           >
             <TablePagination
-              data={sortedRows}
+              {...pagination}
               id="pagination"
               itemName="snapshot"
               className="u-no-margin--top"
