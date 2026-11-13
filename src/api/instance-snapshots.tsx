@@ -12,11 +12,15 @@ import type { EventQueue } from "context/eventQueue";
 import { getInstanceDetailUrl } from "util/instances";
 import { ROOT_PATH } from "util/rootPath";
 
+// includes the custom volumes attached only to this instance
+const ALL_EXCLUSIVE_DISK_VOLUMES = "all-exclusive";
+
 export const createInstanceSnapshot = async (
   instance: LxdInstance,
   name: string,
   expiresAt: string | null,
   stateful: boolean,
+  includeCustomVolumes = false,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", instance.project);
@@ -32,6 +36,9 @@ export const createInstanceSnapshot = async (
         name,
         expires_at: expiresAt,
         stateful,
+        ...(includeCustomVolumes && {
+          disk_volumes_mode: ALL_EXCLUSIVE_DISK_VOLUMES,
+        }),
       }),
     },
   )
@@ -44,9 +51,13 @@ export const createInstanceSnapshot = async (
 export const deleteInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: { name: string },
+  includeCustomVolumes = false,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", instance.project);
+  if (includeCustomVolumes) {
+    params.set("disk-volumes", ALL_EXCLUSIVE_DISK_VOLUMES);
+  }
 
   return fetch(
     `${ROOT_PATH}/1.0/instances/${encodeURIComponent(instance.name)}/snapshots/${encodeURIComponent(snapshot.name)}?${params.toString()}`,
@@ -64,6 +75,7 @@ export const deleteInstanceSnapshotBulk = async (
   instance: LxdInstance,
   snapshotNames: string[],
   eventQueue: EventQueue,
+  customVolumeSnapshotNames: string[] = [],
 ): Promise<BulkOperationResult[]> => {
   const results: BulkOperationResult[] = [];
   return new Promise((resolve, reject) => {
@@ -74,7 +86,11 @@ export const deleteInstanceSnapshotBulk = async (
           type: "snapshot",
           href: `${getInstanceDetailUrl(instance.name, instance.project)}/snapshots`,
         };
-        await deleteInstanceSnapshot(instance, { name })
+        await deleteInstanceSnapshot(
+          instance,
+          { name },
+          customVolumeSnapshotNames.includes(name),
+        )
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
@@ -102,6 +118,7 @@ export const restoreInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
+  includeCustomVolumes = false,
 ): Promise<LxdOperationResponse> => {
   const params = new URLSearchParams();
   params.set("project", instance.project);
@@ -116,6 +133,9 @@ export const restoreInstanceSnapshot = async (
       body: JSON.stringify({
         restore: snapshot.name,
         stateful: snapshot.stateful ? restoreState : false,
+        ...(includeCustomVolumes && {
+          restore_disk_volumes_mode: ALL_EXCLUSIVE_DISK_VOLUMES,
+        }),
       }),
     },
   )
