@@ -30,7 +30,6 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        api: "modern-compiler",
         silenceDeprecations: ["global-builtin", "import", "if-function"],
         additionalData: scssSettings,
       },
@@ -62,7 +61,6 @@ export default defineConfig({
   },
   build: {
     outDir: "./build/ui",
-    minify: "esbuild",
   },
   define: {
     __UI_GIT_HASH__: getGitHash(),
