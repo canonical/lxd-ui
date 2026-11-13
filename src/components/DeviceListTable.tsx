@@ -1,11 +1,20 @@
-import type { FC } from "react";
-import { MainTable } from "@canonical/react-components";
-import { isRootDisk, isDiskDevice, isOtherDevice } from "util/devices";
+import type { FC, ReactNode } from "react";
+import { MainTable, Spinner } from "@canonical/react-components";
+import {
+  isRootDisk,
+  isDiskDevice,
+  isOtherDevice,
+  isVolumeDevice,
+} from "util/devices";
 import type { FormDevice } from "types/formDevice";
 import ResourceLink from "components/ResourceLink";
 import DeviceDetails from "./DeviceDetails";
 import { useParams } from "react-router-dom";
 import type { LxdDeviceValue, LxdDevices } from "types/device";
+import { useLoadVolumes } from "context/useVolumes";
+import { useProfiles } from "context/useProfiles";
+import { getDeviceVolumeInstanceCount } from "util/volumeUsage";
+import { pluralize } from "util/helpers";
 
 interface Props {
   configBaseURL: string;
@@ -39,6 +48,37 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
     .sort(byTypeAndName);
 
   const hasDevices = overviewDevices.length > 0;
+  const hasVolumeDevices = overviewDevices.some(
+    ([, device]) => isDiskDevice(device) && isVolumeDevice(device),
+  );
+
+  const {
+    data: volumes = [],
+    isLoading: isVolumesLoading,
+    error: volumesError,
+  } = useLoadVolumes(project as string, { enabled: hasVolumeDevices });
+  const {
+    data: profiles = [],
+    isLoading: isProfilesLoading,
+    error: profilesError,
+  } = useProfiles(project as string, hasVolumeDevices);
+
+  const getSharedContent = (device: LxdDeviceValue): ReactNode => {
+    if (!isDiskDevice(device) || !isVolumeDevice(device)) {
+      return "-";
+    }
+    if (isVolumesLoading || isProfilesLoading) {
+      return <Spinner />;
+    }
+    const count =
+      volumesError || profilesError
+        ? null
+        : getDeviceVolumeInstanceCount(device, volumes, profiles, location);
+    if (count === null) {
+      return "Unknown";
+    }
+    return `Used by ${count} ${pluralize("instance", count)}`;
+  };
 
   const deviceHeaders = [
     { content: "Name", sortKey: "name", className: "u-text--muted" },
@@ -48,6 +88,9 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
       className: "u-text--muted device-type",
     },
     { content: "Details", className: "u-text--muted" },
+    ...(hasVolumeDevices
+      ? [{ content: "Shared", className: "u-text--muted device-shared" }]
+      : []),
   ];
 
   const deviceRows = overviewDevices.map(([devicename, device]) => {
@@ -92,6 +135,16 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
           role: "cell",
           "aria-label": "Details",
         },
+        ...(hasVolumeDevices
+          ? [
+              {
+                className: "device-shared",
+                content: getSharedContent(device),
+                role: "cell",
+                "aria-label": "Shared",
+              },
+            ]
+          : []),
       ],
       sortData: {
         name: devicename.toLowerCase(),
