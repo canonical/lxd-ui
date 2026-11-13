@@ -4,12 +4,15 @@ import { useAuth } from "./auth";
 import type { LxdProfile } from "types/profile";
 import { fetchProfile, fetchProfiles } from "api/profiles";
 
-export const useProfiles = (project: string): UseQueryResult<LxdProfile[]> => {
+export const useProfiles = (
+  project: string,
+  enabled?: boolean,
+): UseQueryResult<LxdProfile[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.profiles, project],
     queryFn: async () => fetchProfiles(project, isFineGrained),
-    enabled: !!project && isFineGrained !== null,
+    enabled: (enabled ?? true) && !!project && isFineGrained !== null,
   });
 };
 

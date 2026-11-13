@@ -16,11 +16,13 @@ import {
 
 export const useLoadVolumes = (
   project: string,
+  options?: Partial<UseQueryOptions<LxdStorageVolume[]>>,
 ): UseQueryResult<LxdStorageVolume[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.volumes, project],
     queryFn: async () => fetchAllStorageVolumes(project, isFineGrained),
+    ...options,
   });
 };
 
