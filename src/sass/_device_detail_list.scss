@@ -11,4 +11,24 @@
   .device-type {
     width: 8rem !important;
   }
+
+  .device-used-by {
+    width: 10rem !important;
+
+    @media screen and (width < 1366px) {
+      display: none;
+    }
+
+    .p-contextual-menu__toggle {
+      background-color: transparent;
+    }
+
+    // truncate long instance names, the full name shows on hover. The rich
+    // chip wraps the link in a span, so that needs a max width as well.
+    span,
+    .resource-link.p-chip,
+    .resource-link.p-chip .p-chip__value {
+      max-width: 100%;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import type { LxdStorageVolume } from "types/storage";
-import { isSnapshot } from "util/storageVolume";
+import { isCustomVolume, isSnapshot } from "util/storageVolume";
 import { fetchAllStorageVolumes } from "api/storage-volumes";
 
 export const loadCustomVolumes = async (
@@ -12,8 +12,7 @@ export const loadCustomVolumes = async (
   volumes.forEach((volume) => {
     const contentTypes = ["filesystem", "block"];
     const isFilesystemOrBlock = contentTypes.includes(volume.content_type);
-    const isCustom = volume.type === "custom";
-    if (isCustom && isFilesystemOrBlock && !isSnapshot(volume)) {
+    if (isCustomVolume(volume) && isFilesystemOrBlock && !isSnapshot(volume)) {
       result.push(volume);
     }
   });

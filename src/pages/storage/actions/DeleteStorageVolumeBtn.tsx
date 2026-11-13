@@ -9,6 +9,7 @@ import classNames from "classnames";
 import ResourceLabel from "components/ResourceLabel";
 import { useEventQueue } from "context/eventQueue";
 import DsIcon from "components/DsIcon";
+import { isCustomVolume } from "util/storageVolume";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -50,7 +51,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
     if (volume.type === "image") {
       return "Go to the image list, to remove this image";
     }
-    if (volume.type !== "custom") {
+    if (!isCustomVolume(volume)) {
       return "Only custom volumes can be deleted";
     }
     if (volume.used_by?.length ?? 0) {

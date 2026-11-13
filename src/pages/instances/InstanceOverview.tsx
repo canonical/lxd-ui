@@ -164,6 +164,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
             configBaseURL={`${ROOT_PATH}/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
             devices={instance.expanded_devices as LxdDevices}
             location={instance.location}
+            instanceName={instance.name}
           />
         </Col>
       </Row>
