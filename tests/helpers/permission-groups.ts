@@ -46,10 +46,16 @@ export const selectOption = async (
   value: string,
 ) => {
   const toggle = page.getByRole("button", { name: label, exact: true }).first();
-  if ((await toggle.getAttribute("aria-expanded")) !== "true") {
-    await toggle.click();
-  }
-  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+
+  await expect(async () => {
+    if ((await toggle.getAttribute("aria-expanded")) !== "true") {
+      await toggle.click();
+    }
+    await expect(toggle).toHaveAttribute("aria-expanded", "true", {
+      timeout: 1000,
+    });
+  }).toPass({ timeout: 5000 });
+
   await page.getByLabel("sub").getByText(value, { exact: true }).click();
 };
 
