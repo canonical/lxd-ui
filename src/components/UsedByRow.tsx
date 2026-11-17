@@ -22,7 +22,9 @@ const UsedByRow: FC<Props> = ({ entityType, usedBy }) => {
   const entityNameSingular =
     entityType === "volume"
       ? "Custom volume"
-      : capitalizeFirstLetter(entityType.replaceAll("-", " "));
+      : entityType === "network-acl"
+        ? "ACL"
+        : capitalizeFirstLetter(entityType.replaceAll("-", " "));
   const entityName = pluralize(entityNameSingular, filteredResources.length);
 
   return (
