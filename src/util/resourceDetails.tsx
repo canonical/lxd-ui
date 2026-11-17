@@ -27,6 +27,7 @@ export type ResourceType =
   | "network-acl"
   | "network-forward"
   | "bucket"
+  | "placement-group"
   | "replicator"
   | "volume";
 
@@ -64,7 +65,11 @@ export const extractResourceDetailsFromUrl = (
 
   // permission selectors fetch their options from the metadata api, which uses "storage_volume"
   // ui internal resourceType from the ResourceIconType is slightly simpler "volume"
-  if (resourceType === "storage_volume" || resourceType === "volume") {
+  if (
+    resourceType === "storage_volume" ||
+    resourceType === "volume" ||
+    resourceType === "bucket"
+  ) {
     resourceDetail.pool = urlSegments[4];
   }
 

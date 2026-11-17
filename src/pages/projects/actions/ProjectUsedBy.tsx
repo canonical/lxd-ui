@@ -19,6 +19,11 @@ const ProjectUsedBy: FC<Props> = ({ project }) => {
         <UsedByRow entityType="profile" usedBy={usedBy} />
         <UsedByRow entityType="image" usedBy={usedBy} />
         <UsedByRow entityType="volume" usedBy={usedBy} />
+        <UsedByRow entityType="bucket" usedBy={usedBy} />
+        <UsedByRow entityType="network" usedBy={usedBy} />
+        <UsedByRow entityType="network-acl" usedBy={usedBy} />
+        <UsedByRow entityType="placement-group" usedBy={usedBy} />
+        <UsedByRow entityType="replicator" usedBy={usedBy} />
       </tbody>
     </table>
   );

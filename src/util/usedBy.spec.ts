@@ -130,4 +130,36 @@ describe("filterUsedByType", () => {
     expect(filterUsedByType("image", paths)).toHaveLength(1);
     expect(filterUsedByType("image-registry", paths)).toHaveLength(1);
   });
+
+  describe("project used by", () => {
+    const paths = [
+      "/1.0/instances/web?project=foo",
+      "/1.0/networks/br0?project=foo",
+      "/1.0/network-acls/acl1?project=foo",
+      "/1.0/storage-pools/local/buckets/b1?project=foo&target=micro1",
+      "/1.0/placement-groups/spread?project=foo",
+      "/1.0/replicators/rep1?project=foo",
+    ];
+
+    it.each([
+      ["network", "br0", "/ui/project/foo/network/br0"],
+      ["network-acl", "acl1", "/ui/project/foo/network-acl/acl1"],
+      ["bucket", "b1", "/ui/project/foo/storage/pool/local/bucket/b1"],
+      ["placement-group", "spread", "/ui/project/foo/placement-groups"],
+      ["replicator", "rep1", "/ui/project/foo/replicator/rep1"],
+    ] as const)("finds %s and links it", (type, name, link) => {
+      const results = filterUsedByType(type, paths);
+
+      expect(results.map((item) => item.name)).toEqual([name]);
+      expect(results[0].project).toBe("foo");
+      expect(getLinkTarget(results[0], type)).toBe(link);
+    });
+
+    it("keeps the bucket pool and target", () => {
+      const [bucket] = filterUsedByType("bucket", paths);
+
+      expect(bucket.pool).toBe("local");
+      expect(bucket.target).toBe("micro1");
+    });
+  });
 });
