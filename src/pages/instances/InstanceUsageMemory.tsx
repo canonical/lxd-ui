@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import type { MemoryUsage } from "util/metricSelectors";
+import { getMemoryText } from "util/resourceDetails";
 import Meter from "components/Meter";
 
 interface Props {
@@ -8,22 +9,19 @@ interface Props {
 }
 
 const InstanceUsageMemory: FC<Props> = ({ memory }) => {
-  if (!memory) {
+  if (!memory?.total) {
     return "";
   }
 
-  const used = memory.total - memory.free - memory.cached;
+  const used = Math.max(0, memory.total - memory.free - memory.cached);
+  const usedPercentage = (used / memory.total) * 100;
 
   return (
     <div>
       <Meter
-        percentage={(100 / memory.total) * used}
-        secondaryPercentage={(100 / memory.total) * memory.cached}
-        text={
-          humanFileSize(memory.total - memory.free) +
-          " of " +
-          humanFileSize(memory.total)
-        }
+        percentage={usedPercentage}
+        secondaryPercentage={(memory.cached / memory.total) * 100}
+        text={getMemoryText(used, memory.total, usedPercentage, true)}
         hoverText={
           `used: ${humanFileSize(used)}\n` +
           `cached: ${humanFileSize(memory.cached)}\n` +
