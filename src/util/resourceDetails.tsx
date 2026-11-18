@@ -40,8 +40,10 @@ export const extractResourceDetailsFromUrl = (
   const url = new URL(`http://localhost/${path}`);
   const project = url.searchParams.get("project");
   const target = url.searchParams.get("target");
-  const urlSegments = url.pathname.split("/");
-  const name = decodeURIComponent(urlSegments[urlSegments.length - 1]);
+  const urlSegments = url.pathname
+    .split("/")
+    .map((segment) => decodeURIComponent(segment));
+  const name = urlSegments[urlSegments.length - 1];
   const resourceName =
     (identityNamesLookup ?? {})[name] ||
     (imageLookup ?? {})[name]?.name ||
@@ -50,9 +52,7 @@ export const extractResourceDetailsFromUrl = (
   const resourceDetail: ResourceDetail = {
     project: project ? project : undefined,
     target: target ? target : undefined,
-    // calling decode twice because the result is double encoded
-    // see https://github.com/canonical/lxd/issues/12398
-    name: decodeURIComponent(resourceName),
+    name: resourceName,
     path,
     type: resourceType,
   };
