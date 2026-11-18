@@ -18,6 +18,9 @@ export interface LxdUsedBy {
   target?: string;
 }
 
+const getCollection = (type: ResourceType) =>
+  type === "image-registry" ? "image-registries" : `${type}s`;
+
 /**
  * filter a usedBy path list by a specific type and parse into a LxdUsedBy object list
  *
@@ -29,6 +32,7 @@ export interface LxdUsedBy {
  * "/1.0/storage-pools/local/volumes/custom/abb?project=robots&target=micro2"
  * "/1.0/images/b5509ae406f49e84faa1fe8e2d78d156b8a79efe00a4d9ea563e865253375db2?project=Penguin-Pen"
  * "/1.0/image-registries/registry1?project=foo"
+ * "/1.0/network-acls/acl1?project=foo"
  */
 export const filterUsedByType = (
   type: ResourceType,
@@ -65,11 +69,7 @@ export const filterUsedByType = (
           return path.includes("/1.0/replicators/");
         }
 
-        if (type === "image-registry") {
-          return path.includes("/1.0/image-registries/");
-        }
-
-        return path.startsWith(`/1.0/${type}`);
+        return path.startsWith(`/1.0/${getCollection(type)}/`);
       })
       .map((path) => {
         const resource = extractResourceDetailsFromUrl(type, path);

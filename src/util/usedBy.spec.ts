@@ -1,4 +1,4 @@
-import { filterUsedByType } from "./usedBy";
+import { filterUsedByType, getLinkTarget } from "./usedBy";
 
 describe("filterUsedByType", () => {
   it("finds standard instance", () => {
@@ -96,5 +96,38 @@ describe("filterUsedByType", () => {
 
     expect(results[0].name).toBe("registry1");
     expect(results[0].project).toBe("foo");
+  });
+
+  it("keeps network acls out of networks", () => {
+    const paths = ["/1.0/networks/br0", "/1.0/network-acls/acl1?project=foo"];
+    const results = filterUsedByType("network", paths);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].name).toBe("br0");
+  });
+
+  it("finds network acl", () => {
+    const paths = [
+      "/1.0/networks/br0",
+      "/1.0/network-acls/acl1?project=foo",
+      "/1.0/network-acls/acl2",
+    ];
+    const results = filterUsedByType("network-acl", paths);
+
+    expect(results.map((item) => item.name)).toEqual(["acl2", "acl1"]);
+    expect(results[1].project).toBe("foo");
+    expect(getLinkTarget(results[1], "network-acl")).toBe(
+      "/ui/project/foo/network-acl/acl1",
+    );
+  });
+
+  it("keeps image registries out of images", () => {
+    const paths = [
+      "/1.0/images/b5509ae406f4?project=foo",
+      "/1.0/image-registries/registry1?project=foo",
+    ];
+
+    expect(filterUsedByType("image", paths)).toHaveLength(1);
+    expect(filterUsedByType("image-registry", paths)).toHaveLength(1);
   });
 });

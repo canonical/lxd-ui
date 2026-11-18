@@ -20,6 +20,7 @@ const NetworkAclUsedBy: FC<Props> = ({ networkAcl }) => {
         <UsedByRow entityType="instance" usedBy={networkAcl.used_by} />
         <UsedByRow entityType="profile" usedBy={networkAcl.used_by} />
         <UsedByRow entityType="network" usedBy={networkAcl.used_by} />
+        <UsedByRow entityType="network-acl" usedBy={networkAcl.used_by} />
       </tbody>
     </table>
   );

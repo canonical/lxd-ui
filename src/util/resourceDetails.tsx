@@ -24,6 +24,7 @@ export type ResourceType =
   | "image"
   | "image-registry"
   | "network"
+  | "network-acl"
   | "network-forward"
   | "bucket"
   | "replicator"
