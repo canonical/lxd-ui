@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -7,7 +7,6 @@ import { useInstanceLoading } from "context/instanceLoading";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import { useToastNotification } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
-import { InstanceRichChip } from "../InstanceRichChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
@@ -15,9 +14,10 @@ import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
+  instanceLink: ReactNode;
 }
 
-const RestartInstanceBtn: FC<Props> = ({ instance }) => {
+const RestartInstanceBtn: FC<Props> = ({ instance, instanceLink }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
@@ -34,13 +34,6 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
   useEffect(() => {
     isForceRef.current = isForce;
   }, [isForce]);
-
-  const instanceLink = (
-    <InstanceRichChip
-      instanceName={instance.name}
-      projectName={instance.project}
-    />
-  );
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import type { LxdInstance } from "types/instance";
 import StartInstanceBtn from "pages/instances/actions/StartInstanceBtn";
 import StopInstanceBtn from "pages/instances/actions/StopInstanceBtn";
@@ -9,19 +9,40 @@ import { List } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
+  instanceLink: ReactNode;
   className?: string;
 }
 
-const InstanceStateActions: FC<Props> = ({ instance, className }) => {
+const InstanceStateActions: FC<Props> = ({
+  instance,
+  instanceLink,
+  className,
+}) => {
   return (
     <List
       inline
       className={classnames(className, "actions-list")}
       items={[
-        <StartInstanceBtn key="start" instance={instance} />,
-        <RestartInstanceBtn key="restart" instance={instance} />,
-        <FreezeInstanceBtn key="freeze" instance={instance} />,
-        <StopInstanceBtn key="stop" instance={instance} />,
+        <StartInstanceBtn
+          key="start"
+          instance={instance}
+          instanceLink={instanceLink}
+        />,
+        <RestartInstanceBtn
+          key="restart"
+          instance={instance}
+          instanceLink={instanceLink}
+        />,
+        <FreezeInstanceBtn
+          key="freeze"
+          instance={instance}
+          instanceLink={instanceLink}
+        />,
+        <StopInstanceBtn
+          key="stop"
+          instance={instance}
+          instanceLink={instanceLink}
+        />,
       ]}
     />
   );

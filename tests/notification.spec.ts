@@ -6,12 +6,14 @@ import {
   deleteInstance,
   randomInstanceName,
   visitAndStartInstance,
+  visitAndStopInstance,
 } from "./helpers/instances";
 import {
   dismissNotification,
   checkNotificationHidden,
   toggleNotificationList,
   dismissFirstNotificationFromList,
+  hoverNotificationChip,
 } from "./helpers/notification";
 
 let instance = randomInstanceName();
@@ -42,6 +44,66 @@ test("show notification after user action", async ({ page }) => {
   await page.keyboard.up("Shift");
   await page.waitForTimeout(5000);
   await checkNotificationHidden(page);
+});
+
+test("notification chip actions reflect instance state and can freeze an instance", async ({
+  page,
+}) => {
+  await visitAndStopInstance(page, instance);
+  const startButton = page.getByRole("button", { name: "Start", exact: true });
+  await expect(startButton).toBeEnabled();
+  await startButton.click();
+  await toggleNotificationList(page);
+
+  const notifications = page.getByRole("list", { name: "Notifications list" });
+  const tooltip = page.getByRole("tooltip").filter({ hasText: instance });
+
+  const startedNotification = notifications.getByRole("listitem").filter({
+    hasText: `Instance ${instance} started.`,
+  });
+  await hoverNotificationChip(startedNotification, tooltip, instance);
+  await expect(tooltip.getByText("Running", { exact: true })).toBeVisible();
+  await expect(
+    tooltip.getByRole("button", { name: "Start", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    tooltip.getByRole("button", { name: "Restart", exact: true }),
+  ).toBeEnabled();
+  await expect(
+    tooltip.getByRole("button", { name: "Freeze", exact: true }),
+  ).toBeEnabled();
+  await expect(
+    tooltip.getByRole("button", { name: "Stop", exact: true }),
+  ).toBeEnabled();
+
+  await tooltip.getByRole("button", { name: "Freeze", exact: true }).click();
+  const confirmation = page.getByRole("dialog", { name: "Confirm freeze" });
+  await confirmation
+    .getByRole("button", { name: "Freeze", exact: true })
+    .click();
+
+  const frozenNotification = notifications.getByRole("listitem").filter({
+    hasText: `Instance ${instance} frozen.`,
+  });
+  await hoverNotificationChip(frozenNotification, tooltip, instance);
+  await expect(tooltip.getByText("Frozen", { exact: true })).toBeVisible();
+  await expect(
+    tooltip.getByRole("button", { name: "Start", exact: true }),
+  ).toBeEnabled();
+  await expect(
+    tooltip.getByRole("button", { name: "Restart", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    tooltip.getByRole("button", { name: "Freeze", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    tooltip.getByRole("button", { name: "Stop", exact: true }),
+  ).toBeEnabled();
+
+  await tooltip.getByRole("button", { name: "Start", exact: true }).click();
+  await expect(
+    page.getByRole("main").getByText("Running", { exact: true }),
+  ).toBeVisible();
 });
 
 test("notifications list", async ({ page }) => {

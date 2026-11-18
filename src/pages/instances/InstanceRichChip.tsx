@@ -28,6 +28,11 @@ export const InstanceRichChip: FC<Props> = ({ instanceName, projectName }) => {
     return <>{resourceLink}</>;
   }
 
+  // Actions mount this element in notifications, so creating it here does not recurse.
+  const notificationChip = (
+    <InstanceRichChip instanceName={instanceName} projectName={projectName} />
+  );
+
   return (
     <Tooltip
       zIndex={1000}
@@ -36,6 +41,7 @@ export const InstanceRichChip: FC<Props> = ({ instanceName, projectName }) => {
         <InstanceRichTooltip
           instanceName={instanceName}
           projectName={projectName}
+          instanceLink={notificationChip}
         />
       }
     >

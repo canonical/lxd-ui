@@ -1,13 +1,13 @@
-import { type FC } from "react";
+import type { FC, ReactNode } from "react";
 import InstanceLink from "pages/instances/InstanceLink";
 import InstanceStatusIcon from "pages/instances/InstanceStatusIcon";
 import { useInstance } from "context/useInstances";
+import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { Spinner } from "@canonical/react-components";
 import { getIpAddresses } from "util/networks";
 import type { IpFamily, LxdInstance } from "types/instance";
 import { getInstanceMacAddresses, getInstanceType } from "util/instances";
 import { isoTimeToString } from "util/helpers";
-import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import type { TooltipRow } from "components/RichTooltipRow";
 import { RichTooltipTable } from "components/RichTooltipTable";
 import TruncatedList from "components/TruncatedList";
@@ -15,17 +15,20 @@ import TruncatedList from "components/TruncatedList";
 interface Props {
   instanceName: string;
   projectName: string;
+  instanceLink: ReactNode;
 }
 
 export const InstanceRichTooltip: FC<Props> = ({
   instanceName,
   projectName,
+  instanceLink,
 }) => {
+  const { data: instance, isLoading } = useInstance(instanceName, projectName);
+
   const getAddresses = (instance: LxdInstance, family: IpFamily) => {
     return getIpAddresses(instance, family).map((item) => item.address);
   };
 
-  const { data: instance, isLoading } = useInstance(instanceName, projectName);
   if (!instance && !isLoading) {
     return <></>;
   }
@@ -44,7 +47,10 @@ export const InstanceRichTooltip: FC<Props> = ({
           <div className="status-icon">
             <InstanceStatusIcon instance={instance} />
           </div>
-          <InstanceStateActions instance={instance} />
+          <InstanceStateActions
+            instance={instance}
+            instanceLink={instanceLink}
+          />
         </div>
       ) : (
         "-"

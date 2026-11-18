@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import type { LxdInstance } from "types/instance";
 import { Button } from "@canonical/react-components";
 import classnames from "classnames";
@@ -9,6 +9,7 @@ import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
+  instanceLink: ReactNode;
   hasLabel?: boolean;
   appearance?: "base" | "positive";
   dense?: boolean;
@@ -18,13 +19,17 @@ interface Props {
 
 const StartInstanceBtn: FC<Props> = ({
   instance,
+  instanceLink,
   hasLabel = false,
   appearance = "base",
   dense = true,
   iconClassname,
   showBooting = false,
 }) => {
-  const { handleStart, isLoading, isDisabled } = useInstanceStart(instance);
+  const { handleStart, isLoading, isDisabled } = useInstanceStart(
+    instance,
+    instanceLink,
+  );
   const isRunning = isInstanceRunning(instance);
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
   const showSpinner = showBooting ? isLoading || isBooting : isLoading;
