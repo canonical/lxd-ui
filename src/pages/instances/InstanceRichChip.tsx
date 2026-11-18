@@ -1,4 +1,5 @@
-import type { FC } from "react";
+import type { ComponentType, FC } from "react";
+import type { LxdInstance } from "types/instance";
 import { Tooltip } from "@canonical/react-components";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import ResourceLink from "components/ResourceLink";
@@ -9,9 +10,14 @@ import { ROOT_PATH } from "util/rootPath";
 interface Props {
   instanceName: string;
   projectName: string;
+  actions?: ComponentType<{ instance: LxdInstance }>;
 }
 
-export const InstanceRichChip: FC<Props> = ({ instanceName, projectName }) => {
+export const InstanceRichChip: FC<Props> = ({
+  instanceName,
+  projectName,
+  actions,
+}) => {
   const showTooltip = !useIsScreenBelow(SMALL_TOOLTIP_BREAKPOINT, "height");
 
   const instanceUrl = `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/instance/${encodeURIComponent(instanceName)}`;
@@ -36,6 +42,7 @@ export const InstanceRichChip: FC<Props> = ({ instanceName, projectName }) => {
         <InstanceRichTooltip
           instanceName={instanceName}
           projectName={projectName}
+          actions={actions}
         />
       }
     >

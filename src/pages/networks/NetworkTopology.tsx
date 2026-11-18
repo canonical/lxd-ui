@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import { useNetworks } from "context/useNetworks";
 import { clusteredTypes } from "util/networks";
-import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import { InstanceRichChipWithActions } from "pages/instances/InstanceRichChipWithActions";
 import NetworkRichChip from "./NetworkRichChip";
 import ClusterMemberRichChip from "pages/cluster/ClusterMemberRichChip";
 import { ROOT_PATH } from "util/rootPath";
@@ -196,7 +196,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
                       <ProjectRichChip projectName={item.project} /> /{" "}
                     </>
                   )}
-                  <InstanceRichChip
+                  <InstanceRichChipWithActions
                     instanceName={item.name}
                     projectName={item.project}
                   />

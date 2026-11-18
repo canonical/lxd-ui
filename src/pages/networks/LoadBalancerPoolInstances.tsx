@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { LxdLoadBalancerPool } from "types/loadBalancers";
-import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import { InstanceRichChipWithActions } from "pages/instances/InstanceRichChipWithActions";
 import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
@@ -17,7 +17,10 @@ const LoadBalancerPoolInstances: FC<Props> = ({ pool }) => {
   return pool.instances.map((instance) => {
     return (
       <div key={instance.name}>
-        <InstanceRichChip instanceName={instance.name} projectName={project} />
+        <InstanceRichChipWithActions
+          instanceName={instance.name}
+          projectName={project}
+        />
       </div>
     );
   });

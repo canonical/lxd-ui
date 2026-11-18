@@ -5,7 +5,7 @@ import type { ResourceIconType } from "./ResourceIcon";
 import { useLocalImagesInProject } from "context/useImages";
 import { getVolumeDetailUrl } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
-import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import { InstanceRichChipWithActions } from "pages/instances/InstanceRichChipWithActions";
 import ProfileRichChip from "pages/profiles/ProfileRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
@@ -72,7 +72,10 @@ const UsedByItem: FC<Props> = ({
         </>
       )}
       {type === "instance" && (
-        <InstanceRichChip instanceName={item.name} projectName={item.project} />
+        <InstanceRichChipWithActions
+          instanceName={item.name}
+          projectName={item.project}
+        />
       )}
       {type === "profile" && (
         <ProfileRichChip profileName={item.name} projectName={item.project} />
