@@ -143,6 +143,10 @@ export const getLinkTarget = (resource: LxdUsedBy, entityType: string) => {
     return getStorageBucketURL(resource.name, resource.pool, resource.project);
   }
 
+  if (entityType === "placement-group") {
+    return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/placement-groups`;
+  }
+
   if (entityType === "image") {
     return `${ROOT_PATH}/ui/project/${encodeURIComponent(resource.project)}/local-images`;
   }
