@@ -1,13 +1,14 @@
 import type { FC } from "react";
-import { ActionButton, useListener } from "@canonical/react-components";
+import { ActionButton } from "@canonical/react-components";
 import { pluralize } from "util/helpers";
 import type { ConfigurationRowFormikProps } from "types/forms/configurationRow";
 import { getFormChangeCount } from "util/formChangeCount";
-import { unstable_usePrompt as usePrompt } from "react-router";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
 
 interface Props {
   formik: ConfigurationRowFormikProps;
   baseUrl: string;
+  includeSubPaths?: boolean;
   disabled: boolean;
   isYaml?: boolean;
 }
@@ -15,24 +16,12 @@ interface Props {
 const FormSubmitBtn: FC<Props> = ({
   formik,
   baseUrl,
+  includeSubPaths,
   disabled,
   isYaml = false,
 }) => {
   const changeCount = getFormChangeCount(formik);
-
-  usePrompt({
-    when: (data) => {
-      return changeCount > 0 && !data.nextLocation.pathname.startsWith(baseUrl);
-    },
-    message: "Changes you made have not been saved. Leave site?",
-  });
-
-  const handleCloseTab = (e: BeforeUnloadEvent) => {
-    if (changeCount > 0) {
-      e.returnValue = "Changes you made have not been saved.";
-    }
-  };
-  useListener(window, handleCloseTab, "beforeunload");
+  useUnsavedChangesGuard(changeCount > 0, baseUrl, includeSubPaths);
 
   return (
     <ActionButton
