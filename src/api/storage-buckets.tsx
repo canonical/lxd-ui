@@ -4,7 +4,7 @@ import type { LxdApiResponse } from "types/apiResponse";
 import { addEntitlements } from "util/entitlements/api";
 import { fetchStoragePools } from "./storage-pools";
 import {
-  continueOrFinish,
+  pushFailure,
   pushSuccess,
   type BulkOperationItem,
   type BulkOperationResult,
@@ -152,44 +152,38 @@ export const deleteStorageBucketBulk = async (
   buckets: LxdStorageBucket[],
   project: string,
 ): Promise<BulkOperationResult[]> => {
-  const results: BulkOperationResult[] = [];
-  const operations = await Promise.allSettled(
+  const settled = await Promise.allSettled(
     buckets.map(async (bucket) => {
       const operation = await deleteStorageBucket(
         bucket.name,
         bucket.pool,
         project,
       );
-      return { operation, bucket };
-    }),
-  );
-
-  const pendingOperations = operations.map((res) => {
-    if (res.status === "rejected") {
-      throw res?.reason as Error;
-    }
-    return res.value;
-  });
-
-  await Promise.all(
-    pendingOperations.map(async ({ operation }) => {
       if (operation.metadata.id) {
         await waitForOperation(operation.metadata.id);
       }
     }),
   );
 
-  return new Promise((resolve) => {
-    buckets.forEach((bucket) => {
-      const item: BulkOperationItem = {
-        name: bucket.name,
-        type: "bucket",
-        href: getStorageBucketURL(bucket.name, bucket.pool, project),
-      };
+  const results: BulkOperationResult[] = [];
+  settled.forEach((result, index) => {
+    const bucket = buckets[index];
+    const item: BulkOperationItem = {
+      name: bucket.name,
+      type: "bucket",
+      href: getStorageBucketURL(bucket.name, bucket.pool, project),
+    };
+    if (result.status === "fulfilled") {
       pushSuccess(results, item);
-      continueOrFinish(results, buckets.length, resolve);
-    });
+    } else {
+      pushFailure(
+        results,
+        result.reason instanceof Error ? result.reason.message : "",
+        item,
+      );
+    }
   });
+  return results;
 };
 
 export const fetchStorageBucketKeys = async (
@@ -308,8 +302,7 @@ export const deleteStorageBucketKeyBulk = async (
   keys: LxdStorageBucketKey[],
   project: string,
 ): Promise<BulkOperationResult[]> => {
-  const results: BulkOperationResult[] = [];
-  const operations = await Promise.allSettled(
+  const settled = await Promise.allSettled(
     keys.map(async (key) => {
       const operation = await deleteStorageBucketKey(
         bucket.name,
@@ -317,34 +310,28 @@ export const deleteStorageBucketKeyBulk = async (
         bucket.pool,
         project,
       );
-      return { operation, key };
-    }),
-  );
-
-  const pendingOperations = operations.map((res) => {
-    if (res.status === "rejected") {
-      throw res?.reason as Error;
-    }
-    return res.value;
-  });
-
-  await Promise.all(
-    pendingOperations.map(async ({ operation }) => {
       if (operation.metadata.id) {
         await waitForOperation(operation.metadata.id);
       }
     }),
   );
 
-  return new Promise((resolve) => {
-    keys.forEach((key) => {
-      const item: BulkOperationItem = {
-        name: key.name,
-        type: "bucket-key",
-        href: getStorageBucketURL(bucket.name, bucket.pool, project),
-      };
+  const results: BulkOperationResult[] = [];
+  settled.forEach((result, index) => {
+    const item: BulkOperationItem = {
+      name: keys[index].name,
+      type: "bucket-key",
+      href: getStorageBucketURL(bucket.name, bucket.pool, project),
+    };
+    if (result.status === "fulfilled") {
       pushSuccess(results, item);
-      continueOrFinish(results, keys.length, resolve);
-    });
+    } else {
+      pushFailure(
+        results,
+        result.reason instanceof Error ? result.reason.message : "",
+        item,
+      );
+    }
   });
+  return results;
 };
