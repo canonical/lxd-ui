@@ -12,6 +12,7 @@ import {
 } from "./devices";
 import { queryKeys } from "./queryKeys";
 import { filterUsedByType } from "./usedBy";
+import { isSnapshot, splitVolumeSnapshotName } from "./storageVolume";
 
 /*** Instance snapshot utils ***/
 export const isInstanceStateful = (instance: LxdInstance): boolean => {
@@ -39,10 +40,10 @@ export const getCustomVolumeDevices = (instance: LxdInstance): string[] => {
 // Show a custom volume device by its mount path, falling back to the device
 // name for block volumes or devices no longer attached to the instance
 export const getCustomVolumeDeviceLabel = (
-  instance: LxdInstance,
+  { expanded_devices }: Pick<LxdInstance, "expanded_devices">,
   deviceName: string,
 ): string => {
-  const device = instance.expanded_devices?.[deviceName];
+  const device = expanded_devices?.[deviceName];
   if (device && isDiskDevice(device) && device.path) {
     return device.path;
   }
@@ -84,12 +85,12 @@ export const getCustomVolumeDevicesToSnapshot = (
 // LXD records the custom volume snapshots taken along with an instance snapshot
 // as a JSON map of device name to volume snapshot UUID.
 // Returns null when the record can not be read.
-const parseCustomVolumeSnapshotDevices = (
+const parseAttachedVolumes = (
   snapshot: LxdInstanceSnapshot,
-): string[] | null => {
+): Record<string, string> | null => {
   const attachedVolumes = snapshot.config["volatile.attached_volumes"];
   if (!attachedVolumes) {
-    return [];
+    return {};
   }
 
   try {
@@ -97,11 +98,12 @@ const parseCustomVolumeSnapshotDevices = (
     if (
       typeof parsed !== "object" ||
       parsed === null ||
-      Array.isArray(parsed)
+      Array.isArray(parsed) ||
+      Object.values(parsed).some((uuid) => typeof uuid !== "string")
     ) {
       return null;
     }
-    return Object.keys(parsed).sort();
+    return parsed as Record<string, string>;
   } catch {
     return null;
   }
@@ -110,13 +112,75 @@ const parseCustomVolumeSnapshotDevices = (
 export const getCustomVolumeSnapshotDevices = (
   snapshot: LxdInstanceSnapshot,
 ): string[] => {
-  return parseCustomVolumeSnapshotDevices(snapshot) ?? [];
+  return Object.keys(parseAttachedVolumes(snapshot) ?? {}).sort();
 };
 
 export const hasUnreadableCustomVolumeSnapshotDevices = (
   snapshot: LxdInstanceSnapshot,
 ): boolean => {
-  return parseCustomVolumeSnapshotDevices(snapshot) === null;
+  return parseAttachedVolumes(snapshot) === null;
+};
+
+// Volume snapshots by UUID, from a volume list that includes the snapshots
+export const getVolumeSnapshotsByUuid = (
+  volumes: LxdStorageVolume[],
+): Map<string, LxdStorageVolume> => {
+  const result = new Map<string, LxdStorageVolume>();
+  volumes.filter(isSnapshot).forEach((volume) => {
+    const uuid = volume.config["volatile.uuid"];
+    if (uuid) {
+      result.set(uuid, volume);
+    }
+  });
+  return result;
+};
+
+export interface CustomVolumeSnapshotLink {
+  deviceLabel: string;
+  volume: LxdStorageVolume;
+  snapshotName: string;
+}
+
+export const getCustomVolumeSnapshotLinks = (
+  snapshot: LxdInstanceSnapshot,
+  volumeSnapshots: Map<string, LxdStorageVolume>,
+): CustomVolumeSnapshotLink[] => {
+  const attachedVolumes = parseAttachedVolumes(snapshot) ?? {};
+  return Object.keys(attachedVolumes)
+    .sort()
+    .flatMap((deviceName) => {
+      const volumeSnapshot = volumeSnapshots.get(attachedVolumes[deviceName]);
+      if (!volumeSnapshot) {
+        return [];
+      }
+      const { parentName, snapshotName } = splitVolumeSnapshotName(
+        volumeSnapshot.name,
+      );
+      return [
+        {
+          deviceLabel: getCustomVolumeDeviceLabel(snapshot, deviceName),
+          volume: { ...volumeSnapshot, name: parentName },
+          snapshotName,
+        },
+      ];
+    });
+};
+
+export const getInstanceSnapshotsByVolumeSnapshotUuid = (
+  instances: LxdInstance[],
+): Map<string, { instance: LxdInstance; snapshot: LxdInstanceSnapshot }> => {
+  const result = new Map<
+    string,
+    { instance: LxdInstance; snapshot: LxdInstanceSnapshot }
+  >();
+  instances.forEach((instance) => {
+    instance.snapshots?.forEach((snapshot) => {
+      Object.values(parseAttachedVolumes(snapshot) ?? {}).forEach((uuid) => {
+        result.set(uuid, { instance, snapshot });
+      });
+    });
+  });
+  return result;
 };
 
 // snapshot actions that include custom volumes change the volume snapshots too
