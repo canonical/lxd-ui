@@ -5,6 +5,7 @@ import { ensureEditMode } from "util/editMode";
 import { proxyAddressTypeOptions } from "./instanceOptions";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { formatProxyAddress, parseProxyAddress } from "util/proxyAddress";
 
 type ConnectionType = "listen" | "connect";
 
@@ -16,10 +17,11 @@ export const getProxyAddress = (
   formik: InstanceAndProfileFormikProps,
   headingTitle: string,
 ) => {
-  const deviceParts = device[connectionType]?.split(":") || [];
-  const deviceType = deviceParts.length > 0 ? deviceParts[0] : "tcp";
-  const deviceAddress = deviceParts.length > 1 ? deviceParts[1] : "";
-  const devicePort = deviceParts.length > 2 ? deviceParts[2] : "";
+  const {
+    type: deviceType,
+    address: deviceAddress,
+    port: devicePort,
+  } = parseProxyAddress(device[connectionType]);
 
   customRows.push(
     getConfigurationRowBase({
@@ -44,19 +46,20 @@ export const getProxyAddress = (
             const newType = e.target.value;
             formik.setFieldValue(
               `devices.${index}.${connectionType}`,
-              `${newType}:${deviceAddress}:${devicePort}`,
+              formatProxyAddress({
+                type: newType,
+                address: deviceAddress,
+                port: devicePort,
+              }),
             );
 
             if (device.nat === "true") {
-              const connectParts = device.connect?.split(":") || [];
-              const connectAddress =
-                connectParts.length > 1 ? connectParts[1] : "";
-              const connectPort =
-                connectParts.length > 2 ? connectParts[2] : "";
-
               formik.setFieldValue(
                 `devices.${index}.connect`,
-                `${newType}:${connectAddress}:${connectPort}`,
+                formatProxyAddress({
+                  ...parseProxyAddress(device.connect),
+                  type: newType,
+                }),
               );
             }
           }}
@@ -104,7 +107,11 @@ export const getProxyAddress = (
               const socketPath = e.target.value;
               formik.setFieldValue(
                 `devices.${index}.${connectionType}`,
-                `unix:${socketPath}`,
+                formatProxyAddress({
+                  type: "unix",
+                  address: socketPath,
+                  port: "",
+                }),
               );
             }}
             value={deviceAddress}
@@ -122,11 +129,15 @@ export const getProxyAddress = (
               const newAddress = e.target.value;
               formik.setFieldValue(
                 `devices.${index}.${connectionType}`,
-                `${deviceType}:${newAddress}:${devicePort}`,
+                formatProxyAddress({
+                  type: deviceType,
+                  address: newAddress,
+                  port: devicePort,
+                }),
               );
             }}
             value={deviceAddress}
-            placeholder="127.0.0.1"
+            placeholder="127.0.0.1 or ::1"
             type="text"
             className="u-no-margin--bottom"
             disabled={!!formik.values.editRestriction}
@@ -155,7 +166,11 @@ export const getProxyAddress = (
               const newPort = e.target.value;
               formik.setFieldValue(
                 `devices.${index}.${connectionType}`,
-                `${deviceType}:${deviceAddress}:${newPort}`,
+                formatProxyAddress({
+                  type: deviceType,
+                  address: deviceAddress,
+                  port: newPort,
+                }),
               );
             }}
             value={devicePort}
