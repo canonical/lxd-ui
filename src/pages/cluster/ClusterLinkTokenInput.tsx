@@ -52,13 +52,15 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
       type="text"
       label="Token"
       placeholder="Enter token (for example eyJhbGciOiJIUzI1Ni...)"
-      autoFocus={formik.values.type === "unidirectional"}
       disabled={
-        formik.values.tokenType !== "consume" &&
-        formik.values.type === "bidirectional"
+        formik.isSubmitting ||
+        (formik.values.tokenType !== "consume" &&
+          formik.values.type === "bidirectional")
       }
       required
       help={getTokenHelp()}
+      helpAfterLabel
+      error={formik.touched.token ? formik.errors.token : null}
     />
   );
 
@@ -73,6 +75,7 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
             options={[
               {
                 label: "Select an option...",
+                value: "",
               },
               {
                 label: "Generate a token for the target LXD cluster",
@@ -84,7 +87,9 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
               },
             ]}
             {...formik.getFieldProps("tokenType")}
-            autoFocus
+            value={formik.values.tokenType ?? ""}
+            disabled={formik.isSubmitting}
+            error={formik.touched.tokenType ? formik.errors.tokenType : null}
             onChange={(e) => {
               formik.setFieldValue("tokenType", e.target.value);
               if (e.target.value === "generate") {

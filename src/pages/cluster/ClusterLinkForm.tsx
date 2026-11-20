@@ -1,18 +1,29 @@
-import { Form, Input, Label, OutputField } from "@canonical/react-components";
-import type { FC } from "react";
+import { Form, Input, Label } from "@canonical/react-components";
+import type { FC, ReactNode } from "react";
+import DocLink from "components/DocLink";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { useAuthGroups } from "context/useAuthGroups";
 import type { FormikProps } from "formik/dist/types";
 import ClusterLinkTokenInput from "pages/cluster/ClusterLinkTokenInput";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { normalizeRemoteAddress } from "util/clusterLink";
+import ClusterLinkDirectionSelection, {
+  clusterLinkTypes,
+} from "pages/cluster/ClusterLinkDirectionSelection";
 
 interface Props {
   formik: FormikProps<ClusterLinkFormValues>;
   isNameLocked?: boolean;
+  children?: ReactNode;
+  onPublicDetailsChange?: () => void;
 }
 
-const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
+const ClusterLinkForm: FC<Props> = ({
+  formik,
+  isNameLocked,
+  children,
+  onPublicDetailsChange,
+}) => {
   const { data: authGroups = [] } = useAuthGroups(
     formik.values.type === "bidirectional",
   );
@@ -23,21 +34,55 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
   const added = [...selectedGroups].filter((g) => !initial.has(g));
   const modifiedGroups = new Set([...removed, ...added]);
   const hasName = formik.values.name !== "";
+  const linkType = clusterLinkTypes.find(
+    (type) => type.value === formik.values.type,
+  );
 
   return (
     <Form onSubmit={formik.handleSubmit} className="cluster-link-form">
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
+      <h2 className="p-muted-heading">Link type</h2>
+      {formik.values.isCreating ? (
+        <ClusterLinkDirectionSelection
+          value={formik.values.type}
+          disabled={isNameLocked || formik.isSubmitting}
+          onSelect={(type) => {
+            void formik.setValues({
+              ...formik.values,
+              type,
+              token: "",
+              tokenType: undefined,
+              remoteAddress: "",
+            });
+            void formik.setTouched({});
+          }}
+        />
+      ) : (
+        <>
+          <p className="u-sv-1">{linkType?.label}</p>
+          <p className="p-form-help-text">{linkType?.help}</p>
+        </>
+      )}
+      <hr />
+      <h2 className="p-muted-heading">Details</h2>
+      {!formik.values.isCreating && (
+        <Input
+          label="Link name"
+          type="text"
+          value={formik.values.name}
+          readOnly
+        />
+      )}
       {formik.values.isCreating && (
         <>
-          <OutputField
-            id="type"
-            label="Cluster link type"
-            value={formik.values.type}
-          />
           {formik.values.type === "public" ? (
             <Input
               {...formik.getFieldProps("remoteAddress")}
+              onChange={(e) => {
+                onPublicDetailsChange?.();
+                formik.handleChange(e);
+              }}
               onBlur={(e) => {
                 void formik.setFieldValue(
                   "remoteAddress",
@@ -49,8 +94,8 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
               label="Remote address"
               placeholder="Enter address (for example 10.0.0.2:8443)"
               help="Address of the target LXD cluster. The port defaults to 8443."
-              autoFocus
               required
+              disabled={formik.isSubmitting}
               error={
                 formik.touched.remoteAddress
                   ? formik.errors.remoteAddress
@@ -63,7 +108,7 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
           <Input
             {...formik.getFieldProps("name")}
             type="text"
-            label="Cluster link name"
+            label="Link name"
             placeholder="Enter name"
             required
             help={
@@ -73,9 +118,11 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
             }
             disabled={
               isNameLocked ||
-              (formik.values.token === "" &&
+              formik.isSubmitting ||
+              (!formik.values.token &&
                 (formik.values.type === "unidirectional" ||
-                  formik.values.tokenType === "consume")) ||
+                  (formik.values.type === "bidirectional" &&
+                    formik.values.tokenType === "consume"))) ||
               (formik.values.type === "bidirectional" &&
                 !formik.values.tokenType) ||
               (formik.values.type === "public" && !formik.values.remoteAddress)
@@ -86,21 +133,33 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
       )}
       <Input
         {...formik.getFieldProps("description")}
+        onChange={(e) => {
+          onPublicDetailsChange?.();
+          formik.handleChange(e);
+        }}
         type="text"
         label="Description"
         placeholder="Enter description"
-        disabled={!hasName}
+        disabled={!hasName || formik.isSubmitting}
         title={
           hasName
             ? undefined
             : "Please enter a name before adding a description"
         }
       />
+      {children}
       {formik.values.type === "bidirectional" && (
         <>
-          <Label className="u-sv-2">Auth groups</Label>
-          <p className="u-text--muted u-sv-1 p-text--small">
-            Control access for incoming requests through this cluster link.
+          <hr />
+          <h2 className="p-muted-heading">Auth groups</h2>
+          <Label>Source</Label>
+          <p className="p-form-help-text">
+            Control the permissions that incoming requests have to act on this
+            cluster.
+            <br />
+            <DocLink docPath="/howto/cluster_links_create/">
+              Learn more about cluster link permissions in the docs.
+            </DocLink>
           </p>
           <GroupSelection
             groups={authGroups}
@@ -126,7 +185,7 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
               }
             }}
             scrollDependencies={[formik]}
-            disabled={!hasName}
+            disabled={!hasName || formik.isSubmitting}
             hasScrollableTable={false}
           />
         </>

@@ -7,10 +7,11 @@ import {
 import CopyToClipboard from "components/CopyToClipboard";
 
 interface Props {
-  remoteAddress: string;
+  remoteAddress?: string;
   fingerprint: string;
   isConfirmed: boolean;
   setConfirmed: (value: boolean) => void;
+  disabled?: boolean;
 }
 
 const ClusterLinkVerifyCertificate: FC<Props> = ({
@@ -18,15 +19,17 @@ const ClusterLinkVerifyCertificate: FC<Props> = ({
   fingerprint,
   isConfirmed,
   setConfirmed,
+  disabled,
 }) => {
   return (
     <>
-      <OutputField
-        id="remote-address"
-        label="Remote address"
-        value={remoteAddress}
-      />
-      <h3 className="p-muted-heading p-heading--5">Certificate</h3>
+      {remoteAddress && (
+        <OutputField
+          id="remote-address"
+          label="Remote address"
+          value={remoteAddress}
+        />
+      )}
       <CodeSnippet
         className="code-snippet-with-copy-button-wrapper cluster-link-fingerprint"
         blocks={[
@@ -47,8 +50,10 @@ const ClusterLinkVerifyCertificate: FC<Props> = ({
         ]}
       />
       <CheckboxInput
-        label="I confirm this fingerprint matches the LXD server at the remote address."
+        label="I confirm this fingerprint matches the target LXD server's certificate."
+        help="Find the server's certificate on the server page (unclustered) or member page (clustered) of the target."
         checked={isConfirmed}
+        disabled={disabled}
         onChange={() => {
           setConfirmed(!isConfirmed);
         }}

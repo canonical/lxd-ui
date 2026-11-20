@@ -40,7 +40,11 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
     setError(null);
   };
 
-  useEscCallback(closePanel);
+  useEscCallback(() => {
+    if (!formik.isSubmitting) {
+      closePanel();
+    }
+  });
 
   const formik = useFormik<ClusterLinkFormValues>({
     initialValues: {
@@ -108,7 +112,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
         <SidePanel.HeaderTitle className="u-truncate">
           <ClusterLinkExplanationTooltip>
             <span title={`Edit cluster link ${clusterLink.name}`}>
-              Edit cluster link {clusterLink.name}
+              Edit cluster link
             </span>
           </ClusterLinkExplanationTooltip>
         </SidePanel.HeaderTitle>
@@ -126,19 +130,12 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
           </Notification>
         )}
       </Row>
-      <SidePanel.Content className="u-no-padding">
+      <SidePanel.Content className="u-no-padding cluster-link-panel">
         <ScrollableContainer dependencies={[error]} belowIds={["panel-footer"]}>
           <ClusterLinkForm formik={formik} />
         </ScrollableContainer>
       </SidePanel.Content>
-      <SidePanel.Footer className="u-align--right">
-        <Button
-          appearance="base"
-          onClick={closePanel}
-          className="u-no-margin--bottom"
-        >
-          Cancel
-        </Button>
+      <SidePanel.Footer>
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
@@ -146,8 +143,16 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
           className="u-no-margin--bottom"
           disabled={!formik.isValid || formik.isSubmitting}
         >
-          Save changes
+          Save
         </ActionButton>
+        <Button
+          appearance="base"
+          onClick={closePanel}
+          className="u-no-margin--bottom"
+          disabled={formik.isSubmitting}
+        >
+          Cancel
+        </Button>
       </SidePanel.Footer>
     </SidePanel>
   );

@@ -703,7 +703,7 @@ test.describe("clustering", () => {
     await runA11yAudit(page, testInfo);
   });
 
-  test("create cluster link direction panel", async ({ page }, testInfo) => {
+  test("create cluster link panel", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
     await clickSideNavItem(page, "Links", "Clustering");
     await page.getByRole("button", { name: "Create cluster link" }).click();
@@ -717,11 +717,30 @@ test.describe("clustering", () => {
     skipIfNotA11yProject(testInfo.project.name);
     await clickSideNavItem(page, "Links", "Clustering");
     await page.getByRole("button", { name: "Create cluster link" }).click();
-    await page.getByRole("button", { name: "Bidirectional" }).click();
+    await page
+      .getByRole("radiogroup", { name: "Link type" })
+      .getByText("Bidirectional", { exact: true })
+      .click();
+    await page.getByLabel("Token setup").selectOption("generate");
     await runA11yAuditForPanel(page, testInfo);
-    await page.getByRole("button", { name: "Back" }).click();
     await closePanel(page);
   });
+
+  for (const type of ["Unidirectional", "Public"]) {
+    test(`create cluster link ${type.toLowerCase()} panel`, async ({
+      page,
+    }, testInfo) => {
+      skipIfNotA11yProject(testInfo.project.name);
+      await clickSideNavItem(page, "Links", "Clustering");
+      await page.getByRole("button", { name: "Create cluster link" }).click();
+      await page
+        .getByRole("radiogroup", { name: "Link type" })
+        .getByText(type, { exact: true })
+        .click();
+      await runA11yAuditForPanel(page, testInfo);
+      await closePanel(page);
+    });
+  }
 
   test("create replicator panel", async ({ page }, testInfo) => {
     skipIfNotA11yProject(testInfo.project.name);
