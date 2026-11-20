@@ -28,14 +28,33 @@ describe("filterUsedByType", () => {
   });
 
   it("decodes url encoded volume names", () => {
-    const paths = [
-      "/1.0/storage-pools/dir/volumes/custom/t%25C3%25BCdeld%25C3%25BC",
-    ];
+    const paths = ["/1.0/storage-pools/dir/volumes/custom/t%C3%BCdeld%C3%BC"];
     const results = filterUsedByType("volume", paths);
 
     expect(results[0].name).toBe("tüdeldü");
     expect(results[0].project).toBe("default");
     expect(results[0].instance).toBe(undefined);
+  });
+
+  it("decodes volume names containing a percent sign only once", () => {
+    const paths = [
+      "/1.0/storage-pools/dir/volumes/custom/50%25off",
+      "/1.0/storage-pools/dir/volumes/custom/100%2525",
+    ];
+    const results = filterUsedByType("volume", paths);
+
+    expect(results.map((item) => item.name)).toEqual(["100%25", "50%off"]);
+  });
+
+  it("decodes the volume name of a volume snapshot", () => {
+    const paths = [
+      "/1.0/storage-pools/dir/volumes/custom/my%20volume/snapshots/snap%250",
+    ];
+    const results = filterUsedByType("snapshot", paths);
+
+    expect(results[0].name).toBe("snap%0");
+    expect(results[0].pool).toBe("dir");
+    expect(results[0].volume).toBe("my volume");
   });
 
   it("finds instance snapshot", () => {
