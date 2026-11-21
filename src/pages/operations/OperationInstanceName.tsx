@@ -6,7 +6,7 @@ import {
   isCreatingInstance,
 } from "util/operations";
 import ResourceLabel from "components/ResourceLabel";
-import { InstanceRichChip } from "pages/instances/InstanceRichChip";
+import { InstanceRichChipWithActions } from "pages/instances/InstanceRichChipWithActions";
 
 interface Props {
   operation: LxdOperation;
@@ -41,7 +41,10 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
 
   if (isLinkable && projectName) {
     return (
-      <InstanceRichChip instanceName={instanceName} projectName={projectName} />
+      <InstanceRichChipWithActions
+        instanceName={instanceName}
+        projectName={projectName}
+      />
     );
   }
 
