@@ -38,9 +38,12 @@ export const createClusterLinkBidirectional = async (
 ) => {
   await page.getByRole("button", { name: "Create cluster link" }).click();
   await expect(
-    page.getByRole("heading", { name: "Choose cluster link type" }),
+    page.getByRole("heading", { name: "Create cluster link" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Bidirectional" }).click();
+  await page
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Bidirectional", { exact: true })
+    .click();
 
   if (token) {
     await page.getByLabel("Token setup").selectOption("consume");
@@ -54,7 +57,7 @@ export const createClusterLinkBidirectional = async (
 
   await panel.getByRole("rowheader").filter({ hasText: "admins" }).click();
 
-  await panel.getByRole("button", { name: "Create link" }).click();
+  await panel.getByRole("button", { name: "Create", exact: true }).click();
 
   await expect(page.getByText(`Cluster link ${link} created`)).toBeVisible();
 
@@ -74,20 +77,23 @@ export const createClusterLinkUnidirectional = async (
   await page.getByRole("button", { name: "Create cluster link" }).click();
 
   await expect(
-    page.getByRole("heading", { name: "Choose cluster link type" }),
+    page.getByRole("heading", { name: "Create cluster link" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Unidirectional" }).click();
+  await page
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Unidirectional", { exact: true })
+    .click();
 
   await page.getByPlaceholder("Enter token").fill(token);
   await page.getByPlaceholder("Enter name").fill(link);
   const panel = page.getByLabel("Side panel");
-  await panel.getByRole("button", { name: "Create link" }).click();
+  await panel.getByRole("button", { name: "Create", exact: true }).click();
 
   await dismissNotification(page, `Cluster link ${link} created.`);
 };
 
 // Fills in the public link details and fetches the remote certificate,
-// leaving the side panel on the "Verify certificate" step
+// leaving the certificate visible in the create form
 export const fetchPublicClusterLinkCertificate = async (
   page: Page,
   link: string,
@@ -96,9 +102,12 @@ export const fetchPublicClusterLinkCertificate = async (
   await page.getByRole("button", { name: "Create cluster link" }).click();
 
   await expect(
-    page.getByRole("heading", { name: "Choose cluster link type" }),
+    page.getByRole("heading", { name: "Create cluster link" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Public" }).click();
+  await page
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Public", { exact: true })
+    .click();
 
   await page.getByPlaceholder("Enter address").fill(remoteAddress);
   await page.getByPlaceholder("Enter name").fill(link);
@@ -106,7 +115,7 @@ export const fetchPublicClusterLinkCertificate = async (
   await panel.getByRole("button", { name: "Fetch certificate" }).click();
 
   await expect(
-    panel.getByRole("heading", { name: /Verify certificate/ }),
+    panel.getByRole("heading", { name: "Create cluster link", exact: true }),
   ).toBeVisible();
   await expect(panel.locator("#certificate-fingerprint")).toHaveText(
     /^[0-9a-f]{64}$/,
@@ -150,11 +159,14 @@ export const clusterLinkExists = (link: string): boolean => {
 export const editClusterLink = async (page: Page, link: string) => {
   const row = page.getByRole("row").filter({ hasText: link });
   await row.getByRole("button", { name: "Edit cluster link" }).click();
-  await expect(page.getByText(`Edit cluster link ${link}`)).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Edit cluster link", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Link name", { exact: true })).toHaveValue(link);
 
   const description = "My link";
   await page.getByPlaceholder("Enter description").fill(description);
-  await page.getByRole("button", { name: "Save changes" }).click();
+  await page.getByRole("button", { name: "Save", exact: true }).click();
   await expect(page.getByText(`Cluster link ${link} saved.`)).toBeVisible();
 
   await expect(row.getByText(description)).toBeVisible();
