@@ -5,7 +5,7 @@ import {
   useLoadBalancerPoolState,
 } from "context/useLoadBalancerPools";
 import type { LxdNetwork } from "types/network";
-import { Icon } from "@canonical/react-components";
+import StatusIcon from "components/StatusIcon";
 
 interface Props {
   network: LxdNetwork;
@@ -67,17 +67,17 @@ const LoadBalancerPortStatus: FC<Props> = ({
 
   const status = getStatus();
 
-  const iconLookup = {
-    Online: "status-succeeded-small",
-    Offline: "status-failed-small",
-    Degraded: "status-waiting-small",
-    Unknown: "status-queued-small",
-  };
-  const icon = iconLookup[status];
+  const toneLookup = {
+    Online: "positive",
+    Offline: "negative",
+    Degraded: "caution",
+    Unknown: "neutral",
+  } as const;
+  const tone = toneLookup[status];
 
   return (
     <>
-      <Icon name={icon} className="status-icon" />
+      <StatusIcon tone={tone} className="status-icon" />
       {status}
     </>
   );

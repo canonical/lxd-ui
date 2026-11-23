@@ -1,5 +1,6 @@
 import type { LxdInstanceStatus, LxdInstance } from "types/instance";
 import { capitalizeFirstLetter } from "util/helpers";
+import { statusColors } from "util/statusColors";
 
 export type OverviewInstanceStatus = "running" | "stopped" | "frozen" | "error";
 
@@ -12,10 +13,10 @@ export const OVERVIEW_INSTANCE_STATUSES: OverviewInstanceStatus[] = [
 
 const OVERVIEW_INSTANCE_STATUS_COLORS: Record<OverviewInstanceStatus, string> =
   {
-    running: "var(--vf-color-button-positive-default)",
-    stopped: "var(--vf-color-text-default)",
-    frozen: "var(--vf-color-link-default)",
-    error: "var(--vf-color-button-negative-default)",
+    running: statusColors.positive,
+    stopped: statusColors.neutral,
+    frozen: statusColors.information,
+    error: statusColors.negative,
   };
 
 export const getInstanceStatusColor = (

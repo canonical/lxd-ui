@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import classnames from "classnames";
-import { Icon } from "@canonical/react-components";
+import ModifiedIcon from "components/ModifiedIcon";
 
 interface Props {
   name: string;
@@ -19,12 +19,7 @@ const DeviceName: FC<Props> = ({ name, hasChanges, isDetached = false }) => {
       >
         {name}
       </b>
-      {hasChanges && (
-        <Icon
-          name="status-in-progress-small"
-          title="This device has unsaved changes"
-        />
-      )}
+      {hasChanges && <ModifiedIcon title="This device has unsaved changes" />}
     </div>
   );
 };

@@ -124,7 +124,8 @@ export const toggleIdentitiesForGroups = async (
       .click();
     const rowModifiedIcon = page
       .getByRole("row", { name: `Select ${identity} Identity` })
-      .locator("i");
+      .getByRole("cell", { name: "Modified status" })
+      .locator(".status-icon--information");
     await expect(rowModifiedIcon).toBeVisible();
   }
 };

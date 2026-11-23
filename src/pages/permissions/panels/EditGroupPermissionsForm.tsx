@@ -2,7 +2,6 @@ import {
   Button,
   Card,
   EmptyState,
-  Icon,
   MainTable,
   ScrollableContainer,
   SearchBox,
@@ -22,6 +21,7 @@ import { useGroupEntitlements } from "util/entitlements/groups";
 import type { FormPermission } from "types/forms/permissionGroup";
 import { isAdminGroup } from "util/permissionGroups";
 import DsIcon from "components/DsIcon";
+import ModifiedIcon from "components/ModifiedIcon";
 
 interface Props {
   permissions: FormPermission[];
@@ -198,8 +198,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   <DsIcon icon="delete" />
                 </Button>
               )}
-              <Icon
-                name="status-in-progress-small"
+              <ModifiedIcon
                 className={classnames({
                   "hide-modified-status": !isModified,
                 })}

@@ -1,7 +1,7 @@
 import {
   getClusterLeader,
   getClusterMemberStatusCounts,
-  getClusterMemberStatusIconName,
+  getClusterMemberStatusTone,
 } from "util/clusterMember";
 import type { LxdClusterMember } from "types/cluster";
 
@@ -85,13 +85,13 @@ describe("getClusterMemberStatusCounts", () => {
   });
 });
 
-describe("getClusterMemberStatusIconName", () => {
+describe("getClusterMemberStatusTone", () => {
   it.each([
-    ["Evacuated", "status-queued-small"],
-    ["Online", "status-succeeded-small"],
-    ["Offline", "status-failed-small"],
-    ["Blocked", "status-waiting-small"],
+    ["Evacuated", "neutral"],
+    ["Online", "positive"],
+    ["Offline", "negative"],
+    ["Blocked", "caution"],
   ] as const)("maps %s to %s", (status, expected) => {
-    expect(getClusterMemberStatusIconName(status)).toBe(expected);
+    expect(getClusterMemberStatusTone(status)).toBe(expected);
   });
 });

@@ -142,11 +142,13 @@ export const countByStatus = (
   );
 };
 
-export const getIconNameForStatus = (status: LxdOperationStatus) => {
-  return {
-    Cancelled: "status-failed-small",
-    Failure: "status-failed-small",
-    Running: "status-in-progress-small",
-    Success: "status-succeeded-small",
-  }[status];
+export const getToneForStatus = (status: LxdOperationStatus) => {
+  return (
+    {
+      Cancelled: "negative",
+      Failure: "negative",
+      Running: "information",
+      Success: "positive",
+    } as const
+  )[status];
 };

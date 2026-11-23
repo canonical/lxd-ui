@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
+import StatusIcon from "components/StatusIcon";
 import type { LxdNetworkPeer } from "types/network";
 
 interface Props {
@@ -7,20 +7,22 @@ interface Props {
 }
 
 const LocalPeeringStatusIcon: FC<Props> = ({ localPeering }) => {
-  const getIconNameForStatus = (status: string) => {
+  const getToneForStatus = (status: string) => {
     return (
-      {
-        Pending: "status-waiting-small",
-        Created: "status-succeeded-small",
-        Errored: "status-failed-small",
-      }[status] ?? ""
+      (
+        {
+          Pending: "caution",
+          Created: "positive",
+          Errored: "negative",
+        } as const
+      )[status] ?? "neutral"
     );
   };
 
   return (
     <>
-      <Icon
-        name={getIconNameForStatus(localPeering.status)}
+      <StatusIcon
+        tone={getToneForStatus(localPeering.status)}
         className="status-icon"
       />
       {localPeering.status}
