@@ -13,7 +13,7 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanationTooltip";
 import { useMemberLoading } from "context/memberLoading";
-import { useClusterMembers } from "context/useClusterMembers";
+import { useClusterMembersWithState } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import ClusterMemberActions from "pages/cluster/ClusterMemberActions";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
@@ -27,7 +27,7 @@ const ClusterMemberList: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
   const isClustered = useIsClustered();
-  const { data: members = [], error, isLoading } = useClusterMembers();
+  const { data: members = [], error, isLoading } = useClusterMembersWithState();
   const memberLoading = useMemberLoading();
   const { canEditServerConfiguration } = useServerEntitlements();
 

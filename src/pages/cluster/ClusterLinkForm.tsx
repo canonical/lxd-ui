@@ -5,12 +5,14 @@ import { useAuthGroups } from "context/useAuthGroups";
 import type { FormikProps } from "formik/dist/types";
 import ClusterLinkTokenInput from "pages/cluster/ClusterLinkTokenInput";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
+import { normalizeRemoteAddress } from "util/clusterLink";
 
 interface Props {
   formik: FormikProps<ClusterLinkFormValues>;
+  isNameLocked?: boolean;
 }
 
-const ClusterLinkForm: FC<Props> = ({ formik }) => {
+const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
   const { data: authGroups = [] } = useAuthGroups(
     formik.values.type === "bidirectional",
   );
@@ -33,19 +35,50 @@ const ClusterLinkForm: FC<Props> = ({ formik }) => {
             label="Cluster link type"
             value={formik.values.type}
           />
-          <ClusterLinkTokenInput formik={formik} />
+          {formik.values.type === "public" ? (
+            <Input
+              {...formik.getFieldProps("remoteAddress")}
+              onBlur={(e) => {
+                void formik.setFieldValue(
+                  "remoteAddress",
+                  normalizeRemoteAddress(e.target.value),
+                );
+                formik.handleBlur(e);
+              }}
+              type="text"
+              label="Remote address"
+              placeholder="Enter address (for example 10.0.0.2:8443)"
+              help="Address of the target LXD cluster. The port defaults to 8443."
+              autoFocus
+              required
+              error={
+                formik.touched.remoteAddress
+                  ? formik.errors.remoteAddress
+                  : null
+              }
+            />
+          ) : (
+            <ClusterLinkTokenInput formik={formik} />
+          )}
           <Input
             {...formik.getFieldProps("name")}
             type="text"
             label="Cluster link name"
             placeholder="Enter name"
             required
+            help={
+              isNameLocked
+                ? "The pending link was created with this name. To use another name, delete the pending link from the list."
+                : undefined
+            }
             disabled={
+              isNameLocked ||
               (formik.values.token === "" &&
                 (formik.values.type === "unidirectional" ||
                   formik.values.tokenType === "consume")) ||
               (formik.values.type === "bidirectional" &&
-                !formik.values.tokenType)
+                !formik.values.tokenType) ||
+              (formik.values.type === "public" && !formik.values.remoteAddress)
             }
             error={formik.touched.name ? formik.errors.name : null}
           />

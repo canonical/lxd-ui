@@ -455,6 +455,7 @@ export const pluralize = (item: string, count: number): string => {
     proxy: "proxies",
     gpu: "gpus",
     registry: "registries",
+    "image registry": "image registries",
   };
 
   if (exceptions[itemLower]) {

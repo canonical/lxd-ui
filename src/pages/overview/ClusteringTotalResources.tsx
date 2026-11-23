@@ -2,44 +2,36 @@ import type { FC } from "react";
 import { Spinner } from "@canonical/react-components";
 import classnames from "classnames";
 import Meter from "components/Meter";
-import { useClusterMembers } from "context/useClusterMembers";
-import { useClusterMemberStates } from "context/useClusterMemberState";
+import { useClusterMembersWithState } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import { getCpuText, getMemoryText } from "util/resourceDetails";
 import { useServerState } from "context/useSettings";
-import type { UseQueryResult } from "@tanstack/react-query";
-import type { LxdClusterMemberState } from "types/cluster";
+import { humanFileSize } from "util/helpers";
 
 const ClusteringTotalResources: FC = () => {
   const isClustered = useIsClustered();
   const { data: members = [], isLoading: isMembersLoading } =
-    useClusterMembers();
+    useClusterMembersWithState();
 
-  const onlineMemberNames = members
-    .filter((member) => member.status === "Online")
-    .map((member) => member.server_name);
   const hasNotOnlineMembers = members.some(
     (member) => member.status !== "Online",
   );
 
-  const memberStateQueries = useClusterMemberStates(onlineMemberNames);
-
   const { data: serverState, isLoading: isServerStateLoading } =
     useServerState(!isClustered);
 
-  const isLoading = isClustered
-    ? isMembersLoading || memberStateQueries.some((query) => query.isLoading)
-    : isServerStateLoading;
+  const isLoading = isClustered ? isMembersLoading : isServerStateLoading;
 
-  const totalQueries = isClustered ? memberStateQueries : [serverState];
-  const totals = totalQueries.reduce(
-    (acc, query) => {
-      const sysinfo = isClustered
-        ? (query as UseQueryResult<LxdClusterMemberState>).data?.sysinfo
-        : serverState?.sysinfo;
+  const memberStates = members.map((member) => member.state);
 
+  const totalStates = isClustered ? memberStates : [serverState];
+  const totals = totalStates.reduce(
+    (acc, memberState) => {
+      const sysinfo = memberState?.sysinfo;
       if (sysinfo) {
+        acc.memory.free += sysinfo.free_ram;
         acc.memory.total += sysinfo.total_ram;
+        acc.memory.buffered += sysinfo.buffered_ram;
         acc.memory.used += Math.max(
           0,
           sysinfo.total_ram - sysinfo.free_ram - sysinfo.buffered_ram,
@@ -51,13 +43,16 @@ const ClusteringTotalResources: FC = () => {
       return acc;
     },
     {
-      memory: { total: 0, used: 0 },
+      memory: { total: 0, used: 0, buffered: 0, free: 0 },
       cpu: { total: 0, used: 0 },
     },
   );
 
   const memoryPercentage = totals.memory.total
     ? (totals.memory.used / totals.memory.total) * 100
+    : 0;
+  const memoryBufferedPercentage = totals.memory.total
+    ? (totals.memory.buffered / totals.memory.total) * 100
     : 0;
   const cpuPercentage = totals.cpu.total
     ? Math.min(100, (totals.cpu.used / totals.cpu.total) * 100)
@@ -94,11 +89,28 @@ const ClusteringTotalResources: FC = () => {
           ) : (
             <Meter
               percentage={memoryPercentage}
+              secondaryPercentage={memoryBufferedPercentage}
               text={getMemoryText(
                 totals.memory.used,
                 totals.memory.total,
                 memoryPercentage,
               )}
+              hoverText={
+                <>
+                  <div>
+                    <span className="meter-legend primary" /> used:{" "}
+                    {humanFileSize(totals.memory.used)}
+                  </div>
+                  <div>
+                    <span className="meter-legend secondary" /> buffered:{" "}
+                    {humanFileSize(totals.memory.buffered)}
+                  </div>
+                  <div>
+                    <span className="meter-legend tertiary" /> free:{" "}
+                    {humanFileSize(totals.memory.free)}
+                  </div>
+                </>
+              }
               ariaLabelledby="total-memory-label"
             />
           )}
@@ -115,6 +127,10 @@ const ClusteringTotalResources: FC = () => {
               percentage={cpuPercentage}
               text={getCpuText(cpuPercentage)}
               ariaLabelledby="total-cpu-label"
+              hoverText={
+                `load average: ${totals.cpu.used.toFixed(2)}\n` +
+                `total cores: ${totals.cpu.total}\n`
+              }
             />
           )}
         </div>

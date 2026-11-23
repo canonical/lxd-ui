@@ -22,9 +22,12 @@ export type ResourceType =
   | "profile"
   | "snapshot"
   | "image"
+  | "image-registry"
   | "network"
+  | "network-acl"
   | "network-forward"
   | "bucket"
+  | "placement-group"
   | "replicator"
   | "volume";
 
@@ -39,8 +42,10 @@ export const extractResourceDetailsFromUrl = (
   const url = new URL(`http://localhost/${path}`);
   const project = url.searchParams.get("project");
   const target = url.searchParams.get("target");
-  const urlSegments = url.pathname.split("/");
-  const name = decodeURIComponent(urlSegments[urlSegments.length - 1]);
+  const urlSegments = url.pathname
+    .split("/")
+    .map((segment) => decodeURIComponent(segment));
+  const name = urlSegments[urlSegments.length - 1];
   const resourceName =
     (identityNamesLookup ?? {})[name] ||
     (imageLookup ?? {})[name]?.name ||
@@ -49,9 +54,7 @@ export const extractResourceDetailsFromUrl = (
   const resourceDetail: ResourceDetail = {
     project: project ? project : undefined,
     target: target ? target : undefined,
-    // calling decode twice because the result is double encoded
-    // see https://github.com/canonical/lxd/issues/12398
-    name: decodeURIComponent(resourceName),
+    name: resourceName,
     path,
     type: resourceType,
   };
@@ -62,7 +65,11 @@ export const extractResourceDetailsFromUrl = (
 
   // permission selectors fetch their options from the metadata api, which uses "storage_volume"
   // ui internal resourceType from the ResourceIconType is slightly simpler "volume"
-  if (resourceType === "storage_volume" || resourceType === "volume") {
+  if (
+    resourceType === "storage_volume" ||
+    resourceType === "volume" ||
+    resourceType === "bucket"
+  ) {
     resourceDetail.pool = urlSegments[4];
   }
 

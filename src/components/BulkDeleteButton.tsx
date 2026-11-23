@@ -19,6 +19,8 @@ interface Props {
   buttonLabel?: ReactNode;
   className?: string;
   modalContentPrefix?: ReactNode;
+  modalContentSuffix?: ReactNode;
+  onCancel?: () => void;
 }
 
 const BulkDeleteButton: FC<Props> = ({
@@ -32,6 +34,8 @@ const BulkDeleteButton: FC<Props> = ({
   buttonLabel = "Delete",
   className,
   modalContentPrefix,
+  modalContentSuffix,
+  onCancel,
 }) => {
   const isSmallScreen = useIsScreenBelow();
   const totalCount = entities.length;
@@ -65,6 +69,7 @@ const BulkDeleteButton: FC<Props> = ({
         </strong>
         .{"\n"}This action cannot be undone, and can result in data loss.
       </p>
+      {modalContentSuffix}
     </>
   );
 
@@ -88,6 +93,7 @@ const BulkDeleteButton: FC<Props> = ({
         children: modalContent,
         confirmButtonLabel: "Delete",
         onConfirm: onDelete,
+        close: onCancel,
       }}
     >
       <DsIcon icon="delete" />

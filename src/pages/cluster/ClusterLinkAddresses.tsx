@@ -2,8 +2,6 @@ import type { FC } from "react";
 import ExpandableList from "components/ExpandableList";
 import type { LxdClusterLink } from "types/cluster";
 
-import DsIcon from "components/DsIcon";
-
 interface Props {
   clusterLink: LxdClusterLink;
 }
@@ -19,14 +17,13 @@ const ClusterLinkAddresses: FC<Props> = ({ clusterLink }) => {
       items={
         addresses.split(",").map((address) => {
           return (
-            <div key={address}>
+            <div key={address} className="u-truncate" title={address}>
               <a
                 href={`https://${address}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {address}
-                <DsIcon className="external-link-icon" icon="external-link" />
               </a>
             </div>
           );

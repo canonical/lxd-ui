@@ -23,3 +23,38 @@
     opacity: 0.3;
   }
 }
+
+.meter-legend {
+  border-radius: 10px;
+  display: inline-block;
+  height: 0.5rem;
+  margin-right: $sph--x-small;
+  width: 0.5rem;
+}
+
+.meter-legend.primary {
+  background-color: #06c;
+}
+
+.meter-legend.secondary {
+  background-color: #accbea;
+}
+
+.meter-legend.tertiary {
+  background-color: #f7f7f7;
+}
+
+.is-dark {
+  .meter-legend.secondary {
+    background-color: #163554;
+  }
+
+  .meter-legend.tertiary {
+    background-color: #202020;
+  }
+}
+
+.p-meter-wrapper span {
+  display: inline-block;
+  width: 100%;
+}

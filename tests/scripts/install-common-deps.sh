@@ -2,7 +2,7 @@
 
 # Install haproxy
 apt-get update
-apt-get install -y --no-install-recommends haproxy
+apt-get install -y --no-install-recommends haproxy libatomic1
 
 # install npm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash

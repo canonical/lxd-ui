@@ -23,7 +23,7 @@ const InstanceUsageFilesystem: FC<Props> = ({ filesystem }) => {
           " of " +
           humanFileSize(filesystem.total)
         }
-        hoverText={`free: ${humanFileSize(filesystem.free)}\nused: ${humanFileSize(used)}`}
+        hoverText={`used: ${humanFileSize(used)}\nfree: ${humanFileSize(filesystem.free)}`}
       />
     </div>
   );

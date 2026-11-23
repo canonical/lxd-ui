@@ -139,6 +139,17 @@ describe("extractResourceDetailsFromUrl", () => {
     });
   });
 
+  it("does not decode names resolved from a lookup", () => {
+    const identityPath = "/1.0/auth/identities/oidc/identity-id";
+    const identityDetail = extractResourceDetailsFromUrl(
+      "identity",
+      identityPath,
+      undefined,
+      { "identity-id": "50%off" },
+    );
+    expect(identityDetail.name).toBe("50%off");
+  });
+
   it("extracts resource details from network url", () => {
     const path = "/1.0/networks/bridgy?project=foo";
     const resourceDetail = extractResourceDetailsFromUrl("network", path);

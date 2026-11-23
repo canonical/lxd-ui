@@ -3,15 +3,21 @@ import type {
   LxdClusterMember,
   LxdClusterMemberAction,
   LxdClusterMemberState,
+  LxdClusterMemberWithState,
 } from "types/cluster";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import { ROOT_PATH } from "util/rootPath";
 
-export const fetchClusterMembers = async (): Promise<LxdClusterMember[]> => {
-  return fetch(`${ROOT_PATH}/1.0/cluster/members?recursion=2`)
+export const fetchClusterMembers = async (
+  recursion: string,
+): Promise<LxdClusterMemberWithState[]> => {
+  const params = new URLSearchParams();
+  params.set("recursion", recursion);
+
+  return fetch(`${ROOT_PATH}/1.0/cluster/members?${params.toString()}`)
     .then(handleResponse)
-    .then((data: LxdApiResponse<LxdClusterMember[]>) => {
+    .then((data: LxdApiResponse<LxdClusterMemberWithState[]>) => {
       return data.metadata;
     });
 };

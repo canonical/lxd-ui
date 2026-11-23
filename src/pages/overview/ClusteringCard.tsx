@@ -8,8 +8,7 @@ import {
   TablePagination,
 } from "@canonical/react-components";
 import DsIcon from "components/DsIcon";
-import { useClusterMembers } from "context/useClusterMembers";
-import { useClusterMemberStates } from "context/useClusterMemberState";
+import { useClusterMembersWithState } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import { pluralize } from "util/helpers";
 import {
@@ -17,11 +16,7 @@ import {
   getClusterLeader,
   getClusterMemberStatusCounts,
 } from "util/clusterMember";
-import type {
-  LxdClusterMember,
-  LxdClusterMemberState,
-  LxdClusterMemberStatus,
-} from "types/cluster";
+import type { LxdClusterMember, LxdClusterMemberStatus } from "types/cluster";
 import { ROOT_PATH } from "util/rootPath";
 import useSortTableData from "util/useSortTableData";
 import ClusterMemberStatus from "pages/cluster/ClusterMemberStatus";
@@ -35,21 +30,7 @@ import { renderOverviewCard } from "util/overview";
 
 const ClusteringCard: FC = () => {
   const isClustered = useIsClustered();
-  const { data: members = [], error, isLoading } = useClusterMembers();
-
-  const onlineMemberNames = members
-    .filter((member) => member.status === "Online")
-    .map((member) => member.server_name);
-  const memberStateQueries = useClusterMemberStates(onlineMemberNames);
-  const stateByMember = onlineMemberNames.reduce<
-    Record<string, LxdClusterMemberState>
-  >((acc, name, index) => {
-    const state = memberStateQueries[index]?.data;
-    if (state) {
-      acc[name] = state;
-    }
-    return acc;
-  }, {});
+  const { data: members = [], error, isLoading } = useClusterMembersWithState();
 
   const headers = [
     { content: "Members", sortKey: "name" },
@@ -60,7 +41,7 @@ const ClusteringCard: FC = () => {
 
   const rows = members.map((member) => {
     const rowKey = member.server_name;
-    const sysinfo = stateByMember[member.server_name]?.sysinfo;
+    const sysinfo = member.state?.sysinfo;
     const totalMemory = sysinfo?.total_ram ?? 0;
     const memoryPercentage = totalMemory
       ? (Math.max(

@@ -170,6 +170,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
             <FormSubmitBtn
               formik={formik}
               baseUrl={baseUrl}
+              includeSubPaths={false}
               disabled={false}
               isYaml={section === slugify(YAML_CONFIGURATION)}
             />

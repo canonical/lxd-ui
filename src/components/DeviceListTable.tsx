@@ -1,12 +1,6 @@
 import type { FC } from "react";
 import { MainTable } from "@canonical/react-components";
-import {
-  isRootDisk,
-  isDiskDevice,
-  isHostDiskDevice,
-  isOtherDevice,
-  isVolumeDevice,
-} from "util/devices";
+import { isRootDisk, isDiskDevice, isOtherDevice } from "util/devices";
 import type { FormDevice } from "types/formDevice";
 import ResourceLink from "components/ResourceLink";
 import DeviceDetails from "./DeviceDetails";
@@ -48,23 +42,21 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
 
   const deviceHeaders = [
     { content: "Name", sortKey: "name", className: "u-text--muted" },
-    { content: "Type", sortKey: "type", className: "u-text--muted" },
+    {
+      content: "Type",
+      sortKey: "type",
+      className: "u-text--muted device-type",
+    },
     { content: "Details", className: "u-text--muted" },
   ];
 
   const deviceRows = overviewDevices.map(([devicename, device]) => {
-    let deviceType = device.type;
+    let deviceType: string = device.type;
     if (isDiskDevice(device)) {
       if (isRootDisk(device as FormDevice)) {
-        deviceType += " (root)";
-      }
-
-      if (isVolumeDevice(device)) {
-        deviceType += " (volume)";
-      }
-
-      if (isHostDiskDevice(device)) {
-        deviceType += " (host path)";
+        deviceType = "root storage";
+      } else {
+        deviceType = "custom disk";
       }
     }
 
@@ -84,6 +76,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
           "aria-label": "Name",
         },
         {
+          className: "device-type",
           content: deviceType,
           role: "cell",
           "aria-label": "Type",
@@ -102,7 +95,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
       ],
       sortData: {
         name: devicename.toLowerCase(),
-        type: device.type,
+        type: deviceType.toLowerCase(),
       },
     };
   });
@@ -113,7 +106,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
         <MainTable
           headers={deviceHeaders}
           rows={deviceRows}
-          className={"device-table"}
+          className="device-table"
           sortable
         />
       )}

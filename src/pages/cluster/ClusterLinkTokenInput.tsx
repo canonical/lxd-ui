@@ -51,7 +51,7 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
       {...formik.getFieldProps("token")}
       type="text"
       label="Token"
-      placeholder="Enter token (e.g. eyJhbGciOiJIUzI1Ni...)"
+      placeholder="Enter token (for example eyJhbGciOiJIUzI1Ni...)"
       autoFocus={formik.values.type === "unidirectional"}
       disabled={
         formik.values.tokenType !== "consume" &&

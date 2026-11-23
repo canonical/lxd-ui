@@ -3,18 +3,27 @@ import { Spinner } from "@canonical/react-components";
 import Meter from "components/Meter";
 import { useClusterMemberState } from "context/useClusterMemberState";
 import { humanFileSize } from "util/helpers";
-import type { LxdClusterMember } from "types/cluster";
+import type {
+  LxdClusterMember,
+  LxdClusterMemberWithState,
+} from "types/cluster";
 import { getMemoryText } from "util/resourceDetails";
 
 interface Props {
-  member: LxdClusterMember;
+  member: LxdClusterMember | LxdClusterMemberWithState;
 }
 
 const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
-  const { data: state, isLoading } = useClusterMemberState(
+  const hasMemberState = Object.hasOwn(member, "state");
+
+  const { data: memberState, isLoading } = useClusterMemberState(
     member.server_name,
-    member.status === "Online",
+    member.status === "Online" && !hasMemberState,
   );
+
+  const state = hasMemberState
+    ? (member as LxdClusterMemberWithState).state
+    : memberState;
 
   const sysinfo = state?.sysinfo;
   const totalMemory = sysinfo?.total_ram ?? 0;
@@ -33,9 +42,9 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
   const memoryPercentage = (usedMemory / totalMemory) * 100;
   const bufferedMemoryPercentage = (bufferedMemory / totalMemory) * 100;
   const memoryText = getMemoryText(
-    totalMemory - freeMemory,
+    usedMemory,
     totalMemory,
-    memoryPercentage + bufferedMemoryPercentage,
+    memoryPercentage,
     true,
   );
 
@@ -45,9 +54,20 @@ const ClusterMemberMemoryUsage: FC<Props> = ({ member }) => {
       secondaryPercentage={bufferedMemoryPercentage}
       text={memoryText}
       hoverText={
-        `free: ${humanFileSize(freeMemory)}\n` +
-        `used: ${humanFileSize(usedMemory)}\n` +
-        `buffered: ${humanFileSize(bufferedMemory)}\n`
+        <>
+          <div>
+            <span className="meter-legend primary" /> used:{" "}
+            {humanFileSize(usedMemory)}
+          </div>
+          <div>
+            <span className="meter-legend secondary" /> buffered:{" "}
+            {humanFileSize(bufferedMemory)}
+          </div>
+          <div>
+            <span className="meter-legend tertiary" /> free:{" "}
+            {humanFileSize(freeMemory)}
+          </div>
+        </>
       }
     />
   );

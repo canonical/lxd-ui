@@ -9,6 +9,7 @@ import {
 } from "./helpers/network";
 import { isClusteredTestProject, skipIfNotClustered } from "./helpers/cluster";
 import { dismissNotification } from "./helpers/notification";
+import { expectUnsavedChangesWarning } from "./helpers/unsavedChanges";
 
 export const skipIfLoadBalancerHealthChecksNotSupported = (
   lxdVersion: LxdVersions,
@@ -103,6 +104,9 @@ test.describe("Network Load Balancer", () => {
       .getByRole("link", { name: "Edit load balancer" })
       .click();
     await page.getByLabel("Description").fill("Updated description");
+    await expectUnsavedChangesWarning(page, async () =>
+      page.getByRole("link", { name: "Cancel" }).click(),
+    );
     await page.getByRole("button", { name: "Update" }).click();
     await dismissNotification(
       page,

@@ -47,14 +47,20 @@ export const fetchReplicator = async (
 export const renameReplicator = async (
   oldName: string,
   newName: string,
+  project: string,
 ): Promise<void> => {
-  await fetch(`${ROOT_PATH}/1.0/replicators/${encodeURIComponent(oldName)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const params = new URLSearchParams();
+  params.set("project", project);
+  await fetch(
+    `${ROOT_PATH}/1.0/replicators/${encodeURIComponent(oldName)}?${params.toString()}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newName }),
     },
-    body: JSON.stringify({ name: newName }),
-  }).then(handleResponse);
+  ).then(handleResponse);
 };
 
 export const deleteReplicator = async (
