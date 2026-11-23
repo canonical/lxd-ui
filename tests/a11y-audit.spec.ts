@@ -725,9 +725,7 @@ test.describe("clustering", () => {
     await page
       .getByPlaceholder("Enter name", { exact: true })
       .fill("cluster-link-a11y");
-    await expect(
-      page.getByLabel("Side panel").getByRole("table"),
-    ).toBeVisible();
+    await expect(page.getByLabel("Side panel").getByRole("grid")).toBeVisible();
     await runA11yAuditForPanel(page, testInfo);
     await closePanel(page);
   });
