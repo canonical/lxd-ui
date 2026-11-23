@@ -9,7 +9,7 @@ import {
   CustomLayout,
   Spinner,
 } from "@canonical/react-components";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
@@ -24,16 +24,21 @@ import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
 import { getPoolStatus } from "util/storagePool";
 import { useOperations } from "context/operationsProvider";
+import { useCurrentProject } from "context/useCurrentProject";
+import { useProjects } from "context/useProjects";
+import { ALL_PROJECTS } from "util/projects";
+import { getDefaultProject } from "util/loginProject";
 
 const StoragePools: FC = () => {
   const notify = useNotify();
-  const { project } = useParams<{ project: string }>();
+  const { projectName } = useCurrentProject();
+  const { data: projects = [] } = useProjects();
   const isClustered = useIsClustered();
   const { runningOperations } = useOperations();
 
-  if (!project) {
-    return <>Missing project</>;
-  }
+  // Pools are shared across projects, but their routes are project scoped
+  const project =
+    projectName === ALL_PROJECTS ? getDefaultProject(projects) : projectName;
 
   const { data: pools = [], error, isLoading } = useStoragePools();
 
