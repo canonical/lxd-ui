@@ -30,7 +30,7 @@ const CertificateGenerateBtn: FC<Props> = ({ isPasswordRequired }) => {
     setGenerating(true);
 
     const worker = new Worker(
-      new URL("../../util/certificate?worker", import.meta.url),
+      new URL("../../util/certificate.tsx", import.meta.url),
       { type: "module" },
     );
 
