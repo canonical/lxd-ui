@@ -37,7 +37,7 @@ const getReplicatorKey = ({
   project,
 }: Pick<LxdReplicator, "name" | "project">) => `${project}/${name}`;
 
-const parseReplicatorKeyFromUrl = (url: string): string | null => {
+export const parseReplicatorKeyFromUrl = (url: string): string | null => {
   try {
     const parsed = new URL(url, "http://localhost");
     const pathParts = parsed.pathname.split("/").filter(Boolean);
@@ -48,9 +48,7 @@ const parseReplicatorKeyFromUrl = (url: string): string | null => {
     }
 
     const name = decodeURIComponent(pathParts[replicatorIndex + 1]);
-    const project = decodeURIComponent(
-      parsed.searchParams.get("project") || "default",
-    );
+    const project = parsed.searchParams.get("project") || "default";
 
     return getReplicatorKey({ name, project });
   } catch {
