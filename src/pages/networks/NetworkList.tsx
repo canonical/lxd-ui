@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import { useEffect, type FC } from "react";
 import {
   Button,
@@ -39,23 +40,28 @@ import {
   useNetworks,
   useNetworksFromClusterMembers,
 } from "context/useNetworks";
+import { useProject } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
 import NetworkLoadBalancerCount from "pages/networks/NetworkLoadBalancerCount";
 import DsIcon from "components/DsIcon";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { ALL_PROJECTS, getCreateRestriction } from "util/projects";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
-  const { project } = useParams<{ project: string }>();
+  const { project: projectParam } = useParams<{ project: string }>();
   const isSmallScreen = useIsScreenBelow();
   const { data: clusterMembers = [] } = useClusterMembers();
   const isClustered = clusterMembers.length > 0;
   const [searchParams] = useSearchParams();
   const { canCreateNetworks } = useProjectEntitlements();
-  const { project: currentProject } = useCurrentProject();
+  const { project: currentProject, isAllProjects } = useCurrentProject();
+  const { data: defaultProject } = useProject("default", isAllProjects);
+  const project = isAllProjects ? ALL_PROJECTS : projectParam;
 
   const filters: NetworkFilters = {
     queries: searchParams.getAll(QUERY).map((value) => value.toLowerCase()),
@@ -114,22 +120,40 @@ const NetworkList: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Type", sortKey: "type", className: "type" },
-    { content: "Managed", sortKey: "managed", className: "managed" },
+    {
+      content: "Managed",
+      sortKey: "managed",
+      className: "managed",
+    },
+    ...(isAllProjects
+      ? [{ content: "Project", sortKey: "project", className: "project" }]
+      : []),
     ...(isClustered ? [{ content: "Cluster member", sortKey: "member" }] : []),
     { content: "IPV4", className: "u-align--right" },
     { content: "IPV6" },
     {
       content: "Description",
       sortKey: "description",
+      className: "description",
     },
-    { content: "Forwards", className: "u-align--right forwards" },
-    { content: "Balancers", className: "u-align--right forwards" },
+    {
+      content: "Forwards",
+      className: "u-align--right forwards",
+    },
+    {
+      content: "Balancers",
+      className: "u-align--right balancers",
+    },
     {
       content: "Used by",
       sortKey: "usedBy",
       className: "u-align--right used-by",
     },
-    { content: "State", sortKey: "state", className: "state" },
+    {
+      content: "State",
+      sortKey: "state",
+      className: "state",
+    },
   ];
 
   const rows = renderNetworks
@@ -167,13 +191,17 @@ const NetworkList: FC = () => {
       return true;
     })
     .map((network) => {
+      // unmanaged networks and networks of projects without isolation belong to the default project
+      const networkProject = isAllProjects
+        ? (network.project ?? "default")
+        : project;
       const href =
         network.memberName === "Cluster-wide"
-          ? `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}`
-          : `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/member/${encodeURIComponent(network.memberName)}/network/${encodeURIComponent(network.name)}`;
+          ? `${ROOT_PATH}/ui/project/${encodeURIComponent(networkProject)}/network/${encodeURIComponent(network.name)}`
+          : `${ROOT_PATH}/ui/project/${encodeURIComponent(networkProject)}/member/${encodeURIComponent(network.memberName)}/network/${encodeURIComponent(network.name)}`;
 
       return {
-        key: network.name + network.memberName,
+        key: `${networkProject}-${network.name}-${network.memberName}`,
         className: "u-row",
         columns: [
           {
@@ -193,6 +221,21 @@ const NetworkList: FC = () => {
             "aria-label": "Managed",
             className: "managed",
           },
+          ...(isAllProjects
+            ? [
+                {
+                  content: (
+                    <ProjectRichChip
+                      projectName={networkProject}
+                      urlSuffix="/networks"
+                    />
+                  ),
+                  role: "cell",
+                  "aria-label": "Project",
+                  className: "project",
+                },
+              ]
+            : []),
           ...(isClustered
             ? [
                 {
@@ -221,10 +264,11 @@ const NetworkList: FC = () => {
             ),
             role: "cell",
             "aria-label": "Description",
+            className: "description",
           },
           {
             content: (
-              <NetworkForwardCount network={network} project={project} />
+              <NetworkForwardCount network={network} project={networkProject} />
             ),
             role: "cell",
             className: "u-align--right forwards",
@@ -232,10 +276,13 @@ const NetworkList: FC = () => {
           },
           {
             content: (
-              <NetworkLoadBalancerCount network={network} project={project} />
+              <NetworkLoadBalancerCount
+                network={network}
+                project={networkProject}
+              />
             ),
             role: "cell",
-            className: "u-align--right forwards",
+            className: "u-align--right balancers",
             "aria-label": "Balancers",
           },
           {
@@ -255,6 +302,7 @@ const NetworkList: FC = () => {
           name: network.name.toLowerCase(),
           type: network.type,
           managed: network.managed,
+          project: networkProject,
           description: network.description?.toLowerCase(),
           state: network.status,
           usedBy: network.used_by?.length ?? 0,
@@ -262,6 +310,15 @@ const NetworkList: FC = () => {
         },
       };
     });
+
+  const projectForCreation = isAllProjects ? defaultProject : currentProject;
+  const projectForCreationName = projectForCreation?.name ?? "default";
+  const createNetworkRestriction = getCreateRestriction({
+    canCreate: canCreateNetworks(projectForCreation),
+    isAllProjects,
+    noPermissionMessage: `You do not have permission to create networks in project ${projectForCreationName}`,
+    selectProjectMessage: "Select a project to create a network",
+  });
 
   if (isLoading || isClusterNetworksLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
@@ -286,16 +343,12 @@ const NetworkList: FC = () => {
               className="u-no-margin--bottom"
               onClick={async () =>
                 navigate(
-                  `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/networks/create`,
+                  `${ROOT_PATH}/ui/project/${encodeURIComponent(projectForCreationName)}/networks/create`,
                 )
               }
               hasIcon={!isSmallScreen}
-              disabled={!canCreateNetworks(currentProject)}
-              title={
-                canCreateNetworks(currentProject)
-                  ? ""
-                  : "You do not have permission to create networks in this project"
-              }
+              disabled={isAllProjects || !canCreateNetworks(projectForCreation)}
+              title={createNetworkRestriction}
             >
               {!isSmallScreen && <DsIcon icon="plus" />}
               <span>Create network</span>
@@ -313,7 +366,9 @@ const NetworkList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="network-list-table"
+            className={classnames("network-list-table", {
+              "is-clustered": isClustered,
+            })}
             emptyStateMsg="No data to display"
           />
         )}
@@ -323,7 +378,11 @@ const NetworkList: FC = () => {
             image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No networks found"
           >
-            <p>There are no networks in this project.</p>
+            <p>
+              {isAllProjects
+                ? "There are no networks."
+                : "There are no networks in this project."}
+            </p>
             <p>
               <DocLink docPath="/explanation/networks/" hasExternalIcon>
                 Learn more about networks

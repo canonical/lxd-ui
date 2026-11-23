@@ -8,6 +8,7 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import { addEntitlements } from "util/entitlements/api";
 import { ROOT_PATH } from "util/rootPath";
+import { addProjectOrAllProjects } from "util/projects";
 
 const networkAclEntitlements = ["can_edit", "can_delete"];
 
@@ -16,7 +17,7 @@ export const fetchNetworkAcls = async (
   isFineGrained: boolean | null,
 ): Promise<LxdNetworkAcl[]> => {
   const params = new URLSearchParams();
-  params.set("project", project);
+  addProjectOrAllProjects(params, project);
   params.set("recursion", "1");
   addEntitlements(params, isFineGrained, networkAclEntitlements);
 

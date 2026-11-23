@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { getCreateRestriction } from "util/projects";
 import { useNavigate } from "react-router-dom";
 import { Button, EmptyState } from "@canonical/react-components";
 import classnames from "classnames";
@@ -21,9 +22,12 @@ const InstanceEmptyState: FC<Props> = ({ className }) => {
 
   const projectForCreation = isAllProjects ? defaultProject : project;
   const projectForCreationName = projectForCreation?.name ?? "default";
-  const createInstanceRestriction = canCreateInstances(projectForCreation)
-    ? ""
-    : `You do not have permission to create instances in project ${projectForCreationName}`;
+  const createInstanceRestriction = getCreateRestriction({
+    canCreate: canCreateInstances(projectForCreation),
+    isAllProjects,
+    noPermissionMessage: `You do not have permission to create instances in project ${projectForCreationName}`,
+    selectProjectMessage: "Select a project to create an instance",
+  });
 
   return (
     <EmptyState

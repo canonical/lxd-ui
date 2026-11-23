@@ -33,6 +33,9 @@ import { unmanagedNetworkDetailRoute } from "util/networks";
 import {
   ALL_PROJECTS,
   ALL_STORAGE_POOLS_LIST_URL,
+  ALL_NETWORK_ACLS_LIST_URL,
+  ALL_NETWORK_IPAM_URL,
+  ALL_NETWORKS_LIST_URL,
   getInstancesUrl,
   getOverviewUrl,
 } from "util/projects";
@@ -326,10 +329,14 @@ const Navigation: FC = () => {
                         <NavAccordion
                           baseUrls={[
                             `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network`,
+                            `${ROOT_PATH}/ui/all-projects/network`,
                             unmanagedNetworkDetailRoute,
                           ]}
-                          title={getNavTitle("networking")}
-                          disabled={isAllProjects}
+                          title={
+                            isAllProjects
+                              ? "Networking"
+                              : getNavTitle("networking")
+                          }
                           iconName="exposed"
                           label="Networking"
                           onOpen={() => {
@@ -345,8 +352,16 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/networks`}
                             >
                               <NavLink
-                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/networks`}
-                                title={`Networks (${projectName})`}
+                                to={
+                                  isAllProjects
+                                    ? ALL_NETWORKS_LIST_URL
+                                    : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/networks`
+                                }
+                                title={
+                                  isAllProjects
+                                    ? "Networks"
+                                    : `Networks (${projectName})`
+                                }
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 activeUrlMatches={[unmanagedNetworkDetailRoute]}
@@ -363,8 +378,16 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/network-acls`}
                             >
                               <NavLink
-                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-acls`}
-                                title={`ACLs (${projectName})`}
+                                to={
+                                  isAllProjects
+                                    ? ALL_NETWORK_ACLS_LIST_URL
+                                    : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-acls`
+                                }
+                                title={
+                                  isAllProjects
+                                    ? "ACLs"
+                                    : `ACLs (${projectName})`
+                                }
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
@@ -375,8 +398,16 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
                             >
                               <NavLink
-                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
-                                title={`IPAM (${projectName})`}
+                                to={
+                                  isAllProjects
+                                    ? ALL_NETWORK_IPAM_URL
+                                    : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/network-ipam`
+                                }
+                                title={
+                                  isAllProjects
+                                    ? "IPAM"
+                                    : `IPAM (${projectName})`
+                                }
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >

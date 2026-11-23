@@ -18,13 +18,26 @@ import { useNetworkAcls } from "context/useNetworkAcls";
 import DocLink from "components/DocLink";
 import { ROOT_PATH } from "util/rootPath";
 import DsIcon from "components/DsIcon";
+import ProjectRichChip from "pages/projects/ProjectRichChip";
+import { useProject } from "context/useProjects";
+import { ALL_PROJECTS, getCreateRestriction } from "util/projects";
 
 const NetworkAclList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
-  const { project } = useParams<{ project: string }>();
-  const { project: currentProject } = useCurrentProject();
+  const { project: projectParam } = useParams<{ project: string }>();
+  const { project: currentProject, isAllProjects } = useCurrentProject();
+  const { data: defaultProject } = useProject("default", isAllProjects);
+  const project = isAllProjects ? ALL_PROJECTS : projectParam;
   const { canCreateNetworkAcls } = useProjectEntitlements();
+  const projectForCreation = isAllProjects ? defaultProject : currentProject;
+  const projectForCreationName = projectForCreation?.name ?? "default";
+  const createAclRestriction = getCreateRestriction({
+    canCreate: canCreateNetworkAcls(projectForCreation),
+    isAllProjects,
+    noPermissionMessage: `You do not have permission to create ACLs in project ${projectForCreationName}`,
+    selectProjectMessage: "Select a project to create an ACL",
+  });
 
   if (!project) {
     return <>Missing project</>;
@@ -40,6 +53,9 @@ const NetworkAclList: FC = () => {
 
   const headers = [
     { content: "Name", sortKey: "name" },
+    ...(isAllProjects
+      ? [{ content: "Project", sortKey: "project", className: "project" }]
+      : []),
     { content: "Description", sortKey: "description" },
     {
       content: "Ingress Rules",
@@ -51,13 +67,16 @@ const NetworkAclList: FC = () => {
   ];
 
   const rows = networkAcls.map((acl) => {
+    const aclProject = isAllProjects ? (acl.project ?? "default") : project;
+
     return {
+      key: `${aclProject}-${acl.name}`,
       className: "u-row",
       columns: [
         {
           content: (
             <Link
-              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acl/${encodeURIComponent(acl.name)}`}
+              to={`${ROOT_PATH}/ui/project/${encodeURIComponent(aclProject)}/network-acl/${encodeURIComponent(acl.name)}`}
             >
               {acl.name}
             </Link>
@@ -65,6 +84,21 @@ const NetworkAclList: FC = () => {
           role: "rowheader",
           "aria-label": "Name",
         },
+        ...(isAllProjects
+          ? [
+              {
+                content: (
+                  <ProjectRichChip
+                    projectName={aclProject}
+                    urlSuffix="/network-acls"
+                  />
+                ),
+                role: "cell",
+                "aria-label": "Project",
+                className: "project",
+              },
+            ]
+          : []),
         {
           content: acl.description,
           role: "cell",
@@ -91,6 +125,7 @@ const NetworkAclList: FC = () => {
       ],
       sortData: {
         name: acl.name.toLowerCase(),
+        project: aclProject,
         description: acl.description?.toLowerCase(),
         ingress: acl.ingress.length,
         egress: acl.egress.length,
@@ -110,15 +145,11 @@ const NetworkAclList: FC = () => {
       hasIcon
       onClick={async () =>
         navigate(
-          `${ROOT_PATH}/ui/project/${encodeURIComponent(project)}/network-acls/create`,
+          `${ROOT_PATH}/ui/project/${encodeURIComponent(projectForCreationName)}/network-acls/create`,
         )
       }
-      disabled={!canCreateNetworkAcls(currentProject)}
-      title={
-        canCreateNetworkAcls(currentProject)
-          ? ""
-          : "You do not have permission to create ACLs in this project"
-      }
+      disabled={isAllProjects || !canCreateNetworkAcls(projectForCreation)}
+      title={createAclRestriction}
     >
       <DsIcon icon="plus" />
       <span>Create ACL</span>
@@ -160,7 +191,11 @@ const NetworkAclList: FC = () => {
             image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No network access control lists found"
           >
-            <p>There are no network ACLs in this project.</p>
+            <p>
+              {isAllProjects
+                ? "There are no network ACLs."
+                : "There are no network ACLs in this project."}
+            </p>
             <p>
               <DocLink docPath="/howto/network_acls/" hasExternalIcon>
                 Learn more about network ACLs
