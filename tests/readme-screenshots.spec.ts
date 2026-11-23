@@ -2,6 +2,8 @@ import { expect, test } from "./fixtures/lxd-test";
 import {
   createInstance,
   deleteInstance,
+  UBUNTU_DESKTOP_IMAGE,
+  UBUNTU_MINIMAL_IMAGE,
   visitAndStartInstance,
 } from "./helpers/instances";
 import { createProject, deleteProject } from "./helpers/projects";
@@ -55,7 +57,13 @@ test("instance list screen", async ({ page }) => {
     "singular-moose",
   ];
   for (const instance of instances) {
-    await createInstance(page, instance, "container", project, "24.04");
+    await createInstance(
+      page,
+      instance,
+      "container",
+      project,
+      UBUNTU_MINIMAL_IMAGE,
+    );
   }
   await gotoURL(page, `/ui/project/${project}/instances`);
   await page
@@ -79,7 +87,13 @@ test("instance list screen", async ({ page }) => {
 test("instance terminal screen", async ({ page }) => {
   await gotoURL(page, "/ui/");
   const instance = "comic-glider";
-  await createInstance(page, instance, "container", "default", "24.04");
+  await createInstance(
+    page,
+    instance,
+    "container",
+    "default",
+    UBUNTU_MINIMAL_IMAGE,
+  );
   await visitAndStartInstance(page, instance);
   await page.getByRole("button", { name: "Close notification" }).click();
   await page.getByTestId("tab-link-Terminal").click();
@@ -106,7 +120,7 @@ test("instance graphical console screen", async ({ page }) => {
   await page.getByRole("button", { name: "* Base Image" }).click();
   await page
     .locator("tr")
-    .filter({ hasText: "ubuntu/24.04/desktop" })
+    .filter({ hasText: UBUNTU_DESKTOP_IMAGE })
     .first()
     .getByRole("button")
     .click();

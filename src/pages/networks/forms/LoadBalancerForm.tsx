@@ -24,6 +24,8 @@ import type { LoadBalancerFormValues } from "types/forms/loadBalancers";
 import LoadBalancerPortsForm from "pages/networks/forms/LoadBalancerPortsForm";
 import type { LxdLoadBalancer } from "types/loadBalancers";
 import DsIcon from "components/DsIcon";
+import { useNetwork } from "context/useNetworks";
+import { useCurrentProject } from "context/useCurrentProject";
 
 export const toLoadBalancer = (
   values: LoadBalancerFormValues,
@@ -62,6 +64,13 @@ interface Props {
 
 const LoadBalancerForm: FC<Props> = ({ formik, isEdit, network }) => {
   const notify = useNotify();
+  const { project } = useCurrentProject();
+  const { data: uplink } = useNetwork(
+    network.config.network ?? "",
+    "default",
+    undefined,
+    !!network.config.network,
+  );
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -90,6 +99,16 @@ const LoadBalancerForm: FC<Props> = ({ formik, isEdit, network }) => {
   const ipv4Address = network?.config["ipv4.address"];
   const ipv6Address = network?.config["ipv6.address"];
 
+  const uplinkIpv4Routes = uplink?.config["ipv4.routes"];
+  const uplinkIpv6Routes = uplink?.config["ipv6.routes"];
+
+  const projectNetworkPrefix = `${uplink?.name}:`;
+  const projectSubnets = project?.config["restricted.networks.subnets"]
+    ?.split(",")
+    .filter((entry) => entry.startsWith(projectNetworkPrefix))
+    .map((entry) => entry.replace(projectNetworkPrefix, ""))
+    .join(", ");
+
   return (
     <Form className="form load-balancer-form" onSubmit={formik.handleSubmit}>
       <ScrollableForm>
@@ -111,6 +130,24 @@ const LoadBalancerForm: FC<Props> = ({ formik, isEdit, network }) => {
               </>
             )}
             {ipv6Address && <>IPv6: {ipv6Address}</>}
+            {uplinkIpv4Routes && (
+              <>
+                <br />
+                Uplink IPv4 routes: {uplinkIpv4Routes}
+              </>
+            )}
+            {uplinkIpv6Routes && (
+              <>
+                <br />
+                Uplink IPv6 routes: {uplinkIpv6Routes}
+              </>
+            )}
+            {projectSubnets && (
+              <>
+                <br />
+                Projects restricted network subnets: {projectSubnets}
+              </>
+            )}
           </Notification>
         </Row>
         <Row>

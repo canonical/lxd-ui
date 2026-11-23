@@ -31,6 +31,7 @@ import NewProxyBtn from "components/forms/NewProxyBtn";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { optionEnabledDisabled } from "util/options";
 import { getProxyAddress } from "util/proxyDevices";
+import { formatProxyAddress, parseProxyAddress } from "util/proxyAddress";
 import { useProfiles } from "context/useProfiles";
 import type { CreateInstanceFormValues } from "types/forms/instanceAndProfile";
 import DeviceName from "components/forms/DeviceName";
@@ -212,15 +213,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
     }
     const device = formik.values.devices[index] as LxdProxyDevice;
 
-    const deviceListenParts = device.listen?.split(":") || [];
-    const listenType =
-      deviceListenParts.length > 0 ? deviceListenParts[0] : "tcp";
-
-    const deviceConnectParts = device.connect?.split(":") || [];
-    const connectAddress =
-      deviceConnectParts.length > 1 ? deviceConnectParts[1] : "";
-    const connectPort =
-      deviceConnectParts.length > 2 ? deviceConnectParts[2] : "";
+    const listenType = parseProxyAddress(device.listen).type;
 
     customRows.push(
       getConfigurationRowBase({
@@ -291,7 +284,10 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           if (value === "true") {
             formik.setFieldValue(
               `devices.${index}.connect`,
-              `${listenType}:${connectAddress}:${connectPort}`,
+              formatProxyAddress({
+                ...parseProxyAddress(device.connect),
+                type: listenType,
+              }),
             );
           }
         },

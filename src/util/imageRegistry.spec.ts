@@ -146,6 +146,61 @@ describe("loadImagesFromRegistry", () => {
     const result = await loadImagesFromRegistry(customRegistry, false);
     expect(result).toEqual({ images: [], error: "error" });
   });
+
+  it("merges built-in Ubuntu images by title and architecture, keeping the first match", async () => {
+    vi.mocked(fetchRegistryImages).mockResolvedValue([
+      { ...lxdImage, type: "virtual-machine" },
+      lxdImage,
+      {
+        ...lxdImage,
+        fingerprint: "duplicate",
+        aliases: [{ name: "duplicate", description: "" }],
+      },
+      { ...lxdImage, architecture: "aarch64" },
+      {
+        ...lxdImage,
+        properties: { os: "ubuntu", release: "noble" },
+      },
+    ]);
+
+    const result = await loadImagesFromRegistry(registries[0], false);
+
+    expect(result.error).toBe("");
+    expect(result.images).toHaveLength(3);
+    expect(
+      result.images.filter((image) => image.release === "jammy"),
+    ).toHaveLength(2);
+    const image = result.images.find(
+      (image) => image.release === "jammy" && image.arch === "amd64",
+    );
+    expect(image?.aliases).toBe("my-image");
+    expect(image?.type).toBeUndefined();
+    expect(image?.fingerprint).toBeUndefined();
+    expect(image?.versions?.vm.items["disk1.img"].ftype).toBe("disk1.img");
+  });
+
+  it.each([
+    customRegistry,
+    { ...registries[0], builtin: false },
+    registries[2],
+  ])(
+    "keeps duplicate images unchanged for $name (builtin: $builtin)",
+    async (registry) => {
+      vi.mocked(fetchRegistryImages).mockResolvedValue([
+        lxdImage,
+        { ...lxdImage, type: "virtual-machine" },
+      ]);
+
+      const result = await loadImagesFromRegistry(registry, false);
+
+      expect(result.error).toBe("");
+      expect(result.images).toHaveLength(2);
+      expect(result.images.map((image) => image.type)).toEqual([
+        "container",
+        "virtual-machine",
+      ]);
+    },
+  );
 });
 
 describe("getRegistryRestrictionMode", () => {

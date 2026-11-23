@@ -106,7 +106,7 @@ const InstanceSnapshots = (props: Props) => {
           },
         ]),
     {
-      content: "Expiry date",
+      content: "Expiration date",
       sortKey: "expires_at",
       className: "expiration",
     },

@@ -14,13 +14,16 @@ import type { FormikProps } from "formik/dist/types";
 
 interface Props {
   isEdit: boolean;
-  formik: FormikProps<SnapshotFormValues<{ stateful?: boolean }>>;
+  formik: FormikProps<
+    SnapshotFormValues<{ stateful?: boolean; includeCustomVolumes?: boolean }>
+  >;
   close: () => void;
   additionalFormInput?: React.JSX.Element;
+  isLoading?: boolean;
 }
 
 const SnapshotForm: FC<Props> = (props) => {
-  const { isEdit, formik, close, additionalFormInput } = props;
+  const { isEdit, formik, close, additionalFormInput, isLoading } = props;
 
   return (
     <Modal
@@ -35,7 +38,7 @@ const SnapshotForm: FC<Props> = (props) => {
           <ActionButton
             appearance="positive"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid || formik.isSubmitting}
+            disabled={!formik.isValid || formik.isSubmitting || isLoading}
             onClick={() => void formik.submitForm()}
           >
             {isEdit ? "Save changes" : "Create snapshot"}
@@ -65,7 +68,7 @@ const SnapshotForm: FC<Props> = (props) => {
               id="expirationDate"
               name="expirationDate"
               type="date"
-              label="Expiry date"
+              label="Expiration date"
               min={getTomorrow()}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -82,7 +85,7 @@ const SnapshotForm: FC<Props> = (props) => {
               id="expirationTime"
               name="expirationTime"
               type="time"
-              label="Expiry time"
+              label="Expiration time"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.expirationTime ?? ""}

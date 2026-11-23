@@ -7,6 +7,7 @@ import { expect } from "../fixtures/lxd-test";
 import { isServerClustered } from "./cluster-groups";
 import type { IpAddressFamily } from "types/forms/network";
 import { runCommand } from "./shell";
+import { expectUnsavedChangesWarning } from "./unsavedChanges";
 
 interface NetworkOptions {
   hasMemberSpecificParents?: boolean;
@@ -182,6 +183,9 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await expect(page.getByText("Same as listen port if empty")).toBeVisible(); // ensure the forward ports are loaded before continuing
   await page.waitForLoadState("networkidle"); // ensure network loaded
   await page.getByLabel("Description").fill("My forward description");
+  await expectUnsavedChangesWarning(page, async () =>
+    page.getByRole("link", { name: "Cancel" }).click(),
+  );
   await page.getByRole("button", { name: "Update" }).click();
 
   await page.getByText(`Network forward ${listenAddress} updated.`).click();

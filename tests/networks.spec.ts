@@ -1,4 +1,4 @@
-import { test } from "./fixtures/lxd-test";
+import { expect, test } from "./fixtures/lxd-test";
 import {
   activateAllTableOverrides,
   checkAllOptions,
@@ -13,6 +13,11 @@ import {
   randomNetworkName,
   visitNetwork,
 } from "./helpers/network";
+import {
+  expectCloseWarning,
+  expectCloseWithoutWarning,
+  expectUnsavedChangesWarning,
+} from "./helpers/unsavedChanges";
 import {
   getServerSettingValue,
   updateSetting,
@@ -58,6 +63,28 @@ test.describe("bridge type", () => {
     const options = ["false", "true"];
     await checkAllOptions(page, "IPv4 NAT", options);
     await checkAllOptions(page, "IPv6 NAT", options);
+  });
+
+  test("warn before switching tab with unsaved changes", async ({ page }) => {
+    await visitNetwork(page, network);
+    await page.getByRole("button", { name: "Edit" }).first().click();
+    const description = page.getByPlaceholder("Enter description");
+    const initialDescription = await description.inputValue();
+    await description.fill("unsaved-description");
+
+    await expectUnsavedChangesWarning(page, async () =>
+      page.getByRole("tab", { name: "Forwards" }).click(),
+    );
+    await expect(description).toHaveValue("unsaved-description");
+    await expectCloseWarning(page);
+    await expect(description).toHaveValue("unsaved-description");
+
+    await description.fill(initialDescription);
+    await page.getByRole("tab", { name: "Forwards" }).click();
+    await expect(
+      page.getByRole("button", { name: "Create forward" }),
+    ).toBeVisible();
+    await expectCloseWithoutWarning(page);
   });
 
   test("set bridge network driver and hardware details", async ({ page }) => {

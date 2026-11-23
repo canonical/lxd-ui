@@ -79,10 +79,10 @@ export const editInstanceSnapshot = async (
     .click();
   await page.getByLabel("Snapshot name").click();
   await page.getByLabel("Snapshot name").fill(newName);
-  await page.getByLabel("Expiry date").click();
-  await page.getByLabel("Expiry date").fill("2093-04-28");
-  await page.getByLabel("Expiry time").click();
-  await page.getByLabel("Expiry time").fill("12:23");
+  await page.getByLabel("Expiration date").click();
+  await page.getByLabel("Expiration date").fill("2093-04-28");
+  await page.getByLabel("Expiration time").click();
+  await page.getByLabel("Expiration time").fill("12:23");
   await page.getByRole("button", { name: "Save changes" }).click();
   await page
     .getByText(`Snapshot ${newName} saved for instance ${instance}.`)
@@ -169,10 +169,10 @@ export const editStorageVolumeSnapshot = async (
     .click();
   await page.getByLabel("Snapshot name").click();
   await page.getByLabel("Snapshot name").fill(newName);
-  await page.getByLabel("Expiry date").click();
-  await page.getByLabel("Expiry date").fill("2093-04-28");
-  await page.getByLabel("Expiry time").click();
-  await page.getByLabel("Expiry time").fill("12:23");
+  await page.getByLabel("Expiration date").click();
+  await page.getByLabel("Expiration date").fill("2093-04-28");
+  await page.getByLabel("Expiration time").click();
+  await page.getByLabel("Expiration time").fill("12:23");
   await page.getByRole("button", { name: "Save changes" }).click();
   await dismissNotification(page, `Snapshot ${newName} saved.`);
   await page.getByText("Apr 28, 2093, 12:23 PM").click();

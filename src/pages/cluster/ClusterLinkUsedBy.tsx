@@ -16,13 +16,16 @@ const ClusterLinkUsedBy: FC<Props> = ({ clusterLink }) => {
   }
 
   const otherPaths = clusterLink.used_by.filter(
-    (path) => !path.includes("/1.0/replicators/"),
+    (path) =>
+      !path.includes("/1.0/replicators/") &&
+      !path.includes("/1.0/image-registries/"),
   );
 
   return (
     <table className="p-main-table delete-cluster-link-table">
       <tbody>
         <UsedByRow entityType="replicator" usedBy={clusterLink.used_by} />
+        <UsedByRow entityType="image-registry" usedBy={clusterLink.used_by} />
         {otherPaths.length > 0 && (
           <tr className="used-by-row">
             <th className="u-text--muted used-by-row-header">

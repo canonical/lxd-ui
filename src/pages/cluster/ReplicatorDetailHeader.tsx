@@ -30,7 +30,12 @@ const ReplicatorDetailHeader: FC<Props> = ({ replicator }) => {
         "A replicator with this name already exists",
         async (value) =>
           replicator.name === value ||
-          checkDuplicateName(value, "", controllerState, "replicators"),
+          checkDuplicateName(
+            value,
+            replicator.project,
+            controllerState,
+            "replicators",
+          ),
       )
       .required("Replicator name is required"),
   });
@@ -79,7 +84,11 @@ const ReplicatorDetailHeader: FC<Props> = ({ replicator }) => {
       }
 
       try {
-        await renameReplicator(replicator.name, values.name);
+        await renameReplicator(
+          replicator.name,
+          values.name,
+          replicator.project,
+        );
         onSuccess(values.name);
         formik.setFieldValue("isRenaming", false);
       } catch (e) {

@@ -8,7 +8,11 @@ export const useSupportedFeatures = () => {
     settings,
     isSettingsLoading: isLoading,
     settingsError: error,
+    hasPublicClusterLinks: apiExtensions.has("cluster_links_public"),
     hasImageRegistries: apiExtensions.has("image_registries"),
+    hasInstanceSnapshotsMultiVolume: apiExtensions.has(
+      "instance_snapshots_multi_volume",
+    ),
     hasLoadBalancerHealthChecks: apiExtensions.has(
       "network_load_balancer_pool_health_checks",
     ),

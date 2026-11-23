@@ -39,7 +39,7 @@ else
     cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
     cp keys/lxd-ui.key keys/lxd-ui.crt.key
     echo 'finished generating certificates'
-    echo 'please add the certificates to your local LXD as explained in README.md'
+    echo 'please add the certificates to your local LXD as explained in CONTRIBUTING.md'
   fi
   echo 'booting on https://localhost:8407'
 

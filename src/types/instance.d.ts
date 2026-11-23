@@ -65,6 +65,7 @@ interface LxdInstanceSnapshot {
   stateful: boolean;
   ephemeral: boolean;
   config: {
+    "volatile.attached_volumes"?: string;
     "volatile.base_image"?: string;
   };
 }

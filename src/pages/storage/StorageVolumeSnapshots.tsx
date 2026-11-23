@@ -107,7 +107,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           },
         ]),
     {
-      content: "Expiry date",
+      content: "Expiration date",
       sortKey: "expires_at",
       className: "expiration",
     },

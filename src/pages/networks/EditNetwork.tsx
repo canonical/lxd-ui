@@ -273,6 +273,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             <FormSubmitBtn
               formik={formik}
               baseUrl={baseUrl}
+              includeSubPaths={false}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={isNetworkFormInvalid(formik, clusterMembers)}
             />

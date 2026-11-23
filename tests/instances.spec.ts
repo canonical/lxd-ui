@@ -11,6 +11,7 @@ import {
   renameInstance,
   saveInstance,
   selectAllInstances,
+  UBUNTU_MINIMAL_IMAGE,
   userKeyRow,
   visitAndStartInstance,
   visitAndStopInstance,
@@ -68,9 +69,21 @@ test.beforeAll(async ({ browser, browserName }) => {
   profile = `${browserName}-${profile}`;
   const page = await browser.newPage();
   await createProfile(page, profile);
-  await createInstance(page, instance);
+  await createInstance(
+    page,
+    instance,
+    "container",
+    "default",
+    UBUNTU_MINIMAL_IMAGE,
+  );
   if (!process.env.DISABLE_VM_TESTS) {
-    await createInstance(page, vmInstance, "virtual-machine");
+    await createInstance(
+      page,
+      vmInstance,
+      "virtual-machine",
+      "default",
+      UBUNTU_MINIMAL_IMAGE,
+    );
   }
   await page.close();
 });
@@ -95,7 +108,7 @@ test("instance terminal operations", async ({ page }) => {
   });
   await page.keyboard.type("cat /etc/issue", { delay: 100 });
   await page.keyboard.press("Enter");
-  await expect(page.locator(".xterm-rows")).toContainText("Alpine Linux");
+  await expect(page.locator(".xterm-rows")).toContainText("Ubuntu");
   let dialogPresent = false;
   page.on("dialog", (dialog) => {
     dialogPresent = true;
@@ -297,6 +310,19 @@ test("instance search by user key", async ({ page }) => {
 
   await gotoURL(page, "/ui/project/default/instances");
   await searchEntityListPage(page, "user.team=red");
+  await expect(
+    page.getByText("No instance found matching this search"),
+  ).toBeVisible();
+
+  const searchUrl = (negatedQuery: string) =>
+    `/ui/project/default/instances?query=${encodeURIComponent(instance)}&query=${encodeURIComponent(negatedQuery)}`;
+
+  await gotoURL(page, searchUrl("!user.team=red"));
+  await expect(
+    page.getByRole("link", { name: instance }).first(),
+  ).toBeVisible();
+
+  await gotoURL(page, searchUrl("!user.team=blue"));
   await expect(
     page.getByText("No instance found matching this search"),
   ).toBeVisible();

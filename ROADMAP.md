@@ -1,3 +1,19 @@
+# Roadmap for 27.04 from October 2026 until May 2027
+
+- Member graph timeseries
+- Instance graph timeseries
+- Project favorites
+- Replicator operation progress insights
+- Network and storage view-only permissions
+- Network and storage lists over all projects
+- Not persisted form handling
+- Dashboard follow-up UX research and small scoped fixes
+- Manage OIDC sessions for own and other users
+- Bulk API for cluster member memory and CPU state
+- Storage pool size reporting
+- Remove all circular dependencies
+- Pragma design system migration
+
 # Roadmap for 26.10 from May 2026 until October 2026
 
 - Accessibility audit

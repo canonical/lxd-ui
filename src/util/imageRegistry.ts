@@ -71,10 +71,6 @@ export const isRegistryAllowedInProject = (
   );
 };
 
-const uniqueTitle = (item: RemoteImage, index: number, self: RemoteImage[]) => {
-  return index === self.findIndex((t) => t.title === item.title);
-};
-
 const markVmAndContainerImagesAsOne = (item: RemoteImage) => {
   delete item.type;
   // The merged container and vm images have different fingerprints,
@@ -98,7 +94,15 @@ const processRegistryImages = (
   if (!registry.builtin || !registry.name.startsWith("ubuntu")) {
     return images;
   }
-  const processed = images.filter(uniqueTitle);
+  const seen = new Set<string>();
+  const processed = images.filter((image) => {
+    const key = JSON.stringify([image.title, image.arch]);
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
   processed.forEach(markVmAndContainerImagesAsOne);
   return sortUbuntuImages(processed);
 };

@@ -7,14 +7,22 @@ interface Props {
   title: ReactNode;
   onClick: () => void;
   onMouseDown?: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
-const BackLink: FC<Props> = ({ linkText, title, onClick, onMouseDown }) => {
+const BackLink: FC<Props> = ({
+  linkText,
+  title,
+  onClick,
+  onMouseDown,
+  disabled,
+}) => {
   const backLink = (
     <>
       <Button
         onClick={onClick}
         onMouseDown={onMouseDown}
+        disabled={disabled}
         dense
         hasIcon
         appearance="link"

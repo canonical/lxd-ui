@@ -8,13 +8,14 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "components/BaseLayout";
 import LoadBalancerExplanationTooltip from "pages/networks/LoadBalancerExplanationTooltip";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useEventQueue } from "context/eventQueue";
 import { useNetwork } from "context/useNetworks";
 import { ROOT_PATH } from "util/rootPath";
+import useUnsavedChangesGuard from "util/useUnsavedChangesGuard";
 import { updateLoadBalancer } from "api/load-balancers";
 import LoadBalancerForm, {
   LoadBalancerSchema,
@@ -30,6 +31,7 @@ import { setLoadBalancerCreatedPool } from "util/loadBalancers";
 
 const EditLoadBalancer: FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const toastNotify = useToastNotification();
@@ -140,6 +142,11 @@ const EditLoadBalancer: FC = () => {
         });
     },
   });
+
+  useUnsavedChangesGuard(
+    formik.dirty && !formik.isSubmitting,
+    location.pathname,
+  );
 
   if (isNetworkLoading || isBalancerLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
