@@ -163,6 +163,10 @@ export const editClusterLink = async (page: Page, link: string) => {
     page.getByRole("heading", { name: "Edit cluster link", exact: true }),
   ).toBeVisible();
   await expect(page.getByLabel("Link name", { exact: true })).toHaveValue(link);
+  await expect(page.getByLabel("Link name", { exact: true })).toHaveAttribute(
+    "readonly",
+    "",
+  );
 
   const description = "My link";
   await page.getByPlaceholder("Enter description").fill(description);

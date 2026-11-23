@@ -165,6 +165,7 @@ const ClusterLinkForm: FC<Props> = ({
             groups={authGroups}
             modifiedGroups={modifiedGroups}
             parentItemName="cluster link"
+            parentItems={[{ name: formik.values.name }]}
             selectedGroups={selectedGroups}
             setSelectedGroups={(val, isUnselectAll) => {
               if (isUnselectAll) {

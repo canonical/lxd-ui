@@ -66,6 +66,18 @@ describe("CreateClusterLinkPanel", () => {
     });
   };
 
+  const selectTokenSetup = async (value: string): Promise<void> => {
+    await act(async () => {
+      const select = document.body.querySelector<HTMLSelectElement>(
+        'select[name="tokenType"]',
+      );
+      if (!select) throw new Error("Token setup not found");
+      select.value = value;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      await Promise.resolve();
+    });
+  };
+
   const click = async (element: HTMLElement | null): Promise<void> => {
     if (!element) throw new Error("Click target not found");
     await act(async () => {
@@ -113,6 +125,102 @@ describe("CreateClusterLinkPanel", () => {
     container.remove();
     vi.unstubAllGlobals();
     vi.useRealTimers();
+  });
+
+  test.each([
+    {
+      flow: "bidirectional token generation",
+      type: "bidirectional",
+      tokenType: "generate",
+      token: "",
+    },
+    {
+      flow: "bidirectional token consumption",
+      type: "bidirectional",
+      tokenType: "consume",
+      token: "remote-token",
+    },
+    {
+      flow: "unidirectional token consumption",
+      type: "unidirectional",
+      tokenType: undefined,
+      token: "identity-token",
+    },
+  ])("preserves the $flow payload", async ({ type, tokenType, token }) => {
+    await click(document.body.querySelector(`input[value="${type}"]`));
+    if (tokenType) await selectTokenSetup(tokenType);
+    if (token) await fill("token", token);
+    await fill("description", "Images");
+    await click(button("Create"));
+    expect(createClusterLink).toHaveBeenCalledOnce();
+    expect(JSON.parse(vi.mocked(createClusterLink).mock.calls[0][0])).toEqual({
+      name: "public-images",
+      description: "Images",
+      type,
+      ...(type === "bidirectional" ? { auth_groups: [] } : {}),
+      ...(token ? { trust_token: token } : {}),
+    });
+    expect(clearPanel).toHaveBeenCalledOnce();
+  });
+
+  test("clears token setup and tokens when changing link types", async () => {
+    await click(document.body.querySelector('input[value="bidirectional"]'));
+    await selectTokenSetup("consume");
+    await fill("token", "remote-token");
+    await fill("description", "Keep this description");
+    await click(document.body.querySelector('input[value="unidirectional"]'));
+    expect(input("token").value).toBe("");
+    expect(input("name").disabled).toBe(true);
+    await click(document.body.querySelector('input[value="bidirectional"]'));
+    expect(
+      document.body.querySelector<HTMLSelectElement>('select[name="tokenType"]')
+        ?.value,
+    ).toBe("");
+    expect(input("description").value).toBe("Keep this description");
+    expect(button("Create").getAttribute("aria-disabled")).toBe("true");
+    await act(async () => {
+      document.body
+        .querySelector("form")
+        ?.dispatchEvent(
+          new Event("submit", { bubbles: true, cancelable: true }),
+        );
+      await Promise.resolve();
+    });
+    expect(createClusterLink).not.toHaveBeenCalled();
+    expect(document.body.textContent).toContain("Token setup is required");
+  });
+
+  test("disables editing and Escape while fetching a certificate", async () => {
+    let completeFetch: ((value: { fingerprint: string }) => void) | undefined;
+    vi.mocked(createClusterLink).mockImplementationOnce(
+      async () =>
+        new Promise((resolve) => {
+          completeFetch = resolve;
+        }),
+    );
+    await click(button("Fetch certificate"));
+    for (const name of ["name", "remoteAddress", "description"]) {
+      expect(input(name).disabled).toBe(true);
+    }
+    for (const radio of document.body.querySelectorAll<HTMLInputElement>(
+      'input[type="radio"]',
+    )) {
+      expect(radio.disabled).toBe(true);
+    }
+    await click(button("Cancel"));
+    await act(async () => {
+      window.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+      );
+      await Promise.resolve();
+    });
+    expect(clearPanel).not.toHaveBeenCalled();
+    await act(async () => {
+      completeFetch?.({ fingerprint });
+      await Promise.resolve();
+    });
+    expect(input("remoteAddress").disabled).toBe(false);
+    expect(input("name").disabled).toBe(true);
   });
 
   test("fetches inline and confirms with only the name, type and fingerprint", async () => {

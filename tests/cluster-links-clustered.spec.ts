@@ -203,6 +203,8 @@ test("create unidirectional cluster link", async ({
   );
   await expect(row.getByRole("cell", { name: "Auth groups" })).toHaveText("0");
 
+  await editClusterLink(page, link);
+
   deleteIdentityOnRemoteCluster(link);
   await deleteClusterLink(page, link);
 });
@@ -256,6 +258,7 @@ test("create public cluster link", async ({ page }, testInfo) => {
     "Reachable",
   );
 
+  await editClusterLink(page, link);
   await deleteClusterLink(page, link);
 });
 
