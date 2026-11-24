@@ -4,6 +4,7 @@ import type {
   LxdInstanceStatus,
 } from "types/instance";
 import type { InstanceBulkAction } from "api/instances";
+import { isInstanceFrozen } from "util/instanceStatus";
 
 // map desired actions to pairs of instance status and performed action
 // statuses missing will be ignored
@@ -56,6 +57,16 @@ export const instanceActions = (
     }
   });
   return actions;
+};
+
+// A frozen instance can only be stopped with force. Default to force stop only
+// when every instance a stop acts on is frozen, as force on a running instance
+// loses its unsaved memory state.
+export const isForceStopDefault = (instances: LxdInstance[]): boolean => {
+  const stoppable = instances.filter(
+    (instance) => instanceAction("stop", instance.status) !== undefined,
+  );
+  return stoppable.length > 0 && stoppable.every(isInstanceFrozen);
 };
 
 export const instanceActionLabel = (action: LxdInstanceAction): string => {

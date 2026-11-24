@@ -1,4 +1,6 @@
 import { pluralize } from "util/helpers";
+import { isForceStopDefault } from "util/instanceBulkActions";
+import type { LxdInstance, LxdInstanceStatus } from "types/instance";
 
 describe("pluralize function", () => {
   describe("count of 1", () => {
@@ -81,5 +83,32 @@ describe("pluralize function", () => {
     it("should handle count of 0", () => {
       expect(pluralize("volume", 0)).toBe("volumes");
     });
+  });
+});
+
+describe("isForceStopDefault", () => {
+  const withStatus = (...statuses: LxdInstanceStatus[]) =>
+    statuses.map(
+      (status, i) => ({ name: `i${i}`, status }) as unknown as LxdInstance,
+    );
+
+  it("defaults to force when every instance to stop is frozen", () => {
+    expect(isForceStopDefault(withStatus("Frozen"))).toBe(true);
+    expect(isForceStopDefault(withStatus("Frozen", "Frozen"))).toBe(true);
+  });
+
+  it("ignores instances a stop would not act on", () => {
+    expect(isForceStopDefault(withStatus("Frozen", "Stopped"))).toBe(true);
+  });
+
+  it("does not default to force when a running instance would be stopped", () => {
+    expect(isForceStopDefault(withStatus("Running"))).toBe(false);
+    expect(isForceStopDefault(withStatus("Frozen", "Running"))).toBe(false);
+    expect(isForceStopDefault(withStatus("Frozen", "Freezing"))).toBe(false);
+  });
+
+  it("does not default to force when nothing would be stopped", () => {
+    expect(isForceStopDefault([])).toBe(false);
+    expect(isForceStopDefault(withStatus("Stopped"))).toBe(false);
   });
 });

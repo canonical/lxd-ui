@@ -1,10 +1,14 @@
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { updateInstanceBulkAction } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationCheckbox from "components/ConfirmationCheckbox";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
-import { instanceActionLabel, instanceActions } from "util/instanceBulkActions";
+import {
+  instanceActionLabel,
+  instanceActions,
+  isForceStopDefault,
+} from "util/instanceBulkActions";
 import { pluralize } from "util/helpers";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/promises";
@@ -27,9 +31,16 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   const [activeAction, setActiveAction] = useState<LxdInstanceAction | null>(
     null,
   );
-  const [isForce, setForce] = useState(false);
   const { canUpdateInstanceState } = useInstanceEntitlements();
   const viewBulkDetails = useBulkDetails();
+  const isForceDefault = isForceStopDefault(
+    instances.filter(canUpdateInstanceState),
+  );
+  const [isForce, setForce] = useState(isForceDefault);
+
+  useEffect(() => {
+    setForce(isForceDefault);
+  }, [isForceDefault]);
 
   const clearCache = () => {
     queryClient.invalidateQueries({
@@ -90,7 +101,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           );
           delayedClearCache();
         }
-        setForce(false);
+        setForce(isForceDefault);
         onFinish();
         setActiveAction(null);
       })

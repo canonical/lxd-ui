@@ -12,6 +12,7 @@ import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
 import { InstanceRichChip } from "../InstanceRichChip";
 import DsIcon from "components/DsIcon";
+import { isInstanceFrozen } from "util/instanceStatus";
 
 interface Props {
   instance: LxdInstance;
@@ -21,7 +22,9 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
-  const [isForce, setForce] = useState(false);
+  // A frozen instance can only be stopped with force
+  const isFrozen = isInstanceFrozen(instance);
+  const [isForce, setForce] = useState(isFrozen);
   const queryClient = useQueryClient();
   const { canUpdateInstanceState } = useInstanceEntitlements();
   const isForceRef = useRef(isForce);
@@ -31,6 +34,10 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   useEffect(() => {
     isForceRef.current = isForce;
   }, [isForce]);
+
+  useEffect(() => {
+    setForce(isFrozen);
+  }, [isFrozen]);
 
   const clearCache = () => {
     queryClient.invalidateQueries({
@@ -110,7 +117,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
         ),
         onConfirm: handleStop,
         close: () => {
-          setForce(false);
+          setForce(isFrozen);
         },
         confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Stop"
