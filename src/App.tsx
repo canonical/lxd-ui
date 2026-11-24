@@ -471,6 +471,10 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<CreateProject />} />}
         />
         <Route
+          path={`${ROOT_PATH}/ui/all-projects/storage/pools`}
+          element={<ProtectedRoute outlet={<StoragePools />} />}
+        />
+        <Route
           path={`${ROOT_PATH}/ui/project/:project/storage/pools`}
           element={
             <ProtectedRoute

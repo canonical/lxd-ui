@@ -9,6 +9,8 @@ import type { LxdProject, ProjectReplicaMode } from "types/project";
 export const ALL_PROJECTS = "All projects";
 export const ALL_PROJECTS_OVERVIEW_PATH = `${ROOT_PATH}/ui/all-projects/overview`;
 
+export const ALL_STORAGE_POOLS_LIST_URL = `${ROOT_PATH}/ui/all-projects/storage/pools`;
+
 export const storageTabs: string[] = [
   "Pools",
   "Volumes",
@@ -97,6 +99,10 @@ export const getAllProjectsSwitchTarget = (url: string): string => {
 
   if (targetSection === "instances") {
     return ALL_INSTANCES_LIST_URL;
+  }
+
+  if (targetSection === "storage/pools") {
+    return ALL_STORAGE_POOLS_LIST_URL;
   }
 
   return getOverviewUrl(ALL_PROJECTS);

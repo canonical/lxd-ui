@@ -42,6 +42,20 @@ test.afterAll(async ({ browser }) => {
   await page.close();
 });
 
+test("storage pools list is available in all projects mode", async ({
+  page,
+}) => {
+  await gotoURL(page, "/ui/all-projects/overview");
+  await page.getByRole("button", { name: "Storage" }).click();
+  await expect(page.getByRole("link", { name: "Pools" })).toBeEnabled();
+  await page.getByRole("link", { name: "Pools" }).click();
+  await expect(page).toHaveURL(/\/ui\/all-projects\/storage\/pools/);
+  await expect(page.getByRole("heading", { name: "Pools" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Volumes" })).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Buckets" })).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Custom ISOs" })).toBeDisabled();
+});
+
 test("storage pool create, edit and remove", async ({ page }) => {
   const pool = randomPoolName();
   await createPool(page, pool);

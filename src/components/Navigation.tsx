@@ -30,7 +30,12 @@ import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
 import { AUTH_METHOD, authIcon } from "util/authentication";
 import { unmanagedNetworkDetailRoute } from "util/networks";
-import { ALL_PROJECTS, getInstancesUrl, getOverviewUrl } from "util/projects";
+import {
+  ALL_PROJECTS,
+  ALL_STORAGE_POOLS_LIST_URL,
+  getInstancesUrl,
+  getOverviewUrl,
+} from "util/projects";
 import { getReportBugURL } from "util/reportBug";
 import DocLink from "components/DocLink";
 import AuthenticationTlsStepper from "./AuthenticationTlsStepper";
@@ -385,9 +390,11 @@ const Navigation: FC = () => {
                         <NavAccordion
                           baseUrls={[
                             `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage`,
+                            `${ROOT_PATH}/ui/all-projects/storage`,
                           ]}
-                          title={getNavTitle("storage")}
-                          disabled={isAllProjects}
+                          title={
+                            isAllProjects ? "Storage" : getNavTitle("storage")
+                          }
                           iconName="storage-pool"
                           label="Storage"
                           onOpen={() => {
@@ -402,7 +409,11 @@ const Navigation: FC = () => {
                               key={`/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
                             >
                               <NavLink
-                                to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
+                                to={
+                                  isAllProjects
+                                    ? ALL_STORAGE_POOLS_LIST_URL
+                                    : `${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/pools`
+                                }
                                 title="Pools"
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
@@ -419,7 +430,12 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
-                                title="Volumes"
+                                disabled={isAllProjects}
+                                title={
+                                  isAllProjects
+                                    ? getNavTitle("volumes")
+                                    : "Volumes"
+                                }
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 activeUrlMatches={["volumes/custom"]}
@@ -432,7 +448,12 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
-                                title="Buckets"
+                                disabled={isAllProjects}
+                                title={
+                                  isAllProjects
+                                    ? getNavTitle("buckets")
+                                    : "Buckets"
+                                }
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 activeUrlMatches={["/bucket/"]}
@@ -445,7 +466,12 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`${ROOT_PATH}/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
-                                title="Custom ISOs"
+                                disabled={isAllProjects}
+                                title={
+                                  isAllProjects
+                                    ? getNavTitle("custom ISOs")
+                                    : "Custom ISOs"
+                                }
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >

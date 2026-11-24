@@ -118,6 +118,22 @@ describe("getAllProjectsSwitchTarget", () => {
     ).toBe(`${ROOT_PATH}/ui/all-projects/instances`);
   });
 
+  it("keeps the storage pools section", () => {
+    expect(
+      getAllProjectsSwitchTarget(
+        `${ROOT_PATH}/ui/project/my-project/storage/pools`,
+      ),
+    ).toBe(`${ROOT_PATH}/ui/all-projects/storage/pools`);
+  });
+
+  it("falls back to the all-projects home page for other storage sections", () => {
+    expect(
+      getAllProjectsSwitchTarget(
+        `${ROOT_PATH}/ui/project/my-project/storage/volumes`,
+      ),
+    ).toBe(`${ROOT_PATH}/ui/all-projects/overview`);
+  });
+
   it("falls back to the all-projects home page for project-only sections", () => {
     expect(
       getAllProjectsSwitchTarget(`${ROOT_PATH}/ui/project/my-project/profiles`),
