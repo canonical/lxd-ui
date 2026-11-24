@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { Input, Select } from "@canonical/react-components";
+import { isBidirectional, isUnidirectional } from "util/clusterLink";
 
 interface Props {
   formik: FormikProps<ClusterLinkFormValues>;
@@ -9,7 +10,7 @@ interface Props {
 
 const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
   const getTokenHelp = () => {
-    if (formik.values.type === "unidirectional") {
+    if (isUnidirectional(formik.values.type)) {
       return (
         <>
           Paste the token you have generated on the target cluster.
@@ -55,7 +56,7 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
       disabled={
         formik.isSubmitting ||
         (formik.values.tokenType !== "consume" &&
-          formik.values.type === "bidirectional")
+          isBidirectional(formik.values.type))
       }
       required
       help={getTokenHelp()}
@@ -64,7 +65,7 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
     />
   );
 
-  if (formik.values.type === "unidirectional") {
+  if (isUnidirectional(formik.values.type)) {
     return <>{tokenInput}</>;
   } else {
     return (

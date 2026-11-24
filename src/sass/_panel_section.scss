@@ -1,0 +1,16 @@
+.panel-section {
+  > :last-child,
+  > :last-child > :last-child {
+    margin-bottom: 0;
+  }
+
+  hr {
+    margin-bottom: $spv--small;
+    margin-top: $spv--x-large;
+  }
+
+  hr + .p-muted-heading {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}

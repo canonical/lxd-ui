@@ -22,6 +22,7 @@ import ClusterLinkRichChip from "../ClusterLinkRichChip";
 import type { LxdClusterLink } from "types/cluster";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { useEscCallback } from "context/useEscCallback";
+import { isBidirectional } from "util/clusterLink";
 import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
 
 interface Props {
@@ -62,7 +63,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
         description: values.description,
       };
 
-      if (clusterLink.type === "bidirectional" && !identity) {
+      if (isBidirectional(clusterLink.type) && !identity) {
         setError(
           failure(
             "Cluster link update failed",
@@ -75,7 +76,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
 
       updateClusterLink(clusterLink.name ?? "", JSON.stringify(payload))
         .then(async () => {
-          if (clusterLink.type === "bidirectional" && identity) {
+          if (isBidirectional(clusterLink.type) && identity) {
             const payloadIdentity = {
               ...identity,
               groups: values.authGroups,

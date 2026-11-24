@@ -11,6 +11,15 @@ import { testValidPort } from "util/networks";
 import { isValidIPV6 } from "util/devices";
 import forge from "node-forge";
 
+export const isBidirectional = (type?: LxdClusterLinkType): boolean =>
+  type === "bidirectional";
+
+export const isUnidirectional = (type?: LxdClusterLinkType): boolean =>
+  type === "unidirectional";
+
+export const isPublic = (type?: LxdClusterLinkType): boolean =>
+  type === "public";
+
 // Replication needs the remote cluster to authenticate the connection, so only
 // link types that present a client certificate can be used by replicators
 export const REPLICATOR_CLUSTER_LINK_TYPES: LxdClusterLinkType[] = [
@@ -65,7 +74,7 @@ export const isValidRemoteAddress = (address?: string): boolean => {
 
 // A public link stays pending until its certificate is confirmed, which sets volatile.addresses
 export const isPendingPublicLink = (link?: LxdClusterLink): boolean => {
-  return link?.type === "public" && !link.config["volatile.addresses"];
+  return isPublic(link?.type) && !link?.config["volatile.addresses"];
 };
 
 // SHA-256 of the DER encoded certificate, the same fingerprint LXD reports
@@ -88,7 +97,7 @@ const isReachableMember = (
 ): boolean => {
   return (
     member.status === "Active" ||
-    (link?.type === "public" && member.status === "Unauthenticated")
+    (isPublic(link?.type) && member.status === "Unauthenticated")
   );
 };
 

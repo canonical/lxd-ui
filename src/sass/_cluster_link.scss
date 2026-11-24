@@ -1,14 +1,4 @@
 .cluster-link-form {
-  hr {
-    margin-bottom: $spv--small;
-    margin-top: $spv--x-large;
-  }
-
-  hr + .p-muted-heading {
-    margin-top: 0;
-    padding-top: 0;
-  }
-
   .token-output {
     display: inline-block;
     max-width: 100%;

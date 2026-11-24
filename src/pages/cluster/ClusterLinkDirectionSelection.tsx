@@ -1,7 +1,8 @@
-import type { FC } from "react";
+import { useId, type FC } from "react";
 import { RadioInput } from "@canonical/react-components";
 import type { LxdClusterLinkType } from "types/cluster";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { isPublic } from "util/clusterLink";
 
 interface Props {
   value: LxdClusterLinkType;
@@ -9,7 +10,7 @@ interface Props {
   onSelect: (type: LxdClusterLinkType) => void;
 }
 
-export const clusterLinkTypes: {
+export const CLUSTER_LINK_TYPES: {
   value: LxdClusterLinkType;
   label: string;
   help: string;
@@ -36,26 +37,27 @@ const ClusterLinkDirectionSelection: FC<Props> = ({
   disabled,
   onSelect,
 }) => {
+  const name = useId();
   const { hasPublicClusterLinks } = useSupportedFeatures();
 
   return (
     <div role="radiogroup" aria-label="Link type">
-      {clusterLinkTypes
-        .filter((type) => type.value !== "public" || hasPublicClusterLinks)
-        .map((type) => (
-          <RadioInput
-            key={type.value}
-            name="type"
-            value={type.value}
-            label={type.label}
-            help={type.help}
-            checked={value === type.value}
-            disabled={disabled}
-            onChange={() => {
-              onSelect(type.value);
-            }}
-          />
-        ))}
+      {CLUSTER_LINK_TYPES.filter(
+        (type) => !isPublic(type.value) || hasPublicClusterLinks,
+      ).map((type) => (
+        <RadioInput
+          key={type.value}
+          name={name}
+          value={type.value}
+          label={type.label}
+          help={type.help}
+          checked={value === type.value}
+          disabled={disabled}
+          onChange={() => {
+            onSelect(type.value);
+          }}
+        />
+      ))}
     </div>
   );
 };

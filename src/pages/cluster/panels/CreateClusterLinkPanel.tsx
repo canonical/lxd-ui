@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import {
   ActionButton,
   Button,
@@ -18,6 +19,9 @@ import { queryKeys } from "util/queryKeys";
 import { createClusterLink } from "api/cluster-links";
 import { base64EncodeObject, checkDuplicateName } from "util/helpers";
 import {
+  isBidirectional,
+  isUnidirectional,
+  isPublic,
   getCertificateFingerprint,
   isValidRemoteAddress,
   normalizeRemoteAddress,
@@ -27,7 +31,7 @@ import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ClusterLinkVerifyCertificate from "pages/cluster/ClusterLinkVerifyCertificate";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { useEscCallback } from "context/useEscCallback";
-import type { LxdClusterLink } from "types/cluster";
+import type { LxdClusterLink, LxdClusterLinkType } from "types/cluster";
 import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
 
 interface PublicLinkCertificate {
@@ -96,19 +100,19 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
       )
       .required("Link name is required"),
     tokenType: Yup.string().when("type", {
-      is: "bidirectional",
+      is: isBidirectional,
       then: (schema) => schema.required("Token setup is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
     token: Yup.string().when(["tokenType", "type"], {
-      is: (tokenType: string, type: string) =>
-        (type === "bidirectional" && tokenType === "consume") ||
-        type === "unidirectional",
+      is: (tokenType: string, type: LxdClusterLinkType) =>
+        (isBidirectional(type) && tokenType === "consume") ||
+        isUnidirectional(type),
       then: (schema) => schema.required("Token is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
     remoteAddress: Yup.string().when("type", {
-      is: "public",
+      is: isPublic,
       then: (schema) =>
         schema
           .required("Remote address is required")
@@ -135,7 +139,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
     validationSchema: clusterLinkSchema,
     onSubmit: async (values) => {
       setError(null);
-      if (values.type === "public") {
+      if (isPublic(values.type)) {
         if (!hasCurrentCertificate) {
           await fetchCertificate(values);
         } else if (isFingerprintConfirmed) {
@@ -144,21 +148,21 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
         return;
       }
 
-      const isBidirectional = values.type === "bidirectional";
-      const hasToken = values.tokenType === "consume" || !isBidirectional;
+      const isBidirectionalLink = isBidirectional(values.type);
+      const hasToken = values.tokenType === "consume" || !isBidirectionalLink;
 
       const payload = {
         name: values.name,
         description: values.description,
         trust_token: hasToken ? values.token : undefined,
-        auth_groups: isBidirectional ? values.authGroups : undefined,
+        auth_groups: isBidirectionalLink ? values.authGroups : undefined,
         type: values.type,
       };
 
       return createClusterLink(JSON.stringify(payload))
         .then((response) => {
           if (
-            values.type === "bidirectional" &&
+            isBidirectional(values.type) &&
             values.tokenType === "generate" &&
             response
           ) {
@@ -219,6 +223,10 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
         setError(null);
       })
       .catch((e) => {
+        setFingerprintConfirmed(false);
+        setCertificate((current) =>
+          current ? { ...current, fingerprint: "" } : null,
+        );
         setError(failure("Fetching certificate failed", e));
       })
       .finally(() => {
@@ -251,7 +259,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
       });
   };
 
-  const isPublic = formik.values.type === "public";
+  const isPublicLink = isPublic(formik.values.type);
   const hasCurrentCertificate =
     !!certificate?.fingerprint &&
     certificate.remoteAddress ===
@@ -261,7 +269,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
     !formik.isValid ||
     formik.isSubmitting ||
     !formik.values.name ||
-    (isPublic && (!hasCurrentCertificate || !isFingerprintConfirmed));
+    (isPublicLink && (!hasCurrentCertificate || !isFingerprintConfirmed));
 
   const certificateVerification = hasCurrentCertificate && certificate && (
     <ClusterLinkVerifyCertificate
@@ -277,7 +285,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle
-          className={pendingLink ? "u-truncate" : undefined}
+          className={classnames({ "u-truncate": !!pendingLink })}
         >
           {pendingLink ? (
             <ClusterLinkExplanationTooltip>
@@ -318,7 +326,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
                 setFingerprintConfirmed(false);
               }}
             >
-              {isPublic && (
+              {isPublicLink && (
                 <>
                   <ActionButton
                     type="button"
@@ -344,7 +352,9 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
       <SidePanel.Footer>
         <ActionButton
           appearance="positive"
-          loading={isPublic ? publicAction === "confirm" : formik.isSubmitting}
+          loading={
+            isPublicLink ? publicAction === "confirm" : formik.isSubmitting
+          }
           onClick={() => void formik.submitForm()}
           className="u-no-margin--bottom"
           disabled={isCreateDisabled}

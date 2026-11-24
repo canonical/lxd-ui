@@ -262,6 +262,61 @@ test("create public cluster link", async ({ page }, testInfo) => {
   await deleteClusterLink(page, link);
 });
 
+test("failed public certificate refetch cannot restore a stale fingerprint", async ({
+  page,
+}, testInfo) => {
+  skipIfNotClustered(testInfo.project.name);
+
+  const link = randomLinkName();
+  const remoteAddress = `${getRemoteClusterAddress()}:8443`;
+  const panel = page.getByLabel("Side panel");
+  await visitClusterLinks(page);
+
+  await fetchPublicClusterLinkCertificate(page, link, remoteAddress);
+  await panel
+    .getByText(
+      "I confirm this fingerprint matches the target LXD server's certificate.",
+    )
+    .click();
+  await expect(panel.getByRole("checkbox")).toBeChecked();
+
+  // An unused local port triggers a real connection failure.
+  await panel.getByPlaceholder("Enter address").fill("127.0.0.1:1");
+  await panel.getByPlaceholder("Enter description").fill("Retry details");
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  await expect(panel.getByText("Fetching certificate failed")).toBeVisible();
+
+  await panel.getByPlaceholder("Enter address").fill(remoteAddress);
+  await panel.getByPlaceholder("Enter description").fill("");
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await expect(
+    panel.getByRole("button", { name: "Create", exact: true }),
+  ).toBeDisabled();
+  await expect(panel.getByPlaceholder("Enter name")).toBeDisabled();
+  for (const type of ["Bidirectional", "Unidirectional", "Public"]) {
+    await expect(
+      panel.getByRole("radio", { name: type, exact: true }),
+    ).toBeDisabled();
+  }
+
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  await expect(panel.locator("#certificate-fingerprint")).toHaveText(
+    /^[0-9a-f]{64}$/,
+  );
+  await expect(panel.getByRole("checkbox")).not.toBeChecked();
+  await expect(
+    panel.getByRole("button", { name: "Create", exact: true }),
+  ).toBeDisabled();
+  await panel
+    .getByText(
+      "I confirm this fingerprint matches the target LXD server's certificate.",
+    )
+    .click();
+  await panel.getByRole("button", { name: "Create", exact: true }).click();
+  await dismissNotification(page, `Cluster link ${link} created.`);
+  await deleteClusterLink(page, link);
+});
+
 test("verify certificate of a pending public cluster link", async ({
   page,
 }, testInfo) => {

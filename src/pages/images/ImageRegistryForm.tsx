@@ -8,6 +8,7 @@ import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { ImageRegistryFormValues } from "types/forms/image";
 import { useClusterLinks } from "context/useClusterLinks";
+import { isPublic } from "util/clusterLink";
 import { ImageRegistryClusterLinkSelector } from "./ImageRegistryClusterLinkSelector";
 import { ImageRegistryProtocolSelector } from "./ImageRegistryProtocolSelector";
 
@@ -21,7 +22,7 @@ export const ImageRegistryForm: FC<Props> = ({ formik }) => {
   const selectedLink = links.find(
     (link) => link.name === formik.values.cluster,
   );
-  const isDefaultProjectEnforced = selectedLink?.type === "public";
+  const isDefaultProjectEnforced = isPublic(selectedLink?.type);
 
   const stripProtocol = (value: string) => value.replace(/^https?:\/\//i, "");
   const isEdit = !formik.values.isCreating;
