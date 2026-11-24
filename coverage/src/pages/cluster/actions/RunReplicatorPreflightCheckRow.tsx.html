@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/60</span>
+                <span class='fraction'>45/60</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.52% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/17</span>
+                <span class='fraction'>4/16</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.03% </span>
+                <span class="strong">81.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>47/54</span>
+                <span class='fraction'>44/54</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -134,46 +134,46 @@
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">66x</span>
+<span class="cline-any cline-yes">66x</span>
+<span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
-<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, ReactNode } from "react";
 import { Spinner } from "@canonical/react-components";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import DsIcon from "components/DsIcon";
 &nbsp;
 export interface PreflightCheck {
@@ -201,7 +201,7 @@ const <span class="fstat-no" title="function not covered" >RunReplicatorPrefligh
 <span class="cstat-no" title="statement not covered" >      return &lt;DsIcon icon="error-fill" /&gt;;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return null;</span></span>
-  };
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   return (
     &lt;div className="preflight-check-row"&gt;
@@ -219,8 +219,8 @@ const <span class="fstat-no" title="function not covered" >RunReplicatorPrefligh
 <span class="cstat-no" title="statement not covered" >        &lt;p className="preflight-check-row-error-message u-text--muted u-no-padding--top u-no-margin--bottom"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {check.message}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-      )}
-    &lt;/div&gt;
+<span class="cstat-no" title="statement not covered" >      )}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
   );
 };
 &nbsp;
@@ -232,7 +232,7 @@ export default RunReplicatorPreflightCheckRow;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

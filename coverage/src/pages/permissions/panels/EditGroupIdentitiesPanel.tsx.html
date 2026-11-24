@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.82% </span>
+                <span class="strong">88.29% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>334/376</span>
+                <span class='fraction'>332/376</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.08% </span>
+                <span class="strong">75.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>35/46</span>
+                <span class='fraction'>34/45</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.82% </span>
+                <span class="strong">88.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>334/376</span>
+                <span class='fraction'>332/376</span>
             </div>
         
             
@@ -494,7 +494,7 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
@@ -521,7 +521,7 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">65x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
@@ -539,7 +539,7 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
@@ -653,7 +653,7 @@
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">52x</span>
@@ -696,7 +696,7 @@
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-yes">52x</span>
@@ -779,8 +779,8 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
@@ -808,9 +808,9 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -915,7 +915,7 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = ({ groups }) =&gt; {
 &nbsp;
   const indeterminateIdentities = new Set&lt;string&gt;(
     identityIdsInSomeGroups.filter(
-      (id) =&gt;
+<span class="cstat-no" title="statement not covered" >      (id) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >        !selectedIdentities.has(id) &amp;&amp; !desiredState.identitiesRemoved.has(id),</span>
     ),
   );
@@ -952,7 +952,7 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = ({ groups }) =&gt; {
     return modifiedIdentities;
   };
 &nbsp;
-  const modifyIdentities = <span class="fstat-no" title="function not covered" >(</span>
+  const <span class="fstat-no" title="function not covered" >modifyIdentities = (</span>
 <span class="cstat-no" title="statement not covered" >    newIdentities: string[],</span>
 <span class="cstat-no" title="statement not covered" >    isUnselectAll?: boolean,</span>
 <span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
@@ -992,7 +992,7 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = ({ groups }) =&gt; {
     });
   };
 &nbsp;
-  const closePanel = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >closePanel = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    panelParams.clear();</span>
 <span class="cstat-no" title="statement not covered" >    notify.clear();</span>
 <span class="cstat-no" title="statement not covered" >    setConfirming(false);</span>
@@ -1029,7 +1029,7 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = ({ groups }) =&gt; {
 &nbsp;
     if (
       !filters.queries.every(
-        (q) =&gt;
+<span class="cstat-no" title="statement not covered" >        (q) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >          getIdentityName(identity).toLowerCase().includes(q.toLowerCase()) ||</span>
 <span class="cstat-no" title="statement not covered" >          identity.id.toLowerCase().includes(q.toLowerCase()),</span>
       )
@@ -1126,7 +1126,7 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = ({ groups }) =&gt; {
 &nbsp;
   const panelTitle =
     groups.length &gt; 1
-      ? `Change identities for ${groups.length<span class="branch-0 cbranch-no" title="branch not covered" >} groups`</span>
+      ? `Change identities for ${groups.length}<span class="branch-0 cbranch-no" title="branch not covered" > groups`</span>
 <span class="cstat-no" title="statement not covered" >      : `Change identities for ${groups[0]?.name}`;</span>
 &nbsp;
   return (
@@ -1198,7 +1198,7 @@ export default EditGroupIdentitiesPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

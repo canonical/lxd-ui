@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.7% </span>
+                <span class="strong">73.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>122/157</span>
+                <span class='fraction'>122/165</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.2% </span>
+                <span class="strong">87.02% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>114/125</span>
+                <span class='fraction'>114/131</span>
             </div>
         
             
@@ -188,7 +188,13 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">40x</span>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
@@ -235,6 +241,12 @@
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -362,14 +374,20 @@ export const fetchReplicator = <span class="fstat-no" title="function not covere
 export const renameReplicator = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
 <span class="cstat-no" title="statement not covered" >  oldName: string,</span>
 <span class="cstat-no" title="statement not covered" >  newName: string,</span>
+<span class="cstat-no" title="statement not covered" >  project: string,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(`${ROOT_PATH}/1.0/replicators/${encodeURIComponent(oldName)}`, {</span></span>
-<span class="cstat-no" title="statement not covered" >    method: "POST",</span>
-<span class="cstat-no" title="statement not covered" >    headers: {</span>
-<span class="cstat-no" title="statement not covered" >      "Content-Type": "application/json",</span>
+<span class="cstat-no" title="statement not covered" >  const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  params.set("project", project);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  await fetch(</span></span>
+<span class="cstat-no" title="statement not covered" >    `${ROOT_PATH}/1.0/replicators/${encodeURIComponent(oldName)}?${params.toString()}`,</span>
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      method: "POST",</span>
+<span class="cstat-no" title="statement not covered" >      headers: {</span>
+<span class="cstat-no" title="statement not covered" >        "Content-Type": "application/json",</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
+<span class="cstat-no" title="statement not covered" >      body: JSON.stringify({ name: newName }),</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    body: JSON.stringify({ name: newName }),</span>
-<span class="cstat-no" title="statement not covered" >  }).then(handleResponse);</span>
+<span class="cstat-no" title="statement not covered" >  ).then(handleResponse);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 export const deleteReplicator = <span class="fstat-no" title="function not covered" >async (</span>
@@ -445,7 +463,7 @@ export const runReplicator = <span class="fstat-no" title="function not covered"
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

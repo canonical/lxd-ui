@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.65% </span>
+                <span class="strong">92.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>164/177</span>
+                <span class='fraction'>163/177</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.72% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/11</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.65% </span>
+                <span class="strong">92.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>164/177</span>
+                <span class='fraction'>163/177</span>
             </div>
         
             
@@ -310,20 +310,20 @@
 <span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">58x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
@@ -407,7 +407,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
 <span class="cline-any cline-yes">59x</span>
@@ -424,7 +424,7 @@ import type { LxdProfile } from "types/profile";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ProfileInstances from "./ProfileInstances";
 import ItemName from "components/ItemName";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { CLOUD_INIT } from "./forms/ProfileFormMenu";
 import { slugify } from "util/slugify";
 import { getProfileInstances } from "util/usedBy";
@@ -450,7 +450,7 @@ const ProfileDetailOverview: FC&lt;Props&gt; = ({ profile }) =&gt; {
 <span class="cstat-no" title="statement not covered" >    return &lt;&gt;Missing project&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const onFailure = <span class="fstat-no" title="function not covered" >(title: string, e: unknown) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >onFailure = (title: string, e: unknown) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    notify.failure(title, e);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
@@ -584,7 +584,7 @@ const ProfileDetailOverview: FC&lt;Props&gt; = ({ profile }) =&gt; {
 <span class="cstat-no" title="statement not covered" >                /&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/tbody&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/table&gt;</span>
-          ) : (
+<span class="cstat-no" title="statement not covered" >          ) : (</span>
             &lt;&gt;-&lt;/&gt;
           )}
         &lt;/Col&gt;
@@ -601,7 +601,7 @@ export default ProfileDetailOverview;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

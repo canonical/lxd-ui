@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.04% </span>
+                <span class="strong">83.72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>185/215</span>
+                <span class='fraction'>180/215</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.04% </span>
+                <span class="strong">83.72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>185/215</span>
+                <span class='fraction'>180/215</span>
             </div>
         
             
@@ -362,7 +362,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -415,8 +415,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -472,8 +472,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -486,8 +486,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -536,7 +536,7 @@ const NetworkIPAM: FC = () =&gt; {
 &nbsp;
   const { data: networks } = useNetworks(<span class="branch-0 cbranch-no" title="branch not covered" >project ?? "")</span>;
 &nbsp;
-  const getNetworkTypeFromAllocation = <span class="fstat-no" title="function not covered" >(allocation: LxdNetworkAllocation) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >getNetworkTypeFromAllocation = (allocation: LxdNetworkAllocation) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return networks?.find((n) =&gt; n.name === allocation.network)?.type;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
@@ -563,7 +563,7 @@ const NetworkIPAM: FC = () =&gt; {
     const usedByItemArray = filterUsedByType(allocation.type, [
       allocation.used_by,
     ]);
-    const usedByItem = usedByItemArray.length === 1 ? usedByItemArray[0<span class="branch-0 cbranch-no" title="branch not covered" >] : null;</span>
+    const usedByItem = usedByItemArray.length === 1 ? usedByItemArray[<span class="branch-0 cbranch-no" title="branch not covered" >0] : null;</span>
 &nbsp;
     const getUsedByUrl = (item: LxdUsedBy) =&gt; {
       if (allocation.type === "instance") <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
@@ -577,7 +577,7 @@ const NetworkIPAM: FC = () =&gt; {
 <span class="branch-0 cbranch-no" title="branch not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      return "";</span>
-    };
+<span class="cstat-no" title="statement not covered" >    };</span>
 &nbsp;
     return {
       className: "u-row",
@@ -630,8 +630,8 @@ const NetworkIPAM: FC = () =&gt; {
 <span class="cstat-no" title="statement not covered" >                address={allocation.addresses}</span>
 <span class="cstat-no" title="statement not covered" >                instanceName={usedByItem.name}</span>
 <span class="cstat-no" title="statement not covered" >                projectName={usedByItem.project}</span>
-              /&gt;
-            ) : (
+<span class="cstat-no" title="statement not covered" >              /&gt;</span>
+<span class="cstat-no" title="statement not covered" >            ) : (</span>
               &lt;&gt;{allocation.addresses}&lt;/&gt;
             ),
           role: "cell",
@@ -701,8 +701,8 @@ const NetworkIPAM: FC = () =&gt; {
 <span class="cstat-no" title="statement not covered" >              &lt;/DocLink&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/EmptyState&gt;</span>
-        )}
-      &lt;/Row&gt;
+<span class="cstat-no" title="statement not covered" >        )}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/Row&gt;</span>
     &lt;/CustomLayout&gt;
   );
 };
@@ -715,7 +715,7 @@ export default NetworkIPAM;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

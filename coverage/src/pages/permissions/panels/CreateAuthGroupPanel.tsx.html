@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.88% </span>
+                <span class="strong">85.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>177/211</span>
+                <span class='fraction'>180/211</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.35% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/17</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.88% </span>
+                <span class="strong">85.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>177/211</span>
+                <span class='fraction'>180/211</span>
             </div>
         
             
@@ -386,7 +386,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
@@ -434,27 +434,27 @@
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
-<span class="cline-any cline-yes">302x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
+<span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
 <span class="cline-any cline-yes">310x</span>
@@ -511,7 +511,7 @@ import NotificationRow from "components/NotificationRow";
 import EditIdentitiesForm, {
   type FormIdentity,
 } from "pages/permissions/panels/EditIdentitiesForm";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
+import classnames from "classnames";
 import { updateIdentities } from "api/auth-identities";
 import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
@@ -538,7 +538,7 @@ const CreateAuthGroupPanel: FC = () =&gt; {
     notify.clear();
   };
 &nbsp;
-  const handleEscKey = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >handleEscKey = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (subForm) {</span>
 <span class="cstat-no" title="statement not covered" >      setSubForm(null);</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
@@ -597,7 +597,7 @@ const CreateAuthGroupPanel: FC = () =&gt; {
 <span class="cstat-no" title="statement not covered" >          queryKey: [queryKeys.authGroups],</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
-  };
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const formik = useFormik&lt;PermissionGroupFormValues&gt;({
     initialValues: {
@@ -655,11 +655,11 @@ const CreateAuthGroupPanel: FC = () =&gt; {
                 isEditing={false}
               /&gt;
             )}
-            {subForm === <span class="branch-0 cbranch-no" title="branch not covered" >"identity" &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;EditIdentitiesForm</span>
-<span class="cstat-no" title="statement not covered" >                selected={identities}</span>
-<span class="cstat-no" title="statement not covered" >                setSelected={setIdentities}</span>
-<span class="cstat-no" title="statement not covered" >                groupName={formik.values.name}</span>
+            {subForm === "identity" &amp;&amp; (
+              &lt;EditIdentitiesForm
+                selected={identities}
+                setSelected={setIdentities}
+                groupName={formik.values.name}
               /&gt;
             )}
             {subForm === "permission" &amp;&amp; (
@@ -703,7 +703,7 @@ export default CreateAuthGroupPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

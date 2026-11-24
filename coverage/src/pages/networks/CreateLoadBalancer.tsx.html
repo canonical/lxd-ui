@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.91% </span>
+                <span class="strong">85.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>167/199</span>
+                <span class='fraction'>170/199</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.61% </span>
+                <span class="strong">52.63% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/21</span>
+                <span class='fraction'>10/19</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.91% </span>
+                <span class="strong">85.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>167/199</span>
+                <span class='fraction'>170/199</span>
             </div>
         
             
@@ -331,7 +331,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -400,16 +400,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -442,19 +442,19 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -530,7 +530,7 @@ const CreateLoadBalancer: FC = () =&gt; {
 <span class="cstat-no" title="statement not covered" >      return "::";</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >    return "";</span>
-  };
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const renderListenAddress = (listenAddress?: string) =&gt; {
     if (listenAddress === "0.0.0.0" || listenAddress === "::") <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
@@ -558,7 +558,7 @@ const CreateLoadBalancer: FC = () =&gt; {
     );
   };
 &nbsp;
-  const onFailure = <span class="fstat-no" title="function not covered" >(e: unknown, listenAddress?: string) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >onFailure = (e: unknown, listenAddress?: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    invalidateCache();</span>
 <span class="cstat-no" title="statement not covered" >    formik.setSubmitting(false);</span>
 <span class="cstat-no" title="statement not covered" >    toastNotify.failure(</span>
@@ -599,7 +599,7 @@ const CreateLoadBalancer: FC = () =&gt; {
               () =&gt; {
                 onSuccess(formik.values.listenAddress);
               },
-              (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >              (msg) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                onFailure(new Error(msg), formik.values.listenAddress);</span>
 <span class="cstat-no" title="statement not covered" >              },</span>
             );
@@ -640,20 +640,20 @@ const CreateLoadBalancer: FC = () =&gt; {
         &lt;/ActionButton&gt;
       &lt;/FormFooterLayout&gt;
 &nbsp;
-      {panelParams.panel === panels.<span class="branch-0 cbranch-no" title="branch not covered" >createLoadBalancerPool &amp;&amp; <span class="branch-0 cbranch-no" title="branch not covered" >network &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >        &lt;CreateLoadBalancerPoolPanel</span>
-<span class="cstat-no" title="statement not covered" >          network={network}</span>
-<span class="cstat-no" title="statement not covered" >          onCreate={<span class="fstat-no" title="function not covered" >(name) =&gt; {</span></span>
+      {panelParams.panel === panels.<span class="branch-0 cbranch-no" title="branch not covered" >createLoadBalancerPool &amp;&amp; network &amp;&amp; (</span>
+        &lt;CreateLoadBalancerPoolPanel
+          network={network}
+<span class="fstat-no" title="function not covered" >          onCreate={(name) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setLoadBalancerCreatedPool(name, formik);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
-<span class="cstat-no" title="statement not covered" >          onCancel={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="fstat-no" title="function not covered" >          onCancel={() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setLoadBalancerCreatedPool("", formik);</span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
         /&gt;
       )}
 &nbsp;
-      {panelParams.panel === panels.<span class="branch-0 cbranch-no" title="branch not covered" >editLoadBalancerPool &amp;&amp; <span class="branch-0 cbranch-no" title="branch not covered" >network &amp;&amp; (</span></span>
-<span class="cstat-no" title="statement not covered" >        &lt;EditLoadBalancerPoolPanel network={network} /&gt;</span>
+      {panelParams.panel === panels.<span class="branch-0 cbranch-no" title="branch not covered" >editLoadBalancerPool &amp;&amp; network &amp;&amp; (</span>
+        &lt;EditLoadBalancerPoolPanel network={network} /&gt;
       )}
     &lt;/BaseLayout&gt;
   );
@@ -667,7 +667,7 @@ export default CreateLoadBalancer;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

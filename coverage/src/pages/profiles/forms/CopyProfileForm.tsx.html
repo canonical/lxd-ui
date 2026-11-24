@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.57% </span>
+                <span class="strong">94.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>324/350</span>
+                <span class='fraction'>330/350</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>45/50</span>
+                <span class='fraction'>44/48</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.57% </span>
+                <span class="strong">94.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>324/350</span>
+                <span class='fraction'>330/350</span>
             </div>
         
             
@@ -518,7 +518,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -651,15 +651,15 @@
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
@@ -740,19 +740,19 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
@@ -868,7 +868,7 @@ const CopyProfileForm: FC&lt;Props&gt; = ({ profile, close }) =&gt; {
         () =&gt; {
           notifySuccess(values.profileName, values.targetProject, true);
         },
-        (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >        (msg) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >          setError(failure(`Profile refresh failed.`, new Error(msg)));</span>
 <span class="cstat-no" title="statement not covered" >          formik.setSubmitting(false);</span>
 <span class="cstat-no" title="statement not covered" >        },</span>
@@ -1000,22 +1000,22 @@ const CopyProfileForm: FC&lt;Props&gt; = ({ profile, close }) =&gt; {
       }
     &gt;
       &lt;Form onSubmit={formik.handleSubmit}&gt;
-        {<span class="branch-0 cbranch-no" title="branch not covered" >error &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Notification</span>
-<span class="cstat-no" title="statement not covered" >            title={error.title}</span>
-<span class="cstat-no" title="statement not covered" >            severity="negative"</span>
-<span class="cstat-no" title="statement not covered" >            onDismiss={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+        {error &amp;&amp; (
+          &lt;Notification
+            title={error.title}
+            severity="negative"
+<span class="fstat-no" title="function not covered" >            onDismiss={() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >              setError(null);</span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
-<span class="cstat-no" title="statement not covered" >          &gt;</span>
-<span class="cstat-no" title="statement not covered" >            {error.message}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/Notification&gt;</span>
+          &gt;
+            {error.message}
+          &lt;/Notification&gt;
         )}
         &lt;div className="u-sv1"&gt;
           &lt;RadioInput
             label="Copy this profile"
             checked={!formik.values.isRefresh}
-            onChange={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="fstat-no" title="function not covered" >            onChange={() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >              formik.setFieldValue("isRefresh", false, false);</span>
 <span class="cstat-no" title="statement not covered" >              formik.setFieldValue("isProfileNameCustom", false, false);</span>
 <span class="cstat-no" title="statement not covered" >              const copyName = getCopiedProfileName(</span>
@@ -1120,7 +1120,7 @@ export default CopyProfileForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

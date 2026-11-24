@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.33% </span>
+                <span class="strong">85.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>158/183</span>
+                <span class='fraction'>158/184</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.33% </span>
+                <span class="strong">85.86% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>158/183</span>
+                <span class='fraction'>158/184</span>
             </div>
         
             
@@ -246,7 +246,8 @@
 <a name='L181'></a><a href='#L181'>181</a>
 <a name='L182'></a><a href='#L182'>182</a>
 <a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -360,18 +361,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
@@ -422,8 +423,9 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
@@ -512,7 +514,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
     );
   };
 &nbsp;
-  const onFailure = <span class="fstat-no" title="function not covered" >(e: unknown) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >onFailure = (e: unknown) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    invalidateCache();</span>
 <span class="cstat-no" title="statement not covered" >    notify.failure(`Update of network ACL ${networkAcl.name} failed`, e);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -543,7 +545,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
             () =&gt; {
               onSuccess();
             },
-            (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >            (msg) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >              onFailure(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >            },</span>
           );
@@ -557,7 +559,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
     },
   });
 &nbsp;
-  const setSection = <span class="fstat-no" title="function not covered" >(newSection: string) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >setSection = (newSection: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (newSection === GENERAL) {</span>
 <span class="cstat-no" title="statement not covered" >      navigate(baseUrl);</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
@@ -566,7 +568,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
 <span class="cstat-no" title="statement not covered" >    updateSection(slugify(newSection));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  const getYaml = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >getYaml = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const payload = toNetworkAcl(formik.values, networkAcl);</span>
 <span class="cstat-no" title="statement not covered" >    return objectToYaml(payload);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -580,7 +582,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
         &lt;YamlSwitch
           formik={formik}
           section={section}
-          setSection={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="fstat-no" title="function not covered" >          setSection={() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setSection(</span>
 <span class="cstat-no" title="statement not covered" >              section === slugify(YAML_CONFIGURATION)</span>
 <span class="cstat-no" title="statement not covered" >                ? GENERAL</span>
@@ -592,7 +594,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
           &lt;&gt;
             &lt;Button
               appearance="base"
-              onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                void formik.setValues(initialValues);</span>
 <span class="cstat-no" title="statement not covered" >              }}</span>
             &gt;
@@ -601,6 +603,7 @@ const EditNetworkAcl: FC&lt;Props&gt; = ({ networkAcl, project }) =&gt; {
             &lt;FormSubmitBtn
               formik={formik}
               baseUrl={baseUrl}
+              includeSubPaths={false}
               disabled={false}
               isYaml={section === slugify(YAML_CONFIGURATION)}
             /&gt;
@@ -619,7 +622,7 @@ export default EditNetworkAcl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

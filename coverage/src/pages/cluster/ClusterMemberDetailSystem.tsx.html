@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.29% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>141/142</span>
+                <span class='fraction'>142/142</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.29% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>141/142</span>
+                <span class='fraction'>142/142</span>
             </div>
         
             
@@ -225,24 +225,24 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -372,8 +372,8 @@ const ClusterMemberDetailSystem: FC&lt;Props&gt; = ({ resources, state }) =&gt; 
               &lt;th className="u-text--muted"&gt;Uptime&lt;/th&gt;
               &lt;td&gt;
                 {state?.sysinfo.uptime
-                  ? formatSeconds(state?.sysinfo.uptime<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
-<span class="cstat-no" title="statement not covered" >                  : "-"}</span>
+                  ? formatSeconds(state?.sysinfo.uptime)
+                  : "-"}
               &lt;/td&gt;
             &lt;/tr&gt;
             &lt;tr&gt;
@@ -450,7 +450,7 @@ const ClusterMemberDetailSystem: FC&lt;Props&gt; = ({ resources, state }) =&gt; 
             &lt;/tr&gt;
             &lt;tr&gt;
               &lt;th className="u-text--muted"&gt;Chassis Version&lt;/th&gt;
-              &lt;td&gt;{resources.system.chassis.<span class="branch-0 cbranch-no" title="branch not covered" >version || "N/A"}&lt;</span>/td&gt;
+              &lt;td&gt;{resources.system.chassis.<span class="branch-0 cbranch-no" title="branch not covered" >version || "N/A"}&lt;/td&gt;</span>
             &lt;/tr&gt;
           &lt;/&gt;
         )}
@@ -472,7 +472,7 @@ const ClusterMemberDetailSystem: FC&lt;Props&gt; = ({ resources, state }) =&gt; 
             &lt;/tr&gt;
             &lt;tr&gt;
               &lt;th className="u-text--muted"&gt;Motherboard Version&lt;/th&gt;
-              &lt;td&gt;{resources.system.motherboard.<span class="branch-0 cbranch-no" title="branch not covered" >version || "N/A"}&lt;</span>/td&gt;
+              &lt;td&gt;{resources.system.motherboard.<span class="branch-0 cbranch-no" title="branch not covered" >version || "N/A"}&lt;/td&gt;</span>
             &lt;/tr&gt;
           &lt;/&gt;
         )}
@@ -496,7 +496,7 @@ export default ClusterMemberDetailSystem;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

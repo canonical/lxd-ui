@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.6% </span>
+                <span class="strong">90.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>120/131</span>
+                <span class='fraction'>119/131</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.6% </span>
+                <span class="strong">90.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>120/131</span>
+                <span class='fraction'>119/131</span>
             </div>
         
             
@@ -194,28 +194,28 @@
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
+<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -277,15 +277,15 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -323,8 +323,8 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, type FC } from "react";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { queryKeys } from "util/queryKeys";
@@ -379,7 +379,7 @@ const DeleteNetworkForwardBtn: FC&lt;Props&gt; = ({ network, forward, project })
     );
   };
 &nbsp;
-  const onFailure = <span class="fstat-no" title="function not covered" >(e: unknown) =&gt; {</span>
+  const <span class="fstat-no" title="function not covered" >onFailure = (e: unknown) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    invalidateCache();</span>
 <span class="cstat-no" title="statement not covered" >    setLoading(false);</span>
 <span class="cstat-no" title="statement not covered" >    notify.failure(</span>
@@ -408,7 +408,7 @@ const DeleteNetworkForwardBtn: FC&lt;Props&gt; = ({ network, forward, project })
           () =&gt; {
             onSuccess();
           },
-          (msg) =&gt; {
+<span class="cstat-no" title="statement not covered" >          (msg) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            onFailure(new Error(msg));</span>
 <span class="cstat-no" title="statement not covered" >          },</span>
         );
@@ -463,7 +463,7 @@ export default DeleteNetworkForwardBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-19T09:07:20.619Z
+                at 2026-11-24T15:26:29.113Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
