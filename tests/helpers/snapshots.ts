@@ -2,6 +2,7 @@ import { randomNameSuffix } from "./name";
 import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 import { dismissNotification } from "./notification";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomSnapshotName = (): string => {
   return `playwright-snapshot-${randomNameSuffix()}`;
@@ -84,10 +85,11 @@ export const editInstanceSnapshot = async (
   await page.getByLabel("Expiration time").click();
   await page.getByLabel("Expiration time").fill("12:23");
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page
-    .getByText(`Snapshot ${newName} saved for instance ${instance}.`)
-    .click();
-  await page.getByText("Apr 28, 2093, 12:23 PM").click();
+  await dismissNotification(
+    page,
+    `Snapshot ${newName} saved for instance ${instance}.`,
+  );
+  await expect(page.getByText("Apr 28, 2093, 12:23 PM")).toBeVisible();
 };
 
 export const deleteInstanceSnapshot = async (

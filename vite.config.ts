@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { execSync } from "child_process";
@@ -35,7 +34,8 @@ export default defineConfig({
       },
     },
   },
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: { tsconfigPaths: true },
   server: {
     port: process.env.VITE_PORT ? Number(process.env.VITE_PORT) : 3000,
     strictPort: true,
@@ -61,6 +61,24 @@ export default defineConfig({
   },
   build: {
     outDir: "./build/ui",
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              // Rolldown moves modules shared with lazy routes (like react-components)
+              // into a common chunk, whose css is linked before the css of the entry chunk.
+              // That would place the react-components css before vanilla from styles.scss,
+              // breaking overrides with equal specificity (e.g. .scrollable-table th).
+              // Bundling both into one chunk keeps the css in import order.
+              name: "styles",
+              test: /(src\/sass\/styles\.scss$|node_modules\/@canonical\/react-components\/)/,
+              priority: 100,
+            },
+          ],
+        },
+      },
+    },
   },
   define: {
     __UI_GIT_HASH__: getGitHash(),
