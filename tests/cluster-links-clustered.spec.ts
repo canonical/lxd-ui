@@ -44,9 +44,28 @@ test("cluster link type can be changed in the create form", async ({
     panel.getByRole("radio", { name: "Bidirectional", exact: true }),
   ).toBeChecked();
 
+  const tokenInput = panel.getByPlaceholder("Enter token");
+  await expect(tokenInput).toHaveCount(0);
+  await panel.getByLabel("Token setup").selectOption("consume");
+  await expect(tokenInput).toBeEditable();
+  await tokenInput.fill("token-to-clear");
+  await panel.getByLabel("Token setup").selectOption("generate");
+  await expect(tokenInput).toHaveCount(0);
+  await panel.getByLabel("Token setup").selectOption("consume");
+  await expect(tokenInput).toHaveValue("");
+  await panel.getByLabel("Token setup").selectOption("");
+  await expect(tokenInput).toHaveCount(0);
+
   await panel.getByLabel("Token setup").selectOption("generate");
   await panel.getByPlaceholder("Enter name").fill(randomLinkName());
   await panel.getByPlaceholder("Enter description").fill("My link");
+
+  await panel
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Unidirectional", { exact: true })
+    .click();
+  await expect(panel.getByLabel("Token setup")).toHaveCount(0);
+  await expect(tokenInput).toBeEditable();
 
   await panel
     .getByRole("radiogroup", { name: "Link type" })
@@ -65,6 +84,7 @@ test("cluster link type can be changed in the create form", async ({
     .getByText("Bidirectional", { exact: true })
     .click();
   await expect(panel.getByLabel("Token setup")).toHaveValue("");
+  await expect(tokenInput).toHaveCount(0);
   await expect(panel.getByPlaceholder("Enter description")).toHaveValue(
     "My link",
   );
@@ -232,9 +252,19 @@ test("create public cluster link", async ({ page }, testInfo) => {
   }
   expect(clusterLinkExists(link)).toBe(true);
 
-  // Editing the description requires fetching again before confirming.
+  // Restoring the original address must not restore its earlier fingerprint.
+  await panel.getByPlaceholder("Enter address").fill("127.0.0.1:1");
+  await panel.getByPlaceholder("Enter address").fill(remoteAddress);
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  await expect(panel.locator("#certificate-fingerprint")).toBeVisible();
+
+  // Restoring the original description also requires a new fetch.
   await panel.getByPlaceholder("Enter description").fill("Public images");
   await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await panel.getByPlaceholder("Enter description").fill("");
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await panel.getByPlaceholder("Enter description").fill("Public images");
   await panel.getByRole("button", { name: "Fetch certificate" }).click();
   await expect(panel.locator("#certificate-fingerprint")).toBeVisible();
 

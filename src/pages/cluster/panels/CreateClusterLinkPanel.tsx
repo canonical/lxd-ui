@@ -69,6 +69,13 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
   );
   const isFetchingCertificate = publicAction === "fetch";
 
+  const invalidateCertificate = (): void => {
+    setFingerprintConfirmed(false);
+    setCertificate((current) =>
+      current ? { ...current, fingerprint: "" } : null,
+    );
+  };
+
   const invalidateClusterLinks = () => {
     queryClient.invalidateQueries({
       queryKey: [queryKeys.cluster, queryKeys.links],
@@ -223,10 +230,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
         setError(null);
       })
       .catch((e) => {
-        setFingerprintConfirmed(false);
-        setCertificate((current) =>
-          current ? { ...current, fingerprint: "" } : null,
-        );
+        invalidateCertificate();
         setError(failure("Fetching certificate failed", e));
       })
       .finally(() => {
@@ -322,9 +326,7 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
             <ClusterLinkForm
               formik={formik}
               isNameLocked={!!certificate}
-              onPublicDetailsChange={() => {
-                setFingerprintConfirmed(false);
-              }}
+              onPublicDetailsChange={invalidateCertificate}
             >
               {isPublicLink && (
                 <>
@@ -349,7 +351,15 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
           )}
         </ScrollableContainer>
       </SidePanel.Content>
-      <SidePanel.Footer>
+      <SidePanel.Footer className="u-align--right">
+        <Button
+          appearance="base"
+          onClick={closePanel}
+          className="u-no-margin--bottom"
+          disabled={formik.isSubmitting}
+        >
+          Cancel
+        </Button>
         <ActionButton
           appearance="positive"
           loading={
@@ -361,14 +371,6 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
         >
           Create
         </ActionButton>
-        <Button
-          appearance="base"
-          onClick={closePanel}
-          className="u-no-margin--bottom"
-          disabled={formik.isSubmitting}
-        >
-          Cancel
-        </Button>
       </SidePanel.Footer>
     </SidePanel>
   );

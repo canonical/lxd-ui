@@ -136,7 +136,15 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
           <ClusterLinkForm formik={formik} />
         </ScrollableContainer>
       </SidePanel.Content>
-      <SidePanel.Footer>
+      <SidePanel.Footer className="u-align--right">
+        <Button
+          appearance="base"
+          onClick={closePanel}
+          className="u-no-margin--bottom"
+          disabled={formik.isSubmitting}
+        >
+          Cancel
+        </Button>
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
@@ -146,14 +154,6 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
         >
           Save
         </ActionButton>
-        <Button
-          appearance="base"
-          onClick={closePanel}
-          className="u-no-margin--bottom"
-          disabled={formik.isSubmitting}
-        >
-          Cancel
-        </Button>
       </SidePanel.Footer>
     </SidePanel>
   );
