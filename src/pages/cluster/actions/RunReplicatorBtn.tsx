@@ -200,7 +200,7 @@ const RunReplicatorBtn: FC<Props> = ({
               </div>
               <div className="replicator-data-flow__node replicator-data-flow__target">
                 <span className="node-heading u-text--muted">
-                  {isRestore ? "leader" : "standby"} project (remote)
+                  {isRestore ? "leader" : "target"} project (remote)
                 </span>
                 <strong className="mono-font">{replicator.project}</strong>
               </div>
@@ -208,21 +208,21 @@ const RunReplicatorBtn: FC<Props> = ({
 
             {isRestore ? (
               <p>
-                This will sync all instances from the{" "}
-                <ClusterLinkRichChip clusterLink={clusterLink} /> cluster back
-                to the{" "}
+                This will sync all instances from the remote cluster using link{" "}
+                <ClusterLinkRichChip clusterLink={clusterLink} /> back to the
+                local project{" "}
                 <ProjectRichChip
                   projectName={replicator.project}
                   urlSuffix="/configuration/replication"
-                />{" "}
-                project.
+                />
+                .
               </p>
             ) : (
               <p>
                 This will sync {numberOfInstances}{" "}
                 {pluralize("instance", numberOfInstances)} from the source
                 project <ProjectRichChip projectName={replicator.project} /> to
-                the standby cluster{" "}
+                the target cluster using link{" "}
                 <ClusterLinkRichChip clusterLink={clusterLink} />.
               </p>
             )}
