@@ -7,6 +7,7 @@ import { getClusterLinksStatus, getLinkIdentity } from "util/clusterLink";
 
 interface Props {
   link: LxdClusterLink;
+  subject?: string;
 }
 
 const STATUS_ICONS: Record<StatusCaption, string> = {
@@ -15,7 +16,7 @@ const STATUS_ICONS: Record<StatusCaption, string> = {
   Pending: "status-queued-small",
 };
 
-const ClusterLinkStatus: FC<Props> = ({ link }) => {
+const ClusterLinkStatus: FC<Props> = ({ link, subject }) => {
   const { data: state, isLoading } = useClusterLinkState(link.name);
   const { data: identities = [] } = useIdentities();
 
@@ -29,7 +30,7 @@ const ClusterLinkStatus: FC<Props> = ({ link }) => {
   return (
     <>
       <Icon name={STATUS_ICONS[status]} className="status-icon" />
-      {status}
+      {subject ? `${subject} ${status.toLowerCase()}` : status}
     </>
   );
 };

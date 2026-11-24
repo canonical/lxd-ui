@@ -30,10 +30,13 @@ test("Replicator", async ({ page }, testInfo) => {
   const replicatorRow = page.getByRole("row").filter({ hasText: replicator });
   await replicatorRow.getByRole("link", { name: replicator }).click();
   await expect(page.getByRole("heading", { name: "General" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Target" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sync" })).toBeVisible();
-  await expect(page.getByRole("cell", { name: project })).toBeVisible();
+  await expect(page.getByRole("cell", { name: "Leader" })).toBeVisible();
   await expect(page.getByRole("cell", { name: clusterLink })).toBeVisible();
+  await expect(page.getByText("Target cluster reachable")).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "Not configured" }),
+  ).toBeVisible();
 
   // Edit replicator from detail page before running it.
   const updatedDescription = "Replication schedule updated by Replicator test";
