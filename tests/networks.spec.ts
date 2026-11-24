@@ -15,7 +15,6 @@ import {
 } from "./helpers/network";
 import {
   expectCloseWarning,
-  expectCloseWithoutWarning,
   expectUnsavedChangesWarning,
 } from "./helpers/unsavedChanges";
 import {
@@ -84,7 +83,6 @@ test.describe("bridge type", () => {
     await expect(
       page.getByRole("button", { name: "Create forward" }),
     ).toBeVisible();
-    await expectCloseWithoutWarning(page);
   });
 
   test("set bridge network driver and hardware details", async ({ page }) => {

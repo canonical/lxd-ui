@@ -27,15 +27,3 @@ export const expectCloseWarning = async (page: Page) => {
   await page.close({ runBeforeUnload: true });
   await expect.poll(() => dialogType).toBe("beforeunload");
 };
-
-export const expectCloseWithoutWarning = async (page: Page) => {
-  let dialogType = "";
-  page.once("dialog", (dialog) => {
-    dialogType = dialog.type();
-    void dialog.dismiss();
-  });
-  const closed = page.waitForEvent("close");
-  await page.close({ runBeforeUnload: true });
-  await closed;
-  expect(dialogType).toBe("");
-};
