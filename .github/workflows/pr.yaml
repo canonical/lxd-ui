@@ -102,8 +102,8 @@ jobs:
           lxd_oidc_client_secret: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
           lxd_oidc_issuer: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
           lxd_oidc_audience: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
-          lxd_oidc_user: "lxd-ui-e2e-tests@example.org"
-          lxd_oidc_password: "lxd-ui-e2e-password"
+          lxd_oidc_user: "cluster-manager-e2e-tests@example.org"
+          lxd_oidc_password: "cluster-manager-e2e-password"
           lxd_oidc_groups_claim: "lxd-idp-groups"
 
       - name: Install dependencies
@@ -147,8 +147,8 @@ jobs:
           lxd_oidc_client_secret: "CNKX4UmrZKZJq5rJy5VM_JfcNPqkws1rwWWQk_q0oyZ8gABARr19ic7xrhPssGA1"
           lxd_oidc_issuer: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/"
           lxd_oidc_audience: "https://dev-h6c02msuggpi6ijh.eu.auth0.com/api/v2/"
-          lxd_oidc_user: "lxd-ui-e2e-tests@example.org"
-          lxd_oidc_password: "lxd-ui-e2e-password"
+          lxd_oidc_user: "cluster-manager-e2e-tests@example.org"
+          lxd_oidc_password: "cluster-manager-e2e-password"
           lxd_oidc_groups_claim: "lxd-idp-groups"
 
       - name: Run Playwright tests
