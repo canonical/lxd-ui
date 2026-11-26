@@ -21,12 +21,60 @@
 }
 
 .replicator-detail {
-  th {
-    width: 33%;
+  .section {
+    th {
+      width: 33%;
+    }
+
+    td:not(.status-cell) {
+      padding-left: 1.8rem;
+    }
   }
 
-  td:not(.status-cell) {
-    padding-left: 1.8rem;
+  .replicator-general {
+    margin-bottom: $spv--x-large;
+    table-layout: fixed;
+
+    thead th {
+      font-size: 1rem;
+      font-weight: $font-weight-bold;
+      line-height: 1.5rem;
+      text-transform: none;
+
+      // Keep the help icon next to the last word when the header wraps.
+      .explanation-tooltip-wrapper {
+        display: inline;
+
+        .explanation-tooltip-icon {
+          margin-left: $sph--small;
+        }
+      }
+    }
+
+    // Align the header and chip with the status text, after the status icon.
+    .status-header {
+      padding-left: calc($sph--small + 1.5rem);
+    }
+
+    .cluster-link-chip,
+    .link-status,
+    .status-cell {
+      padding-left: 1.5rem;
+    }
+
+    .status-cell {
+      text-indent: -1.5rem;
+
+      .status-icon,
+      .status-spinner {
+        margin-right: $sph--small;
+      }
+
+      // Show the spinner where the status icon will be.
+      .status-spinner {
+        margin-left: 0;
+      }
+    }
   }
 }
 
