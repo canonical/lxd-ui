@@ -107,10 +107,10 @@ const DeleteReplicatorBtn: FC<Props> = ({
               />
               .
             </p>
-            <p>Scheduled refreshes to the standby cluster will stop.</p>
+            <p>Scheduled refreshes to the target cluster will stop.</p>
             <p>
-              Instances on the standby cluster remain available, but they will
-              no longer receive updates.
+              Instances on the target cluster remain available, but they will no
+              longer receive updates.
             </p>
             {isReplicatorRunning && (
               <Notification

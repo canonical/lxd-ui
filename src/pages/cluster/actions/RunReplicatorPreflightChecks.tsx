@@ -137,7 +137,7 @@ const RunReplicatorPreflightChecks: FC<Props> = ({
     id: "cluster-link-reachable",
     label: (
       <>
-        Cluster link{" "}
+        Target cluster using link{" "}
         <ClusterLinkRichChip clusterLink={replicator.config?.cluster} /> is
         reachable
       </>

@@ -145,7 +145,9 @@ export const runReplicatorFromDetailPage = async (
     runDialog.getByText(`Project ${project} is in leader mode`),
   ).toBeVisible();
   await expect(
-    runDialog.getByText(`Cluster link ${clusterLink} is reachable`),
+    runDialog.getByText(
+      `Target cluster using link ${clusterLink} is reachable`,
+    ),
   ).toBeVisible();
   await runDialog.getByRole("button", { name: mode }).click();
   await dismissNotification(page, `Replicator ${replicator} started.`);
@@ -170,11 +172,13 @@ export const testLeaderPreflightChecks = async (
     dialog.getByText(`Project ${projectName} is in leader mode`),
   ).toBeVisible();
   await expect(
-    dialog.getByText(`Cluster link ${clusterLinkName} is reachable`),
+    dialog.getByText(
+      `Target cluster using link ${clusterLinkName} is reachable`,
+    ),
   ).toBeVisible();
   await expect(
     dialog.getByText(
-      `This will sync 1 instance from the source project ${projectName} to the standby cluster ${clusterLinkName}`,
+      `This will sync 1 instance from the source project ${projectName} to the target cluster using link ${clusterLinkName}`,
     ),
   ).toBeVisible();
   await dialog.getByRole("button", { name: "Cancel" }).click();
@@ -197,11 +201,13 @@ export const testStandbyPreflightChecks = async (
     ),
   ).toBeVisible();
   await expect(
-    dialog.getByText(`Cluster link ${clusterLinkName} is reachable`),
+    dialog.getByText(
+      `Target cluster using link ${clusterLinkName} is reachable`,
+    ),
   ).toBeVisible();
   await expect(
     dialog.getByText(
-      `This will sync all instances from the ${clusterLinkName} cluster back to the ${projectName} project`,
+      `This will sync all instances from the remote cluster using link ${clusterLinkName} back to the local project ${projectName}`,
     ),
   ).toBeVisible();
   await expect(
