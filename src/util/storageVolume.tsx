@@ -92,6 +92,10 @@ export const renderContentType = (volume: LxdStorageVolume): string => {
     : capitalizeFirstLetter(volume.content_type);
 };
 
+export const isCustomVolume = (volume: LxdStorageVolume): boolean => {
+  return volume.type === "custom";
+};
+
 export const isSnapshot = (volume: LxdStorageVolume): boolean => {
   return volume.name.includes("/");
 };
@@ -143,7 +147,7 @@ export const getVolumeDetailUrl = (volume: LxdStorageVolume): string => {
     return `${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/local-images`;
   }
 
-  if (volume.type === "custom" && volume.content_type === "iso") {
+  if (isCustomVolume(volume) && volume.content_type === "iso") {
     return `${ROOT_PATH}/ui/project/${encodeURIComponent(volume.project)}/storage/custom-isos`;
   }
 

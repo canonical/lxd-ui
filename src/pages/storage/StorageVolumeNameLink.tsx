@@ -2,7 +2,11 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import type { LxdStorageVolume } from "types/storage";
 import classnames from "classnames";
-import { getVolumeDetailUrl, hasVolumeDetailPage } from "util/storageVolume";
+import {
+  getVolumeDetailUrl,
+  hasVolumeDetailPage,
+  isCustomVolume,
+} from "util/storageVolume";
 import { useInstances } from "context/useInstances";
 import { useLocalImagesInProject } from "context/useImages";
 import { getImageAlias, getImageName } from "util/images";
@@ -33,8 +37,7 @@ const StorageVolumeNameLink: FC<Props> = ({
   const image =
     isImage && images.find((image) => image.fingerprint === volume.name);
 
-  const isCustom = volume.type === "custom";
-  const displayLink = instance || image || isCustom;
+  const displayLink = instance || image || isCustomVolume(volume);
   const getCaption = () => {
     if (overrideName) {
       return overrideName;

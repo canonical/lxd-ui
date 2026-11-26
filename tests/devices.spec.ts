@@ -13,6 +13,7 @@ import {
   editInstance,
   randomInstanceName,
   saveInstance,
+  visitInstance,
 } from "./helpers/instances";
 import {
   attachHostPath,
@@ -261,4 +262,71 @@ test("add, edit and remove an other device", async ({ page }) => {
   await expect(page.getByLabel("Type")).not.toBeVisible();
 
   await deleteProfile(page, profile);
+});
+
+test("devices table shows the instances using a custom volume", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const profile = randomProfileName();
+  const volume = randomVolumeName();
+  const instances = [
+    randomInstanceName(),
+    randomInstanceName(),
+    randomInstanceName(),
+  ];
+  const sortedInstances = [...instances].sort((a, b) => a.localeCompare(b));
+
+  await startProfileCreation(page, profile);
+  await page.getByText("Disk", { exact: true }).click();
+  await attachVolume(page, volume, "/foo");
+  await finishProfileCreation(page, profile);
+
+  for (const instance of instances) {
+    await createInstance(page, instance);
+    await editInstance(page, instance);
+    await page.getByRole("button", { name: "Add profile" }).click();
+    await page.locator("#profile-1").selectOption(profile);
+    await saveInstance(page, instance, 1);
+  }
+
+  const getUsedByCell = (rowText: string) =>
+    page
+      .locator(".device-table")
+      .getByRole("row")
+      .filter({ hasText: rowText })
+      .getByRole("cell", { name: "Used by" });
+
+  // the first instance is shown in the cell, the others in the menu
+  const assertUsedBy = async (first: string) => {
+    const usedBy = getUsedByCell(volume);
+    await expect(usedBy.getByRole("link", { name: first })).toBeVisible();
+    await usedBy.getByRole("button", { name: "Show 2 more instances" }).click();
+    const menu = page.locator(".p-contextual-menu__dropdown");
+    for (const instance of sortedInstances.filter((item) => item !== first)) {
+      await expect(menu.getByRole("link", { name: instance })).toBeVisible();
+    }
+    await expect(menu.getByRole("link", { name: first })).toHaveCount(0);
+  };
+
+  await visitProfile(page, profile);
+  await assertUsedBy(sortedInstances[0]);
+
+  const current = sortedInstances[2];
+  await visitInstance(page, current);
+  await expect(
+    getUsedByCell("root storage").getByRole("link", { name: current }),
+  ).toBeVisible();
+  await assertUsedBy(current);
+  await page
+    .locator(".p-contextual-menu__dropdown")
+    .getByRole("link", { name: sortedInstances[0] })
+    .click();
+  await expect(page.getByText(`Instances${sortedInstances[0]}`)).toBeVisible();
+
+  for (const instance of instances) {
+    await deleteInstance(page, instance);
+  }
+  await deleteProfile(page, profile);
+  await deleteVolume(page, volume);
 });

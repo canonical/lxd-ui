@@ -1,19 +1,33 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { MainTable } from "@canonical/react-components";
-import { isRootDisk, isDiskDevice, isOtherDevice } from "util/devices";
+import {
+  isRootDisk,
+  isDiskDevice,
+  isOtherDevice,
+  isVolumeDevice,
+} from "util/devices";
 import type { FormDevice } from "types/formDevice";
 import ResourceLink from "components/ResourceLink";
 import DeviceDetails from "./DeviceDetails";
 import { useParams } from "react-router-dom";
 import type { LxdDeviceValue, LxdDevices } from "types/device";
+import DeviceUsedBy, { UNKNOWN_USED_BY } from "./DeviceUsedBy";
+import UsedByItem from "components/UsedByItem";
+import { getLinkTarget } from "util/usedBy";
 
 interface Props {
   configBaseURL: string;
   devices: LxdDevices;
   location?: string;
+  instanceName?: string;
 }
 
-const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
+const DeviceListTable: FC<Props> = ({
+  configBaseURL,
+  devices,
+  location,
+  instanceName,
+}) => {
   const { project } = useParams<{ project: string }>();
 
   const byTypeAndName = (
@@ -40,6 +54,32 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
 
   const hasDevices = overviewDevices.length > 0;
 
+  const getUsedByContent = (device: LxdDeviceValue): ReactNode => {
+    // the root disk of an instance is only used by that instance
+    if (isRootDisk(device as FormDevice) && instanceName) {
+      const instance = { name: instanceName, project: project as string };
+      return (
+        <UsedByItem
+          item={instance}
+          activeProject={project as string}
+          type="instance"
+          to={getLinkTarget(instance, "instance")}
+        />
+      );
+    }
+    if (!isDiskDevice(device) || !isVolumeDevice(device)) {
+      return UNKNOWN_USED_BY;
+    }
+    return (
+      <DeviceUsedBy
+        device={device}
+        project={project as string}
+        location={location}
+        instanceName={instanceName}
+      />
+    );
+  };
+
   const deviceHeaders = [
     { content: "Name", sortKey: "name", className: "u-text--muted" },
     {
@@ -48,6 +88,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
       className: "u-text--muted device-type",
     },
     { content: "Details", className: "u-text--muted" },
+    { content: "Used by", className: "u-text--muted device-used-by" },
   ];
 
   const deviceRows = overviewDevices.map(([devicename, device]) => {
@@ -91,6 +132,12 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices, location }) => {
           ),
           role: "cell",
           "aria-label": "Details",
+        },
+        {
+          className: "device-used-by",
+          content: getUsedByContent(device),
+          role: "cell",
+          "aria-label": "Used by",
         },
       ],
       sortData: {
