@@ -3,7 +3,6 @@ import {
   EmptyState,
   ScrollableTable,
   SearchBox,
-  TablePagination,
   useListener,
   useNotify,
   Spinner,
@@ -24,9 +23,14 @@ import { queryKeys } from "util/queryKeys";
 import { isSnapshotsDisabled } from "util/snapshots";
 import { figureCollapsedScreen } from "util/storageVolume";
 import useSortTableData from "util/useSortTableData";
+import HighlightedSnapshotPagination from "components/HighlightedSnapshotPagination";
 import DocLink from "components/DocLink";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import DsIcon from "components/DsIcon";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useInstances } from "context/useInstances";
+import { getInstanceSnapshotsByVolumeSnapshotUuid } from "util/instanceSnapshots";
+import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -58,6 +62,13 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   });
 
   const snapshotsDisabled = isSnapshotsDisabled(project);
+  const { hasInstanceSnapshotsMultiVolume } = useSupportedFeatures();
+  // instance snapshots only include volumes of their own project
+  const { data: instances = [], isPending: isInstancesPending } = useInstances(
+    volume.project,
+    hasInstanceSnapshotsMultiVolume && !!volumeSnapshots?.length,
+  );
+  const instanceSnapshots = getInstanceSnapshotsByVolumeSnapshotUuid(instances);
 
   useEffect(() => {
     const validNames = new Set(
@@ -111,6 +122,9 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       sortKey: "expires_at",
       className: "expiration",
     },
+    ...(hasInstanceSnapshotsMultiVolume
+      ? [{ content: "Instance snapshot", className: "instance-snapshot" }]
+      : []),
     { "aria-label": "Actions", className: "actions" },
   ];
 
@@ -118,6 +132,8 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
     const actions = (
       <VolumeSnapshotActions volume={volume} snapshot={snapshot} />
     );
+    const uuid = snapshot.config["volatile.uuid"];
+    const link = uuid ? instanceSnapshots.get(uuid) : undefined;
 
     return {
       key: snapshot.name,
@@ -157,6 +173,30 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           "aria-label": "Expires at",
           className: "expiration",
         },
+        ...(hasInstanceSnapshotsMultiVolume
+          ? [
+              {
+                content: isInstancesPending ? (
+                  <Spinner />
+                ) : link ? (
+                  <div className="snapshot-link">
+                    <span className="u-truncate" title={link.instance.name}>
+                      {link.instance.name} /
+                    </span>
+                    <InstanceSnapshotLinkChip
+                      name={link.snapshot.name}
+                      instance={link.instance}
+                    />
+                  </div>
+                ) : (
+                  "-"
+                ),
+                role: "cell",
+                "aria-label": "Instance snapshot",
+                className: "instance-snapshot",
+              },
+            ]
+          : []),
         {
           content: actions,
           role: "cell",
@@ -246,12 +286,8 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
             tableId="volume-snapshot-table"
             belowIds={["status-bar"]}
           >
-            <TablePagination
-              data={sortedRows}
-              id="pagination"
-              itemName="snapshot"
-              className="u-no-margin--top"
-              aria-label="Table pagination control"
+            <HighlightedSnapshotPagination
+              rows={sortedRows}
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification
@@ -285,7 +321,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
                 defaultSort="created_at"
                 defaultSortDirection="descending"
               />
-            </TablePagination>
+            </HighlightedSnapshotPagination>
           </ScrollableTable>
         </>
       ) : (

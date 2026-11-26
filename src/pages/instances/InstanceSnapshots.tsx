@@ -3,7 +3,7 @@ import {
   EmptyState,
   ScrollableTable,
   SearchBox,
-  TablePagination,
+  Spinner,
   useListener,
   useNotify,
   useToastNotification,
@@ -21,10 +21,19 @@ import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigure
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
+import HighlightedSnapshotPagination from "components/HighlightedSnapshotPagination";
 import NotificationRow from "components/NotificationRow";
 import DocLink from "components/DocLink";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import DsIcon from "components/DsIcon";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useLoadVolumes } from "context/useVolumes";
+import {
+  getCustomVolumeSnapshotDevices,
+  getCustomVolumeSnapshotLinks,
+  getVolumeSnapshotsByUuid,
+} from "util/instanceSnapshots";
+import CustomVolumeSnapshotLinks from "./CustomVolumeSnapshotLinks";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -44,6 +53,17 @@ const InstanceSnapshots = (props: Props) => {
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
   const { project } = useCurrentProject();
   const snapshotsDisabled = isSnapshotsDisabled(project);
+  const { hasInstanceSnapshotsMultiVolume } = useSupportedFeatures();
+  const hasCustomVolumeSnapshots =
+    hasInstanceSnapshotsMultiVolume &&
+    !!instance.snapshots?.some(
+      (snapshot) => getCustomVolumeSnapshotDevices(snapshot).length > 0,
+    );
+  const { data: volumes = [], isLoading: isVolumesLoading } = useLoadVolumes(
+    instance.project,
+    { enabled: hasCustomVolumeSnapshots },
+  );
+  const volumeSnapshots = getVolumeSnapshotsByUuid(volumes);
 
   const onSuccess = (message: ReactNode, actions?: NotificationAction[]) => {
     toastNotify.success(message, actions);
@@ -111,6 +131,14 @@ const InstanceSnapshots = (props: Props) => {
       className: "expiration",
     },
     { content: "Stateful", sortKey: "stateful", className: "stateful" },
+    ...(hasInstanceSnapshotsMultiVolume
+      ? [
+          {
+            content: "Custom disk snapshots",
+            className: "custom-disk-snapshots",
+          },
+        ]
+      : []),
     { "aria-label": "Actions", className: "actions" },
   ];
 
@@ -168,6 +196,27 @@ const InstanceSnapshots = (props: Props) => {
           "aria-label": "Stateful",
           className: "stateful",
         },
+        ...(hasInstanceSnapshotsMultiVolume
+          ? [
+              {
+                content:
+                  isVolumesLoading &&
+                  getCustomVolumeSnapshotDevices(snapshot).length > 0 ? (
+                    <Spinner />
+                  ) : (
+                    <CustomVolumeSnapshotLinks
+                      links={getCustomVolumeSnapshotLinks(
+                        snapshot,
+                        volumeSnapshots,
+                      )}
+                    />
+                  ),
+                role: "cell",
+                "aria-label": "Custom disk snapshots",
+                className: "custom-disk-snapshots",
+              },
+            ]
+          : []),
         {
           content: actions,
           role: "cell",
@@ -254,12 +303,8 @@ const InstanceSnapshots = (props: Props) => {
             tableId="instance-snapshot-table"
             belowIds={["status-bar"]}
           >
-            <TablePagination
-              data={sortedRows}
-              id="pagination"
-              itemName="snapshot"
-              className="u-no-margin--top"
-              aria-label="Table pagination control"
+            <HighlightedSnapshotPagination
+              rows={sortedRows}
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification
@@ -293,7 +338,7 @@ const InstanceSnapshots = (props: Props) => {
                 defaultSort="created_at"
                 defaultSortDirection="descending"
               />
-            </TablePagination>
+            </HighlightedSnapshotPagination>
           </ScrollableTable>
         </>
       ) : (

@@ -111,6 +111,9 @@ export interface LxdVolumeSnapshot {
   created_at: string;
   expires_at?: string;
   description?: string;
+  config: {
+    "volatile.uuid"?: string;
+  };
 }
 
 export type LXDStoragePoolOnClusterMember = LxdStoragePool & {
