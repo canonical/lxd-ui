@@ -251,7 +251,12 @@ body.is-dark .lxd-icon {
   min-width: 8.5rem;
 
   .p-inline-list__item {
+    display: inline-flex;
     margin-right: 0;
+
+    .p-button--base {
+      margin-bottom: 0;
+    }
   }
 
   & > * {
