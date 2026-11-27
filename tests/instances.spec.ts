@@ -443,6 +443,37 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
   await dismissNotification(page, `instance stopped.`);
 });
 
+test("Stopping a frozen instance defaults to force stop", async ({ page }) => {
+  const freezeInstance = async () => {
+    await visitAndStartInstance(page, instance);
+    await page.getByRole("button", { name: "Freeze", exact: true }).click();
+    await page
+      .getByRole("dialog", { name: "Confirm freeze" })
+      .getByRole("button", { name: "Freeze" })
+      .click();
+    await dismissNotification(page, `Instance ${instance} frozen.`);
+  };
+
+  // Single instance stop
+  await freezeInstance();
+  await page.getByRole("button", { name: "Stop", exact: true }).click();
+  const stopDialog = page.getByRole("dialog", { name: "Confirm stop" });
+  await expect(stopDialog.getByLabel("Force stop")).toBeChecked();
+  await stopDialog.getByRole("button", { name: "Stop" }).click();
+  await dismissNotification(page, `Instance ${instance} stopped.`);
+
+  // Bulk stop
+  await freezeInstance();
+  await gotoURL(page, "/ui/project/default/instances");
+  await searchEntityListPage(page, instance);
+  await selectAllInstances(page);
+  await page.locator("button").filter({ hasText: "Stop" }).click();
+  const bulkStopDialog = page.getByRole("dialog", { name: "Confirm stop" });
+  await expect(bulkStopDialog.getByLabel("Force stop")).toBeChecked();
+  await bulkStopDialog.getByRole("button", { name: "Stop" }).click();
+  await dismissNotification(page, `instance stopped.`);
+});
+
 test("Export and Upload an instance backup", async ({ page }) => {
   //Export an instance
   await visitInstance(page, instance);
