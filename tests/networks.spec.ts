@@ -382,3 +382,28 @@ test.describe("Macvlan type", () => {
     await page.getByLabel("GARP Registration").selectOption("Yes");
   });
 });
+
+test("networking lists are available in all projects mode", async ({
+  page,
+}) => {
+  await gotoURL(page, "/ui/all-projects/overview");
+  await page.getByRole("button", { name: "Networking" }).click();
+
+  await page.getByRole("link", { name: "Networks" }).click();
+  await expect(page).toHaveURL(/\/ui\/all-projects\/networks/);
+  await expect(
+    page.getByRole("columnheader", { name: "Project" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "ACLs" }).click();
+  await expect(page).toHaveURL(/\/ui\/all-projects\/network-acls/);
+  await expect(
+    page.getByRole("heading", { name: "Network Access Control Lists" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "IPAM" }).click();
+  await expect(page).toHaveURL(/\/ui\/all-projects\/network-ipam/);
+  await expect(
+    page.getByRole("heading", { name: "IP Address Management" }),
+  ).toBeVisible();
+});

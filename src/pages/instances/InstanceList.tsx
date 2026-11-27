@@ -1,4 +1,5 @@
 import { useEffect, useState, type FC } from "react";
+import { getCreateRestriction } from "util/projects";
 import {
   Button,
   Col,
@@ -641,9 +642,12 @@ const InstanceList: FC = () => {
 
   const projectForCreation = isAllProjects ? defaultProject : project;
   const projectForCreationName = projectForCreation?.name ?? "default";
-  const createInstanceRestriction = canCreateInstances(projectForCreation)
-    ? ""
-    : `You do not have permission to create instances in project ${projectForCreationName}`;
+  const createInstanceRestriction = getCreateRestriction({
+    canCreate: canCreateInstances(projectForCreation),
+    isAllProjects,
+    noPermissionMessage: `You do not have permission to create instances in project ${projectForCreationName}`,
+    selectProjectMessage: "Select a project to create an instance",
+  });
 
   return (
     <>

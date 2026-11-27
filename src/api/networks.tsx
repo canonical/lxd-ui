@@ -18,6 +18,7 @@ import { addTarget } from "util/target";
 import { ROOT_PATH } from "util/rootPath";
 import type { LxdOperationResponse } from "types/operation";
 import { waitForOperation } from "api/operations";
+import { addProjectOrAllProjects } from "util/projects";
 
 const networkEntitlements = ["can_edit", "can_delete"];
 
@@ -27,7 +28,7 @@ export const fetchNetworks = async (
   target?: string,
 ): Promise<LxdNetwork[]> => {
   const params = new URLSearchParams();
-  params.set("project", project);
+  addProjectOrAllProjects(params, project);
   params.set("recursion", "1");
   addTarget(params, target);
   addEntitlements(params, isFineGrained, networkEntitlements);
@@ -487,7 +488,7 @@ export const fetchNetworkAllocations = async (
   project: string,
 ): Promise<LxdNetworkAllocation[]> => {
   const params = new URLSearchParams();
-  params.set("project", project);
+  addProjectOrAllProjects(params, project);
   params.set("recursion", "1");
 
   return fetch(`${ROOT_PATH}/1.0/network-allocations?${params.toString()}`)

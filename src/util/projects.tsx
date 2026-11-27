@@ -8,8 +8,21 @@ import type { LxdProject, ProjectReplicaMode } from "types/project";
 
 export const ALL_PROJECTS = "All projects";
 export const ALL_PROJECTS_OVERVIEW_PATH = `${ROOT_PATH}/ui/all-projects/overview`;
-
 export const ALL_STORAGE_POOLS_LIST_URL = `${ROOT_PATH}/ui/all-projects/storage/pools`;
+export const addProjectOrAllProjects = (
+  params: URLSearchParams,
+  project: string,
+): void => {
+  if (project === ALL_PROJECTS) {
+    params.set("all-projects", "true");
+  } else {
+    params.set("project", project);
+  }
+};
+
+export const ALL_NETWORKS_LIST_URL = `${ROOT_PATH}/ui/all-projects/networks`;
+export const ALL_NETWORK_ACLS_LIST_URL = `${ROOT_PATH}/ui/all-projects/network-acls`;
+export const ALL_NETWORK_IPAM_URL = `${ROOT_PATH}/ui/all-projects/network-ipam`;
 
 export const storageTabs: string[] = [
   "Pools",
@@ -105,6 +118,18 @@ export const getAllProjectsSwitchTarget = (url: string): string => {
     return ALL_STORAGE_POOLS_LIST_URL;
   }
 
+  if (targetSection === "networks") {
+    return ALL_NETWORKS_LIST_URL;
+  }
+
+  if (targetSection === "network-ipam") {
+    return ALL_NETWORK_IPAM_URL;
+  }
+
+  if (targetSection === "network-acls") {
+    return ALL_NETWORK_ACLS_LIST_URL;
+  }
+
   return getOverviewUrl(ALL_PROJECTS);
 };
 
@@ -158,4 +183,26 @@ export const updateReplicaMode = async (
   } catch (e) {
     onFailure(e as Error);
   }
+};
+
+interface CreateRestrictionOptions {
+  canCreate: boolean;
+  isAllProjects: boolean;
+  noPermissionMessage: string;
+  selectProjectMessage: string;
+}
+
+export const getCreateRestriction = ({
+  canCreate,
+  isAllProjects,
+  noPermissionMessage,
+  selectProjectMessage,
+}: CreateRestrictionOptions): string => {
+  if (isAllProjects) {
+    return selectProjectMessage;
+  }
+  if (!canCreate) {
+    return noPermissionMessage;
+  }
+  return "";
 };

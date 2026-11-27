@@ -331,6 +331,18 @@ const App: FC = () => {
           }
         />
         <Route
+          path={`${ROOT_PATH}/ui/all-projects/networks`}
+          element={<ProtectedRoute outlet={<NetworkList />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/all-projects/network-acls`}
+          element={<ProtectedRoute outlet={<NetworkAclList />} />}
+        />
+        <Route
+          path={`${ROOT_PATH}/ui/all-projects/network-ipam`}
+          element={<ProtectedRoute outlet={<NetworkIPAM />} />}
+        />
+        <Route
           path={`${ROOT_PATH}/ui/project/:project/networks`}
           element={
             <ProtectedRoute

@@ -72,6 +72,7 @@ export interface LxdNetwork {
   locations?: string[];
   managed?: boolean;
   name: string;
+  project?: string;
   status?: string;
   type: LxdNetworkType;
   used_by?: string[];
@@ -163,6 +164,7 @@ export interface LxdNetworkAcl {
   etag?: string;
   ingress: LxdNetworkAclRule[];
   name: string;
+  project?: string;
   used_by?: string[];
   access_entitlements?: string[];
 }

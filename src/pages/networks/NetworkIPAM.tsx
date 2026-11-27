@@ -25,10 +25,14 @@ import type { LxdNetworkAllocation } from "types/network";
 import NetworkRichChip from "./NetworkRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import DsIcon from "components/DsIcon";
+import { useCurrentProject } from "context/useCurrentProject";
+import { ALL_PROJECTS } from "util/projects";
 
 const NetworkIPAM: FC = () => {
   const notify = useNotify();
-  const { project } = useParams<{ project: string }>();
+  const { project: projectParam } = useParams<{ project: string }>();
+  const { isAllProjects } = useCurrentProject();
+  const project = isAllProjects ? ALL_PROJECTS : projectParam;
 
   const {
     data: allocations = [],
@@ -41,8 +45,16 @@ const NetworkIPAM: FC = () => {
 
   const { data: networks } = useNetworks(project ?? "");
 
-  const getNetworkTypeFromAllocation = (allocation: LxdNetworkAllocation) => {
-    return networks?.find((n) => n.name === allocation.network)?.type;
+  const getNetworkTypeFromAllocation = (
+    allocation: LxdNetworkAllocation,
+    allocationProject?: string,
+  ) => {
+    const candidates = networks?.filter((n) => n.name === allocation.network);
+    const match = isAllProjects
+      ? (candidates?.find((n) => n.project === allocationProject) ??
+        candidates?.[0])
+      : candidates?.[0];
+    return match?.type;
   };
 
   useEffect(() => {
@@ -96,7 +108,7 @@ const NetworkIPAM: FC = () => {
           content: usedByItem && (
             <UsedByItem
               item={usedByItem}
-              activeProject={project}
+              activeProject={isAllProjects ? "" : project}
               type={allocation.type}
               to={getUsedByUrl(usedByItem)}
             />
@@ -108,7 +120,9 @@ const NetworkIPAM: FC = () => {
           content: (
             <NetworkRichChip
               networkName={allocation.network}
-              projectName={project}
+              projectName={
+                isAllProjects ? (usedByItem?.project ?? "default") : project
+              }
             />
           ),
           role: "cell",
@@ -129,7 +143,8 @@ const NetworkIPAM: FC = () => {
             allocation.type === "instance" &&
             usedByItem &&
             typesWithNicStaticIPSupport.includes(
-              getNetworkTypeFromAllocation(allocation) ?? "",
+              getNetworkTypeFromAllocation(allocation, usedByItem.project) ??
+                "",
             ) ? (
               <InstanceIpEdit
                 address={allocation.addresses}
@@ -199,7 +214,11 @@ const NetworkIPAM: FC = () => {
             image={<DsIcon className="empty-state-icon" icon="exposed" />}
             title="No network allocations found"
           >
-            <p>There are no network allocations in this project.</p>
+            <p>
+              {isAllProjects
+                ? "There are no network allocations."
+                : "There are no network allocations in this project."}
+            </p>
             <p>
               <DocLink docPath="/howto/network_ipam/" hasExternalIcon>
                 Learn more about network allocations

@@ -1,3 +1,9 @@
+.network-acl-table {
+  .project {
+    width: 10rem;
+  }
+}
+
 .network-list {
   .network-list-table {
     .type {
@@ -8,7 +14,12 @@
       width: 6rem;
     }
 
-    .forwards {
+    .project {
+      width: 10rem;
+    }
+
+    .forwards,
+    .balancers {
       width: 6rem;
     }
 
@@ -18,6 +29,23 @@
 
     .state {
       width: 5rem;
+    }
+
+    &.is-clustered {
+      @media screen and (width >= $breakpoint-large) and (width < 1500px) {
+        .managed,
+        .description {
+          display: none;
+        }
+      }
+
+      @media screen and (width >= $breakpoint-large) and (width < 1300px) {
+        .forwards,
+        .balancers,
+        .state {
+          display: none;
+        }
+      }
     }
   }
 

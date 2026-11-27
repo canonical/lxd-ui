@@ -1,4 +1,5 @@
 import {
+  addProjectOrAllProjects,
   ALL_PROJECTS,
   getAllProjectsSwitchTarget,
   getInstancesUrl,
@@ -134,9 +135,36 @@ describe("getAllProjectsSwitchTarget", () => {
     ).toBe(`${ROOT_PATH}/ui/all-projects/overview`);
   });
 
+  it("keeps the networking sections", () => {
+    const base = `${ROOT_PATH}/ui/project/my-project`;
+    expect(getAllProjectsSwitchTarget(`${base}/networks`)).toBe(
+      `${ROOT_PATH}/ui/all-projects/networks`,
+    );
+    expect(getAllProjectsSwitchTarget(`${base}/network-acls`)).toBe(
+      `${ROOT_PATH}/ui/all-projects/network-acls`,
+    );
+    expect(getAllProjectsSwitchTarget(`${base}/network-ipam`)).toBe(
+      `${ROOT_PATH}/ui/all-projects/network-ipam`,
+    );
+  });
+
   it("falls back to the all-projects home page for project-only sections", () => {
     expect(
       getAllProjectsSwitchTarget(`${ROOT_PATH}/ui/project/my-project/profiles`),
     ).toBe(`${ROOT_PATH}/ui/all-projects/overview`);
+  });
+});
+
+describe("addProjectOrAllProjects", () => {
+  it("sets the project param for a single project", () => {
+    const params = new URLSearchParams();
+    addProjectOrAllProjects(params, "my-project");
+    expect(params.toString()).toBe("project=my-project");
+  });
+
+  it("sets the all-projects param for all projects", () => {
+    const params = new URLSearchParams();
+    addProjectOrAllProjects(params, ALL_PROJECTS);
+    expect(params.toString()).toBe("all-projects=true");
   });
 });
