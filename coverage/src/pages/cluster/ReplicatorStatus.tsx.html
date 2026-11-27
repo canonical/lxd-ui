@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.42% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/35</span>
+                <span class='fraction'>33/36</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>30/30</span>
+                <span class='fraction'>31/31</span>
             </div>
         
             
@@ -93,60 +93,63 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">127x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">124x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
 import { useReplicatorLoading } from "context/replicatorLoading";
 import type { LxdReplicator, LxdReplicatorStatus } from "types/replicator";
+import type { StatusTone } from "util/statusColors";
+import StatusIcon from "components/StatusIcon";
 &nbsp;
 interface Props {
   replicator: LxdReplicator;
 }
 &nbsp;
-const STATUS_ICONS: Record&lt;LxdReplicatorStatus, string&gt; = {
-  Completed: "status-succeeded-small",
-  Failed: "status-failed-small",
-  Running: "status-waiting-small",
-  Pending: "status-queued-small",
+const STATUS_ICONS: Record&lt;LxdReplicatorStatus, StatusTone&gt; = {
+  Completed: "positive",
+  Failed: "negative",
+  Running: "caution",
+  Pending: "neutral",
 };
 &nbsp;
 const <span class="fstat-no" title="function not covered" >ReplicatorStatus: FC&lt;Props&gt; = ({</span> replicator }) =&gt; {
   const replicatorLoading = <span class="cstat-no" title="statement not covered" >useReplicatorLoading();</span>
   const status = <span class="cstat-no" title="statement not covered" >replicatorLoading.getStatus(replicator);</span>
-  const iconName = <span class="cstat-no" title="statement not covered" >STATUS_ICONS[<span class="branch-0 cbranch-no" title="branch not covered" >status] ?? "";</span></span>
+  const statusTone = <span class="cstat-no" title="statement not covered" >STATUS_ICONS[<span class="branch-0 cbranch-no" title="branch not covered" >status] ?? "neutral";</span></span>
 &nbsp;
   return (
     &lt;&gt;
-      &lt;Icon name={iconName} className="status-icon" /&gt;
+      &lt;StatusIcon tone={statusTone} className="status-icon" /&gt;
       {status}
     &lt;/&gt;
   );
@@ -160,7 +163,7 @@ export default ReplicatorStatus;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-26T07:17:32.136Z
+                at 2026-11-27T17:11:00.541Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

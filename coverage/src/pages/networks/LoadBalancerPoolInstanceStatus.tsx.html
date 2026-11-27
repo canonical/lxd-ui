@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.39% </span>
+                <span class="strong">41.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/33</span>
+                <span class='fraction'>14/34</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.39% </span>
+                <span class="strong">41.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/33</span>
+                <span class='fraction'>14/34</span>
             </div>
         
             
@@ -96,15 +96,17 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -115,8 +117,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -127,35 +129,36 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">171x</span>
-<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">185x</span>
+<span class="cline-any cline-yes">185x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
 import { capitalizeFirstLetter } from "util/helpers";
+import type { StatusTone } from "util/statusColors";
+import StatusIcon from "components/StatusIcon";
 &nbsp;
 interface Props {
   status?: string;
 }
 &nbsp;
-const <span class="fstat-no" title="function not covered" >getIcon = (status: string): string =&gt; {</span>
+const <span class="fstat-no" title="function not covered" >getTone = (status: string): StatusTone =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  switch (status) {</span>
 <span class="cstat-no" title="statement not covered" >    case "online":</span>
-<span class="cstat-no" title="statement not covered" >      return "status-succeeded-small";</span>
+<span class="cstat-no" title="statement not covered" >      return "positive";</span>
 <span class="cstat-no" title="statement not covered" >    case "offline":</span>
-<span class="cstat-no" title="statement not covered" >      return "status-failed-small";</span>
+<span class="cstat-no" title="statement not covered" >      return "negative";</span>
 <span class="cstat-no" title="statement not covered" >    case "unknown":</span>
 <span class="cstat-no" title="statement not covered" >    default:</span>
-<span class="cstat-no" title="statement not covered" >      return "status-queued-small";</span>
+<span class="cstat-no" title="statement not covered" >      return "neutral";</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 const <span class="fstat-no" title="function not covered" >LoadBalancerPoolInstanceStatus: FC&lt;Props&gt; = ({ status }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const normalizedStatus = status?.trim() ? status : "unknown";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const icon = getIcon(normalizedStatus);</span>
+<span class="cstat-no" title="statement not covered" >  const tone = getTone(normalizedStatus);</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Icon name={icon} className="status-icon" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;StatusIcon tone={tone} className="status-icon" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {capitalizeFirstLetter(normalizedStatus)}</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
@@ -169,7 +172,7 @@ export default LoadBalancerPoolInstanceStatus;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-26T07:17:32.136Z
+                at 2026-11-27T17:11:00.541Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

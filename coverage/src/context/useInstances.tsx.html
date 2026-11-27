@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.61% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/39</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>34/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/12</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/31</span>
+                <span class='fraction'>32/32</span>
             </div>
         
             
@@ -94,37 +94,39 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">2553x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">462x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
-<span class="cline-any cline-yes">376x</span>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">2667x</span>
+<span class="cline-any cline-yes">2667x</span>
+<span class="cline-any cline-yes">2665x</span>
+<span class="cline-any cline-yes">2665x</span>
+<span class="cline-any cline-yes">2665x</span>
+<span class="cline-any cline-yes">2665x</span>
+<span class="cline-any cline-yes">2665x</span>
+<span class="cline-any cline-yes">2665x</span>
+<span class="cline-any cline-yes">2667x</span>
+<span class="cline-any cline-yes">2667x</span>
+<span class="cline-any cline-yes">2667x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">488x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">389x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
+<span class="cline-any cline-yes">387x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchInstance, fetchInstances } from "api/instances";
@@ -133,13 +135,14 @@ import type { LxdInstance } from "types/instance";
 &nbsp;
 export const <span class="fstat-no" title="function not covered" >useInstances = (</span>
   project: string | null,
+  enabled = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
 ): UseQueryResult&lt;LxdInstance[]&gt; =&gt; {
   const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.instances, project],
     queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchInstances(project, isFineGrained),</span>
-    enabled: isFineGrained !== null,
+    enabled: enabled &amp;&amp; isFineGrained !== null,
   });
 };
 &nbsp;
@@ -163,7 +166,7 @@ export const <span class="fstat-no" title="function not covered" >useInstance = 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-26T07:17:32.136Z
+                at 2026-11-27T17:11:00.541Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
