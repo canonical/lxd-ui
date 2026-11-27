@@ -4,9 +4,11 @@ import { Col, CustomLayout, Row, Spinner } from "@canonical/react-components";
 import NotFound from "components/NotFound";
 import NotificationRow from "components/NotificationRow";
 import { useReplicatorLoading } from "context/replicatorLoading";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useReplicator } from "context/useReplicators";
 import ReplicatorDetailHeader from "pages/cluster/ReplicatorDetailHeader";
 import ReplicatorGeneral from "pages/cluster/ReplicatorGeneral";
+import ReplicatorLatestSuccessfulRun from "pages/cluster/ReplicatorLatestSuccessfulRun";
 import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
@@ -30,12 +32,13 @@ const ReplicatorDetail: FC = () => {
     isLoading,
   } = useReplicator(name, project || "default");
   const replicatorRunning = useReplicatorLoading();
+  const { hasReplicatorMetrics, isSettingsLoading } = useSupportedFeatures();
 
   const lastRunError = replicator
     ? replicatorRunning.getLastRunError(replicator)
     : undefined;
 
-  if (isLoading) {
+  if (isLoading || isSettingsLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
@@ -56,6 +59,12 @@ const ReplicatorDetail: FC = () => {
         <Row className="replicator-detail">
           <h2 className="p-heading--3">General</h2>
           <ReplicatorGeneral replicator={replicator} />
+          {hasReplicatorMetrics && (
+            <>
+              <h2 className="p-heading--3">Runs</h2>
+              <ReplicatorLatestSuccessfulRun replicator={replicator} />
+            </>
+          )}
 
           <Row className="section">
             <Col size={3}>

@@ -10,6 +10,7 @@ export const useSupportedFeatures = () => {
     settingsError: error,
     hasPublicClusterLinks: apiExtensions.has("cluster_links_public"),
     hasImageRegistries: apiExtensions.has("image_registries"),
+    hasReplicatorMetrics: apiExtensions.has("metrics_replicators"),
     hasInstanceSnapshotsMultiVolume: apiExtensions.has(
       "instance_snapshots_multi_volume",
     ),

@@ -76,6 +76,34 @@
       }
     }
   }
+
+  .replicator-run-card {
+    &__header {
+      align-items: baseline;
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spv--x-small $sph--large;
+      margin-bottom: $spv--small;
+    }
+
+    &__started {
+      margin-left: auto;
+    }
+
+    &__time {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 $sph--small;
+
+      dt {
+        font-weight: $font-weight-bold;
+      }
+
+      dd {
+        margin: 0;
+      }
+    }
+  }
 }
 
 .run-replicator-modal {

@@ -93,3 +93,12 @@ export const isCephMirrored = (
 
   return usedPools.every((pool) => !!pool && hasKey(pool));
 };
+
+// LXD reports when the latest run started, but not when the latest successful
+// run started. They are the same run only while the latest run is completed.
+export const getLastSuccessStartedAt = (
+  replicator: LxdReplicator,
+): string | undefined =>
+  replicator.last_run_status === "Completed"
+    ? replicator.last_run_at
+    : undefined;

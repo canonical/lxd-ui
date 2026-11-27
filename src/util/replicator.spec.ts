@@ -1,5 +1,6 @@
-import { isCephMirrored } from "./replicator";
+import { getLastSuccessStartedAt, isCephMirrored } from "./replicator";
 import type { LxdInstance } from "types/instance";
+import type { LxdReplicator, LxdReplicatorStatus } from "types/replicator";
 import type { LxdStoragePool } from "types/storage";
 
 const pool = (name: string, config: Record<string, string>): LxdStoragePool =>
@@ -99,4 +100,25 @@ describe("isCephMirrored", () => {
   it("is false without pools", () => {
     expect(isCephMirrored([], [], "rep-demo")).toBe(false);
   });
+});
+
+describe("getLastSuccessStartedAt", () => {
+  const replicator = (last_run_status: LxdReplicatorStatus) =>
+    ({
+      last_run_at: "2026-09-04T13:04:00Z",
+      last_run_status,
+    }) as LxdReplicator;
+
+  it("is the latest run start when the latest run completed", () => {
+    expect(getLastSuccessStartedAt(replicator("Completed"))).toBe(
+      "2026-09-04T13:04:00Z",
+    );
+  });
+
+  it.each<LxdReplicatorStatus>(["Running", "Failed", "Pending"])(
+    "is unknown when the latest run is %s",
+    (status) => {
+      expect(getLastSuccessStartedAt(replicator(status))).toBeUndefined();
+    },
+  );
 });
