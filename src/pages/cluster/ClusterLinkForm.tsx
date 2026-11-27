@@ -1,20 +1,37 @@
-import { Form, Input, Label, OutputField } from "@canonical/react-components";
-import type { FC } from "react";
+import { Form, Input, Label } from "@canonical/react-components";
+import type { FC, ReactNode } from "react";
+import DocLink from "components/DocLink";
+import PanelSection from "components/PanelSection";
 import GroupSelection from "pages/permissions/panels/GroupSelection";
 import { useAuthGroups } from "context/useAuthGroups";
 import type { FormikProps } from "formik/dist/types";
 import ClusterLinkTokenInput from "pages/cluster/ClusterLinkTokenInput";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
-import { normalizeRemoteAddress } from "util/clusterLink";
+import {
+  normalizeRemoteAddress,
+  isBidirectional,
+  isUnidirectional,
+  isPublic,
+} from "util/clusterLink";
+import ClusterLinkDirectionSelection, {
+  CLUSTER_LINK_TYPES,
+} from "pages/cluster/ClusterLinkDirectionSelection";
 
 interface Props {
   formik: FormikProps<ClusterLinkFormValues>;
   isNameLocked?: boolean;
+  children?: ReactNode;
+  onPublicDetailsChange?: () => void;
 }
 
-const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
+const ClusterLinkForm: FC<Props> = ({
+  formik,
+  isNameLocked,
+  children,
+  onPublicDetailsChange,
+}) => {
   const { data: authGroups = [] } = useAuthGroups(
-    formik.values.type === "bidirectional",
+    isBidirectional(formik.values.type),
   );
 
   const selectedGroups = new Set(formik.values.authGroups);
@@ -23,89 +40,137 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
   const added = [...selectedGroups].filter((g) => !initial.has(g));
   const modifiedGroups = new Set([...removed, ...added]);
   const hasName = formik.values.name !== "";
+  const linkType = CLUSTER_LINK_TYPES.find(
+    (type) => type.value === formik.values.type,
+  );
 
   return (
     <Form onSubmit={formik.handleSubmit} className="cluster-link-form">
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
-      {formik.values.isCreating && (
-        <>
-          <OutputField
-            id="type"
-            label="Cluster link type"
+      <PanelSection header="Link type" isFirst>
+        {formik.values.isCreating ? (
+          <ClusterLinkDirectionSelection
             value={formik.values.type}
+            disabled={isNameLocked || formik.isSubmitting}
+            onSelect={(type) => {
+              void formik.setValues({
+                ...formik.values,
+                type,
+                token: "",
+                tokenType: undefined,
+                remoteAddress: "",
+              });
+              void formik.setTouched({});
+            }}
           />
-          {formik.values.type === "public" ? (
-            <Input
-              {...formik.getFieldProps("remoteAddress")}
-              onBlur={(e) => {
-                void formik.setFieldValue(
-                  "remoteAddress",
-                  normalizeRemoteAddress(e.target.value),
-                );
-                formik.handleBlur(e);
-              }}
-              type="text"
-              label="Remote address"
-              placeholder="Enter address (for example 10.0.0.2:8443)"
-              help="Address of the target LXD cluster. The port defaults to 8443."
-              autoFocus
-              required
-              error={
-                formik.touched.remoteAddress
-                  ? formik.errors.remoteAddress
-                  : null
-              }
-            />
-          ) : (
-            <ClusterLinkTokenInput formik={formik} />
-          )}
+        ) : (
+          <>
+            <p className="u-sv-1">{linkType?.label}</p>
+            <p className="p-form-help-text">{linkType?.help}</p>
+          </>
+        )}
+      </PanelSection>
+      <PanelSection header="Details">
+        {!formik.values.isCreating && (
           <Input
-            {...formik.getFieldProps("name")}
+            label="Link name"
             type="text"
-            label="Cluster link name"
-            placeholder="Enter name"
-            required
-            help={
-              isNameLocked
-                ? "The pending link was created with this name. To use another name, delete the pending link from the list."
-                : undefined
-            }
-            disabled={
-              isNameLocked ||
-              (formik.values.token === "" &&
-                (formik.values.type === "unidirectional" ||
-                  formik.values.tokenType === "consume")) ||
-              (formik.values.type === "bidirectional" &&
-                !formik.values.tokenType) ||
-              (formik.values.type === "public" && !formik.values.remoteAddress)
-            }
-            error={formik.touched.name ? formik.errors.name : null}
+            value={formik.values.name}
+            readOnly
           />
-        </>
-      )}
-      <Input
-        {...formik.getFieldProps("description")}
-        type="text"
-        label="Description"
-        placeholder="Enter description"
-        disabled={!hasName}
-        title={
-          hasName
-            ? undefined
-            : "Please enter a name before adding a description"
-        }
-      />
-      {formik.values.type === "bidirectional" && (
-        <>
-          <Label className="u-sv-2">Auth groups</Label>
-          <p className="u-text--muted u-sv-1 p-text--small">
-            Control access for incoming requests through this cluster link.
+        )}
+        {formik.values.isCreating && (
+          <>
+            {isPublic(formik.values.type) ? (
+              <Input
+                {...formik.getFieldProps("remoteAddress")}
+                onChange={(e) => {
+                  onPublicDetailsChange?.();
+                  formik.handleChange(e);
+                }}
+                onBlur={(e) => {
+                  void formik.setFieldValue(
+                    "remoteAddress",
+                    normalizeRemoteAddress(e.target.value),
+                  );
+                  formik.handleBlur(e);
+                }}
+                type="text"
+                label="Remote address"
+                placeholder="Enter address (for example 10.0.0.2:8443)"
+                help="Address of the target LXD cluster. The port defaults to 8443."
+                required
+                disabled={formik.isSubmitting}
+                error={
+                  formik.touched.remoteAddress
+                    ? formik.errors.remoteAddress
+                    : null
+                }
+              />
+            ) : (
+              <ClusterLinkTokenInput formik={formik} />
+            )}
+            <Input
+              {...formik.getFieldProps("name")}
+              type="text"
+              label="Link name"
+              placeholder="Enter name"
+              required
+              help={
+                isNameLocked
+                  ? "The pending link was created with this name. To use another name, delete the pending link from the list."
+                  : undefined
+              }
+              disabled={
+                isNameLocked ||
+                formik.isSubmitting ||
+                (!formik.values.token &&
+                  (isUnidirectional(formik.values.type) ||
+                    (isBidirectional(formik.values.type) &&
+                      formik.values.tokenType === "consume"))) ||
+                (isBidirectional(formik.values.type) &&
+                  !formik.values.tokenType) ||
+                (isPublic(formik.values.type) && !formik.values.remoteAddress)
+              }
+              error={formik.touched.name ? formik.errors.name : null}
+            />
+          </>
+        )}
+        <Input
+          {...formik.getFieldProps("description")}
+          onChange={(e) => {
+            onPublicDetailsChange?.();
+            formik.handleChange(e);
+          }}
+          type="text"
+          label="Description"
+          placeholder="Enter description"
+          disabled={!hasName || formik.isSubmitting}
+          title={
+            hasName
+              ? undefined
+              : "Please enter a name before adding a description"
+          }
+        />
+        {children}
+      </PanelSection>
+      {isBidirectional(formik.values.type) && (
+        <PanelSection header="Auth groups">
+          <Label>Source</Label>
+          <p className="p-form-help-text">
+            Control the permissions that incoming requests have to act on this
+            cluster.
+            <br />
+            <DocLink docPath="/howto/cluster_links_create/">
+              Learn more about cluster link permissions in the docs.
+            </DocLink>
           </p>
           <GroupSelection
             groups={authGroups}
             modifiedGroups={modifiedGroups}
             parentItemName="cluster link"
+            parentItems={[{ name: formik.values.name }]}
             selectedGroups={selectedGroups}
             setSelectedGroups={(val, isUnselectAll) => {
               if (isUnselectAll) {
@@ -126,10 +191,10 @@ const ClusterLinkForm: FC<Props> = ({ formik, isNameLocked }) => {
               }
             }}
             scrollDependencies={[formik]}
-            disabled={!hasName}
+            disabled={!hasName || formik.isSubmitting}
             hasScrollableTable={false}
           />
-        </>
+        </PanelSection>
       )}
     </Form>
   );

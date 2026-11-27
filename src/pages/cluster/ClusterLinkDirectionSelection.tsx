@@ -1,49 +1,64 @@
-import type { FC } from "react";
-import FormLink from "components/FormLink";
+import { useId, type FC } from "react";
+import { RadioInput } from "@canonical/react-components";
 import type { LxdClusterLinkType } from "types/cluster";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { isPublic } from "util/clusterLink";
 
 interface Props {
+  value: LxdClusterLinkType;
+  disabled?: boolean;
   onSelect: (type: LxdClusterLinkType) => void;
 }
 
-const ClusterLinkDirectionSelection: FC<Props> = ({ onSelect }) => {
+export const CLUSTER_LINK_TYPES: {
+  value: LxdClusterLinkType;
+  label: string;
+  help: string;
+}[] = [
+  {
+    value: "bidirectional",
+    label: "Bidirectional",
+    help: "Connect two LXD clusters with access in both directions. Required for replication.",
+  },
+  {
+    value: "unidirectional",
+    label: "Unidirectional",
+    help: "Access another LXD cluster without granting access in return. Often used to fetch images.",
+  },
+  {
+    value: "public",
+    label: "Public",
+    help: "Access another LXD cluster without authentication or return access. Used for public image fetching.",
+  },
+];
+
+const ClusterLinkDirectionSelection: FC<Props> = ({
+  value,
+  disabled,
+  onSelect,
+}) => {
+  const name = useId();
   const { hasPublicClusterLinks } = useSupportedFeatures();
 
   return (
-    <>
-      <FormLink
-        icon="devtools"
-        title="Bidirectional"
-        subText="Connect two LXD clusters with access in both directions. Required for replication."
-        subTextBelowTitle
-        onClick={() => {
-          onSelect("bidirectional");
-        }}
-        className="u-no-margin--right"
-      />
-      <FormLink
-        icon="chevron-right"
-        title="Unidirectional"
-        subText="Access another LXD cluster to fetch images, without granting access in return."
-        subTextBelowTitle
-        onClick={() => {
-          onSelect("unidirectional");
-        }}
-        className="u-no-margin--right"
-      />
-      {hasPublicClusterLinks && (
-        <FormLink
-          icon="exposed"
-          title="Public"
-          subText="Access another LXD cluster without authentication or return access. Used for public image fetching."
-          subTextBelowTitle
-          onClick={() => {
-            onSelect("public");
+    <div role="radiogroup" aria-label="Link type">
+      {CLUSTER_LINK_TYPES.filter(
+        (type) => !isPublic(type.value) || hasPublicClusterLinks,
+      ).map((type) => (
+        <RadioInput
+          key={type.value}
+          name={name}
+          value={type.value}
+          label={type.label}
+          help={type.help}
+          checked={value === type.value}
+          disabled={disabled}
+          onChange={() => {
+            onSelect(type.value);
           }}
         />
-      )}
-    </>
+      ))}
+    </div>
   );
 };
 

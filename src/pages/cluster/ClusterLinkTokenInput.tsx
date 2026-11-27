@@ -2,67 +2,41 @@ import type { FC } from "react";
 import type { FormikProps } from "formik/dist/types";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { Input, Select } from "@canonical/react-components";
+import { isUnidirectional } from "util/clusterLink";
 
 interface Props {
   formik: FormikProps<ClusterLinkFormValues>;
 }
 
 const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
-  const getTokenHelp = () => {
-    if (formik.values.type === "unidirectional") {
-      return (
-        <>
-          Paste the token you have generated on the target cluster.
-          <br />
-          To create one, open the LXD UI on the <b>target cluster</b>, then go
-          to{" "}
-          <b>
-            Permissions {">"} Identities {">"} Create identity
-          </b>{" "}
-          and select <b>Cluster link</b>.
-        </>
-      );
-    }
-
-    if (formik.values.tokenType === "generate") {
-      return "Token will be generated";
-    }
-
-    if (formik.values.tokenType === "consume") {
-      return (
-        <>
-          Paste the token you have generated on the target cluster.
-          <br />
-          To create one, open the LXD UI on the <b>target cluster</b>, then go
-          to{" "}
-          <b>
-            Clustering {">"} Links {">"} Create cluster link
-          </b>{" "}
-          and generate a token for the bidirectional link.
-        </>
-      );
-    }
-
-    return null;
-  };
-
   const tokenInput = (
     <Input
       {...formik.getFieldProps("token")}
       type="text"
       label="Token"
       placeholder="Enter token (for example eyJhbGciOiJIUzI1Ni...)"
-      autoFocus={formik.values.type === "unidirectional"}
-      disabled={
-        formik.values.tokenType !== "consume" &&
-        formik.values.type === "bidirectional"
-      }
+      disabled={formik.isSubmitting}
       required
-      help={getTokenHelp()}
+      help={
+        isUnidirectional(formik.values.type) ? (
+          <>
+            Paste the token you have generated on the target cluster.
+            <br />
+            To create one, open the LXD UI on the <b>target cluster</b>, then go
+            to{" "}
+            <b>
+              Permissions {">"} Identities {">"} Create identity
+            </b>{" "}
+            and select <b>Cluster link</b>.
+          </>
+        ) : undefined
+      }
+      helpAfterLabel
+      error={formik.touched.token ? formik.errors.token : null}
     />
   );
 
-  if (formik.values.type === "unidirectional") {
+  if (isUnidirectional(formik.values.type)) {
     return <>{tokenInput}</>;
   } else {
     return (
@@ -70,9 +44,11 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
         <div className="u-sv1">
           <Select
             label="Token setup"
+            help="Generate a token here to paste in a link you will create on the target, or paste here the token generated from a link already created on the target."
             options={[
               {
                 label: "Select an option...",
+                value: "",
               },
               {
                 label: "Generate a token for the target LXD cluster",
@@ -84,7 +60,9 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
               },
             ]}
             {...formik.getFieldProps("tokenType")}
-            autoFocus
+            value={formik.values.tokenType ?? ""}
+            disabled={formik.isSubmitting}
+            error={formik.touched.tokenType ? formik.errors.tokenType : null}
             onChange={(e) => {
               formik.setFieldValue("tokenType", e.target.value);
               if (e.target.value === "generate") {
@@ -93,7 +71,7 @@ const ClusterLinkTokenInput: FC<Props> = ({ formik }) => {
             }}
           />
         </div>
-        {tokenInput}
+        {formik.values.tokenType === "consume" && tokenInput}
       </>
     );
   }

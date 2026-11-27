@@ -22,6 +22,7 @@ import ClusterLinkRichChip from "../ClusterLinkRichChip";
 import type { LxdClusterLink } from "types/cluster";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { useEscCallback } from "context/useEscCallback";
+import { isBidirectional } from "util/clusterLink";
 import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
 
 interface Props {
@@ -40,7 +41,11 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
     setError(null);
   };
 
-  useEscCallback(closePanel);
+  useEscCallback(() => {
+    if (!formik.isSubmitting) {
+      closePanel();
+    }
+  });
 
   const formik = useFormik<ClusterLinkFormValues>({
     initialValues: {
@@ -58,7 +63,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
         description: values.description,
       };
 
-      if (clusterLink.type === "bidirectional" && !identity) {
+      if (isBidirectional(clusterLink.type) && !identity) {
         setError(
           failure(
             "Cluster link update failed",
@@ -71,7 +76,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
 
       updateClusterLink(clusterLink.name ?? "", JSON.stringify(payload))
         .then(async () => {
-          if (clusterLink.type === "bidirectional" && identity) {
+          if (isBidirectional(clusterLink.type) && identity) {
             const payloadIdentity = {
               ...identity,
               groups: values.authGroups,
@@ -108,7 +113,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
         <SidePanel.HeaderTitle className="u-truncate">
           <ClusterLinkExplanationTooltip>
             <span title={`Edit cluster link ${clusterLink.name}`}>
-              Edit cluster link {clusterLink.name}
+              Edit cluster link
             </span>
           </ClusterLinkExplanationTooltip>
         </SidePanel.HeaderTitle>
@@ -126,7 +131,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
           </Notification>
         )}
       </Row>
-      <SidePanel.Content className="u-no-padding">
+      <SidePanel.Content className="u-no-padding cluster-link-panel">
         <ScrollableContainer dependencies={[error]} belowIds={["panel-footer"]}>
           <ClusterLinkForm formik={formik} />
         </ScrollableContainer>
@@ -136,6 +141,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
           appearance="base"
           onClick={closePanel}
           className="u-no-margin--bottom"
+          disabled={formik.isSubmitting}
         >
           Cancel
         </Button>
@@ -146,7 +152,7 @@ const EditClusterLinkPanel: FC<Props> = ({ identity, clusterLink }) => {
           className="u-no-margin--bottom"
           disabled={!formik.isValid || formik.isSubmitting}
         >
-          Save changes
+          Save
         </ActionButton>
       </SidePanel.Footer>
     </SidePanel>

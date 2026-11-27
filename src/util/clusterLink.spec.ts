@@ -2,10 +2,17 @@ import {
   getCertificateFingerprint,
   getClusterLinksStatus,
   isPendingPublicLink,
+  isBidirectional,
+  isUnidirectional,
+  isPublic,
   isValidRemoteAddress,
   normalizeRemoteAddress,
 } from "util/clusterLink";
-import type { LxdClusterLink, LxdClusterLinkState } from "types/cluster";
+import type {
+  LxdClusterLink,
+  LxdClusterLinkState,
+  LxdClusterLinkType,
+} from "types/cluster";
 import type { LxdIdentity } from "types/permissions";
 
 const createLink = (overrides: Partial<LxdClusterLink>): LxdClusterLink => ({
@@ -169,5 +176,18 @@ bg1ezfVOBg==
     expect(getCertificateFingerprint(pem)).toBe(
       "0674831cd3b01377365203f49196d15b8932bdc0ec3825e30da3ab15b1483727",
     );
+  });
+});
+
+describe("cluster link type predicates", () => {
+  it.each<[LxdClusterLinkType | undefined, boolean, boolean, boolean]>([
+    ["bidirectional", true, false, false],
+    ["unidirectional", false, true, false],
+    ["public", false, false, true],
+    [undefined, false, false, false],
+  ])("classifies %s", (type, bidirectional, unidirectional, publicLink) => {
+    expect(isBidirectional(type)).toBe(bidirectional);
+    expect(isUnidirectional(type)).toBe(unidirectional);
+    expect(isPublic(type)).toBe(publicLink);
   });
 });

@@ -5,6 +5,7 @@ import type { FormikProps } from "formik";
 import type { ImageRegistryFormValues } from "types/forms/image";
 import { Link } from "react-router-dom";
 import { ROOT_PATH } from "util/rootPath";
+import { isPublic } from "util/clusterLink";
 
 interface Props {
   formik: FormikProps<ImageRegistryFormValues>;
@@ -31,7 +32,7 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
         <span className="cluster-link-name u-truncate" title={link.name}>
           {link.name}
         </span>
-        {link.type === "public" ? (
+        {isPublic(link.type) ? (
           <span className="cluster-link-description u-text--muted">
             Public images only
           </span>
@@ -67,7 +68,7 @@ export const ImageRegistryClusterLinkSelector: FC<Props> = ({
       onChange={(value) => {
         formik.setFieldValue("cluster", value);
         const selectedLink = links.find((link) => link.name === value);
-        if (selectedLink?.type === "public") {
+        if (isPublic(selectedLink?.type)) {
           formik.setFieldValue("sourceProject", "default");
         }
       }}

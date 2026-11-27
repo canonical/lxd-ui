@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import {
   ActionButton,
   Button,
@@ -10,7 +11,7 @@ import {
   useToastNotification,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, type FC, type MouseEvent } from "react";
+import { useState, type FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -18,24 +19,26 @@ import { queryKeys } from "util/queryKeys";
 import { createClusterLink } from "api/cluster-links";
 import { base64EncodeObject, checkDuplicateName } from "util/helpers";
 import {
+  isBidirectional,
+  isUnidirectional,
+  isPublic,
   getCertificateFingerprint,
   isValidRemoteAddress,
   normalizeRemoteAddress,
 } from "util/clusterLink";
 import ClusterLinkForm from "pages/cluster/ClusterLinkForm";
-import ClusterLinkRichChip from "../ClusterLinkRichChip";
-import ClusterLinkDirectionSelection from "pages/cluster/ClusterLinkDirectionSelection";
+import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
 import ClusterLinkVerifyCertificate from "pages/cluster/ClusterLinkVerifyCertificate";
-import BackLink from "components/BackLink";
 import type { ClusterLinkFormValues } from "types/forms/clusterLink";
 import { useEscCallback } from "context/useEscCallback";
-import type { LxdClusterLink } from "types/cluster";
+import type { LxdClusterLink, LxdClusterLinkType } from "types/cluster";
 import ClusterLinkExplanationTooltip from "pages/cluster/ClusterLinkExplanationTooltip";
 
-type CreateLinkFlowStep =
-  | "direction-selection"
-  | "details"
-  | "verify-certificate";
+interface PublicLinkCertificate {
+  fingerprint: string;
+  remoteAddress: string;
+  description?: string;
+}
 
 interface Props {
   onSuccess?: (identityName: string, token: string) => void;
@@ -45,16 +48,33 @@ interface Props {
 const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
   const panelParams = usePanelParams();
   const [error, setError] = useState<NotificationType | null>(null);
-  const [currentStep, setCurrentStep] = useState<CreateLinkFlowStep>(
-    pendingLink ? "verify-certificate" : "direction-selection",
+  const [certificate, setCertificate] = useState<PublicLinkCertificate | null>(
+    () =>
+      pendingLink
+        ? {
+            fingerprint: getCertificateFingerprint(
+              pendingLink.config["volatile.pending_certificate"] ?? "",
+            ),
+            remoteAddress: pendingLink.config["volatile.pending_address"] ?? "",
+            description: pendingLink.description ?? "",
+          }
+        : null,
   );
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [isFingerprintConfirmed, setFingerprintConfirmed] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  // false when the panel only verifies an existing pending link
-  const hasPreviousSteps = !pendingLink;
+  const [publicAction, setPublicAction] = useState<"fetch" | "confirm" | null>(
+    null,
+  );
+  const isFetchingCertificate = publicAction === "fetch";
+
+  const invalidateCertificate = (): void => {
+    setFingerprintConfirmed(false);
+    setCertificate((current) =>
+      current ? { ...current, fingerprint: "" } : null,
+    );
+  };
 
   const invalidateClusterLinks = () => {
     queryClient.invalidateQueries({
@@ -63,28 +83,8 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
   };
 
   const handleEscKey = () => {
-    // stay on the current step while a request is in flight, so its response lands on the step it belongs to
-    if (formik.isSubmitting || isLoading) {
-      return;
-    }
-    switch (currentStep) {
-      case "direction-selection":
-        closePanel();
-        break;
-      case "details":
-        if (isPendingLinkCreated) {
-          closePanel();
-        } else {
-          goToDirectionSelection();
-        }
-        break;
-      case "verify-certificate":
-        if (hasPreviousSteps) {
-          goToDetailsStep();
-        } else {
-          closePanel();
-        }
-        break;
+    if (!formik.isSubmitting) {
+      closePanel();
     }
   };
 
@@ -101,19 +101,25 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
         "deduplicate",
         "A cluster link with this name already exists",
         // once the certificate is fetched, the name belongs to our own pending link
-        async (value, context) =>
-          !!(context.parent as ClusterLinkFormValues).fingerprint ||
+        async (value) =>
+          !!certificate ||
           checkDuplicateName(value, "", controllerState, "cluster/links"),
       )
       .required("Link name is required"),
+    tokenType: Yup.string().when("type", {
+      is: isBidirectional,
+      then: (schema) => schema.required("Token setup is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
     token: Yup.string().when(["tokenType", "type"], {
-      is: (tokenType: string, type: string) =>
-        tokenType === "consume" || type === "unidirectional",
+      is: (tokenType: string, type: LxdClusterLinkType) =>
+        (isBidirectional(type) && tokenType === "consume") ||
+        isUnidirectional(type),
       then: (schema) => schema.required("Token is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
     remoteAddress: Yup.string().when("type", {
-      is: "public",
+      is: isPublic,
       then: (schema) =>
         schema
           .required("Remote address is required")
@@ -136,35 +142,35 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
       isCreating: true,
       type: pendingLink ? "public" : "bidirectional",
       remoteAddress: pendingLink?.config["volatile.pending_address"] ?? "",
-      fingerprint: pendingLink
-        ? getCertificateFingerprint(
-            pendingLink.config["volatile.pending_certificate"] ?? "",
-          )
-        : "",
     },
     validationSchema: clusterLinkSchema,
-    onSubmit: (values) => {
-      if (values.type === "public") {
-        fetchCertificate(values);
+    onSubmit: async (values) => {
+      setError(null);
+      if (isPublic(values.type)) {
+        if (!hasCurrentCertificate) {
+          await fetchCertificate(values);
+        } else if (isFingerprintConfirmed) {
+          await confirmPublicLink(values);
+        }
         return;
       }
 
-      const isBidirectional = values.type === "bidirectional";
-      const hasToken = values.tokenType === "consume" || !isBidirectional;
+      const isBidirectionalLink = isBidirectional(values.type);
+      const hasToken = values.tokenType === "consume" || !isBidirectionalLink;
 
       const payload = {
         name: values.name,
         description: values.description,
         trust_token: hasToken ? values.token : undefined,
-        auth_groups: isBidirectional ? values.authGroups : undefined,
+        auth_groups: isBidirectionalLink ? values.authGroups : undefined,
         type: values.type,
       };
 
-      createClusterLink(JSON.stringify(payload))
+      return createClusterLink(JSON.stringify(payload))
         .then((response) => {
           if (
-            formik.values.type === "bidirectional" &&
-            formik.values.tokenType === "generate" &&
+            isBidirectional(values.type) &&
+            values.tokenType === "generate" &&
             response
           ) {
             const encodedToken = base64EncodeObject(response);
@@ -177,36 +183,22 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
               </>,
             );
           }
+          invalidateClusterLinks();
+          queryClient.invalidateQueries({
+            queryKey: [queryKeys.identities],
+          });
           closePanel();
         })
         .catch((e) => {
           setError(failure("Cluster link creation failed", e));
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.cluster, queryKeys.links],
-          });
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.identities],
-          });
         });
     },
   });
 
-  const goToDirectionSelection = () => {
-    setCurrentStep("direction-selection");
-  };
-
-  const goToDetailsStep = () => {
-    setCurrentStep("details");
-  };
-
-  const goToVerifyCertificateStep = () => {
-    setCurrentStep("verify-certificate");
-  };
-
-  const fetchCertificate = (values: ClusterLinkFormValues) => {
+  const fetchCertificate = async (
+    values: ClusterLinkFormValues,
+  ): Promise<void> => {
+    setPublicAction("fetch");
     const remoteAddress = normalizeRemoteAddress(values.remoteAddress);
     const payload = {
       name: values.name,
@@ -215,10 +207,18 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
       remote_address: remoteAddress,
     };
 
-    createClusterLink(JSON.stringify(payload))
+    return createClusterLink(JSON.stringify(payload))
       .then((response) => {
         invalidateClusterLinks();
-        if (!response?.fingerprint) {
+        const fingerprint = response?.fingerprint ?? "";
+        setFingerprintConfirmed(false);
+        void formik.setFieldValue("remoteAddress", remoteAddress);
+        setCertificate({
+          fingerprint,
+          remoteAddress,
+          description: values.description,
+        });
+        if (!fingerprint) {
           setError(
             failure(
               "Fetching certificate failed",
@@ -228,25 +228,24 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
           return;
         }
         setError(null);
-        setFingerprintConfirmed(false);
-        void formik.setFieldValue("remoteAddress", remoteAddress);
-        void formik.setFieldValue("fingerprint", response.fingerprint);
-        goToVerifyCertificateStep();
       })
       .catch((e) => {
+        invalidateCertificate();
         setError(failure("Fetching certificate failed", e));
       })
       .finally(() => {
-        formik.setSubmitting(false);
+        setPublicAction(null);
       });
   };
 
-  const confirmPublicLink = () => {
-    const { name, type, fingerprint } = formik.values;
-    const payload = { name, type, fingerprint };
+  const confirmPublicLink = async (
+    values: ClusterLinkFormValues,
+  ): Promise<void> => {
+    setPublicAction("confirm");
+    const { name, type } = values;
+    const payload = { name, type, fingerprint: certificate?.fingerprint };
 
-    setLoading(true);
-    createClusterLink(JSON.stringify(payload))
+    return createClusterLink(JSON.stringify(payload))
       .then(() => {
         toastNotify.success(
           <>
@@ -260,52 +259,46 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
         setError(failure("Cluster link creation failed", e));
       })
       .finally(() => {
-        setLoading(false);
+        setPublicAction(null);
       });
   };
 
-  const isPublic = formik.values.type === "public";
-  // fetching the certificate creates the pending link, so its name and type are fixed from then on
-  const isPendingLinkCreated = !!formik.values.fingerprint;
+  const isPublicLink = isPublic(formik.values.type);
+  const hasCurrentCertificate =
+    !!certificate?.fingerprint &&
+    certificate.remoteAddress ===
+      normalizeRemoteAddress(formik.values.remoteAddress) &&
+    certificate.description === formik.values.description;
+  const isCreateDisabled =
+    !formik.isValid ||
+    formik.isSubmitting ||
+    !formik.values.name ||
+    (isPublicLink && (!hasCurrentCertificate || !isFingerprintConfirmed));
+
+  const certificateVerification = hasCurrentCertificate && certificate && (
+    <ClusterLinkVerifyCertificate
+      remoteAddress={pendingLink ? certificate.remoteAddress : undefined}
+      fingerprint={certificate.fingerprint}
+      isConfirmed={isFingerprintConfirmed}
+      setConfirmed={setFingerprintConfirmed}
+      disabled={formik.isSubmitting}
+    />
+  );
 
   return (
     <SidePanel>
       <SidePanel.Header>
         <SidePanel.HeaderTitle
-          className={hasPreviousSteps ? undefined : "u-truncate"}
+          className={classnames({ "u-truncate": !!pendingLink })}
         >
-          {currentStep === "direction-selection" && "Choose cluster link type"}
-          {currentStep === "details" &&
-            isPendingLinkCreated &&
-            "Create cluster link"}
-          {currentStep === "details" && !isPendingLinkCreated && (
-            <BackLink
-              linkText="Choose type"
-              title="Create cluster link"
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-              }}
-              onClick={goToDirectionSelection}
-              disabled={formik.isSubmitting}
-            />
-          )}
-          {currentStep === "verify-certificate" && !hasPreviousSteps && (
+          {pendingLink ? (
             <ClusterLinkExplanationTooltip>
               <span title={`Verify certificate for ${formik.values.name}`}>
                 Verify certificate for {formik.values.name}
               </span>
             </ClusterLinkExplanationTooltip>
-          )}
-          {currentStep === "verify-certificate" && hasPreviousSteps && (
-            <BackLink
-              linkText="Create cluster link"
-              title="Verify certificate"
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-              }}
-              onClick={goToDetailsStep}
-              disabled={isLoading}
-            />
+          ) : (
+            "Create cluster link"
           )}
         </SidePanel.HeaderTitle>
       </SidePanel.Header>
@@ -324,100 +317,60 @@ const CreateClusterLinkPanel: FC<Props> = ({ onSuccess, pendingLink }) => {
       </Row>
       <SidePanel.Content className="u-no-padding cluster-link-panel">
         <ScrollableContainer
-          dependencies={[currentStep, error]}
+          dependencies={[formik.values.type, hasCurrentCertificate, error]}
           belowIds={["panel-footer"]}
         >
-          {currentStep === "direction-selection" && (
-            <ClusterLinkDirectionSelection
-              onSelect={(type) => {
-                formik.setFieldValue("type", type);
-                goToDetailsStep();
-              }}
-            />
-          )}
-          {currentStep === "details" && (
+          {pendingLink ? (
+            certificateVerification
+          ) : (
             <ClusterLinkForm
               formik={formik}
-              isNameLocked={isPendingLinkCreated}
-            />
+              isNameLocked={!!certificate}
+              onPublicDetailsChange={invalidateCertificate}
+            >
+              {isPublicLink && (
+                <>
+                  <ActionButton
+                    type="button"
+                    loading={isFetchingCertificate}
+                    disabled={
+                      !formik.isValid ||
+                      formik.isSubmitting ||
+                      !formik.values.name ||
+                      !formik.values.remoteAddress ||
+                      hasCurrentCertificate
+                    }
+                    onClick={() => void formik.submitForm()}
+                  >
+                    Fetch certificate
+                  </ActionButton>
+                  {certificateVerification}
+                </>
+              )}
+            </ClusterLinkForm>
           )}
-          {currentStep === "verify-certificate" &&
-            formik.values.fingerprint && (
-              <ClusterLinkVerifyCertificate
-                remoteAddress={formik.values.remoteAddress ?? ""}
-                fingerprint={formik.values.fingerprint ?? ""}
-                isConfirmed={isFingerprintConfirmed}
-                setConfirmed={setFingerprintConfirmed}
-              />
-            )}
         </ScrollableContainer>
       </SidePanel.Content>
       <SidePanel.Footer className="u-align--right">
-        {currentStep === "direction-selection" && (
-          <Button
-            appearance="base"
-            onClick={closePanel}
-            className="u-no-margin--bottom"
-          >
-            Cancel
-          </Button>
-        )}
-        {currentStep === "details" && (
-          <>
-            <Button
-              appearance="base"
-              onClick={
-                isPendingLinkCreated ? closePanel : goToDirectionSelection
-              }
-              className="u-no-margin--bottom"
-              disabled={formik.isSubmitting}
-            >
-              {isPendingLinkCreated ? "Cancel" : "Back"}
-            </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              onClick={() => void formik.submitForm()}
-              className="u-no-margin--bottom"
-              disabled={
-                !formik.isValid || formik.isSubmitting || !formik.values.name
-              }
-              title={
-                formik.values.name
-                  ? undefined
-                  : "Please enter a name before submitting the form"
-              }
-            >
-              {isPublic ? "Fetch certificate" : "Create link"}
-            </ActionButton>
-          </>
-        )}
-        {currentStep === "verify-certificate" && (
-          <>
-            <Button
-              appearance="base"
-              onClick={hasPreviousSteps ? goToDetailsStep : closePanel}
-              className="u-no-margin--bottom"
-              disabled={isLoading}
-            >
-              {hasPreviousSteps ? "Back" : "Cancel"}
-            </Button>
-            <ActionButton
-              appearance="positive"
-              loading={isLoading}
-              onClick={confirmPublicLink}
-              className="u-no-margin--bottom"
-              disabled={!isFingerprintConfirmed || isLoading}
-              title={
-                isFingerprintConfirmed
-                  ? undefined
-                  : "Confirm the certificate fingerprint before creating the link"
-              }
-            >
-              Create link
-            </ActionButton>
-          </>
-        )}
+        <Button
+          appearance="base"
+          onClick={closePanel}
+          className="u-no-margin--bottom"
+          disabled={formik.isSubmitting}
+        >
+          Cancel
+        </Button>
+        <ActionButton
+          appearance="positive"
+          loading={
+            isPublicLink ? publicAction === "confirm" : formik.isSubmitting
+          }
+          onClick={() => void formik.submitForm()}
+          className="u-no-margin--bottom"
+          disabled={isCreateDisabled}
+        >
+          Create
+        </ActionButton>
       </SidePanel.Footer>
     </SidePanel>
   );

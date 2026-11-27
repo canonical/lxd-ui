@@ -60,7 +60,7 @@ const GroupSelection: FC<Props> = ({
       className: "description",
     },
     {
-      content: "",
+      content: <span className="u-off-screen">Modified status</span>,
       "aria-label": "Modified status",
       className: "modified-status",
     },

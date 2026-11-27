@@ -29,6 +29,77 @@ import {
   visitReplicators,
 } from "./helpers/replicators";
 
+test("cluster link type can be changed in the create form", async ({
+  page,
+}, testInfo) => {
+  skipIfNotClustered(testInfo.project.name);
+
+  await visitClusterLinks(page);
+  await page.getByRole("button", { name: "Create cluster link" }).click();
+  const panel = page.getByLabel("Side panel");
+  await expect(
+    panel.getByRole("heading", { name: "Create cluster link", exact: true }),
+  ).toBeVisible();
+  await expect(
+    panel.getByRole("radio", { name: "Bidirectional", exact: true }),
+  ).toBeChecked();
+
+  const tokenInput = panel.getByPlaceholder("Enter token");
+  await expect(tokenInput).toHaveCount(0);
+  await panel.getByLabel("Token setup").selectOption("consume");
+  await expect(tokenInput).toBeEditable();
+  await tokenInput.fill("token-to-clear");
+  await panel.getByLabel("Token setup").selectOption("generate");
+  await expect(tokenInput).toHaveCount(0);
+  await panel.getByLabel("Token setup").selectOption("consume");
+  await expect(tokenInput).toHaveValue("");
+  await panel.getByLabel("Token setup").selectOption("");
+  await expect(tokenInput).toHaveCount(0);
+
+  await panel.getByLabel("Token setup").selectOption("generate");
+  await panel.getByPlaceholder("Enter name").fill(randomLinkName());
+  await panel.getByPlaceholder("Enter description").fill("My link");
+
+  await panel
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Unidirectional", { exact: true })
+    .click();
+  await expect(panel.getByLabel("Token setup")).toHaveCount(0);
+  await expect(tokenInput).toBeEditable();
+
+  await panel
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Public", { exact: true })
+    .click();
+  await panel.getByPlaceholder("Enter address").fill("999.1.1.1");
+  await panel.getByPlaceholder("Enter address").blur();
+  await expect(
+    panel.getByText(
+      "Enter a valid IP address or hostname, optionally with a port",
+    ),
+  ).toBeVisible();
+
+  await panel
+    .getByRole("radiogroup", { name: "Link type" })
+    .getByText("Bidirectional", { exact: true })
+    .click();
+  await expect(panel.getByLabel("Token setup")).toHaveValue("");
+  await expect(tokenInput).toHaveCount(0);
+  await expect(panel.getByPlaceholder("Enter description")).toHaveValue(
+    "My link",
+  );
+  const createButton = panel.getByRole("button", {
+    name: "Create",
+    exact: true,
+  });
+  await expect(createButton).toBeDisabled();
+  await panel.getByLabel("Token setup").selectOption("generate");
+  await expect(createButton).toBeEnabled();
+
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveCount(0);
+});
+
 test("cluster link create edit delete", async ({ page }, testInfo) => {
   skipIfNotClustered(testInfo.project.name);
 
@@ -152,6 +223,8 @@ test("create unidirectional cluster link", async ({
   );
   await expect(row.getByRole("cell", { name: "Auth groups" })).toHaveText("0");
 
+  await editClusterLink(page, link);
+
   deleteIdentityOnRemoteCluster(link);
   await deleteClusterLink(page, link);
 });
@@ -164,23 +237,46 @@ test("create public cluster link", async ({ page }, testInfo) => {
   const panel = page.getByLabel("Side panel");
   await visitClusterLinks(page);
 
-  // going back from the verify step keeps the pending link and locks its name
   await fetchPublicClusterLinkCertificate(page, link, remoteAddress);
-  await expect(panel.locator("#remote-address")).toHaveText(remoteAddress);
-  await panel.getByRole("button", { name: "Back" }).click();
+  await expect(panel.getByPlaceholder("Enter address")).toHaveValue(
+    remoteAddress,
+  );
   await expect(
     panel.getByRole("button", { name: "Fetch certificate" }),
-  ).toBeVisible();
+  ).toBeDisabled();
   await expect(panel.getByPlaceholder("Enter name")).toBeDisabled();
+  for (const type of ["Bidirectional", "Unidirectional", "Public"]) {
+    await expect(
+      panel.getByRole("radio", { name: type, exact: true }),
+    ).toBeDisabled();
+  }
   expect(clusterLinkExists(link)).toBe(true);
 
-  // confirming the fingerprint creates the link
+  // Restoring the original address must not restore its earlier fingerprint.
+  await panel.getByPlaceholder("Enter address").fill("127.0.0.1:1");
+  await panel.getByPlaceholder("Enter address").fill(remoteAddress);
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
   await panel.getByRole("button", { name: "Fetch certificate" }).click();
-  const createButton = panel.getByRole("button", { name: "Create link" });
+  await expect(panel.locator("#certificate-fingerprint")).toBeVisible();
+
+  // Restoring the original description also requires a new fetch.
+  await panel.getByPlaceholder("Enter description").fill("Public images");
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await panel.getByPlaceholder("Enter description").fill("");
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await panel.getByPlaceholder("Enter description").fill("Public images");
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  await expect(panel.locator("#certificate-fingerprint")).toBeVisible();
+
+  // Confirming the fingerprint creates the link.
+  const createButton = panel.getByRole("button", {
+    name: "Create",
+    exact: true,
+  });
   await expect(createButton).toBeDisabled();
   await panel
     .getByText(
-      "I confirm this fingerprint matches the LXD server at the remote address.",
+      "I confirm this fingerprint matches the target LXD server's certificate.",
     )
     .click();
   await createButton.click();
@@ -192,6 +288,62 @@ test("create public cluster link", async ({ page }, testInfo) => {
     "Reachable",
   );
 
+  await editClusterLink(page, link);
+  await deleteClusterLink(page, link);
+});
+
+test("failed public certificate refetch cannot restore a stale fingerprint", async ({
+  page,
+}, testInfo) => {
+  skipIfNotClustered(testInfo.project.name);
+
+  const link = randomLinkName();
+  const remoteAddress = `${getRemoteClusterAddress()}:8443`;
+  const panel = page.getByLabel("Side panel");
+  await visitClusterLinks(page);
+
+  await fetchPublicClusterLinkCertificate(page, link, remoteAddress);
+  await panel
+    .getByText(
+      "I confirm this fingerprint matches the target LXD server's certificate.",
+    )
+    .click();
+  await expect(panel.getByRole("checkbox")).toBeChecked();
+
+  // An unused local port triggers a real connection failure.
+  await panel.getByPlaceholder("Enter address").fill("127.0.0.1:1");
+  await panel.getByPlaceholder("Enter description").fill("Retry details");
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  await expect(panel.getByText("Fetching certificate failed")).toBeVisible();
+
+  await panel.getByPlaceholder("Enter address").fill(remoteAddress);
+  await panel.getByPlaceholder("Enter description").fill("");
+  await expect(panel.locator("#certificate-fingerprint")).toHaveCount(0);
+  await expect(
+    panel.getByRole("button", { name: "Create", exact: true }),
+  ).toBeDisabled();
+  await expect(panel.getByPlaceholder("Enter name")).toBeDisabled();
+  for (const type of ["Bidirectional", "Unidirectional", "Public"]) {
+    await expect(
+      panel.getByRole("radio", { name: type, exact: true }),
+    ).toBeDisabled();
+  }
+
+  await panel.getByRole("button", { name: "Fetch certificate" }).click();
+  await expect(panel.locator("#certificate-fingerprint")).toHaveText(
+    /^[0-9a-f]{64}$/,
+  );
+  await expect(panel.getByRole("checkbox")).not.toBeChecked();
+  await expect(
+    panel.getByRole("button", { name: "Create", exact: true }),
+  ).toBeDisabled();
+  await panel
+    .getByText(
+      "I confirm this fingerprint matches the target LXD server's certificate.",
+    )
+    .click();
+  await panel.getByRole("button", { name: "Create", exact: true }).click();
+  await dismissNotification(page, `Cluster link ${link} created.`);
   await deleteClusterLink(page, link);
 });
 
@@ -217,11 +369,14 @@ test("verify certificate of a pending public cluster link", async ({
   await expect(panel.locator("#certificate-fingerprint")).toHaveText(
     /^[0-9a-f]{64}$/,
   );
-  const createButton = panel.getByRole("button", { name: "Create link" });
+  const createButton = panel.getByRole("button", {
+    name: "Create",
+    exact: true,
+  });
   await expect(createButton).toBeDisabled();
   await panel
     .getByText(
-      "I confirm this fingerprint matches the LXD server at the remote address.",
+      "I confirm this fingerprint matches the target LXD server's certificate.",
     )
     .click();
   await createButton.click();
