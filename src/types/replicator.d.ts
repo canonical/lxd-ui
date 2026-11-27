@@ -15,5 +15,7 @@ export interface LxdReplicator {
   last_run_at: string;
   last_run_status: LxdReplicatorStatus;
   last_run_error?: string;
+  last_success_at?: string;
+  last_success_oldest_snapshot_at?: string;
   access_entitlements?: string[];
 }

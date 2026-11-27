@@ -30,10 +30,17 @@ test("Replicator", async ({ page }, testInfo) => {
   const replicatorRow = page.getByRole("row").filter({ hasText: replicator });
   await replicatorRow.getByRole("link", { name: replicator }).click();
   await expect(page.getByRole("heading", { name: "General" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Target" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sync" })).toBeVisible();
-  await expect(page.getByRole("cell", { name: project })).toBeVisible();
+  await expect(page.getByRole("cell", { name: "Leader" })).toBeVisible();
   await expect(page.getByRole("cell", { name: clusterLink })).toBeVisible();
+  await expect(page.getByText("Target cluster reachable")).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "Not configured" }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Runs" })).toBeVisible();
+  await expect(
+    page.getByText("No run history found for this replicator."),
+  ).toBeVisible();
 
   // Edit replicator from detail page before running it.
   const updatedDescription = "Replication schedule updated by Replicator test";
@@ -57,6 +64,23 @@ test("Replicator", async ({ page }, testInfo) => {
     project,
     clusterLink,
   );
+
+  const latestRun = page.getByRole("region", {
+    name: "Latest successful run",
+  });
+  await expect(latestRun).toBeVisible();
+  await expect(latestRun.getByRole("term")).toHaveText([
+    "Completed",
+    "Recovery point",
+  ]);
+  await expect(latestRun.getByRole("definition")).toHaveText([
+    /\d{4}/,
+    /\d{4}/,
+  ]);
+  await expect(latestRun.getByText("Completed", { exact: true })).toHaveCount(
+    2,
+  );
+  await expect(latestRun.getByText(/^Started .*\d{4}/)).toBeVisible();
 
   // Verify instance was copied to the standby remote cluster.
   const remoteVm = getRemoteClusterVm();

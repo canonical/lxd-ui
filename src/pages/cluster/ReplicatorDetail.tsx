@@ -1,19 +1,17 @@
 import { type FC } from "react";
 import { useParams } from "react-router-dom";
 import { Col, CustomLayout, Row, Spinner } from "@canonical/react-components";
-import classnames from "classnames";
 import NotFound from "components/NotFound";
 import NotificationRow from "components/NotificationRow";
-import { useClusterLink } from "context/useClusterLinks";
 import { useReplicatorLoading } from "context/replicatorLoading";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useReplicator } from "context/useReplicators";
-import ClusterLinkRichChip from "pages/cluster/ClusterLinkRichChip";
-import ClusterLinkStatus from "pages/cluster/ClusterLinkStatus";
 import ReplicatorDetailHeader from "pages/cluster/ReplicatorDetailHeader";
+import ReplicatorGeneral from "pages/cluster/ReplicatorGeneral";
+import ReplicatorLatestSuccessfulRun from "pages/cluster/ReplicatorLatestSuccessfulRun";
 import ReplicatorRunTime from "pages/cluster/ReplicatorRunTime";
 import ReplicatorStatus from "pages/cluster/ReplicatorStatus";
 import EditReplicatorPanel from "pages/cluster/panels/EditReplicatorPanel";
-import ProjectRichChip from "pages/projects/ProjectRichChip";
 import usePanelParams, { panels } from "util/usePanelParams";
 
 const ReplicatorDetail: FC = () => {
@@ -34,15 +32,13 @@ const ReplicatorDetail: FC = () => {
     isLoading,
   } = useReplicator(name, project || "default");
   const replicatorRunning = useReplicatorLoading();
-  const { data: clusterLink } = useClusterLink(
-    replicator?.config?.cluster || "",
-  );
+  const { hasReplicatorMetrics, isSettingsLoading } = useSupportedFeatures();
 
   const lastRunError = replicator
     ? replicatorRunning.getLastRunError(replicator)
     : undefined;
 
-  if (isLoading) {
+  if (isLoading || isSettingsLoading) {
     return <Spinner className="u-loader" text="Loading..." isMainComponent />;
   }
 
@@ -61,63 +57,14 @@ const ReplicatorDetail: FC = () => {
       <CustomLayout header={<ReplicatorDetailHeader replicator={replicator} />}>
         <NotificationRow />
         <Row className="replicator-detail">
-          <Row className="section">
-            <Col size={3}>
-              <h2 className="p-heading--5">General</h2>
-            </Col>
-            <Col size={7}>
-              <table>
-                <tbody>
-                  <tr>
-                    <th className="u-text--muted">Description</th>
-                    <td>{replicator.description || "-"}</td>
-                  </tr>
-                  <tr>
-                    <th className="u-text--muted">Source project</th>
-                    <td>
-                      <ProjectRichChip projectName={replicator.project} />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </Col>
-          </Row>
-
-          <Row className="section">
-            <Col size={3}>
-              <h2 className="p-heading--5">Target</h2>
-            </Col>
-            <Col size={7}>
-              <table>
-                <tbody>
-                  <tr>
-                    <th className="u-text--muted">Cluster</th>
-                    <td>
-                      {replicator.config?.cluster ? (
-                        <div className="u-flex">
-                          <ClusterLinkRichChip
-                            clusterLink={replicator.config?.cluster}
-                          />
-                        </div>
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="u-text--muted">Cluster status</th>
-                    <td className={classnames({ "status-cell": clusterLink })}>
-                      {clusterLink ? (
-                        <ClusterLinkStatus link={clusterLink} />
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </Col>
-          </Row>
+          <h2 className="p-heading--3">General</h2>
+          <ReplicatorGeneral replicator={replicator} />
+          {hasReplicatorMetrics && (
+            <>
+              <h2 className="p-heading--3">Runs</h2>
+              <ReplicatorLatestSuccessfulRun replicator={replicator} />
+            </>
+          )}
 
           <Row className="section">
             <Col size={3}>
@@ -126,10 +73,6 @@ const ReplicatorDetail: FC = () => {
             <Col size={7}>
               <table>
                 <tbody>
-                  <tr>
-                    <th className="u-text--muted">Schedule</th>
-                    <td>{replicator.config?.schedule || "-"}</td>
-                  </tr>
                   <tr>
                     <th className="u-text--muted">Last run at</th>
                     <td>
