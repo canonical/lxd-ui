@@ -1,7 +1,6 @@
 import { Fragment, type FC } from "react";
 import { Link } from "react-router-dom";
 import {
-  Icon,
   List,
   MainTable,
   Spinner,
@@ -12,7 +11,7 @@ import { useClusterMembersWithState } from "context/useClusterMembers";
 import { useIsClustered } from "context/useIsClustered";
 import { pluralize } from "util/helpers";
 import {
-  getClusterMemberStatusIconName,
+  getClusterMemberStatusTone,
   getClusterLeader,
   getClusterMemberStatusCounts,
 } from "util/clusterMember";
@@ -27,6 +26,7 @@ import ClusterMemberExplanationTooltip from "pages/cluster/ClusterMemberExplanat
 import ServerExplanationTooltip from "pages/cluster/ServerExplanationTooltip";
 import { ITEMS_PER_PAGE } from "pages/overview/overviewConstants";
 import { renderOverviewCard } from "util/overview";
+import StatusIcon from "components/StatusIcon";
 
 const ClusteringCard: FC = () => {
   const isClustered = useIsClustered();
@@ -108,10 +108,8 @@ const ClusteringCard: FC = () => {
     const countsPerStatus = getClusterMemberStatusCounts(members);
     const listItems = Object.entries(countsPerStatus).map(([status, count]) => (
       <Fragment key={status}>
-        <Icon
-          name={getClusterMemberStatusIconName(
-            status as LxdClusterMemberStatus,
-          )}
+        <StatusIcon
+          tone={getClusterMemberStatusTone(status as LxdClusterMemberStatus)}
           className="status-icon"
         />
         {count} {status}

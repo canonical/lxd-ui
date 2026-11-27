@@ -1,18 +1,20 @@
 import type { FC } from "react";
-import { Icon, Spinner } from "@canonical/react-components";
-import type { LxdClusterLink, StatusCaption } from "types/cluster";
+import { Spinner } from "@canonical/react-components";
+import StatusIcon from "components/StatusIcon";
 import { useClusterLinkState } from "context/useClusterLinks";
 import { useIdentities } from "context/useIdentities";
+import type { LxdClusterLink, StatusCaption } from "types/cluster";
 import { getClusterLinksStatus, getLinkIdentity } from "util/clusterLink";
+import type { StatusTone } from "util/statusColors";
 
 interface Props {
   link: LxdClusterLink;
 }
 
-const STATUS_ICONS: Record<StatusCaption, string> = {
-  Reachable: "status-succeeded-small",
-  Unreachable: "status-failed-small",
-  Pending: "status-queued-small",
+const STATUS_ICONS: Record<StatusCaption, StatusTone> = {
+  Reachable: "positive",
+  Unreachable: "negative",
+  Pending: "neutral",
 };
 
 const ClusterLinkStatus: FC<Props> = ({ link }) => {
@@ -28,7 +30,7 @@ const ClusterLinkStatus: FC<Props> = ({ link }) => {
 
   return (
     <>
-      <Icon name={STATUS_ICONS[status]} className="status-icon" />
+      <StatusIcon tone={STATUS_ICONS[status]} className="status-icon" />
       {status}
     </>
   );

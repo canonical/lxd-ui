@@ -1,7 +1,8 @@
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { FC } from "react";
 import { getClientOS, pluralize } from "util/helpers";
 import DsIcon from "components/DsIcon";
+import ModifiedIcon from "components/ModifiedIcon";
 
 interface Props {
   modifiedCount: number;
@@ -22,7 +23,7 @@ const ModifiedStatusAction: FC<Props> = ({
   return (
     <div className="modified-actions">
       <div className="modified-status">
-        <Icon name="status-in-progress-small" />
+        <ModifiedIcon />
         <span>{`${modifiedCount} ${pluralize(itemName, modifiedCount)} will be ${actionText ?? "modified"}`}</span>
       </div>
       <Button

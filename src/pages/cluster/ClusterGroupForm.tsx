@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { Form, Icon, Input } from "@canonical/react-components";
+import { Form, Input } from "@canonical/react-components";
 import type { FormikProps } from "formik/dist/types";
 import { useClusterMembers } from "context/useClusterMembers";
 import SelectableMainTable from "components/SelectableMainTable";
 import type { ClusterGroupFormValues } from "types/forms/clusterGroup";
+import ModifiedIcon from "components/ModifiedIcon";
 
 export interface Props {
   formik: FormikProps<ClusterGroupFormValues>;
@@ -127,8 +128,7 @@ const ClusterGroupForm: FC<Props> = ({ formik }) => {
                 },
                 {
                   content: isModified && (
-                    <Icon
-                      name="status-in-progress-small"
+                    <ModifiedIcon
                       aria-label={
                         addedMembers.includes(name)
                           ? "was added"

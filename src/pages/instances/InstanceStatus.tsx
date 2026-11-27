@@ -1,20 +1,23 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
 import DsIcon from "components/DsIcon";
+import StatusIcon from "components/StatusIcon";
+import type { StatusTone } from "util/statusColors";
 
 interface Props {
   status: string;
 }
 
-const getIconNameForStatus = (status: string): string => {
+const getToneForStatus = (status: string): StatusTone => {
   return (
-    {
-      Error: "status-failed-small",
-      Frozen: "status-in-progress-small",
-      Ready: "status-waiting-small",
-      Running: "status-succeeded-small",
-      Stopped: "status-queued-small",
-    }[status] ?? "status-queued-small"
+    (
+      {
+        Error: "negative",
+        Frozen: "information",
+        Ready: "caution",
+        Running: "positive",
+        Stopped: "neutral",
+      } as const
+    )[status] ?? "neutral"
   );
 };
 
@@ -30,7 +33,7 @@ const InstanceStatus: FC<Props> = ({ status }) => {
 
   return (
     <>
-      <Icon name={getIconNameForStatus(status)} className="status-icon" />
+      <StatusIcon tone={getToneForStatus(status)} className="status-icon" />
       {status}
     </>
   );

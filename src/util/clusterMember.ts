@@ -1,4 +1,5 @@
 import type { LxdClusterMember, LxdClusterMemberStatus } from "types/cluster";
+import type { StatusTone } from "util/statusColors";
 
 export const isClusterMemberRoleAutomatic = (role: string) => {
   return role.startsWith("database");
@@ -58,15 +59,17 @@ export const getClusterMemberStatusCounts = (
   return counts;
 };
 
-export const getClusterMemberStatusIconName = (
+export const getClusterMemberStatusTone = (
   status: LxdClusterMemberStatus,
-) => {
+): StatusTone => {
   return (
-    {
-      Evacuated: "status-queued-small",
-      Online: "status-succeeded-small",
-      Offline: "status-failed-small",
-      Blocked: "status-waiting-small",
-    }[status] ?? ""
+    (
+      {
+        Evacuated: "neutral",
+        Online: "positive",
+        Offline: "negative",
+        Blocked: "caution",
+      } as const
+    )[status] ?? "neutral"
   );
 };

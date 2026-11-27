@@ -1,7 +1,6 @@
 import { useState, type FC, type ReactNode } from "react";
 import {
   EmptyState,
-  Icon,
   MainTable,
   Row,
   ScrollableTable,
@@ -22,12 +21,13 @@ import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn";
 import type { LxdOperation } from "types/operation";
 import {
-  getIconNameForStatus,
+  getToneForStatus,
   getInstanceName,
   getProjectName,
 } from "util/operations";
 import useSortTableData from "util/useSortTableData";
 import DsIcon from "components/DsIcon";
+import StatusIcon from "components/StatusIcon";
 
 const renderParentFirstColumnContent = ({
   operation,
@@ -112,8 +112,8 @@ const buildOperationRow = ({
       {
         content: (
           <>
-            <Icon
-              name={getIconNameForStatus(operation.status)}
+            <StatusIcon
+              tone={getToneForStatus(operation.status)}
               className="status-icon"
             />
             {operation.status}

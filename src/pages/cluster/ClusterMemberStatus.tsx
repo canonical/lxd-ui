@@ -1,9 +1,9 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
 import { useMemberLoading } from "context/memberLoading";
-import { getClusterMemberStatusIconName } from "util/clusterMember";
+import { getClusterMemberStatusTone } from "util/clusterMember";
 import type { LxdClusterMember } from "types/cluster";
 import DsIcon from "components/DsIcon";
+import StatusIcon from "components/StatusIcon";
 
 interface Props {
   member: LxdClusterMember;
@@ -24,8 +24,8 @@ const ClusterMemberStatus: FC<Props> = ({ member }) => {
 
   return (
     <>
-      <Icon
-        name={getClusterMemberStatusIconName(member.status)}
+      <StatusIcon
+        tone={getClusterMemberStatusTone(member.status)}
         className="status-icon"
       />
       {member.status}

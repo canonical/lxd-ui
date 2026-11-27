@@ -1,11 +1,12 @@
 import { useState, type DependencyList, type FC } from "react";
 import {
   EmptyState,
-  Icon,
   ScrollableContainer,
   ScrollableTable,
 } from "@canonical/react-components";
 import SelectableMainTable from "components/SelectableMainTable";
+import DsIcon from "components/DsIcon";
+import ModifiedIcon from "components/ModifiedIcon";
 import PermissionGroupsFilter from "../PermissionGroupsFilter";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/helpers";
@@ -13,7 +14,6 @@ import useSortTableData from "util/useSortTableData";
 import { ROOT_PATH } from "util/rootPath";
 import classnames from "classnames";
 import type { LxdAuthGroup } from "types/permissions";
-import DsIcon from "components/DsIcon";
 
 interface Props {
   groups: LxdAuthGroup[];
@@ -118,9 +118,7 @@ const GroupSelection: FC<Props> = ({
           title: group.description,
         },
         {
-          content: modifiedGroups.has(group.name) && (
-            <Icon name="status-in-progress-small" />
-          ),
+          content: modifiedGroups.has(group.name) && <ModifiedIcon />,
           role: "cell",
           "aria-label": "Modified status",
           className: "modified-status u-align--right",

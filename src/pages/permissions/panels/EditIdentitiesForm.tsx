@@ -1,10 +1,10 @@
 import {
-  Icon,
   ScrollableTable,
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
 import { useState, type FC } from "react";
+import ModifiedIcon from "components/ModifiedIcon";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";
 import type { LxdAuthGroup, LxdIdentity } from "types/permissions";
@@ -154,7 +154,7 @@ const EditIdentitiesForm: FC<Props> = ({
           className: "clickable-cell",
         },
         {
-          content: isModified && <Icon name="status-in-progress-small" />,
+          content: isModified && <ModifiedIcon />,
           role: "cell",
           "aria-label": "Modified status",
           className: "modified-status u-align--right",

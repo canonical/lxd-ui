@@ -1,30 +1,31 @@
 import type { FC } from "react";
-import { Icon } from "@canonical/react-components";
 import { capitalizeFirstLetter } from "util/helpers";
+import type { StatusTone } from "util/statusColors";
+import StatusIcon from "components/StatusIcon";
 
 interface Props {
   status?: string;
 }
 
-const getIcon = (status: string): string => {
+const getTone = (status: string): StatusTone => {
   switch (status) {
     case "online":
-      return "status-succeeded-small";
+      return "positive";
     case "offline":
-      return "status-failed-small";
+      return "negative";
     case "unknown":
     default:
-      return "status-queued-small";
+      return "neutral";
   }
 };
 
 const LoadBalancerPoolInstanceStatus: FC<Props> = ({ status }) => {
   const normalizedStatus = status?.trim() ? status : "unknown";
 
-  const icon = getIcon(normalizedStatus);
+  const tone = getTone(normalizedStatus);
   return (
     <>
-      <Icon name={icon} className="status-icon" />
+      <StatusIcon tone={tone} className="status-icon" />
       {capitalizeFirstLetter(normalizedStatus)}
     </>
   );

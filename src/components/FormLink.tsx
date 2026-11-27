@@ -3,6 +3,7 @@ import type { IconName } from "@canonical/ds-assets";
 import type { FC, ReactNode } from "react";
 import classnames from "classnames";
 import DsIcon from "components/DsIcon";
+import ModifiedIcon from "components/ModifiedIcon";
 
 // "storage-pool" and "devtools" have no ds-assets equivalent yet.
 type FormLinkIcon = IconName | "storage-pool" | "devtools";
@@ -61,7 +62,7 @@ const FormLink: FC<Props> = ({
         </span>
       </span>
       <span className="form-link__column u-align--right">
-        {isModified && <Icon name="status-in-progress-small" />}
+        {isModified && <ModifiedIcon />}
         {!subTextBelowTitle && (
           <span className="form-link__count u-text--muted">{subText}</span>
         )}

@@ -1,7 +1,6 @@
 import {
   ActionButton,
   Button,
-  Icon,
   ScrollableContainer,
   ScrollableTable,
   SidePanel,
@@ -34,6 +33,7 @@ import {
 } from "util/permissionIdentities";
 import { useEscCallback } from "context/useEscCallback";
 import PermissionGroupExplanationTooltip from "pages/permissions/PermissionGroupExplanationTooltip";
+import ModifiedIcon from "components/ModifiedIcon";
 
 interface IdentityEditHistory {
   identitiesAdded: Set<string>;
@@ -254,9 +254,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
             : "You do not have permission to manage this identity",
         },
         {
-          content: modifiedIdentities.has(identity.id) && (
-            <Icon name="status-in-progress-small" />
-          ),
+          content: modifiedIdentities.has(identity.id) && <ModifiedIcon />,
           role: "cell",
           "aria-label": "Modified status",
           className: "modified-status u-align--right",

@@ -2,14 +2,6 @@
 $medium-tooltip-breakpoint: 900px;
 $large-tooltip-breakpoint: 1100px;
 
-body.is-dark .rich-tooltip-table .p-icon--status-queued-small {
-  @include vf-icon-status-small($colors--light-theme--icon);
-}
-
-.rich-tooltip-table .p-icon--status-queued-small {
-  @include vf-icon-status-small($colors--dark-theme--icon);
-}
-
 // ResourceIcon's DsIcon-rendered icons (e.g. network, cluster-link) use
 // fill: currentColor, so recolor via `color` instead of the vanilla
 // background-image mixins used for the still-vanilla resource icons above.

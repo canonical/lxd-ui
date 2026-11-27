@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import type { LxdDiskDevice } from "types/device";
 import type { InstanceAndProfileFormikProps } from "types/forms/instanceAndProfileFormProps";
 import ConfigurationTable from "components/ConfigurationTable";
@@ -25,6 +25,7 @@ import { isDeviceModified } from "util/formChangeCount";
 import StoragePoolSizeAvailable from "./StoragePoolSizeAvailable";
 import { getInstanceClusterMember } from "util/instances";
 import DsIcon from "components/DsIcon";
+import ModifiedIcon from "components/ModifiedIcon";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -95,10 +96,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                   Root storage
                 </h2>
                 {hasChanges && (
-                  <Icon
-                    name="status-in-progress-small"
-                    title="This device has unsaved changes"
-                  />
+                  <ModifiedIcon title="This device has unsaved changes" />
                 )}
               </div>
             ),

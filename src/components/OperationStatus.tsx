@@ -1,8 +1,8 @@
-import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
 import { Link } from "react-router-dom";
-import { pluralize } from "util/helpers";
+import ModifiedIcon from "components/ModifiedIcon";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
+import { pluralize } from "util/helpers";
 import { ROOT_PATH } from "util/rootPath";
 
 const OperationStatus = () => {
@@ -19,7 +19,7 @@ const OperationStatus = () => {
 
   return (
     <div className="operation-status" role="alert">
-      <Icon name="status-in-progress-small" className="status-icon" />
+      <ModifiedIcon className="status-icon" />
       <Link to={`${ROOT_PATH}/ui/operations`}>{operationsStatus}</Link>
     </div>
   );

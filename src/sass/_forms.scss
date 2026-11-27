@@ -599,7 +599,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .device-header {
   white-space: nowrap;
 
-  > .p-icon--status-in-progress-small {
+  .status-icon--information {
     flex-shrink: 0;
   }
 
