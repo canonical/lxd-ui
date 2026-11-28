@@ -17,6 +17,7 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import InstanceConsoleShortcuts from "pages/instances/InstanceConsoleShortcuts";
 import DsIcon from "components/DsIcon";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -70,7 +71,13 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
     setGraphic(isGraphic);
   };
 
-  const { handleStart, isLoading } = useInstanceStart(instance);
+  const { handleStart, isLoading } = useInstanceStart(
+    instance,
+    <InstanceRichChip
+      instanceName={instance.name}
+      projectName={instance.project}
+    />,
+  );
 
   if (!canAccessInstanceConsole(instance)) {
     return (

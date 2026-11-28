@@ -89,6 +89,7 @@ import InstanceEmptyState from "pages/instances/InstanceEmptyState";
 import ProjectRichChip from "pages/projects/ProjectRichChip";
 import { ROOT_PATH } from "util/rootPath";
 import DsIcon from "components/DsIcon";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -558,6 +559,12 @@ const InstanceList: FC = () => {
                   "u-no-margin--bottom",
                 )}
                 instance={instance}
+                instanceLink={
+                  <InstanceRichChip
+                    instanceName={instance.name}
+                    projectName={instance.project}
+                  />
+                }
               />
             ),
             role: "cell",

@@ -148,7 +148,16 @@ const InstanceDetailHeader: FC<Props> = ({
               <i className="status u-text--muted">
                 {loadingType ?? instance.status}
               </i>
-              <InstanceStateActions key="state" instance={instance} />
+              <InstanceStateActions
+                key="state"
+                instance={instance}
+                instanceLink={
+                  <InstanceRichChip
+                    instanceName={instance.name}
+                    projectName={instance.project}
+                  />
+                }
+              />
             </div>
           ) : null
         }

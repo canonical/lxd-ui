@@ -28,6 +28,7 @@ import { isInstanceRunning } from "util/instanceStatus";
 import { getDefaultPayload } from "util/instanceTerminal";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
 import DsIcon from "components/DsIcon";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -340,6 +341,12 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           )}
           <StartInstanceBtn
             instance={instance}
+            instanceLink={
+              <InstanceRichChip
+                instanceName={instance.name}
+                projectName={instance.project}
+              />
+            }
             appearance="positive"
             dense={false}
             iconClassname="is-light"

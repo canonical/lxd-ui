@@ -19,6 +19,7 @@ import { queryKeys } from "util/queryKeys";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import DsIcon from "components/DsIcon";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 interface Props {
   instance: LxdInstance;
@@ -80,6 +81,12 @@ const InstanceFileExplorer: FC<Props> = ({ instance }) => {
         <p>Start the VM to browse files.</p>
         <StartInstanceBtn
           instance={instance}
+          instanceLink={
+            <InstanceRichChip
+              instanceName={instance.name}
+              projectName={instance.project}
+            />
+          }
           appearance="positive"
           dense={false}
           iconClassname="is-light"

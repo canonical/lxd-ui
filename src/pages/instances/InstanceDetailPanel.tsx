@@ -14,6 +14,7 @@ import { useInstance } from "context/useInstances";
 import DeleteInstanceBtn from "pages/instances/actions/DeleteInstanceBtn";
 import { useEscCallback } from "context/useEscCallback";
 import DsIcon from "components/DsIcon";
+import { InstanceRichChip } from "pages/instances/InstanceRichChip";
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
@@ -72,7 +73,15 @@ const InstanceDetailPanel: FC = () => {
               ]}
             />
             <div className="state">
-              <InstanceStateActions instance={instance} />
+              <InstanceStateActions
+                instance={instance}
+                instanceLink={
+                  <InstanceRichChip
+                    instanceName={instance.name}
+                    projectName={instance.project}
+                  />
+                }
+              />
             </div>
           </div>
         )}

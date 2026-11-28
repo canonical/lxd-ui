@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { stopInstance } from "api/instances";
@@ -10,14 +10,14 @@ import { useEventQueue } from "context/eventQueue";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
-import { InstanceRichChip } from "../InstanceRichChip";
 import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
+  instanceLink: ReactNode;
 }
 
-const StopInstanceBtn: FC<Props> = ({ instance }) => {
+const StopInstanceBtn: FC<Props> = ({ instance, instanceLink }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
@@ -41,13 +41,6 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const isLoading =
     instanceLoading.getType(instance) === "Stopping" ||
     instance.status === "Stopping";
-
-  const instanceLink = (
-    <InstanceRichChip
-      instanceName={instance.name}
-      projectName={instance.project}
-    />
-  );
 
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");

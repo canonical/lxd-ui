@@ -1,4 +1,4 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 
 export const checkNotificationExists = async (page: Page) => {
   const notification = page.locator(".toast-notification");
@@ -41,4 +41,19 @@ export const dismissFirstNotificationFromList = async (page: Page) => {
   await page.waitForTimeout(500); // allow animation to finish
   const countAfterDismissal = (await notificationsLocator.all()).length;
   expect(countAfterDismissal).toBeLessThan(countBeforeDismissal);
+};
+
+export const hoverNotificationChip = async (
+  notification: Locator,
+  tooltip: Locator,
+  instanceName: string,
+): Promise<void> => {
+  await expect(notification).toBeVisible();
+  await expect(async () => {
+    await notification.hover({ position: { x: 1, y: 1 } });
+    await notification
+      .getByRole("link", { name: instanceName, exact: true })
+      .hover();
+    await expect(tooltip).toBeVisible({ timeout: 1000 });
+  }).toPass();
 };

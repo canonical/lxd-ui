@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -10,14 +10,14 @@ import { useInstanceEntitlements } from "util/entitlements/instances";
 import { isInstanceRunning } from "util/instanceStatus";
 import ResourceLabel from "components/ResourceLabel";
 import MountedConfirmationButton from "components/MountedConfirmationButton";
-import { InstanceRichChip } from "../InstanceRichChip";
 import DsIcon from "components/DsIcon";
 
 interface Props {
   instance: LxdInstance;
+  instanceLink: ReactNode;
 }
 
-const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
+const FreezeInstanceBtn: FC<Props> = ({ instance, instanceLink }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
@@ -33,13 +33,6 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const isLoading =
     instanceLoading.getType(instance) === "Freezing" ||
     instance.status === "Freezing";
-
-  const instanceLink = (
-    <InstanceRichChip
-      instanceName={instance.name}
-      projectName={instance.project}
-    />
-  );
 
   const handleFreeze = () => {
     instanceLoading.setLoading(instance, "Freezing");
